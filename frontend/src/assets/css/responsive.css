@@ -1,0 +1,86 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --primary: #014F59;
+  --secondary: #00A8B5;
+  --text-primary: #272E35;
+  --text-blue: #0167B2;
+  --text-white: #FFFFFF;
+  --text-black: #0000;
+  --text-4A4A4A: #4A4A4A;
+  --bg-F4FBF7: #F4FBF7;
+  --br-E9ECEF: #E9ECEF;
+  --bg-F08181: #F08181;
+  --bg-F5B377: #F5B377;
+  --bg-63A0F2: #63A0F2;
+  --text-link: #0066FF;
+}
+
+
+@layer components {
+  .wap-normal {
+    font-style: normal;
+    font-size: 14px;
+    line-height: 22px;
+  }
+
+  .wap-normal1 {
+    font-style: normal;
+    font-size: 16px;
+    line-height: 25px;
+  }
+
+  .wap-normal2 {
+    font-style: normal;
+    font-size: 10px;
+    line-height: 16px;
+  }
+
+  .wap-normal3 {
+    font-style: normal;
+    font-size: 12px;
+    line-height: 16px;
+  }
+
+  .normal {
+    font-style: normal;
+    font-size: 18px;
+    line-height: 28px;
+  }
+
+  .normal1 {
+    font-style: normal;
+    font-size: 24px;
+    line-height: 38px;
+  }
+
+  .title {
+    font-style: normal;
+    font-size: 32px;
+    line-height: 50px;
+  }
+
+  .header {
+    font-style: normal;
+    font-size: 40px;
+    line-height: 63px;
+  }
+
+  .big-header {
+    font-style: normal;
+    font-size: 48px;
+    line-height: 76px;
+  }
+
+  .flex-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .w-rp {
+    @apply  2xl:w-[1200px] w-[90vw] mx-auto;
+  }
+}

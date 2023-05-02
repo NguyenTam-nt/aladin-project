@@ -1,0 +1,55 @@
+{  
+    "home": {
+       "header": {
+        "title": "TRƯỜNG ĐẠI HỌC KHOA HỌC XÃ HỘI VÀ NHÂN VĂN, ĐHQG-HCM",
+        "subTitle": "KHOA HÀN QUỐC HỌC",
+        "login": "Đăng nhập",
+        "signup": "Đăng ký",
+        "vnflag": "Vietnamese",
+        "enflag": "English",
+        "koflag": "Korean",
+        "navigation": {
+            "home": "Trang chủ",
+            "about": "Giới thiệu",
+            "news": "Tin tức",
+            "admissions": "Tuyển sinh",
+            "documents": "Tài liệu - văn bản",
+            "cadres": "Cán bộ",
+            "subject": "Bộ môn",
+            "library_image": "Thư viện ảnh",
+            "video": "Video"
+        }
+       },
+       "footer": {
+        "address1": "Cơ sở 1: 10-12 Đinh Tiên Hoàng, Phường Bến Nghé, Quận 1, TP. HCM",
+        "address2": "Cơ sở 2: Khu phố 6, Phường Linh Trung, Thành phố Thủ Đức, TP. HCM",
+        "emailinput": "Nhập email",
+        "follow_btn": "Theo dõi ngay",
+        "train": {
+            "item1": "Bậc cử nhân",
+            "item2": "Bậc thạc sĩ",
+            "item3": "Bậc tiến sĩ",
+            "item4": "Đào tạo trực tuyến",
+            "item5": "Đào tạo quốc tế",
+            "item6": "Đào tạo ngắn hạn"
+        },
+        "information": {
+            "item1": "Đối tác quốc tế",
+            "item2": "Nghiên cứu",
+            "item3": "Nafosted",
+            "item4": "Đại học xanh",
+            "item5": "Tài nguyên thương hiệu",
+            "item6": "Quản hệ doanh nghiệp"
+        },
+        "student": {
+            "item1": "Sinh viên quốc tế",
+            "item2": "Sinh viên tương lai",
+            "item3": "Việc làm",
+            "item4": "Học bổng",
+            "item5": "Tra cứu bằng",
+            "item6": "Khuyến học, khuyến tài"
+        }
+
+       }
+    }
+} 
