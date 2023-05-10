@@ -1,11 +1,11 @@
-
+import { Banner } from "./components/Banner";
 
 const HomePage = () => {
-    return (
-        <>
-            {/* <h1>Xin chào các bạn nhé</h1> */}
-        </>
-    )
-}
+  return (
+    <>
+      <Banner />
+    </>
+  );
+};
 
-export default HomePage
+export default HomePage;

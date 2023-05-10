@@ -2,10 +2,11 @@ import React, { useContext } from "react";
 import { TranslateContext } from "@contexts/Translation";
 import { Link } from "react-router-dom";
 import { ICArrowDown } from "@assets/icons/ICArrowDown";
+import { ICMenu } from "@assets/icons/ICMenu";
 
 export const HeaderNavigation = () => {
   return (
-    <div className="w-rp h-[60px] flex justify-between items-center">
+    <div className="h-[60px] flex justify-between items-center">
         <HeaderNavigationLink to="#" text="home.header.navigation.home" />
       <div className="header-subnav">
           <HeaderNavigationLink to="#" text="home.header.navigation.about" withArrow  />
@@ -27,10 +28,13 @@ export const HeaderNavigation = () => {
       </div>
       <HeaderNavigationLink to="#" text="home.header.navigation.admissions" />
       <HeaderNavigationLink to="#" text="home.header.navigation.documents" />
-      <HeaderNavigationLink to="#" text="home.header.navigation.cadres" />
+      {/* <HeaderNavigationLink to="#" text="home.header.navigation.cadres" />
       <HeaderNavigationLink to="#" text="home.header.navigation.subject" />
       <HeaderNavigationLink to="#" text="home.header.navigation.library_image" />
-      <HeaderNavigationLink to="#" text="home.header.navigation.video" withSlash={false} />
+      <HeaderNavigationLink to="#" text="home.header.navigation.video" withSlash={false} /> */}
+      <div>
+        <ICMenu />
+      </div>
       <div className="header-bg-subnav" /> 
     </div>
   );
@@ -51,13 +55,13 @@ const HeaderNavigationLink = ({
   return (
     <>
       <div className="flex items-center">
-        <Link className=" leter" to={to}>{t(text)}</Link>
+        <Link className="text-[16px]" to={to}>{t(text)}</Link>
         {withArrow && (
           <div className="ml-1">
             <ICArrowDown />
           </div>
         )}
-      {withSlash && <div className="w-[1px] h-[16px] bg-br_E9ECEF mx-[31px]" />}
+      {/* {withSlash && <div className="w-[1px] h-[16px] bg-br_E9ECEF mx-[31px]" />} */}
       </div>
     </>
   );

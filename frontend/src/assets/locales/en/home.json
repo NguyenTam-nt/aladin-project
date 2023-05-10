@@ -2,12 +2,14 @@
     "home": {
        "header": {
         "title": "TRƯỜNG ĐẠI HỌC KHOA HỌC XÃ HỘI VÀ NHÂN VĂN, ĐHQG-HCM",
-        "subTitle": "KHOA HÀN QUỐC HỌC",
+        "subTitle": "ĐỀ ÁN XÂY DỰNG TRƯỜNG ĐẠI HỌC TRỌNG ĐIỂM VỀ HÀN QUỐC HỌC TẠI VIỆT NAM",
         "login": "Đăng nhập",
         "signup": "Đăng ký",
         "vnflag": "Vietnamese",
         "enflag": "English",
         "koflag": "Korean",
+        "viTag": "VIE",
+        "koTag": "KOR",
         "navigation": {
             "home": "Trang chủ",
             "about": "Giới thiệu",

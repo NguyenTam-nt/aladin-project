@@ -1,58 +1,60 @@
-{  
+{
     "home": {
        "header": {
-        "title": "TRƯỜNG ĐẠI HỌC KHOA HỌC XÃ HỘI VÀ NHÂN VĂN, ĐHQG-HCM",
-        "subTitle": "KHOA HÀN QUỐC HỌC",
-        "login": "Đăng nhập",
-        "signup": "Đăng ký",
-        "vnflag": "Vietnamese",
-        "enflag": "English",
-        "koflag": "Korean",
+        "title": "인문사회과학대학교, VNU-HCM",
+        "subTitle": "베트남 고려대학교 건설 핵심 프로젝트",
+        "login": "로그인",
+        "signup": "가입",
+        "vnflag": "베트남어",
+        "enflag": "영어",
+        "koflag": "한국어",
+        "viTag": "VIE",
+        "koTag": "한국",
         "navigation": {
-            "home": "Trang chủ",
-            "about": "Giới thiệu",
-            "news": "Tin tức",
-            "admissions": "Tuyển sinh",
-            "documents": "Tài liệu - văn bản",
-            "cadres": "Cán bộ",
-            "subject": "Bộ môn",
-            "library_image": "Thư viện ảnh",
-            "video": "Video"
+            "home": "집",
+            "about": "정보",
+            "news": "뉴스",
+            "admissions": "입학",
+            "documents": "문서 - 텍스트",
+            "cadres": "장교",
+            "subject": "제목",
+            "library_image": "갤러리",
+            "video": "동영상"
         }
        },
        "footer": {
-        "address1": "Cơ sở 1: 10-12 Đinh Tiên Hoàng, Phường Bến Nghé, Quận 1, TP. HCM",
-        "address2": "Cơ sở 2: Khu phố 6, Phường Linh Trung, Thành phố Thủ Đức, TP. HCM",
-        "emailinput": "Nhập email",
-        "follow_btn": "Theo dõi ngay",
+        "address1": "한국과학, 사회과학인문대학교, 호치민대학교",
+        "address2": "한국어응용학습센터",
+        "emailinput": "이메일 입력",
+        "follow_btn": "지금 팔로우하기",
         "train": {
-            "title": "Đào tạo",
-            "item1": "Bậc cử nhân",
-            "item2": "Bậc thạc sĩ",
-            "item3": "Bậc tiến sĩ",
-            "item4": "Đào tạo trực tuyến",
-            "item5": "Đào tạo quốc tế",
-            "item6": "Đào tạo ngắn hạn"
+            "title": "훈련",
+            "item1": "학사 학위",
+            "item2": "마스터 레벨",
+            "item3": "박사 학위",
+            "item4": "온라인 교육",
+            "item5": "국제 교육",
+            "item6": "단기 훈련"
         },
         "information": {
-            "title": "Thông tin",
-            "item1": "Đối tác quốc tế",
-            "item2": "Nghiên cứu",
-            "item3": "Nafosted",
-            "item4": "Đại học xanh",
-            "item5": "Tài nguyên thương hiệu",
-            "item6": "Quản hệ doanh nghiệp"
+            "title": "정보",
+            "item1": "국제 파트너",
+            "item2": "연구",
+            "item3": "나포스테드",
+            "item4": "녹색 대학",
+            "item5": "브랜드 리소스",
+            "item6": "엔터프라이즈 시스템 관리"
         },
         "student": {
-            "title": "Sinh viên",
-            "item1": "Sinh viên quốc tế",
-            "item2": "Sinh viên tương lai",
-            "item3": "Việc làm",
-            "item4": "Học bổng",
-            "item5": "Tra cứu bằng",
-            "item6": "Khuyến học, khuyến tài"
+            "title": "학생",
+            "item1": "국제 학생",
+            "item2": "미래의 학생",
+            "item3": "작업",
+            "item4": "장학금",
+            "item5": "검색 기준",
+            "item6": "학업 진흥, 재능 진흥"
         }
 
        }
     }
-} 
+}

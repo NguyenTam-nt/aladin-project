@@ -8,11 +8,12 @@ import { ICInSocial } from "@assets/icons/ICInSocial";
 import { ICInstagram } from "@assets/icons/ICInstagram";
 import { Link } from "react-router-dom";
 import { InfomationFields, StudentFields, TrainFields } from "@constants/footer";
+import { Colors } from "@constants/color";
 
 export const FooterAbout = () => {
   const { t } = useContext(TranslateContext);
   return (
-    <div className=" bg-bg_F4FBF7 py-[50px] border-t-[1px] border-br_E9ECEF border-solid  text-text_primary">
+    <div className=" bg-secondary py-[50px] border-b-[1px] border-br_E9ECEF border-solid  text-text_white">
       <div className="w-rp grid grid-cols-6 gap-x-[24px]">
         <div className=" col-span-3">
           <div className="flex items-center">
@@ -20,15 +21,12 @@ export const FooterAbout = () => {
               <img src={Logo} alt="logo" className="object-cover" />
             </>
             <div className="ml-[16px]">
-              <h2 className="text-text_4A4A4A text-[14px] font-normal">
-                {t("home.header.title")}
-              </h2>
-              <h3 className="text-[21px] font-black text-text_blue font-[Roboto]">
+              <h3 className="text-[18px] font-bold">
                 {t("home.header.subTitle")}
               </h3>
             </div>
           </div>
-          <div className="text-[14px] mt-[35px] text-text_primary">
+          <div className="text-[14px] mt-[35px] ">
             <p>{t("home.footer.address1")}</p>
             <p className="mt-[8]">{t("home.footer.address2")}</p>
           </div>
@@ -42,13 +40,13 @@ export const FooterAbout = () => {
           </div>
           <div className="flex items-center">
             <a href="#">
-              <ICFacebook />
+              <ICFacebook color={Colors.primary} />
             </a>
             <a href="#" className="mx-[21px]">
-              <ICInstagram />
+              <ICInstagram color={Colors.primary} />
             </a>
             <a href="#">
-              <ICInSocial />
+              <ICInSocial color={Colors.primary} />
             </a>
           </div>
         </div>
@@ -83,7 +81,7 @@ const FooterAboutGroup = ({
             <li key={index} className="mb-[16px]">
               <Link
                 to={item.to}
-                className="h-[24px] flex items-center text-[14px] hover:text-secondary"
+                className="h-[24px] flex items-center text-[14px] hover:text-primary duration-300"
               >
                 {t(item.text)}
               </Link>
