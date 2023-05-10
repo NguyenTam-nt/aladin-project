@@ -1,14 +1,19 @@
-
+import { rootRouter } from "@constants/router";
 import { PublicLayout } from "layouts/PublicLayout";
-import { lazy } from "react";
-import { createBrowserRouter, createRoutesFromElements, Route } from "react-router-dom";
-
-const HomePage = lazy(() => import("../features/home/"))
+import {
+  createBrowserRouter,
+  createRoutesFromElements,
+  Route,
+} from "react-router-dom";
 
 const routes = createRoutesFromElements(
-    <Route path="/" element={<PublicLayout />}>
-      <Route index element={<HomePage />} />
-    </Route>
+  <Route path="/" element={<PublicLayout />}>
+    {rootRouter.map((item, index) => {
+      return (
+        <Route key={index} path={item.path} element={<item.element />}></Route>
+      );
+    })}
+  </Route>
 );
 
-export const router = createBrowserRouter(routes)
+export const router = createBrowserRouter(routes);

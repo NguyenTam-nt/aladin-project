@@ -2,6 +2,7 @@
 
 @import "./common.css";
 @import "./header.css";
+@import "./home.css";
 
 @font-face {
   font-family: 'Roboto';

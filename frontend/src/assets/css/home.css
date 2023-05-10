@@ -1,0 +1,8 @@
+.banner_home {
+    background-image: url("../images/banner_home.png");
+    height: calc(100vh - 182px);
+    max-height: calc(100vh - 182px);
+    min-height: calc(100vh - 182px);
+}
+
+

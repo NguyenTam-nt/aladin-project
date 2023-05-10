@@ -86,10 +86,10 @@ export const langs = [
     id: Ilanguage.vi,
     text: "home.header.vnflag",
   },
-  {
-    id: Ilanguage.en,
-    text: "home.header.enflag",
-  },
+  // {
+  //   id: Ilanguage.en,
+  //   text: "home.header.enflag",
+  // },
   {
     id: Ilanguage.ko,
     text: "home.header.koflag",

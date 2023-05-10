@@ -10,16 +10,20 @@ export default {
         primary: "#014F59",
         secondary: "#00A8B5",
         text_primary: "#272E35",
+        text_secondary: "#555F6D",
         text_blue: "#0167B2",
         text_white: "#FFFFFF",
-        text_black: "#0000",
+        text_black: "#000",
         text_4A4A4A: "#4A4A4A",
         bg_F4FBF7: "#F4FBF7",
         br_E9ECEF: "#E9ECEF",
         bg_F08181: "#F08181",
         bg_F5B377: "#F5B377",
         bg_63A0F2: "#63A0F2",
-        text_link: "#0066FF"
+        text_link: "#0066FF",
+        bg_A7E8ED: "#A7E8ED",
+        text_225_225_225_032: "rgba(255, 255, 255, 0.32)",
+        text_225_225_225_088: "rgba(255, 255, 255, 0.88)"
       },
       screens: {
         sm: '640px',
@@ -43,6 +47,21 @@ export default {
         'w-1920': '1920px',
         // => @media (min-width: 1920px) { ... }
 
+      },
+      fontSize: {
+        _8: "8px",
+        _10: "10px",
+        _12: "12px",
+        _14: "14px",
+        _16: "16px",
+        _18: "18px",
+        _20: "20px",
+        _22: "22px",
+        _24: "24px",
+        _26: "26px",
+        _30: "30px",
+        _32: "32px",
+        _34: "34px",
       }
     },
   },
