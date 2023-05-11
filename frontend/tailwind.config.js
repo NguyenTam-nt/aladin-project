@@ -47,6 +47,7 @@ export default {
         '3xl': '1690px',
         // => @media (min-width: 1536px) { ... }
         'w-1920': '1920px',
+        'mw-1920': {max: "1919px"},
         // => @media (min-width: 1920px) { ... }
 
       },

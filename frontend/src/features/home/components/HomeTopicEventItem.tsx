@@ -44,7 +44,7 @@ export const HomeTopicEventItem = ({ isReversed = false }: Props) => {
           <ICArrowLeftLong color={color.color} />
         </div>
         {/* </div> */}
-        <div className={clsx("absolute event_hom_item_left h-[52px] w-[46px] top-[50%] ", {"event_hom_item_left left-[-46px]":!isReversed, "event_hom_item_right right-[-46px]":isReversed})}
+        <div className={clsx("absolute event_hom_item_left h-[52px] w-[46px] top-[50%] translate-y-[-50%]", {"event_hom_item_left left-[-46px]":!isReversed, "event_hom_item_right right-[-46px]":isReversed})}
             style={{
              backgroundColor: color.bg
             }}
