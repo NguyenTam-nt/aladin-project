@@ -12,7 +12,7 @@ import { Ilanguage, TranslateContext } from "@contexts/Translation";
 import { Colors } from "@constants/color";
 
 export const HeaderCommon = () => {
-  const { t, isVn } = useContext(TranslateContext)
+  const { t, isVn } = useContext(TranslateContext);
 
   return (
     <div className="h-[48px] bg-bg_A7E8ED relative">
@@ -59,7 +59,7 @@ export const HeaderCommon = () => {
                 </div>
               </div>
               <ul className="mt-[12px] flex items-center pl-2 bg-white border-[1px] border-solid border-br_E9ECEF">
-                <li className="flex items-center mt-[4px]">
+                <li className="flex items-center mt-[4px] cursor-pointer">
                   <HeaderItemFlag
                     isWhite={false}
                     type={!isVn ? Ilanguage.vi : Ilanguage.ko}

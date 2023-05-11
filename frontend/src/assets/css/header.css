@@ -3,13 +3,23 @@
 .menu {
     position: relative;
   }
+
+.menu::after {
+content: "";
+display: block;
+position: absolute;
+left: 0;
+right: 0;
+height: 12px;
+bottom: -12px;
+}
   
 .menu ul {
 height: 0;
 left: 0;
 opacity: 0;
 position: absolute;
-transition: all .5s ease;
+transition: all .5s ease forwards;
 width: 100%;
 overflow: hidden;
 }
@@ -18,7 +28,7 @@ overflow: hidden;
     height: 40px;
     opacity: 1;
     transform: translateY(0);
-    transition: all .5s ease;
+    transition: all .5s ease ;
 }
 
 /* css subnav header */

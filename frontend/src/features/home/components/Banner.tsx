@@ -1,7 +1,4 @@
-import { ICArrowSeeMore } from "@assets/icons/ICArrowSeeMore";
-import { Button } from "@components/Button";
-import { width } from "@constants/container";
-import React, { MouseEvent, MouseEventHandler, useRef } from "react";
+import React, {  useMemo } from "react";
 import { BannerItemImage } from "./BannerItemImage";
 
 const data = [
@@ -43,12 +40,13 @@ const data = [
 ];
 
 export const Banner = () => {
+  const length = useMemo(() => data.length, [])
   return (
     <div className="banner_home">
       <div className="flex h-full">
         {
             data.map((item, index) => {
-                return  <BannerItemImage key={index} data={item} />
+                return  <BannerItemImage key={index} data={item} length={length} />
             })
         }   
       </div>
