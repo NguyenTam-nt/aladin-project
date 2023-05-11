@@ -1,11 +1,15 @@
-
+import { Banner } from "./components/Banner";
+import { HomeTopicEvent } from "./components/HomeTopicEvent";
+import { HomeTopicNews } from "./components/HomeTopicNews";
 
 const HomePage = () => {
-    return (
-        <>
-            {/* <h1>Xin chào các bạn nhé</h1> */}
-        </>
-    )
-}
+  return (
+    <>
+      <Banner />
+      <HomeTopicNews />
+      <HomeTopicEvent />
+    </>
+  );
+};
 
-export default HomePage
+export default HomePage;

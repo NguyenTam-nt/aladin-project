@@ -11,7 +11,7 @@ export const ButtonFooterChangeLang = ({type, text}: {type: Ilanguage, text: str
         setLanguage(type)
     }
     return (
-        <button onClick={handleClick} className={clsx("h-[40px] ml-[4px] font-bold px-[16px]", {"bg-text_white": isActive, "text-secondary": isActive, "text-text_white": !isActive})}>
+        <button onClick={handleClick} className={clsx("h-[40px] ml-[4px] font-bold px-[16px] text-text_white", {"bg-primary": isActive})}>
             {t(text)}
         </button>
 

@@ -1,13 +1,27 @@
 import i18n from 'i18next'
 import {initReactI18next} from 'react-i18next'
 import { resources } from './assets/locales'
+import LanguageDetector from "i18next-browser-languagedetector";
 
 i18n
   .use(initReactI18next)
+  .use(LanguageDetector)
   .init({
     supportedLngs: ['en', 'vi', 'ko'],
-    lng: localStorage.getItem('i18nextLng') ?? 'ko',
-    fallbackLng: 'ko',
+    lng: localStorage.getItem('i18nextLng') ?? 'vi',
+    fallbackLng: 'vi',
+    detection: {
+      order: [
+        "localStorage",
+        "cookie",
+        "sessionStorage",
+        "navigator",
+        "path",
+        "htmlTag",
+        "subdomain",
+      ],
+      caches: ["localStorage"],
+    },
     resources,
     react: {
       bindI18n: 'languageChanged',

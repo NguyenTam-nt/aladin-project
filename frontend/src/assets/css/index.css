@@ -1,7 +1,13 @@
 @import "./responsive.css";
+@import 'swiper/css';
+@import 'swiper/css/grid';
+@import 'swiper/css/pagination';
+
 
 @import "./common.css";
 @import "./header.css";
+@import "./home.css";
+
 
 @font-face {
   font-family: 'Roboto';
@@ -23,4 +29,9 @@ textarea:focus,
 select:focus {
   box-shadow: none;
   outline: none;
+}
+
+img {
+  user-select: none;
+  /* pointer-events: none; */
 }

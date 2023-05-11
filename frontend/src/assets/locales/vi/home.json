@@ -3,12 +3,14 @@
     "home": {
        "header": {
         "title": "TRƯỜNG ĐẠI HỌC KHOA HỌC XÃ HỘI VÀ NHÂN VĂN, ĐHQG-HCM",
-        "subTitle": "KHOA HÀN QUỐC HỌC",
+        "subTitle": "ĐỀ ÁN XÂY DỰNG TRƯỜNG ĐẠI HỌC TRỌNG ĐIỂM VỀ HÀN QUỐC HỌC TẠI VIỆT NAM",
         "login": "Đăng nhập",
         "signup": "Đăng ký",
         "vnflag": "Vietnamese",
         "enflag": "English",
         "koflag": "Korean",
+        "viTag": "VIE",
+        "koTag": "KOR",
         "navigation": {
             "home": "Trang chủ",
             "about": "Giới thiệu",
@@ -22,11 +24,12 @@
         }
        },
        "footer": {
-        "address1": "Cơ sở 1: 10-12 Đinh Tiên Hoàng, Phường Bến Nghé, Quận 1, TP. HCM",
-        "address2": "Cơ sở 2: Khu phố 6, Phường Linh Trung, Thành phố Thủ Đức, TP. HCM",
+        "address1": "KHOA HÀN QUỐC HỌC, TRƯỜNG ĐH KHXH&NV, ĐHQH-HCM",
+        "address2": "TRUNG TÂM HÀN QUỐC HỌC ỨNG DỤNG",
         "emailinput": "Nhập email",
         "follow_btn": "Theo dõi ngay",
         "train": {
+            "title": "Đào tạo",
             "item1": "Bậc cử nhân",
             "item2": "Bậc thạc sĩ",
             "item3": "Bậc tiến sĩ",
@@ -35,6 +38,7 @@
             "item6": "Đào tạo ngắn hạn"
         },
         "information": {
+            "title": "Thông tin",
             "item1": "Đối tác quốc tế",
             "item2": "Nghiên cứu",
             "item3": "Nafosted",
@@ -43,6 +47,7 @@
             "item6": "Quản hệ doanh nghiệp"
         },
         "student": {
+            "title": "Sinh viên",
             "item1": "Sinh viên quốc tế",
             "item2": "Sinh viên tương lai",
             "item3": "Việc làm",
@@ -50,7 +55,12 @@
             "item5": "Tra cứu bằng",
             "item6": "Khuyến học, khuyến tài"
         }
-
+       },
+       "home_topic": {
+        "_news": "Tin tức",
+        "_notice": "Thông báo",
+        "_event": "Sự kiện nổi bật",
+        "_study": "Nghiên cứu khoa học"
        }
     }
 } 
