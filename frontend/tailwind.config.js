@@ -23,7 +23,9 @@ export default {
         text_link: "#0066FF",
         bg_A7E8ED: "#A7E8ED",
         text_225_225_225_032: "rgba(255, 255, 255, 0.32)",
-        text_225_225_225_088: "rgba(255, 255, 255, 0.88)"
+        text_225_225_225_088: "rgba(255, 255, 255, 0.88)",
+        text_225_225_225_064: "rgba(255, 255, 255, 0.64)",
+        text_7E8B99: "#7E8B99"
       },
       screens: {
         sm: '640px',
@@ -62,9 +64,10 @@ export default {
         _30: "30px",
         _32: "32px",
         _34: "34px",
+        _40: "40px",
       }
     },
   },
-  plugins: [],
+  plugins: [require('@tailwindcss/line-clamp')],
 }
 

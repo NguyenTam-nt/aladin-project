@@ -8,8 +8,8 @@ export const HeaderItemFlag = ({text, image, isWhite = true, type}:{text: string
       setLanguage(type)
     }
     return (
-      <>
-        <div onClick={handleChangeLang}>
+      <div onClick={handleChangeLang} className="flex items-center">
+        <div >
           <img src={image} className="h-[24px] object-cover" alt="vn flag" />
         </div>
         <span className={clsx("text-[14px] block w-7 font-normal mx-[8px]", {
@@ -18,7 +18,7 @@ export const HeaderItemFlag = ({text, image, isWhite = true, type}:{text: string
         })}>
           {t(text)}
         </span>
-      </>
+      </div>
     );
   };
   

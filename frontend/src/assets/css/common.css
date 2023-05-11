@@ -53,3 +53,30 @@ input::placeholder {
     transition: all ease-in-out 0.5s;
   }
 
+ /* slider */
+  .slider-company-home {
+    height: auto;
+    position: relative;
+    width: 100%;
+  }
+  
+  .slider-company-home .slider-company-home-content {
+    padding: 0 120px;
+    /* overflow: hidden; */
+  }
+  
+  .slider-company-home .swiper-button-prev {
+    position: absolute;
+    left: 0;
+  }
+  
+  .slider-company-home .swiper-button-next {
+    position: absolute;
+    right: 0;
+  }
+  
+  .swiper-grid-column > .swiper-wrapper {
+    flex-direction: unset !important;
+  }
+  
+

@@ -55,6 +55,12 @@
             "item5": "Tra cứu bằng",
             "item6": "Khuyến học, khuyến tài"
         }
+       },
+       "home_topic": {
+        "_news": "Tin tức",
+        "_notice": "Thông báo",
+        "_event": "Sự kiện nổi bật",
+        "_study": "Nghiên cứu khoa học"
        }
     }
 } 
