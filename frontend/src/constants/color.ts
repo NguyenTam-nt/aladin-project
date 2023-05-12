@@ -17,7 +17,8 @@ export const Colors = {
     bg_8BADDC: "#8BADDC",
     bg_0091D3: "#0091D3",
     bg_265AA6: "#265AA6",
-    bg_ECECEC: "#ECECEC"
+    bg_ECECEC: "#ECECEC",
+    bg_7E8B99: "#7E8B99",
 }
 
 
@@ -40,3 +41,4 @@ export const colorRandom = [
     }
 
 ]
+  
