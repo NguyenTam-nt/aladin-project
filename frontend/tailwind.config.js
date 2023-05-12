@@ -19,13 +19,16 @@ export default {
         br_E9ECEF: "#E9ECEF",
         bg_F08181: "#F08181",
         bg_F5B377: "#F5B377",
+        bg_7E8B99: "#7E8B99",
         bg_63A0F2: "#63A0F2",
         text_link: "#0066FF",
         bg_A7E8ED: "#A7E8ED",
+        bg_FAFAFA : "#FAFAFA" ,
         text_225_225_225_032: "rgba(255, 255, 255, 0.32)",
         text_225_225_225_088: "rgba(255, 255, 255, 0.88)",
         text_225_225_225_064: "rgba(255, 255, 255, 0.64)",
-        text_7E8B99: "#7E8B99"
+        text_7E8B99: "#7E8B99",
+        bg_0_0_0_003 : "rgba(0, 0, 0, 0.3)"
       },
       screens: {
         sm: '640px',
