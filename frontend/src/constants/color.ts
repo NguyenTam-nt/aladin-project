@@ -12,13 +12,13 @@ export const Colors = {
     bg_F08181: "#F08181",
     bg_F5B377: "#F5B377",
     bg_63A0F2: "#63A0F2",
+    bg_7E8B99: "#7E8B99",
     text_link: "#0066FF",
     text_7E8B99: "#7E8B99",
     bg_8BADDC: "#8BADDC",
     bg_0091D3: "#0091D3",
     bg_265AA6: "#265AA6",
     bg_ECECEC: "#ECECEC",
-    bg_7E8B99: "#7E8B99",
 }
 
 
