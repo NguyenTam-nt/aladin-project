@@ -1,7 +1,7 @@
 import { ICArrowSeeMore } from "@assets/icons/ICArrowSeeMore";
 import { Button } from "@components/Button";
-import { width } from "@constants/container";
-import React from "react";
+import { width, withResponsive } from "@constants/container";
+import React, { useMemo } from "react";
 import { useBannerHome } from "../hooks/useBannerHome";
 
 export const BannerItemImage = ({
@@ -14,9 +14,13 @@ export const BannerItemImage = ({
   const { handleMouseIn, handleMouseOut, refImage, refImageDev, refImageLink } =
     useBannerHome(length);
 
+    const withRe = useMemo(() => {
+      return width >= withResponsive._1536 ? width / 5 : width >= withResponsive._992 ? width / 3 : 2
+    }, [])
+
   return (
     <div
-      className="flex-1 relative animated-parent"
+      className="flex-1 relative animated-parent banner_home"
       onMouseEnter={handleMouseIn}
       onMouseLeave={handleMouseOut}
     >
@@ -25,13 +29,14 @@ export const BannerItemImage = ({
           ref={refImageDev}
           className="w-[0px] duration-500 flex ease-in-out  overflow-hidden  relative"
         >
+          <div className="absolute inset-0 home-banner-image-bg z-[1]" />
           <img
             ref={refImageLink}
             className="h-full object-cover absolute top-0 bottom-0"
             style={{
-              width: `${width / 5}px`,
-              minWidth: `${width / 5}px`,
-              maxWidth: `${width / 5}px`,
+              width: `${withRe}px`,
+              minWidth: `${withRe}px`,
+              maxWidth: `${withRe}px`,
             }}
             src={data.iamge}
             alt=""
@@ -39,28 +44,28 @@ export const BannerItemImage = ({
         </div>
       </div>
       <div className="flex items-center h-full relative">
-        <div className="p-[32px]">
+        <div className="p-[16px] xl:p-[32px]">
           <div className="py-[24px] border-b-[1px] border-solid border-text_white">
-            <p className=" text-text_225_225_225_032 text-[24px]">
+            <p className=" text-text_225_225_225_032 text-_16 xl:text-[24px] line-clamp-2">
               {data.title}
             </p>
-            <p className=" text-text_225_225_225_088 text-[32px]">
+            <p className=" text-text_225_225_225_088 text-_24 xl:text-[32px] line-clamp-2">
               {data.subtitle}
             </p>
           </div>
           <div className="py-[24px] ">
-            <p className="text-text_white text-_18 leading-8  animated-up">
+            <p className="text-text_white text-_14 xl:text-_18 leading-8  animated-up line-clamp-6">
               {data.desc}
             </p>
             <Button
               image={
-                <div className=" ml-2">
-                  <ICArrowSeeMore />
+                <div className="ml-1">
+                  <ICArrowSeeMore width={width < withResponsive._1280 && 24} />
                 </div>
               }
               color="empty"
               text="button.see_more"
-              className=" bg-transparent text-text_white text-_16 max-w-[181px] border-[1px] border-solid border-text_white mt-[24px] animated-up-delay"
+              className=" bg-transparent text-text_white w-[138px] xl:w-[181px] border-[1px] border-solid border-text_white mt-[24px] animated-up-delay"
             />
           </div>
         </div>

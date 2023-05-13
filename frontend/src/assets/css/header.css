@@ -98,3 +98,9 @@ overflow: hidden;
 .header-comment-clip {
     clip-path: polygon(0 0, 100% 0%, 100% 100%, 10% 100%);
 }
+
+@media (max-width: 1280px) {
+    .header-comment-clip {
+        clip-path: polygon(0 0, 100% 0%, 100% 100%, 20% 100%);
+    }
+}
