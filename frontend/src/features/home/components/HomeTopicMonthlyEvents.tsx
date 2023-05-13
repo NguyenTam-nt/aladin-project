@@ -2,9 +2,13 @@ import { ICArrowLeftLong } from "@assets/icons/ICArrowLeftLong";
 import { SwiperComponent } from "@components/SwiperComponent";
 import { TextViewCount } from "@components/TextViewCount";
 import { Colors } from "@constants/color";
+import { withResponsive } from "@constants/container";
 import { useSwiperNavigationRef } from "@hooks/useSwiperNavigationRef";
-import React, { memo } from "react";
+import useWindowResize from "@hooks/useWindowResize";
+import clsx from "clsx";
+import React, { memo, useCallback, useState } from "react";
 import { SwiperSlide } from "swiper/react";
+import type { Swiper } from "swiper/types";
 import { HomeTopicLayout } from "./HomeTopicLayout";
 
 export const HomeTopicMonthlyEvents = () => {
@@ -15,39 +19,40 @@ export const HomeTopicMonthlyEvents = () => {
     handlePre,
     NavigationElement,
   } = useSwiperNavigationRef();
+  const [currentIndex, setCurrentIndex] = useState(0)
+  const {width} = useWindowResize()
+  const renderItem = useCallback((_: any, index: React.Key | null | undefined) => {
+    return (
+      <SwiperSlide className="max-w-[70%] m992:max-w-full " key={index}>
+        <HomeTopicMonthlyEventsItem isActive={index === currentIndex} />
+      </SwiperSlide>
+      )
+  }, [currentIndex])
+
+  const onActiveIndexChange = (swiper: Swiper) => {
+    setCurrentIndex(swiper.activeIndex);
+  }
+
   return (
     <HomeTopicLayout
       title="home.home_topic._event"
       onNextClick={handleNext}
       onPreClick={handlePre}
     >
-      <div className="mt-[52px]">
+      <div className="mt-[32px] m992:mt-[52px]">
         <SwiperComponent
+         onActiveIndexChange={onActiveIndexChange}
+        initialSlide={currentIndex}
+
           navigationNextRef={navigationNextRef}
           navigationPrevRef={navigationPrevRef}
-          slidesPerView={4}
+          slidesPerView={width > withResponsive._1536 ? 4 : (width > withResponsive._1280 ? 3 : width > withResponsive._992 ? 2 : "auto")  }
           loop={false}
-          spaceBetween={24}
+          spaceBetween={width > withResponsive._1536 ? 24 : 16}
         >
-          <SwiperSlide>
-            <HomeTopicMonthlyEventsItem />
-          </SwiperSlide>
-          <SwiperSlide>
-            <HomeTopicMonthlyEventsItem />
-          </SwiperSlide>
-          <SwiperSlide>
-            <HomeTopicMonthlyEventsItem />
-          </SwiperSlide>
-          <SwiperSlide>
-            <HomeTopicMonthlyEventsItem />
-          </SwiperSlide>
-
-          <SwiperSlide>
-            <HomeTopicMonthlyEventsItem />
-          </SwiperSlide>
-          <SwiperSlide>
-            <HomeTopicMonthlyEventsItem />
-          </SwiperSlide>
+          {
+            [1, 2, 3, 4, 5].map(renderItem)
+          }
         </SwiperComponent>
         {NavigationElement}
       </div>
@@ -55,9 +60,9 @@ export const HomeTopicMonthlyEvents = () => {
   );
 };
 
-const HomeTopicMonthlyEventsItem = memo(() => {
+const HomeTopicMonthlyEventsItem = memo(({isActive}: {isActive: boolean}) => {
     return (
-        <div className="p-[25px] home-topic-event h-[312px] border-[1px] border-solid border-br_E9ECEF">
+        <div className={clsx("p-[16px] xl:p-[25px] home-topic-event h-[312px] border-[1px] border-solid border-br_E9ECEF", {"home-topic-event-avtive": isActive})}>
         <div className="flex justify-between items-center">
           <span className="text-_14">tháng 5</span>
           <div className="go-down">
@@ -74,7 +79,7 @@ const HomeTopicMonthlyEventsItem = memo(() => {
             <ICArrowLeftLong width={131} />
           </div>
         </div>
-        <p className="text-_16 font-semibold leading-[28px] line-clamp-2">
+        <p className="text-_16 font-semibold leading-[28px] line-clamp-2 mt-[8px]">
           Magna tortor pellentesque tristique tincidunt. Fames turpis le.
         </p>
         <ul className="text-_14 mt-[8px] list-disc ml-[12px] home-topic-list-event">

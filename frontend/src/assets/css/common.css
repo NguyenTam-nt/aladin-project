@@ -79,4 +79,7 @@ input::placeholder {
     flex-direction: unset !important;
   }
   
-
+.footer-animation-list {
+  height: calc(var(--footer-size) * 32px);
+  transition: all ease 0.3s;
+} 

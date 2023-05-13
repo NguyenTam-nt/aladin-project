@@ -49,6 +49,7 @@
     transition: all 0.5s ease;
 }
 
+.home-topic-event-avtive,
 .home-topic-event:hover {
     background-color: var(--secondary);
     color: var(--text-white);
@@ -58,19 +59,19 @@
     display: none;
 }
 
-.home-topic-event:hover .home-topic-list-event {
+.home-topic-event:hover .home-topic-list-event, .home-topic-event-avtive .home-topic-list-event {
     display: block;
 }
 
-.home-topic-event:hover .go-down {
+.home-topic-event:hover .go-down, .home-topic-event-avtive .go-down {
     animation: goDown 0.5s ease;
 }
 
-.home-topic-event:hover .go-right {
+.home-topic-event:hover .go-right, .home-topic-event-avtive .go-right {
     animation: goRight 0.5s ease;
 }
 
-.home-topic-event:hover .go-up {
+.home-topic-event:hover .go-up, .home-topic-event-avtive .go-up {
     animation: goUp ease;
     animation-duration: calc(var(--item-index) * 0.5s);
 }

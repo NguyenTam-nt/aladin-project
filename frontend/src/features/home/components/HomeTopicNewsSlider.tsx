@@ -1,10 +1,11 @@
 import React from "react";
 import { HomeTopicNewsItem } from "./HomeTopicNewsItem";
-import { Swiper, SwiperSlide } from "swiper/react";
+import {  SwiperSlide } from "swiper/react";
 
 import { Navigation } from "swiper";
-import { width } from "@constants/container";
+import { withResponsive } from "@constants/container";
 import { SwiperComponent } from "@components/SwiperComponent";
+import useWindowResize from "@hooks/useWindowResize";
 
 type Props = {
   navigationPrevRef: React.RefObject<HTMLDivElement>;
@@ -15,11 +16,12 @@ export const HomeTopicNewsSlider = ({
   navigationPrevRef,
   navigationNextRef,
 }: Props) => {
+  const {width} = useWindowResize()
   return (
     <SwiperComponent
      navigationNextRef={navigationNextRef}
       navigationPrevRef={navigationPrevRef}
-      slidesPerView={2}
+      slidesPerView={width > withResponsive._1280 ? 2 : 1}
       spaceBetween={24}
       loop={false}
       // loopFillGroupWithBlank={true}
@@ -29,7 +31,7 @@ export const HomeTopicNewsSlider = ({
       // }}
       modules={[Navigation]}
       style={{
-        width: width >= 1536 ? 1200 - 424 : width * 0.9 - 424 - 24,
+        width: width >= withResponsive._1536 ? 1200 - 424 - (24 * 2) : width >= withResponsive._1024 ? width * 0.9 - 424 - 24 : (width >= withResponsive._768 ?  width - 366 - 16 - (20*2)  : width - (20 * 2)),
       }}
     >
       {/* <> */}

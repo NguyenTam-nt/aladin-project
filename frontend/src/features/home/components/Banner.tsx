@@ -1,5 +1,6 @@
 import { SwiperComponent } from "@components/SwiperComponent";
 import { width, withResponsive } from "@constants/container";
+import useWindowResize from "@hooks/useWindowResize";
 import React, { useMemo } from "react";
 import { SwiperSlide } from "swiper/react";
 import { BannerItemImage } from "./BannerItemImage";
@@ -44,16 +45,21 @@ const data = [
 
 export const Banner = () => {
   const length = useMemo(() => data.length, []);
+  const { width } = useWindowResize();
   const previewNumber = useMemo(() => {
-    return width >= withResponsive._1536 ? 5: width >= withResponsive._992 ? 3 : 2
-  }, [])
+    return width >= withResponsive._1536
+      ? 5
+      : width >= withResponsive._992
+      ? 3
+      : 2;
+  }, [width]);
   return (
     <div className="banner_home">
       <div className="flex h-full">
         <SwiperComponent slidesPerView={previewNumber} loop={false}>
           {data.map((item, index) => {
             return (
-              <SwiperSlide>
+              <SwiperSlide key={index}>
                 <BannerItemImage key={index} data={item} length={length} />
               </SwiperSlide>
             );

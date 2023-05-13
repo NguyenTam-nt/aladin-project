@@ -1,7 +1,7 @@
 import { ICArrowSeeMore } from "@assets/icons/ICArrowSeeMore";
 import { Button } from "@components/Button";
-import { width, withResponsive } from "@constants/container";
-import React, { useMemo } from "react";
+import { withResponsive } from "@constants/container";
+import React from "react";
 import { useBannerHome } from "../hooks/useBannerHome";
 
 export const BannerItemImage = ({
@@ -11,13 +11,8 @@ export const BannerItemImage = ({
   data: { iamge: string; title: string; subtitle: string; desc: string };
   length: number;
 }) => {
-  const { handleMouseIn, handleMouseOut, refImage, refImageDev, refImageLink } =
+  const { handleMouseIn, handleMouseOut, refImage, refImageDev, refImageLink, withRe, width } =
     useBannerHome(length);
-
-    const withRe = useMemo(() => {
-      return width >= withResponsive._1536 ? width / 5 : width >= withResponsive._992 ? width / 3 : 2
-    }, [])
-
   return (
     <div
       className="flex-1 relative animated-parent banner_home"
