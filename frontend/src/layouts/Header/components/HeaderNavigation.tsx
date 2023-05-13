@@ -3,107 +3,69 @@ import { TranslateContext } from "@contexts/Translation";
 import { Link } from "react-router-dom";
 import { ICArrowDown } from "@assets/icons/ICArrowDown";
 import { ICMenu } from "@assets/icons/ICMenu";
+import { rootRouter } from "@constants/router";
+import clsx from "clsx";
 
 export const HeaderNavigation = () => {
   return (
     <div className="h-[60px] flex justify-between items-center">
-      <HeaderNavigationLink to="#" text="home.header.navigation.home" />
-      <div className="header-subnav">
-        <HeaderNavigationLink
-          to="#"
-          text="home.header.navigation.about"
-          withArrow
-        />
-        <div
-          className="header-subnav-child"
-          style={{
-            ["--length-subnav" as string]: 4,
-          }}
-        >
-          <ul>
-            <li>
-              <HeaderSubNavigationLink to="#" text="Tổng quan" />
-            </li>
-            <li>
-              {" "}
-              <HeaderSubNavigationLink to="#" text="Thương hiệu" />
-            </li>
-            <li>
-              <HeaderSubNavigationLink to="#" text="Cơ cấu tổ chức nhân sự" />
-            </li>
-            <li>
-              <HeaderSubNavigationLink to="#" text="Broucher" />
-            </li>
-          </ul>
-        </div>
-      </div>
-      <div className="header-subnav">
-        <HeaderNavigationLink
-          to="#"
-          text="home.header.navigation.news"
-          withArrow
-        />
-         <div
-          className="header-subnav-child"
-          style={{
-            ["--length-subnav" as string]: 6,
-          }}
-        >
-          <ul>
-            <li>
-              <HeaderSubNavigationLink to="#" text="Đào tạo" />
-            </li>
-            <li>
-              {" "}
-              <HeaderSubNavigationLink to="#" text="Nghiên cứu khoa học" />
-            </li>
-            <li>
-              <HeaderSubNavigationLink to="#" text="Học bổng" />
-            </li>
-            <li>
-              <HeaderSubNavigationLink to="#" text="Sinh viên" />
-            </li>
-            <li>
-              <HeaderSubNavigationLink to="#" text="Sự kiện" />
-            </li>
-            <li>
-              <HeaderSubNavigationLink to="#" text="Cơ hội nghề nghiệp" />
-            </li>
-          </ul>
-        </div>
-      </div>
-      <HeaderNavigationLink to="#" text="home.header.navigation.admissions" />
-      <HeaderNavigationLink to="#" text="home.header.navigation.documents" />
-      {/* <HeaderNavigationLink to="#" text="home.header.navigation.cadres" />
-      <HeaderNavigationLink to="#" text="home.header.navigation.subject" />
-      <HeaderNavigationLink to="#" text="home.header.navigation.library_image" />
-      <HeaderNavigationLink to="#" text="home.header.navigation.video" withSlash={false} /> */}
+      {rootRouter.slice(0, 5).map((item, index) => {
+        const subNews = item?.subNavs?.filter(_item => !_item.isHiden) ?? []
+        return (
+          <div key={index} className={clsx({ "header-subnav": item?.subNavs })}>
+            <HeaderNavigationLink
+              to={item.path}
+              text={item.name ?? ""} 
+              withArrow={!!item?.subNavs}
+            />
+            {item?.subNavs && (
+              <div
+                className="header-subnav-child shadow-lg"
+                style={{
+                  ["--length-subnav" as string]:  subNews?.length,
+                }}
+              >
+                <ul>
+                  {subNews.map((_item, indexSub) => {
+                    return (
+                     !_item?.isHiden && (<li key={indexSub}>
+                        <HeaderSubNavigationLink
+                          to={`${item.path}${ _item.path ? `/${_item.path}` : ""}`}
+                          text={_item.name ?? ""}
+                        />
+                      </li> )
+                    );
+                  })}
+                </ul>
+              </div>
+            )}
+          </div>
+        );
+      })}
+
       <div className="header-subnav cursor-pointer">
         <ICMenu />
         <div
-          className="header-subnav-child mw-1920:right-0"
+          className="header-subnav-child shadow-lg mw-1920:right-0"
           style={{
-            ["--length-subnav" as string]: 4,
+            ["--length-subnav" as string]: rootRouter.slice(5).length,
           }}
         >
           <ul>
-            <li>
-              <HeaderSubNavigationLink to="#" text="Cán bộ" />
-            </li>
-            <li>
-              {" "}
-              <HeaderSubNavigationLink to="#" text="Bộ môn" />
-            </li>
-            <li>
-              <HeaderSubNavigationLink to="#" text="Thư viện ảnh" />
-            </li>
-            <li>
-              <HeaderSubNavigationLink to="#" text="Video" />
-            </li>
+            {rootRouter.slice(5).map((item, index) => {
+              return (
+                <li key={index}>
+                  <HeaderSubNavigationLink
+                    to={item.path}
+                    text={item.name ?? ""}
+                  />
+                </li>
+              );
+            })}
+           
           </ul>
         </div>
       </div>
-      {/* <div className="header-bg-subnav" /> */}
     </div>
   );
 };
