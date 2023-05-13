@@ -1,13 +1,11 @@
-import { TranslateContext } from "@contexts/Translation";
 import { useSwiperNavigationRef } from "@hooks/useSwiperNavigationRef";
-import React, { useContext } from "react";
+import React from "react";
 import { HomeTopicLayout } from "./HomeTopicLayout";
 import { HomeTopicNoticeSlider } from "./HomeTopicNoticeSlider";
 
 
 
 export const HomeTopicNotice = () => {
-  const { t } = useContext(TranslateContext);
   const {
     navigationNextRef,
     navigationPrevRef,
@@ -22,7 +20,7 @@ export const HomeTopicNotice = () => {
       onNextClick={handleNext}
       onPreClick={handlePre}
     >
-      <div className=" mt-[44px]">
+      <div className="mt-[36px] xl:mt-[44px]">
        <HomeTopicNoticeSlider navigationNextRef={navigationNextRef} navigationPrevRef={navigationPrevRef} />
         {NavigationElement}
       </div>

@@ -27,6 +27,7 @@
         "address2": "한국어응용학습센터",
         "emailinput": "이메일 입력",
         "follow_btn": "지금 팔로우하기",
+        "access_count": "총 방문 횟수",
         "train": {
             "title": "훈련",
             "item1": "학사 학위",

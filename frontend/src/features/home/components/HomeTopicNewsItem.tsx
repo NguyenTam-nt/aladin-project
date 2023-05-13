@@ -12,10 +12,10 @@ type Props = {
 export const HomeTopicNewsItem = ({isChangeColor = false}:Props) => {
 
   return (
-    <div className={clsx("w-full p-[24px] flex flex-col h-[274px]", {"bg-white": !isChangeColor, "bg-secondary": isChangeColor})}>
+    <div className={clsx("w-full p-[12px] lg:p-[16px]  2xl:p-[24px] flex flex-col h-[218px] xl:h-[274px]", {"bg-white": !isChangeColor, "bg-secondary": isChangeColor})}>
     <p className={clsx("text-_16", {"text-text_primary": !isChangeColor, "text-text_white": isChangeColor})}>Adipiscing</p>
-    <div className={clsx("h-[1px] w-[45px]  my-[16px]", {"bg-br_E9ECEF": !isChangeColor, "bg-text_white": isChangeColor})} />
-    <p className={clsx("leading-[36px] text-_24", {"text-text_primary": !isChangeColor, "text-text_white": isChangeColor})}>
+    <div className={clsx("h-[1px] w-[45px] my-[8px]  xl:my-[16px]", {"bg-br_E9ECEF": !isChangeColor, "bg-text_white": isChangeColor})} />
+    <p className={clsx("leading-[36px] text-_18 xl:text-_24", {"text-text_primary": !isChangeColor, "text-text_white": isChangeColor})}>
       Varius cras at risus nunc ut amet amet etiam.
     </p>
     <p className={clsx("text-text_secondary text-_14", {"text-text_secondary": !isChangeColor, "text-text_white":isChangeColor})}>

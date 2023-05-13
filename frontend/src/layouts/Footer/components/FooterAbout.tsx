@@ -1,6 +1,6 @@
 import { TranslateContext } from "@contexts/Translation";
 import Logo from "@assets/images/logo.jpg";
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Input } from "@components/Input";
 import { Button } from "@components/Button";
 import { ICFacebook } from "@assets/icons/ICFacebook";
@@ -9,19 +9,23 @@ import { ICInstagram } from "@assets/icons/ICInstagram";
 import { Link } from "react-router-dom";
 import { InfomationFields, StudentFields, TrainFields } from "@constants/footer";
 import { Colors } from "@constants/color";
+import { ICArrowDown } from "@assets/icons/ICArrowDown";
+import clsx from "clsx";
+import useWindowResize from "@hooks/useWindowResize";
+import { withResponsive } from "@constants/container";
 
 export const FooterAbout = () => {
   const { t } = useContext(TranslateContext);
   return (
-    <div className=" bg-secondary py-[50px] border-b-[1px] border-br_E9ECEF border-solid  text-text_white">
-      <div className="w-rp grid grid-cols-6 gap-x-[24px]">
-        <div className=" col-span-3">
+    <div className=" bg-secondary py-[27px] xl:py-[50px] xl:border-b-[1px] xl:border-br_E9ECEF xl:border-solid  text-text_white">
+      <div className="w-rp  grid grid-cols-1 m992:grid-cols-3 xl:grid-cols-6 gap-x-[24px]">
+        <div className="  m992:col-span-3 mb-[24px] xl:mb-0">
           <div className="flex items-center">
             <>
-              <img src={Logo} alt="logo" className="object-cover" />
+              <img src={Logo} alt="logo" className="w-[27px] h-[32px] md:w-auto md:h-auto object-cover" />
             </>
             <div className="ml-[16px]">
-              <h3 className="text-[18px] font-bold">
+              <h3 className=" w-[70%]  text-_9 md:text-[18px] font-bold">
                 {t("home.header.subTitle")}
               </h3>
             </div>
@@ -30,15 +34,15 @@ export const FooterAbout = () => {
             <p>{t("home.footer.address1")}</p>
             <p className="mt-[8]">{t("home.footer.address2")}</p>
           </div>
-          <div className="my-[25px] flex items-center">
-            <div className="w-[210px]">
+          <div className="my-[25px] flex flex-col md:flex-row md:items-center">
+            <div className=" w-full md:w-[210px]">
               <Input placeholder="home.footer.emailinput" />
             </div>
-            <div className="ml-[25px] w-[140px]">
-              <Button color="empty" text="home.footer.follow_btn" size={16} />
+            <div className="md:ml-[25px] w-[140px]">
+              <Button color="empty" className="mt-[6px] md:mt-0 bg-transparent text-text_white md:bg-white md:text-secondary" text="home.footer.follow_btn" />
             </div>
           </div>
-          <div className="flex items-center">
+          <div className="flex items-center mb-0 m992:mb-[24px] xl:mb-0">
             <a href="#">
               <ICFacebook color={Colors.text_white} />
             </a>
@@ -72,13 +76,34 @@ const FooterAboutGroup = ({
   data: { text: string; to: string }[];
 }) => {
   const { t } = useContext(TranslateContext);
+  const [isShow, setIsShow] = useState(true)
+  const {width} = useWindowResize()
+  const handleShow = () => {
+    setIsShow(!isShow)
+  }
+
+  useEffect(() => {
+    if(width >= withResponsive._1280) {
+      setIsShow(true)
+    }
+  }, [width])
+
   return (
     <>
-      <h3 className="text-[24px] font-bold">{t(title)}</h3>
-      <ul className="mt-[16px]">
+    <div className="flex items-center justify-between mt-[12px] m992:mt-0">
+      <h3 className="text-_18 font-semibold xl:text-[24px] xl:font-bold">{t(title)}</h3>
+      <div className="m992:hidden" onClick={handleShow}>
+        <ICArrowDown color={Colors.text_white} />
+      </div>
+    </div>
+      <ul className={clsx("mt-[16px] overflow-hidden h-0 ease-in duration-300", {"footer-animation-list": isShow})}
+        style={{
+          ["--footer-size" as string]: data.length
+        }}
+      >
         {data.map((item, index) => {
           return (
-            <li key={index} className="mb-[16px]">
+            <li key={index} className="h-[32px] items-center">
               <Link
                 to={item.to}
                 className="h-[24px] flex items-center text-[14px] hover:text-primary duration-300"

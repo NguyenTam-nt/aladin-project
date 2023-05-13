@@ -1,14 +1,16 @@
-import { width, withResponsive } from "@constants/container";
+import { withResponsive } from "@constants/container";
+import useWindowResize from "@hooks/useWindowResize";
 import { useRef, MouseEvent, useMemo } from "react";
 
 export const useBannerHome = (length:number) => {
     const refImage = useRef<HTMLDivElement>(null);
     const refImageDev = useRef<HTMLDivElement>(null);
     const refImageLink = useRef<HTMLImageElement>(null);
+    const {width} = useWindowResize()
   
     const item = useMemo(() => {
       return width >= withResponsive._1536 ? length : width >= withResponsive._992 ? 3 : 2
-    }, [length])
+    }, [length, width])
   
     const handleMouseIn = (event: MouseEvent<HTMLDivElement>) => {
       refImageDev.current!.style.display = "block"
@@ -44,12 +46,18 @@ export const useBannerHome = (length:number) => {
       refImageDev.current!.style.width = "0px";
       // refImageLink.current!.style.right = "0"
     };
+
+    const withRe = useMemo(() => {
+      return width >= withResponsive._1536 ? width / length : width >= withResponsive._992 ? width / 3 : 2
+    }, [width, length])
   
     return {
         refImage,
         refImageDev,
         refImageLink,
         handleMouseIn,
-        handleMouseOut
+        handleMouseOut,
+        withRe,
+        width
     }
 }

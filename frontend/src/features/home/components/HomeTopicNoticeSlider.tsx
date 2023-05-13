@@ -1,5 +1,7 @@
 import { SwiperComponent } from "@components/SwiperComponent";
+import {  withResponsive } from "@constants/container";
 import { TranslateContext } from "@contexts/Translation";
+import useWindowResize from "@hooks/useWindowResize";
 import React, { memo, useContext, useMemo } from "react";
 import { Navigation } from "swiper";
 import { SwiperSlide } from "swiper/react";
@@ -27,9 +29,10 @@ export const HomeTopicNoticeSlider = ({
   const noticeCountItems = useMemo(() => {
     return Array.from({ length: Math.ceil(data.length / 6) }, (_, i) => i);
   }, []);
+  const {width} = useWindowResize()
   return (
     <SwiperComponent
-      slidesPerView={2}
+      slidesPerView={ width > withResponsive._768 ? 2 : 1}
       spaceBetween={24}
       navigationNextRef={navigationNextRef}
       navigationPrevRef={navigationPrevRef}
@@ -68,7 +71,7 @@ const HomeNoticeSliderItem = memo(() => {
   const { t } = useContext(TranslateContext);
   return (
     <div className="pb-[8px] border-b-[1px] border-solid border-br_E9ECEF">
-      <p className=" leading-[32px] line-clamp-1 text-_18 font-semibold text-text_primary">
+      <p className=" leading-[32px] line-clamp-1 text-_16 m992:text-_18 font-semibold text-text_primary">
         Ultricies enim arcu arcu pulvinar egestas proin. Quisque suscipit amet
       </p>
       <div className="flex items-center text-_14 text-bg_7E8B99">

@@ -7,10 +7,12 @@ import KoFlag from "@assets/images/korean.jpg";
 import React, { useContext } from 'react'
 import { Link } from 'react-router-dom'
 import { HeaderItemFlag } from './HeaderItemFlag'
-import { width, withResponsive } from '@constants/container';
+import { withResponsive } from '@constants/container';
+import useWindowResize from '@hooks/useWindowResize';
 
 export const HeaderOption = () => {
     const { t, isVn } = useContext(TranslateContext);
+    const {width} = useWindowResize()
   return (
     <div className="flex items-center">
     <div className='mr-[18px] xl:mr-0'>
