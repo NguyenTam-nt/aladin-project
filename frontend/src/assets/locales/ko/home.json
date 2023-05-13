@@ -13,7 +13,22 @@
         "navigation": {
             "home": "집",
             "about": "정보",
+            "sub_abouts": {
+                "_general": "개요",
+                "_brand": "브랜드",
+                "_structure": "인간 조직 구조",
+                "_brochure": "브로슈어"
+            },
             "news": "뉴스",
+            "sub_news": {
+                "_train": "기차",
+                "_study": "과학적 연구",
+                "_scholarship": "장학금",
+                "_student": "학생",
+                "_event": "이벤트",
+                "_career": "경력 기회",
+                "_detail": "자세히"
+            },
             "admissions": "입학",
             "documents": "문서 - 텍스트",
             "cadres": "장교",

@@ -14,7 +14,22 @@
         "navigation": {
             "home": "Trang chủ",
             "about": "Giới thiệu",
+            "sub_abouts": {
+                "_general": "Tổng quan",
+                "_brand": "Thương hiệu",
+                "_structure": "Cơ cấu tổ chức nhân sự",
+                "_brochure": "Brochure"
+            },
             "news": "Tin tức",
+            "sub_news": {
+                "_train": "Đào tạo",
+                "_study": "Nghiên cứu khoa học",
+                "_scholarship": "Học bổng",
+                "_student": "Sinh viên",
+                "_event": "Sự kiện",
+                "_career": "Cơ hội nghề nghiệp",
+                "_detail": "Chi tiết"
+            },
             "admissions": "Tuyển sinh",
             "documents": "Tài liệu - văn bản",
             "cadres": "Cán bộ",
