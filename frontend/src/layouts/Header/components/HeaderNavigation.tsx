@@ -95,7 +95,7 @@ export const HeaderNavigation = () => {
               <HeaderSubNavigationLink to="#" text="Bộ môn" />
             </li>
             <li>
-              <HeaderSubNavigationLink to="#" text="Thử viện ảnh" />
+              <HeaderSubNavigationLink to="#" text="Thư viện ảnh" />
             </li>
             <li>
               <HeaderSubNavigationLink to="#" text="Video" />

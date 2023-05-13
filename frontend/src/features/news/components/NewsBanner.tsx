@@ -22,7 +22,7 @@ const bannerItem = [
 
 const NewsBanner = () => {
   return (
-    <div className="grid grid-cols-3  gap-[24px] h-[435px] mt-[40px] relative">
+    <div className="grid grid-cols-3  gap-[24px] h-[435px] mt-[40px]">
       <div className="col-span-2  overflow-hidden  relative">
         <ImageTranslation link={bannerItem[0].image} />
         <div className=" absolute  bottom-[24px]  left-0 mx-[24px] ">

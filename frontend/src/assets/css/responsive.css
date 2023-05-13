@@ -83,4 +83,8 @@
   .w-rp {
     @apply  2xl:w-[1200px] w-[90vw] mx-auto;
   }
+
+  .w-rp-l {
+    @apply  3xl:w-[1637px] w-[90vw] mx-auto;
+  }
 }

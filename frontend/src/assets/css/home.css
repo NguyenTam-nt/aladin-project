@@ -42,3 +42,80 @@
 .event_hom_item_right {
     clip-path: polygon(0 100%, 100% 50%, 0 0);
 }
+
+.home-topic-event {
+    background-color: var(--text-white);
+    color: var(--text-primary);
+    transition: all 0.5s ease;
+}
+
+.home-topic-event:hover {
+    background-color: var(--secondary);
+    color: var(--text-white);
+}
+
+.home-topic-list-event {
+    display: none;
+}
+
+.home-topic-event:hover .home-topic-list-event {
+    display: block;
+}
+
+.home-topic-event:hover .go-down {
+    animation: goDown 0.5s ease;
+}
+
+.home-topic-event:hover .go-right {
+    animation: goRight 0.5s ease;
+}
+
+.home-topic-event:hover .go-up {
+    animation: goUp ease;
+    animation-duration: calc(var(--item-index) * 0.5s);
+}
+
+@keyframes goDown {
+    from {
+        opacity: 0;
+        transform: translateY(-50px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes goRight {
+    from {
+        opacity: 0;
+        transform: translateX(-50px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes goUp {
+    from {
+        opacity: 0;
+        transform: translateY(50px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.home-topic-video-bg {
+    background: linear-gradient(0deg, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3));
+}
+
+.home-banner-image-bg {
+
+background: linear-gradient(166.38deg, rgba(27, 101, 211, 0.6) 0%, rgba(16, 219, 170, 0.6) 69.27%), rgba(255, 255, 255, 0.3);
+}

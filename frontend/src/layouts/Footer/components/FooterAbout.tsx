@@ -35,18 +35,18 @@ export const FooterAbout = () => {
               <Input placeholder="home.footer.emailinput" />
             </div>
             <div className="ml-[25px] w-[140px]">
-              <Button color="primary" text="home.footer.follow_btn" size={16} />
+              <Button color="empty" text="home.footer.follow_btn" size={16} />
             </div>
           </div>
           <div className="flex items-center">
             <a href="#">
-              <ICFacebook color={Colors.primary} />
+              <ICFacebook color={Colors.text_white} />
             </a>
             <a href="#" className="mx-[21px]">
-              <ICInstagram color={Colors.primary} />
+              <ICInstagram color={Colors.text_white} />
             </a>
             <a href="#">
-              <ICInSocial color={Colors.primary} />
+              <ICInSocial color={Colors.text_white} />
             </a>
           </div>
         </div>

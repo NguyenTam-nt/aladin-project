@@ -19,6 +19,7 @@ export const Colors = {
     bg_0091D3: "#0091D3",
     bg_265AA6: "#265AA6",
     bg_ECECEC: "#ECECEC",
+    rgba_255_255_255_64: "rgba(255, 255, 255, 0.64)",
 }
 
 

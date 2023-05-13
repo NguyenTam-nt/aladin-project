@@ -1,4 +1,7 @@
-import React, {  useMemo } from "react";
+import { SwiperComponent } from "@components/SwiperComponent";
+import { width, withResponsive } from "@constants/container";
+import React, { useMemo } from "react";
+import { SwiperSlide } from "swiper/react";
 import { BannerItemImage } from "./BannerItemImage";
 
 const data = [
@@ -40,15 +43,25 @@ const data = [
 ];
 
 export const Banner = () => {
-  const length = useMemo(() => data.length, [])
+  const length = useMemo(() => data.length, []);
+  const previewNumber = useMemo(() => {
+    return width >= withResponsive._1536 ? 5: width >= withResponsive._992 ? 3 : 2
+  }, [])
   return (
     <div className="banner_home">
       <div className="flex h-full">
-        {
-            data.map((item, index) => {
-                return  <BannerItemImage key={index} data={item} length={length} />
-            })
-        }   
+        <SwiperComponent slidesPerView={previewNumber} loop={false}>
+          {data.map((item, index) => {
+            return (
+              <SwiperSlide>
+                <BannerItemImage key={index} data={item} length={length} />
+              </SwiperSlide>
+            );
+          })}
+          {/* <SwiperSlide>
+
+        </SwiperSlide> */}
+        </SwiperComponent>
       </div>
     </div>
   );
