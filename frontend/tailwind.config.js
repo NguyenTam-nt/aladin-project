@@ -29,7 +29,8 @@ export default {
         text_225_225_225_064: "rgba(255, 255, 255, 0.64)",
         text_7E8B99: "#7E8B99",
         bg_0_0_0_003 : "rgba(0, 0, 0, 0.3)",
-        bg_F8F8F8: "#F8F8F8"
+        bg_F8F8F8: "#F8F8F8",
+        bg_9EA8B3: "#9EA8B3"
       },
       screens: {
         _320: '320px',

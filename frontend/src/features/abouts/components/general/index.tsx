@@ -1,9 +1,14 @@
-import React from 'react'
+import React from "react";
+import GeneralDetailBuild from "./GeneralDetailBuild";
+import { GeneralHistory } from "./GeneralHistory";
 
- const General = () => {
+const General = () => {
   return (
-    <div>General</div>
-  )
-}
+    <div className="w-rp my-[44px]">
+      <GeneralHistory />
+      <GeneralDetailBuild />
+    </div>
+  );
+};
 
-export default General
+export default General;

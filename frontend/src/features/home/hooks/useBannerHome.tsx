@@ -7,9 +7,8 @@ export const useBannerHome = (length:number) => {
     const refImageDev = useRef<HTMLDivElement>(null);
     const refImageLink = useRef<HTMLImageElement>(null);
     const {width} = useWindowResize()
-  
     const item = useMemo(() => {
-      return width >= withResponsive._1536 ? length : width >= withResponsive._992 ? 3 : 2
+      return width >= withResponsive._1024 ? length : width >= withResponsive._640 ? 3 : 2
     }, [length, width])
   
     const handleMouseIn = (event: MouseEvent<HTMLDivElement>) => {
@@ -47,7 +46,7 @@ export const useBannerHome = (length:number) => {
     };
 
     const withRe = useMemo(() => {
-      return width >= withResponsive._1536 ? width / length : width >= withResponsive._992 ? width / 3 : 2
+      return width >= withResponsive._1024 ? width / length : width >= withResponsive._640 ? width / 3 : width/2
     }, [width, length])
   
     return {

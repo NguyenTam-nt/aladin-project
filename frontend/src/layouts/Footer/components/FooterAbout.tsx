@@ -92,13 +92,14 @@ const FooterAboutGroup = ({
     <>
     <div className="flex items-center justify-between mt-[12px] m992:mt-0">
       <h3 className="text-_18 font-semibold xl:text-[24px] xl:font-bold">{t(title)}</h3>
-      <div className="m992:hidden" onClick={handleShow}>
+      <button className="m992:hidden" onClick={handleShow}>
         <ICArrowDown color={Colors.text_white} />
-      </div>
+      </button>
     </div>
       <ul className={clsx("mt-[16px] overflow-hidden h-0 ease-in duration-300", {"footer-animation-list": isShow})}
         style={{
-          ["--footer-size" as string]: data.length
+          ["--footer-size" as string]: data.length,
+          ["--height-li" as string]: "32px",
         }}
       >
         {data.map((item, index) => {

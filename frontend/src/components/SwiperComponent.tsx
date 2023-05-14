@@ -30,9 +30,9 @@ export const SwiperComponent = ({
           swiper.params.navigation.nextEl = navigationNextRef?.current;
 
           // Re-init navigation
-          swiper.navigation.destroy();
-          swiper.navigation.init();
-          swiper.navigation.update();
+          swiper.navigation?.destroy();
+          swiper.navigation?.init();
+          swiper.navigation?.update();
         });
       }}
       modules={[Navigation]}

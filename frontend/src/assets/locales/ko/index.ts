@@ -1,5 +1,9 @@
 import home from "./home.json"
+import button from "./button.json"
+import common from "./common.json"
 
 export const ko = {
-    ...home
+    ...home,
+    ...button,
+    ...common
 }
