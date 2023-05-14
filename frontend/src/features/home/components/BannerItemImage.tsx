@@ -55,7 +55,7 @@ export const BannerItemImage = ({
             <Button
               image={
                 <div className="ml-1">
-                  <ICArrowSeeMore width={width < withResponsive._1280 && 24} />
+                  <ICArrowSeeMore width={width < withResponsive._1280 ? 24 : 67} />
                 </div>
               }
               color="empty"

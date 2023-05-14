@@ -14,7 +14,7 @@ const routes = createRoutesFromElements(
           {
             item.subNavs && item.subNavs.map((itemchild, index) => {
               return (
-                <Route key={index} path={item.path} element={<itemchild.element />} />
+                <Route key={index} path={itemchild.path} element={<itemchild.element />} />
               )
             })
           }
