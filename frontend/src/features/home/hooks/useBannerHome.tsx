@@ -17,7 +17,6 @@ export const useBannerHome = (length:number) => {
       const { pageX } = event;
       const { left:offsetLeft } = event.currentTarget.getBoundingClientRect();
       const offset = pageX - offsetLeft;
-      console.log({ offset });
       if (offset > width / item / 2) {
         refImageLink.current!.style.right = "0"
         refImage.current!.style.flexDirection = "row-reverse";

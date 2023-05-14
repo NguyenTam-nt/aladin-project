@@ -46,7 +46,7 @@ export const HeaderNavigation = () => {
       <div className="header-subnav cursor-pointer">
         <ICMenu />
         <div
-          className="header-subnav-child shadow-lg mw-1920:right-0"
+          className="header-subnav-child shadow-lg right-0"
           style={{
             ["--length-subnav" as string]: rootRouter.slice(5).length,
           }}

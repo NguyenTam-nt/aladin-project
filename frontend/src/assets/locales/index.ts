@@ -1,7 +1,6 @@
 import {en} from "./en";
 import {ko} from "./ko";
 import {vi} from "./vi";
-console.log({ko})
 
 export const resources = {
   en: {

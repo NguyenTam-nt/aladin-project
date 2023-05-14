@@ -15,8 +15,7 @@ export const ImageTranslation = ({ link }: { link: string }) => {
     const { pageX, pageY } = e;
     const offsetX = pageX - refOffsetLeft.current;
     const offsetY = pageY - refOffsetTop.current ;
-
-    console.log({ top: refOffsetTop.current, offset: e.currentTarget.offsetTop, e: window.scrollY});
+    
     refImage.current!.style.transition = "all 0.25s ease"
     refImage.current!.style.transformOrigin = `${offsetX}px ${offsetY}px`;
   };

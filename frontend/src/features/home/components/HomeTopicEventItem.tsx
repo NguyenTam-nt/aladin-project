@@ -43,7 +43,7 @@ export const HomeTopicEventItem = ({ isReversed = false }: Props) => {
           Nunc pretium cursus et orci nisl. Odio lorem aliquet.
         </p>
         <div className="flex justify-center">
-          <ICArrowLeftLong width={width < withResponsive._992 && 72} color={color.color} />
+          <ICArrowLeftLong width={width < withResponsive._992 ? 72 : 148} color={color.color} />
         </div>
         {/* </div> */}
         <div className={clsx("absolute event_hom_item_left h-[52px] w-[46px] top-[50%] translate-y-[-50%]", {"event_hom_item_left left-[-40px]":!isReversed, "event_hom_item_right right-[-40px]":isReversed})}

@@ -7,6 +7,7 @@ import { ICMenu } from "@assets/icons/ICMenu";
 import { Link } from "react-router-dom";
 import useWindowResize from "@hooks/useWindowResize";
 import { withResponsive } from "@constants/container";
+import { paths } from "@constants/router";
 
 export const HeaderLogo = () => {
   const { t } = useContext(TranslateContext);
@@ -19,7 +20,6 @@ export const HeaderLogo = () => {
 
         if (lastIndex < document.documentElement.scrollTop - 88) {
           if (!header?.classList.contains("active-header")) {
-            console.log("add header to active");
             header?.classList.add("active-header");
           }
           lastIndex = document.documentElement.scrollTop - 88;
@@ -48,7 +48,7 @@ export const HeaderLogo = () => {
       <div className="w-rp h-[56px] xl:h-[120px] flex justify-between items-center duration-300 ease-in">
         <div className="flex items-center xl:w-[45%]">
           <Link
-            to="/"
+            to={paths.home.prefix}
             className="block w-[27px] h-[32px] xl:w-[60px] xl:h-[72px]"
           >
             <img
@@ -58,9 +58,6 @@ export const HeaderLogo = () => {
             />
           </Link>
           <div className="ml-[16px] flex-1">
-            {/* <h2 className="text-text_4A4A4A text-[16px] font-normal">
-            {t("home.header.title")}
-          </h2> */}
             <h3 className=" text-_9 xl:text-[20px] font-bold text-text_secondary">
               {t("home.header.subTitle")}
             </h3>
