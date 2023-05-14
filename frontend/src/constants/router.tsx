@@ -8,7 +8,7 @@ const NewsPage = lazy(() => import("../features/news"))
 const NewsDetailPage = lazy(() => import("../features/newsDetail"))
 const CadresPage = lazy(() => import("../features/cadres"))
 
-const DemoElement = () => <div>Xin chào</div>
+const DemoElement = () => <div className="text-_40 text-[red] font-bold flex justify-center h-[100px] items-center">Trang này chưa code đâu nhé!</div>
 
 interface IRouter {
     path: string,

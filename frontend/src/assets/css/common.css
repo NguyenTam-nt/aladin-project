@@ -78,8 +78,50 @@ input::placeholder {
   .swiper-grid-column > .swiper-wrapper {
     flex-direction: unset !important;
   }
+
+.swiper-banner-home .swiper-slide-thumb-active > div {
+    background-color: var(--secondary);
+  }
+  
   
 .footer-animation-list {
-  height: calc(var(--footer-size) * 32px);
+  height: calc(var(--footer-size) * var(--height-li));
   transition: all ease 0.3s;
 } 
+
+.line-down::after {
+  position: absolute;
+  content: "";
+  display: block;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background-color: var(--bg-color-line);
+  bottom: -7.5px;
+  left: -7.5px;
+}
+
+.line-up::after {
+  position: absolute;
+  content: "";
+  display: block;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background-color: var(--bg-color-line);
+  top: -7.5px;
+  left: -7.5px;
+}
+
+.line-right::after {
+  position: absolute;
+  content: "";
+  display: block;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background-color: var(--bg-color-line);
+  top: -7.5px;
+  left: -7.5px;
+}
+

@@ -1,8 +1,10 @@
-import React, { useMemo } from "react";
+import React, { useMemo, useState } from "react";
+import type { Swiper } from "swiper/types";
 
 export const useSwiperNavigationRef = () => {
   const navigationPrevRef = React.useRef<HTMLDivElement>(null);
   const navigationNextRef = React.useRef<HTMLDivElement>(null);
+  const [currentIndex, setCurrentIndex] = useState(0);
 
   const handleNext = () => {
     navigationNextRef.current?.click();
@@ -10,6 +12,10 @@ export const useSwiperNavigationRef = () => {
 
   const handlePre = () => {
     navigationPrevRef.current?.click();
+  };
+
+  const onActiveIndexChange = (swiper: Swiper) => {
+    setCurrentIndex(swiper.realIndex);
   };
 
   const NavigationElement = useMemo(() => {
@@ -26,6 +32,8 @@ export const useSwiperNavigationRef = () => {
     navigationNextRef,
     handleNext,
     handlePre,
-    NavigationElement
+    NavigationElement,
+    currentIndex,
+    onActiveIndexChange
   };
 };

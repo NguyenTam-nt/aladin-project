@@ -87,4 +87,11 @@
   .w-rp-l {
     @apply  3xl:w-[1637px] w-[90vw] mx-auto;
   }
+
+  .line-about-general {
+    @apply flex-1 w-[1px] bg-bg_9EA8B3 relative;
+  }
+  .line-about-general-mb {
+    @apply flex-1 h-[1px] bg-bg_9EA8B3 relative mr-[16px];
+  }
 }

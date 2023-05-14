@@ -6,9 +6,8 @@ import { withResponsive } from "@constants/container";
 import { useSwiperNavigationRef } from "@hooks/useSwiperNavigationRef";
 import useWindowResize from "@hooks/useWindowResize";
 import clsx from "clsx";
-import React, { memo, useCallback, useState } from "react";
+import React, { memo, useCallback } from "react";
 import { SwiperSlide } from "swiper/react";
-import type { Swiper } from "swiper/types";
 import { HomeTopicLayout } from "./HomeTopicLayout";
 
 export const HomeTopicMonthlyEvents = () => {
@@ -18,20 +17,21 @@ export const HomeTopicMonthlyEvents = () => {
     handleNext,
     handlePre,
     NavigationElement,
+    currentIndex,
+     onActiveIndexChange
   } = useSwiperNavigationRef();
-  const [currentIndex, setCurrentIndex] = useState(0)
-  const {width} = useWindowResize()
-  const renderItem = useCallback((_: any, index: React.Key | null | undefined) => {
-    return (
-      <SwiperSlide className="max-w-[70%] m992:max-w-full " key={index}>
-        <HomeTopicMonthlyEventsItem isActive={index === currentIndex} />
-      </SwiperSlide>
-      )
-  }, [currentIndex])
+  const { width } = useWindowResize();
+  const renderItem = useCallback(
+    (_: any, index: React.Key | null | undefined) => {
+      return (
+        <SwiperSlide className="max-w-[70%] m992:max-w-full " key={index}>
+          <HomeTopicMonthlyEventsItem isActive={index === currentIndex} />
+        </SwiperSlide>
+      );
+    },
+    [currentIndex]
+  );
 
-  const onActiveIndexChange = (swiper: Swiper) => {
-    setCurrentIndex(swiper.activeIndex);
-  }
 
   return (
     <HomeTopicLayout
@@ -41,18 +41,23 @@ export const HomeTopicMonthlyEvents = () => {
     >
       <div className="mt-[32px] m992:mt-[52px]">
         <SwiperComponent
-         onActiveIndexChange={onActiveIndexChange}
-        initialSlide={currentIndex}
-
+          onActiveIndexChange={onActiveIndexChange}
+          initialSlide={currentIndex}
           navigationNextRef={navigationNextRef}
           navigationPrevRef={navigationPrevRef}
-          slidesPerView={width > withResponsive._1536 ? 4 : (width > withResponsive._1280 ? 3 : width > withResponsive._992 ? 2 : "auto")  }
-          loop={false}
+          slidesPerView={
+            width > withResponsive._1536
+              ? 4
+              : width > withResponsive._1280
+              ? 3
+              : width > withResponsive._992
+              ? 2
+              : "auto"
+          }
+          loop={true}
           spaceBetween={width > withResponsive._1536 ? 24 : 16}
         >
-          {
-            [1, 2, 3, 4, 5].map(renderItem)
-          }
+          {[1, 2, 3, 4, 5, 6, 7, 8].map(renderItem)}
         </SwiperComponent>
         {NavigationElement}
       </div>
@@ -60,9 +65,15 @@ export const HomeTopicMonthlyEvents = () => {
   );
 };
 
-const HomeTopicMonthlyEventsItem = memo(({isActive}: {isActive: boolean}) => {
+const HomeTopicMonthlyEventsItem = memo(
+  ({ isActive }: { isActive: boolean }) => {
     return (
-        <div className={clsx("p-[16px] xl:p-[25px] home-topic-event h-[312px] border-[1px] border-solid border-br_E9ECEF", {"home-topic-event-avtive": isActive})}>
+      <div
+        className={clsx(
+          "p-[16px] xl:p-[25px] home-topic-event h-[312px] border-[1px] border-solid border-br_E9ECEF",
+          { "home-topic-event-avtive": isActive }
+        )}
+      >
         <div className="flex justify-between items-center">
           <span className="text-_14">tháng 5</span>
           <div className="go-down">
@@ -101,5 +112,6 @@ const HomeTopicMonthlyEventsItem = memo(({isActive}: {isActive: boolean}) => {
           </li>
         </ul>
       </div>
-    )
-})
+    );
+  }
+);

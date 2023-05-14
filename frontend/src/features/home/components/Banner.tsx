@@ -47,9 +47,9 @@ export const Banner = () => {
   const length = useMemo(() => data.length, []);
   const { width } = useWindowResize();
   const previewNumber = useMemo(() => {
-    return width >= withResponsive._1536
+    return width >= withResponsive._1024
       ? 5
-      : width >= withResponsive._992
+      : width >= withResponsive._640
       ? 3
       : 2;
   }, [width]);

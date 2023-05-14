@@ -10,7 +10,7 @@ export const HeaderCommon = () => {
   const { width } = useWindowResize();
   return (
     <div className="h-[32px] xl:h-[48px] bg-bg_A7E8ED relative">
-      <div className="bg-secondary h-full w-[40%] xl:w-[55%] header-comment-clip absolute right-0 top-0 bottom-0 z-[0]" />
+      <div className="bg-secondary h-full w-[50%] xl:w-[55%] header-comment-clip absolute right-0 top-0 bottom-0 z-[0]" />
       <div className="w-rp flex h-full justify-between items-center relative  z-[1]">
         <div className="flex items-center">
           <div>
@@ -21,8 +21,8 @@ export const HeaderCommon = () => {
           </div>
           <div className=" ml-[4px] mr-[8px] xl:ml-[8px] xl:mr-[32px]">
             <Logo2
-              width={width < withResponsive._1280 && 49}
-              height={width < withResponsive._1280 && 11}
+              width={width < withResponsive._1280 ? 49 : 76}
+              height={width < withResponsive._1280 ? 11 : 18}
             />
           </div>
           <div>
