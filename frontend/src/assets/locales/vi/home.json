@@ -22,6 +22,7 @@
             },
             "news": "Tin tức",
             "sub_news": {
+                "_news": "Danh sách tin tức",
                 "_train": "Đào tạo",
                 "_study": "Nghiên cứu khoa học",
                 "_scholarship": "Học bổng",
