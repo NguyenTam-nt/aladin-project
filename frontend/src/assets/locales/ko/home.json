@@ -21,6 +21,7 @@
             },
             "news": "뉴스",
             "sub_news": {
+                "_news": "List of news",
                 "_train": "기차",
                 "_study": "과학적 연구",
                 "_scholarship": "장학금",

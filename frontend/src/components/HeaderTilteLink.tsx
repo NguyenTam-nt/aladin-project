@@ -25,12 +25,13 @@ export const HeaderTilteLink = () => {
 
     return undefined;
   }, [subNavs, params.pathname]);
+  console.log(subQuery?.path)
 
   return (
     <HeaderTitle
       prefix={params.pathname.split("/")[1]}
       title={subQuery?.name ?? ""}
-      listLink={subNavs.filter((item) => (item.path !== subQuery?.path || item?.isHiden))}
+      listLink={subNavs.filter((item) => (item.path !== subQuery?.path && !item?.isDetail))}
     />
   );
 };
@@ -92,7 +93,7 @@ const HeaderTitle = ({ title, listLink, prefix }: Props) => {
           </span>
           <ICArrowDown />
           <ul
-            className={clsx("w-[150px] z-[10] overflow-hidden h-0 ease-in duration-300 absolute top-[100%] right-0 shadow-lg",{ "footer-animation-list": isShow })}
+            className={clsx("w-[150px] z-[10] overflow-hidden h-0 ease-in duration-300 absolute bg-white top-[100%] right-0 shadow-lg",{ "footer-animation-list": isShow })}
             style={{
               ["--footer-size" as string]: listLink.slice(limitSlice).length,
               ["--height-li" as string]: "32px",
