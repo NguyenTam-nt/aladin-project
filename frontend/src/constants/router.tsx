@@ -1,4 +1,4 @@
-import React, { lazy, LazyExoticComponent } from "react"
+import React, { lazy } from "react"
 
 
 const HomePage = lazy(() => import("../features/home"))
@@ -19,6 +19,7 @@ interface IRouter {
         name: string,
         element: any
         isHiden?: boolean
+        isDetail?: boolean
     }[]
 }
 
@@ -35,6 +36,7 @@ export const paths = {
     },
     news: {
         prefix: "/tin-tuc",
+        news: "",
         train: "dao-tao",
         study: "nghien-cuu-khoa-hoc",
         scholarship: "hoc-bong",
@@ -103,6 +105,12 @@ export const rootRouter:IRouter[] = [
         element: NewsPage,
         subNavs: [
             {
+                path: paths.news.news,
+                name: "home.header.navigation.sub_news._news",
+                element: NewsPage,
+                isHiden: true,
+            },
+            {
                 path: paths.news.train,
                 name: "home.header.navigation.sub_news._train",
                 element: DemoElement,
@@ -136,7 +144,8 @@ export const rootRouter:IRouter[] = [
                 path: paths.news.detail,
                 element: NewsDetailPage,
                 name: "home.header.navigation.sub_news._detail",
-                isHiden: true
+                isHiden: true,
+                isDetail: true
             },
         ]
     },
