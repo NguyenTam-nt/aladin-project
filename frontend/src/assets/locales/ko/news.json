@@ -1,0 +1,17 @@
+{
+  "news": {
+    "header": {
+      "title": "뉴스 목록",
+      "other_sub_news": "다른 것",
+      "sub_news": {
+        "_train": "기차",
+        "_study": "과학적 연구",
+        "_scholarship": "장학금",
+        "_student": "학생",
+        "_event": "이벤트",
+        "_career": "경력 기회",
+        "_detail": "자세히"
+      }
+    }
+  }
+}

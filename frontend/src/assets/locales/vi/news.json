@@ -1,0 +1,17 @@
+{
+  "news": {
+    "header": {
+      "title": "Danh sách tin tức",
+       "other_sub_news" : "Khác" ,
+      "sub_news": {
+        "_train": "Đào tạo",
+        "_study": "Nghiên cứu khoa học",
+        "_scholarship": "Học bổng",
+        "_student": "Sinh viên",
+        "_event": "Sự kiện",
+        "_career": "Cơ hội nghề nghiệp",
+        "_detail": "Chi tiết"
+      }
+    }
+  }
+}
