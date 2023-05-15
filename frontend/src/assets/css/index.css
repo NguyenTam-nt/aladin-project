@@ -8,6 +8,7 @@
 @import "./header.css";
 @import "./home.css";
 @import "about.css";
+@import "./news.css";
 
 
 @font-face {
@@ -35,4 +36,10 @@ select:focus {
 img {
   user-select: none;
   /* pointer-events: none; */
+}
+.icon-flipped {
+  transform: scaleX(-1);
+  -moz-transform: scaleX(-1);
+  -webkit-transform: scaleX(-1);
+  -ms-transform: scaleX(-1);
 }
