@@ -2,6 +2,7 @@ import { SwiperComponent } from "@components/SwiperComponent";
 import { withResponsive } from "@constants/container";
 import useWindowResize from "@hooks/useWindowResize";
 import React from "react";
+import { FreeMode } from "swiper";
 import { SwiperSlide } from "swiper/react";
 import { GeneralHistoryItem } from "./GeneralHistoryItem";
 
@@ -13,7 +14,21 @@ export const GeneralHistorySliderPC = () => {
       <SwiperComponent
         slidesPerView={width >= withResponsive._1280 ? 3 : 2}
         style={{ height: 700 }}
+        freeMode
+        modules={[FreeMode]}
       >
+        <SwiperSlide>
+          <GeneralHistoryItem />
+        </SwiperSlide>
+        <SwiperSlide>
+          <GeneralHistoryItem isReverse />
+        </SwiperSlide>
+        <SwiperSlide>
+          <GeneralHistoryItem />
+        </SwiperSlide>
+        <SwiperSlide>
+          <GeneralHistoryItem isReverse />
+        </SwiperSlide>
         <SwiperSlide>
           <GeneralHistoryItem />
         </SwiperSlide>

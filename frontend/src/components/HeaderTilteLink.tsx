@@ -30,7 +30,7 @@ export const HeaderTilteLink = () => {
     <HeaderTitle
       prefix={params.pathname.split("/")[1]}
       title={subQuery?.name ?? ""}
-      listLink={subNavs.filter((item) => item.path !== subQuery?.path)}
+      listLink={subNavs.filter((item) => (item.path !== subQuery?.path || item?.isHiden))}
     />
   );
 };
@@ -75,8 +75,6 @@ const HeaderTitle = ({ title, listLink, prefix }: Props) => {
   const handleShow = () => {
     setIsShow(!isShow);
   };
-
-  console.log(listLink.slice(limitSlice).length)
 
   return (
     <div className="w-rp flex flex-1 flex-row  items-center mt-[40px] xl:mt-[94px]">
