@@ -92,7 +92,7 @@ const HeaderTitle = ({ title, listLink, prefix }: Props) => {
           </span>
           <ICArrowDown />
           <ul
-            className={clsx("w-[150px]  overflow-hidden h-0 ease-in duration-300 absolute top-[100%] right-0 shadow-lg",{ "footer-animation-list": isShow })}
+            className={clsx("w-[150px] z-[10] overflow-hidden h-0 ease-in duration-300 absolute top-[100%] right-0 shadow-lg",{ "footer-animation-list": isShow })}
             style={{
               ["--footer-size" as string]: listLink.slice(limitSlice).length,
               ["--height-li" as string]: "32px",
@@ -103,7 +103,7 @@ const HeaderTitle = ({ title, listLink, prefix }: Props) => {
               return (
                 <li key={index} className="h-[32px] flex items-center border-b-[1px] border-solid border-br_E9ECEF px-[16px]">
                   <Link
-                    to={`/${prefix}/${item.path ? `/${item.path}` : ""}`}
+                    to={`/${prefix}${item.path ? `/${item.path}` : ""}`}
                     className="text-[14px] hover:text-primary duration-300 w-auto line-clamp-1"
                   >
                     {t(item.name)}
