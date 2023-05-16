@@ -44,7 +44,7 @@ type TitleProps = {
 const NewTextOptions = ({ title, path}: TitleProps) => {
   const { t } = useContext(TranslateContext);
   return (
-    <Link to={path} className="ml-[16px] xl:ml-[24px] text-text_primary text-_14 xl:text-_18  font-semibold">
+    <Link to={path} className="ml-[16px] xl:ml-[24px] text-text_primary text-_14 xl:text-_18  font-semibold line-clamp-1">
       {t(title)}
     </Link>
   );
@@ -79,7 +79,7 @@ const HeaderTitle = ({ title, listLink, prefix }: Props) => {
 
   return (
     <div className="w-rp flex flex-1 flex-row  items-center mt-[40px] xl:mt-[94px]">
-      <p className="text-_24 font-semibold xl:text-_40 xl:font-bold text-text_primary mr-[24px]">
+      <p className="text-_24 font-semibold xl:text-_40 xl:font-bold text-text_primary mr-[24px] line-clamp-1">
         {t(title)}
       </p>
       <div className="h-[2px]  bg-bg_7E8B99 flex-1"></div>
