@@ -73,8 +73,7 @@ export const HeaderNavigation = () => {
 const HeaderNavigationLink = ({
   withArrow = false,
   text,
-  to,
-  withSlash = true,
+  to
 }: {
   withArrow?: boolean;
   text: string;

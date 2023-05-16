@@ -29,6 +29,7 @@
     "noEmit": true,
     "isolatedModules": true,
     "allowJs": true,
+    "ignoreDeprecations": "5.0",
     "paths": {
       "@services/*":["services/*"],
       "@constants/*":["constants/*"],
@@ -39,7 +40,7 @@
       "@features/*":["features/*"],
       "@contexts/*":["contexts/*"],
       "@assets/*":["assets/*"],
-      "@types/*":["types*"],
+      "@types/*":["typeRules/*"],
     },
     "allowSyntheticDefaultImports": true, 
   },

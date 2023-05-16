@@ -1,5 +1,5 @@
 import { Colors } from '@constants/color'
-import type { IIcon } from '@types/icon'
+import type { IIcon } from 'typeRules/icon'
 import React from 'react'
 
 export const ICArrowSeeMore = ({color = Colors.text_white, width = 67, height = 12}:IIcon) => {

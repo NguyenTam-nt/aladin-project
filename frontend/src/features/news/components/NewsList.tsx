@@ -30,7 +30,7 @@ const data = [1,2,3,4,5,6]
 const NewsList = () => {
   return (
     <div className="grid grid-cols-3 gap-[24px] mt-[24px]">
-      {data.map((item) => (
+      {data.map(() => (
         <NewsItem></NewsItem>
       ))}
     

@@ -42,7 +42,7 @@ export const HomeTopicNoticeSlider = ({
       {noticeCountItems.map((_, index) => {
         return (
           <SwiperSlide key={index}>
-            {data.slice(index * 6, 6*(index+1)).map((item, index) => {
+            {data.slice(index * 6, 6*(index+1)).map((_, index) => {
               return <HomeNoticeSliderItem key={index} />;
             })}
           </SwiperSlide>

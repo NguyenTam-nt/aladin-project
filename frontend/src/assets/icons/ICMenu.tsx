@@ -1,5 +1,5 @@
 import { Colors } from '@constants/color'
-import type { IIcon } from '@types/icon'
+import type { IIcon } from 'typeRules/icon'
 import React from 'react'
 
 export const ICMenu = ({color = Colors.text_secondary, width = 24, height = 24}:IIcon) => {

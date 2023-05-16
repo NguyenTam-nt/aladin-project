@@ -1,6 +1,6 @@
 import React from "react";
 import { Colors } from "@constants/color";
-import type { IIcon } from "@types/icon";
+import type { IIcon } from "typeRules/icon";
 
 export const ICEye = ({
   color = Colors.text_7E8B99,

@@ -1,5 +1,5 @@
 import React from 'react'
-import type { IIcon } from '@types/icon'
+import type { IIcon } from 'typeRules/icon'
 
 export const ICSearch = ({color = "#272E35", width = 24, height = 24}:IIcon) => {
   return (

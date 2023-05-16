@@ -1,4 +1,4 @@
-import React, { memo, useMemo } from "react";
+import React, { memo } from "react";
 import { HomeTopicNewsItem } from "./HomeTopicNewsItem";
 import { SwiperSlide } from "swiper/react";
 import { SwiperComponent } from "@components/SwiperComponent";

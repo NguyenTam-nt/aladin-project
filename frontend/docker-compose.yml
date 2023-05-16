@@ -1,0 +1,8 @@
+version: "3.7"
+services:
+  anfico:
+    build:
+      context: .
+    container_name: hcm-fontend
+    ports:
+      - "8000:3000" # map 80 in container => 3000 in local
