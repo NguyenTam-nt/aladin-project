@@ -34,6 +34,11 @@
             "admissions": "Tuyển sinh",
             "documents": "Tài liệu - văn bản",
             "cadres": "Cán bộ",
+            "sub_cadres": {
+               "_cadres" : "Danh sách cán bộ" ,
+               "_cadres1" : "Giảng viên và chuyên viên cơ hữu",
+               "_cadres2" : "Giảng viên tình nguyện và phái cử"
+            },
             "subject": "Bộ môn",
             "library_image": "Thư viện ảnh",
             "video": "Video"

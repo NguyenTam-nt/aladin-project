@@ -13,7 +13,7 @@ const RelatedItem = () => {
         <p className=" text-_12 bg-green-600 text-center font-bold text-text_white leading-[20px] px-[16px] inline-block ">
           Tag green
         </p>
-        <p className=" text-_18 font-bold leading-[32px] text-text_black  mt-[10px]">
+        <p className=" text-_18 font-bold leading-[32px] text-text_black  mt-[10px] line-clamp-1">
           Nulla ullamcorper volutpat.
         </p>
         <p className=" text-_14 text-text_black mt-[8px]">
@@ -27,7 +27,7 @@ const RelatedItem = () => {
 const NewsRelated = () => {
   return (
     <div className="">
-      <p className=" text-_40 font-semibold text-text_primary mb-[56px]">
+      <p className=" text-_24 xl:text-_40  font-semibold text-text_primary mb-[24px] xl:mb-[56px] mt-[40px] xl:mt-[0px]">
         Bài viết liên quan
       </p>
       {[1, 2, 3].map((item) => (
