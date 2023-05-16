@@ -30,7 +30,7 @@ const NewsRelated = () => {
       <p className=" text-_24 xl:text-_40  font-semibold text-text_primary mb-[24px] xl:mb-[56px] mt-[40px] xl:mt-[0px]">
         Bài viết liên quan
       </p>
-      {[1, 2, 3].map((item) => (
+      {[1, 2, 3].map((_) => (
         <RelatedItem></RelatedItem>
       ))}
     </div>

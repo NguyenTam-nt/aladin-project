@@ -1,10 +1,7 @@
 
 import { ImageTranslation } from "@components/ImageTranslation";
-import React, { useContext, useMemo } from "react";
+import React from "react";
 import Pagination from "./Paginnation";
-import { TranslateContext } from "@contexts/Translation";
-import useWindowResize from "@hooks/useWindowResize";
-import { withResponsive } from "@constants/container";
 
 
 
@@ -37,7 +34,7 @@ const NewsList = () => {
   return (
     <>
       <div className="grid grid-cols-1 xl:grid-cols-3 gap-[24px] mt-[24px]">
-        {data.map((item) => (
+        {data.map((_) => (
           <NewsItem></NewsItem>
         ))}
      

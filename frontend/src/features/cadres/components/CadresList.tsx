@@ -22,13 +22,14 @@ const data = [1, 2, 3, 4, 5, 6, 7, 8];
 
 const CadresList = () => {
   return (
-    <div>      
-    <div className="grid grid-cols-2   xl:grid-cols-4 gap-[24px] mt-[24px]">
-      {data.map((item) => (
+    <>
+    <div className="grid grid-cols-4 gap-[24px] mt-[24px]">
+      {data.map((_) => (
         <NewsItem></NewsItem>
       ))}
     </div>
-    <Pagination currentPage={1} totalPages={30} /></div>
+    <Pagination currentPage={1} totalPages={30} />
+    </>
   );
 };
 

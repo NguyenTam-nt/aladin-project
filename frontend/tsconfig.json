@@ -40,7 +40,7 @@
       "@features/*":["features/*"],
       "@contexts/*":["contexts/*"],
       "@assets/*":["assets/*"],
-      "@types/*":["typeRules/*"],
+      "@typeRules/*":["typeRules/*"],
     },
     "allowSyntheticDefaultImports": true, 
   },

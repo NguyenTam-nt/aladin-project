@@ -1,5 +1,4 @@
 import { ICArrowNextPage } from "@assets/icons/ICArrowNextPage";
-import { ICArrowSeeMore } from "@assets/icons/ICArrowSeeMore";
 import { Colors } from "@constants/color";
 import React, { useState } from "react";
 
