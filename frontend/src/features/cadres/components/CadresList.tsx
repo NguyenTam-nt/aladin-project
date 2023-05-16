@@ -22,7 +22,7 @@ const data = [1, 2, 3, 4, 5, 6, 7, 8];
 const CadresList = () => {
   return (
     <div className="grid grid-cols-4 gap-[24px] mt-[24px]">
-      {data.map((item) => (
+      {data.map((_) => (
         <NewsItem></NewsItem>
       ))}
     </div>
