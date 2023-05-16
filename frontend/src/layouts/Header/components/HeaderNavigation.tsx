@@ -62,7 +62,6 @@ export const HeaderNavigation = () => {
                 </li>
               );
             })}
-           
           </ul>
         </div>
       </div>
@@ -98,7 +97,7 @@ const HeaderNavigationLink = ({
   );
 };
 
-const HeaderSubNavigationLink = ({
+export const HeaderSubNavigationLink = ({
   text,
   to,
 }: {

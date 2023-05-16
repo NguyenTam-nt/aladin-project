@@ -22,20 +22,20 @@ const bannerItem = [
 
 const NewsBanner = () => {
   return (
-    <div className="grid grid-cols-3  gap-[24px] h-[435px] mt-[40px]">
-      <div className="col-span-2  overflow-hidden  relative">
+    <div className="grid grid-cols-1 xl:grid-cols-3 gap-[24px] mt-[40px]">
+      <div className="col-span-1 xl:col-span-2  overflow-hidden h-[435px]  relative">
         <ImageTranslation link={bannerItem[0].image} />
         <div className=" absolute  bottom-[24px]  left-0 mx-[24px] ">
           <p className=" text-_12 bg-green-600 text-center font-bold text-text_white leading-[20px] px-[16px] inline-block ">
             {bannerItem[0].tagName}
           </p>
-          <p className=" text-_18 font-bold leading-[32px] text-text_white mt-[10px]">
+          <p className=" text-_18 font-bold leading-[32px] text-text_white mt-[10px] line-clamp-3">
             {bannerItem[0].title}
           </p>
           <p className=" text-_14  text-text_white">{bannerItem[0].time}</p>
         </div>
       </div>
-      <div className="overflow-hidden  relative">
+      <div className="overflow-hidden h-[435px]  relative">
         <ImageTranslation link={bannerItem[1].image}></ImageTranslation>
         <div className=" absolute  bottom-[24px]  left-0 mx-[24px] ">
           <p className=" text-_12 bg-green-600 text-center font-bold text-text_white leading-[20px] px-[16px] inline-block ">

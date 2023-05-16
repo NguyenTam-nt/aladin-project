@@ -1,7 +1,10 @@
 
 import { ImageTranslation } from "@components/ImageTranslation";
-import React from "react";
-
+import React, { useContext, useMemo } from "react";
+import Pagination from "./Paginnation";
+import { TranslateContext } from "@contexts/Translation";
+import useWindowResize from "@hooks/useWindowResize";
+import { withResponsive } from "@constants/container";
 
 
 
@@ -24,18 +27,29 @@ const NewsItem = () => {
   );
 }; 
 
+
+
 const data = [1,2,3,4,5,6]
 
 
 const NewsList = () => {
+
   return (
-    <div className="grid grid-cols-3 gap-[24px] mt-[24px]">
-      {data.map(() => (
-        <NewsItem></NewsItem>
-      ))}
-    
-    </div>
+    <>
+      <div className="grid grid-cols-1 xl:grid-cols-3 gap-[24px] mt-[24px]">
+        {data.map((item) => (
+          <NewsItem></NewsItem>
+        ))}
+     
+      </div>
+      <Pagination currentPage={0} totalPages={30} />
+    </>
   );
 };
+
+
+
+
+
 
 export default NewsList;
