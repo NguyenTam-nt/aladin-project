@@ -1,5 +1,5 @@
 import React from 'react'
-import type { IIcon } from '@types/icon'
+import type { IIcon } from 'typeRules/icon'
 import { Colors } from '@constants/color'
 
 export const ICInSocial = ({color = Colors.secondary, width = 20, height = 20}:IIcon) => {

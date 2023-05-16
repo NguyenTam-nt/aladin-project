@@ -20,7 +20,7 @@ export const ImageTranslation = ({ link }: { link: string }) => {
     refImage.current!.style.transformOrigin = `${offsetX}px ${offsetY}px`;
   };
 
-  const handleMouseOut = (e: MouseEvent<HTMLImageElement>) => {
+  const handleMouseOut = () => {
 
     refImage.current!.style.transition = "all 0.25s cubic-bezier(0.77, 0, 0.175, 1)"
   };

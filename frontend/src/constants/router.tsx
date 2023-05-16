@@ -4,6 +4,7 @@ import React, { lazy } from "react"
 const HomePage = lazy(() => import("../features/home"))
 const AboutPage = lazy(() => import("../features/abouts"))
 const GeneralPage = lazy(() => import("../features/abouts/components/general"))
+const BrandPage = lazy(() => import("../features/abouts/components/Brand"))
 const NewsPage = lazy(() => import("../features/news"))
 const NewsDetailPage = lazy(() => import("../features/newsDetail"))
 const CadresPage = lazy(() => import("../features/cadres"))
@@ -85,7 +86,7 @@ export const rootRouter:IRouter[] = [
             {
                 path: paths.about.brand,
                 name: "home.header.navigation.sub_abouts._brand",
-                element: DemoElement
+                element: BrandPage
             },
             {
                 path: paths.about.structure,

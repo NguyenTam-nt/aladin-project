@@ -3,7 +3,7 @@ import { ICArowRight } from "@assets/icons/ICArowRight";
 import { SwiperComponent } from "@components/SwiperComponent";
 import { useSwiperNavigationRef } from "@hooks/useSwiperNavigationRef";
 import React, { useEffect, useRef, useState } from "react";
-import { FreeMode, Navigation, Thumbs } from "swiper";
+import { Navigation, Thumbs } from "swiper";
 import { SwiperSlide } from "swiper/react";
 
 export const BannerSlider = () => {
@@ -28,9 +28,10 @@ export const BannerSlider = () => {
         thumbs={{
           swiper: activeThumb && !activeThumb?.destroyed ? activeThumb : null,
         }}
-        modules={[FreeMode, Navigation, Thumbs]}
+        modules={[Navigation, Thumbs]}
+
       >
-        {[1, 2, 3].map((item, index) => {
+        {[1, 2, 3].map((_, index) => {
           return (
             <SwiperSlide key={index}>
               <BannerVideoItem isActive={index === currentIndex} />
@@ -42,11 +43,10 @@ export const BannerSlider = () => {
       <div className="absolute max-w-fit  bottom-2 left-[50%] translate-x-[-50%] z-[5]">
         <SwiperComponent
           slidesPerView={3}
-          freeMode={true}
           onSwiper={setThumbActive}
           watchSlidesProgress={true}
           initialSlide={1}
-          modules={[Navigation, Thumbs, FreeMode]}
+          modules={[Navigation, Thumbs]}
           className="h-[20px] swiper-banner-home"
         >
           {[1, 2, 3].map((_, index) => {

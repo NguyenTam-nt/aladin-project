@@ -1,4 +1,4 @@
-import { ReactNode, createContext, useState, useMemo, useCallback } from "react";
+import { ReactNode, createContext, useState, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 
 export enum Ilanguage {
@@ -16,7 +16,7 @@ interface TranslateState {
 
 export const TranslateContext = createContext<TranslateState>({
   currentLanguage: (localStorage.getItem("i18nextLng") as Ilanguage) ?? "vi",
-  setLanguage: (language: Ilanguage) => {},
+  setLanguage: (_: Ilanguage) => {},
   t: null,
   isVn: true
 });

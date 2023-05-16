@@ -1,7 +1,7 @@
-import type { IIcon } from '@types/icon'
+import type { IIcon } from 'typeRules/icon'
 import React from 'react'
 
-export const Logo3 = ({color = "#272E35", width = 129, height = 24}:IIcon) => {
+export const Logo3 = ({width = 129, height = 24}:IIcon) => {
   return (
     <svg width={width} height={height} viewBox="0 0 129 24" fill="none" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink">
     <rect x="0.240234" width="128.727" height="24" fill="url(#pattern2)"/>

@@ -1,4 +1,4 @@
-import type { IIcon } from '@types/icon'
+import type { IIcon } from 'typeRules/icon'
 import React from 'react'
 
 export const ICArrowDown = ({color = "#272E35", width = 24, height = 24}:IIcon) => {

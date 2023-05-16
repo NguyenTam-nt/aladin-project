@@ -1,5 +1,5 @@
 import { SwiperComponent } from "@components/SwiperComponent";
-import { width, withResponsive } from "@constants/container";
+import { withResponsive } from "@constants/container";
 import useWindowResize from "@hooks/useWindowResize";
 import React, { useMemo } from "react";
 import { SwiperSlide } from "swiper/react";
