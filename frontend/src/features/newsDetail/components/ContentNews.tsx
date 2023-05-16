@@ -10,11 +10,10 @@ const contentData = {
 const ContentNews = () => {
   return (
     <div className="flex flex-1 flex-col">
-      <p className="mt-[32px] text-_40  font-semibold text-text_primary">
+      <p className="mt-[32px] text-_24 xl:text-_40  font-semibold text-text_primary line-clamp-4">
         {contentData.title}
       </p>
-
-      <p className="text-_14  font-normal mt-1 text-text_secondary">
+      <p className="text-_14  font-normal mt-1 text-text_secondary ">
         {contentData.time}
       </p>
       <div className="h-[1px] bg-bg_7E8B99 my-1 "></div>

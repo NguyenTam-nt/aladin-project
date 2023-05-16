@@ -39,7 +39,7 @@ const NewsList = () => {
         ))}
      
       </div>
-      <Pagination currentPage={0} totalPages={30} />
+      <Pagination currentPage={1} totalPages={30} />
     </>
   );
 };

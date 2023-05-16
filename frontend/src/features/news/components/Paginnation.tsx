@@ -68,7 +68,7 @@ const Pagination = (props: IPagination) => {
   };
 
   return (
-    <div className="hidden  xl:flex flex-1 flex-row  items-center justify-center mt-[40px] ">
+    <div className="flex flex-1 flex-row  items-center justify-center mt-[32px] xl:mt-[40px] ">
       <button
         onClick={prevPage}
         disabled={currentPage === 1}
