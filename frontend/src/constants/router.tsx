@@ -13,6 +13,7 @@ import { BrochurePage } from "@features/abouts/components/brochure";
 import { Structure } from "@features/abouts/components/structure";
 import React, { lazy } from "react";
 import { Outlet } from "react-router-dom";
+import AdmissionsNews from "@features/news/admissionsNews/admissionsNews"
 
 
 
@@ -162,12 +163,12 @@ export const rootRouter: IRouter[] = [
       {
         path: paths.news.career,
         name: "home.header.navigation.sub_news._career",
-        element: DemoElement,
+        element: CareerNews,
       },
       {
         path: paths.news.admissions,
         name: "home.header.navigation.admissions",
-        element: DemoElement,
+        element: AdmissionsNews,
       },
       {
         path: paths.news.detail,
