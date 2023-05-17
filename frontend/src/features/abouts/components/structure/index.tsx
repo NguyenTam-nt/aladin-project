@@ -149,13 +149,13 @@ const StructureItem = ({ data }: Props) => {
             })}
           </SwiperComponent>
          {NavigationElement}
-            <div onClick={handlePre} className="z-[2] cursor-pointer border-[1px] border-solid border-br_E9ECEF absolute top-[50%] left-[-12px] lg:left-[-20px] translate-y-[-50%] w-[24px] h-[24px] lg:w-[40px] lg:h-[40px] flex justify-center items-center bg-bg_225_225_225_07">
+            <button onClick={handlePre} className="z-[2] cursor-pointer border-[1px] border-solid border-br_E9ECEF absolute top-[50%] left-[-12px] lg:left-[-20px] translate-y-[-50%] w-[24px] h-[24px] lg:w-[40px] lg:h-[40px] flex justify-center items-center bg-bg_225_225_225_07">
                 <ICArowLeft width={8} height={16} color={Colors.text_secondary} />
-            </div> 
+            </button> 
 
-            <div onClick={handleNext} className="z-[2] cursor-pointer border-[1px] border-solid border-br_E9ECEF absolute top-[50%] right-[-12px] lg:right-[-20px] translate-y-[-50%] w-[24px] h-[24px] lg:w-[40px] lg:h-[40px] flex justify-center items-center bg-bg_225_225_225_07">
+            <button onClick={handleNext} className="z-[2] cursor-pointer border-[1px] border-solid border-br_E9ECEF absolute top-[50%] right-[-12px] lg:right-[-20px] translate-y-[-50%] w-[24px] h-[24px] lg:w-[40px] lg:h-[40px] flex justify-center items-center bg-bg_225_225_225_07">
                 <ICArowRight width={8} height={16} color={Colors.text_secondary} />
-            </div>
+            </button>
         </div>
       </div>
     </div>
