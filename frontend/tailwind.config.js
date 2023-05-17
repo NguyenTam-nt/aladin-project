@@ -31,7 +31,8 @@ export default {
         text_7E8B99: "#7E8B99",
         bg_0_0_0_003 : "rgba(0, 0, 0, 0.3)",
         bg_F8F8F8: "#F8F8F8",
-        bg_9EA8B3: "#9EA8B3"
+        bg_9EA8B3: "#9EA8B3",
+        bg_272E35 : "#272E35"
       },
       screens: {
         _320: '320px',

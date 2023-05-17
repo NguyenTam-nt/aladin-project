@@ -1,6 +1,5 @@
 import { ICArowLeft } from "@assets/icons/ICArowLeft";
 import { ICArowRight } from "@assets/icons/ICArowRight";
-import { ImageTranslation } from "@components/ImageTranslation";
 import { SwiperComponent } from "@components/SwiperComponent";
 import { Colors } from "@constants/color";
 import { withResponsive } from "@constants/container";

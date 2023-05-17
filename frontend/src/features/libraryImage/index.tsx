@@ -1,20 +1,18 @@
 import { HeaderTilteLink } from "@components/HeaderTilteLink";
-import NewsBanner from "./components/NewsBanner";
-import NewsList from "./components/NewsList";
-import { Outlet } from "react-router-dom";
+import React from "react";
+import ImagesList from "./components/ImageList";
 import { Banner } from "@features/abouts/components/Banner";
 import { LinkPageHeader } from "@components/LinkPageHeader";
 
-const NewsPage = () => {
-  
+const LibraryImage = () => {
   return (
-    <>
-       <Banner></Banner>
+    <div>
+      <Banner></Banner>
       <LinkPageHeader />
       <HeaderTilteLink></HeaderTilteLink>
-      <Outlet></Outlet>
-    </>
+      <ImagesList></ImagesList>
+    </div>
   );
 };
 
-export default NewsPage;
+export default LibraryImage;

@@ -78,7 +78,7 @@ const HeaderTitle = ({ title, listLink, prefix }: Props) => {
   };
 
   return (
-    <div className="w-rp flex flex-1 flex-row  items-center mt-[40px] xl:mt-[94px]">
+    <div className="w-rp flex flex-1 flex-row  items-center   mt-[40px] xl:mt-[94px]">
       <p className="text-_24 font-semibold xl:text-_40 xl:font-bold text-text_primary mr-[24px] line-clamp-1">
         {t(title)}
       </p>

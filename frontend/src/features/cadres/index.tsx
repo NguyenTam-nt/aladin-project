@@ -1,14 +1,20 @@
-import NewsHeader from "@features/news/components/NewsHeader";
-import CadresList from "./components/CadresList";
+import { Banner } from "@features/abouts/components/Banner";
+import { HeaderTilteLink } from "@components/HeaderTilteLink";
 
+import { LinkPageHeader } from "@components/LinkPageHeader";
+import CadresList from "./components/CadresList";
+import { Outlet } from "react-router-dom";
 
 const CadresPage = () => {
   return (
-    <div className="w-rp  justify-between items-center  pb-[120px]">
-      <NewsHeader></NewsHeader>
-      <CadresList></CadresList>
-
-    </div>
+    <>
+      <Banner></Banner>
+      <LinkPageHeader />
+      <HeaderTilteLink></HeaderTilteLink>;
+      <div className="w-rp  justify-between items-center  pb-[41px] xl:pb-[120px]">
+       <Outlet></Outlet>
+      </div>
+    </>
   );
 };
 

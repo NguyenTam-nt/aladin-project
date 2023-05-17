@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect,  useState } from "react";
 import Logo from "@assets/images/logo.jpg";
 import { TranslateContext } from "@contexts/Translation";
 import { HeaderNavigation } from "./HeaderNavigation";

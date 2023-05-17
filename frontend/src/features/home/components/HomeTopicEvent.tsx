@@ -5,6 +5,7 @@ import { HomeTopicEventItem } from "./HomeTopicEventItem";
 
 export const HomeTopicEvent = () => {
   const {width} = useWindowResize()
+
   return (
     <div className="grid grid-cols-1 m992:grid-cols-2">
      <HomeTopicEventItem />
