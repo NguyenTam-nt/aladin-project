@@ -21,7 +21,7 @@
             },
             "news": "뉴스",
             "sub_news": {
-                "_news": "List of news",
+                "_news": "뉴스 목록",
                 "_train": "기차",
                 "_study": "과학적 연구",
                 "_scholarship": "장학금",
@@ -41,7 +41,8 @@
              },
             "subject": "제목",
             "library_image": "갤러리",
-            "video": "동영상"
+            "video": "동영상" ,
+            "library_video": "비디오 라이브러리"
         }
        },
        "footer": {
