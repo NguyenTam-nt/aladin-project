@@ -2,7 +2,7 @@ import React from "react";
 import GeneralDetailBuild from "./GeneralDetailBuild";
 import { GeneralHistory } from "./GeneralHistory";
 
-const General = () => {
+const GeneralPage = () => {
   return (
     <div className="w-rp my-[44px]">
       <GeneralHistory />
@@ -11,4 +11,4 @@ const General = () => {
   );
 };
 
-export default General;
+export default GeneralPage;

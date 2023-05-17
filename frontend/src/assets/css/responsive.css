@@ -85,7 +85,7 @@
   }
 
   .w-rp-l {
-    @apply  3xl:w-[1637px] w-[90vw] mx-auto;
+    @apply  3xl:w-[1637px] lg:w-[90vw] w-full mx-auto;
   }
 
   .line-about-general {

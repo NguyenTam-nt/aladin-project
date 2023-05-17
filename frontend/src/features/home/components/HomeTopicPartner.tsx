@@ -1,10 +1,27 @@
 import BannerProposal from "@assets/images/home_banner_proposal.png";
 import BannerBg from "@assets/images/home_banner_bg.png";
+import Company1 from "@assets/images/Company1.png";
+import Company2 from "@assets/images/Company2.png";
+import Company3 from "@assets/images/Company3.png";
+import Company4 from "@assets/images/Company4.jpg";
+import Company5 from "@assets/images/Company5.jpg";
+import Company6 from "@assets/images/Company6.jpg";
+import Company7 from "@assets/images/Company7.jpg";
 import LogoPartner from "@assets/images/logo_partner.png";
 import { SwiperComponent } from "@components/SwiperComponent";
 import { SwiperSlide } from "swiper/react";
 import useWindowResize from "@hooks/useWindowResize";
 import { withResponsive } from "@constants/container";
+
+const data = [
+  Company1,
+  Company2,
+  Company3,
+  Company4,
+  Company5,
+  Company6,
+  Company7,
+]
 
 export const HomeTopicPartner = () => {
   const { width } = useWindowResize();
@@ -29,10 +46,10 @@ export const HomeTopicPartner = () => {
             slidesPerView={width > withResponsive._1280 ? 7 : width > withResponsive._768 ? 5 : 3}
             spaceBetween={24}
           >
-            {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((_, index) => {
+            {data.map((item, index) => {
               return (
                 <SwiperSlide key={index}>
-                  <img src={LogoPartner} alt="" />
+                  <img src={item} alt="" />
                 </SwiperSlide>
               );
             })}

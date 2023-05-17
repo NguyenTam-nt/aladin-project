@@ -107,26 +107,53 @@ overflow: hidden;
 
 .active-header {
     
-    position: fixed;
+    position: fixed !important;
     top: 0;
     left: 0;
     right: 0;
     
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.04);
     /* transition: all 0.25s ease; */
-    z-index: 10;
+    z-index: 13 !important;
     animation: sliderToBottom linear 0.25s;
 
 }
 
+.to-top {
+    z-index: 0;
+    animation: sliderToTop linear 0.25s forwards;
+}
+
+.modal-sidebar {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.3);
+    z-index: 8;
+    margin-top: 88px;
+  }
+  
+
 @keyframes sliderToBottom {
     from {
         transform: translateY(-20px);
-        opacity: 0;
+        /* opacity: 0; */
     }
 
     to {
         transform: translateY(0);
+        /* opacity: 1; */
+    }
+}
+
+
+@keyframes sliderToTop {
+    from {
+        transform: translateY(0px);
         opacity: 1;
+    }
+
+    to {
+        transform: translateY(-40px);
+        opacity: 0;
     }
 }
