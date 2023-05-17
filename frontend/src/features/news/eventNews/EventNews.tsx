@@ -1,10 +1,15 @@
 import React from 'react';
-import NewsPage from '..';
+import NewsList from '../components/NewsList';
+import NewsBanner from '../components/NewsBanner';
 
 
 const EventNews = () => {
-
-  return <NewsPage></NewsPage>;
+  return (
+    <div className="w-rp  justify-between items-center mb-[120px] ">
+      <NewsBanner />
+      <NewsList />
+    </div>
+  );
 };
 
 export default EventNews

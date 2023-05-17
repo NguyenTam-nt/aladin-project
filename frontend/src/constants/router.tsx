@@ -14,6 +14,8 @@ import { Structure } from "@features/abouts/components/structure";
 import React, { lazy } from "react";
 import { Outlet } from "react-router-dom";
 import AdmissionsNews from "@features/news/admissionsNews/admissionsNews"
+import CadresPage from "@features/cadres"
+
 
 
 
@@ -25,6 +27,7 @@ const GeneralPage = lazy(() => import("../features/abouts/components/general"))
 const BrandPage = lazy(() => import("../features/abouts/components/Brand"))
 const NewsDetailPage = lazy(() => import("../features/newsDetail"))
 const LibraryImage  =lazy(() => import("../features/libraryImage"))
+const NewsPage = lazy(() => import("../features/news"))
 
 const DemoElement = () => <div className="text-_40 text-[red] font-bold flex justify-center h-[100px] items-center">Trang này chưa code đâu nhé!</div>
 const NullElement = () => <Outlet></Outlet>
@@ -127,7 +130,7 @@ export const rootRouter: IRouter[] = [
   {
     path: paths.news.prefix,
     name: "home.header.navigation.news",
-    element: NullElement,
+    element: NewsPage,
     subNavs: [
       {
         path: paths.news.news,
@@ -192,7 +195,7 @@ export const rootRouter: IRouter[] = [
   {
     path: paths.cadres.prefix,
     name: "home.header.navigation.cadres",
-    element: NullElement,
+    element: CadresPage,
     isHiden: true,
     subNavs: [
       {

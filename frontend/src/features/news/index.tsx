@@ -1,15 +1,18 @@
 import { HeaderTilteLink } from "@components/HeaderTilteLink";
 import NewsBanner from "./components/NewsBanner";
 import NewsList from "./components/NewsList";
+import { Outlet } from "react-router-dom";
+import { Banner } from "@features/abouts/components/Banner";
+import { LinkPageHeader } from "@components/LinkPageHeader";
 
-const NewsPage = (data : any) => {
+const NewsPage = () => {
+  
   return (
     <>
-    <HeaderTilteLink></HeaderTilteLink>
-    <div className="w-rp  justify-between items-center mb-[120px] ">
-     <NewsBanner/>
-     <NewsList/>
-    </div>
+       <Banner></Banner>
+      <LinkPageHeader />
+      <HeaderTilteLink></HeaderTilteLink>
+      <Outlet></Outlet>
     </>
   );
 };
