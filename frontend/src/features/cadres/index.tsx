@@ -1,6 +1,5 @@
 import NewsHeader from "@features/news/components/NewsHeader";
 import CadresList from "./components/CadresList";
-import Pagination from "@features/news/components/Paginnation";
 
 
 const CadresPage = () => {

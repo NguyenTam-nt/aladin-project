@@ -125,3 +125,21 @@ input::placeholder {
   left: -7.5px;
 }
 
+/* .side-bar {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  z-index: 12;
+} */
+
+.side-bar-show {
+  transform: translateX(0);
+  transition: all ease 0.5s;
+}
+
+.side-bar-hide {
+  transform: translateX(-100%);
+  transition: all ease 0.5s;
+}
+
+

@@ -3,7 +3,7 @@ import { TranslateContext } from "@contexts/Translation";
 import React, { useContext } from "react";
 import { BannerSlider } from "./BannerSlider";
 
-export const Banner = () => {
+export const Banner = React.memo(() => {
   const {t} = useContext(TranslateContext)
 
   return (
@@ -17,6 +17,6 @@ export const Banner = () => {
       </div>
     </div>
   );
-};
+})
 
 
