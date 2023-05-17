@@ -41,7 +41,8 @@
             },
             "subject": "Bộ môn",
             "library_image": "Thư viện ảnh",
-            "video": "Video"
+            "video": "Video" ,
+            "library_video": "Thư viện video"
         }
        },
        "footer": {

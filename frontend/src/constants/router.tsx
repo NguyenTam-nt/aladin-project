@@ -1,3 +1,14 @@
+import AllCadres from "@features/cadres/allCadres/AllCadres"
+import InternshipCadres from "@features/cadres/internshipCadres/InternshipCadres"
+import PrimaryCadres from "@features/cadres/primaryCadres/PrimaryCadres"
+import LibraryVideo from "@features/libraryVideo"
+import AllNews from "@features/news/allNews"
+import CareerNews from "@features/news/careerNews/CareerNews"
+import EventNews from "@features/news/eventNews/EventNews"
+import ScholarshipNews from "@features/news/scholarshipNews/ScholarshipNews"
+import StudentNews from "@features/news/studentNews/StudentNews"
+import StudyNews from "@features/news/studyNews/studyNews"
+import TrainingNews from "@features/news/trainingNews/trainingNews"
 import React, { lazy } from "react"
 import { Outlet } from "react-router-dom"
 
@@ -9,6 +20,7 @@ const BrandPage = lazy(() => import("../features/abouts/components/Brand"))
 const NewsPage = lazy(() => import("../features/news"))
 const NewsDetailPage = lazy(() => import("../features/newsDetail"))
 const CadresPage = lazy(() => import("../features/cadres"))
+const LibraryImage  =lazy(() => import("../features/libraryImage"))
 
 const DemoElement = () => <div className="text-_40 text-[red] font-bold flex justify-center h-[100px] items-center">Trang này chưa code đâu nhé!</div>
 const NullElement = () => <Outlet></Outlet>
@@ -65,7 +77,9 @@ export const paths = {
         prefix: "/bo-mon"
     },
     library_image: {
-        prefix: "/thu-vien-hinh-anh"
+        prefix: "/thu-vien-hinh-anh" ,
+        library_image : ""
+
     },
     video: {
         prefix: "/video"
@@ -114,38 +128,38 @@ export const rootRouter: IRouter[] = [
       {
         path: paths.news.news,
         name: "home.header.navigation.sub_news._news",
-        element: NewsPage,
+        element: AllNews,
         isHiden: true,
       },
       {
-        path: paths.news.train,
+        path: paths.news.train ,
         name: "home.header.navigation.sub_news._train",
-        element: DemoElement,
+        element: TrainingNews,
       },
       {
         path: paths.news.study,
         name: "home.header.navigation.sub_news._study",
-        element: DemoElement,
+        element: StudyNews,
       },
       {
         path: paths.news.scholarship,
         name: "home.header.navigation.sub_news._scholarship",
-        element: DemoElement,
+        element: ScholarshipNews,
       },
       {
         path: paths.news.student,
         name: "home.header.navigation.sub_news._student",
-        element: DemoElement,
+        element: StudentNews,
       },
       {
         path: paths.news.event,
         name: "home.header.navigation.sub_news._event",
-        element: DemoElement,
+        element: EventNews,
       },
       {
         path: paths.news.career,
         name: "home.header.navigation.sub_news._career",
-        element: DemoElement,
+        element: CareerNews,
       },
       {
         path: paths.news.detail,
@@ -174,18 +188,18 @@ export const rootRouter: IRouter[] = [
       {
         path: paths.cadres.cadres,
         name: "home.header.navigation.sub_cadres._cadres",
-        element: CadresPage,
+        element: AllCadres,
         isHiden: true,
       },
       {
         path: paths.cadres.primary,
         name: "home.header.navigation.sub_cadres._cadres1",
-        element: DemoElement,
+        element: PrimaryCadres,
       },
       {
         path: paths.cadres.internship,
         name: "home.header.navigation.sub_cadres._cadres2",
-        element: DemoElement,
+        element: InternshipCadres,
       },
     ],
   },
@@ -197,11 +211,25 @@ export const rootRouter: IRouter[] = [
   {
     path: paths.library_image.prefix,
     name: "home.header.navigation.library_image",
-    element: DemoElement,
+    element: LibraryImage,
+    subNavs: [
+      {
+        path: paths.library_image.library_image,
+        name: "home.header.navigation.library_image",
+        element: LibraryImage,
+        isHiden: true,
+      },]
   },
   {
     path: paths.video.prefix,
-    name: "home.header.navigation.video",
-    element: DemoElement,
+    name: "home.header.navigation.library_video",
+    element: LibraryVideo,
+    subNavs: [
+      {
+        path: paths.library_image.library_image,
+        name: "home.header.navigation.library_video",
+        element: LibraryVideo,
+        isHiden: true,
+      },]
   },
 ];
