@@ -9,83 +9,86 @@ import ScholarshipNews from "@features/news/scholarshipNews/ScholarshipNews"
 import StudentNews from "@features/news/studentNews/StudentNews"
 import StudyNews from "@features/news/studyNews/studyNews"
 import TrainingNews from "@features/news/trainingNews/trainingNews"
-import React, { lazy } from "react"
-import { Outlet } from "react-router-dom"
+import { BrochurePage } from "@features/abouts/components/brochure";
+import { Structure } from "@features/abouts/components/structure";
+import React, { lazy } from "react";
+import { Outlet } from "react-router-dom";
+
+
+
 
 
 const HomePage = lazy(() => import("../features/home"))
 const AboutPage = lazy(() => import("../features/abouts"))
 const GeneralPage = lazy(() => import("../features/abouts/components/general"))
 const BrandPage = lazy(() => import("../features/abouts/components/Brand"))
-const NewsPage = lazy(() => import("../features/news"))
 const NewsDetailPage = lazy(() => import("../features/newsDetail"))
-const CadresPage = lazy(() => import("../features/cadres"))
 const LibraryImage  =lazy(() => import("../features/libraryImage"))
 
 const DemoElement = () => <div className="text-_40 text-[red] font-bold flex justify-center h-[100px] items-center">Trang này chưa code đâu nhé!</div>
 const NullElement = () => <Outlet></Outlet>
 
 interface IRouter {
-    path: string,
-    name: string,
-    element: any
-    subNavs?: {
-        path: string,
-        name: string,
-        element: any
-        isHiden?: boolean
-        isDetail?: boolean
-    }[]
+  path: string;
+  name: string;
+  element: any;
+  isHiden?: boolean;
+  subNavs?: {
+    path: string;
+    name: string;
+    element: any;
+    isHiden?: boolean;
+    isDetail?: boolean;
+  }[];
 }
 
 export const paths = {
-    home: {
-        prefix: "/",
-    },
-    about: {
-        prefix: "/gioi-thieu",
-        general: "",
-        brand: "thuong-hieu",
-        structure: "co-cau-to-chuc-nhan-su",
-        brochure: "brochure"
-    },
-    news: {
-        prefix: "/tin-tuc",
-        news: "",
-        train: "dao-tao",
-        study: "nghien-cuu-khoa-hoc",
-        scholarship: "hoc-bong",
-        student: "sinh-vien",
-        event: "su-kien",
-        career: "co-hoi-nghe-nghiep",
-        detail: "chi-tiet-tin-tuc",
-    },
-    admissions: {
-        prefix: "/tuyen-sinh"
-    },
-    documents: {
-        prefix: "tai-lieu-van-ban"
-    },
-    cadres: {
-        prefix: "/can-bo" ,
-        cadres : "",
-        primary : "can-bo-co-huu" ,
-        internship : "can-bo-thuu-tap"
-
-    },
-    subject: {
-        prefix: "/bo-mon"
-    },
-    library_image: {
-        prefix: "/thu-vien-hinh-anh" ,
+  home: {
+    prefix: "/",
+  },
+  about: {
+    prefix: "/gioi-thieu",
+    general: "",
+    brand: "thuong-hieu",
+    structure: "co-cau-to-chuc-nhan-su",
+    brochure: "brochure",
+  },
+  news: {
+    prefix: "/tin-tuc",
+    news: "",
+    train: "dao-tao",
+    study: "nghien-cuu-khoa-hoc",
+    scholarship: "hoc-bong",
+    student: "sinh-vien",
+    event: "su-kien",
+    career: "co-hoi-nghe-nghiep",
+    admissions: "tuyen-sinh",
+    detail: "chi-tiet-tin-tuc",
+  },
+  notice: {
+    prefix: "thông báo",
+  },
+  documents: {
+    prefix: "tai-lieu-van-ban",
+  },
+  cadres: {
+    prefix: "/can-bo",
+    cadres: "",
+    primary: "can-bo-co-huu",
+    internship: "can-bo-thuu-tap",
+  },
+  subject: {
+    prefix: "/bo-mon",
+  },
+  library_image: {
+    prefix: "/thu-vien-hinh-anh" ,
         library_image : ""
-
-    },
-    video: {
-        prefix: "/video"
-    }
-   
-}
+,
+  },
+  video: {
+    prefix: "/video",
+  },
+};
 
 export const rootRouter: IRouter[] = [
   {
@@ -111,12 +114,12 @@ export const rootRouter: IRouter[] = [
       {
         path: paths.about.structure,
         name: "home.header.navigation.sub_abouts._structure",
-        element: DemoElement,
+        element: Structure,
       },
       {
         path: paths.about.brochure,
         name: "home.header.navigation.sub_abouts._brochure",
-        element: DemoElement,
+        element: BrochurePage,
       },
     ],
   },
@@ -159,7 +162,12 @@ export const rootRouter: IRouter[] = [
       {
         path: paths.news.career,
         name: "home.header.navigation.sub_news._career",
-        element: CareerNews,
+        element: DemoElement,
+      },
+      {
+        path: paths.news.admissions,
+        name: "home.header.navigation.admissions",
+        element: DemoElement,
       },
       {
         path: paths.news.detail,
@@ -171,8 +179,8 @@ export const rootRouter: IRouter[] = [
     ],
   },
   {
-    path: paths.admissions.prefix,
-    name: "home.header.navigation.admissions",
+    path: paths.notice.prefix,
+    name: "home.header.navigation.notice",
     element: DemoElement,
   },
   {
@@ -184,6 +192,7 @@ export const rootRouter: IRouter[] = [
     path: paths.cadres.prefix,
     name: "home.header.navigation.cadres",
     element: NullElement,
+    isHiden: true,
     subNavs: [
       {
         path: paths.cadres.cadres,

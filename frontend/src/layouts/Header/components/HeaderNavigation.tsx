@@ -18,7 +18,7 @@ export const HeaderNavigation = () => {
               text={item.name ?? ""} 
               withArrow={!!item?.subNavs}
             />
-            {item?.subNavs && (
+            {item?.subNavs && !item?.isHiden && (
               <div
                 className="header-subnav-child shadow-lg"
                 style={{

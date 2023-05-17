@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import Logo from "@assets/images/logo.jpg";
 import { TranslateContext } from "@contexts/Translation";
 import { HeaderNavigation } from "./HeaderNavigation";
@@ -8,10 +8,15 @@ import { Link } from "react-router-dom";
 import useWindowResize from "@hooks/useWindowResize";
 import { withResponsive } from "@constants/container";
 import { paths } from "@constants/router";
+import { SidebarNavigation } from "./SidebarNavigation";
+import { HeaderCommon } from "./HeaderCommon";
 
 export const HeaderLogo = () => {
   const { t } = useContext(TranslateContext);
   const { width } = useWindowResize();
+
+  const [isShowSidebar, setShow] = useState(false);
+
   useEffect(() => {
     let lastIndex = 0;
     if (width <= withResponsive._1280) {
@@ -43,9 +48,35 @@ export const HeaderLogo = () => {
     };
   }, [width]);
 
+  useEffect(() => {
+    const header = document.getElementById("main-header");
+    const headersub = document.getElementById("header");
+    if (isShowSidebar) {
+      if (document.documentElement.scrollTop > 0) {
+        if (!header?.classList.contains("active-header")) {
+          header?.classList.add("active-header");
+        }
+      }
+      if(headersub)
+         headersub!.style.display = "none";
+    } else {
+      setTimeout(() => {
+        header?.classList.remove("active-header");
+        if(headersub) {
+          headersub!.style.display = "block";
+        }
+      }, 300)
+    }
+  }, [isShowSidebar]);
+
+  const handleShow = () => {
+    setShow(!isShowSidebar);
+  };
+
   return (
-    <>
-      <div className="w-rp h-[56px] xl:h-[120px] flex justify-between items-center duration-300 ease-in">
+    <div id="main-header">
+      <HeaderCommon />
+      <div className="bg-white border-b-[1px] border-solid border-br_E9ECEF w-rp h-[56px] xl:h-[120px] flex justify-between items-center duration-300 ease-in">
         <div className="flex items-center xl:w-[45%]">
           <Link
             to={paths.home.prefix}
@@ -67,17 +98,22 @@ export const HeaderLogo = () => {
           <HeaderNavigation />
         </div>
       </div>
-      <div
-        className="xl:hidden border-t-[1px] border-solid bg-text_white border-br_E9ECEF relative z-10 duration-300 ease-in"
-        id="header"
-      >
-        <div className="flex justify-between items-center w-rp bg-text_white h-[40px]">
-          <div>
-            <ICMenu />
+      {width < withResponsive._1280 ? (
+        <div
+          className="xl:hidden border-t-[1px] border-solid bg-text_white border-br_E9ECEF relative z-10 duration-300 ease-in"
+          id="header"
+        >
+          <div className="flex justify-between items-center w-rp bg-text_white h-[40px]">
+            <div className=" cursor-pointer" onClick={handleShow}>
+              <ICMenu />
+            </div>
+            <HeaderOption />
           </div>
-          <HeaderOption />
         </div>
-      </div>
-    </>
+      ) : null}
+      {width < withResponsive._1280 ? (
+        <SidebarNavigation isShowSidebar={isShowSidebar} onShow={handleShow} />
+      ) : null}
+    </div>
   );
 };
