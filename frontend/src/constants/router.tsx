@@ -1,5 +1,7 @@
 import BrandPage from "@features/abouts/components/Brand";
+import { BrochurePage } from "@features/abouts/components/brochure";
 import GeneralPage from "@features/abouts/components/general";
+import { Structure } from "@features/abouts/components/structure";
 import React, { lazy } from "react";
 import { Outlet } from "react-router-dom";
 
@@ -100,12 +102,12 @@ export const rootRouter: IRouter[] = [
       {
         path: paths.about.structure,
         name: "home.header.navigation.sub_abouts._structure",
-        element: DemoElement,
+        element: Structure,
       },
       {
         path: paths.about.brochure,
         name: "home.header.navigation.sub_abouts._brochure",
-        element: DemoElement,
+        element: BrochurePage,
       },
     ],
   },
