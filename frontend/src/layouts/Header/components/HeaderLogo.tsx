@@ -57,11 +57,14 @@ export const HeaderLogo = () => {
           header?.classList.add("active-header");
         }
       }
-     headersub!.style.display = "none";
+      if(headersub)
+         headersub!.style.display = "none";
     } else {
       setTimeout(() => {
         header?.classList.remove("active-header");
-        headersub!.style.display = "block";
+        if(headersub) {
+          headersub!.style.display = "block";
+        }
       }, 300)
     }
   }, [isShowSidebar]);

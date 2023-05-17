@@ -36,14 +36,14 @@ export const GeneralHistoryItem = ({ isReverse = false }: Props) => {
     <div className={clsx("flex h-full", colReverse)}>
       <div className="flex-1 flex justify-between">
         <div className={clsx("flex flex-col items-center", colReverse)}>
-            <TextYear year="1994" color={color.color} />
+            <TextYear year="1994" color={ colors[Math.floor(Math.random() * colors.length)].color} />
           <div
             className={clsx("line-about-general", {
               "line-down": !isReverse,
               "line-up": isReverse,
             })}
             style={{
-              ["--bg-color-line" as string]: color.bg,
+              ["--bg-color-line" as string]: colors[Math.floor(Math.random() * colors.length)].bg,
             }}
           />
         </div>
@@ -64,7 +64,7 @@ export const GeneralHistoryItem = ({ isReverse = false }: Props) => {
               "line-up": isReverse,
             })}
             style={{
-                ["--bg-color-line" as string]: color.bg,
+                ["--bg-color-line" as string]:  colors[Math.floor(Math.random() * colors.length)].bg,
               }}
           />
         </div>
@@ -87,7 +87,7 @@ export const GeneralHistoryItem = ({ isReverse = false }: Props) => {
               "line-down mt-[8px]": isReverse,
             })}
             style={{
-                ["--bg-color-line" as string]: color.bg,
+                ["--bg-color-line" as string]:  colors[Math.floor(Math.random() * colors.length)].bg,
               }}
           />
         </div>

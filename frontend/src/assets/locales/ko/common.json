@@ -3,6 +3,7 @@
         "create_day": "게시일",
         "_other": "기타",
         "_category": "카테고리",
-        "_search": "검색"
+        "_search": "검색",
+        "_month": "월"
     }
 }
