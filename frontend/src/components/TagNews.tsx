@@ -1,3 +1,4 @@
+import { typeColorTag } from "@features/news/components/NewsBanner";
 import clsx from "clsx";
 import React from "react"
 
@@ -11,11 +12,12 @@ const TagNews = (props : ITagNews) => {
   return (
     <p
       className={clsx(
-        "text-_12 text-center font-bold text-text_white leading-[20px] px-[16px] inline-block ",
-        color || "bg-green-600"
+        `text-_12 text-center font-bold text-text_white leading-[20px] px-[16px] inline-block ${
+          color || typeColorTag[Math.floor(Math.random() *typeColorTag.length)]
+        } `
       )}
     >
-     {title || "Tag green"}
+      {title || "Tag green"}
     </p>
   );
 };

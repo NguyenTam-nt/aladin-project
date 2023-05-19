@@ -20,6 +20,8 @@ import HomePage from "@features/home"
 import AboutPage from "@features/abouts"
 import AllSubject from "@features/subject/allSubject/AllSubject"
 import SubjectPage from "@features/subject"
+import NoticePage from "@features/notice"
+import AllNotice from "@features/notice/allNotice"
 
 
 
@@ -74,7 +76,11 @@ export const paths = {
     detail: "chi-tiet-tin-tuc",
   },
   notice: {
-    prefix: "thong-bao",
+    prefix: "/thong-bao",
+    _notice : "",
+    _government : "he-chinh-quy" , 
+    _postgraduate : "he-sau-dai-hoc" ,
+    _shortCourse : "khoa-hoc-ngan-han" ,
     detail: "chi-tiet-thong-bao",
   },
   documents: {
@@ -144,7 +150,7 @@ export const rootRouter: IRouter[] = [
         isHiden: true,
       },
       {
-        path: paths.news.train ,
+        path: paths.news.train,
         name: "home.header.navigation.sub_news._train",
         element: TrainingNews,
       },
@@ -190,16 +196,42 @@ export const rootRouter: IRouter[] = [
   {
     path: paths.notice.prefix,
     name: "home.header.navigation.notice",
-    element: DemoElement,
+    element: NoticePage,
     subNavs: [
       {
+        path: paths.notice._notice,
+        element: AllNotice,
+        name: "home.header.navigation.sub_notice._notice",
+        isHiden: true,
+      
+      },
+      {
+        path: paths.notice._government,
+        element: AllNotice,
+        name: "home.header.navigation.sub_notice._government",
+        isHiden: true,
+      },
+      {
+        path: paths.notice._postgraduate,
+        element: AllNotice,
+        name: "home.header.navigation.sub_notice._postgraduate",
+        isHiden: true,
+      },
+      {
+        path: paths.notice._shortCourse,
+        element: AllNotice,
+        name: "home.header.navigation.sub_notice._shortCourse",
+        isHiden: true,
+      },
+      {
         path: paths.notice.detail,
-        element: DemoElement,
+        element: NewsDetailPage,
         name: "home.header.navigation.sub_news._detail",
         isHiden: true,
         isDetail: true,
       },
-    ]
+
+    ],
   },
   {
     path: paths.documents.prefix,
@@ -240,7 +272,8 @@ export const rootRouter: IRouter[] = [
         name: "home.header.navigation._subject",
         element: AllSubject,
         isHiden: true,
-      },]
+      },
+    ],
   },
   {
     path: paths.library_image.prefix,
@@ -252,7 +285,8 @@ export const rootRouter: IRouter[] = [
         name: "home.header.navigation.library_image",
         element: LibraryImage,
         isHiden: true,
-      },]
+      },
+    ],
   },
   {
     path: paths.video.prefix,
@@ -264,6 +298,7 @@ export const rootRouter: IRouter[] = [
         name: "home.header.navigation.library_video",
         element: LibraryVideo,
         isHiden: true,
-      },]
+      },
+    ],
   },
 ];

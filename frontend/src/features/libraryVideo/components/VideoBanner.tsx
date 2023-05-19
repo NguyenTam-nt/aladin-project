@@ -1,5 +1,4 @@
-import { Button } from "@components/Button";
-import { ImageTranslation } from "@components/ImageTranslation";
+
 import { TranslateContext } from "@contexts/Translation";
 import { BannerSlider } from "@features/abouts/components/BannerSlider";
 import React, { useContext, useState } from "react";
@@ -9,24 +8,6 @@ import { ButtonActionVideo } from "./ButtonActionVideo";
 import { ModalContext } from "@contexts/ModalContext";
 import ModalVideo from "./ModalVideo";
 
-const bannerItem = [
-  {
-    tagName: "Tag green",
-    title: `  Nulla ullamcorper volutpat proin integer nisi ullamcorper ut diam.
-     Tortor velit orci a mi ac nibh.Nulla ullamcorper volutpat proin
-     integer nisi ullamcorper ut diam. Tortor velit orci.`,
-    time: "Ngày đăng tải: 23/02/2023",
-    image:
-      "https://d1hjkbq40fs2x4.cloudfront.net/2017-08-21/files/landscape-photography_1645.jpg",
-  },
-  {
-    tagName: "Tag green",
-    title: `Nulla ullamcorper volutpat proin integer nisi ullamcorper ut diam.`,
-    time: "Ngày đăng tải: 23/02/2023",
-    image:
-      "https://camerabox.vn/uploads/news/2018_07/chup-anh-phong-canh-thu-vi.jpg",
-  },
-];
 
 const VideoBanner = () => {
   const {t} = useContext(TranslateContext)
