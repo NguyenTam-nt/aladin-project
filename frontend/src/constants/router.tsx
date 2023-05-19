@@ -22,6 +22,8 @@ import AllSubject from "@features/subject/allSubject/AllSubject"
 import SubjectPage from "@features/subject"
 import NoticePage from "@features/notice"
 import AllNotice from "@features/notice/allNotice"
+import DocumentPage from "@features/documents"
+import AllDocument from "@features/documents/allDocument"
 
 
 
@@ -84,7 +86,12 @@ export const paths = {
     detail: "chi-tiet-thong-bao",
   },
   documents: {
-    prefix: "tai-lieu-van-ban",
+    prefix: "/tai-lieu-van-ban",
+    _documents : "" ,
+    _lesson : "bai-giang" , 
+    _curriculum: "giao-trinh",
+    _sample: "van-ban-mau",
+    _library: "thu-vien"
   },
   cadres: {
     prefix: "/can-bo",
@@ -236,7 +243,46 @@ export const rootRouter: IRouter[] = [
   {
     path: paths.documents.prefix,
     name: "home.header.navigation.documents",
-    element: DemoElement,
+    element: DocumentPage,
+    subNavs: [
+      {
+        path: paths.documents._documents,
+        element: AllDocument,
+        name: "home.header.navigation.sub_documents._documents",
+        isHiden: true,
+      
+      },
+      {
+        path: paths.documents._lesson,
+        element: AllDocument,
+        name: "home.header.navigation.sub_documents._lessons",
+        isHiden: true,
+      
+      },
+      {
+        path: paths.documents._curriculum,
+        element: AllDocument,
+        name: "home.header.navigation.sub_documents._curriculum",
+        isHiden: true,
+      
+      },
+      {
+        path: paths.documents._sample,
+        element: AllDocument,
+        name: "home.header.navigation.sub_documents._sample",
+        isHiden: true,
+      
+      },
+      {
+        path: paths.documents._library,
+        element: AllDocument,
+        name: "home.header.navigation.sub_documents._library",
+        isHiden: true,
+      
+      },
+    
+    ]
+
   },
   {
     path: paths.cadres.prefix,

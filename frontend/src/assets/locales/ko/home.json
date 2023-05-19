@@ -39,6 +39,13 @@
               },
             "admissions": "입학",
             "documents": "문서 - 텍스트",
+            "sub_documents" : {
+                "_documents": "문서 - 텍스트",
+                "_lessons" : "수업" ,
+                "_curriculum": "과정",
+                "_sample": "샘플 텍스트",
+                "_library": "도서관"
+              } ,
             "cadres": "장교",
             "sub_cadres": {
                 "_cadres" : "직원 목록" ,
