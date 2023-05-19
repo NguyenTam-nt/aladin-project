@@ -76,6 +76,16 @@
     animation-duration: calc(var(--item-index) * 0.5s);
 }
 
+.go-down-only {
+    animation: goDown 0.5s ease;
+    animation-delay: 0.3s;
+}
+
+.go-right-only {
+    animation: goRight 0.5s ease;
+    animation-delay: 0.3s;
+}
+
 @keyframes goDown {
     from {
         opacity: 0;

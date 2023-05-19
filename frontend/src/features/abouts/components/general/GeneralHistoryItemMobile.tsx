@@ -1,5 +1,7 @@
+import { TranslateContext } from "@contexts/Translation";
 import clsx from "clsx";
-import React, { useMemo } from "react";
+import React, { useContext, useMemo } from "react";
+import { TextYear } from "./GeneralHistoryItem";
 
 const colors = [
   {
@@ -20,10 +22,21 @@ const colors = [
   },
 ];
 
-export const GeneralHistoryItemMobile = () => {
+type Props = {
+  data: {
+    year: number,
+    des_vn: string,
+    des_ko: string,
+    img: string
+  }
+}
+
+export const GeneralHistoryItemMobile = ({data}:Props) => {
   const color = useMemo(() => {
     return colors[Math.floor(Math.random() * colors.length)];
   }, []);
+
+  const {isVn} = useContext(TranslateContext)
 
   return (
     <div className={clsx("flex flex-col mb-[24px]")}>
@@ -34,7 +47,7 @@ export const GeneralHistoryItemMobile = () => {
             ["--bg-color-line" as string]: color.bg,
           }}
         />
-        <TextYear year="1994" color={color.color} />
+        <TextYear year={data.year} color={color.color} />
       </div>
       <div className={clsx("flex items-center my-[16px]")}>
         <div
@@ -44,8 +57,7 @@ export const GeneralHistoryItemMobile = () => {
           }}
         />
         <p className="text-_14 text-justify line-clamp-5 w-[70%]">
-          Nghành Hàn Quốc học ra đời trực thuộc Bô môn Đông Á, Khoa Đông phương
-          học, Trường Đại học Tổng hợp TP.HCM (tên gọi cũ của Trường ĐH KHXH&NV)
+        {isVn ? data.des_vn : data.des_ko}
         </p>
       </div>
       <div className={clsx("flex  items-center w-full")}>
@@ -57,7 +69,7 @@ export const GeneralHistoryItemMobile = () => {
         />
         <img
           className="w-auto max-w-[75%] h-[208px] object-cover"
-          src="https://kjvc.com.vn/uploads/tiny_uploads/tin-tuc/29faa76315d5ebbe2c41509ef77d3293_70303_9.jpg"
+          src={data.img}
           alt=""
         />
       </div>
@@ -65,15 +77,15 @@ export const GeneralHistoryItemMobile = () => {
   );
 };
 
-const TextYear = ({ color, year }: { color: string; year: string }) => {
-  return (
-    <p
-      className="text-_40 font-bold "
-      style={{
-        color,
-      }}
-    >
-      {year}
-    </p>
-  );
-};
+// const TextYear = ({ color, year }: { color: string; year: number }) => {
+//   return (
+//     <p
+//       className="text-_40 font-bold "
+//       style={{
+//         color,
+//       }}
+//     >
+//       {year}
+//     </p>
+//   );
+// };

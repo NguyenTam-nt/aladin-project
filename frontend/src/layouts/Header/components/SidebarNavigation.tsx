@@ -121,7 +121,7 @@ export const SubNavLinkItem = ({ name, path, subNavs, onHidden, isHidenArrow }: 
         <Link onClick={onHidden} to={path} className="py-[8px] block">
           {t(name)}
         </Link>
-        {!!subNavs && !isHidenArrow ? (
+        {subNavs?.length && !isHidenArrow ? (
           <div className=" cursor-pointer " onClick={handleShow}>
             <ICArrowDown />
           </div>

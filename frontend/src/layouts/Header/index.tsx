@@ -1,5 +1,4 @@
 import React from "react";
-import { HeaderCommon } from "./components/HeaderCommon";
 import { HeaderLogo } from "./components/HeaderLogo";
 export const Header = () => {
   return (

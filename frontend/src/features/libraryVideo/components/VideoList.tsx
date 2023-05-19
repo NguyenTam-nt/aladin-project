@@ -1,11 +1,18 @@
 
 import { ImageTranslation } from "@components/ImageTranslation";
 import TagNews from "@components/TagNews";
+import { ModalContext } from "@contexts/ModalContext";
 import Pagination from "@features/news/components/Paginnation";
-import React from "react";
+import React, { useContext } from "react";
 import { ButtonActionVideo } from "./ButtonActionVideo";
+import ModalVideo from "./ModalVideo";
 
 const NewsItem = () => {
+  const {setElementModal} = useContext(ModalContext)
+
+  const showModal = () => {
+    setElementModal(<ModalVideo currentIndex={0} />)
+  }
   return (
     <div className=" relative h-[360px]  bg-bg_FAFAFA">
       <div className="overflow-hidden h-[360px]">
@@ -18,7 +25,7 @@ const NewsItem = () => {
         </p>
         <p className=" text-_14 text-text_white ">Ngày đăng tải: 23/02/2023</p>
         <div className="flex flex-row my-[24px]">
-        <ButtonActionVideo></ButtonActionVideo>
+        <ButtonActionVideo onPlayNow={showModal}></ButtonActionVideo>
         </div>
       </div>
     </div>

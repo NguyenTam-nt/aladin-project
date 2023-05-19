@@ -16,7 +16,7 @@ export const HeaderNavigation = () => {
             <HeaderNavigationLink
               to={item.path}
               text={item.name ?? ""} 
-              withArrow={!!item?.subNavs}
+              withArrow={subNews.length > 0}
             />
             {item?.subNavs && !item?.isHiden && (
               <div

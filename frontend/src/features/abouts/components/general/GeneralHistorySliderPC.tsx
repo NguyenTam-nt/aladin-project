@@ -7,7 +7,16 @@ import { FreeMode } from "swiper";
 import { SwiperSlide } from "swiper/react";
 import { GeneralHistoryItem } from "./GeneralHistoryItem";
 
-export const GeneralHistorySliderPC = () => {
+type Props = {
+  data: {
+    year: number,
+    des_vn: string,
+    des_ko: string,
+    img: string
+  }[]
+}
+
+export const GeneralHistorySliderPC = ({data}:Props) => {
   const { width } = useWindowResize();
   return (
     <div className="h-[700px] relative mt-[24px]">
@@ -21,30 +30,16 @@ export const GeneralHistorySliderPC = () => {
         freeMode
         modules={[FreeMode]}
       >
-        <SwiperSlide>
-          <GeneralHistoryItem />
-        </SwiperSlide>
-        <SwiperSlide>
-          <GeneralHistoryItem isReverse />
-        </SwiperSlide>
-        <SwiperSlide>
-          <GeneralHistoryItem />
-        </SwiperSlide>
-        <SwiperSlide>
-          <GeneralHistoryItem isReverse />
-        </SwiperSlide>
-        <SwiperSlide>
-          <GeneralHistoryItem />
-        </SwiperSlide>
-        <SwiperSlide>
-          <GeneralHistoryItem isReverse />
-        </SwiperSlide>
-        <SwiperSlide>
-          <GeneralHistoryItem />
-        </SwiperSlide>
-        <SwiperSlide>
-          <GeneralHistoryItem isReverse />
-        </SwiperSlide>
+        {
+          data.map((item, index) => {
+            return (
+              <SwiperSlide>
+                <GeneralHistoryItem data={item} isReverse={(index + 1)%2 === 0} />
+              </SwiperSlide>
+
+            )
+          })
+        }
       </SwiperComponent>
     </div>
   );

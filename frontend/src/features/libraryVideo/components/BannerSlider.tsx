@@ -6,7 +6,17 @@ import React, { useEffect, useRef, useState } from "react";
 import { Navigation, Thumbs } from "swiper";
 import { SwiperSlide } from "swiper/react";
 
-export const BannerVideoSlider = () => {
+type Props = {
+  onSetIndex: (index:number) => void
+}
+
+const ImagesData = [
+  "https://media.istockphoto.com/id/1363664395/vi/anh/sao-bi%E1%BB%83n-v%C3%A0-v%E1%BB%8F-s%C3%B2-tr%C3%AAn-b%C3%A3i-bi%E1%BB%83n-m%C3%B9a-h%C3%A8-trong-n%C6%B0%E1%BB%9Bc-bi%E1%BB%83n-n%E1%BB%81n-m%C3%B9a-h%C3%A8.jpg?s=1024x1024&w=is&k=20&c=20U3sH2E1iqZxhRDpqZrpYDW-6Xykgde2520SJIrfYs=",
+  "https://cdn.pixabay.com/photo/2016/04/18/22/05/seashells-1337565_1280.jpg",
+  "https://cdn.pixabay.com/photo/2018/07/05/22/16/panorama-3519309_960_720.jpg",
+];
+
+export const BannerVideoSlider = ({onSetIndex}:Props) => {
   const [activeThumb, setThumbActive] = useState<any>(null);
   const {
     navigationNextRef,
@@ -17,6 +27,11 @@ export const BannerVideoSlider = () => {
     currentIndex,
     onActiveIndexChange
   } = useSwiperNavigationRef();
+
+  useEffect(() => {
+    onSetIndex(currentIndex)
+  }, [currentIndex, onSetIndex])
+
   return (
     <>
       <SwiperComponent
@@ -30,10 +45,10 @@ export const BannerVideoSlider = () => {
         }}
         modules={[Navigation, Thumbs]}
       >
-        {[1, 2, 3].map((_, index) => {
+        {ImagesData.map((url, index) => {
           return (
             <SwiperSlide key={index}>
-              <BannerVideoItem isActive={index === currentIndex} />
+              <BannerVideoItem url={url}  />
             </SwiperSlide>
           );
         })}
@@ -48,7 +63,7 @@ export const BannerVideoSlider = () => {
           modules={[Navigation, Thumbs]}
           className="h-[20px] swiper-banner-home"
         >
-          {[1, 2, 3].map((_, index) => {
+          {ImagesData.map((_, index) => {
             return (
               <SwiperSlide key={index} className="h-[4px]">
                 <div className="w-[16px] lg:w-[32px] h-[2px] lg:h-[4px] mr-[8px] bg-text_white cursor-pointer"></div>
@@ -75,29 +90,13 @@ export const BannerVideoSlider = () => {
   );
 };
 
-const BannerVideoItem = ({isActive}: {isActive: boolean}) => {
-  const refVideo = useRef<HTMLVideoElement>(null);
+const BannerVideoItem = ({url}: {url: string}) => {
 
-  useEffect(() => {
-    if(isActive) {
-        refVideo.current?.play()
-    }else {
-        refVideo.current?.pause()
-    }
-  }, [isActive])
 
   return (
    
     <div className="w-full  h-[747px] ">
-      <video
-        ref={refVideo}
-        // autoPlay
-        loop
-        muted
-        className="w-[100%] object-cover h-full"
-      >
-        <source src="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4" />
-      </video>
+      <img className="w-[100%] object-cover h-full" src={url} alt="" />
     </div>
   );
 };

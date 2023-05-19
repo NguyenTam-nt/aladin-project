@@ -4,6 +4,7 @@
         "view_count": "lượt xem",
         "_train": "Đào tạo" ,
         "watch_now" : "Xem ngay" ,
-        "share" : "Chia sẻ"
+        "share" : "Chia sẻ",
+        "_loading": "Đang tải..."
     }
 }

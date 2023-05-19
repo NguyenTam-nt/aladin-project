@@ -1,24 +1,42 @@
 import { ICArrowSeeMore } from "@assets/icons/ICArrowSeeMore";
 import { Button } from "@components/Button";
 import { withResponsive } from "@constants/container";
-import React from "react";
+import { paths } from "@constants/router";
+import { TranslateContext } from "@contexts/Translation";
+import clsx from "clsx";
+import React, { useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import { useBannerHome } from "../hooks/useBannerHome";
+
+type IData = {
+  title_vn: string,
+  subtitle_vn: string,
+  desc_vn: string,
+  title_ko: string,
+  subtitle_ko: string,
+  desc_ko: string,
+  image: string
+}
 
 export const BannerItemImage = ({
   data,
   length,
 }: {
-  data: { iamge: string; title: string; subtitle: string; desc: string };
+  data: IData;
   length: number;
 }) => {
   const { handleMouseIn, handleMouseOut, refImage, refImageDev, refImageLink, withRe, width } =
     useBannerHome(length);
+    const {isVn} = useContext(TranslateContext)
+    const navigate = useNavigate()
+    const navigateToDetail = () => {
+      navigate(`${paths.news.prefix}/${paths.news.detail}?slug=trao-thuong`)
+    }
   return (
     <div
-      className="flex-1 relative animated-parent banner_home"
+      className={clsx("flex-1 relative animated-parent banner_home animate__animated animate__fadeInUp")}
       onMouseEnter={handleMouseIn}
-      onMouseLeave={handleMouseOut}
-    >
+      onMouseLeave={handleMouseOut} >
       <div className="absolute w-full flex h-full z-0" ref={refImage}>
         <div
           ref={refImageDev}
@@ -33,7 +51,7 @@ export const BannerItemImage = ({
               minWidth: `${withRe}px`,
               maxWidth: `${withRe}px`,
             }}
-            src={data.iamge}
+            src={data.image}
             alt=""
           />
         </div>
@@ -41,18 +59,19 @@ export const BannerItemImage = ({
       <div className="flex items-center h-full relative">
         <div className="p-[16px] xl:p-[32px]">
           <div className="py-[24px] border-b-[1px] border-solid border-text_white">
-            <p className=" text-text_225_225_225_032 text-_16 xl:text-[24px] line-clamp-2">
-              {data.title}
+            <p className=" text-text_225_225_225_032 text-_16 xl:text-[24px] line-clamp-1">
+              {isVn ? data.title_vn : data.title_ko}
             </p>
-            <p className=" text-text_225_225_225_088 text-_24 xl:text-[32px] line-clamp-2">
-              {data.subtitle}
+            <p className=" text-text_225_225_225_088 text-_24 xl:text-[32px] line-clamp-1">
+            {isVn ? data.subtitle_vn : data.subtitle_ko}
             </p>
           </div>
           <div className="py-[24px] ">
             <p className="text-text_white text-_14 xl:text-_18 leading-8  animated-up line-clamp-6">
-              {data.desc}
+            {isVn ? data.desc_vn : data.desc_ko}
             </p>
             <Button
+            onClick={navigateToDetail}
               image={
                 <div className="ml-1">
                   <ICArrowSeeMore width={width < withResponsive._1280 ? 24 : 67} />

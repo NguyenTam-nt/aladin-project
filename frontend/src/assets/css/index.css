@@ -2,7 +2,7 @@
 @import 'swiper/css';
 @import 'swiper/css/grid';
 @import 'swiper/css/pagination';
-
+@import "./animated.css";
 
 @import "./common.css";
 @import "./header.css";
@@ -91,4 +91,9 @@ img {
     -moz-column-width: 100%;
     column-width: 100%;
   }
+}
+
+::selection {
+  background-color: var(--secondary);
+  color: var(--text-white);
 }

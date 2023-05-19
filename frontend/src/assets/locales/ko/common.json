@@ -4,6 +4,8 @@
         "_other": "기타",
         "_category": "카테고리",
         "_search": "검색",
-        "_month": "월"
+        "_month": "월",
+        "_back": "뒤로",
+        "_now": "현재"
     }
 }
