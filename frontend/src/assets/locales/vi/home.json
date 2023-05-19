@@ -40,6 +40,13 @@
           },
           "admissions": "Tuyển sinh",
           "documents": "Tài liệu - văn bản",
+          "sub_documents" : {
+            "_documents": "Tài liệu - văn bản",
+            "_lessons" : "Bài giảng" ,
+            "_curriculum": "Giáo trình",
+            "_sample": "Văn bản mẫu",
+            "_library": "Thư viện"
+          } ,
           "cadres": "Cán bộ",
           "sub_cadres": {
             "_cadres": "Danh sách cán bộ",
