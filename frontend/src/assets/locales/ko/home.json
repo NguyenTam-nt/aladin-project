@@ -40,6 +40,7 @@
                 "_cadres2" : "자원봉사 및 파견강사"
              },
             "subject": "제목",
+            "_subject": "과목 목록",
             "library_image": "갤러리",
             "video": "동영상" ,
             "library_video": "비디오 라이브러리"

@@ -6,6 +6,8 @@ import { TranslateContext } from '@contexts/Translation'
 import useInView from '@hooks/useInView'
 import clsx from 'clsx'
 import React, { useContext } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { paths } from '@constants/router'
 
 type Props = {
     isChangeColor?: boolean
@@ -24,6 +26,10 @@ type Props = {
 export const HomeTopicNewsItem = ({isChangeColor = false, index = 0, data}:Props) => {
   const {ref, isInView} = useInView()
   const {isVn} = useContext(TranslateContext)
+  const navigate = useNavigate()
+  const natigateToDetail = () => {
+    navigate(`${paths.news.prefix}/${paths.news.detail}?slug=trao-thuong`)
+  }
   return (
     <div ref={ref} className={clsx("w-full p-[12px] lg:p-[16px]  2xl:p-[24px] flex flex-col h-[218px] xl:h-[274px]", {"bg-white": !isChangeColor, "bg-secondary": isChangeColor, "animate__animated animate__fadeInUp":isInView})}
     style={{
@@ -42,6 +48,7 @@ export const HomeTopicNewsItem = ({isChangeColor = false, index = 0, data}:Props
       <TextViewCount colorEye={isChangeColor ? Colors.text_white : Colors.text_7E8B99} className={clsx({"text-text_white":isChangeColor})} viewCount={data?.view_count ?? 0} />
       <div>
         <Button
+        onClick={natigateToDetail}
           image={
             <div className="ml-2">
               <ICArrowSeeMore color={!isChangeColor ? Colors.secondary : Colors.text_white} />

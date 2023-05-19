@@ -18,6 +18,8 @@ import BrandPage from "@features/abouts/components/Brand"
 import GeneralPage from "@features/abouts/components/general"
 import HomePage from "@features/home"
 import AboutPage from "@features/abouts"
+import AllSubject from "@features/subject/allSubject/AllSubject"
+import SubjectPage from "@features/subject"
 
 
 
@@ -73,6 +75,7 @@ export const paths = {
   },
   notice: {
     prefix: "thong-bao",
+    detail: "chi-tiet-thong-bao",
   },
   documents: {
     prefix: "tai-lieu-van-ban",
@@ -188,6 +191,15 @@ export const rootRouter: IRouter[] = [
     path: paths.notice.prefix,
     name: "home.header.navigation.notice",
     element: DemoElement,
+    subNavs: [
+      {
+        path: paths.notice.detail,
+        element: DemoElement,
+        name: "home.header.navigation.sub_news._detail",
+        isHiden: true,
+        isDetail: true,
+      },
+    ]
   },
   {
     path: paths.documents.prefix,
@@ -221,7 +233,14 @@ export const rootRouter: IRouter[] = [
   {
     path: paths.subject.prefix,
     name: "home.header.navigation.subject",
-    element: DemoElement,
+    element: SubjectPage,
+    subNavs: [
+      {
+        path: paths.library_image.library_image,
+        name: "home.header.navigation._subject",
+        element: AllSubject,
+        isHiden: true,
+      },]
   },
   {
     path: paths.library_image.prefix,

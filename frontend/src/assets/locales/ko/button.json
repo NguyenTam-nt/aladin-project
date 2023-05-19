@@ -2,6 +2,9 @@
     "button": {
         "see_more": "더 보기",
         "view_count": "인터리브",
-        "_train": "기차"
+        "_train": "기차" ,
+        "watch_now" : "지금보기" ,
+        "share" : "공유하다",
+        "_loading": "로드 중..."
     }
 }

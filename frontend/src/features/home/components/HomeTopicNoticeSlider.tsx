@@ -132,7 +132,7 @@ type PropsSwiper = {
 }
 
 
-const HomeNoticeSliderItem = memo(({data, index = 0, isEven, isDisable}:PropsSwiper) => {
+const HomeNoticeSliderItem = memo(({data, index, isEven, isDisable}:PropsSwiper) => {
   const { t, isVn } = useContext(TranslateContext);
   const {ref, isInView} = useInView()
   return (
