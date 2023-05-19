@@ -12,39 +12,45 @@
         "viTag": "VIE",
         "koTag": "KOR",
         "navigation": {
-            "home": "Trang chủ",
-            "about": "Giới thiệu",
-            "sub_abouts": {
-                "_general": "Tổng quan",
-                "_brand": "Thương hiệu",
-                "_structure": "Cơ cấu tổ chức nhân sự",
-                "_brochure": "Brochure"
-            },
-            "news": "Tin tức",
-            "sub_news": {
-                "_news": "Danh sách tin tức",
-                "_train": "Đào tạo",
-                "_study": "Nghiên cứu khoa học",
-                "_scholarship": "Học bổng",
-                "_student": "Sinh viên",
-                "_event": "Sự kiện",
-                "_career": "Cơ hội nghề nghiệp",
-                "_detail": "Chi tiết"
-            },
-            "notice": "Thông báo",
-            "admissions": "Tuyển sinh",
-            "documents": "Tài liệu - văn bản",
-            "cadres": "Cán bộ",
-            "sub_cadres": {
-               "_cadres" : "Danh sách cán bộ" ,
-               "_cadres1" : "Giảng viên và chuyên viên cơ hữu",
-               "_cadres2" : "Giảng viên tình nguyện và phái cử"
-            },
-            "subject": "Bộ môn",
-            "_subject": "Danh sách bộ môn",
-            "library_image": "Thư viện ảnh",
-            "video": "Video" ,
-            "library_video": "Thư viện video"
+          "home": "Trang chủ",
+          "about": "Giới thiệu",
+          "sub_abouts": {
+            "_general": "Tổng quan",
+            "_brand": "Thương hiệu",
+            "_structure": "Cơ cấu tổ chức nhân sự",
+            "_brochure": "Brochure"
+          },
+          "news": "Tin tức",
+          "sub_news": {
+            "_news": "Danh sách tin tức",
+            "_train": "Đào tạo",
+            "_study": "Nghiên cứu khoa học",
+            "_scholarship": "Học bổng",
+            "_student": "Sinh viên",
+            "_event": "Sự kiện",
+            "_career": "Cơ hội nghề nghiệp",
+            "_detail": "Chi tiết"
+          },
+          "notice": "Thông báo",
+          "sub_notice": {
+            "_notice": "Danh sách thông báo",
+            "_government": "Hệ chính quy",
+            "_postgraduate": "Hệ sau đại học",
+            "_shortCourse": "Khoá học ngắn hạn"
+          },
+          "admissions": "Tuyển sinh",
+          "documents": "Tài liệu - văn bản",
+          "cadres": "Cán bộ",
+          "sub_cadres": {
+            "_cadres": "Danh sách cán bộ",
+            "_cadres1": "Giảng viên và chuyên viên cơ hữu",
+            "_cadres2": "Giảng viên tình nguyện và phái cử"
+          },
+          "subject": "Bộ môn",
+          "_subject": "Danh sách bộ môn",
+          "library_image": "Thư viện ảnh",
+          "video": "Video",
+          "library_video": "Thư viện video"
         }
        },
        "footer": {

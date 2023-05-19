@@ -1,6 +1,7 @@
+import NewsBanner from "@features/news/components/NewsBanner";
+import NewsList from "@features/news/components/NewsList";
 import React from "react"
-import NewsList from "../components/NewsList";
-import NewsBanner from "../components/NewsBanner";
+
 
 const data = [
   {
@@ -66,7 +67,7 @@ const bannerItem = [
 ];
 
 
-const AllNews = () => {
+const AllNotice = () => {
   return (
     <div className="w-rp  justify-between items-center mb-[120px] ">
       <NewsBanner newsBanner={bannerItem}  />
@@ -75,4 +76,4 @@ const AllNews = () => {
   );
 };
 
-export default AllNews
+export default AllNotice

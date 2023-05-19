@@ -1,5 +1,6 @@
 import { ICArowLeft } from "@assets/icons/ICArowLeft";
 import { ICArowRight } from "@assets/icons/ICArowRight";
+import { ImageTranslation } from "@components/ImageTranslation";
 import { SwiperComponent } from "@components/SwiperComponent";
 import { useSwiperNavigationRef } from "@hooks/useSwiperNavigationRef";
 import React, { useEffect, useRef, useState } from "react";
@@ -94,7 +95,6 @@ const BannerVideoItem = ({url}: {url: string}) => {
 
 
   return (
-   
     <div className="w-full  h-[747px] ">
       <img className="w-[100%] object-cover h-full" src={url} alt="" />
     </div>
