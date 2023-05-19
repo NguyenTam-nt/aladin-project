@@ -24,19 +24,15 @@ import NoticePage from "@features/notice"
 import AllNotice from "@features/notice/allNotice"
 import DocumentPage from "@features/documents"
 import AllDocument from "@features/documents/allDocument"
+import NewsPage from "@features/news"
+import NewsDetailPage from "@features/newsDetail"
 
 
 
 
 
 
-// const HomePage = lazy(() => import("../features/home"))
-// const AboutPage = lazy(() => import("../features/abouts"))
-// const GeneralPage = lazy(() => import("../features/abouts/components/general"))
-// const BrandPage = lazy(() => import("../features/abouts/components/Brand"))
-const NewsDetailPage = lazy(() => import("../features/newsDetail"))
-const LibraryImage  =lazy(() => import("../features/libraryImage"))
-const NewsPage = lazy(() => import("../features/news"))
+
 
 const DemoElement = () => <div className="text-_40 text-[red] font-bold flex justify-center h-[100px] items-center">Trang này chưa code đâu nhé!</div>
 
