@@ -29,7 +29,6 @@ export const BannerVideoSlider = () => {
           swiper: activeThumb && !activeThumb?.destroyed ? activeThumb : null,
         }}
         modules={[Navigation, Thumbs]}
-
       >
         {[1, 2, 3].map((_, index) => {
           return (
@@ -40,7 +39,7 @@ export const BannerVideoSlider = () => {
         })}
       </SwiperComponent>
 
-      <div className="absolute max-w-fit  bottom-2 left-[50%] translate-x-[-50%] z-[5]">
+      <div className="absolute max-w-fit  bottom-[38px]  right-[47px] z-[5]">
         <SwiperComponent
           slidesPerView={3}
           onSwiper={setThumbActive}
@@ -59,15 +58,16 @@ export const BannerVideoSlider = () => {
         </SwiperComponent>
       </div>
       {NavigationElement}
+
       <button
         onClick={handlePre}
-        className="absolute hidden lg:block  top-[50%] translate-y-[-50%] left-[110px] z-[5] cursor-pointer"
+        className="absolute hidden lg:block  top-[50%] translate-y-[-91px] left-[110px] z-[5] cursor-pointer"
       >
         <ICArowLeft />
       </button>
       <button
         onClick={handleNext}
-        className="absolute hidden lg:block top-[50%] translate-y-[-50%] right-[110px] z-[5] cursor-pointer"
+        className="absolute hidden lg:block top-[50%] translate-y-[-91px] right-[110px] z-[5] cursor-pointer"
       >
         <ICArowRight />
       </button>
@@ -87,7 +87,8 @@ const BannerVideoItem = ({isActive}: {isActive: boolean}) => {
   }, [isActive])
 
   return (
-    <div className="w-full  h-[747px]">
+   
+    <div className="w-full  h-[747px] ">
       <video
         ref={refVideo}
         // autoPlay
@@ -95,7 +96,7 @@ const BannerVideoItem = ({isActive}: {isActive: boolean}) => {
         muted
         className="w-[100%] object-cover h-full"
       >
-        <source src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.webm" />
+        <source src="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4" />
       </video>
     </div>
   );

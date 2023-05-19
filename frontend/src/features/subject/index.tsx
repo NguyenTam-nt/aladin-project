@@ -5,7 +5,7 @@ import { LinkPageHeader } from "@components/LinkPageHeader";
 
 import { Outlet } from "react-router-dom";
 
-const CadresPage = () => {
+const SubjectPage = () => {
   return (
     <>
       <Banner></Banner>
@@ -18,4 +18,4 @@ const CadresPage = () => {
   );
 };
 
-export default CadresPage;
+export default SubjectPage;

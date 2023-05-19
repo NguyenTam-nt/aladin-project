@@ -15,6 +15,8 @@ import React, { lazy } from "react";
 import { Outlet } from "react-router-dom";
 import AdmissionsNews from "@features/news/admissionsNews/admissionsNews"
 import CadresPage from "@features/cadres"
+import AllSubject from "@features/subject/allSubject/AllSubject"
+import SubjectPage from "@features/subject"
 
 
 
@@ -219,7 +221,14 @@ export const rootRouter: IRouter[] = [
   {
     path: paths.subject.prefix,
     name: "home.header.navigation.subject",
-    element: DemoElement,
+    element: SubjectPage,
+    subNavs: [
+      {
+        path: paths.library_image.library_image,
+        name: "home.header.navigation._subject",
+        element: AllSubject,
+        isHiden: true,
+      },]
   },
   {
     path: paths.library_image.prefix,

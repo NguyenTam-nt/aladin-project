@@ -11,7 +11,7 @@ const LibraryVideo = () => {
       <Banner></Banner>
       <LinkPageHeader />
       <HeaderTilteLink></HeaderTilteLink>
-      <div className="w-rp  justify-between items-center mb-[120px] ">
+      <div className="w-rp  justify-between items-center mb-[120px] mt-[70px] ">
         <VideoBanner></VideoBanner>
         <VideoList></VideoList>
       </div>

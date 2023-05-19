@@ -4,7 +4,7 @@ import React, { ButtonHTMLAttributes, useContext } from "react";
 
 type Props = {
   size?: number;
-  color: "primary" | "empty";
+  color: "primary" | "empty" ;
   text: string;
   image?: React.ReactNode
   className?: string
