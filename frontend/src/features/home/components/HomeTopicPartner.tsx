@@ -7,11 +7,12 @@ import Company4 from "@assets/images/Company4.jpg";
 import Company5 from "@assets/images/Company5.jpg";
 import Company6 from "@assets/images/Company6.jpg";
 import Company7 from "@assets/images/Company7.jpg";
-import LogoPartner from "@assets/images/logo_partner.png";
 import { SwiperComponent } from "@components/SwiperComponent";
 import { SwiperSlide } from "swiper/react";
 import useWindowResize from "@hooks/useWindowResize";
 import { withResponsive } from "@constants/container";
+import useInView from "@hooks/useInView";
+import clsx from "clsx";
 
 const data = [
   Company1,
@@ -25,6 +26,7 @@ const data = [
 
 export const HomeTopicPartner = () => {
   const { width } = useWindowResize();
+  const {ref, isInView} = useInView()
   return (
     <>
       <div className="bg-bg_F8F8F8 relative h-[157px] xl:h-[422px] flex flex-col mt-[40px] xl:mt-[140px]">
@@ -40,8 +42,7 @@ export const HomeTopicPartner = () => {
           src={BannerBg}
           alt=""
         />
-
-        <div className="w-rp-l gap-x-[72px] mt-[30px] gap-y-[24px]">
+        <div className={clsx("w-rp-l gap-x-[72px] mt-[30px] gap-y-[24px]", {"animate__animated animate__fadeIn":isInView})} ref={ref}>
           <SwiperComponent
             slidesPerView={width > withResponsive._1280 ? 7 : width > withResponsive._768 ? 5 : 3}
             spaceBetween={24}

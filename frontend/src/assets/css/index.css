@@ -2,7 +2,7 @@
 @import 'swiper/css';
 @import 'swiper/css/grid';
 @import 'swiper/css/pagination';
-
+@import "./animated.css";
 
 @import "./common.css";
 @import "./header.css";

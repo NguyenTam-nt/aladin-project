@@ -18,8 +18,8 @@ export const FooterAbout = () => {
   const { t } = useContext(TranslateContext);
   return (
     <div className=" bg-secondary py-[27px] xl:py-[50px] xl:border-b-[1px] xl:border-br_E9ECEF xl:border-solid  text-text_white">
-      <div className="w-rp  grid grid-cols-1 m992:grid-cols-3 xl:grid-cols-6 gap-x-[24px]">
-        <div className="  m992:col-span-3 mb-[24px] xl:mb-0">
+      <div className="w-rp  grid grid-cols-1 m992:grid-cols-3 xl:!grid-cols-6 gap-x-[24px]">
+        <div className="m992:col-span-3 mb-[24px] xl:mb-0">
           <div className="flex items-center">
             <>
               <img src={Logo} alt="logo" className="w-[27px] h-[32px] md:w-auto md:h-auto object-cover" />

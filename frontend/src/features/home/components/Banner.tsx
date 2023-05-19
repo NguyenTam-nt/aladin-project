@@ -59,7 +59,11 @@ export const Banner = () => {
         <SwiperComponent slidesPerView={previewNumber} loop={false}>
           {data.map((item, index) => {
             return (
-              <SwiperSlide key={index}>
+              <SwiperSlide key={index}
+              style={{
+                ["--animate-count" as string]: index
+              }}
+              >
                 <BannerItemImage key={index} data={item} length={length} />
               </SwiperSlide>
             );

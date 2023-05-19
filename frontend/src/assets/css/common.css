@@ -143,3 +143,41 @@ input::placeholder {
 }
 
 
+.scale-animate {
+  animation: scaleAnimate ease 0.3s;
+}
+
+@keyframes scaleAnimate {
+  0% {
+    transform: scale(0.5);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+.swiper-item-thumb  .swiper-slide-thumb-active {
+  min-height: 34px;
+  max-height: 34px;
+  min-width: 34px;
+  max-width: 34px;
+  border-radius: 6px;
+  border: 2px solid var(--text-white);
+  overflow: hidden;
+} 
+
+.animaed-opacity {
+  animation: opacityAnimate 3s linear;
+}
+
+@keyframes opacityAnimate {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+

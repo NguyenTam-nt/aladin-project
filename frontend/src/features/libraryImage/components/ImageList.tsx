@@ -1,5 +1,7 @@
 import { ImageTranslation } from "@components/ImageTranslation";
-import React from "react";
+import { ModalContext } from "@contexts/ModalContext";
+import React, { useContext } from "react";
+import ModalImage from "./ModalImage";
 
 const ImagesData = [
   "https://media.istockphoto.com/id/1363664395/vi/anh/sao-bi%E1%BB%83n-v%C3%A0-v%E1%BB%8F-s%C3%B2-tr%C3%AAn-b%C3%A3i-bi%E1%BB%83n-m%C3%B9a-h%C3%A8-trong-n%C6%B0%E1%BB%9Bc-bi%E1%BB%83n-n%E1%BB%81n-m%C3%B9a-h%C3%A8.jpg?s=1024x1024&w=is&k=20&c=20U3sH2E1iqZxhRDpqZrpYDW-6Xykgde2520SJIrfYs=",
@@ -19,9 +21,13 @@ const ImagesData = [
   "https://cdn.pixabay.com/photo/2023/04/28/07/16/man-7956041_640.jpg",
 ];
 
-const ImageItem = ({ item }: { item: string }) => {
+const ImageItem = ({ item, index }: { item: string, index:number }) => {
+  const {setElementModal} = useContext(ModalContext)
+  const showModal = () => {
+    setElementModal(<ModalImage currentIndex={index} />)
+  }
   return (
-    <div className=" xl:max-h-[461px]  bg-bg_FAFAFA ">
+    <div className=" xl:max-h-[461px]  bg-bg_FAFAFA " onClick={showModal}>
       <div className="pics overflow-hidden  max-h-[468px] xl:max-h-[461px] relative">
         <ImageTranslation link={item}></ImageTranslation>
       </div>
@@ -43,7 +49,7 @@ const ImagesList = () => {
           </div>
         </div>
         {ImagesData.map((item, index) => (
-          <ImageItem key={index} item={item}></ImageItem>
+          <ImageItem index={index} key={index} item={item}></ImageItem>
         ))}
       </div>
     </div>

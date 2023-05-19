@@ -1,6 +1,7 @@
 import { ICArrowSeeMore } from "@assets/icons/ICArrowSeeMore";
 import { Button } from "@components/Button";
 import { withResponsive } from "@constants/container";
+import clsx from "clsx";
 import React from "react";
 import { useBannerHome } from "../hooks/useBannerHome";
 
@@ -15,10 +16,9 @@ export const BannerItemImage = ({
     useBannerHome(length);
   return (
     <div
-      className="flex-1 relative animated-parent banner_home"
+      className={clsx("flex-1 relative animated-parent banner_home animate__animated animate__fadeInUp")}
       onMouseEnter={handleMouseIn}
-      onMouseLeave={handleMouseOut}
-    >
+      onMouseLeave={handleMouseOut} >
       <div className="absolute w-full flex h-full z-0" ref={refImage}>
         <div
           ref={refImageDev}

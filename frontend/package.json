@@ -12,8 +12,10 @@
   },
   "dependencies": {
     "@fontsource/nunito-sans": "^4.5.10",
+    "@types/file-saver": "^2.0.5",
     "axios": "^1.4.0",
     "clsx": "^1.2.1",
+    "file-saver": "^2.0.5",
     "i18next": "^22.4.15",
     "i18next-browser-languagedetector": "^7.0.1",
     "i18next-http-backend": "^2.2.0",

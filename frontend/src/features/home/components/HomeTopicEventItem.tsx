@@ -1,28 +1,40 @@
 import { ICArrowLeftLong } from "@assets/icons/ICArrowLeftLong";
 import { ImageTranslation } from "@components/ImageTranslation";
 import { colorRandom } from "@constants/color";
-import {  withResponsive } from "@constants/container";
+import { withResponsive } from "@constants/container";
+import { TranslateContext } from "@contexts/Translation";
+import useInView from "@hooks/useInView";
 import useWindowResize from "@hooks/useWindowResize";
 import clsx from "clsx";
-import React, { useMemo } from "react";
+import React, { useContext, useMemo } from "react";
 
 type Props = {
   isReversed?: boolean;
+  data: {
+    title_vn: string;
+    des_vn: string;
+    title_ko: string;
+    des_ko: string;
+    image: string;
+  };
 };
 
-export const HomeTopicEventItem = ({ isReversed = false }: Props) => {
+export const HomeTopicEventItem = ({ isReversed = false, data }: Props) => {
   const color = useMemo(() => {
     return colorRandom[Math.floor(Math.random() * colorRandom.length)];
   }, []);
-  const {width} = useWindowResize()
+  const { width } = useWindowResize();
+  const { isVn } = useContext(TranslateContext);
+  const {ref, isInView} = useInView()
   return (
-    <div className={clsx("flex", { "flex-row-reverse": isReversed })}>
-      <div className="flex-1 bg-black h-[270px] overflow-hidden"
-       style={{
-        minWidth: width > withResponsive._992 ? "25%": "50%"
-       }}
+    <div ref={ref} className={clsx("flex", { "flex-row-reverse": isReversed, "animate__animated animate__fadeIn":isInView})}>
+      <div
+        className="flex-1 bg-black h-[270px] overflow-hidden"
+        style={{
+          minWidth: width > withResponsive._992 ? "25%" : "50%",
+        }}
       >
-        <ImageTranslation link="https://hanoispiritofplace.com/wp-content/uploads/2017/11/hinh-nen-thien-nhien-dep-nhat-8.jpg" />
+        <ImageTranslation link={data.image} />
       </div>
       <div
         className="flex-1 h-[270px] flex flex-col justify-center items-center text-center  relative"
@@ -30,24 +42,40 @@ export const HomeTopicEventItem = ({ isReversed = false }: Props) => {
           background: color.bg,
         }}
       >
-        <p className={` font-semibold text-_18 xl:text-_24 leading-[36px] line-clamp-2`}
-            style={{color: color.color}}
+        <p
+          className={` font-semibold text-_18 px-[32px] xl:text-_24 leading-[36px] line-clamp-2`}
+          style={{ color: color.color }}
         >
-          Varius cras at risus nunc ut amet amet etiam pharetra elit augue.
+          {isVn ? data.title_vn : data.title_ko}
         </p>
-        <p className="text-_14 mt-[14px] mb-[40px]"
-         style={{color: color.color}}
+        <p
+          className="text-_14 mt-[14px] mb-[40px] px-[32px]"
+          style={{ color: color.color }}
         >
-          Nunc pretium cursus et orci nisl. Odio lorem aliquet.
+          {isVn ? data.des_vn : data.des_ko}
         </p>
-        <div className={clsx("flex justify-center ", { "icon-flipped": !isReversed })} >
-          <ICArrowLeftLong width={width < withResponsive._992 ? 72 : 148} color={color.color} />
+        <div
+          className={clsx("flex justify-center px-[32px] ", {
+            "icon-flipped": !isReversed,
+          })}
+        >
+          <ICArrowLeftLong
+            width={width < withResponsive._992 ? 72 : 148}
+            color={color.color}
+          />
         </div>
-      
-        <div className={clsx("absolute event_hom_item_left h-[52px] w-[46px] top-[50%] translate-y-[-50%]", {"event_hom_item_left left-[-40px]":!isReversed, "event_hom_item_right right-[-40px]":isReversed})}
-            style={{
-             backgroundColor: color.bg
-            }}
+
+        <div
+          className={clsx(
+            "absolute event_hom_item_left h-[52px] w-[46px] top-[50%] translate-y-[-50%]",
+            {
+              "event_hom_item_left left-[-40px]": !isReversed,
+              "event_hom_item_right right-[-40px]": isReversed,
+            }
+          )}
+          style={{
+            backgroundColor: color.bg,
+          }}
         />
       </div>
     </div>

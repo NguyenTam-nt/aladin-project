@@ -16,6 +16,10 @@
   --bg-F5B377: #F5B377;
   --bg-63A0F2: #63A0F2;
   --text-link: #0066FF;
+  --animate-duration: 1s;
+  --animate-delay: 0.2s;
+  --animate-repeat: 1;
+  --animate-count: 0
 }
 
 

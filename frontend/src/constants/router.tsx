@@ -12,25 +12,27 @@ import TrainingNews from "@features/news/trainingNews/trainingNews"
 import { BrochurePage } from "@features/abouts/components/brochure";
 import { Structure } from "@features/abouts/components/structure";
 import React, { lazy } from "react";
-import { Outlet } from "react-router-dom";
 import AdmissionsNews from "@features/news/admissionsNews/admissionsNews"
 import CadresPage from "@features/cadres"
+import BrandPage from "@features/abouts/components/Brand"
+import GeneralPage from "@features/abouts/components/general"
+import HomePage from "@features/home"
+import AboutPage from "@features/abouts"
 
 
 
 
 
 
-const HomePage = lazy(() => import("../features/home"))
-const AboutPage = lazy(() => import("../features/abouts"))
-const GeneralPage = lazy(() => import("../features/abouts/components/general"))
-const BrandPage = lazy(() => import("../features/abouts/components/Brand"))
+// const HomePage = lazy(() => import("../features/home"))
+// const AboutPage = lazy(() => import("../features/abouts"))
+// const GeneralPage = lazy(() => import("../features/abouts/components/general"))
+// const BrandPage = lazy(() => import("../features/abouts/components/Brand"))
 const NewsDetailPage = lazy(() => import("../features/newsDetail"))
 const LibraryImage  =lazy(() => import("../features/libraryImage"))
 const NewsPage = lazy(() => import("../features/news"))
 
 const DemoElement = () => <div className="text-_40 text-[red] font-bold flex justify-center h-[100px] items-center">Trang này chưa code đâu nhé!</div>
-const NullElement = () => <Outlet></Outlet>
 
 interface IRouter {
   path: string;
@@ -70,7 +72,7 @@ export const paths = {
     detail: "chi-tiet-tin-tuc",
   },
   notice: {
-    prefix: "thông báo",
+    prefix: "thong-bao",
   },
   documents: {
     prefix: "tai-lieu-van-ban",
@@ -235,7 +237,7 @@ export const rootRouter: IRouter[] = [
   },
   {
     path: paths.video.prefix,
-    name: "home.header.navigation.library_video",
+    name: "home.header.navigation.video",
     element: LibraryVideo,
     subNavs: [
       {

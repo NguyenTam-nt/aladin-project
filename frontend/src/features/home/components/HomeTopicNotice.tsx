@@ -1,3 +1,4 @@
+import { paths } from "@constants/router";
 import { useSwiperNavigationRef } from "@hooks/useSwiperNavigationRef";
 import React from "react";
 import { HomeTopicLayout } from "./HomeTopicLayout";
@@ -19,6 +20,7 @@ export const HomeTopicNotice = () => {
       isPaddingTop
       onNextClick={handleNext}
       onPreClick={handlePre}
+      path={paths.notice.prefix}
     >
       <div className="mt-[36px] xl:mt-[44px]">
        <HomeTopicNoticeSlider navigationNextRef={navigationNextRef} navigationPrevRef={navigationPrevRef} />
