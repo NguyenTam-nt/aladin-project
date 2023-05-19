@@ -44,6 +44,49 @@ const dumyItems = [
     sub : "Đại số" 
   } ,
 
+]
+
+const dumyItem2 = [
+  {
+    imageUrl : "https://salt.tikicdn.com/cache/w1200/media/catalog/product/b/i/bia.u2469.d20160905.t102129.472049.jpg" ,
+    name : "Tiếng Hàn 1" ,
+    sub :  "Tempor feugiat iaculis ultrices" 
+  } ,
+  {
+    imageUrl : "https://katchup.vn/asset/upload/2018/09/Sach-Tu-dien-Han-Viet-%E2%80%93-Le-Huy-Khoa-Bia-cung-%E2%80%93-Co-lon-0-472x600.jpg" ,
+    name : "Tiếng Hàn 1",
+    sub :  "Tempor feugiat iaculis ultrices" 
+  } ,
+  {
+    imageUrl : "https://newshop.vn/public/uploads/products/10100/cam-nang-tieng-han-trong-giao-tiep-thuong-mai-tap-1-bia.jpg" ,
+    name : "Tiếng Hàn 1" ,
+    sub :  "Tempor feugiat iaculis ultrices" 
+  },
+  {
+    imageUrl : "https://hanquocchotoinhe.com/wp-content/uploads/2021/08/505efb9f96ca609439db-1.jpg" ,
+    name :  "Tiếng Hàn 1",
+    sub : "Tempor feugiat iaculis ultrices" 
+  },
+  {
+    imageUrl : "https://bizweb.dktcdn.net/100/318/046/products/hoc-tieng-han-that-la-don-gian-trinh-do-so-cap-bia-truoc-1.jpg?v=1626444842427" ,
+    name :  "Tiếng Hàn 1" ,
+    sub : "Tempor feugiat iaculis ultrices" 
+  } ,
+  {
+    imageUrl : "https://mcbooks.vn/wp-content/uploads/2019/02/bia-sau.png" ,
+    name : "Tiếng Hàn 1",
+    sub : "Tempor feugiat iaculis ultrices" 
+  } ,
+  {
+    imageUrl : "https://sach.info/wp-content/uploads/2022/12/image_188259-5.jpg" ,
+    name :  "Tiếng Hàn 1" ,
+    sub : "Tempor feugiat iaculis ultrices" 
+  } ,
+  {
+    imageUrl : "https://kanata.edu.vn/wp-content/uploads/2019/09/25.png" ,
+    name :  "Tiếng Hàn 1" ,
+    sub : "Tempor feugiat iaculis ultrices" 
+  } ,
 
 ]
 
@@ -72,12 +115,16 @@ const NewsItem = (props : INewsItem) => {
 };
 
 
+interface CadresListProps {
+  type?: boolean
+}
 
-const CadresList = () => {
+
+const CadresList = (props : CadresListProps ) => {
   return (
     <>
       <div className="grid grid-cols-2  xl:grid-cols-4 gap-[24px] mt-[24px]">
-        {dumyItems.map((item, index) => (
+        {(!props?.type ? dumyItems : dumyItem2).map((item, index) => (
           <NewsItem
             imageUrl={item.imageUrl}
             name={item.name}
