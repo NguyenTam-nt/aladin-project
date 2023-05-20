@@ -2,7 +2,7 @@ import { Ilanguage, TranslateContext } from "@contexts/Translation";
 import clsx from "clsx";
 import { useContext } from "react";
 
-export const HeaderItemFlag = ({text, image, isWhite = true, type}:{text: string; image: string, isWhite?: boolean, type:Ilanguage}) => {
+export const HeaderItemFlag = ({text, image, isWhite = true, type, isAdmin = false}:{text: string; image: string, isWhite?: boolean, type:Ilanguage, isAdmin?:boolean}) => {
     const { t, setLanguage } = useContext(TranslateContext);
     const handleChangeLang = () => {
       setLanguage(type)
@@ -14,7 +14,8 @@ export const HeaderItemFlag = ({text, image, isWhite = true, type}:{text: string
         </div>
         <span className={clsx("text-[14px] block w-7 font-normal mx-[8px]", {
           "text-text_secondary xl:text-text_white": isWhite,
-          "text-text_black": !isWhite
+          "text-text_black": !isWhite,
+          "!text-text_primary": isAdmin
         })}>
           {t(text)}
         </span>

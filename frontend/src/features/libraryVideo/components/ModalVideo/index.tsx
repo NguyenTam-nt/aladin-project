@@ -5,18 +5,16 @@ import { useContext, useEffect, useRef, useState } from "react";
 import React from "react";
 import { ICArowBack } from "@assets/icons/ICArrowBack";
 import { SwiperComponent } from "@components/SwiperComponent";
-import useWindowResize from "@hooks/useWindowResize";
 import { ICArowLeft } from "@assets/icons/ICArowLeft";
 import { ICArowRight } from "@assets/icons/ICArowRight";
 import { Colors } from "@constants/color";
 import { useSwiperNavigationRef } from "@hooks/useSwiperNavigationRef";
 import { ModalContext } from "@contexts/ModalContext";
-import { withResponsive } from "@constants/container";
 import { ICDownload } from "@assets/icons/ICDownload";
-import { saveAs } from "file-saver";
 import { TranslateContext } from "@contexts/Translation";
 import axios from "axios";
 import { Loading } from "@components/Loading";
+import clsx from "clsx";
 type Props = {
   currentIndex: number;
 };
@@ -102,7 +100,7 @@ export default function ModalVideo({ currentIndex }: Props) {
             // zoom={true}
             // grabCursor={true}
             modules={[Navigation, Thumbs]}
-            className="h-[500px] md:h-[calc(100vh_-_312px)] w-1920:h-[800px]"
+            className="h-[500px] md:h-[calc(100vh_-_312px)]"
           >
             {ImagesVideo.map((item, index: any) => {
               return (
@@ -161,13 +159,13 @@ export default function ModalVideo({ currentIndex }: Props) {
             })}
           </SwiperComponent>
           {!isOpenLoading ? (
-            <div className="ml-auto md:justify-self-end mt-[24px] md:m-0 cursor-pointer">
+            <div className={clsx("ml-auto md:justify-self-end mt-[24px] md:m-0 cursor-pointer")}>
               <div onClick={upload}>
                 <ICDownload />
               </div>
             </div>
           ) : (
-            <div>
+            <div className="animate__animated animate__fadeInRight">
               <Loading />
               <p className="text-center text-white font-normal text-_16">
                 {t("button._loading")}
@@ -176,17 +174,6 @@ export default function ModalVideo({ currentIndex }: Props) {
           )}
         </div>
       </div>
-      {/* {
-        isOpenLoading ? (
-          <div className=" fixed inset-0 z-40 bg-bg_0_0_0_003 flex items-center justify-center">
-              <div>
-                <Loading />
-                <p className="text-center text-white font-normal text-_16">{t("button._loading")}</p>
-              </div>
-
-          </div>
-        ) : null
-      } */}
     </div>
   );
 }

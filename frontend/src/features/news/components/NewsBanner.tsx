@@ -1,6 +1,5 @@
 import { ImageTranslation } from "@components/ImageTranslation";
 import TagNews from "@components/TagNews";
-import { paths } from "@constants/router";
 import { TranslateContext } from "@contexts/Translation";
 import React, { useContext } from "react";
 import { Link } from "react-router-dom";

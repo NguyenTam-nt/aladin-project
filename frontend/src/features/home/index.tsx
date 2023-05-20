@@ -1,4 +1,5 @@
 import { Banner } from "./components/Banner";
+import { BannerVideo } from "./components/BannerVideo";
 import { HomeTopicEvent } from "./components/HomeTopicEvent";
 import { HomeTopicMonthlyEvents } from "./components/HomeTopicMonthlyEvents";
 import { HomeTopicNews } from "./components/HomeTopicNews";
@@ -10,6 +11,7 @@ import { HomeTopicVideo } from "./components/HomeTopicVideo";
 const HomePage = () => {
   return (
     <>
+      <BannerVideo />
       <Banner />
       <HomeTopicNews />
       <HomeTopicEvent />

@@ -1,7 +1,6 @@
 import React from "react"
 import NewsList from "../components/NewsList";
 import NewsBanner from "../components/NewsBanner";
-import { useNavigate } from "react-router-dom";
 import { paths } from "@constants/router";
 
 const data = [

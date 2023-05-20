@@ -2,6 +2,8 @@ import { ImageTranslation } from "@components/ImageTranslation";
 import { ModalContext } from "@contexts/ModalContext";
 import React, { useContext } from "react";
 import ModalImage from "./ModalImage";
+import useInView from "@hooks/useInView";
+import clsx from "clsx";
 
 const ImagesData = [
   "https://media.istockphoto.com/id/1363664395/vi/anh/sao-bi%E1%BB%83n-v%C3%A0-v%E1%BB%8F-s%C3%B2-tr%C3%AAn-b%C3%A3i-bi%E1%BB%83n-m%C3%B9a-h%C3%A8-trong-n%C6%B0%E1%BB%9Bc-bi%E1%BB%83n-n%E1%BB%81n-m%C3%B9a-h%C3%A8.jpg?s=1024x1024&w=is&k=20&c=20U3sH2E1iqZxhRDpqZrpYDW-6Xykgde2520SJIrfYs=",
@@ -26,9 +28,10 @@ const ImageItem = ({ item, index }: { item: string, index:number }) => {
   const showModal = () => {
     setElementModal(<ModalImage currentIndex={index} />)
   }
+  const {ref, isInView} = useInView()
   return (
-    <div className=" xl:max-h-[461px]  bg-bg_FAFAFA " onClick={showModal}>
-      <div className="pics overflow-hidden  max-h-[468px] xl:max-h-[461px] relative">
+    <div className="xl:max-h-[461px]  bg-bg_FAFAFA " onClick={showModal}>
+      <div ref={ref} className={clsx("pics overflow-hidden  max-h-[468px] xl:max-h-[461px] relative", {"animate__animated animate__fadeInUp": isInView})}>
         <ImageTranslation link={item}></ImageTranslation>
       </div>
     </div>

@@ -3,12 +3,14 @@ import about from "./about.json"
 import button from "./button.json"
 import common from "./common.json"
 import news from "./news.json"
+import admin from "./admin.json"
 
 export const ko = {
     ...home,
     ...about,
     ...button,
     ...common ,
-    ...news ,
+    ...news,
+    ...admin
 
 }

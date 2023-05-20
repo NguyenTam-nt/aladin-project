@@ -36,6 +36,7 @@ export default {
         bg_F8F8F8: "#F8F8F8",
         bg_9EA8B3: "#9EA8B3",
         bg_272E35: "#272E35",
+        text_C53434: "#C53434"
       },
       backgroundImage: {
         gr_text:
@@ -44,7 +45,6 @@ export default {
       screens: {
         _320: "320px",
         _370: "370px",
-        sm: "640px",
         sm: "640px",
         // => @media (min-width: 640px) { ... }
 

@@ -2,7 +2,6 @@ import { Banner } from "@features/abouts/components/Banner";
 import ContentNews from "./components/ContentNews";
 import NewsRelated from "./components/NewsRelated";
 import { LinkPageHeader } from "@components/LinkPageHeader";
-import { HeaderTilteLink } from "@components/HeaderTilteLink";
 
 const NewsDetailPage = () => {
   return (

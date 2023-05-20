@@ -2,7 +2,7 @@ import { Button } from "@components/Button";
 import { TranslateContext } from "@contexts/Translation";
 import useInView from "@hooks/useInView";
 import clsx from "clsx";
-import React, { useContext, useRef } from "react";
+import React, { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 
 type Props = {
