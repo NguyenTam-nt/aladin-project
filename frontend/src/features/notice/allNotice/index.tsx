@@ -1,3 +1,4 @@
+import { paths } from "@constants/router";
 import NewsBanner from "@features/news/components/NewsBanner";
 import NewsList from "@features/news/components/NewsList";
 import React from "react"
@@ -66,12 +67,15 @@ const bannerItem = [
   },
 ];
 
-
 const AllNotice = () => {
+  const navigatonToDetail = `${paths.notice.prefix}/${paths.notice.detail}`
   return (
     <div className="w-rp  justify-between items-center mb-[120px] ">
-      <NewsBanner newsBanner={bannerItem}  />
-      <NewsList newsItem={data}  />
+      <NewsBanner
+        newsBanner={bannerItem}
+        navigationToDetail={navigatonToDetail}
+      />
+      <NewsList newsItem={data} navigationToDetail={navigatonToDetail} />
     </div>
   );
 };

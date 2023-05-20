@@ -2,8 +2,9 @@ import { TranslateContext } from "@contexts/Translation";
 import React, { useContext } from "react";
 
 const contentData = {
-  title: `Đẩy mạnh nghiên cứu về chính trị Hàn Quốc trong bối cảnh Việt Nam - Hàn Quốc trở thành Đối tác chiến lược toàn diện`,
-  time: "Ngày đăng tải: 25/12/2023",
+  title_vn: `Đẩy mạnh nghiên cứu về chính trị Hàn Quốc trong bối cảnh Việt Nam - Hàn Quốc trở thành Đối tác chiến lược toàn diện`,
+  title_ko: `베트남의 맥락에서 한국 정치에 대한 연구 촉진 - 한국은 포괄적인 전략적 동반자 관계가 됨` ,
+  time: "25/12/2023",
   content_vn:
     "Vào chiều ngày 15/5/2023, trong khuôn khổ Dự án “Xây dựng trường đại học trọng điểm về Hàn Quốc học tại Việt Nam” do Viện Nghiên cứu Hàn Quốc học Trung ương tài trợ, Hội thảo khoa học quốc gia “Nghiên cứu chính trị Hàn Quốc tại Việt Nam: Một số vấn đề lý luận và thực tiễn” do Khoa Hàn Quốc học, Trường ĐH KHXH&NV, ĐHQG-HCM tổ chức đã diễn ra thành công tốt đẹp." +
     "</br></br> Phát biểu khai mạc hội thảo, TS. Lê Hoàng Dũng - Phó Hiệu trưởng Trường ĐH KHXH&NV, ĐHQG-HCM đã gửi lời cảm ơn chân thành vào nhiệt liệt chào mừng sự có mặt của tất cả đại biểu đến tham dự. TS. Lê Hoàng Dũng khẳng định:" +
@@ -67,14 +68,14 @@ const contentData = {
 
 const ContentNews = () => {
 
-  const {isVn} = useContext(TranslateContext)
+  const {t ,isVn} = useContext(TranslateContext)
   return (
     <div className="flex flex-1 flex-col">
       <p className="mt-[32px] text-_24 xl:text-_40  font-semibold text-text_primary line-clamp-4">
-        {contentData.title}
+        {isVn ? contentData.title_vn : contentData.title_ko}
       </p>
       <p className="text-_14  font-normal mt-1 text-text_secondary ">
-        {contentData.time}
+        {t("common.create_day") + ": " + contentData.time}
       </p>
       <div className="h-[1px] bg-bg_7E8B99 my-1 "></div>
       <div
@@ -83,7 +84,6 @@ const ContentNews = () => {
           __html: isVn ? contentData.content_vn : contentData.content_ko,
         }}
       />
-    
     </div>
   );
 };

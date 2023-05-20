@@ -6,6 +6,7 @@
         "_search": "검색",
         "_month": "월",
         "_back": "뒤로",
-        "_now": "현재"
+        "_now": "현재" ,
+        "_newRelated": "관련 게시물"
     }
 }

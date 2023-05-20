@@ -1,6 +1,8 @@
 import React from "react"
 import NewsList from "../components/NewsList";
 import NewsBanner from "../components/NewsBanner";
+import { useNavigate } from "react-router-dom";
+import { paths } from "@constants/router";
 
 const data = [
   {
@@ -65,12 +67,12 @@ const bannerItem = [
   },
 ];
 
-
 const AllNews = () => {
+  const navigatonToDetail = `${paths.news.prefix}/${paths.news.detail}`
   return (
     <div className="w-rp  justify-between items-center mb-[120px] ">
-      <NewsBanner newsBanner={bannerItem}  />
-      <NewsList newsItem={data}  />
+      <NewsBanner newsBanner={bannerItem}  navigationToDetail={navigatonToDetail} />
+      <NewsList newsItem={data}  navigationToDetail={navigatonToDetail}  />
     </div>
   );
 };
