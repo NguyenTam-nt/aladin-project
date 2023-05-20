@@ -1,2 +1,5 @@
 
-export const index = {}
+export const prefixRootRoute = {
+    "public": "/",
+    "admin": "/quan-ly"
+}

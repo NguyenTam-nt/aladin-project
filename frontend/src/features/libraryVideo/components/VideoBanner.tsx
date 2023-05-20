@@ -1,6 +1,5 @@
 
 import { TranslateContext } from "@contexts/Translation";
-import { BannerSlider } from "@features/abouts/components/BannerSlider";
 import React, { useContext, useState } from "react";
 import { BannerVideoSlider } from "./BannerSlider";
 import TagNews from "@components/TagNews";

@@ -1,0 +1,28 @@
+{
+    "admin": {
+        "navigation": {
+            "_account": "Quản lý tài khoản",
+            "_login": "Quản lý trang đăng nhập",
+            "_banner": "Quản lý banner",
+            "_home": "Quản lý trang chủ",
+            "_about": "Quản lý giới thiệu",
+            "_sub_abouts": {
+                "_general": "Tổng quan",
+                "_brand": "Thương hiệu",
+                "_structure": "Cơ cấu tổ chức nhân sự",
+                "_brochure": "Brochure",
+                "_category": "Danh mục bài viết"
+            },
+            "_news": "Quản lý tin tức",
+            "_notice": "Quản lý thông báo",
+            "_file": "Quản lý tài liệu - văn bản",
+            "_cadres": "Quản lý cán bộ",
+            "_subject": "Quản lý bộ môn",
+            "_library_image": "Quản lý thư viện ảnh",
+            "_library_video": "Quản lý thư viện video",
+            "_user": "Thông tin tài khoản",
+            "_password": "Đổi mật khẩu",
+            "_logout": "Đăng xuất"
+        }
+    }
+}

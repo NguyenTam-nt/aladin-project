@@ -81,6 +81,24 @@
     animation-delay: calc(var(--animate-delay) * var(--animate-count));
   }
 
+  @keyframes fadeInDown {
+    from {
+      opacity: 0;
+      -webkit-transform: translate3d(0, -100%, 0);
+      transform: translate3d(0, -100%, 0);
+    }
+  
+    to {
+      opacity: 1;
+      -webkit-transform: translate3d(0, 0, 0);
+      transform: translate3d(0, 0, 0);
+    }
+  }
+  .animate__fadeInDown {
+    -webkit-animation-name: fadeInDown;
+    animation-name: fadeInDown;
+  }
+
   @keyframes flipInY {
     from {
       -webkit-transform: perspective(400px) rotate3d(0, 1, 0, 90deg);

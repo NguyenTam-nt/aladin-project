@@ -1,0 +1,28 @@
+{
+    "admin": {
+        "navigation": {
+            "_account": "계정 관리",
+            "_login": "로그인 페이지 관리",
+            "_banner": "배너 관리",
+            "_home": "홈페이지 관리",
+            "_about": "추천 관리",
+            "_sub_abouts": {
+                "_general": "개요",
+                "_brand": "브랜드",
+                "_structure": "인간 조직 구조",
+                "_brochure": "브로슈어",
+                "_category": "기사 카테고리"
+            },
+            "_news": "뉴스 관리",
+            "_notice": "알림 관리",
+            "_file": "문서 관리 - 텍스트",
+            "_cadres": "직원 관리",
+            "_subject": "과목 관리",
+            "_library_image": "이미지 라이브러리 관리",
+            "_library_video": "비디오 라이브러리 관리",
+            "_user": "계정 정보",
+            "_password": "비밀번호 변경",
+            "_logout": "로그아웃"
+        }
+    }
+}

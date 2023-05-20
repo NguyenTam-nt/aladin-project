@@ -100,8 +100,8 @@ interface INewsItem  {
 const NewsItem = (props : INewsItem) => {
   const { imageUrl, name, sub  } = props
   return (
-    <div className="h-[212px] xl:h-[461px]  bg-bg_FAFAFA ">
-      <div className=" overflow-hidden h-[212px] xl:h-[461px] relative flex flex-1">
+    <div className="h-[212px] m992:h-[461px]  bg-bg_FAFAFA ">
+      <div className=" overflow-hidden h-[212px] m992:h-[461px] relative flex flex-1">
         <ImageTranslation link={imageUrl}></ImageTranslation>
         <div className=" absolute  bottom-0 left-0  bg-bg_0_0_0_003 h-[84px] w-full flex items-center  text-center justify-center">
           <div>
@@ -123,7 +123,7 @@ interface CadresListProps {
 const CadresList = (props : CadresListProps ) => {
   return (
     <>
-      <div className="grid grid-cols-2  xl:grid-cols-4 gap-[24px] mt-[24px]">
+      <div className="grid grid-cols-2  m992:grid-cols-4 gap-[24px] mt-[24px]">
         {(!props?.type ? dumyItems : dumyItem2).map((item, index) => (
           <NewsItem
             imageUrl={item.imageUrl}

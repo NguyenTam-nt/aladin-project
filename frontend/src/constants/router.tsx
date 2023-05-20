@@ -68,6 +68,7 @@ export const paths = {
     _curriculum: "giao-trinh",
     _sample: "van-ban-mau",
     _library: "thu-vien",
+    detail : "chi-tiet-tai-tieu"
   },
   cadres: {
     prefix: "/can-bo",
@@ -324,6 +325,12 @@ export const rootRouter: IRouter[] = [
   },
   {
     path: `${paths.notice.prefix}/${paths.notice.detail}`,
+    element: NewsDetailPage,
+    name: "home.header.navigation.sub_news._detail",
+    isDetail: true,
+  },
+  {
+    path: `${paths.documents.prefix}/${paths.documents.detail}`,
     element: NewsDetailPage,
     name: "home.header.navigation.sub_news._detail",
     isDetail: true,
