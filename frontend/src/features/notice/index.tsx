@@ -1,7 +1,7 @@
 import { HeaderTilteLink } from "@components/HeaderTilteLink";
-import { Outlet } from "react-router-dom";
 import { Banner } from "@features/abouts/components/Banner";
 import { LinkPageHeader } from "@components/LinkPageHeader";
+import AllNotice from "./allNotice";
 
 const NoticePage = () => {
   return (
@@ -9,7 +9,7 @@ const NoticePage = () => {
       <Banner></Banner>
       <LinkPageHeader  />
       <HeaderTilteLink></HeaderTilteLink>
-      <Outlet></Outlet>
+      <AllNotice />
     </>
   );
 };

@@ -2,11 +2,13 @@ import { ICArrowLeftLong } from "@assets/icons/ICArrowLeftLong";
 import { ImageTranslation } from "@components/ImageTranslation";
 import { colorRandom } from "@constants/color";
 import { withResponsive } from "@constants/container";
+import { paths } from "@constants/router";
 import { TranslateContext } from "@contexts/Translation";
 import useInView from "@hooks/useInView";
 import useWindowResize from "@hooks/useWindowResize";
 import clsx from "clsx";
 import React, { useContext, useMemo } from "react";
+import { Link } from "react-router-dom";
 
 type Props = {
   isReversed?: boolean;
@@ -36,7 +38,8 @@ export const HomeTopicEventItem = ({ isReversed = false, data }: Props) => {
       >
         <ImageTranslation link={data.image} />
       </div>
-      <div
+      <Link
+        to={`${paths.news.prefix}/${paths.news.detail}?slug=trao-thuong`}
         className="flex-1 h-[270px] flex flex-col justify-center items-center text-center  relative"
         style={{
           background: color.bg,
@@ -77,7 +80,7 @@ export const HomeTopicEventItem = ({ isReversed = false, data }: Props) => {
             backgroundColor: color.bg,
           }}
         />
-      </div>
+      </Link>
     </div>
   );
 };

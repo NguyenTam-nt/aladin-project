@@ -25,7 +25,7 @@ export const FooterAbout = () => {
               <img src={Logo} alt="logo" className="w-[27px] h-[32px] md:w-auto md:h-auto object-cover" />
             </>
             <div className="ml-[16px]">
-              <h3 className=" w-[70%]  text-_9 md:text-[18px] font-bold">
+              <h3 className=" w-[80%]  text-_9 md:text-[18px] font-bold">
                 {t("home.header.subTitle")}
               </h3>
             </div>

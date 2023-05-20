@@ -5,33 +5,45 @@ import { TranslateContext } from "@contexts/Translation";
 import useWindowResize from "@hooks/useWindowResize";
 import clsx from "clsx";
 import React, { useContext, useMemo, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useSearchParams } from "react-router-dom";
 
 export const HeaderTilteLink = () => {
   const params = useLocation();
+  const [querys] = useSearchParams()
+
+  console.log({querys: querys.get("type")})
+
+  const rootPath = useMemo(() => {
+    const query = params.pathname.split("/")[1];
+    return rootRouter.find((item) => item.path === `/${query}`) 
+  }, [params.pathname])
 
   const subNavs = useMemo(() => {
-    const query = params.pathname.split("/")[1];
-    return rootRouter.find((item) => item.path === `/${query}`)?.subNavs ?? [];
-  }, [params.pathname]);
+    return rootPath?.subNavs ?? [];
+  }, [rootPath]);
 
   const subQuery = useMemo(() => {
     const query = params.pathname.split("/");
-    if (query.length === 2 && subNavs && subNavs.length) {
-      return subNavs.find((item) => item.path === "");
-    } else if (subNavs.length > 2) {
-      return subNavs.find((item) => item.path === query[2]);
+    const typeQuery = querys.get("type")
+    if(!typeQuery) {
+        if (query.length === 2 && subNavs && subNavs.length) {
+          return subNavs.find((item) => item.path === "");
+        } else if (subNavs.length > 2) {
+          return subNavs.find((item) => item.path === query[2]);
+      }
+    }else {
+      return subNavs.find((item) => item.path === typeQuery);
     }
 
     return undefined;
-  }, [subNavs, params.pathname]);
-  console.log(subQuery?.path)
+  }, [subNavs, params.pathname, querys]);
 
   return (
     <HeaderTitle
       prefix={params.pathname.split("/")[1]}
       title={subQuery?.name ?? ""}
       listLink={subNavs.filter((item) => (item.path !== subQuery?.path && !item?.isDetail))}
+      isQuery={rootPath?.isHidenRouter}
     />
   );
 };
@@ -53,13 +65,14 @@ const NewTextOptions = ({ title, path}: TitleProps) => {
 type Props = {
   prefix: string;
   title: string;
+  isQuery?: boolean
   listLink: {
     path: string;
     name: string;
   }[];
 };
 
-const HeaderTitle = ({ title, listLink, prefix }: Props) => {
+const HeaderTitle = ({ title, listLink, prefix, isQuery }: Props) => {
   const { t } = useContext(TranslateContext);
   const [isShow, setIsShow] = useState(false);
   const { width } = useWindowResize();
@@ -84,7 +97,7 @@ const HeaderTitle = ({ title, listLink, prefix }: Props) => {
       </p>
       <div className="h-[2px]  bg-bg_7E8B99 flex-1"></div>
       {listLink.slice(0, limitSlice).map((item, index) => (
-        <NewTextOptions path={`/${prefix}${item.path ? `/${item.path}` : ""}`} key={index} title={item.name} />
+        <NewTextOptions path={`/${prefix}${item.path ? isQuery ? `?type=${item.path}` : `/${item.path}` : ""}`} key={index} title={item.name} />
       ))}
       {listLink.length >= limitSlice + 1 ? (
         <div className="flex items-center relative cursor-pointer" onClick={handleShow}>
@@ -104,7 +117,7 @@ const HeaderTitle = ({ title, listLink, prefix }: Props) => {
               return (
                 <li key={index} className="h-[32px] w-[200px] flex items-center border-b-[1px] border-solid border-br_E9ECEF px-[16px]">
                   <Link
-                    to={`/${prefix}${item.path ? `/${item.path}` : ""}`}
+                    to={`/${prefix}${item.path ? isQuery ? `?type=${item.path}` : `/${item.path}` : ""}`}
                     className="text-_14 xl:text-_18 hover:text-primary duration-300 w-auto line-clamp-1"
                   >
                     {t(item.name)}
