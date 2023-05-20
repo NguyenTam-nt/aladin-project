@@ -34,7 +34,7 @@ export const BannerItemImage = ({
     }
   return (
     <div
-      className={clsx("flex-1 relative animated-parent banner_home animate__animated animate__fadeInUp")}
+      className={clsx("flex-1 relative animated-parent banner_home")}
       onMouseEnter={handleMouseIn}
       onMouseLeave={handleMouseOut} >
       <div className="absolute w-full flex h-full z-0" ref={refImage}>

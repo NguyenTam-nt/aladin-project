@@ -5,6 +5,13 @@
     min-height: calc(100vh - 182px);
 }
 
+.banner_home_video {
+    height: calc(100vh - 182px);
+    max-height: calc(100vh - 182px);
+    min-height: calc(100vh - 182px);
+}
+
+
 
 .animated-up, .animated-up-delay {
     opacity: 0;
