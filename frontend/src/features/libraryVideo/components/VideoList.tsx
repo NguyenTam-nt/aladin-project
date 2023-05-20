@@ -6,9 +6,11 @@ import Pagination from "@features/news/components/Paginnation";
 import React, { useContext } from "react";
 import { ButtonActionVideo } from "./ButtonActionVideo";
 import ModalVideo from "./ModalVideo";
+import { TranslateContext } from "@contexts/Translation";
 
 const NewsItem = () => {
   const {setElementModal} = useContext(ModalContext)
+  const { t} = useContext(TranslateContext)
 
   const showModal = () => {
     setElementModal(<ModalVideo currentIndex={0} />)
@@ -18,13 +20,13 @@ const NewsItem = () => {
       <div className="overflow-hidden h-[360px]">
         <ImageTranslation link="https://images.unsplash.com/photo-1558429121-8cebc52d40a2?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1954&q=80"></ImageTranslation>
       </div>
-      <div className="absolute   z-5 bottom-[0px] left-0   bg-gr_text ">
+      <div className="absolute w-full  z-5 bottom-[0px] left-0   bg-gr_text ">
         <div className="mx-[24px]">
        <TagNews></TagNews>
         <p className=" text-_18 font-bold leading-[32px] text-text_white mt-[10px] line-clamp-2">
           Nulla ullamcorper volutpat proin integer nisi ullamcorper ut diam. Nulla ullamcorper volutpat proin integer nisi ullamcorper ut diam.
         </p>
-        <p className=" text-_14 text-text_white ">Ngày đăng tải: 23/02/2023</p>
+        <p className=" text-_14 text-text_white ">  {t("common.create_day") + ": "+"23/02/2023"}</p>
         <div className="flex flex-row my-[24px]">
         <ButtonActionVideo onPlayNow={showModal}></ButtonActionVideo>
         </div>
@@ -43,7 +45,7 @@ const VideoList = () => {
 
   return (
     <>
-      <div className="grid grid-cols-1 xl:grid-cols-2 gap-[24px] mt-[24px]">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-[24px] mt-[24px]">
         {data.map((_) => (
           <NewsItem></NewsItem>
         ))}

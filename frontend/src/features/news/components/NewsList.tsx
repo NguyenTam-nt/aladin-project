@@ -1,16 +1,15 @@
 
 import { ImageTranslation } from "@components/ImageTranslation";
-import React from "react";
+import React, { useContext } from "react";
 import Pagination from "./Paginnation";
 import TagNews from "@components/TagNews";
 import { Link } from "react-router-dom";
-import { paths } from "@constants/router";
-
-
+import { TranslateContext } from "@contexts/Translation";
 
 
 const NewsItem = ({ item  , navigation  }: { item: INewsItem  , navigation : string}) => {
   const { tagName, title, time, image ,  } = item;
+  const { t } = useContext(TranslateContext);
   return (
     <Link to={`${navigation}?id=1`} className="h-[360px]  bg-bg_FAFAFA">
       <div className=" overflow-hidden h-[184px]">
@@ -23,7 +22,7 @@ const NewsItem = ({ item  , navigation  }: { item: INewsItem  , navigation : str
           {title}
         </p>
 
-        <p className=" text-_14 text-text_black "> {time}</p>
+        <p className=" text-_14 text-text_black ">    {t("common.create_day") + ": " + time}</p>
       </div>
     </Link>
   );

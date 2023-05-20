@@ -9,6 +9,7 @@ const dummyImage = [
 ]
 
 const RelatedItem = React.memo(({url}  : { url : string} ) => {
+  const {t} = useContext(TranslateContext)
   
   return (
     <div className="flex flex-row bg-bg_FAFAFA  mt-[16px]">
@@ -24,7 +25,7 @@ const RelatedItem = React.memo(({url}  : { url : string} ) => {
           Nulla ullamcorper volutpat.
         </p>
         <p className=" text-_14 text-text_black mt-[8px]">
-          Ngày đăng tải: 23/02/2023
+        {t("common.create_day") + ": "+"23/02/2023"}
         </p>
       </div>
     </div>
@@ -36,12 +37,12 @@ const RelatedItem = React.memo(({url}  : { url : string} ) => {
 const NewsRelated = () => {
   const { t } = useContext(TranslateContext);
   return (
-    <div >
+    <div>
       <p className=" text-_24 xl:text-_40  font-semibold text-text_primary mb-[24px] xl:mb-[56px] mt-[40px] xl:mt-[0px]">
         {t("common._newRelated")}
       </p>
       {dummyImage.map((item, index) => (
-        <RelatedItem  url={item} key={index}></RelatedItem>
+        <RelatedItem url={item} key={index}></RelatedItem>
       ))}
     </div>
   );
