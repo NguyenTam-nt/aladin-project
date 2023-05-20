@@ -24,7 +24,7 @@ type Props = {
 const ImagesVideo = [
   "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
   "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
-  "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+  "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
 ];
 
 const ImagesData = [
@@ -44,31 +44,33 @@ export default function ModalVideo({ currentIndex }: Props) {
   } = useSwiperNavigationRef();
   const [currentIndexActive, setCurrentIndex] = useState(currentIndex);
   const { hideModal } = useContext(ModalContext);
-  const [isOpenLoading, setIsOpenLoading] = useState(false)
-  const {t} = useContext(TranslateContext)
+  const [isOpenLoading, setIsOpenLoading] = useState(false);
+  const { t } = useContext(TranslateContext);
   const upload = () => {
     let url = ImagesVideo[currentIndexActive];
-    downloadVideo(url)
+    downloadVideo(url);
     // saveAs(url, "video");
   };
 
   const downloadVideo = (urls: string) => {
-    setIsOpenLoading(true)
+    setIsOpenLoading(true);
     axios({
       url: urls,
-      method: 'GET',
-      responseType: 'blob',
-    }).then((response) => {
-      const urlObject = window.URL.createObjectURL(new Blob([response.data]));
-      const link = document.createElement('a');
-      link.href = urlObject;
-      link.setAttribute('download', 'video.mp4');
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-    }).finally(() => {
-      setIsOpenLoading(false)
-    });
+      method: "GET",
+      responseType: "blob",
+    })
+      .then((response) => {
+        const urlObject = window.URL.createObjectURL(new Blob([response.data]));
+        const link = document.createElement("a");
+        link.href = urlObject;
+        link.setAttribute("download", "video.mp4");
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      })
+      .finally(() => {
+        setIsOpenLoading(false);
+      });
   };
 
   return (
@@ -105,7 +107,10 @@ export default function ModalVideo({ currentIndex }: Props) {
             {ImagesVideo.map((item, index: any) => {
               return (
                 <SwiperSlide key={index} className=" w-full">
-                  <VideoItem url={item} isActive={currentIndexActive === index} />
+                  <VideoItem
+                    url={item}
+                    isActive={currentIndexActive === index}
+                  />
                 </SwiperSlide>
               );
             })}
@@ -134,7 +139,8 @@ export default function ModalVideo({ currentIndex }: Props) {
             navigation={false}
             onSwiper={setThumbActive}
             style={{
-              width: (32 + 12) * (ImagesVideo.length >= 9 ? 9 : ImagesVideo.length),
+              width:
+                (32 + 12) * (ImagesVideo.length >= 9 ? 9 : ImagesVideo.length),
             }}
             modules={[Thumbs]}
             className="swiper-item-thumb"
@@ -154,15 +160,23 @@ export default function ModalVideo({ currentIndex }: Props) {
               );
             })}
           </SwiperComponent>
-          <div
-            onClick={upload}
-            className="ml-auto md:justify-self-end mt-[24px] md:m-0 cursor-pointer"
-          >
-            <ICDownload />
-          </div>
+          {!isOpenLoading ? (
+            <div className="ml-auto md:justify-self-end mt-[24px] md:m-0 cursor-pointer">
+              <div onClick={upload}>
+                <ICDownload />
+              </div>
+            </div>
+          ) : (
+            <div>
+              <Loading />
+              <p className="text-center text-white font-normal text-_16">
+                {t("button._loading")}
+              </p>
+            </div>
+          )}
         </div>
       </div>
-      {
+      {/* {
         isOpenLoading ? (
           <div className=" fixed inset-0 z-40 bg-bg_0_0_0_003 flex items-center justify-center">
               <div>
@@ -172,34 +186,33 @@ export default function ModalVideo({ currentIndex }: Props) {
 
           </div>
         ) : null
-      }
+      } */}
     </div>
   );
 }
 
 type PropVideoItem = {
-  url: string
-  isActive: boolean
-}
+  url: string;
+  isActive: boolean;
+};
 
-const VideoItem = ({url, isActive}:PropVideoItem) => {
-  const refVideo = useRef<HTMLVideoElement>(null)
+const VideoItem = ({ url, isActive }: PropVideoItem) => {
+  const refVideo = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
-    if(refVideo.current) {
-      console.log({isActive})
-      if(isActive){
-        refVideo.current.play()
-      }else {
-        refVideo.current.pause()
+    if (refVideo.current) {
+      console.log({ isActive });
+      if (isActive) {
+        refVideo.current.play();
+      } else {
+        refVideo.current.pause();
       }
-
     }
-  }, [isActive])
+  }, [isActive]);
 
   return (
     <video ref={refVideo} className="w-full h-full object-contain" controls>
-    <source src={url} />
-  </video>
-  )
-}
+      <source src={url} />
+    </video>
+  );
+};

@@ -71,6 +71,7 @@ export const SidebarNavigation = ({ isShowSidebar, onShow }: propsNavigate) => {
             subNavs={item.subNavs?.filter((item) => !item.isHiden)}
             key={index}
             path={item.path}
+            isHidenRouter={item.isHidenRouter}
             name={item.name}
             isHidenArrow={item?.isHiden}
           />
@@ -90,6 +91,7 @@ type Props = {
   name: string;
   path: string;
   isHidenArrow?: boolean;
+  isHidenRouter?: boolean;
   subNavs?: {
     path: string;
     name: string;
@@ -97,7 +99,7 @@ type Props = {
   onHidden: () => void;
 };
 
-export const SubNavLinkItem = ({ name, path, subNavs, onHidden, isHidenArrow }: Props) => {
+export const SubNavLinkItem = ({ name, path, subNavs, onHidden, isHidenArrow, isHidenRouter }: Props) => {
   const { t } = useContext(TranslateContext);
   const [isShow, setIsShow] = useState(false);
   const handleShow = () => {
@@ -137,7 +139,7 @@ export const SubNavLinkItem = ({ name, path, subNavs, onHidden, isHidenArrow }: 
           {subNavs.map((_item, index) => {
             return (
               <Link
-                to={`${path}${_item.path ? `/${_item.path}` : ""}`}
+              to={`${path}${ _item.path ? isHidenRouter ? `?type=${_item.path}` : `/${_item.path}` : ""}`}
                 onClick={onHidden}
                 className="h-[32px] flex items-center"
                 key={index}
@@ -151,3 +153,5 @@ export const SubNavLinkItem = ({ name, path, subNavs, onHidden, isHidenArrow }: 
     </div>
   );
 };
+
+

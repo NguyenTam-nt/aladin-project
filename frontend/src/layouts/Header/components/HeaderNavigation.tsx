@@ -11,7 +11,7 @@ export const HeaderNavigation = () => {
     <div className="h-[60px] flex justify-between items-center">
       {rootRouter.slice(0, 5).map((item, index) => {
         const subNews = item?.subNavs?.filter(_item => !_item.isHiden) ?? []
-        return (
+        return !item.isDetail ? (
           <div key={index} className={clsx({ "header-subnav": item?.subNavs })}>
             <HeaderNavigationLink
               to={item.path}
@@ -30,7 +30,7 @@ export const HeaderNavigation = () => {
                     return (
                      !_item?.isHiden && (<li key={indexSub}>
                         <HeaderSubNavigationLink
-                          to={`${item.path}${ _item.path ? `/${_item.path}` : ""}`}
+                          to={`${item.path}${ _item.path ? item.isHidenRouter ? `?type=${_item.path}` : `/${_item.path}` : ""}`}
                           text={_item.name ?? ""}
                         />
                       </li> )
@@ -40,7 +40,7 @@ export const HeaderNavigation = () => {
               </div>
             )}
           </div>
-        );
+        ) : null
       })}
 
       <div className="header-subnav cursor-pointer">
@@ -48,19 +48,19 @@ export const HeaderNavigation = () => {
         <div
           className="header-subnav-child shadow-lg right-0"
           style={{
-            ["--length-subnav" as string]: rootRouter.slice(5).length,
+            ["--length-subnav" as string]: rootRouter.slice(5).filter(item => !item.isDetail).length,
           }}
         >
           <ul>
             {rootRouter.slice(5).map((item, index) => {
-              return (
+              return !item.isDetail ? (
                 <li key={index}>
                   <HeaderSubNavigationLink
                     to={item.path}
                     text={item.name ?? ""}
                   />
                 </li>
-              );
+              ) : null
             })}
           </ul>
         </div>

@@ -10,7 +10,7 @@ export const Banner = React.memo(() => {
   const naviagtion = useNavigate()
 
   const goToTrain = () => {
-    naviagtion(`${paths.news.prefix}/${paths.news.train}`)
+    naviagtion(`${paths.news.prefix}?type=${paths.news.train}`)
   }
 
   return (

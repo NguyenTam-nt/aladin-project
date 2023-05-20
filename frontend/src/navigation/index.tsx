@@ -12,7 +12,7 @@ export const RouterRoot = () => {
       return (
         <Route key={index} path={item.path} element={<item.element />}>
           {
-            item.subNavs && item.subNavs.map((itemchild, index) => {
+            item.subNavs && !item.isHidenRouter && item.subNavs.map((itemchild, index) => {
               return (
                 <Route key={index} path={itemchild.path} element={<itemchild.element />} />
               )

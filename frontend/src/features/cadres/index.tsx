@@ -2,7 +2,7 @@ import { Banner } from "@features/abouts/components/Banner";
 import { HeaderTilteLink } from "@components/HeaderTilteLink";
 
 import { LinkPageHeader } from "@components/LinkPageHeader";
-import { Outlet } from "react-router-dom";
+import AllCadres from "./allCadres/AllCadres";
 
 const CadresPage = () => {
   return (
@@ -11,7 +11,7 @@ const CadresPage = () => {
       <LinkPageHeader />
       <HeaderTilteLink></HeaderTilteLink>;
       <div className="w-rp  justify-between items-center  pb-[41px] xl:pb-[120px]">
-       <Outlet></Outlet>
+       <AllCadres />
       </div>
     </>
   );
