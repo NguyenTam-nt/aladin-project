@@ -1,0 +1,14 @@
+{
+    "account": {
+        "_title": "DANH SÁCH TÀI KHOẢN",
+        "_btn_create": "Tại tài khoản",
+        "_form": {
+            "_name": "Tài khoản",
+            "_role": "Phân quyền",
+            "_create_day": "Ngày cấp quyền",
+            "_expired_day": "Ngày hết hạn",
+            "_function": "Chức năng"
+        }
+
+    }
+}

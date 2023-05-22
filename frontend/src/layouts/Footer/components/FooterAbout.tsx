@@ -36,7 +36,7 @@ export const FooterAbout = () => {
           </div>
           <div className="my-[25px] flex flex-col md:flex-row md:items-center">
             <div className=" w-full md:w-[210px]">
-              <Input placeholder="home.footer.emailinput" />
+              <Input id="input-footer" placeholder="home.footer.emailinput" />
             </div>
             <div className="md:ml-[25px] w-[140px]">
               <Button color="empty" className="mt-[6px] md:mt-0 bg-transparent text-text_white md:bg-white md:text-secondary" text="home.footer.follow_btn" />

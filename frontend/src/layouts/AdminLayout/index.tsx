@@ -12,7 +12,7 @@ export const AdminLayout = () => {
         <div>
           <SidebarAdmin />
         </div>
-        <div>
+        <div className=" px-[70px] 2xl:px-[123px] pt-[40px] pb-[80px]">
           <Outlet />
         </div>
       </div>

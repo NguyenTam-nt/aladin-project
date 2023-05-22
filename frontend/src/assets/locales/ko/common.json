@@ -7,6 +7,7 @@
         "_month": "월",
         "_back": "뒤로",
         "_now": "현재" ,
-        "_newRelated": "관련 게시물"
+        "_newRelated": "관련 게시물",
+        "_placeholder_search": "검색 키워드 입력"
     }
 }

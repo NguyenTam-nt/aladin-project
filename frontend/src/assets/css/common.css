@@ -1,15 +1,15 @@
-input::placeholder {
+#input-footer::placeholder {
     /* Chrome, Firefox, Opera, Safari 10.1+ */
     color: var(--text-white);
     opacity: 1; /* Firefox */
   }
   
-  input::-ms-input-placeholder {
+  #input-footer::-ms-input-placeholder {
     /* Internet Explorer 10-11 */
     color: var(--text-white);
   }
   
-  input::-ms-input-placeholder {
+  #input-footer::-ms-input-placeholder {
     /* Microsoft Edge */
     color: var(--text-white);
   }
@@ -201,4 +201,12 @@ input::placeholder {
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
   background: #555;
+}
+
+.activeLink {
+  background-color: #ebf3ff;
+  padding: 0 8px;
+  display: flex;
+  justify-content: center;
+  border-radius: 4px;
 }

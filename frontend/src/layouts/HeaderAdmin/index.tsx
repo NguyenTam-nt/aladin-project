@@ -11,7 +11,7 @@ import { ICSearch } from "@assets/icons/ICSearch";
 export const HeaderAdmin = () => {
   const { t, isVn } = useContext(TranslateContext);
   return (
-    <div className="h-[96px] pl-[32px] pr-[126px] py-[24px] bg-white flex justify-between items-center">
+    <div className="h-[96px] pl-[32px] pr-[126px] py-[24px] bg-white flex justify-between items-center border-b-[1px] border-solid border-br_E9ECEF">
       <div className="flex items-center">
         <div>
           <img className="h-[48px] w-[41px] object-cover" src={Logo} alt="" />

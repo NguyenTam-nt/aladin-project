@@ -1,0 +1,14 @@
+{
+    "account": {
+        "_title": "계정 목록",
+        "_btn_create": "계정에서",
+        "_형태": {
+            "_name": "계정",
+            "_role": "분권화",
+            "_create_day": "인증 날짜",
+            "_expired_day": "만료 날짜",
+            "_function": "함수"
+        }
+
+    }
+}
