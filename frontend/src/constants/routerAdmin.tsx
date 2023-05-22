@@ -11,6 +11,7 @@ import { ICNotice } from "@assets/icons/AdminNavigation/ICNotice";
 import { ICPassword } from "@assets/icons/AdminNavigation/ICPassword";
 import { ICSubject } from "@assets/icons/AdminNavigation/ICSubject";
 import { ICUser } from "@assets/icons/AdminNavigation/ICUser";
+import { Account } from "@features/dashboard/accounts";
 import { Outlet } from "react-router-dom";
 
 const DemoElement = () => {
@@ -115,7 +116,7 @@ export const rootRouterAdmin = [
     {
         path: pathsAdmin.account.prefix,
         name: "admin.navigation._account",
-        element: DemoElement,
+        element: Account,
         icon: ICAccount
     },
     {

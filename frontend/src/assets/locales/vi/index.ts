@@ -4,6 +4,7 @@ import button from "./button.json"
 import common from "./common.json"
 import news from "./news.json"
 import admin from "./admin.json"
+import account from "./manage_accout.json"
 export const vi = {
     ...home,
     ...button,
@@ -11,4 +12,5 @@ export const vi = {
     ...news,
     ...about,
     ...admin,
+    ...account
 }

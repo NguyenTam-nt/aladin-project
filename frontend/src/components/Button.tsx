@@ -7,10 +7,11 @@ type Props = {
   color: "primary" | "empty" ;
   text: string;
   image?: React.ReactNode
+  imageLeft?:  React.ReactNode
   className?: string
 } & ButtonHTMLAttributes<HTMLButtonElement>;
 
-export const Button = ({ size = 14, color = "primary", text, image, className, ...props }: Props) => {
+export const Button = ({ size = 14, color = "primary", text, image, className, imageLeft, ...props }: Props) => {
   const { t } = useContext(TranslateContext);
 
   return (
@@ -21,10 +22,8 @@ export const Button = ({ size = 14, color = "primary", text, image, className, .
         "bg-text_white text-secondary": color === "empty",
         "justify-between": image
       }, className)}
-      // style={{
-      //   fontSize: `${size}px`
-      // }}
     >
+      {imageLeft ? imageLeft : null}
       {t(text)}
       {image ? image : null}
     </button>

@@ -4,6 +4,7 @@ import button from "./button.json"
 import common from "./common.json"
 import news from "./news.json"
 import admin from "./admin.json"
+import account from "./manage_accout.json"
 
 export const ko = {
     ...home,
@@ -11,6 +12,6 @@ export const ko = {
     ...button,
     ...common ,
     ...news,
-    ...admin
-
+    ...admin,
+    ...account
 }
