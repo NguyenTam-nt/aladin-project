@@ -8,6 +8,41 @@
             "_create_day": "Ngày cấp quyền",
             "_expired_day": "Ngày hết hạn",
             "_function": "Chức năng"
+        },
+        "_form_create": {
+            "_title": "Thêm thành viên",
+            "_name": {
+                "_name": "Tên người dùng",
+                "_placeholder": "Nhập tên người dùng"
+            },
+            "_gender": {
+                "_name": "Giới tính",
+                "_placeholder": "Chọn giới tính"
+            },
+            "_year": {
+                "_name": "Năm sinh",
+                "_placeholder": "Chọn năm sinh"
+            },
+            "_position": {
+                "_name": "Chức vụ",
+                "_placeholder": "Chọn chức vụ"
+            },
+            "_email": {
+                "_name": "Email",
+                "_placeholder": "Nhập email"
+            },
+            "_phone": {
+                "_name": "Số điện thoại",
+                "_placeholder": "Nhập số điện thoại"
+            },
+            "_username": {
+                "_name": "Tên tài khoản",
+                "_placeholder": "Nhập tên tài khoản"
+            },
+            "_password": {
+                "_name": "Mật khẩu",
+                "_placeholder": "Nhập mật khẩu"
+            }
         }
 
     }

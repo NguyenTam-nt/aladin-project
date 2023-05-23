@@ -2,12 +2,47 @@
     "account": {
         "_title": "계정 목록",
         "_btn_create": "계정에서",
-        "_형태": {
+        "_form": {
             "_name": "계정",
             "_role": "분권화",
             "_create_day": "인증 날짜",
             "_expired_day": "만료 날짜",
             "_function": "함수"
+        },
+        "_form_create": {
+            "_title": "구성원 추가",
+            "_name": {
+                "_name": "사용자 이름",
+                "_placeholder": "사용자 이름 입력"
+            },
+            "_gender": {
+                "_name": "성별",
+                "_placeholder": "성별 선택"
+            },
+            "_year": {
+                "_name": "생년",
+                "_placeholder": "생년 선택"
+            },
+            "_position": {
+                "_name": "제목",
+                "_placeholder": "위치 선택"
+            },
+            "_email": {
+                "_name": "이메일",
+                "_placeholder": "이메일 입력"
+            },
+            "_phone": {
+                "_name": "전화번호",
+                "_placeholder": "전화번호 입력"
+            },
+            "_username": {
+                "_name": "계정 이름",
+                "_placeholder": "계정 이름 입력"
+            },
+            "_password": {
+                "_name": "비밀번호",
+                "_placeholder": "비밀번호 입력"
+            }
         }
 
     }

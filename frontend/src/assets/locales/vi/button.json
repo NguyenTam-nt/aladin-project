@@ -5,6 +5,9 @@
         "_train": "Đào tạo" ,
         "watch_now" : "Xem ngay" ,
         "share" : "Chia sẻ",
-        "_loading": "Đang tải..."
+        "_loading": "Đang tải...",
+        "_create": "Thêm",
+        "_cancel": "Hủy",
+        "_delete": "Xóa"
     }
 }

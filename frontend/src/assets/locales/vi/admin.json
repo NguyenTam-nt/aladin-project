@@ -23,6 +23,9 @@
             "_user": "Thông tin tài khoản",
             "_password": "Đổi mật khẩu",
             "_logout": "Đăng xuất"
+        },
+        "_notice": {
+            "_delete_user": "Xóa {{name}} này khỏi hệ thống?"
         }
     }
 }

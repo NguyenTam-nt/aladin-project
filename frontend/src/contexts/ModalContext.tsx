@@ -50,7 +50,7 @@ export default function ModalProvider({ children }: Props) {
 
   useLayoutEffect(() => {
     isShow
-      ? (document.body.style.overflowY = "hidden")
+      ? (document.body.style.overflowY = "visible")
       : (document.body.style.overflowY = "auto");
   }, [isShow]);
 
@@ -67,9 +67,9 @@ export default function ModalProvider({ children }: Props) {
           <div className="fixed z-30 inset-0 w-full h-[100vh]  overflow-y-auto flex  justify-center">
             <div
               className="fixed inset-0 bg-bg_0_0_0_003 z-30"
-              onClick={() => hideModal()}
+              onClick={hideModal}
             ></div>
-            <div className="relative z-[31] mt-auto w-auto h-auto mb-auto">
+            <div className="relative z-[31] mt-auto w-auto h-auto mb-auto  scale-animate">
               {element}
             </div>
           </div>
