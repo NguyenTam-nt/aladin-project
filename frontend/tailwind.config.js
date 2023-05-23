@@ -36,7 +36,8 @@ export default {
         bg_F8F8F8: "#F8F8F8",
         bg_9EA8B3: "#9EA8B3",
         bg_272E35: "#272E35",
-        text_C53434: "#C53434"
+        text_C53434: "#C53434",
+        text_565656: "#565656"
       },
       backgroundImage: {
         gr_text:
