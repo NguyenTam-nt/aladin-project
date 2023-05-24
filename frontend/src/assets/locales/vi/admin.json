@@ -26,6 +26,44 @@
         },
         "_notice": {
             "_delete_user": "Xóa {{name}} này khỏi hệ thống?"
+        },
+        "_login_page": {
+            "title": "QUẢN LÝ TRANG ĐĂNG NHẬP",
+            "_des": "Quản lý hình ảnh trang chủ"
+        },
+        "_home": {
+            "_title": "QUẢN LÝ TRANG CHỦ",
+            "_topic": {
+                "_video": "Quản lý video nổi bật",
+                "_banner": "Banner trang chủ",
+                "_content_banner": "Bài viết trong banner (tối đa 5 bài viết)",
+                "_event": "Sự kiện, các học thuật nổi bật (tối đa 4 bài viết)",
+                "_event_def": "Sự kiện trọng tâm của khoa, trường (tối đa 2 bài viết)",
+                "_banner_partner": "Banner quảng cáo",
+                "_partner": "Liên kết, thương hiệu"
+            },
+            "_banner": {
+                "_form": {
+                    "_title": "Thêm bài viết",
+                    "_title_edit": "Sửa bài viết",
+                    "_name": "Tiêu đề bài viết",
+                    "_name_placeholder": "Nhập tiêu đề bài viết",
+                    "_des": "Mô tả",
+                    "_des_placeholder": "Mô tả ngắn",
+                    "_upload": "Tải ảnh",
+                    "_path": "Đường dẫn bài viết",
+                    "_path_placeholder": "Paste link"
+                }
+            }
+        },
+        "_about": {
+            "_general": {
+                "_title": "TỔNG QUAN",
+                "_topic": {
+                    "_history": "1: Lịch sử hình thành và phát triển",
+                    "_paragraph": "Đoạn văn bản"
+                }
+            }
         }
     }
 }

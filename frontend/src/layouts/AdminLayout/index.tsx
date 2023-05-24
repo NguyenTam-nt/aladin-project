@@ -6,13 +6,13 @@ import { Footer } from "layouts/Footer";
 
 export const AdminLayout = () => {
   return (
-    <div>
+    <div className="min-w-[1280px] xl:min-w-full ">
       <HeaderAdmin />
       <div className="grid grid-cols-[360px_1fr]">
-        <div>
+        <div className="h-full">
           <SidebarAdmin />
         </div>
-        <div className=" px-[24px] 2xl:px-[123px] pt-[40px] pb-[80px]">
+        <div className="max-w-[calc(1920px-_360px)] px-[24px] 2xl:px-[123px] pt-[40px] pb-[80px]">
           <Outlet />
         </div>
       </div>

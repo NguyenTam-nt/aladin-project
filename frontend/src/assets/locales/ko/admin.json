@@ -26,6 +26,44 @@
         },
         "_notice": {
             "_delete_user": "이 {{name}}을(를) 시스템에서 삭제하시겠습니까?"
+        },
+        "_login_page": {
+            "title": "로그인 페이지 관리",
+            "_des": "홈페이지 이미지 관리"
+        },
+        "_home": {
+            "_title": "홈 관리",
+            "_topic": {
+                "_video": "추천 동영상 관리",
+                "_banner": "홈페이지 배너",
+                "_content_banner": "배너의 게시물(최대 5개 기사)",
+                "_event": "행사, 학문적 하이라이트(최대 4개 기사)",
+                "_event_def": "학부, 학교의 포커스 이벤트(최대 2개 기사)",
+                "_banner_partner": "광고 배너",
+                "_partner": "링크, 브랜드"
+            },
+            "_banner": {
+                "_form": {
+                    "_title": "기사 추가",
+                    "_title_edit": "기사 편집",
+                    "_name": "글 제목",
+                    "_name_placeholder": "게시물 제목 입력",
+                    "_des": "설명",
+                    "_des_placeholder": "간단한 설명",
+                    "_upload": "이미지 업로드",
+                    "_path": "포스트 경로",
+                    "_path_placeholder": "링크 붙여넣기"
+                }
+            },
+            "_about": {
+                "_general": {
+                    "_title": "개요",
+                    "_topic": {
+                        "_history": "1: 형성 및 발전의 역사",
+                        "_paragraph": "텍스트 단락"
+                    }
+                }
+            }
         }
     }
 }

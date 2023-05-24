@@ -11,7 +11,10 @@ import { ICNotice } from "@assets/icons/AdminNavigation/ICNotice";
 import { ICPassword } from "@assets/icons/AdminNavigation/ICPassword";
 import { ICSubject } from "@assets/icons/AdminNavigation/ICSubject";
 import { ICUser } from "@assets/icons/AdminNavigation/ICUser";
+import { General } from "@features/dashboard/about/general";
 import { Account } from "@features/dashboard/accounts";
+import { Home } from "@features/dashboard/home";
+import { Login } from "@features/dashboard/login";
 import { Outlet } from "react-router-dom";
 
 const DemoElement = () => {
@@ -122,7 +125,7 @@ export const rootRouterAdmin = [
     {
         path: pathsAdmin.login.prefix,
         name: "admin.navigation._login",
-        element: DemoElement,
+        element: Login,
         icon: ICLogin
     },
     // {
@@ -133,7 +136,7 @@ export const rootRouterAdmin = [
     {
         path: pathsAdmin.home.prefix,
         name: "admin.navigation._home",
-        element: DemoElement,
+        element: Home,
         icon: ICHome
     },
     // {
@@ -151,7 +154,7 @@ export const rootRouterAdmin = [
             {
                 path: pathsAdmin.about.general,
                 name: "admin.navigation._sub_abouts._general",
-                element: DemoElement,
+                element: General,
             },
             {
                 path: pathsAdmin.about.brand,

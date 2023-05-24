@@ -48,7 +48,7 @@ export const SidebarAdminItem = ({ data }: Props) => {
           </div>
           <div
             className={clsx("block ml-[16px]", {
-              "text-secondary font-bold": !!match && !data.subNavs,
+              "text-secondary font-bold": (!!match && !data.subNavs) || (!!match && !isShow && data.subNavs ),
             })}
           >
             {t(data.name)}
@@ -61,7 +61,7 @@ export const SidebarAdminItem = ({ data }: Props) => {
             })}
             onClick={handleShow}
           >
-            <ICArrowDown />
+            <ICArrowDown color={!!match ? Colors.secondary : Colors.text_primary} />
           </div>
         ) : null}
       </div>

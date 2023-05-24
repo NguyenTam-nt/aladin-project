@@ -50,7 +50,7 @@ export default function ModalProvider({ children }: Props) {
 
   useLayoutEffect(() => {
     isShow
-      ? (document.body.style.overflowY = "visible")
+      ? (document.body.style.overflowY = "hidden")
       : (document.body.style.overflowY = "auto");
   }, [isShow]);
 
