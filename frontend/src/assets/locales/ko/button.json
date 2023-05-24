@@ -8,6 +8,11 @@
         "_loading": "로드 중...",
         "_create": "추가",
          "_cancel": "취소",
-         "_delete": "삭제"
+         "_delete": "삭제",
+         "_here": "여기",
+         "_next": "계속",
+         "_create_post": "글 추가",
+         "_edit_post": "글 수정",
+         "_delete_post": "게시물 삭제"
     }
 }

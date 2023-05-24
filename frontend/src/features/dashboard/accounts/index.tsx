@@ -39,7 +39,7 @@ export const Account = () => {
         <Pagination
           currenPage={currenPage}
           setCurrentPage={setCurrentPage}
-          total={10}
+          total={5}
         />
       </div>
     </div>
@@ -100,7 +100,7 @@ const AccountTableItem = () => {
       <select
         id="default"
         defaultValue="Admin"
-        className="bg-gray-50 border w-[172px] border-br_E9ECEF text-text_primary  text-_14 block p-2.5 "
+        className="border w-[172px] border-br_E9ECEF text-text_primary  text-_14 block p-2.5 "
       >
         <option>Admin</option>
       </select>

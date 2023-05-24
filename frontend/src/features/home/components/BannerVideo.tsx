@@ -19,9 +19,9 @@ export const BannerVideo = () => {
     }, [isInView])
   return (
     <div ref={ref} className='banner_home_video'>
-        <video loop muted ref={refVideo} className='w-full h-full object-cover'>
+        <video autoPlay playsInline loop muted ref={refVideo} className='w-full h-full object-cover'>
             <source src={VideoHome} type="video/mp4" />
         </video>
-    </div>
+    </div> 
   )
 }

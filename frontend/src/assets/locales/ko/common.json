@@ -9,7 +9,12 @@
         "_now": "현재" ,
         "_newRelated": "관련 게시물",
         "_placeholder_search": "검색 키워드 입력",
-        "_male": "Male",
-        "_female": "Female"
+        "_male": "남성",
+        "_female": "여성",
+        "_chosse_image": "업로드할 이미지 선택",
+        "_or": "또는",
+        "_pase_link": "링크 붙여넣기",
+        "_des_post": "글 설명",
+        "_message_delete_post": "시스템에서 이 이미지를 삭제하시겠습니까?"
     }
 }

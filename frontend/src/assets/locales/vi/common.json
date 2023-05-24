@@ -10,6 +10,11 @@
         "_newRelated": "Bài viết liên quan",
         "_placeholder_search": "Nhập từ khóa tìm kiếm",
         "_male": "Nam",
-        "_female": "Nữ"
+        "_female": "Nữ",
+        "_chosse_image": "Chọn hình ảnh tải lên",
+        "_or": "hoặc",
+        "_pase_link": "Dán đường liên kết",
+        "_des_post": "Mô tả bài viết",
+        "_message_delete_post": "Xóa hình ảnh này khỏi hệ thống?"
     }
 }

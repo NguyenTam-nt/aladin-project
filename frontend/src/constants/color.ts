@@ -21,6 +21,7 @@ export const Colors = {
     bg_ECECEC: "#ECECEC",
     text_9EA8B3: "#9EA8B3",
     rgba_255_255_255_64: "rgba(255, 255, 255, 0.64)",
+    bg_FFE600: "#FFE600"
 }
 
 

@@ -17,7 +17,7 @@ export const Button = ({ size = 14, color = "primary", text, image, className, i
   return (
     <button
       {...props}
-      className={clsx("relative h-[40px] px-[16px] text-_14 xl:text-_16 w-full font-bold overflow-hidden btn-4 flex justify-center items-center", {
+      className={clsx("relative h-[40px] px-[12px] text-_14 xl:text-_16 w-full font-bold overflow-hidden btn-4 flex justify-center items-center", {
         "bg-secondary text-text_white": color === "primary",
         "bg-text_white text-secondary": color === "empty",
         "justify-between": image

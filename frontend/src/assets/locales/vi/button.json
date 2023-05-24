@@ -8,6 +8,11 @@
         "_loading": "Đang tải...",
         "_create": "Thêm",
         "_cancel": "Hủy",
-        "_delete": "Xóa"
+        "_delete": "Xóa",
+        "_here": "tại đây",
+        "_next": "Tiếp tục",
+        "_create_post": "Thêm bài viết",
+        "_edit_post": "Sửa bài viết",
+        "_delete_post": "Xóa bài viết"
     }
 }
