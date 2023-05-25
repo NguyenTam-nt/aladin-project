@@ -72,7 +72,7 @@ export default function ModalVideo({ currentIndex }: Props) {
   };
 
   return (
-    <div className="fixed inset-0 bg-[#0000004d] w-screen h-screen">
+    <div className="bg-[#0000004d] w-screen h-screen">
       <div className="w-[100vw] p-[44px] h-[100vh] bg-[#212124]">
         <div className="text-_20 md:block z-10" onClick={hideModal}>
           <span className="text-text_white flex items-center cursor-pointer">

@@ -35,6 +35,7 @@ export const TopicPostItem = memo(({ type = "EDIT" }: Props) => {
       <DialogConfirmDelete message={t("admin._notice._delete_history")} />
     );
   };
+  console.log({type})
   return (
     <div>
       <div className="">

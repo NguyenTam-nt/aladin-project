@@ -1,4 +1,4 @@
-import React, { memo, useContext, useState } from "react";
+import React, { ChangeEvent, memo, useContext, useState } from "react";
 import { HeaderAdmin } from "../components/HeaderAdmin";
 import { TranslateContext } from "@contexts/Translation";
 import { Button } from "@components/Button";
@@ -22,8 +22,8 @@ enum AccoutnForm {
 export const EditInfoAccount = () => {
     const [url , setUrl] = useState("https://s3-alpha-sig.figma.com/img/2e52/1670/c6d04f2582d9750e35ac9271f3d1643f?Expires=1685923200&Signature=ngoPFy~fH9WBHtbN4OU74eiERZl-0TuO55TuTDoNRnDNhigGz3qj578EF~0A~qL0MQkIpZPxngnOzEhdFsiRC2kycLBoivul1S7xHWyNcNpaeeUm8zostvnU8S-PaYU5SDRRmQyd~Uz1eTG5yOBYUmCa7JbQavrFPrlIpmwnDx13xITSgakAXwd5jKSVLR34OPBlQLAbaooE~G5nbhUWd~VkPel9ZacBGdH6rUfaTzR6028AJ2kcVfNv9yEcnRNNCpQPUT1HDKiaWqQRZzwZqaJ4Nxb9N1BxSSBbesVOq1pqzJAQO2tfDJHVg8HVMHfTYNrgIpLIV6PW-AmdNlX6Hw__&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4")
    
-    const handleImageChange = (event) => {
-        const file = event.target.files[0];
+    const handleImageChange = (event:ChangeEvent<HTMLInputElement>) => {
+        const file = event.target.files![0];
         setUrl(URL.createObjectURL(file));
       };
   return (

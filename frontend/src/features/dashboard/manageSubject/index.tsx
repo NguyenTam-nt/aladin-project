@@ -1,7 +1,6 @@
 import React, {
   memo,
   useContext,
-  useMemo,
   useState,
 } from "react";
 import { HeaderAdmin } from "../components/HeaderAdmin";
@@ -52,11 +51,11 @@ export const ManageSubject = () => {
 
   const { t } = useContext(TranslateContext);
   const setElementModalDelete = useContext(ModalContext).setElementModal;
-  const [data, setData] = useState<IsubjectTableItem[]>(dummyData);
+  const [data] = useState<IsubjectTableItem[]>(dummyData);
 
   const {refCheckboxAll, refCheckboxList, handleCheckAll, handleCheckedItem} = useHandleCheckbox(data.map((item) => item.id))
  
-  const onDeleteById = (id: number) => { 
+  const onDeleteById = (_: number) => { 
   }; 
 
  

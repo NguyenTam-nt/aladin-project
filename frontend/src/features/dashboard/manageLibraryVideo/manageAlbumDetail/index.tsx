@@ -1,11 +1,9 @@
 import DialogConfirmDelete from '@components/DialogConfirmDelete';
 import { ModalContext } from '@contexts/ModalContext';
 import { TranslateContext } from '@contexts/Translation';
-import React, { useContext, useState } from 'react';
-import { ModalCreate } from '../components/ModalCreate';
+import React, { ChangeEvent, useContext, useState } from 'react';
 import { ICAdd } from '@assets/icons/ICAdd';
 import Pagination from '@features/dashboard/components/Pagination';
-import { ICEdit } from '@assets/icons/ICEdit';
 import { Colors } from '@constants/color';
 import { Button } from '@components/Button';
 import { ICEditer } from '@assets/icons/ICEditer';
@@ -50,8 +48,8 @@ const ManageAlbumDetail = () => {
 
     const { setElementModal } = useContext(ModalContext);
 
-    const handleImageChange = (event) => {
-      const file = event.target.files[0];
+    const handleImageChange = (event:ChangeEvent<HTMLInputElement>) => {
+      const file = event.target.files![0];
 
       setData([{ id: 1, image: URL.createObjectURL(file) }, ...data]);
     };

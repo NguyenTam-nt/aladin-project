@@ -19,16 +19,16 @@ const Editor = ({content, onChange, onBlur}: Props) => {
       onReady={(editor: any) => {
         MyCustomUploadAdapterPlugin(editor)
       }}
-      onChange={(event: any, editor: any) => {
+      onChange={(_: any, editor: any) => {
         const data = editor.getData()
   
         onChange(data)
       }}
-      onBlur={(event: any, editor: any) => {
+      onBlur={(_: any, editor: any) => {
         const data = editor.getData()
         onBlur?.(data)
       }}
-      onFocus={(event: any, editor: any) => {}}
+      onFocus={() => {}}
     />
   )
 }
@@ -43,7 +43,7 @@ class MyUploadAdapter {
     return this.loader.file.then(async (file: any) => {
       const formData = new FormData()
       formData.append('thumbnails', file)
-      const images = undefined
+      // const images = undefined
     //   const images = await uploadService.uploadImageCustom(formData)
       return new Promise((rj) => {
         rj({

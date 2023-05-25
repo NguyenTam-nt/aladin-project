@@ -22,7 +22,7 @@ export const ImagePreview = memo(
     isVideos = false,
     className = "",
   }: Props) => {
-    return (
+    return url ? (
       <div className="w-full h-full relative rounded-[5px] overflow-hidden border border-br_E9ECEF">
         {onActive ? (
           <button
@@ -34,19 +34,17 @@ export const ImagePreview = memo(
             />
           </button>
         ) : null}
-        {url ? (
-          !isVideos ? (
-            <img
-              alt=""
-              src={url}
-              className={clsx("w-full h-full object-cover " + className)}
-            />
-          ) : (
-            <video className="w-full h-full object-cover" controls>
-              <source src={url} />
-            </video>
-          )
-        ) : null}
+        {!isVideos ? (
+          <img
+            alt=""
+            src={url}
+            className={clsx("w-full h-full object-cover " + className)}
+          />
+        ) : (
+          <video className="w-full h-full object-cover" controls>
+            <source src={url} />
+          </video>
+        )}
         {onDelete ? (
           <button
             onClick={onDelete}
@@ -56,6 +54,6 @@ export const ImagePreview = memo(
           </button>
         ) : null}
       </div>
-    );
+    ) : null;
   }
 );

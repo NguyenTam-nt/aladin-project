@@ -4,7 +4,7 @@ import { Checkbox } from "@components/Checkbox";
 import DialogConfirmDelete from "@components/DialogConfirmDelete";
 import { InputSwitch } from "@components/InputSwitch";
 import { prefixRootRoute } from "@configs/index";
-import { pathNewsHandle } from "@constants/contain";
+import {  pathNoticeHandle } from "@constants/contain";
 import { pathsAdmin } from "@constants/routerAdmin";
 import { ModalContext } from "@contexts/ModalContext";
 import { TranslateContext } from "@contexts/Translation";
@@ -14,14 +14,14 @@ import { usePagination } from "@features/dashboard/hooks/usePagination";
 import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 
-export const ListNews = () => {
+export const ListNotice = () => {
   const { t } = useContext(TranslateContext);
   const {setElementModal} = useContext(ModalContext)
   const { currenPage, setCurrentPage } = usePagination();
   const { refCheckboxAll, refCheckboxList, handleCheckAll, handleCheckedItem } =
     useHandleCheckbox([1, 2, 3, 4, 5, 6]);
     const handleShowModal = () => {
-      setElementModal(<DialogConfirmDelete message={t("admin._notice._delete_news")} />)
+      setElementModal(<DialogConfirmDelete message={t("admin._notice._delete_notice")} />)
     }
   return (
     <div className="mt-[40px]">
@@ -65,7 +65,7 @@ export const ListNews = () => {
             <div className="flex justify-end items-center gap-[12px]">
               <InputSwitch />
               <Link
-                to={`${prefixRootRoute.admin}/${pathsAdmin.news.prefix}/${pathNewsHandle.edit}?slug=${index}`}
+                to={`${prefixRootRoute.admin}/${pathsAdmin.notice.prefix}/${pathNoticeHandle.edit}?slug=${index}`}
               >
                 <ICEdit />
               </Link>

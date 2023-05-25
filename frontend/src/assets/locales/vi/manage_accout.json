@@ -1,7 +1,7 @@
 {
     "account": {
         "_title": "DANH SÁCH TÀI KHOẢN",
-        "_btn_create": "Tại tài khoản",
+        "_btn_create": "Tạo tài khoản",
         "_form": {
             "_name": "Tài khoản",
             "_role": "Phân quyền",

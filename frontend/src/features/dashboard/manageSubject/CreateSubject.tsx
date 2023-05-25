@@ -1,12 +1,10 @@
-import { Button } from "@components/Button";
 import Editor from "@components/Editor";
 import { Input } from "@components/Input";
-import { SelectInput } from "@components/SelectInput";
-import { TranslateContext } from "@contexts/Translation";
+// import { TranslateContext } from "@contexts/Translation";
 import { GroupButtonAdmin } from "@features/dashboard/components/GroupButtonAdmin";
 import { TitleForm } from "@features/dashboard/components/TitleForm";
 import TitleInput from "@features/dashboard/components/TitleInput";
-import React, { useContext } from "react";
+import React from "react";
 import { InputUploadFile } from "../components/InputUploadFIle";
 import { ImagePreview } from "../components/ImagePreview";
 import { useHandleImage } from "../hooks/useHandleImage";
@@ -23,7 +21,7 @@ enum AccoutnForm {
 }
 
 export const CreateSubject = () => {
-  const { t } = useContext(TranslateContext);
+  // const { t } = useContext(TranslateContext);
 
    const { preViewImage , handleChange} =  useHandleImage()
   return (

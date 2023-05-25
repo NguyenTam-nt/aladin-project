@@ -1,10 +1,9 @@
-import React, { memo, useContext, useState } from "react";
+import React, { memo } from "react";
 import { HeaderAdmin } from "../components/HeaderAdmin";
-import { TranslateContext } from "@contexts/Translation";
+// import { TranslateContext } from "@contexts/Translation";
 import { Button } from "@components/Button";
 import TitleInput from "../components/TitleInput";
 import { Input } from "@components/Input";
-import { SelectInput } from "@components/SelectInput";
 
 enum AccoutnForm {
   name = "name",
@@ -41,7 +40,7 @@ export const EditPassword = () => {
 };
 
 const InfoAccountTable = memo(() => {
-  const { t } = useContext(TranslateContext);
+  // const { t } = useContext(TranslateContext);
   return (
     <div className=" bg-white py-[40px] px-[24px]">
       <div className="grid grid-cols-1 gap-[24px]">

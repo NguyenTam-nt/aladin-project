@@ -1,16 +1,16 @@
-import React, { memo, useContext,  useState } from "react";
+import React, { memo, useContext } from "react";
 import { HeaderAdmin } from "../components/HeaderAdmin";
 import { TranslateContext } from "@contexts/Translation";
 import { Button } from "@components/Button";
 import { pathsAdmin } from "@constants/routerAdmin";
 import { Link } from "react-router-dom";
 
-interface IInfoAccountTableItem {
-  id: number;
-  name: string;
-  specialized: string;
-  email: string;
-}
+// interface IInfoAccountTableItem {
+//   id: number;
+//   name: string;
+//   specialized: string;
+//   email: string;
+// }
 
 export const InfoAccount = () => {
 
