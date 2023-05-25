@@ -1,5 +1,6 @@
 import { ICAbout } from "@assets/icons/AdminNavigation/ICAbout";
 import { ICAccount } from "@assets/icons/AdminNavigation/ICAccount";
+import { ICBanner } from "@assets/icons/AdminNavigation/ICBanner";
 import { ICCadres } from "@assets/icons/AdminNavigation/ICCadres";
 import { ICFile } from "@assets/icons/AdminNavigation/ICFile";
 import { ICHome } from "@assets/icons/AdminNavigation/ICHome";
@@ -11,122 +12,125 @@ import { ICNotice } from "@assets/icons/AdminNavigation/ICNotice";
 import { ICPassword } from "@assets/icons/AdminNavigation/ICPassword";
 import { ICSubject } from "@assets/icons/AdminNavigation/ICSubject";
 import { ICUser } from "@assets/icons/AdminNavigation/ICUser";
+import { ICFooter } from "@assets/icons/ICFooter";
+import { ICHeader } from "@assets/icons/ICHeader";
+import { Notice } from "@features/dashboard/Notice";
+import { HandleNotice } from "@features/dashboard/Notice/components/Category/HandleNotice";
 import { Brand } from "@features/dashboard/about/brand";
 import { Brochure } from "@features/dashboard/about/brochure";
 import { Categories } from "@features/dashboard/about/categories";
 import { General } from "@features/dashboard/about/general";
 import { Structure } from "@features/dashboard/about/structure";
 import { Account } from "@features/dashboard/accounts";
+import { Banner } from "@features/dashboard/banner";
+import { Footer } from "@features/dashboard/components/footer";
+import { Header } from "@features/dashboard/header";
 import { Home } from "@features/dashboard/home";
 import { Login } from "@features/dashboard/login";
 import { ManageCadres } from "@features/dashboard/manageCadres";
 import { ManageLibraryImage } from "@features/dashboard/manageLibraryImage";
 import ManageAlbumDetail from "@features/dashboard/manageLibraryImage/manageAlbumDetail";
 import { News } from "@features/dashboard/news";
+import { CategoryNews } from "@features/dashboard/news/components/Category";
+import { HandleNews } from "@features/dashboard/news/components/Category/HandleNews";
 import { Outlet } from "react-router-dom";
 
 const DemoElement = () => {
-    return <p className="text-_32 text-[red] text-center">Trang này chưa code nhé!</p>
-}
+  return (
+    <p className="text-_32 text-[red] text-center">Trang này chưa code nhé!</p>
+  );
+};
 
 const EmptyElement = () => {
-    return <Outlet />
-}
+  return <Outlet />;
+};
 
 export type IRouterAmin = {
- 
-        path: string;
-        name: string;
-        element: any;
-        icon?: any;
-        isHidden?: boolean;
-        subNavs?: {
-            path: string,
-            name: string,
-            element: any,
-        }[]
-}
+  path: string;
+  name?: string;
+  element: any;
+  icon?: any;
+  isHidden?: boolean;
+  subNavs?: {
+    path: string;
+    name: string;
+    element: any;
+  }[];
+};
 
 export const pathsAdmin = {
-    account: {
-        prefix: "tai-khoan"
-    },
-    login: {
-        prefix: "dang-nhap"
-    },
-    banner: {
-        prefix: "banner"
-    },
-    home:{
-        prefix: "trang-chu"
-    },
-    about: {
-        prefix: "gioi-thieu",
-        general: "",
-        brand: "thuong-hieu",
-        structure: "co-cau-to-chuc-nhan-su",
-        brochure: "brochure",
-        category: "danh-muc-bai-viet",
-    },
-    news:{
-        prefix: "tin-tuc"
-    },
-    notice: {
-        prefix: "thong-bao"
-    },
-    documents: {
-        prefix: "tai-lieu-van-ban"
-    },
-    cadres: {
-        prefix: "can-bo"
-    },
-    subject: {
-        prefix: "bo-mon",
-    },
-    library_image: {
-        prefix: "thu-vien-hinh-anh" ,
-        detail : "chi-tiet-album"
-
-    },
-    video: {
-        prefix: "video",
-    },
-    info_account: {
-        prefix: "thong-tin-tai-khoan",
-    },
-    change_password: {
-        prefix: "thay-doi-mat-khau",
-    },
-    logout: {
-        prefix: "dang-xuat",
-    },
-
-  };
-
-//   {
-//     "admin": {
-//         "navigation": {
-//             "_account": "계정 관리",
-//             "_login": "로그인 페이지 관리",
-//             "_banner": "배너 관리",
-//             "_home": "홈페이지 관리",
-//             "_about": "추천 관리",
-//             "_news": "뉴스 관리",
-//             "_notice": "알림 관리",
-//             "_file": "문서 관리 - 텍스트",
-//             "_cadres": "직원 관리",
-//             "_subject": "과목 관리",
-//             "_library_image": "이미지 라이브러리 관리",
-//             "_library_video": "비디오 라이브러리 관리",
-//             "_user": "계정 정보",
-//             "_password": "비밀번호 변경",
-//             "_logout": "로그아웃"
-//         }
-//     }
-// }
-  
+  header: {
+    prefix: "header",
+  },
+  footer: {
+    prefix: "footer",
+  },
+  account: {
+    prefix: "tai-khoan",
+  },
+  login: {
+    prefix: "dang-nhap",
+  },
+  banner: {
+    prefix: "banner",
+  },
+  home: {
+    prefix: "trang-chu",
+  },
+  about: {
+    prefix: "gioi-thieu",
+    general: "",
+    brand: "thuong-hieu",
+    structure: "co-cau-to-chuc-nhan-su",
+    brochure: "brochure",
+    category: "danh-muc-bai-viet",
+  },
+  news: {
+    prefix: "tin-tuc",
+  },
+  news_category: {
+    prefix: "danh-muc",
+  },
+  news_handle: {
+    prefix: ":type",
+  },
+  notice: {
+    prefix: "thong-bao",
+  },
+  documents: {
+    prefix: "tai-lieu-van-ban",
+  },
+  cadres: {
+    prefix: "can-bo",
+  },
+  subject: {
+    prefix: "bo-mon",
+  },
+  library_image: {
+    prefix: "thu-vien-hinh-anh",
+    detail: "chi-tiet-album",
+  },
+  video: {
+    prefix: "video",
+  },
+  info_account: {
+    prefix: "thong-tin-tai-khoan",
+  },
+  change_password: {
+    prefix: "thay-doi-mat-khau",
+  },
+  logout: {
+    prefix: "dang-xuat",
+  },
+};
 
 export const rootRouterAdmin = [
+  {
+    path: pathsAdmin.header.prefix,
+    name: "admin.navigation._header",
+    element: Header,
+    icon: ICHeader,
+  },
   {
     path: pathsAdmin.account.prefix,
     name: "admin.navigation._account",
@@ -139,11 +143,12 @@ export const rootRouterAdmin = [
     element: Login,
     icon: ICLogin,
   },
-  // {
-  //     path: pathsAdmin.banner,
-  //     name: "admin.navigation._banner",
-  //     element: DemoElement,
-  // },
+  {
+      path: pathsAdmin.banner.prefix,
+      name: "admin.navigation._banner",
+      icon: ICBanner,
+      element: Banner,
+  },
   {
     path: pathsAdmin.home.prefix,
     name: "admin.navigation._home",
@@ -196,10 +201,25 @@ export const rootRouterAdmin = [
     element: News,
   },
   {
+    path: `${pathsAdmin.news.prefix}/${pathsAdmin.news_category.prefix}`,
+    element: CategoryNews,
+    isHidden: true,
+  },
+  {
+    path: `${pathsAdmin.news.prefix}/${pathsAdmin.news_handle.prefix}`,
+    element: HandleNews,
+    isHidden: true,
+  },
+  {
     path: pathsAdmin.notice.prefix,
     name: "admin.navigation._notice",
-    element: DemoElement,
+    element: Notice,
     icon: ICNotice,
+  },
+  {
+    path: `${pathsAdmin.notice.prefix}/${pathsAdmin.news_handle.prefix}`,
+    element: HandleNotice,
+    isHidden: true,
   },
   {
     path: pathsAdmin.documents.prefix,
@@ -243,5 +263,11 @@ export const rootRouterAdmin = [
     name: "admin.navigation._password",
     element: DemoElement,
     icon: ICPassword,
+  },
+  {
+    path: pathsAdmin.footer.prefix,
+    name: "admin.navigation._footer",
+    element: Footer,
+    icon: ICFooter,
   },
 ];

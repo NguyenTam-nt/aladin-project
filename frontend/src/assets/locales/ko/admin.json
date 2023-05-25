@@ -2,6 +2,8 @@
     "admin": {
         "navigation": {
             "_account": "계정 관리",
+            "_header": "헤더 관리",
+           "_footer": "바닥글 관리",
             "_login": "로그인 페이지 관리",
             "_banner": "배너 관리",
             "_home": "홈페이지 관리",
@@ -26,7 +28,10 @@
         },
         "_notice": {
             "_delete_user": "이 {{name}}을(를) 시스템에서 삭제하시겠습니까?",
-            "_delete_history": "이 게시물을 시스템에서 삭제하시겠습니까?"
+            "_delete_history": "이 게시물을 시스템에서 삭제하시겠습니까?",
+            "_delete_news": "이 뉴스를 시스템에서 삭제하시겠습니까?",
+            "_delete_category": "시스템에서 이 범주를 삭제하시겠습니까?",
+            "_delete_notice": "이 메시지를 시스템에서 제거하시겠습니까?"
         },
         "_login_page": {
             "title": "로그인 페이지 관리",
@@ -100,13 +105,86 @@
             "title": "뉴스 관리",
             "btn_category": "카테고리 관리",
             "btn_create": "뉴스 추가",
-            "_테이블": {
+            "_table": {
                 "_no": "STT",
                 "_title": "제목",
                 "_content": "내용 요약",
                 "_category": "카테고리",
                 "_created_at": "게시일",
                 "_func": "함수"
+            },
+            "_category": {
+                "title": "기사 목록",
+                "_sub_title": "문서 카테고리 목록",
+                "_btn_create": "카테고리 추가",
+                "_테이블": {
+                    "_name": "큰 범주 이름",
+                    "_name_child": "소형 범주",
+                    "_func":"함수"
+                },
+                "_form": {
+                    "title_add": "카테고리 추가",
+                    "title_edit": "고정 카탈로그",
+                    "name_parent": "큰 범주 이름",
+                    "name_parent_placeholder": "큰 카테고리 이름을 입력하세요",
+                    "name_child": "하위 범주 이름",
+                    "name_child_placeholder": "자식 카테고리 이름 입력",
+                    "btn_create": "하위 카테고리 추가"
+                }
+            },
+            "_form": {
+                "_title_add": "새 소식 추가",
+                "_title_edit": "고정 뉴스",
+                "_name_category_parent": "대형 카테고리",
+                "_name_parent_placeholder": "큰 카테고리 선택",
+                "_name_category_child": "작은 카테고리",
+                "_name_category_child_placeholder": "하위 범주 선택",
+                "_title": "글 제목",
+                "_des": "설명",
+                "_content": "내용",
+                "_upload": "이미지 업로드",
+                "_title_placeholder": "뉴스 제목 입력",
+                 "_des_placeholder": "글 설명 입력"
+            },
+            "_notice": {
+                "_title": "알림 관리",
+                "_title_add": "알림 추가",
+                "_title_edit": "고정 공지",
+                "_btn_create": "알림 추가"
+            }
+        },
+        "_header": {
+            "title": "헤더 관리",
+            "sub_title": "메뉴 관리",
+            "_table": {
+                "_name_parent": "큰 메뉴 이름",
+                "_name_child": "작은 메뉴 이름",
+                "_func": "함수"
+            },
+            "_form": {
+                "_title_edit": "메뉴 편집",
+                "_name": "큰 메뉴 이름",
+                "_category": "하위 메뉴 목록"
+            }
+        },
+        "_footer": {
+            "_title": "바닥글 관리",
+            "_choose": "표시 범주 선택",
+            "_contact": {
+                "_title": "연락처",
+                "_fb": "페이스북 URL 붙여넣기",
+                "_yt": "유튜브 링크 붙여넣기",
+                "_lk": "링크드인 링크 붙여넣기",
+                "_placeholder": "경로 붙여넣기"
+            }
+        },
+        "_banner": {
+            "_title": "배너 관리",
+            "_form": {
+                "_title": "새 배너 추가",
+                "_name": "글 제목",
+                "_name_placeholder": "게시물 제목 입력",
+                "_upload": "이미지 업로드"
             }
         }
     }

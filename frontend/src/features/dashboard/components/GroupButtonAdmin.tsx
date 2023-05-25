@@ -3,10 +3,11 @@ import { ModalContext } from "@contexts/ModalContext";
 import React, { useContext } from "react";
 
 type Props = {
-    onSubmit: () => void
+    onSubmit: () => void,
+    isAdd?: boolean
 }
 
-export const GroupButtonAdmin = ({onSubmit}:Props) => {
+export const GroupButtonAdmin = ({onSubmit, isAdd = true}:Props) => {
     const {hideModal} = useContext(ModalContext)
   return (
     <div className="flex justify-end items-center">
@@ -16,7 +17,7 @@ export const GroupButtonAdmin = ({onSubmit}:Props) => {
         color="empty"
         className="!w-[120px] border border-br_E9ECEF mr-[24px]"
       />
-      <Button onClick={onSubmit}  text="button._create" color="primary" className="!w-[120px]" />
+      <Button onClick={onSubmit}  text={isAdd ? "button._create" : "button._save"} color="primary" className="!w-[120px]" />
     </div>
   );
 };

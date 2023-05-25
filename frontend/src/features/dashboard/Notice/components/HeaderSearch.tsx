@@ -6,7 +6,7 @@ import { Button } from "@components/Button";
 import { Checkbox } from "@components/Checkbox";
 import { prefixRootRoute } from "@configs/index";
 import { Colors } from "@constants/color";
-import { pathNewsHandle } from "@constants/contain";
+import { pathNoticeHandle } from "@constants/contain";
 import { pathsAdmin } from "@constants/routerAdmin";
 import { InputAdmin } from "@features/dashboard/components/InputAdmin";
 import clsx from "clsx";
@@ -22,9 +22,9 @@ export const HeaderFilter = () => {
     );
   };
 
-  const handleNavigateCreateNews = () => {
+  const handleNavigateCreateNotice = () => {
     navigation(
-      `${prefixRootRoute.admin}/${pathsAdmin.news.prefix}/${pathNewsHandle.add}`
+      `${prefixRootRoute.admin}/${pathsAdmin.notice.prefix}/${pathNoticeHandle.add}`
     );
   };
   return (
@@ -53,14 +53,14 @@ export const HeaderFilter = () => {
         className="h-full max-w-[197px] border border-secondary text-secondary"
       />
       <Button
-        onClick={handleNavigateCreateNews}
+        onClick={handleNavigateCreateNotice}
         imageLeft={
           <span className="mr-2">
             <ICPlus color={Colors.text_white} />
           </span>
         }
-        className="max-w-[170px] h-full"
-        text="admin.news.btn_create"
+        className="max-w-[180px] h-full"
+        text="admin.news._notice._btn_create"
         color="primary"
       />
     </div>

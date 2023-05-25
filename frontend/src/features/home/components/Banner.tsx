@@ -82,7 +82,7 @@ export const Banner = () => {
   }, [width]);
   const { ref, isInView } = useInView();
   return (
-    <div className="banner_home mt-[40px] xl:mt-[120px]">
+    <div className="banner_home mt-[40px]">
       <div className="flex h-full" ref={ref}>
         <SwiperComponent slidesPerView={previewNumber} loop={false}>
           {data.map((item, index) => {
