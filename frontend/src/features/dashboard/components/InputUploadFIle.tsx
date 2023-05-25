@@ -10,9 +10,13 @@ type Props = {
   isVideos?: boolean
 };
 
-export const InputUploadFile = ({ onChange, onPaseLink, isVideos }: Props) => {
+export const InputUploadFile = React.forwardRef(({ onChange, onPaseLink, isVideos }: Props, ref: React.LegacyRef<HTMLInputElement>) => {
   const { t } = useContext(TranslateContext);
   const id = useId();
+  const onInputClick = (e:React.MouseEvent<HTMLInputElement, MouseEvent>) => {
+    e.currentTarget.value = ""
+}
+
   return (
     <div className="flex flex-1 p-[24px] flex-col text-_14 rounded-[5px]  items-center w-full border-2 border-dashed h-full justify-center mr-[22px]">
       <div className="flex items-center">
@@ -25,13 +29,13 @@ export const InputUploadFile = ({ onChange, onPaseLink, isVideos }: Props) => {
           className=" text-secondary font-bold underline ml-1"
         >
           {t("button._here")}
-          <input accept={isVideos ? "video/*" : "image/*"} onChange={onChange} hidden type="file" id={id} />
+          <input ref={ref} onClick={onInputClick} accept={isVideos ? "video/*" : "image/*"} onChange={onChange} hidden type="file" id={id} />
         </label>
       </div>
       {onPaseLink ? <InputUploadLink onPaseLink={onPaseLink} /> : null}
     </div>
   );
-};
+})
 
 const InputUploadLink = memo(({ onPaseLink }: { onPaseLink: (link: string) => void }) => {
   const { t } = useContext(TranslateContext);
@@ -39,6 +43,7 @@ const InputUploadLink = memo(({ onPaseLink }: { onPaseLink: (link: string) => vo
   const handlePaseLink = () => {
     if(refInput.current?.value.trim() !== "") {
         onPaseLink(refInput.current!.value)
+        refInput.current!.value = ""
     }
   }
   return (

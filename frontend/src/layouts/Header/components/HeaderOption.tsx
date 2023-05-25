@@ -5,14 +5,17 @@ import { Ilanguage, TranslateContext } from '@contexts/Translation'
 import VnFlag from "@assets/images/VN.jpg";
 import KoFlag from "@assets/images/korean.jpg";
 import React, { useContext } from 'react'
-import { Link } from 'react-router-dom'
 import { HeaderItemFlag } from './HeaderItemFlag'
 import { withResponsive } from '@constants/container';
 import useWindowResize from '@hooks/useWindowResize';
+import keyCloakService from "@services/keycloakService"
 
 export const HeaderOption = () => {
     const { t, isVn } = useContext(TranslateContext);
     const {width} = useWindowResize()
+    const onLogin = () => {
+      keyCloakService.doLogin()
+    }
   return (
     <div className="flex items-center">
     <div className='mr-[18px] xl:mr-0'>
@@ -24,9 +27,9 @@ export const HeaderOption = () => {
     {t("home.header.signup")}
   </Link> */}
 
-      <Link className=" hidden xl:block text-[14px] font-bold text-white" to="#">
+      <button className=" hidden xl:block text-[14px] font-bold text-white" onClick={onLogin} >
         {t("home.header.login")}
-      </Link>
+      </button>
     </div>
      <HeaderOptionSlash />
     <div className="relative menu">

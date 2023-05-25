@@ -13,6 +13,11 @@
          "_next": "계속",
          "_create_post": "글 추가",
          "_edit_post": "글 수정",
-         "_delete_post": "게시물 삭제"
+         "_delete_post": "게시물 삭제",
+         "_save": "저장",
+         "_delete_paragral": "단락 삭제",
+         "_filter": "필터",
+         "_reset": "초기화",
+         "_accept": "적용"
     }
 }

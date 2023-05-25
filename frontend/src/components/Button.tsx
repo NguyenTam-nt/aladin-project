@@ -1,6 +1,6 @@
 import { TranslateContext } from "@contexts/Translation";
 import clsx from "clsx";
-import React, { ButtonHTMLAttributes, useContext } from "react";
+import React, { ButtonHTMLAttributes, memo, useContext } from "react";
 
 type Props = {
   size?: number;
@@ -11,7 +11,7 @@ type Props = {
   className?: string
 } & ButtonHTMLAttributes<HTMLButtonElement>;
 
-export const Button = ({ size = 14, color = "primary", text, image, className, imageLeft, ...props }: Props) => {
+export const Button = memo(({ size = 14, color = "primary", text, image, className, imageLeft, ...props }: Props) => {
   const { t } = useContext(TranslateContext);
 
   return (
@@ -28,4 +28,4 @@ export const Button = ({ size = 14, color = "primary", text, image, className, i
       {image ? image : null}
     </button>
   );
-};
+})

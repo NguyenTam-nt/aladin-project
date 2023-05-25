@@ -3,12 +3,14 @@
 @import 'swiper/css/grid';
 @import 'swiper/css/pagination';
 @import "./animated.css";
+@import "./ckeditor.css";
 
 @import "./common.css";
 @import "./header.css";
 @import "./home.css";
 @import "about.css";
 @import "./news.css";
+@import "./custom.css";
 
 
 @font-face {
