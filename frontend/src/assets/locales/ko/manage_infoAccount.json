@@ -1,0 +1,52 @@
+{
+  "info_manage": {
+    "_title": "다시 입력",
+    "_edit_info_account": "계정 정보 수정",
+    "_form": {
+      "_name": "사용자 이름",
+      "_gender": "섹스  ",
+      "_birth": "생년월일",
+      "_email": "이메일",
+      "_phone": "전화 번호",
+      "_position": "위치"
+    },
+    "_form_create": {
+      "_name": {
+        "_name": "이름과 성",
+        "_placeholder": "이름과 성을 입력하세요."
+      },
+      "_gender": {
+        "_name": "섹스",
+        "_placeholder": "성별을 선택하세요"
+      },
+      "_birth": {
+        "_name": "생년월일",
+        "_placeholder": "생년월일을 선택하세요"
+      },
+      "_position": {
+        "_name": "위치",
+        "_placeholder": "위치 선택"
+      },
+      "_email": {
+        "_name": "이메일",
+        "_placeholder": "이메일 입력"
+      },
+      "_phone": {
+        "_name": "전화 번호",
+        "_placeholder": "전화번호 입력"
+      } ,
+      "_old_password": {
+        "_name": "이전 비밀번호",
+        "_placeholder": "기존 비밀번호 입력"
+      } ,
+      "_new_password": {
+        "_name": "새 비밀번호",
+        "_placeholder": "새 비밀번호 입력"
+      } ,
+      "_re_new_password": {
+        "_name": "비밀번호 재입력",
+        "_placeholder": "새 비밀번호를 다시 입력하세요"
+      }
+    }
+  }
+}

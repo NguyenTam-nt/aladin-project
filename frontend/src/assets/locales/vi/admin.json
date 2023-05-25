@@ -27,6 +27,9 @@
           } ,
           "_library_video": "Quản lý thư viện video",
           "_user": "Thông tin tài khoản",
+          "sub_user" : {
+            "_edit_user" : "Chỉnh sửa thông tin"
+          } ,
           "_password": "Đổi mật khẩu",
           "_logout": "Đăng xuất"
         },

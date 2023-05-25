@@ -18,6 +18,8 @@ import { General } from "@features/dashboard/about/general";
 import { Structure } from "@features/dashboard/about/structure";
 import { Account } from "@features/dashboard/accounts";
 import { Home } from "@features/dashboard/home";
+import { InfoAccount } from "@features/dashboard/infoAccount";
+import { EditInfoAccount } from "@features/dashboard/infoAccount/EditInfoAccount";
 import { Login } from "@features/dashboard/login";
 import { ManageCadres } from "@features/dashboard/manageCadres";
 import { CreateCadres } from "@features/dashboard/manageCadres/CreateCadres";
@@ -27,6 +29,7 @@ import { ManageLibraryVideo } from "@features/dashboard/manageLibraryVideo";
 import { ManageSubject } from "@features/dashboard/manageSubject";
 import { CreateSubject } from "@features/dashboard/manageSubject/CreateSubject";
 import { News } from "@features/dashboard/news";
+import { EditPassword } from "@features/dashboard/password";
 import { Outlet } from "react-router-dom";
 
 const DemoElement = () => {
@@ -92,13 +95,13 @@ export const pathsAdmin = {
     library_image: {
         prefix: "thu-vien-hinh-anh" ,
         detail : "chi-tiet-album"
-
     },
     library_video: {
         prefix: "thu-vien-video",
     },
     info_account: {
         prefix: "thong-tin-tai-khoan",
+        edit : "chinh-sua-thong-tin"
     },
     change_password: {
         prefix: "thay-doi-mat-khau",
@@ -257,15 +260,22 @@ export const rootRouterAdmin = [
     isHidden: true,
   },
   {
+    path:
+      pathsAdmin.info_account.prefix + "/" + pathsAdmin.info_account.edit,
+    name: "admin.navigation._user._edit_user",
+    element: EditInfoAccount,
+    isHidden: true,
+  },
+  {
     path: pathsAdmin.info_account.prefix,
     name: "admin.navigation._user",
-    element: DemoElement,
+    element: InfoAccount,
     icon: ICUser,
   },
   {
     path: pathsAdmin.change_password.prefix,
     name: "admin.navigation._password",
-    element: DemoElement,
+    element: EditPassword,
     icon: ICPassword,
   },
 ];

@@ -38,7 +38,9 @@ export default {
         bg_272E35: "#272E35",
         bg_F5F7F9 : "#F5F7F9",
         text_C53434: "#C53434",
-        text_565656: "#565656"
+        text_565656: "#565656",
+        text_0058DB : "#0058DB" ,
+        bg_E4F1FF : "#E4F1FF",
 
       },
       backgroundImage: {
