@@ -10,11 +10,18 @@ type Props = {
   url: string;
   onActive?: () => void;
   onDelete?: () => void;
-  className?: string
+  className?: string;
 };
 
 export const ImagePreview = memo(
-  ({ isActive, onActive, onDelete, url, isVideos = false, className = "" }: Props) => {
+  ({
+    isActive,
+    onActive,
+    onDelete,
+    url,
+    isVideos = false,
+    className = "",
+  }: Props) => {
     return (
       <div className="w-full h-full relative rounded-[5px] overflow-hidden border border-br_E9ECEF">
         {onActive ? (
@@ -22,16 +29,24 @@ export const ImagePreview = memo(
             onClick={onActive}
             className="absolute top-[17px] left-[17px]"
           >
-             <ICStarActive color={isActive ? Colors.bg_FFE600 : Colors.text_white} />
+            <ICStarActive
+              color={isActive ? Colors.bg_FFE600 : Colors.text_white}
+            />
           </button>
         ) : null}
-        {!isVideos ? (
-          <img alt="" src={url} className={clsx("w-full h-full object-cover " + className)} />
-        ) : (
-          <video className="w-full h-full object-cover" controls>
-            <source src={url} />
-          </video>
-        )}
+        {url ? (
+          !isVideos ? (
+            <img
+              alt=""
+              src={url}
+              className={clsx("w-full h-full object-cover " + className)}
+            />
+          ) : (
+            <video className="w-full h-full object-cover" controls>
+              <source src={url} />
+            </video>
+          )
+        ) : null}
         {onDelete ? (
           <button
             onClick={onDelete}

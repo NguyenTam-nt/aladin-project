@@ -25,7 +25,8 @@
             "_logout": "로그아웃"
         },
         "_notice": {
-            "_delete_user": "이 {{name}}을(를) 시스템에서 삭제하시겠습니까?"
+            "_delete_user": "이 {{name}}을(를) 시스템에서 삭제하시겠습니까?",
+            "_delete_history": "이 게시물을 시스템에서 삭제하시겠습니까?"
         },
         "_login_page": {
             "title": "로그인 페이지 관리",
@@ -54,15 +55,58 @@
                     "_path": "포스트 경로",
                     "_path_placeholder": "링크 붙여넣기"
                 }
-            },
-            "_about": {
-                "_general": {
-                    "_title": "개요",
-                    "_topic": {
-                        "_history": "1: 형성 및 발전의 역사",
-                        "_paragraph": "텍스트 단락"
-                    }
+            }
+        },
+        "_about": {
+            "_general": {
+                "_title": "개요",
+                "_topic": {
+                    "_history": "1: 형성 및 발전의 역사",
+                    "_paragraph": "텍스트 단락"
+                },
+                "_form": {
+                    "_year": "연도",
+                    "_year_placeholder": "년년",
+                    "_des": "설명",
+                    "_des_placeholder": "설명 입력",
+                    "_upload": "이미지 업로드",
+                    "_title": "글 제목",
+                     "_title_placeholder": "게시물 제목 입력",
+                     "_content": "내용",
+                     "_content_placeholder": "콘텐츠 게시",
+                     "_upload_file_video": "사진 또는 비디오 업로드"
+                   
                 }
+            },
+            "_brand": {
+                "_title": "브랜드"
+            },
+            "_structure": {
+                "_title": "인적 자원 조직 구조"
+            },
+            "_brochure": {
+                "_title": "BROCHURE"
+            },
+            "_category": {
+                "_title": "기사 카테고리",
+                "_title_post": "글 카테고리 목록",
+                "_table": {
+                    "name": "카테고리 이름",
+                    "_func": "함수"
+                }
+            }
+        },
+        "news": {
+            "title": "뉴스 관리",
+            "btn_category": "카테고리 관리",
+            "btn_create": "뉴스 추가",
+            "_테이블": {
+                "_no": "STT",
+                "_title": "제목",
+                "_content": "내용 요약",
+                "_category": "카테고리",
+                "_created_at": "게시일",
+                "_func": "함수"
             }
         }
     }

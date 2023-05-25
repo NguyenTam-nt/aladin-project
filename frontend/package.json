@@ -11,9 +11,12 @@
     "postinstall": "patch-package"
   },
   "dependencies": {
+    "@ckeditor/ckeditor5-build-classic": "^35.3.2",
+    "@ckeditor/ckeditor5-react": "^5.0.3",
     "@fontsource/nunito-sans": "^4.5.10",
     "@types/file-saver": "^2.0.5",
     "axios": "^1.4.0",
+    "ckeditor5-custom-build": "./ckeditor5",
     "clsx": "^1.2.1",
     "file-saver": "^2.0.5",
     "i18next": "^22.4.15",
