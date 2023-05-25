@@ -5,13 +5,20 @@ import common from "./common.json"
 import news from "./news.json"
 import admin from "./admin.json"
 import account from "./manage_accout.json"
-
+import image from "./manage_image.json"
+import cardes_manage from "./manage_cadres.json"
+import subject_manage from "./manage_subject.json"
+import video from "./manage_video.json"
 export const ko = {
     ...home,
-    ...about,
     ...button,
-    ...common ,
+    ...common, 
     ...news,
+    ...about,
     ...admin,
-    ...account
+    ...account,
+    ...image ,
+    ...cardes_manage ,
+    ...subject_manage ,
+    ...video
 }

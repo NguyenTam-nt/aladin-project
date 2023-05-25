@@ -15,6 +15,10 @@
         "_or": "또는",
         "_pase_link": "링크 붙여넣기",
         "_des_post": "글 설명",
-        "_message_delete_post": "시스템에서 이 이미지를 삭제하시겠습니까?"
+        "_message_delete_post": "시스템에서 이 이미지를 삭제하시겠습니까?" ,
+        "sub_cadres_1": "강사 및 전임 전문가",
+        "sub_cadres_2" : "자원봉사 및 파견강사" ,
+        "update_image" : " 사진 업로드"
+       
     }
 }

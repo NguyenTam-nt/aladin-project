@@ -1,0 +1,19 @@
+{
+  "video": {
+    "_title": "QUẢN LÝ THƯ VIỆN VIDEO",
+    "title_list": "Danh sách video",
+    "title_create_new": "Thêm video mới",
+    "delete_album": "Bạn có chắc chắn muốn xóa [{{name}}] không ?",
+    "delete_video": "Bạn có chắc muốn xoá video không ?",
+    "_form_create": {
+      "_title": "THÊM VIDEO MỚI",
+      "_name": {
+        "_name": "Tiêu đề Video",
+        "_placeholder": "Nhập tiêu đề video"
+      },
+      "upload_video": {
+        "_name": "Tải Video"
+      }
+    }
+  }
+}

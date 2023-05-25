@@ -1,29 +1,51 @@
 {
-    "cadres_manage": {
-      "_title": "QUẢN LÝ CÁN BỘ",
-      "title_list": "Danh sách album ảnh",
-      "title_create_new": "Thêm album ảnh mới",
-      "delete_all_cadres": "Bạn có chắc chắn muốn xoá những cán bộ này không ?",
-      "delete_cadres": "Bạn có chắc muốn xoá ảnh không ?",
-
-      "_form": {
-        "_number": "STT",
-        "_name": "Tên cán bộ",
-        "_specialized": "Chuyên ngành - Nơi tốt nghiệp",
-        "_email": "Email",
-        "_function": "Chức năng"
+  "cadres_manage": {
+    "_title": "직원 관리",
+    "title_create_new": "더 많은 장교",
+    "delete_all_cadres": "이 담당자를 삭제하시겠습니까?",
+    "delete_cadres": "정말로 {{이름}}을(를) 삭제하시겠습니까?",
+    "_form": {
+      "_number": "STT",
+      "_name": "임원의 이름",
+      "_specialized": "특성화 - 졸업장",
+      "_email": "Email",
+      "_function": "기능"
+    },
+    "_form_create": {
+      "_title": "새 직원 추가",
+      "_name": {
+          "_name": "이름과 성",
+          "_placeholder": "이름과 성을 입력하세요."
       },
-      "_form_create": {
-        "_title": "THÊM ALBUM ẢNH MỚI",
-        "_name": {
-          "_name": "Tên Album",  
-          "_placeholder": "Nhập tên album"
-        },  
-        "_describe": {
-          "_name": "Mô tả",
-          "_placeholder": "Nhập mô tả"
-        }
+      "_category": {
+          "_name": "기사 목록",
+          "_placeholder": "게시물 카테고리 선택"
+      },
+      "_year": {
+          "_name": "생년월일",
+          "_placeholder": "생년월일을 선택하세요"
+      },
+      "_position": {
+          "_name": "위치",
+          "_placeholder": "위치 선택"
+      },
+      "_email": {
+        "_name": "Email",
+        "_placeholder": "이메일 입력"
+    },
+      "_specialized": {
+          "_name": "전문화 - 졸업할 곳",
+          "_placeholder": "전공입력 - 졸업예정지"
+      },
+      "_job": {
+          "_name": "담당업무",
+          "_placeholder": "담당업무를 입력하세요."
+      },
+      "_title_content": {
+          "_name": "제목",
+          "_placeholder": "게시물 설명 입력"
       }
-    }
+    
   }
-  
+  }
+}
