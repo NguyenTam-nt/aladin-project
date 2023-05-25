@@ -52,20 +52,17 @@ const ManageAlbumDetail = () => {
 
     const handleImageChange = (event) => {
       const file = event.target.files[0];
-
-      setData([{ id: 1, image: URL.createObjectURL(file) }, ...data]);
+      setData([{ id: Math.floor(Math.random() * 1000), image: URL.createObjectURL(file) }, ...data]);
     };
 
    const deleteImage = async () => {
-     const newData = [...data];
-     await isChoose.map((item) => {
+     let newData = [...data];
+     isChoose.map((item) => {
        try {
-        data.splice(item, 1);
-       } catch (e) {
-        
-       }
+         newData = newData.filter((itemImage) => itemImage.id !== item);
+       } catch (e) {}
      });
-     setIsChoose([])
+     setIsChoose([]);
      setData(newData);
    }; 
 
@@ -122,9 +119,9 @@ const ManageAlbumDetail = () => {
                 </div>
               </label>
           {data.map((item, index) => {
-            const active = isChoose.includes(index);
+            const active = isChoose.includes(item.id);
             return  (
-              <div key={`${index}-${active}`}>
+              <div key={`${index}-${active}`}>  
                 <div className="relative w-full">
                   <button
                     onClick={() => {
