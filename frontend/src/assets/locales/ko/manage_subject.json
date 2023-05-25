@@ -1,0 +1,30 @@
+{
+  "subject_manage": {
+    "_title": "여성 관리",
+    "title_create_new": "더 많은 과목",
+    "delete_all_subject": "이 주제를 삭제하시겠습니까?",
+    "delete_subject": "정말로 {{name}} 을(를) 삭제하시겠습니까?",
+    "_form": {
+      "_number": "STT",
+      "_name": "과목명",
+      "_title": "개요",
+      "_date": "제출 된 날짜",
+      "_function": "기능"
+    },
+    "_form_create": {
+      "_title": "새 주제 추가",
+      "_name": {
+        "_name": "과목명",
+        "_placeholder": "과목명을 입력하세요"
+      },
+      "_describe": {
+        "_name": "설명하다",
+        "_placeholder": "설명을 입력하세요"
+      },
+      "_title_content": {
+        "_name": "제목",
+        "_placeholder": "게시물 설명 입력"
+      }
+    }
+  }
+}

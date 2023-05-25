@@ -13,16 +13,44 @@
         "_function": "Chức năng"
       },
       "_form_create": {
-        "_title": "THÊM ALBUM ẢNH MỚI",
+        "_title": "Thêm cán bộ mới",
         "_name": {
-          "_name": "Tên Album",  
-          "_placeholder": "Nhập tên album"
-        },  
-        "_describe": {
-          "_name": "Mô tả",
-          "_placeholder": "Nhập mô tả"
+            "_name": "Họ và tên",
+            "_placeholder": "Nhập họ và tên"
+        },
+        "_category": {
+            "_name": "Danh mục bài viết",
+            "_placeholder": "Chọn danh mục tin đăng"
+        },
+        "_year": {
+            "_name": "Năm sinh",
+            "_placeholder": "Chọn năm sinh"
+        },
+        "_position": {
+            "_name": "Chức vụ",
+            "_placeholder": "Chọn chức vụ"
+        },
+        "_email": {
+          "_name": "Email",
+          "_placeholder": "Nhập email"
+      },
+        "_specialized": {
+            "_name": "Chuyên nghành - nơi tốt nghiệp",
+            "_placeholder": "Nhập chuyên nghành - nơi tốt nghiệp"
+        },
+        "_job": {
+            "_name": "Công việc phụ trách",
+            "_placeholder": "Nhập công việc phụ trách"
+        },
+        "_title_content": {
+            "_name": "Tiêu đề",
+            "_placeholder": "Nhập mô tả bài viết"
+        },
+        "_password": {
+            "_name": "Mật khẩu",
+            "_placeholder": "Nhập mật khẩu"
         }
-      }
+    }
     }
   }
   

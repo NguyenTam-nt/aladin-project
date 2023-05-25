@@ -22,6 +22,9 @@
           "_sub_image": {
             "_detail": "Chi tiết Album"
           },
+          "sub_cadres" : {
+            "_create_cadres" : "Thêm mới cán bộ"
+          } ,
           "_library_video": "Quản lý thư viện video",
           "_user": "Thông tin tài khoản",
           "_password": "Đổi mật khẩu",

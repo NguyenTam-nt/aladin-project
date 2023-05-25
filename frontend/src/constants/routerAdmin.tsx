@@ -20,8 +20,12 @@ import { Account } from "@features/dashboard/accounts";
 import { Home } from "@features/dashboard/home";
 import { Login } from "@features/dashboard/login";
 import { ManageCadres } from "@features/dashboard/manageCadres";
+import { CreateCadres } from "@features/dashboard/manageCadres/CreateCadres";
 import { ManageLibraryImage } from "@features/dashboard/manageLibraryImage";
 import ManageAlbumDetail from "@features/dashboard/manageLibraryImage/manageAlbumDetail";
+import { ManageLibraryVideo } from "@features/dashboard/manageLibraryVideo";
+import { ManageSubject } from "@features/dashboard/manageSubject";
+import { CreateSubject } from "@features/dashboard/manageSubject/CreateSubject";
 import { News } from "@features/dashboard/news";
 import { Outlet } from "react-router-dom";
 
@@ -78,18 +82,20 @@ export const pathsAdmin = {
         prefix: "tai-lieu-van-ban"
     },
     cadres: {
-        prefix: "can-bo"
+        prefix: "can-bo" ,
+        create_cadres : "them-can-bo"
     },
     subject: {
         prefix: "bo-mon",
+        create_subject : "them-bo-mon"
     },
     library_image: {
         prefix: "thu-vien-hinh-anh" ,
         detail : "chi-tiet-album"
 
     },
-    video: {
-        prefix: "video",
+    library_video: {
+        prefix: "thu-vien-video",
     },
     info_account: {
         prefix: "thong-tin-tai-khoan",
@@ -216,7 +222,7 @@ export const rootRouterAdmin = [
   {
     path: pathsAdmin.subject.prefix,
     name: "admin.navigation._subject",
-    element: DemoElement,
+    element: ManageSubject,
     icon: ICSubject,
   },
   {
@@ -224,6 +230,24 @@ export const rootRouterAdmin = [
     name: "admin.navigation._library_image",
     element: ManageLibraryImage,
     icon: ICLibraryImage,
+  },
+  {
+    path: pathsAdmin.library_video.prefix,
+    name: "admin.navigation._library_video",
+    element: ManageLibraryVideo,
+    icon: ICLibraryVideo,
+  },
+  {
+    path: pathsAdmin.cadres.prefix + "/" + pathsAdmin.cadres.create_cadres,
+    name: "admin.navigation.cadres._sub_cadres.create_cadres",
+    element: CreateCadres,
+    isHidden: true,
+  },
+  {
+    path: pathsAdmin.subject.prefix + "/" + pathsAdmin.subject.create_subject,
+    name: "admin.navigation.cadres._sub_cadres.create_cadres",
+    element: CreateSubject,
+    isHidden: true,
   },
   {
     path:

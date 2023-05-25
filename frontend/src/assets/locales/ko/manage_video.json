@@ -1,0 +1,19 @@
+{
+  "video": {
+    "_title": "비디오 라이브러리 관리",
+    "title_list": "동영상 목록",
+    "title_create_new": "새 동영상 추가",
+    "delete_album": "[{{name}}]을(를) 제거하시겠습니까?",
+    "delete_video": "동영상을 삭제하시겠습니까?",
+    "_form_create": {
+      "_title": "더 많은 새 비디오",
+      "_name": {
+        "_name": "동영상 제목",
+        "_placeholder": "동영상 제목 입력"
+      },
+      "upload_video": {
+        "_name": "비디오 다운로드"
+      }
+    }
+  }
+}

@@ -15,6 +15,9 @@
         "_or": "hoặc",
         "_pase_link": "Dán đường liên kết",
         "_des_post": "Mô tả bài viết",
-        "_message_delete_post": "Xóa hình ảnh này khỏi hệ thống?"
+        "_message_delete_post": "Xóa hình ảnh này khỏi hệ thống?" ,
+        "sub_cadres_1": "Giảng viên và chuyên viên cơ hữu",
+        "sub_cadres_2" : "Giảng viên tình nguyện và phái cử" ,
+        "update_image" : "Tải ảnh lên"
     }
 }

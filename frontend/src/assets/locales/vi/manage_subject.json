@@ -1,0 +1,30 @@
+{
+  "subject_manage": {
+    "_title": "QUẢN LÝ BỘ MÔN",
+    "title_create_new": "Thêm bộ môn",
+    "delete_all_subject": "Bạn có chắc chắn muốn xoá những bộ môn này không ?",
+    "delete_subject": "Bạn có chắc muốn xoá {{name}} không ?",
+    "_form": {
+      "_number": "STT",
+      "_name": "Tên bộ môn",
+      "_title": "Tóm tắt nội dung",
+      "_date": "Ngày đăng",
+      "_function": "Chức năng"
+    },
+    "_form_create": {
+      "_title": "Thêm bộ môn mới",
+      "_name": {
+        "_name": "Tên bộ môn",
+        "_placeholder": "Nhập tên bộ môn"
+      },
+      "_describe": {
+        "_name": "Mô tả",
+        "_placeholder": "Nhập mô tả"
+      },
+      "_title_content": {
+        "_name": "Tiêu đề",
+        "_placeholder": "Nhập mô tả bài viết"
+      }
+    }
+  }
+}
