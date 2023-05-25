@@ -1,0 +1,19 @@
+{
+  "image": {
+    "_title": "사진 관리 라이브러리",
+    "title_list": "사진 앨범 목록",
+    "title_create_new": "새 사진 앨범 추가",
+    "delete_album" : "앨범 [{name}}] 을(를) 삭제하시겠습니까?",
+    "_form_create": {
+      "_title": "새 사진 앨범 추가",
+      "_name": {
+        "_name": "앨범 이름",
+        "_placeholder": "앨범 이름 입력"
+      },
+      "_describe": {
+        "_name": "설명하다",
+        "_placeholder": "설명을 입력하세요"
+      }
+    }
+  }
+}

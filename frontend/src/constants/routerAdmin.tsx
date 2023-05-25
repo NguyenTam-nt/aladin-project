@@ -15,6 +15,9 @@ import { General } from "@features/dashboard/about/general";
 import { Account } from "@features/dashboard/accounts";
 import { Home } from "@features/dashboard/home";
 import { Login } from "@features/dashboard/login";
+import { ManageCadres } from "@features/dashboard/manageCadres";
+import { ManageLibraryImage } from "@features/dashboard/manageLibraryImage";
+import ManageAlbumDetail from "@features/dashboard/manageLibraryImage/manageAlbumDetail";
 import { Outlet } from "react-router-dom";
 
 const DemoElement = () => {
@@ -30,7 +33,8 @@ export type IRouterAmin = {
         path: string;
         name: string;
         element: any;
-        icon: any;
+        icon?: any;
+        isHidden?: boolean;
         subNavs?: {
             path: string,
             name: string,
@@ -75,7 +79,9 @@ export const pathsAdmin = {
         prefix: "bo-mon",
     },
     library_image: {
-        prefix: "thu-vien-hinh-anh"
+        prefix: "thu-vien-hinh-anh" ,
+        detail : "chi-tiet-album"
+
     },
     video: {
         prefix: "video",
@@ -116,120 +122,126 @@ export const pathsAdmin = {
   
 
 export const rootRouterAdmin = [
-    {
-        path: pathsAdmin.account.prefix,
-        name: "admin.navigation._account",
-        element: Account,
-        icon: ICAccount
-    },
-    {
-        path: pathsAdmin.login.prefix,
-        name: "admin.navigation._login",
-        element: Login,
-        icon: ICLogin
-    },
-    // {
-    //     path: pathsAdmin.banner,
-    //     name: "admin.navigation._banner",
-    //     element: DemoElement,
-    // },
-    {
-        path: pathsAdmin.home.prefix,
-        name: "admin.navigation._home",
-        element: Home,
-        icon: ICHome
-    },
-    // {
-    //     path: pathsAdmin.about.prefix,
-    //     name: "admin.navigation._about",
-    //     element: DemoElement,
-    //     icon: ICAbout
-    // },
-    {
-        path: pathsAdmin.about.prefix,
-        name: "admin.navigation._about",
-        element: EmptyElement,
-        icon: ICAbout,
-        subNavs: [
-            {
-                path: pathsAdmin.about.general,
-                name: "admin.navigation._sub_abouts._general",
-                element: General,
-            },
-            {
-                path: pathsAdmin.about.brand,
-                name: "admin.navigation._sub_abouts._brand",
-                element: DemoElement,
-            },
-            {
-                path: pathsAdmin.about.structure,
-                name: "admin.navigation._sub_abouts._structure",
-                element: DemoElement,
-            },
-            {
-                path: pathsAdmin.about.brochure,
-                name: "admin.navigation._sub_abouts._brochure",
-                element: DemoElement,
-            },
-            {
-                path: pathsAdmin.about.category,
-                name: "admin.navigation._sub_abouts._category",
-                element: DemoElement,
-            }
-        ]
-    },
-    {
-        path: pathsAdmin.news.prefix,
-        name: "admin.navigation._news",
-        icon: ICNews,
+  {
+    path: pathsAdmin.account.prefix,
+    name: "admin.navigation._account",
+    element: Account,
+    icon: ICAccount,
+  },
+  {
+    path: pathsAdmin.login.prefix,
+    name: "admin.navigation._login",
+    element: Login,
+    icon: ICLogin,
+  },
+  // {
+  //     path: pathsAdmin.banner,
+  //     name: "admin.navigation._banner",
+  //     element: DemoElement,
+  // },
+  {
+    path: pathsAdmin.home.prefix,
+    name: "admin.navigation._home",
+    element: Home,
+    icon: ICHome,
+  },
+  // {
+  //     path: pathsAdmin.about.prefix,
+  //     name: "admin.navigation._about",
+  //     element: DemoElement,
+  //     icon: ICAbout
+  // },
+  {
+    path: pathsAdmin.about.prefix,
+    name: "admin.navigation._about",
+    element: EmptyElement,
+    icon: ICAbout,
+    subNavs: [
+      {
+        path: pathsAdmin.about.general,
+        name: "admin.navigation._sub_abouts._general",
+        element: General,
+      },
+      {
+        path: pathsAdmin.about.brand,
+        name: "admin.navigation._sub_abouts._brand",
         element: DemoElement,
-    },
-    {
-        path: pathsAdmin.notice.prefix,
-        name: "admin.navigation._notice",
+      },
+      {
+        path: pathsAdmin.about.structure,
+        name: "admin.navigation._sub_abouts._structure",
         element: DemoElement,
-        icon: ICNotice,
-    },
-    {
-        path: pathsAdmin.documents.prefix,
-        name: "admin.navigation._file",
+      },
+      {
+        path: pathsAdmin.about.brochure,
+        name: "admin.navigation._sub_abouts._brochure",
         element: DemoElement,
-        icon: ICFile
-    },
-    {
-        path: pathsAdmin.cadres.prefix,
-        name: "admin.navigation._cadres",
+      },
+      {
+        path: pathsAdmin.about.category,
+        name: "admin.navigation._sub_abouts._category",
         element: DemoElement,
-        icon: ICCadres
-    },
-    {
-        path: pathsAdmin.subject.prefix,
-        name: "admin.navigation._subject",
-        element: DemoElement,
-        icon: ICSubject
-    },
-    {
-        path: pathsAdmin.library_image.prefix,
-        name: "admin.navigation._library_image",
-        element: DemoElement,
-        icon: ICLibraryImage
-    },
-    {
-        path: pathsAdmin.video.prefix,
-        name: "admin.navigation._library_video",
-        element: DemoElement,
-        icon: ICLibraryVideo
-    },
-    {
-        path: pathsAdmin.info_account.prefix,
-        name: "admin.navigation._user",
-        element: DemoElement,
-        icon: ICUser
-    },
-    {
-        path: pathsAdmin.change_password.prefix,
-        name: "admin.navigation._password",
-        element: DemoElement,
-        icon: ICPassword
-    }
-]
+      },
+    ],
+  },
+  {
+    path: pathsAdmin.news.prefix,
+    name: "admin.navigation._news",
+    icon: ICNews,
+    element: DemoElement,
+  },
+  {
+    path: pathsAdmin.notice.prefix,
+    name: "admin.navigation._notice",
+    element: DemoElement,
+    icon: ICNotice,
+  },
+  {
+    path: pathsAdmin.documents.prefix,
+    name: "admin.navigation._file",
+    element: DemoElement,
+    icon: ICFile,
+  },
+  {
+    path: pathsAdmin.cadres.prefix,
+    name: "admin.navigation._cadres",
+    element: ManageCadres,
+    icon: ICCadres,
+  },
+  {
+    path: pathsAdmin.subject.prefix,
+    name: "admin.navigation._subject",
+    element: DemoElement,
+    icon: ICSubject,
+  },
+  {
+    path: pathsAdmin.library_image.prefix,
+    name: "admin.navigation._library_image",
+    element: ManageLibraryImage,
+    icon: ICLibraryImage,
+  },
+  {
+    path: pathsAdmin.library_image.prefix+ "/" +pathsAdmin.library_image.detail,
+    name: "admin.navigation._sub_image._detail",
+    element: ManageAlbumDetail,
+    isHidden: true,
+  },
+  {
+    path: pathsAdmin.video.prefix,
+    name: "admin.navigation._library_video",
+    element: DemoElement,
+    icon: ICLibraryVideo,
+  },
+  {
+    path: pathsAdmin.info_account.prefix,
+    name: "admin.navigation._user",
+    element: DemoElement,
+    icon: ICUser,
+  },
+  {
+    path: pathsAdmin.change_password.prefix,
+    name: "admin.navigation._password",
+    element: DemoElement,
+    icon: ICPassword,
+  },
+];

@@ -115,9 +115,18 @@ const HeaderTitle = ({ title, listLink, prefix, isQuery }: Props) => {
           >
             {listLink.slice(limitSlice).map((item, index) => {
               return (
-                <li key={index} className="h-[32px] w-[200px] flex items-center border-b-[1px] border-solid border-br_E9ECEF px-[16px]">
+                <li
+                  key={index}
+                  className="h-[32px] w-[200px] flex items-center border-b-[1px] border-solid border-br_E9ECEF px-[16px]"
+                >
                   <Link
-                    to={`/${prefix}${item.path ? isQuery ? `?type=${item.path}` : `/${item.path}` : ""}`}
+                    to={`/${prefix}${
+                      item.path
+                        ? isQuery
+                          ? `?type=${item.path}`
+                          : `/${item.path}`
+                        : ""
+                    }`}
                     className="text-_14 xl:text-_18 hover:text-primary duration-300 w-auto line-clamp-1"
                   >
                     {t(item.name)}
