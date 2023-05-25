@@ -23,7 +23,8 @@ export const Colors = {
     rgba_255_255_255_64: "rgba(255, 255, 255, 0.64)",
     bg_FFE600: "#FFE600",
     bg_CFD6DD : "#CFD6DD",
-    text_C53434: "#C53434"
+    text_C53434: "#C53434" ,
+    bg_1A73E8 : "#1A73E8",
 }
 
 

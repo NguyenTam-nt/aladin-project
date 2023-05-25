@@ -22,36 +22,36 @@ import { pathsAdmin } from "@constants/routerAdmin";
 const dummyData = [
   {
     id: 1,
-    name: "TS. Nguyễn Thị Phương Mai",
-    specialized: "Giáo dục tiếng Hàn - Đại học quốc gia Seoul, Hàn Quốc",
-    email: "nguyenthiphuongmai@gmail.com",
+    name: "Bộ môn 1",
+    specialized: "Egestas lorem proin vitae enim netus egestas in nunc felis.",
+    email: "24/12/2023",
   },
   {
     id: 2,
-    name: "TS. Nguyễn Thị Phương Mai",
-    specialized: "Giáo dục tiếng Hàn - Đại học quốc gia Seoul, Hàn Quốc",
-    email: "nguyenthiphuongmai@gmail.com",
+    name: "Bộ môn 1",
+    specialized: "Egestas lorem proin vitae enim netus egestas in nunc felis.",
+    email: "24/12/2023",
   },
   {
     id: 3,
-    name: "TS. Nguyễn Thị Phương Mai",
-    specialized: "Giáo dục tiếng Hàn - Đại học quốc gia Seoul, Hàn Quốc",
-    email: "nguyenthiphuongmai@gmail.com",
+    name: "Bộ môn 1",
+    specialized: "Egestas lorem proin vitae enim netus egestas in nunc felis.",
+    email: "24/12/2023",
   },
 ];
-interface ICadresTableItem {
+interface IsubjectTableItem {
   id: number;
   name: string;
   specialized: string;
   email: string;
 }
 
-export const ManageCadres = () => {
+export const ManageSubject = () => {
   const [currenPage, setCurrentPage] = useState(1);
 
   const { t } = useContext(TranslateContext);
   const setElementModalDelete = useContext(ModalContext).setElementModal;
-  const [data] = useState<ICadresTableItem[]>(dummyData);
+  const [data] = useState<IsubjectTableItem[]>(dummyData);
 
   const {refCheckboxAll, refCheckboxList, handleCheckAll, handleCheckedItem} = useHandleCheckbox(data.map((item) => item.id))
  
@@ -64,8 +64,8 @@ export const ManageCadres = () => {
       <DialogConfirmDelete
         message={
           name
-            ? t("cadres_manage.delete_cadres", { name: name })
-            : t("cadres_manage.delete_all_cadres")
+            ? t("subject_manage.delete_subject", { name: name })
+            : t("subject_manage.delete_all_subject")
         }
       />
     );
@@ -74,7 +74,7 @@ export const ManageCadres = () => {
 
   return (
     <div className="px-[24px]">
-      <HeaderAdmin title="cadres_manage._title" />
+      <HeaderAdmin title="subject_manage._title" />
       <div className="flex items-center h-[48px]">
         <InputAdmin />
         <Button
@@ -90,21 +90,21 @@ export const ManageCadres = () => {
             </div>
           }
         />
-        <Link to={pathsAdmin.cadres.create_cadres}>
+        <Link to={pathsAdmin.subject.create_subject}>
           <Button
             color="primary"
-            text="cadres_manage.title_create_new"
+            text="subject_manage.title_create_new"
             className="bg-secondary  ml-[24px] !w-[200px] h-[48px]"
             imageLeft={<ICPlus />}
           />
         </Link>
       </div>
-      <CadresTable
-        onSelectAllCadres={handleCheckAll}
+      <SubjectTable
+        onSelectAllsubject={handleCheckAll}
         data={data}
         refCheckboxAll={refCheckboxAll}
         refCheckboxList={refCheckboxList}
-        setCadresChooseById={handleCheckedItem}
+        setsubjectChooseById={handleCheckedItem}
         onDeleteById={onDeleteById}
       />
       <div className="mt-[120px] flex justify-end">
@@ -118,50 +118,50 @@ export const ManageCadres = () => {
   );
 };
 
-type CadresTableProps = {
-  onSelectAllCadres:(event: React.ChangeEvent<HTMLInputElement>) => void
-  data: ICadresTableItem[];
+type subjectTableProps = {
+  onSelectAllsubject:(event: React.ChangeEvent<HTMLInputElement>) => void
+  data: IsubjectTableItem[];
   refCheckboxAll : React.RefObject<HTMLInputElement> ;
   refCheckboxList : React.MutableRefObject<HTMLInputElement[]> ;
   onDeleteById : (id : number) => void;
-  setCadresChooseById: (event: React.ChangeEvent<HTMLInputElement>, index: number) => void
+  setsubjectChooseById: (event: React.ChangeEvent<HTMLInputElement>, index: number) => void
 };
 
-const CadresTable = memo(
+const SubjectTable = memo(
   ({
-    onSelectAllCadres,
+    onSelectAllsubject,
     data,
-    setCadresChooseById,
+    setsubjectChooseById,
     onDeleteById ,
     refCheckboxAll ,
     refCheckboxList
-  }: CadresTableProps) => {
+  }: subjectTableProps) => {
     const { t } = useContext(TranslateContext);
 
     return (
       <>
-        <div className="pb-[14px] grid  grid-cols-[1fr_1fr_3fr_5fr_3fr_2fr]  mt-[40px] text-_18 font-semibold text-text_primary border-b-[1px] border-solid border-br_E9ECEF">
+        <div className="pb-[14px] grid  grid-cols-[1fr_1fr_3fr_6fr_2fr_2fr]  mt-[40px] text-_18 font-semibold text-text_primary border-b-[1px] border-solid border-br_E9ECEF">
         <button>
-          <Checkbox id="news_check" onChange={onSelectAllCadres} ref={refCheckboxAll} />
+          <Checkbox id="news_check" onChange={onSelectAllsubject} ref={refCheckboxAll} />
         </button>
-          <div>{t("cadres_manage._form._number")}</div>
-          <div>{t("cadres_manage._form._name")}</div>
-          <div>{t("cadres_manage._form._specialized")}</div>
-          <div>{t("cadres_manage._form._email")}</div>
+          <div>{t("subject_manage._form._number")}</div>
+          <div>{t("subject_manage._form._name")}</div>
+          <div>{t("subject_manage._form._title")}</div>
+          <div>{t("subject_manage._form._date")}</div>
           <div className="flex justify-end">
-            {t("cadres_manage._form._function")}
+            {t("subject_manage._form._function")}
           </div>
         </div>
-        {data.map((item: ICadresTableItem, index: number) => {
+        {data.map((item: IsubjectTableItem, index: number) => {
           return (
-            <CadresTableItem
+            <SubjectTableItem
               item={item}
               index={index}
               key={index}
-              setCadresChooseById={setCadresChooseById}
+              setsubjectChooseById={setsubjectChooseById}
               onDeleteById={onDeleteById}
               refCheckboxList={refCheckboxList}
-            />
+            />  
           );
         })}
       </>
@@ -169,26 +169,26 @@ const CadresTable = memo(
   }
 );
 
-interface CadresTableItemProps {
-  item: ICadresTableItem;
+interface subjectTableItemProps {
+  item: IsubjectTableItem;
   index: number;
-  setCadresChooseById: (event: React.ChangeEvent<HTMLInputElement>, index: number) => void ;
+  setsubjectChooseById: (event: React.ChangeEvent<HTMLInputElement>, index: number) => void ;
   onDeleteById : (id: number) => void;
   refCheckboxList : React.MutableRefObject<HTMLInputElement[]>;
 }
 
-const CadresTableItem = ({
+const SubjectTableItem = ({
   item,
   index,
-  setCadresChooseById,
+  setsubjectChooseById,
   onDeleteById ,
   refCheckboxList
-}: CadresTableItemProps) => {
+}: subjectTableItemProps) => {
   return (
-    <div className="py-[16px] grid  grid-cols-[1fr_1fr_3fr_5fr_3fr_2fr]  text-_18 font-semibold text-text_primary border-b-[1px] border-solid border-br_E9ECEF">
+    <div className="py-[16px] grid  grid-cols-[1fr_1fr_3fr_6fr_2fr_2fr]  text-_18 font-semibold text-text_primary border-b-[1px] border-solid border-br_E9ECEF">
       <button>
         <Checkbox
-          onChange={(event) => setCadresChooseById(event, index)}
+          onChange={(event) => setsubjectChooseById(event, index)}
           ref={(ref: HTMLInputElement) =>
             (refCheckboxList.current[index] = ref)
           }

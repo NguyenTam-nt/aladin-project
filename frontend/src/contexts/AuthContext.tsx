@@ -1,4 +1,4 @@
-import {ReactNode, createContext, useState, useEffect} from 'react'
+import {ReactNode, createContext, useState} from 'react'
 import authService from '@services/keycloakService'
 import type { IUser } from '@typeRules/user'
 
@@ -25,7 +25,7 @@ type Props = {
 
 export default function AuthProvider({children}: Props) {
   const [isLogin, setIsLogin] = useState(!!localStorage.getItem('accessToken'))
-  const [user, setUser] = useState<IUser>(
+  const [user] = useState<IUser>(
     JSON.parse(localStorage.getItem('account') + '') || null
   )
 

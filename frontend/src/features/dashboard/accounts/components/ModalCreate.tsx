@@ -1,4 +1,3 @@
-import { Button } from "@components/Button";
 import { Input } from "@components/Input";
 import { SelectInput } from "@components/SelectInput";
 import { TranslateContext } from "@contexts/Translation";

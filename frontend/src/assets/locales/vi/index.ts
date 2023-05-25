@@ -7,6 +7,9 @@ import admin from "./admin.json"
 import account from "./manage_accout.json"
 import image from "./manage_image.json"
 import cardes_manage from "./manage_cadres.json"
+import subject_manage from "./manage_subject.json"
+import video from "./manage_video.json"
+import info_manage from "./manage_infoAccount.json"
 export const vi = {
     ...home,
     ...button,
@@ -16,5 +19,8 @@ export const vi = {
     ...admin,
     ...account,
     ...image ,
-    ...cardes_manage
+    ...cardes_manage ,
+    ...subject_manage ,
+    ...video ,
+    ...info_manage
 }

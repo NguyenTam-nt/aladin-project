@@ -1,0 +1,52 @@
+{
+  "info_manage": {
+    "_title": "THÔNG TIN TÀI KHOẢN",
+    "_edit_info_account": "Chỉnh sửa thông tin tài khoản",
+    "_form": {
+      "_name": "Tên người dùng",
+      "_gender": "Giới tính",
+      "_birth": "Năm sinh",
+      "_email": "Email",
+      "_phone": "Số điện thoại",
+      "_position": "Chức vụ"
+    },
+    "_form_create": {
+      "_name": {
+        "_name": "Họ và tên",
+        "_placeholder": "Nhập họ và tên"
+      },
+      "_gender": {
+        "_name": "Giới tính",
+        "_placeholder": "Chọn giới tính"
+      },
+      "_birth": {
+        "_name": "Năm sinh",
+        "_placeholder": "Chọn năm sinh"
+      },
+      "_position": {
+        "_name": "Chức vụ",
+        "_placeholder": "Chọn chức vụ"
+      },
+      "_email": {
+        "_name": "Email",
+        "_placeholder": "Nhập email"
+      },
+      "_phone": {
+        "_name": "Số điện thoại",
+        "_placeholder": "Nhập số điện thoại"
+      } ,
+      "_old_password": {
+        "_name": "Mật khẩu cũ",
+        "_placeholder": "Nhập mật khẩu cũ"
+      } ,
+      "_new_password": {
+        "_name": "Mật khẩu mới",
+        "_placeholder": "Nhập mật khẩu mới"
+      } ,
+      "_re_new_password": {
+        "_name": "Nhập lại mật khẩu",
+        "_placeholder": "Nhập lại mật khẩu mới"
+      }
+    }
+  }
+}

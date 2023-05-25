@@ -4,13 +4,13 @@ import { Button } from "@components/Button";
 import { ICPlus } from "@assets/icons/ICPlus";
 import { Colors } from "@constants/color";
 import { ModalHandlePost } from "./ModalHandlePost";
-import { TranslateContext } from "@contexts/Translation";
+// import { TranslateContext } from "@contexts/Translation";
 import { ModalContext } from "@contexts/ModalContext";
 import { ImagePreview } from "@features/dashboard/components/ImagePreview";
 
 export const TopicEventDe = () => {
   const { setElementModal } = useContext(ModalContext);
-  const { t } = useContext(TranslateContext);
+  // const { t } = useContext(TranslateContext);
   const onSubmit = () => {};
   const handleShowModal = () => {
     setElementModal(<ModalHandlePost onSubmit={onSubmit} />);

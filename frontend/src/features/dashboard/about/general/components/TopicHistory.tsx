@@ -33,8 +33,8 @@ const data = [
 ];
 
 export const TopicHistory = () => {
-  const handleDelete = (index: number) => {};
-  const handleAdd = () => {};
+  // const handleDelete = (index: number) => {};
+  // const handleAdd = () => {};
   const handleEdit = () => {};
 
   return (
