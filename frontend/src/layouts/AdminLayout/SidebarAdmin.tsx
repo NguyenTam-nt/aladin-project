@@ -7,7 +7,7 @@ export const SidebarAdmin = () => {
   return (
     <div className=" border-r-2 border-solid border-br_E9ECEF h-full">
       {rootRouterAdmin.map((item, index) => {
-        return <SidebarAdminItem data={item} key={index} />;
+        return !item.isHidden && <SidebarAdminItem data={item} key={index} />;
       })}
       <SidebarAdminItemLogOut />
     </div>

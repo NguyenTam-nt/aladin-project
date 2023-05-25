@@ -1,0 +1,29 @@
+{
+    "cadres_manage": {
+      "_title": "QUẢN LÝ CÁN BỘ",
+      "title_list": "Danh sách album ảnh",
+      "title_create_new": "Thêm album ảnh mới",
+      "delete_all_cadres": "Bạn có chắc chắn muốn xoá những cán bộ này không ?",
+      "delete_cadres": "Bạn có chắc muốn xoá ảnh không ?",
+
+      "_form": {
+        "_number": "STT",
+        "_name": "Tên cán bộ",
+        "_specialized": "Chuyên ngành - Nơi tốt nghiệp",
+        "_email": "Email",
+        "_function": "Chức năng"
+      },
+      "_form_create": {
+        "_title": "THÊM ALBUM ẢNH MỚI",
+        "_name": {
+          "_name": "Tên Album",  
+          "_placeholder": "Nhập tên album"
+        },  
+        "_describe": {
+          "_name": "Mô tả",
+          "_placeholder": "Nhập mô tả"
+        }
+      }
+    }
+  }
+  

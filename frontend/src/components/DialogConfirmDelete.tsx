@@ -27,7 +27,10 @@ export default function DialogConfirmDelete({ message, onClick }: Props) {
           text="button._cancel"
         />
         <Button
-          onClick={onClick}
+          onClick={() => {
+            onClick();
+            hideModal();
+          }}
           color="primary"
           className=" h-[40px] max-w-[120px] ml-3  bg-text_C53434 font-bold"
           text="button._delete"

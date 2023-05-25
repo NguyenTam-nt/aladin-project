@@ -1,0 +1,21 @@
+{
+  "image": {
+    "_title": "QUẢN LÝ THƯ VIỆN ẢNH",
+    "title_list": "Danh sách album ảnh",
+    "title_create_new": "Thêm album ảnh mới" ,
+    "delete_album" : "Bạn có chắc chắn muốn xóa Album [{{name}}] không ?" ,
+    "delete_image" : "Bạn có chắc muốn xoá ảnh không ?" ,
+    "_form_create": {
+        "_title": "THÊM ALBUM ẢNH MỚI",
+        "_name": {
+            "_name": "Tên Album",
+            "_placeholder": "Nhập tên album"
+        },
+        "_describe": {
+            "_name": "Mô tả",
+            "_placeholder": "Nhập mô tả"
+        }
+    }
+      
+  }
+}
