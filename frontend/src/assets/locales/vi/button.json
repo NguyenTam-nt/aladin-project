@@ -13,6 +13,11 @@
         "_next": "Tiếp tục",
         "_create_post": "Thêm bài viết",
         "_edit_post": "Sửa bài viết",
-        "_delete_post": "Xóa bài viết"
+        "_delete_post": "Xóa bài viết",
+        "_save": "Lưu",
+        "_delete_paragral": "Xóa đoạn văn",
+        "_filter": "Bộ lọc",
+        "_reset": "Đặt lại",
+        "_accept": "Áp dụng"
     }
 }

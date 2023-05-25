@@ -216,3 +216,24 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     display: none;
     -webkit-appearance: none;
 }
+
+.checkbox-custom {
+  width: 18px;
+  height: 18px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.checkbox-custom > span {
+  display: none;
+}
+
+.checkbox-custom > input[type='checkbox']:checked ~ span {
+  display: block;
+  color: white;
+}
+.checkbox-custom > input[type='checkbox']:checked ~ div {
+  background-color: var(--secondary);
+  border: none;
+}

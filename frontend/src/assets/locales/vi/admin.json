@@ -28,7 +28,8 @@
           "_logout": "Đăng xuất"
         },
         "_notice": {
-            "_delete_user": "Xóa {{name}} này khỏi hệ thống?"
+            "_delete_user": "Xóa {{name}} này khỏi hệ thống?",
+            "_delete_history": "Xóa bài viết này khỏi hệ thống?"
         },
         "_login_page": {
             "title": "QUẢN LÝ TRANG ĐĂNG NHẬP",
@@ -65,7 +66,49 @@
                 "_topic": {
                     "_history": "1: Lịch sử hình thành và phát triển",
                     "_paragraph": "Đoạn văn bản"
+                },
+                "_form": {
+                    "_year": "Năm",
+                    "_year_placeholder": "yyyy",
+                    "_des": "Mô tả",
+                    "_des_placeholder": "Nhập mô tả",
+                    "_upload": "Tải ảnh",
+                    "_title": "Tiêu đề bài viết",
+                    "_title_placeholder": "Nhập tiêu đề bài viết",
+                    "_content": "Nôi dung",
+                    "_content_placeholder": "Nội dung bài viết",
+                    "_upload_file_video": "Tải ảnh hoặc video"
                 }
+            },
+            "_brand": {
+                "_title": "Thương hiệu"
+            },
+            "_structure": {
+                "_title": "CƠ CẤU TỔ CHỨC NHÂN SỰ"
+            },
+            "_brochure": {
+                "_title": "BROCHURE"
+            },
+            "_category": {
+                "_title": "DANH MỤC BÀI VIẾT",
+                "_title_post": "Danh sách danh mục bài viết",
+                "_table": {
+                    "name": "Tên danh mục",
+                    "_func": "Chức năng"
+                }
+            }
+        },
+        "news": {
+            "title": "QUẢN LÝ TIN TỨC",
+            "btn_category": "Quản lý danh mục",
+            "btn_create": "Thêm tin tức",
+            "_table": {
+                "_no": "STT",
+                "_title": "Tiêu đề",
+                "_content": "Tóm tắt nội dung",
+                "_category": "Danh mục",
+                "_created_at": "Ngày đăng",
+                "_func": "Chức năng"
             }
         }
     }

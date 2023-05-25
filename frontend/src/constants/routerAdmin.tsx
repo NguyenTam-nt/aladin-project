@@ -11,13 +11,18 @@ import { ICNotice } from "@assets/icons/AdminNavigation/ICNotice";
 import { ICPassword } from "@assets/icons/AdminNavigation/ICPassword";
 import { ICSubject } from "@assets/icons/AdminNavigation/ICSubject";
 import { ICUser } from "@assets/icons/AdminNavigation/ICUser";
+import { Brand } from "@features/dashboard/about/brand";
+import { Brochure } from "@features/dashboard/about/brochure";
+import { Categories } from "@features/dashboard/about/categories";
 import { General } from "@features/dashboard/about/general";
+import { Structure } from "@features/dashboard/about/structure";
 import { Account } from "@features/dashboard/accounts";
 import { Home } from "@features/dashboard/home";
 import { Login } from "@features/dashboard/login";
 import { ManageCadres } from "@features/dashboard/manageCadres";
 import { ManageLibraryImage } from "@features/dashboard/manageLibraryImage";
 import ManageAlbumDetail from "@features/dashboard/manageLibraryImage/manageAlbumDetail";
+import { News } from "@features/dashboard/news";
 import { Outlet } from "react-router-dom";
 
 const DemoElement = () => {
@@ -165,22 +170,22 @@ export const rootRouterAdmin = [
       {
         path: pathsAdmin.about.brand,
         name: "admin.navigation._sub_abouts._brand",
-        element: DemoElement,
+        element: Brand,
       },
       {
         path: pathsAdmin.about.structure,
         name: "admin.navigation._sub_abouts._structure",
-        element: DemoElement,
+        element: Structure,
       },
       {
         path: pathsAdmin.about.brochure,
         name: "admin.navigation._sub_abouts._brochure",
-        element: DemoElement,
+        element: Brochure,
       },
       {
         path: pathsAdmin.about.category,
         name: "admin.navigation._sub_abouts._category",
-        element: DemoElement,
+        element: Categories,
       },
     ],
   },
@@ -188,7 +193,7 @@ export const rootRouterAdmin = [
     path: pathsAdmin.news.prefix,
     name: "admin.navigation._news",
     icon: ICNews,
-    element: DemoElement,
+    element: News,
   },
   {
     path: pathsAdmin.notice.prefix,
@@ -221,16 +226,11 @@ export const rootRouterAdmin = [
     icon: ICLibraryImage,
   },
   {
-    path: pathsAdmin.library_image.prefix+ "/" +pathsAdmin.library_image.detail,
+    path:
+      pathsAdmin.library_image.prefix + "/" + pathsAdmin.library_image.detail,
     name: "admin.navigation._sub_image._detail",
     element: ManageAlbumDetail,
     isHidden: true,
-  },
-  {
-    path: pathsAdmin.video.prefix,
-    name: "admin.navigation._library_video",
-    element: DemoElement,
-    icon: ICLibraryVideo,
   },
   {
     path: pathsAdmin.info_account.prefix,
