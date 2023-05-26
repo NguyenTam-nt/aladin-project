@@ -10,6 +10,7 @@
         "koflag": "Korean",
         "viTag": "VIE",
         "koTag": "KOR",
+        "_managent": "관리",
         "navigation": {
             "home": "집",
             "about": "정보",

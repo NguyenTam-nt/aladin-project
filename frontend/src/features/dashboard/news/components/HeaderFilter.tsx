@@ -8,13 +8,15 @@ import { prefixRootRoute } from "@configs/index";
 import { Colors } from "@constants/color";
 import { pathNewsHandle } from "@constants/contain";
 import { pathsAdmin } from "@constants/routerAdmin";
+import { TranslateContext } from "@contexts/Translation";
 import { InputAdmin } from "@features/dashboard/components/InputAdmin";
+import { newsService } from "@services/newsService";
+import type { ICategory } from "@typeRules/news";
 import clsx from "clsx";
-import React, { memo, useState } from "react";
+import React, { memo, useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-const data = ["Tin tức", "Đào tạo", "Học bổng", "Sinh viên"];
 
-export const HeaderFilter = () => {
+export const HeaderFilter = memo(() => {
   const navigation = useNavigate();
   const handleNavigateCategory = () => {
     navigation(
@@ -27,6 +29,7 @@ export const HeaderFilter = () => {
       `${prefixRootRoute.admin}/${pathsAdmin.news.prefix}/${pathNewsHandle.add}`
     );
   };
+
   return (
     <div className="flex items-center gap-x-[12px] 2xl:gap-x-[24px] h-[48px]">
       <InputAdmin />
@@ -65,13 +68,20 @@ export const HeaderFilter = () => {
       />
     </div>
   );
-};
+})
 
 const ListFilter = memo(() => {
   const [isShow, setIsShow] = useState(false);
+  const [categories, setCategories] = useState<ICategory[]>([]);
+  const { isVn } = useContext(TranslateContext);
   const handleShow = () => {
     setIsShow(!isShow);
   };
+  useEffect(() => {
+    newsService.get().then((data) => {
+      setCategories(data.data);
+    });
+  }, []);
   return (
     <div className=" relative h-full">
       <Button
@@ -91,12 +101,12 @@ const ListFilter = memo(() => {
           { "footer-animation-list": isShow }
         )}
         style={{
-          ["--footer-size" as string]: data.length + 2,
+          ["--footer-size" as string]: categories.length + 2,
           ["--height-li" as string]: "40px",
         }}
       >
         <ul className="border-b border-br_E9ECEF px-[16px]">
-          {data.map((item, index) => {
+          {categories.map((item, index) => {
             const id = `${item}_${index}`;
             return (
               <li key={index} className="flex items-center h-[40px]">
@@ -104,7 +114,7 @@ const ListFilter = memo(() => {
                   <Checkbox id={id} />
                 </span>
                 <label htmlFor={id} className="ml-[19px] line-clamp-1">
-                  {item}
+                  {isVn ? item.name : item.nameKo}
                 </label>
               </li>
             );
@@ -125,4 +135,4 @@ const ListFilter = memo(() => {
       </div>
     </div>
   );
-});
+})

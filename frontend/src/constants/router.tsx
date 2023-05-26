@@ -14,6 +14,7 @@ import NewsPage from "@features/news";
 import NewsDetailPage from "@features/newsDetail";
 import LibraryImage from "@features/libraryImage";
 
+
 interface IRouter {
   path: string;
   name: string;
