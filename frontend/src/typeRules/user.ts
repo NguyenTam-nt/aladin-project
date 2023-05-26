@@ -4,7 +4,7 @@ export enum StatusUser {
 }
 
 export interface IUser {
-    authorities: any;
+    authorities?: any;
     "id": number,
     "username": "string",
     "firstName": "string",
