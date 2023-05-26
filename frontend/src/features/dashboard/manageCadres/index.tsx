@@ -1,6 +1,7 @@
 import React, {
   memo,
   useContext,
+  useEffect,
   useState,
 } from "react";
 import { HeaderAdmin } from "../components/HeaderAdmin";
@@ -18,6 +19,7 @@ import { useHandleCheckbox } from "../hooks/useHandleCheckbox";
 import { Checkbox } from "@components/Checkbox";
 import { Link } from "react-router-dom";
 import { pathsAdmin } from "@constants/routerAdmin";
+import CadresAPI from "@services/cadres";
 
 const dummyData = [
   {
@@ -57,6 +59,11 @@ export const ManageCadres = () => {
  
   const onDeleteById = (_: number) => { 
   }; 
+
+  useEffect(() => {
+   CadresAPI.getAll().then((data) => { console.log(data);
+   })
+  } , [])
 
  
   const handleShowModalDelete = (name?: string) => {

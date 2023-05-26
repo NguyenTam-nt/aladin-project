@@ -162,6 +162,59 @@
                 "_btn_create": "Thêm thông báo"
             }
         },
+        "documents": {
+            "title": "QUẢN LÝ TÀI LIỆU VĂN BẢN",
+            "btn_category": "Quản lý danh mục",
+            "btn_create": "Thêm tài liệu văn bản",
+            "_table": {
+                "_no": "STT",
+                "_title": "Tiêu đề",
+                "_content": "Tóm tắt nội dung",
+                "_category": "Danh mục",
+                "_created_at": "Ngày đăng",
+                "_func": "Chức năng"
+            },
+            "_category": {
+                "title": "DANH MỤC BÀI VIẾT",
+                "_sub_title": "Danh sách danh mục bài viết",
+                "_btn_create": "Thêm danh mục",
+                "_table": {
+                    "_name": "Tên danh mục lớn",
+                    "_name_child": "Danh mục nhỏ",
+                    "_func":"Chức năng"
+                },
+                "_form": {
+                    "title_add": "THÊM DANH MỤC",
+                    "title_edit": "SỬA DANH MỤC",
+                    "name_parent": "Tên danh mục lớn",
+                    "name_parent_placeholder": "Nhập tên danh mục lớn",
+                    "name_child": "Tên danh mục con",
+                    "name_child_placeholder": "Nhập tên danh mục con",
+                    "btn_create": "Thêm danh mục con"
+                }
+            },
+            "_form": {
+                "_title_add": "THÊM TÀI LIỆU VĂN BẢN MỚI",
+                "_title_edit": "SỬA TÀI LIỆU VĂN BẢN",
+                "_name_category_parent": "Danh mục lớn",
+                "_name_parent_placeholder": "Chọn danh mục lớn",
+                "_name_category_child": "Danh mục nhỏ",
+                "_name_category_child_placeholder": "Chọn danh mục nhỏ",
+                "_title": "Tiêu đề bài viết",
+                "_des": "Mô tả",
+                "_content": "Nội dung",
+                "_upload": "Tải ảnh lên",
+                "_title_placeholder": "Nhập tiêu đề tài liệu văn bản",
+                "_des_placeholder": "Nhập mô tả bài viết"
+            },
+            "_notice": {
+                "_title": "QUẢN LÝ THÔNG BÁO",
+                "_title_add": "THÊM THÔNG BÁO",
+                "_title_edit": "SỬA THÔNG BÁO",
+                "_btn_create": "Thêm thông báo"
+            }
+        },
+    
         "_header": {
             "title": "Quản lý header",
             "sub_title": "Quản lý menu",
