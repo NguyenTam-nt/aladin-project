@@ -54,7 +54,7 @@ const configure = () => {
 axiosClient.interceptors.response.use(
   async (response) => {
     const total = response.headers["x-total-count"];
-
+console.log({response})
     if (total) {
       return {
         total,

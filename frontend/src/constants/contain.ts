@@ -7,3 +7,5 @@ export const pathNewsHandle = {
     add: "tao-thong-bao",
     edit: "sua-thong-bao"
   }
+
+  export const PAGE_SIZE = 12

@@ -3,6 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "proxy": "http://192.168.1.122:28080",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
@@ -15,6 +16,7 @@
     "@ckeditor/ckeditor5-react": "^5.0.3",
     "@fontsource/nunito-sans": "^4.5.10",
     "@types/file-saver": "^2.0.5",
+    "@types/lodash": "^4.14.195",
     "axios": "^1.4.0",
     "ckeditor5-custom-build": "./ckeditor5",
     "clsx": "^1.2.1",
@@ -23,6 +25,7 @@
     "i18next-browser-languagedetector": "^7.0.1",
     "i18next-http-backend": "^2.2.0",
     "keycloak-js": "^17.0.1",
+    "lodash": "^4.17.21",
     "moment": "^2.29.4",
     "patch-package": "^7.0.0",
     "react": "^18.2.0",

@@ -1,7 +1,5 @@
 import Keycloak from 'keycloak-js'
 
-//http://alumin.com.vn/
-
 const _kc = Keycloak({
   url: `https://supershop.vn/auth`,
   clientId: 'hcm',

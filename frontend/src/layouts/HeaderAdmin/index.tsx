@@ -7,6 +7,7 @@ import KoFlag from "@assets/images/korean.jpg";
 import { ICArrowDown } from "@assets/icons/ICArrowDown";
 import { Colors } from "@constants/color";
 import { ICSearch } from "@assets/icons/ICSearch";
+import { Link } from "react-router-dom";
 
 export const HeaderAdmin = () => {
   const { t, isVn } = useContext(TranslateContext);
@@ -16,9 +17,9 @@ export const HeaderAdmin = () => {
       className="h-[96px] pl-[32px] z-10 pr-[126px] py-[24px] bg-white flex justify-between items-center border-b-[1px] border-solid border-br_E9ECEF fixed top-0 left-0 right-0"
     >
       <div className="flex items-center">
-        <div>
+        <Link to="/">
           <img className="h-[48px] w-[41px] object-cover" src={Logo} alt="" />
-        </div>
+        </Link>
         <div className="ml-[12px] flex-1">
           <h3 className=" text-_9 xl:text-[13px] font-bold text-text_primary w-[370px]">
             {t("home.header.subTitle")}

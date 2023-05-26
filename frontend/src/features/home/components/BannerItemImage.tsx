@@ -4,7 +4,7 @@ import { withResponsive } from "@constants/container";
 import { paths } from "@constants/router";
 import { TranslateContext } from "@contexts/Translation";
 import clsx from "clsx";
-import React, { useContext } from "react";
+import React, { memo, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { useBannerHome } from "../hooks/useBannerHome";
 
@@ -18,7 +18,7 @@ type IData = {
   image: string
 }
 
-export const BannerItemImage = ({
+export const BannerItemImage = memo(({
   data,
   length,
 }: {
@@ -86,4 +86,4 @@ export const BannerItemImage = ({
       </div>
     </div>
   );
-};
+})

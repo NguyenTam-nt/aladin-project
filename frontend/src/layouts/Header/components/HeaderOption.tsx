@@ -8,14 +8,16 @@ import React, { useContext } from 'react'
 import { HeaderItemFlag } from './HeaderItemFlag'
 import { withResponsive } from '@constants/container';
 import useWindowResize from '@hooks/useWindowResize';
-import keyCloakService from "@services/keycloakService"
+import { AuthContext } from '@contexts/AuthContext';
+import { Link } from 'react-router-dom';
+import { prefixRootRoute } from '@configs/index';
+import { pathsAdmin } from '@constants/routerAdmin';
 
 export const HeaderOption = () => {
     const { t, isVn } = useContext(TranslateContext);
     const {width} = useWindowResize()
-    const onLogin = () => {
-      keyCloakService.doLogin()
-    }
+    const {doLogin, isLogin} = useContext(AuthContext)
+
   return (
     <div className="flex items-center">
     <div className='mr-[18px] xl:mr-0'>
@@ -26,10 +28,14 @@ export const HeaderOption = () => {
       {/* <Link className="text-[14px] text-white font-normal" to="#">
     {t("home.header.signup")}
   </Link> */}
+    {
+      !isLogin ? (
+        <button className=" hidden xl:block text-[14px] font-bold text-white" onClick={doLogin} >
+          {t("home.header.login")}
+        </button>
 
-      <button className=" hidden xl:block text-[14px] font-bold text-white" onClick={onLogin} >
-        {t("home.header.login")}
-      </button>
+      ) : <Link className='text-[14px] font-bold text-white' to={`${prefixRootRoute.admin}/${pathsAdmin.info_account.prefix}`}>{t("home.header._managent")}</Link>
+    }
     </div>
      <HeaderOptionSlash />
     <div className="relative menu">
