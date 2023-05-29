@@ -237,3 +237,56 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   background-color: var(--secondary);
   border: none;
 }
+
+
+.popup-show {
+  animation: show-popup 0.5s ease;
+
+} 
+
+
+.popup-hide {
+  animation: hide-popup 0.3s ease forwards;
+}
+
+
+@keyframes show-popup {
+  from {
+      transform: translateY(-55px);
+      opacity: 0;
+  }
+
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes hide-popup {
+  0% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+
+  99% {
+    transform: translateY(-55px);
+    opacity: 0;
+  }
+
+  100% {
+    display: none;
+  }
+
+ 
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}

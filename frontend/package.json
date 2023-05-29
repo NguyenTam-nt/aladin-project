@@ -17,10 +17,12 @@
     "@fontsource/nunito-sans": "^4.5.10",
     "@types/file-saver": "^2.0.5",
     "@types/lodash": "^4.14.195",
+    "@types/react-infinite-scroller": "^1.2.3",
     "axios": "^1.4.0",
     "ckeditor5-custom-build": "./ckeditor5",
     "clsx": "^1.2.1",
     "file-saver": "^2.0.5",
+    "formik": "^2.2.9",
     "i18next": "^22.4.15",
     "i18next-browser-languagedetector": "^7.0.1",
     "i18next-http-backend": "^2.2.0",
@@ -31,10 +33,12 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-i18next": "^12.2.2",
+    "react-infinite-scroll-component": "^6.1.0",
     "react-router-dom": "^6.11.0",
     "react-youtube": "^10.1.0",
     "swiper": "8.4.5",
-    "vite-tsconfig-paths": "^4.2.0"
+    "vite-tsconfig-paths": "^4.2.0",
+    "yup": "^1.2.0"
   },
   "devDependencies": {
     "@types/react": "^18.0.28",

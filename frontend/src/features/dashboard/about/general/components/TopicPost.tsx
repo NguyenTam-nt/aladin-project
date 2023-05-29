@@ -4,13 +4,18 @@ import { Colors } from "@constants/color";
 import { SubHeaderTopic } from "@features/dashboard/home/components/SubHeaderTopic";
 import React, { useState } from "react";
 import { TopicPostItem } from "./TopicPostItem";
+import { useHandlePost } from "../../hooks/useHandlePost";
+import { ContentType } from "@typeRules/content";
 
 export const TopicPost = () => {
-  const [isShow, setIsShow] = useState(false);
-  const handShow = () => {
-    if(isShow) return
-    setIsShow(true);
-  };
+  const {
+    listContent,
+    handlePostContent,
+    handlePutContent,
+    handleDeleteContent,
+    isShow,
+    handShow,
+  } = useHandlePost(ContentType.general);
   return (
     <>
       <div className="flex items-center">
@@ -27,7 +32,12 @@ export const TopicPost = () => {
           color="empty"
         />
       </div>
-      {isShow ? <TopicPostItem /> : null}
+      {isShow ? <TopicPostItem onSubmit={handlePostContent} type="ADD" /> : null}
+      {
+        listContent.map((item) => {
+          return <TopicPostItem data={item} onSubmit={handlePutContent} onDelete={handleDeleteContent} />
+        })
+      }
     </>
   );
 };

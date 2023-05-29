@@ -41,11 +41,11 @@ const configure = () => {
 
     // }
 
-    const token = await getAccessToken();
+    // const token = await getAccessToken();
 
-    if (token) {
-      config.headers.Authorization = "Bearer " + token;
-    }
+    // if (token) {
+    //   config.headers.Authorization = "Bearer " + token;
+    // }
 
     return config;
   });
@@ -54,7 +54,6 @@ const configure = () => {
 axiosClient.interceptors.response.use(
   async (response) => {
     const total = response.headers["x-total-count"];
-console.log({response})
     if (total) {
       return {
         total,
@@ -67,7 +66,7 @@ console.log({response})
     const { status } = error.response;
     if (window.document.location.pathname.includes("/quan-ly")) {
       if (status === 401 || status === 403) {
-        authService.doLogin();
+        // authService.doLogin();
       }
     }
     return Promise.reject(error);

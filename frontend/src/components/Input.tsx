@@ -33,6 +33,7 @@ export const Input = React.forwardRef(
         {renderLeft ? renderLeft?.() : null}
         <input
           ref={ref}
+          autoComplete="off"
           {...props}
           className="flex-1 h-full outline-none bg-transparent"
           placeholder={t(placeholder)}

@@ -1,9 +1,14 @@
 import { ICSearch } from '@assets/icons/ICSearch';
 import { Input } from '@components/Input'
 import { Colors } from '@constants/color';
-import React, { useCallback } from 'react'
+import React, { ChangeEvent, memo, useCallback } from 'react'
 
-export const InputAdmin = () => {
+type Props = {
+  onChange?: (event:ChangeEvent<HTMLInputElement>) => void
+  searchQuery?: string
+}
+
+export const InputAdmin = memo(({onChange, searchQuery}:Props) => {
     const renderRight = useCallback(() => {
         return (
           <div>
@@ -13,7 +18,7 @@ export const InputAdmin = () => {
       }, []);
   return (
     <div className="flex-1 h-full">
-    <Input placeholder="common._placeholder_search" className="!h-[48px]" renderRight={renderRight} />
+    <Input onChange={onChange} value={searchQuery} placeholder="common._placeholder_search" className="!h-[48px]" renderRight={renderRight} />
   </div>
   )
-}
+})

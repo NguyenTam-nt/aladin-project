@@ -4,6 +4,7 @@ import { Suspense } from "react";
 import ModalProvider from "@contexts/ModalContext";
 import { useRefreshWeb } from "@hooks/useRefreshWeb";
 import AuthProvider from "@contexts/AuthContext";
+import { PopupProvider } from "@contexts/PopupContext";
 
 function App() {
   useRefreshWeb()
@@ -12,9 +13,11 @@ function App() {
     <Suspense>
       <AuthProvider>
       <TranslateProvider>
+        <PopupProvider>
         <ModalProvider>
           <RouterRoot />
         </ModalProvider>
+        </PopupProvider>
       </TranslateProvider>
       </AuthProvider>
     </Suspense>

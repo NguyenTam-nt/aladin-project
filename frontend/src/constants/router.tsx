@@ -1,18 +1,33 @@
-import LibraryVideo from "@features/libraryVideo";
+// import LibraryVideo from "@features/libraryVideo";
 import { BrochurePage } from "@features/abouts/components/brochure";
 import { Structure } from "@features/abouts/components/structure";
-import CadresPage from "@features/cadres";
-import BrandPage from "@features/abouts/components/Brand";
-import GeneralPage from "@features/abouts/components/general";
-import HomePage from "@features/home";
-import AboutPage from "@features/abouts";
+// import CadresPage from "@features/cadres";
+// import BrandPage from "@features/abouts/components/Brand";
+// import GeneralPage from "@features/abouts/components/general";
+// import HomePage from "@features/home";
+// import AboutPage from "@features/abouts";
 import AllSubject from "@features/subject/allSubject/AllSubject";
-import SubjectPage from "@features/subject";
-import NoticePage from "@features/notice";
-import DocumentPage from "@features/documents";
-import NewsPage from "@features/news";
-import NewsDetailPage from "@features/newsDetail";
-import LibraryImage from "@features/libraryImage";
+// import SubjectPage from "@features/subject";
+// import NoticePage from "@features/notice";
+// import DocumentPage from "@features/documents";
+// import NewsPage from "@features/news";
+// import NewsDetailPage from "@features/newsDetail";
+// import LibraryImage from "@features/libraryImage";
+import { lazy } from "react";
+
+const HomePage = lazy(() => import("@features/home"))
+const AboutPage = lazy(() => import("@features/abouts"))
+const NewsPage = lazy(() => import("@features/news"))
+const LibraryImage = lazy(() => import("@features/libraryImage"))
+const LibraryVideo = lazy(() => import("@features/libraryVideo"))
+const CadresPage = lazy(() => import("@features/cadres"))
+const NewsDetailPage = lazy(() => import("@features/newsDetail"))
+const DocumentPage = lazy(() => import("@features/documents"))
+const NoticePage = lazy(() => import("@features/notice"))
+const SubjectPage = lazy(() => import("@features/subject"))
+const GeneralPage = lazy(() => import("@features/abouts/components/general"))
+const BrandPage = lazy(() => import("@features/abouts/components/Brand"))
+// const SubjectPage = lazy(() => import("@features/subject"))
 
 
 interface IRouter {
