@@ -1,9 +1,4 @@
-import React, {
-  memo,
-  useContext,
-  useEffect,
-  useState,
-} from "react";
+import React, { memo, useContext, useEffect, useState } from "react";
 import { HeaderAdmin } from "../components/HeaderAdmin";
 import { TranslateContext } from "@contexts/Translation";
 // import { ModalContext } from "@contexts/ModalContext";
@@ -19,65 +14,77 @@ import { useHandleCheckbox } from "../hooks/useHandleCheckbox";
 import { Checkbox } from "@components/Checkbox";
 import { Link } from "react-router-dom";
 import { pathsAdmin } from "@constants/routerAdmin";
-import CadresAPI from "@services/cadres";
+import { cadresService } from "@services/cadres";
+import type { ICadres } from "@typeRules/cadres";
+import { PAGE_SIZE } from "@constants/contain";
 
-const dummyData = [
-  {
-    id: 1,
-    name: "TS. Nguyễn Thị Phương Mai",
-    specialized: "Giáo dục tiếng Hàn - Đại học quốc gia Seoul, Hàn Quốc",
-    email: "nguyenthiphuongmai@gmail.com",
-  },
-  {
-    id: 2,
-    name: "TS. Nguyễn Thị Phương Mai",
-    specialized: "Giáo dục tiếng Hàn - Đại học quốc gia Seoul, Hàn Quốc",
-    email: "nguyenthiphuongmai@gmail.com",
-  },
-  {
-    id: 3,
-    name: "TS. Nguyễn Thị Phương Mai",
-    specialized: "Giáo dục tiếng Hàn - Đại học quốc gia Seoul, Hàn Quốc",
-    email: "nguyenthiphuongmai@gmail.com",
-  },
-];
-interface ICadresTableItem {
-  id: number;
-  name: string;
-  specialized: string;
-  email: string;
-}
+
 
 export const ManageCadres = () => {
   const [currenPage, setCurrentPage] = useState(1);
-
   const { t } = useContext(TranslateContext);
   const setElementModalDelete = useContext(ModalContext).setElementModal;
-  const [data] = useState<ICadresTableItem[]>(dummyData);
+  const [data, setData] = useState<ICadres[]>([]);
+  const [totalPage , setTotalPage] = useState(0)
+  const {
+    refCheckboxAll,
+    refCheckboxList,
+    handleCheckAll,
+    handleCheckedItem,
+    listChecked,
+    setListChecked
+  } = useHandleCheckbox(data.map((item) => item.id));
 
-  const {refCheckboxAll, refCheckboxList, handleCheckAll, handleCheckedItem} = useHandleCheckbox(data.map((item) => item.id))
- 
-  const onDeleteById = (_: number) => { 
-  }; 
+   const getCadres = (page: number) => {
+     cadresService
+       .get({ page: page , size: PAGE_SIZE, sort: "createdDate,desc" })
+       .then((data) => {
+         setData(data.data);
+         setTotalPage(Math.ceil(data.total / PAGE_SIZE));
+       });
+   };
+
+   const onDeleteById = (id?: number) => {
+    cadresService
+      .delete(id ? id!.toString() : listChecked.join(","))
+      .then(() => {
+     
+        if (currenPage === totalPage && totalPage !== 1) {
+          if ((id && data.length === 1) || listChecked.length === data.length) {
+            getCadres(currenPage - 1);
+            setCurrentPage(currenPage - 1);
+          }
+        } else {
+          getCadres(currenPage);
+        }
+        setListChecked([])
+      });
+  };
+
+   const changePage = (page: number) => { 
+      setCurrentPage(page)
+      getCadres(page -1)
+   }
 
   useEffect(() => {
-   CadresAPI.getAll().then((data) => { console.log(data);
-   })
-  } , [])
+    setCurrentPage(1)
+    getCadres(0)
+  }, []); 
 
- 
-  const handleShowModalDelete = (name?: string) => {
+  const handleShowModalDelete = (id?: number) => {
     setElementModalDelete(
       <DialogConfirmDelete
         message={
-          name
-            ? t("cadres_manage.delete_cadres", { name: name })
+          id
+            ? t("cadres_manage.delete_cadres", {
+                name: data.filter((item) => item.id === id)?.[0]?.fullname,
+              })
             : t("cadres_manage.delete_all_cadres")
         }
+        onClick={() => onDeleteById(id)}
       />
     );
   };
-
 
   return (
     <div className="px-[24px]">
@@ -101,7 +108,7 @@ export const ManageCadres = () => {
           <Button
             color="primary"
             text="cadres_manage.title_create_new"
-            className="bg-secondary  ml-[24px] !w-[200px] h-[48px]"
+            className="bg-secondary  ml-[24px] !w-[200px] h-[48px] "
             imageLeft={<ICPlus />}
           />
         </Link>
@@ -117,8 +124,8 @@ export const ManageCadres = () => {
       <div className="mt-[120px] flex justify-end">
         <Pagination
           currenPage={currenPage}
-          setCurrentPage={setCurrentPage}
-          total={10}
+          setCurrentPage={changePage}
+          total={totalPage}
         />
       </div>
     </div>
@@ -126,12 +133,15 @@ export const ManageCadres = () => {
 };
 
 type CadresTableProps = {
-  onSelectAllCadres:(event: React.ChangeEvent<HTMLInputElement>) => void
-  data: ICadresTableItem[];
-  refCheckboxAll : React.RefObject<HTMLInputElement> ;
-  refCheckboxList : React.MutableRefObject<HTMLInputElement[]> ;
-  onDeleteById : (id : number) => void;
-  setCadresChooseById: (event: React.ChangeEvent<HTMLInputElement>, index: number) => void
+  onSelectAllCadres: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  data: ICadres[];
+  refCheckboxAll: React.RefObject<HTMLInputElement>;
+  refCheckboxList: React.MutableRefObject<HTMLInputElement[]>;
+  onDeleteById: (id: number) => void;
+  setCadresChooseById: (
+    event: React.ChangeEvent<HTMLInputElement>,
+    index: number
+  ) => void;
 };
 
 const CadresTable = memo(
@@ -139,18 +149,22 @@ const CadresTable = memo(
     onSelectAllCadres,
     data,
     setCadresChooseById,
-    onDeleteById ,
-    refCheckboxAll ,
-    refCheckboxList
+    onDeleteById,
+    refCheckboxAll,
+    refCheckboxList,
   }: CadresTableProps) => {
-    const { t } = useContext(TranslateContext);
+    const { t , isVn } = useContext(TranslateContext);
 
     return (
       <>
-        <div className="pb-[14px] grid  grid-cols-[1fr_1fr_3fr_5fr_3fr_2fr]  mt-[40px] text-_18 font-semibold text-text_primary border-b-[1px] border-solid border-br_E9ECEF">
-        <button>
-          <Checkbox id="news_check" onChange={onSelectAllCadres} ref={refCheckboxAll} />
-        </button>
+        <div  className=" mt-[40px] items-center gap-x-[24px] grid grid-cols-[30px_30px_1fr_1fr_20%_12%] font-semibold text-_14 text-text_primary py-[16px] border-b border-br_E9ECEF">
+          <button>
+            <Checkbox
+              id="news_check"
+              onChange={onSelectAllCadres}
+              ref={refCheckboxAll}
+            />
+          </button>
           <div>{t("cadres_manage._form._number")}</div>
           <div>{t("cadres_manage._form._name")}</div>
           <div>{t("cadres_manage._form._specialized")}</div>
@@ -159,12 +173,12 @@ const CadresTable = memo(
             {t("cadres_manage._form._function")}
           </div>
         </div>
-        {data.map((item: ICadresTableItem, index: number) => {
+        {data.map((item: ICadres, index: number) => {
           return (
             <CadresTableItem
               item={item}
               index={index}
-              key={index}
+              key={item.id}
               setCadresChooseById={setCadresChooseById}
               onDeleteById={onDeleteById}
               refCheckboxList={refCheckboxList}
@@ -177,22 +191,26 @@ const CadresTable = memo(
 );
 
 interface CadresTableItemProps {
-  item: ICadresTableItem;
+  item: ICadres;
   index: number;
-  setCadresChooseById: (event: React.ChangeEvent<HTMLInputElement>, index: number) => void ;
-  onDeleteById : (id: number) => void;
-  refCheckboxList : React.MutableRefObject<HTMLInputElement[]>;
+  setCadresChooseById: (
+    event: React.ChangeEvent<HTMLInputElement>,
+    index: number
+  ) => void;
+  onDeleteById: (id: number) => void;
+  refCheckboxList: React.MutableRefObject<HTMLInputElement[]>;
 }
 
 const CadresTableItem = ({
   item,
   index,
   setCadresChooseById,
-  onDeleteById ,
-  refCheckboxList
+  onDeleteById,
+  refCheckboxList,
 }: CadresTableItemProps) => {
+  const {  isVn } = useContext(TranslateContext);
   return (
-    <div className="py-[16px] grid  grid-cols-[1fr_1fr_3fr_5fr_3fr_2fr]  text-_18 font-semibold text-text_primary border-b-[1px] border-solid border-br_E9ECEF">
+    <div  className=" items-center gap-x-[24px]  grid grid-cols-[30px_30px_1fr_1fr_20%_12%]  font-semibold text-_14 text-text_primary py-[16px] border-b border-br_E9ECEF">
       <button>
         <Checkbox
           onChange={(event) => setCadresChooseById(event, index)}
@@ -201,25 +219,22 @@ const CadresTableItem = ({
           }
         />
       </button>
-
       <div>
-        <p className="text-_14 font-semibold text-text_black">{index + 1}</p>
+      <p className="text-_14 font-semibold text-text_black  text-justify ">
+        {index + 1}
+      </p>
       </div>
       <div>
-        <p className="text-_14 font-semibold text-text_black">{item.name}</p>
+      <p className="text-_14 font-semibold text-text_black">{ isVn ? item.fullname : item.fullnameKo}</p>
       </div>
-      <div>
-        <p className="text-_14 font-semibold text-text_black">
-          {item.specialized}
-        </p>
-      </div>
-      <div>
-        <p className="text-_14 font-semibold text-text_black">{item.email}</p>
-      </div>
+      <p className="text-_14 font-semibold text-text_black">
+        {isVn ? item.position  : item.positionKo}
+      </p>
+      <p className="text-_14 font-semibold text-text_black">{ item.email }</p>
       <div className="flex justify-end">
         <button
           onClick={() => {
-            onDeleteById(item.id);
+            onDeleteById(item.id );
           }}
         >
           <ICClear />

@@ -16,6 +16,7 @@ export const Button = memo(({ size = 14, color = "primary", text, image, classNa
 
   return (
     <button
+    type="button"
       {...props}
       className={clsx("relative h-[40px] px-[12px] text-_14 xl:text-_16 w-full font-bold overflow-hidden btn-4 flex justify-center items-center", {
         "bg-secondary text-text_white": color === "primary",

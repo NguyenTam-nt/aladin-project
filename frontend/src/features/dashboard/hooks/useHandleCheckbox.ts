@@ -5,8 +5,10 @@ export const useHandleCheckbox = (listId: number[]) => {
   const refCheckboxList = useRef<HTMLInputElement[]>([]);
   const [listChecked, setListChecked] = useState<number[]>([]);
 
+ 
+
   useEffect(() => {
-    if (listChecked.length === listId.length) {
+    if (listId.length > 0 && listChecked.length === listId.length) {
       refCheckboxAll.current!.checked = true;
     }else {
         refCheckboxAll.current!.checked = false;
@@ -17,7 +19,6 @@ export const useHandleCheckbox = (listId: number[]) => {
     const checked = event.target.checked;
     refCheckboxAll.current!.checked = checked;
     if (checked) {
-        console.log({ref:  refCheckboxList.current })
       refCheckboxList.current.forEach((item) => {
         item.checked = true;
       });
@@ -47,10 +48,18 @@ export const useHandleCheckbox = (listId: number[]) => {
     }
   };
 
+  const clearList = () => {
+    setListChecked([])
+    refCheckboxAll.current!.checked = false
+  }
+
   return {
     refCheckboxAll,
     refCheckboxList,
     handleCheckedItem,
     handleCheckAll,
+    clearList,
+    listChecked ,
+    setListChecked
   };
 };

@@ -1,3 +1,7 @@
 .banner-bg-about {
   background-image: linear-gradient(0deg, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3));
 }
+
+.infinite-scroll-component {
+  overflow: visible !important;
+}

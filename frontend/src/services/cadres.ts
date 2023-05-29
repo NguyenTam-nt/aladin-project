@@ -1,22 +1,24 @@
+import { getApi } from "@commons/getAPi";
+import HttpService from "@configs/api";
+import type { ICadres, ICadresPost, ICategotiesCadres } from "@typeRules/cadres";
+import type { IParams } from "@typeRules/pagination";
+import type { IResponseData } from "@typeRules/responsive";
 
-import type { ICadres}  from "../typeRules/cadres"
-import HttpService from "../configs/api"
-const pathBanner = "/cadres"
+const pathCadres = getApi("cadres");
+const pathCadresDelete = getApi("cadres/allid?ids=");
+const pathCadresCategory = getApi("cadres-categories");
 
-
-const CadresAPI = {
-  getAll: (): Promise<ICadres[]> => {
-
-    
-    return HttpService.axiosClient.get(pathBanner);
-    
+export const cadresService = {
+  get: (params?: IParams): Promise<IResponseData<ICadres>> => {
+    return HttpService.axiosClient.get(pathCadres, { params });
   },
-  putCadres: (data: ICadres): Promise<ICadres> => {
-    return HttpService.axiosClient.put(pathBanner, data);
+  post: (data: ICadresPost): Promise<ICadresPost> => {
+    return HttpService.axiosClient.post(pathCadres, data);
   },
-  postCadres: (data: ICadres): Promise<ICadres> => {
-    return HttpService.axiosClient.post(pathBanner, data);
+  delete: (data: string): Promise<any> => {
+    return HttpService.axiosClient.delete(pathCadresDelete + data);
   },
+  getCadresCategories : () : Promise<IResponseData<ICategotiesCadres>> => {
+    return HttpService.axiosClient.get(pathCadresCategory );
+  }
 };
-
-export default CadresAPI;

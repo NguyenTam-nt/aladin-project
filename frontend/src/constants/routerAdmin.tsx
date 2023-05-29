@@ -8,13 +8,11 @@ import { ICLibraryImage } from "@assets/icons/AdminNavigation/ICLibraryImage";
 import { ICLibraryVideo } from "@assets/icons/AdminNavigation/ICLibraryVideo";
 import { ICLogin } from "@assets/icons/AdminNavigation/ICLogin";
 import { ICNews } from "@assets/icons/AdminNavigation/ICNews";
-import { ICNotice } from "@assets/icons/AdminNavigation/ICNotice";
 import { ICPassword } from "@assets/icons/AdminNavigation/ICPassword";
 import { ICSubject } from "@assets/icons/AdminNavigation/ICSubject";
 import { ICUser } from "@assets/icons/AdminNavigation/ICUser";
 import { ICFooter } from "@assets/icons/ICFooter";
 import { ICHeader } from "@assets/icons/ICHeader";
-import { Notice } from "@features/dashboard/Notice";
 import { HandleNotice } from "@features/dashboard/Notice/components/Category/HandleNotice";
 import { Brand } from "@features/dashboard/about/brand";
 import { Brochure } from "@features/dashboard/about/brochure";
@@ -229,12 +227,12 @@ export const rootRouterAdmin = [
     element: HandleNews,
     isHidden: true,
   },
-  {
-    path: pathsAdmin.notice.prefix,
-    name: "admin.navigation._notice",
-    element: Notice,
-    icon: ICNotice,
-  },
+  // {
+  //   path: pathsAdmin.notice.prefix,
+  //   name: "admin.navigation._notice",
+  //   element: Notice,
+  //   icon: ICNotice,
+  // },
   {
     path: `${pathsAdmin.notice.prefix}/${pathsAdmin.news_handle.prefix}`,
     element: HandleNotice,

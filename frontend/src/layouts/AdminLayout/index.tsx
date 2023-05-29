@@ -12,7 +12,7 @@ export const AdminLayout = () => {
         <div className="h-full">
           <SidebarAdmin />
         </div>
-        <div className="max-w-[calc(1920px-_360px)] px-[24px] 2xl:px-[123px] pt-[40px] pb-[80px]">
+        <div className="max-w-[calc(1920px-_360px)] min-h-[calc(100vh_-_96px)] px-[24px] 2xl:px-[123px] pt-[40px] pb-[80px]">
           <Outlet />
         </div>
       </div>

@@ -1,34 +1,39 @@
-import React from 'react'
+import React, { InputHTMLAttributes } from 'react'
 //@ts-ignore
 import {CKEditor} from '@ckeditor/ckeditor5-react'
 //@ts-ignore
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
+import { uploadService } from '@services/uploadService'
 // import uploadService from '../../services/uploadService'
 
 type Props = {
   content: string
-  onChange: (content: string) => void
+  onChange?: (content: string) => void
   onBlur?: (content: string) => void
-}
 
-const Editor = ({content, onChange, onBlur}: Props) => {
+} & InputHTMLAttributes<HTMLInputElement>
+
+const Editor = ({content, onChange, onBlur , ...props}: Props) => {
+
+  
   return (
     <CKEditor
       editor={ClassicEditor}
-      data={content}
+      data={content ?? props.value}
       onReady={(editor: any) => {
         MyCustomUploadAdapterPlugin(editor)
       }}
       onChange={(_: any, editor: any) => {
         const data = editor.getData()
   
-        onChange(data)
+        onChange?.(data)
       }}
       onBlur={(_: any, editor: any) => {
         const data = editor.getData()
         onBlur?.(data)
       }}
       onFocus={() => {}}
+    
     />
   )
 }
@@ -42,14 +47,14 @@ class MyUploadAdapter {
   upload() {
     return this.loader.file.then(async (file: any) => {
       const formData = new FormData()
-      formData.append('thumbnails', file)
+      formData.append('file', file)
       // const images = undefined
-    //   const images = await uploadService.uploadImageCustom(formData)
+      const images = await uploadService.postImage(formData)
       return new Promise((rj) => {
         rj({
           urls: {
             // default: images?.data[0].thumbnail,
-            default:"https://image.placeholder.co/insecure/w:750/aHR0cHM6Ly9jZG4uc3BhY2VyLnByb3BlcnRpZXMvN2JiNzkzZjQtZjczMS00MTk0LThlNjItZDdiNmE0ZWM1Mzk4",
+            default: images
           },
         })
       })

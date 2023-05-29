@@ -1,0 +1,14 @@
+{
+    "message": {
+        "warn": {
+            "_required": "Bắt buộc"
+        },
+        "success": {
+            "_success": "Thành công"
+        },
+        "error": {
+            "_error": "Thất bại"
+        }
+    }
+  
+}

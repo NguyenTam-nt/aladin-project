@@ -1,0 +1,7 @@
+{
+    "validate": {
+      "required" : "필수 항목" ,
+      "wrong_format" : "잘못된 형식"
+    }
+  }
+  

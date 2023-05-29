@@ -1,37 +1,90 @@
-import React, { ChangeEvent, memo, useContext, useState } from "react";
+import React, {
+  memo,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import { SubHeaderTopic } from "./SubHeaderTopic";
 import { Button } from "@components/Button";
 import { ICPlus } from "@assets/icons/ICPlus";
 import { Colors } from "@constants/color";
 import { InputUploadFile } from "@features/dashboard/components/InputUploadFIle";
-import { TranslateContext } from "@contexts/Translation";
 import { ImagePreview } from "@features/dashboard/components/ImagePreview";
 import { CardContent } from "./CardContent";
-import { ModalContext } from "@contexts/ModalContext";
-import { ModalHandlePost } from "./ModalHandlePost";
-import DialogConfirmDelete from "@components/DialogConfirmDelete";
+import { useHandleImage } from "@features/dashboard/hooks/useHandleImage";
+import { BannerType, IBanner } from "@typeRules/banner";
+import { bannerService } from "@services/banner";
+import { uploadService } from "@services/uploadService";
+import { PopUpContext } from "@contexts/PopupContext";
+import {  PostType } from "@typeRules/post";
+import { useHandlePost } from "@features/dashboard/hooks/useHandlePost";
 
 export const TopicBanner = () => {
   // const { t } = useContext(TranslateContext);
-  const [preViewImage, setPreViewImage] = useState<string>(
-    "https://s3-alpha-sig.figma.com/img/968d/c70b/c6cac33f1cd2ca478db3b9f0575b7b0a?Expires=1685923200&Signature=htLYrPDTyGzA6Mg0tYLGNhWI~LiGkh8COZ-~I~P3RaMqNjG78zuzLz1PKV~a7dyj1M4BHUI77HBVMGmmNkRx1zepOBI1K2sfWK3Hc9cY1~bGgZrofppXRmzA1HFzZhfVxZArK3hzPBzvstuyEvxNZJibEvIfDReDolCz1gLeI2MKHDz87QEMBNXr9EMBhNWZO7hs6usMpnepg-8W1obUD3JmOdFa3ihschWQJdl7cerDuKGGth3PqDUCknaytw-VcXevUy7-PSuMDjbsbQ2m7ceU-CQHluNXQvTsva03YlDrt9vMumIzc0nc8p4iUpJh-BrIn9445734slg-6AtZCQ__&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4"
+  const { showSuccess, showError } = useContext(PopUpContext);
+  const [bannerHome, setBannerHome] = useState<IBanner>();
+  const hanldeChangeVideo = async (file: File) => {
+    const formData = new FormData();
+
+    formData.append("file", file);
+    const image = await uploadService.postImage(formData);
+    handleSubmit(image);
+  };
+
+  const handleDeleteLogin = async () => {
+    if (bannerHome) {
+      bannerService
+        .putBanner({
+          ...bannerHome,
+          link: " ",
+        })
+        .then(() => {
+          setBannerHome({ ...bannerHome, link: " " });
+          showSuccess("message.success._success");
+        })
+        .catch(() => {
+          showError("message.error._error");
+        });
+    }
+  };
+
+  const { preViewImage, handleChange, handleDelete } = useHandleImage(
+    bannerHome?.link,
+    hanldeChangeVideo,
+    handleDeleteLogin
   );
 
-  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files![0];
-    const link = URL.createObjectURL(file);
-    setPreViewImage(link);
+  const handleSubmit = (link: string) => {
+    if (bannerHome) {
+      bannerService
+        .putBanner({
+          ...bannerHome,
+          link: link ? link : bannerHome.link,
+        })
+        .then((data) => {
+          setBannerHome(data);
+          showSuccess("message.success._success");
+        })
+        .catch(() => {
+          showError("message.error._error");
+        });
+    }
   };
 
-  const handleDelete = () => {
-    setPreViewImage("");
-  };
+  useEffect(() => {
+    bannerService.getByType(BannerType.bannerHomePost).then((data) => {
+      setBannerHome(data?.data?.[0]);
+    });
+  }, []);
+
   return (
     <>
       <SubHeaderTopic title="admin._home._topic._banner" />
       <div>
-        <div className="flex items-center h-[168px] ">
-          <InputUploadFile onChange={handleChange} />
+        <div className="flex items-center gap-x-[24px] h-[168px] ">
+          <div className="w-[648px] h-full">
+            <InputUploadFile onChange={handleChange} />
+          </div>
           {preViewImage ? (
             <div className="w-[312px] h-[168px]">
               <ImagePreview onDelete={handleDelete} url={preViewImage} />
@@ -45,43 +98,38 @@ export const TopicBanner = () => {
 };
 
 const BannerContent = memo(() => {
-  const { setElementModal } = useContext(ModalContext);
-  const { t } = useContext(TranslateContext);
-  const onSubmit = () => {};
-  const handleShowModal = () => {
-    setElementModal(<ModalHandlePost onSubmit={onSubmit} />);
-  };
-  const handleShowModalEdit = () => {
-    setElementModal(<ModalHandlePost onSubmit={onSubmit} type="EDIT" />);
-  };
+  const {
+    listPost,
+    handleShowModal,
+    handleShowModalEdit,
+    handleDelete,
+  } = useHandlePost(PostType.postBanner);
 
-  const handleDelete = () => {
-    setElementModal(
-      <DialogConfirmDelete message={t("common._message_delete_post")} />
-    );
-  };
   return (
     <>
       <div className="flex items-center">
         <SubHeaderTopic title="admin._home._topic._content_banner" />
-        <Button
-          onClick={handleShowModal}
-          imageLeft={
-            <span className="mr-[12px]">
-              <ICPlus color={Colors.secondary} />
-            </span>
-          }
-          className="max-w-[170px] border border-secondary"
-          text="button._create_post"
-          color="empty"
-        />
+        {listPost.length < 5 ? (
+          <Button
+            onClick={handleShowModal}
+            imageLeft={
+              <span className="mr-[12px]">
+                <ICPlus color={Colors.secondary} />
+              </span>
+            }
+            className="max-w-[170px] border border-secondary"
+            text="button._create_post"
+            color="empty"
+          />
+        ) : null}
       </div>
       <div className="grid grid-cols-4 2xl:grid-cols-5 gap-[24px]">
-        {[1, 2, 3, 4, 5].map((_, index) => {
+        {listPost.map((item, index) => {
           return (
             <CardContent
-              onModalDelete={handleDelete}
-              onModalEdit={handleShowModalEdit}
+              data={item}
+              onModalDelete={() => handleDelete(Number(item.id))}
+              onModalEdit={() => handleShowModalEdit(item)}
               key={index}
             />
           );

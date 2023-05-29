@@ -11,51 +11,203 @@ import { ImagePreview } from "@features/dashboard/components/ImagePreview";
 import { InputUploadFile } from "@features/dashboard/components/InputUploadFIle";
 import TitleInput from "@features/dashboard/components/TitleInput";
 import clsx from "clsx";
+import { useFormik } from "formik";
+import * as Yup from "yup";
 import {
   ChangeEvent,
+  InputHTMLAttributes,
   memo,
   useCallback,
   useContext,
+  useEffect,
   useMemo,
   useRef,
-  useState,
 } from "react";
+import { useHandleImage } from "@features/dashboard/hooks/useHandleImage";
+import { uploadService } from "@services/uploadService";
+import { historySevice } from "@services/historyService";
+import type { IHistory } from "@typeRules/history";
+import { PopUpContext } from "@contexts/PopupContext";
+import { translateService } from "@services/translate";
 
 type PropsTopicHistoryItem = {
   type?: "ADD" | "EDIT";
-  data?: {
-    year: string;
-    des: string;
-    image: string;
-  };
-  onSubmit?: () => void;
+  data?: IHistory;
+  onSubmit?: (data: IHistory) => void;
+  onDeleteHistory?: (id: number) => void;
 };
 
 export const TopicHistoryItem = memo(
-  ({ type = "EDIT", data, onSubmit }: PropsTopicHistoryItem) => {
-    // const [currentHistory, setCurrentHistory] = useState(data)
-    const {t} = useContext(TranslateContext)
-    const {setElementModal} = useContext(ModalContext)
+  ({
+    type = "EDIT",
+    data,
+    onSubmit,
+    onDeleteHistory,
+  }: PropsTopicHistoryItem) => {
+    const isAdd = useMemo(() => {
+      return type === "ADD";
+    }, [type]);
+    const { showSuccess, showError } = useContext(PopUpContext);
+    const formik = useFormik({
+      initialValues: {
+        year: "",
+        image: "",
+        description: "",
+        descriptionKo: "",
+      },
+      validationSchema: Yup.object({
+        year: Yup.string().required("message.warn._required"),
+        description: Yup.string().required("message.warn._required"),
+        descriptionKo: Yup.string().required("message.warn._required"),
+      }),
+      onSubmit: async (values) => {
+        if (!isAdd) return;
+        try {
+          const formData = new FormData();
+          let image = "";
+          if (file) {
+            formData.append("file", file);
+            image = await uploadService.postImage(formData);
+          }
+
+          historySevice
+            .post({
+              ...values,
+              image,
+            })
+            .then((data) => {
+              onSubmit?.(data);
+            });
+            formik.resetForm()
+            handleDelete()
+          showSuccess("message.success._success");
+        } catch (error) {
+          showError("message.error._error");
+        }
+      },
+    });
+    const { t, isVn } = useContext(TranslateContext);
+
+    const handleSubmitEdit = useCallback(
+      (data: IHistory) => {
+        historySevice
+          .put(data)
+          .then((data) => {
+            onSubmit?.(data);
+            showSuccess("message.success._success");
+          })
+          .catch(() => {
+            showError("message.success._success");
+          });
+      },
+      [onSubmit, showError, showSuccess]
+    );
+
+    const handleChangeFileEdit = useCallback(
+      async (file: File) => {
+        if (!isAdd) {
+          const formData = new FormData();
+
+          formData.append("file", file);
+          const image = await uploadService.postImage(formData);
+          handleSubmitEdit({
+            ...data,
+            image,
+          });
+        }
+      },
+      [data, handleSubmitEdit, isAdd]
+    );
+
+    const { preViewImage, handleChange, file, handleDelete } = useHandleImage(
+      formik.values.image,
+      handleChangeFileEdit
+    );
+    const { setElementModal } = useContext(ModalContext);
+
+    const handleDeteleHistory = useCallback(() => {
+      historySevice
+        .delete(Number(data?.id))
+        .then(() => {
+          onDeleteHistory?.(Number(data?.id));
+          showSuccess("message.success._success");
+        })
+        .catch(() => {
+          showError("message.success._success");
+        });
+    }, [data?.id, onDeleteHistory, showError, showSuccess]);
+
     const handleShowModal = () => {
-        setElementModal(<DialogConfirmDelete message={t("admin._notice._delete_history")} />)
-    }
+      setElementModal(
+        <DialogConfirmDelete
+          onClick={handleDeteleHistory}
+          message={t("admin._notice._delete_history")}
+        />
+      );
+    };
 
-    const currentHistory = useMemo(() => {
-      return data;
-    }, [data]);
+    useEffect(() => {
+      if (!isAdd && data) {
+        formik.setFieldValue("year", data.year);
+        formik.setFieldValue("image", data.image);
+        formik.setFieldValue("description", data.description);
+        formik.setFieldValue("descriptionKo", data.descriptionKo);
+      }
+    }, [isAdd, data]);
 
+    const handleTranslate = useCallback(
+      async (name: string, value: string) => {
+        try {
+          const content = await translateService.post(value);
+          formik.setFieldValue(`${name}Ko`, content);
+          if (!isAdd) {
+            handleSubmitEdit({
+              ...data,
+              [name]: value,
+              [`${name}Ko`]: content,
+            });
+          }
+        } catch (error) {}
+      },
+      [data, handleSubmitEdit, isAdd]
+    );
 
+    const handleBlur = useCallback(
+      async (event: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
+        const { name, value } = event.target;
+        if (isVn && name === "description") {
+          handleTranslate(name, value);
+          formik.handleBlur(event);
+          return;
+        }
+        if (!isAdd) {
+          handleSubmitEdit({
+            ...data,
+            [name]: value,
+          });
+        }
+
+        formik.handleBlur(event);
+      },
+      [data, handleSubmitEdit, handleTranslate, isAdd, isVn]
+    );
 
     return (
-      <>
+      <form onSubmit={formik.handleSubmit}>
         <div className="flex gap-x-[24px] relative">
           <div className="w-[312px]">
-            <InputYear value={currentHistory?.year ?? ""} />
-            <InputUpFile image={currentHistory?.image ?? ""} />
-            {type === "ADD" ? (
+            <InputYear
+              value={formik.values.year}
+              name="year"
+              type="number"
+              onChange={formik.handleChange}
+              onBlur={handleBlur}
+            />
+            <InputUpFile onChange={handleChange} image={preViewImage} />
+            {isAdd ? (
               <Button
-                onClick={onSubmit}
-                className="mt-[12px]"
+                type="submit"
+                className={clsx("mt-[12px]")}
                 imageLeft={
                   <span className="mr-2">
                     <ICSave />
@@ -66,17 +218,33 @@ export const TopicHistoryItem = memo(
               />
             ) : null}
           </div>
-          <DescriptionInput value={currentHistory?.des ?? ""} />
-          <button onClick={handleShowModal} className="absolute top-[50%] right-[-20px] 2xl:right-[-44px] translate-y-[-50%]">
-            <ICDeleteImage width={20} height={20} color={Colors.text_C53434} />
-          </button>
+          <DescriptionInput
+            onChange={formik.handleChange}
+            onBlur={handleBlur}
+            name={isVn ? "description" : "descriptionKo"}
+            value={
+              isVn ? formik.values.description : formik.values.descriptionKo
+            }
+          />
+          {!isAdd ? (
+            <button
+              onClick={handleShowModal}
+              // className="absolute top-[50%] right-[-20px] 2xl:right-[-44px] translate-y-[-50%]"
+            >
+              <ICDeleteImage
+                width={20}
+                height={20}
+                color={Colors.text_C53434}
+              />
+            </button>
+          ) : null}
         </div>
-      </>
+      </form>
     );
   }
 );
 
-const InputYear = memo(({ value }: { value: string }) => {
+const InputYear = memo((props: InputHTMLAttributes<HTMLInputElement>) => {
   return (
     <div className="w-full">
       <TitleInput
@@ -84,59 +252,74 @@ const InputYear = memo(({ value }: { value: string }) => {
         name="admin._about._general._form._year"
       />
       <Input
-        value={value}
-        onChange={() => {}}
         id="admin._about._general._form._year"
         placeholder="admin._about._general._form._year_placeholder"
+        {...props}
       />
     </div>
   );
 });
 
-const InputUpFile = memo(({ image }: { image: string }) => {
-  const refInput = useRef<HTMLInputElement>(null);
-  const [imageHistory, setImageHistory] = useState(image);
+const InputUpFile = memo(
+  ({
+    image,
+    onChange,
+  }: {
+    image: string;
+    onChange: (event: ChangeEvent<HTMLInputElement>) => void;
+  }) => {
+    const refInput = useRef<HTMLInputElement>(null);
 
-  const handleChange = useCallback((event: ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files![0];
-    setImageHistory(URL.createObjectURL(file));
-  }, []);
+    const handleClickInput = useCallback(() => {
+      refInput.current?.click();
+    }, []);
 
-  const handleClickInput = useCallback(() => {
-    refInput.current?.click();
-  }, []);
-
-  return (
-    <div className="w-full mt-[24px]">
-      <TitleInput forId={""} name="admin._about._general._form._upload" />
-      <div className="h-[168px]">
-        <div className={clsx("h-full", { hidden: !!imageHistory })}>
-          <InputUploadFile ref={refInput} onChange={handleChange} />
+    return (
+      <div className="w-full mt-[24px]">
+        <TitleInput forId={""} name="admin._about._general._form._upload" />
+        <div className="h-[168px]">
+          <div className={clsx("h-full", { hidden: !!image })}>
+            <InputUploadFile ref={refInput} onChange={onChange} />
+          </div>
+          <button
+            onClick={handleClickInput}
+            className={clsx("h-full w-full", { hidden: !image })}
+          >
+            <ImagePreview url={image} />
+          </button>
         </div>
-        <button
-          onClick={handleClickInput}
-          className={clsx("h-full w-full", { hidden: !imageHistory })}
-        >
-          <ImagePreview url={imageHistory} />
-        </button>
       </div>
-    </div>
-  );
-});
+    );
+  }
+);
 
-const DescriptionInput = memo(({ value }: { value: string }) => {
-  return (
-    <div className="flex-1">
-      <TitleInput
-        forId={"admin._about._general._form._des"}
-        name="admin._about._general._form._des"
-      />
-      <InputMultiLine
-        onChange={() => {}}
-        value={value}
-        id="admin._about._general._form._des"
-        placeholder="admin._about._general._form._des_placeholder"
-      />
-    </div>
-  );
-});
+const DescriptionInput = memo(
+  ({
+    value,
+    name,
+    onChange,
+    onBlur,
+  }: {
+    value: string;
+    name: string;
+    onChange: (event: ChangeEvent<HTMLTextAreaElement>) => void;
+    onBlur: (event: ChangeEvent<HTMLTextAreaElement>) => void;
+  }) => {
+    return (
+      <div className="flex-1">
+        <TitleInput
+          forId={"admin._about._general._form._des"}
+          name="admin._about._general._form._des"
+        />
+        <InputMultiLine
+          onChange={onChange}
+          onBlur={onBlur}
+          name={name}
+          value={value}
+          id="admin._about._general._form._des"
+          placeholder="admin._about._general._form._des_placeholder"
+        />
+      </div>
+    );
+  }
+);
