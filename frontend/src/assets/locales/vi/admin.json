@@ -192,6 +192,7 @@
             "_title": "Quản lý banner",
             "_form": {
                 "_title": "THÊM BANNER MỚI",
+                "_title_edit": "Sửa Banner",
                 "_name": "Tiêu đề bài viết",
                 "_name_placeholder": "Nhập tiêu đề bài viết",
                 "_upload": "Tải ảnh"

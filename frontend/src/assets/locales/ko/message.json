@@ -1,0 +1,13 @@
+{
+    "message": {
+        "warn": {
+            "_required": "필수"
+        },
+        "success": {
+            "_success": "성공"
+        },
+        "error": {
+            "_error": "실패"
+        }
+    }
+}

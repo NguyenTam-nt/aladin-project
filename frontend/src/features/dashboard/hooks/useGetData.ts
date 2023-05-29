@@ -37,11 +37,11 @@ export function useGetData<T>({ getCallback, getBySearch }: Props) {
   }, [getBySearch])
 
   useEffect(() => {
-    if(!searchQuery) {
+    // if(!searchQuery) {
         handleGetData(Number(currentPage))
-    }else {
-        handleGetDataBySearch(Number(currentPage), searchQuery)
-    }
+    // }else {
+    //     handleGetDataBySearch(Number(currentPage), searchQuery)
+    // }
   }, [currentPage, searchQuery, handleGetData, handleGetDataBySearch]);
 
 
@@ -59,6 +59,10 @@ export function useGetData<T>({ getCallback, getBySearch }: Props) {
   const totalPage = useMemo(() => {
     return Math.ceil(total/PAGE_SIZE)
   }, [total])
+
+//   const getDataByFilter = useCallback((listFilter: number[]) => {
+
+//   }, [])
 
   return {
     handleChangeSearch,

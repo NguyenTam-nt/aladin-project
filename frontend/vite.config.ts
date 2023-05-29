@@ -7,10 +7,10 @@ export default defineConfig({
   server: {
     proxy: {
       "/api": {
-        target: "http://192.168.1.123:8001/",
+        target: "http://101.99.6.31:8998/",
         changeOrigin: true,
       },
-    },
+    }
   },
   plugins: [react(), tsconfigPaths()],
 });

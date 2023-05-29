@@ -1,24 +1,31 @@
 import Editor from "@components/Editor";
 import { Input } from "@components/Input";
 import { SelectInput } from "@components/SelectInput";
-import { pathNewsHandle } from "@constants/contain";
-import { TranslateContext } from "@contexts/Translation";
 import { GroupButtonAdmin } from "@features/dashboard/components/GroupButtonAdmin";
 import { ImagePreview } from "@features/dashboard/components/ImagePreview";
 import { InputUploadFile } from "@features/dashboard/components/InputUploadFIle";
 import { TitleForm } from "@features/dashboard/components/TitleForm";
 import TitleInput from "@features/dashboard/components/TitleInput";
-import { useHandleImage } from "@features/dashboard/hooks/useHandleImage";
-import React, { useContext, useMemo } from "react";
-import { useParams } from "react-router-dom";
+import React, { memo } from "react";
+import { TextError } from "@features/dashboard/components/TextError";
+import { useHandleCreateNews } from "../../hooks/useHandleCreateNews";
 
-export const HandleNews = () => {
-  const params = useParams();
-  const { t } = useContext(TranslateContext);
-  const isAdd = useMemo(() => {
-    return params?.type === pathNewsHandle.add;
-  }, [params?.type]);
-  const { preViewImage, handleChange } = useHandleImage();
+export const HandleNews = memo(() => {
+  const {
+    handleBlur,
+    handleChange,
+    handleChangeCheckbox,
+    handleChangeEdit,
+    handleChangeEditor,
+    currentCategory,
+    preViewImage,
+    isAdd,
+    isVn,
+    message,
+    formik,
+    categories,
+    t,
+  } = useHandleCreateNews();
   return (
     <>
       <TitleForm
@@ -27,42 +34,101 @@ export const HandleNews = () => {
         }
       />
       <div className="grid grid-cols-2 gap-[24px] text-_14px text-text_primary">
-        <div>
+        <div className="relative">
           <TitleInput
-            forId={""}
+            forId="news-parent-category"
             name="admin.news._form._name_category_parent"
           />
-          <SelectInput>
+          <SelectInput
+            onBlur={formik.handleBlur}
+            id="news-parent-category"
+            name="idParent"
+            value={formik.values.idParent}
+            onChange={handleChangeCheckbox}
+          >
             <>
-              <option selected disabled>
+              <option value="" disabled>
                 {t("admin.news._form._name_parent_placeholder")}
               </option>
+              {categories.map((item) => {
+                return (
+                  <option key={item.id} value={item.id}>
+                    {isVn ? item.name : item.nameKo}
+                  </option>
+                );
+              })}
             </>
           </SelectInput>
+          {formik.errors.idParent && formik.touched.idParent && (
+            <TextError message={formik.errors.idParent} />
+          )}
         </div>
         <div>
-          <TitleInput forId={""} name="admin.news._form._name_category_child" />
-          <SelectInput>
+          <TitleInput
+            isRequired={false}
+            forId={""}
+            name="admin.news._form._name_category_child"
+          />
+          <SelectInput
+            onBlur={formik.handleBlur}
+            name="idChild"
+            value={formik.values.idChild}
+            onChange={formik.handleChange}
+          >
             <>
-              <option selected disabled>
+              <option value="" disabled>
                 {t("admin.news._form._name_category_child_placeholder")}
               </option>
+              {currentCategory.map((item) => {
+                return (
+                  <option key={item.id} value={item.id}>
+                    {isVn ? item.name : item.nameKo}
+                  </option>
+                );
+              })}
             </>
           </SelectInput>
         </div>
-        <div className=" col-span-2">
+        <div className=" col-span-2 relative">
           <TitleInput forId={""} name="admin.news._form._title" />
-          <Input placeholder="admin.news._form._title_placeholder" />
+          <Input
+            onBlur={handleBlur}
+            onChange={formik.handleChange}
+            value={isVn ? formik.values.title : formik.values.titleKo}
+            name={isVn ? "title" : "titleko"}
+            placeholder="admin.news._form._title_placeholder"
+          />
+          {formik.errors.title && formik.touched.title && (
+            <TextError message={formik.errors.title} />
+          )}
         </div>
-        <div className=" col-span-2">
+        <div className=" col-span-2 relative">
           <TitleInput forId={""} name="admin.news._form._des" />
-          <Input placeholder="admin.news._form._des_placeholder" />
+          <Input
+            onBlur={handleBlur}
+            onChange={formik.handleChange}
+            value={
+              isVn ? formik.values.description : formik.values.descriptionKo
+            }
+            name={isVn ? "description" : "descriptionKo"}
+            placeholder="admin.news._form._des_placeholder"
+          />
+          {formik.errors.description && formik.touched.description && (
+            <TextError message={formik.errors.description} />
+          )}
         </div>
-        <div className=" col-span-2">
+        <div className=" col-span-2 relative">
           <TitleInput forId={""} name="admin.news._form._content" />
-          <Editor onChange={() => {}} content="" />
+          <Editor
+            content={isVn ? formik.values.content : formik.values.contentKo}
+            onBlur={handleChangeEditor}
+            onChange={handleChangeEdit}
+          />
+          {formik.errors.description && formik.touched.description && (
+            <TextError message={formik.errors.description} />
+          )}
         </div>
-        <div className=" col-span-2">
+        <div className=" col-span-2 relative">
           <TitleInput forId={""} name="admin.news._form._upload" />
           <div className="flex gap-[24px] h-[168px]">
             <div className="w-[424px] h-full">
@@ -72,11 +138,12 @@ export const HandleNews = () => {
               <ImagePreview url={preViewImage} />
             </div>
           </div>
+          <TextError message={message} />
         </div>
         <div className=" col-span-2">
-          <GroupButtonAdmin onSubmit={() => {}} />
+          <GroupButtonAdmin isAdd={isAdd} onSubmit={formik.handleSubmit} />
         </div>
       </div>
     </>
   );
-};
+})

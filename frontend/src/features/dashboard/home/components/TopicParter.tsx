@@ -1,24 +1,71 @@
-import React, { ChangeEvent, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { SubHeaderTopic } from "./SubHeaderTopic";
 import { InputUploadFile } from "@features/dashboard/components/InputUploadFIle";
 import { ImagePreview } from "@features/dashboard/components/ImagePreview";
-import Company1 from "@assets/images/Company1.png"
+import Company1 from "@assets/images/Company1.png";
 import { useHandleImage } from "@features/dashboard/hooks/useHandleImage";
+import { bannerService } from "@services/banner";
+import { BannerType, IBanner } from "@typeRules/banner";
+import { uploadService } from "@services/uploadService";
+import { PopUpContext } from "@contexts/PopupContext";
 
 export const TopicParter = () => {
-  const [preViewImage, setPreViewImage] = useState<string>(
-    "https://s3-alpha-sig.figma.com/img/968d/c70b/c6cac33f1cd2ca478db3b9f0575b7b0a?Expires=1685923200&Signature=htLYrPDTyGzA6Mg0tYLGNhWI~LiGkh8COZ-~I~P3RaMqNjG78zuzLz1PKV~a7dyj1M4BHUI77HBVMGmmNkRx1zepOBI1K2sfWK3Hc9cY1~bGgZrofppXRmzA1HFzZhfVxZArK3hzPBzvstuyEvxNZJibEvIfDReDolCz1gLeI2MKHDz87QEMBNXr9EMBhNWZO7hs6usMpnepg-8W1obUD3JmOdFa3ihschWQJdl7cerDuKGGth3PqDUCknaytw-VcXevUy7-PSuMDjbsbQ2m7ceU-CQHluNXQvTsva03YlDrt9vMumIzc0nc8p4iUpJh-BrIn9445734slg-6AtZCQ__&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4"
+  const { showSuccess, showError } = useContext(PopUpContext);
+  const [bannerHome, setBannerHome] = useState<IBanner>();
+  const hanldeChangeVideo = async (file: File) => {
+    const formData = new FormData();
+
+    formData.append("file", file);
+    const image = await uploadService.postImage(formData);
+    handleSubmit(image);
+  };
+
+  const handleDeleteLogin = async () => {
+    if (bannerHome) {
+      bannerService
+        .putBanner({
+          ...bannerHome,
+          link: " ",
+        })
+        .then(() => {
+          setBannerHome({ ...bannerHome, link: " " });
+          showSuccess("message.success._success");
+        })
+        .catch(() => {
+          showError("message.error._error");
+        });
+    }
+  };
+
+  const { preViewImage, handleChange, handleDelete } = useHandleImage(
+    bannerHome?.link,
+    hanldeChangeVideo,
+    handleDeleteLogin
   );
 
-  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files![0];
-    const link = URL.createObjectURL(file);
-    setPreViewImage(link);
+  const handleSubmit = (link: string) => {
+    if (bannerHome) {
+      bannerService
+        .putBanner({
+          ...bannerHome,
+          link: link ? link : bannerHome.link,
+        })
+        .then((data) => {
+          setBannerHome(data);
+          showSuccess("message.success._success");
+        })
+        .catch(() => {
+          showError("message.error._error");
+        });
+    }
   };
 
-  const handleDelete = () => {
-    setPreViewImage("");
-  };
+  useEffect(() => {
+    bannerService.getByType(BannerType.bannerParter).then((data) => {
+      setBannerHome(data?.data?.[0]);
+    });
+  }, []);
+
   return (
     <>
       <SubHeaderTopic title="admin._home._topic._banner_partner" />
@@ -40,33 +87,71 @@ export const TopicParter = () => {
 };
 
 const PartnerLogo = () => {
+  const { showSuccess, showError } = useContext(PopUpContext);
+  const [bannerHome, setBannerHome] = useState<IBanner[]>([]);
+  const hanldeChangeVideo = async (file: File) => {
+    const formData = new FormData();
 
-  const {handleChange, handleDelete} = useHandleImage()
+    formData.append("file", file);
+    const image = await uploadService.postImage(formData);
+    bannerService
+      .post({
+        type: BannerType.bannerLogoParter,
+        link: image,
+      })
+      .then((data) => {
+        setBannerHome([data, ...bannerHome]);
+        showSuccess("message.success._success");
+      })
+      .catch(() => {
+        showError("message.error._error");
+      });
+  };
+
+  const handleDeleteLogin = async (id: number) => {
+    if (bannerHome) {
+      bannerService
+        .delete(id)
+        .then(() => {
+          const newBannerHome = [...bannerHome];
+          const index = newBannerHome.findIndex((item) => item.id === id);
+          newBannerHome.splice(index, 1);
+          setBannerHome([...newBannerHome]);
+          showSuccess("message.success._success");
+        })
+        .catch(() => {
+          showError("message.error._error");
+        });
+    }
+  };
+
+  const { handleChange } = useHandleImage("", hanldeChangeVideo);
+
+  useEffect(() => {
+    bannerService.getByType(BannerType.bannerParter).then((data) => {
+      setBannerHome(data?.data);
+    });
+  }, []);
 
   return (
     <>
-    <SubHeaderTopic title="admin._home._topic._partner" />
-        <div className=" grid  grid-cols-3 2xl:grid-cols-4 gap-[24px]">
+      <SubHeaderTopic title="admin._home._topic._partner" />
+      <div className=" grid  grid-cols-3 w-1920:grid-cols-4 gap-[24px]">
         <div className="h-[168px]">
-            <InputUploadFile onChange={handleChange} />
+          <InputUploadFile onChange={handleChange} />
         </div>
-        <div className="h-[168px]">
-         <ImagePreview className=" !object-contain !w-auto !h-auto absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%]" onDelete={handleDelete} url={Company1} />
-        </div>
-        <div className="h-[168px]">
-         <ImagePreview className=" !object-contain !w-auto !h-auto absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%]" onDelete={handleDelete} url={Company1} />
-        </div>
-        <div className="h-[168px]">
-         <ImagePreview className=" !object-contain !w-auto !h-auto absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%]" onDelete={handleDelete} url={Company1} />
-        </div>
-        <div className="h-[168px]">
-         <ImagePreview className=" !object-contain !w-auto !h-auto absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%]" onDelete={handleDelete} url={Company1} />
-        </div>
-        <div className="h-[168px]">
-         <ImagePreview className=" !object-contain !w-auto !h-auto absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%]" onDelete={handleDelete} url={Company1} />
-        </div>
-        
-        </div>
+        {bannerHome.map((item) => {
+          return (
+            <div key={item.id} className="h-[168px]">
+              <ImagePreview
+                className=" !object-contain !w-auto !h-auto absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%]"
+                onDelete={() => handleDeleteLogin(Number(item.id))}
+                url={item.link}
+              />
+            </div>
+          );
+        })}
+      </div>
     </>
   );
 };

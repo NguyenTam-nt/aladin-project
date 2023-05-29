@@ -2,15 +2,13 @@ import { ICPlus } from "@assets/icons/ICPlus";
 import { Button } from "@components/Button";
 import { Colors } from "@constants/color";
 import { SubHeaderTopic } from "@features/dashboard/home/components/SubHeaderTopic";
-import React, { useState } from "react";
+import React from "react";
 import { TopicPostItem } from "./TopicPostItem";
+import { useHandlePost } from "../../hooks/useHandlePost";
+import { ContentType } from "@typeRules/content";
 
 export const TopicPost = () => {
-  const [isShow, setIsShow] = useState(false);
-  const handShow = () => {
-    if(isShow) return
-    setIsShow(true);
-  };
+  const {handShow, isShow} = useHandlePost(ContentType.brand)
   return (
     <>
       <div className="flex items-center">
