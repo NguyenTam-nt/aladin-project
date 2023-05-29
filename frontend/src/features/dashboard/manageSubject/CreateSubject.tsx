@@ -8,7 +8,6 @@ import { ImagePreview } from "../components/ImagePreview";
 import { useHandleImage } from "../hooks/useHandleImage";
 import { Formik, FormikProps ,Form, Field, ErrorMessage } from "formik";
 import type {  ISubjectPostCheck } from "@typeRules/subject";
-import { translateService } from "@services/translate";
 import { subjectService } from "@services/subject";
 import { uploadService } from "@services/uploadFile";
 import {  useNavigate } from "react-router-dom";
@@ -18,6 +17,7 @@ import { TranslateContext } from "@contexts/Translation";
 import { TitleForm } from "../components/TitleForm";
 import { GroupButtonAdmin } from "../components/GroupButtonAdmin";
 import { TranslateToKorean } from "../manageCadres/hooks/useTranslate";
+import { PopUpContext } from "@contexts/PopupContext";
 enum SubjectForm {
   name = "name",
   nameKo = "nameKo",
@@ -47,6 +47,7 @@ export const CreateSubject = () => {
   // const { t } = useContext(TranslateContext);
   const formikRef = useRef<FormikProps<ISubjectPostCheck> | null>(null);
   const { preViewImage , handleChange} =  useHandleImage()
+  const { showSuccess, showError } = useContext(PopUpContext);
   const { t  ,isVn}  = useContext(TranslateContext)
   const navigate = useNavigate()
  
@@ -68,12 +69,12 @@ export const CreateSubject = () => {
         },
       ],
     }).then(() => {
-      alert("Thành công!")
+      showSuccess("message.success._success");
       navigate(-1)
+     }).catch(() => {
+      showError("message.error._error");
      })
-    
   };
-
   const validationSchema = Yup.object().shape({
     name: Yup.string().required(t("validate.required")),
     description: Yup.string().required(t("validate.required")),
@@ -81,6 +82,7 @@ export const CreateSubject = () => {
     content: Yup.string().required(t("validate.required")),
     files: Yup.string().required(t("validate.required")),
   });
+
   const onChangeValueInput = (
     value: string,
     key: string ,

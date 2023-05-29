@@ -294,7 +294,7 @@ export const rootRouterAdmin = [
   },
   {
     path:
-      pathsAdmin.info_account.prefix + "/" + pathsAdmin.info_account.edit,
+    pathsAdmin.info_account.prefix + "/" + pathsAdmin.info_account.edit,
     name: "admin.navigation._user._edit_user",
     element: EditInfoAccount,
     isHidden: true,

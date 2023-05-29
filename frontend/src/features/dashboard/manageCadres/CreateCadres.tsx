@@ -17,6 +17,7 @@ import * as Yup from "yup";
 import { uploadService } from "@services/uploadFile";
 import { useNavigate } from "react-router-dom";
 import { TranslateToKorean } from "./hooks/useTranslate";
+import { PopUpContext } from "@contexts/PopupContext";
 enum CadresForm {
   fullname = "fullname",
   fullnameKo = "fullnameKo" ,
@@ -58,6 +59,7 @@ export const CreateCadres = () => {
   const { t , isVn} = useContext(TranslateContext);
   const { preViewImage, handleChange } = useHandleImage();
   const formikRef = useRef<FormikProps<ICadresPostCheck> | null>(null);
+  const { showSuccess, showError } = useContext(PopUpContext);
   const [cadresCategoryValue , setCadresCategoryValue] = useState<ICategotiesCadres[]>([])
   const navigate = useNavigate();
 
@@ -84,8 +86,10 @@ export const CreateCadres = () => {
         },
       })
       .then(() => {
-        alert("Thành công!");
+        showSuccess("message.success._success");
         navigate(-1);
+      }).catch(() => {
+        showError("message.error._error");
       });
   };
 
@@ -115,7 +119,7 @@ export const CreateCadres = () => {
 
   useEffect(() => {
     if (!isVn) {
-      TranslateToKorean(formikRef.current!.values , formikRef);
+      TranslateToKorean(formikRef.current!.values, formikRef);
     }
   }, [isVn]);
 

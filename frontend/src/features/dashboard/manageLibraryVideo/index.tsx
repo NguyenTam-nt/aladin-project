@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
 import { HeaderAdmin } from "../components/HeaderAdmin";
-
 import Pagination from "../components/Pagination";
 import { ModalContext } from "@contexts/ModalContext";
 import { ModalCreate } from "./components/ModalCreate";
@@ -9,23 +8,25 @@ import { ICAdd } from "@assets/icons/ICAdd";
 import { ICClear } from "@assets/icons/ICClear";
 import DialogConfirmDelete from "@components/DialogConfirmDelete";
 import { galleryService } from "@services/gallery";
-import { IVideo } from "@typeRules/gallery";
+import type { IGallery } from "@typeRules/gallery";
 import { PAGE_SIZE } from "@constants/contain";
+import { PopUpContext } from "@contexts/PopupContext";
 
 export const ManageLibraryVideo = () => {
   const { t  ,isVn} = useContext(TranslateContext);
   const [currenPage, setCurrentPage] = useState(1);
   const [totalPage, setTotalPage] = useState<number>(0);
   const [isShow, setIsShow] = useState<number>(-1);
-  const [data, setData] = useState<IVideo[]>([]);
+  const [data, setData] = useState<IGallery[]>([]);
   const { setElementModal } = useContext(ModalContext);
+  const { showSuccess , showError } = useContext(PopUpContext)
   const handleShowModalDelete = (id : number) => {
     setElementModal(
-      <DialogConfirmDelete onClick={() => onDeleteById(id)} message={t("video.delete_album", { name:  data.filter((item) => item.id === id)?.[0]?.nameKo,})} />
+      <DialogConfirmDelete onClick={() => onDeleteById(id)} message={t("video.delete_album", { name:  data.filter((item) => item.id === id)?.[0]?.name,})} />
     );
   };
   const getVideos = (page : number) => { 
-    galleryService.getVideo({ page: 0, size: PAGE_SIZE }).then((video) => {
+    galleryService.getVideo({ page: page, size: PAGE_SIZE ,sort: "createdDate,desc"  }).then((video) => {
       setData(video.data);
       setTotalPage(Math.ceil(video.total / PAGE_SIZE));
     });
@@ -35,20 +36,29 @@ export const ManageLibraryVideo = () => {
     galleryService
       .deleteVideo(id)
       .then(() => {
-     
         if (currenPage === totalPage && totalPage !== 1) {
-          if ((id && data.length === 1) ) {
-            getVideos(currenPage - 1);
+          if (id && data.length === 1) {
+            getVideos(currenPage - 2);
             setCurrentPage(currenPage - 1);
           }
         } else {
-          getVideos(currenPage);
+          getVideos(currenPage -1);
         }
-      
+        showSuccess("message.success._success");
+      })
+      .catch(() => {
+        showError("message.error._error");
       });
   };
   const handleShowModal = () => {
-    setElementModal(<ModalCreate />);
+    setElementModal(
+      <ModalCreate
+        callback={() => {
+          getVideos(0);
+          setCurrentPage(1);
+        }}
+      />
+    );
   };
 
 
@@ -79,7 +89,7 @@ export const ManageLibraryVideo = () => {
           </p>
         </div>
         {data.map((item, index) => (
-          <div key={ item.id}>
+          <div key={item.id}>
             <button
               onMouseEnter={() => setIsShow(index)}
               onMouseLeave={() => setIsShow(-1)}
@@ -93,17 +103,16 @@ export const ManageLibraryVideo = () => {
                   <ICClear height={75} width={60}></ICClear>
                 </div>
               )}
-              <img
+              <video
                 className="h-[312px] w-[648px]  items-center justify-center object-cover"
                 style={{
                   opacity: isShow === index ? 0.5 : 1,
                 }}
-                src="https://s3-alpha-sig.figma.com/img/b69c/0ba2/adc1ec8c23b20a5518839269dfe8aa70?Expires=1685923200&Signature=ly2GkZoIgjvlhGwucbrz7id6XWMI2dR29waQ8NgQbPIvn8jlwZs3h8CL7PwYRQBY~z1ZG3mTqzckMM6DQZR1dOti8n-OIcd~oKZK0kpW89tSv8RTrMcLj3Kb~b3zywMc8d4ncPdq3UEm7w10Yqzr47VXeirP3WRQ6VG-upChaORlVMXef7T2K4izdUNM53J4BGt7niD7WNh62dDxYngEISJIgQ1FnXUKskjekY0viBF75Ad4EhM9BWwAaj2TGH2X1XihSW02vyBPp9YbmXO0Ovxp1OEjHwrJijWpo8cqQaNNYosCjBQdox~Iy5fYH9w7c-cRIBmcN1vomo7kcQDPGw__&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4"
-              ></img>
+                src={item?.files?.[0]?.link}
+              ></video>
             </button>
-
             <p className="text-_24 text-text_primary   line-clamp-2 mt-[16px]">
-             {isVn && item?.name || item.nameKo}
+             {isVn ?item.name : item.nameKo}
             </p>
           </div>
         ))}

@@ -5,15 +5,16 @@ import { InputUploadFile } from "@features/dashboard/components/InputUploadFIle"
 import { TitleForm } from "@features/dashboard/components/TitleForm";
 import TitleInput from "@features/dashboard/components/TitleInput";
 import * as Yup from "yup";
-import type { IGalleryPostCheck, IVideo } from "@typeRules/gallery";
+import type { IGalleryPostCheck } from "@typeRules/gallery";
 import { Formik ,Form, FormikProps, Field, ErrorMessage} from "formik";
-import React, { ChangeEvent, useContext, useEffect, useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, {  useContext, useEffect, useRef } from "react";
 import { galleryService } from "@services/gallery";
 import { TranslateToKorean } from "@features/dashboard/manageCadres/hooks/useTranslate";
 import { uploadService } from "@services/uploadFile";
 import { TranslateContext } from "@contexts/Translation";
 import { useHandleImage } from "@features/dashboard/hooks/useHandleImage";
+import { ModalContext } from "@contexts/ModalContext";
+import { PopUpContext } from "@contexts/PopupContext";
 
 enum VideoForm {
   name = "name" ,
@@ -21,28 +22,27 @@ enum VideoForm {
   type = "type",
   files = "files",
 }
+
 const initialValue = {
   name: "",
   nameKo: "",
+  description: "",
+  descriptionKo: "",
   type: "VIDEO",
   files: "",
 };
 
 
-export const ModalCreate = () => {
+export const ModalCreate = ( {callback} : { callback?: () => void}) => {
   const { preViewImage , handleChange ,handleDelete} =  useHandleImage()
   const formikRef = useRef<FormikProps<IGalleryPostCheck> | null>(null);
   const { isVn , t} = useContext(TranslateContext)
-  const navigate = useNavigate()
-  
- 
-
-
+  const {hideModal} = useContext(ModalContext)
+  const { showSuccess , showError } = useContext(PopUpContext)
  
   const postGallery = async (value: IGalleryPostCheck) => {
     const valueTranslate =
-      await TranslateToKorean(value , formikRef);
-
+    await TranslateToKorean(value , formikRef);
     const formData = new FormData();
     formData.append("file", formikRef.current!.values.files);
     const urlImage = await uploadService.postVideo(formData);
@@ -57,10 +57,12 @@ export const ModalCreate = () => {
         },
       ],
     }).then(() => {
-      alert("Thành công!")
-      navigate(-1)
+      showSuccess("message.success._success");
+      callback?.()
+      hideModal()
+     }).catch(() => {
+      showError("message.error._error");
      })
-    
   };
 
   const validationSchema = Yup.object().shape({
@@ -149,7 +151,7 @@ export const ModalCreate = () => {
                 />
               </div>
               {preViewImage ? (
-                <div className="w-[395px] h-full ml-[24px]">
+                <div className="mt-[40px] ml-[1px] w-[395px] h-full ml-[24px]">
                   <ImagePreview
                     onDelete={handleDelete}
                     url={preViewImage}

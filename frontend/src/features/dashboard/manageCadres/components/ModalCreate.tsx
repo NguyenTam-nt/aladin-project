@@ -34,7 +34,6 @@ export const ModalCreate = () => {
             className="h-[44px]"
           />
         </div>
-
         <div>
           <TitleInput
             forId={AccoutnForm.gender}

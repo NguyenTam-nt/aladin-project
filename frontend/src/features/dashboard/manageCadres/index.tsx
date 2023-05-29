@@ -51,11 +51,11 @@ export const ManageCadres = () => {
      
         if (currenPage === totalPage && totalPage !== 1) {
           if ((id && data.length === 1) || listChecked.length === data.length) {
-            getCadres(currenPage - 1);
+            getCadres(currenPage - 2);
             setCurrentPage(currenPage - 1);
           }
         } else {
-          getCadres(currenPage);
+          getCadres(currenPage -1);
         }
         setListChecked([])
       });
