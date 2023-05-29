@@ -22,6 +22,8 @@ import { Structure } from "@features/dashboard/about/structure";
 import { Account } from "@features/dashboard/accounts";
 import { Banner } from "@features/dashboard/banner";
 import { Footer } from "@features/dashboard/components/footer";
+import { ManageDocuments } from "@features/dashboard/documents";
+import { HandleDocuments } from "@features/dashboard/documents/components/Category/HandleDocuments";
 import { Header } from "@features/dashboard/header";
 import { Home } from "@features/dashboard/home";
 import { InfoAccount } from "@features/dashboard/infoAccount";
@@ -104,6 +106,12 @@ export const pathsAdmin = {
   },
   documents: {
     prefix: "tai-lieu-van-ban",
+  },
+  documents_category: {
+    prefix: "danh-muc",
+  },
+  documents_handle: {
+    prefix: ":type",
   },
   cadres: {
     prefix: "can-bo",
@@ -233,8 +241,13 @@ export const rootRouterAdmin = [
   {
     path: pathsAdmin.documents.prefix,
     name: "admin.navigation._file",
-    element: DemoElement,
+    element: ManageDocuments,
     icon: ICFile,
+  },
+  {
+    path: `${pathsAdmin.documents.prefix}/${pathsAdmin.documents_handle.prefix}`,
+    element: HandleDocuments,
+    isHidden: true,
   },
   {
     path: pathsAdmin.cadres.prefix,
@@ -281,7 +294,7 @@ export const rootRouterAdmin = [
   },
   {
     path:
-      pathsAdmin.info_account.prefix + "/" + pathsAdmin.info_account.edit,
+    pathsAdmin.info_account.prefix + "/" + pathsAdmin.info_account.edit,
     name: "admin.navigation._user._edit_user",
     element: EditInfoAccount,
     isHidden: true,

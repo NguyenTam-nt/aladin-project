@@ -1,0 +1,7 @@
+{
+    "validate": {
+      "required" : "Bắt buộc nhập" ,
+      "wrong_format" : "Sai định dạng"
+    }
+  }
+  

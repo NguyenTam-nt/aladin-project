@@ -8,7 +8,7 @@
       "_form": {
         "_number": "STT",
         "_name": "Tên cán bộ",
-        "_specialized": "Chuyên ngành - Nơi tốt nghiệp",
+        "_specialized": "Chức vụ",
         "_email": "Email",
         "_function": "Chức năng"
       },
@@ -35,8 +35,8 @@
           "_placeholder": "Nhập email"
       },
         "_specialized": {
-            "_name": "Chuyên nghành - nơi tốt nghiệp",
-            "_placeholder": "Nhập chuyên nghành - nơi tốt nghiệp"
+            "_name": "Chuyên nghành",
+            "_placeholder": "Nhập chuyên nghành"
         },
         "_job": {
             "_name": "Công việc phụ trách",
@@ -45,10 +45,6 @@
         "_title_content": {
             "_name": "Tiêu đề",
             "_placeholder": "Nhập mô tả bài viết"
-        },
-        "_password": {
-            "_name": "Mật khẩu",
-            "_placeholder": "Nhập mật khẩu"
         }
     }
     }

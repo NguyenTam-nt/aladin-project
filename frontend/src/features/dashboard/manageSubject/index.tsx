@@ -1,8 +1,4 @@
-import React, {
-  memo,
-  useContext,
-  useState,
-} from "react";
+import React, { memo, useContext, useEffect, useState } from "react";
 import { HeaderAdmin } from "../components/HeaderAdmin";
 import { TranslateContext } from "@contexts/Translation";
 // import { ModalContext } from "@contexts/ModalContext";
@@ -18,59 +14,77 @@ import { useHandleCheckbox } from "../hooks/useHandleCheckbox";
 import { Checkbox } from "@components/Checkbox";
 import { Link } from "react-router-dom";
 import { pathsAdmin } from "@constants/routerAdmin";
+import type { ISubject } from "@typeRules/subject";
+import { subjectService } from "@services/subject";
+import { PAGE_SIZE } from "@constants/contain";
+import moment from "moment";
 
-const dummyData = [
-  {
-    id: 1,
-    name: "Bộ môn 1",
-    specialized: "Egestas lorem proin vitae enim netus egestas in nunc felis.",
-    email: "24/12/2023",
-  },
-  {
-    id: 2,
-    name: "Bộ môn 1",
-    specialized: "Egestas lorem proin vitae enim netus egestas in nunc felis.",
-    email: "24/12/2023",
-  },
-  {
-    id: 3,
-    name: "Bộ môn 1",
-    specialized: "Egestas lorem proin vitae enim netus egestas in nunc felis.",
-    email: "24/12/2023",
-  },
-];
-interface IsubjectTableItem {
-  id: number;
-  name: string;
-  specialized: string;
-  email: string;
-}
 
 export const ManageSubject = () => {
   const [currenPage, setCurrentPage] = useState(1);
 
   const { t } = useContext(TranslateContext);
   const setElementModalDelete = useContext(ModalContext).setElementModal;
-  const [data] = useState<IsubjectTableItem[]>(dummyData);
+  const [data, setData] = useState<ISubject[]>([]);
+  const [totalPage, setTotalPage] = useState(0);
+  const {
+    refCheckboxAll,
+    refCheckboxList,
+    handleCheckAll,
+    handleCheckedItem,
+    listChecked,
+    setListChecked
+  } = useHandleCheckbox(data.map((item) => item.id));
 
-  const {refCheckboxAll, refCheckboxList, handleCheckAll, handleCheckedItem} = useHandleCheckbox(data.map((item) => item.id))
- 
-  const onDeleteById = (_: number) => { 
-  }; 
+  const getSubject = (page: number) => {
+    subjectService
+      .get({ page: page, size: PAGE_SIZE, sort: "createdDate,desc" })
+      .then((data) => {
+        setData(data.data);
+        setTotalPage(Math.ceil(data.total / PAGE_SIZE));
+      });
+  };
 
+  const onDeleteById = (id?: number) => {
  
-  const handleShowModalDelete = (name?: string) => {
+    subjectService
+      .delete(id ? id!.toString() : listChecked.join(","))
+      .then(() => {
+        if (currenPage === totalPage && totalPage !== 1) {
+          if ((id && data.length === 1) || listChecked.length === data.length) {
+            getSubject(currenPage - 2);
+            setCurrentPage(currenPage - 1);
+          }
+        } else {
+          getSubject(currenPage -1);
+        }
+        setListChecked([])
+      });
+  };
+
+  const changePage = (page: number) => {
+    setCurrentPage(page);
+    getSubject(page - 1);
+  };
+
+  useEffect(() => {
+    getSubject(0);
+  }, []);
+
+  const handleShowModalDelete = (id?: number) => {
     setElementModalDelete(
       <DialogConfirmDelete
         message={
-          name
-            ? t("subject_manage.delete_subject", { name: name })
+          id
+            ? t("subject_manage.delete_subject", {
+                name: data.filter((item) => item.id === id)?.[0]?.name,
+              })
             : t("subject_manage.delete_all_subject")
         }
+        onClick={() => onDeleteById(id)}
       />
     );
   };
-
 
   return (
     <div className="px-[24px]">
@@ -110,8 +124,8 @@ export const ManageSubject = () => {
       <div className="mt-[120px] flex justify-end">
         <Pagination
           currenPage={currenPage}
-          setCurrentPage={setCurrentPage}
-          total={10}
+          setCurrentPage={changePage}
+          total={totalPage}
         />
       </div>
     </div>
@@ -119,12 +133,15 @@ export const ManageSubject = () => {
 };
 
 type subjectTableProps = {
-  onSelectAllsubject:(event: React.ChangeEvent<HTMLInputElement>) => void
-  data: IsubjectTableItem[];
-  refCheckboxAll : React.RefObject<HTMLInputElement> ;
-  refCheckboxList : React.MutableRefObject<HTMLInputElement[]> ;
-  onDeleteById : (id : number) => void;
-  setsubjectChooseById: (event: React.ChangeEvent<HTMLInputElement>, index: number) => void
+  onSelectAllsubject: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  data: ISubject[];
+  refCheckboxAll: React.RefObject<HTMLInputElement>;
+  refCheckboxList: React.MutableRefObject<HTMLInputElement[]>;
+  onDeleteById: (id: number) => void;
+  setsubjectChooseById: (
+    event: React.ChangeEvent<HTMLInputElement>,
+    index: number
+  ) => void;
 };
 
 const SubjectTable = memo(
@@ -132,18 +149,23 @@ const SubjectTable = memo(
     onSelectAllsubject,
     data,
     setsubjectChooseById,
-    onDeleteById ,
-    refCheckboxAll ,
-    refCheckboxList
+    onDeleteById,
+    refCheckboxAll,
+    refCheckboxList,
   }: subjectTableProps) => {
     const { t } = useContext(TranslateContext);
 
     return (
       <>
         <div className="pb-[14px] grid  grid-cols-[1fr_1fr_3fr_6fr_2fr_2fr]  mt-[40px] text-_18 font-semibold text-text_primary border-b-[1px] border-solid border-br_E9ECEF">
-        <button>
-          <Checkbox id="news_check" onChange={onSelectAllsubject} ref={refCheckboxAll} />
-        </button>
+          <button>
+            <Checkbox
+               ref={refCheckboxAll}
+              id="subjects_check"
+              onChange={onSelectAllsubject}
+        
+            />
+          </button>
           <div>{t("subject_manage._form._number")}</div>
           <div>{t("subject_manage._form._name")}</div>
           <div>{t("subject_manage._form._title")}</div>
@@ -152,16 +174,16 @@ const SubjectTable = memo(
             {t("subject_manage._form._function")}
           </div>
         </div>
-        {data.map((item: IsubjectTableItem, index: number) => {
+        {data.map((item: ISubject, index: number) => {
           return (
             <SubjectTableItem
               item={item}
               index={index}
-              key={index}
+              key={item.id}
               setsubjectChooseById={setsubjectChooseById}
               onDeleteById={onDeleteById}
               refCheckboxList={refCheckboxList}
-            />  
+            />
           );
         })}
       </>
@@ -170,20 +192,24 @@ const SubjectTable = memo(
 );
 
 interface subjectTableItemProps {
-  item: IsubjectTableItem;
+  item: ISubject;
   index: number;
-  setsubjectChooseById: (event: React.ChangeEvent<HTMLInputElement>, index: number) => void ;
-  onDeleteById : (id: number) => void;
-  refCheckboxList : React.MutableRefObject<HTMLInputElement[]>;
+  setsubjectChooseById: (
+    event: React.ChangeEvent<HTMLInputElement>,
+    index: number
+  ) => void;
+  onDeleteById: (id: number) => void;
+  refCheckboxList: React.MutableRefObject<HTMLInputElement[]>;
 }
 
 const SubjectTableItem = ({
   item,
   index,
   setsubjectChooseById,
-  onDeleteById ,
-  refCheckboxList
+  onDeleteById,
+  refCheckboxList,
 }: subjectTableItemProps) => {
+  const { isVn} = useContext(TranslateContext)
   return (
     <div className="py-[16px] grid  grid-cols-[1fr_1fr_3fr_6fr_2fr_2fr]  text-_18 font-semibold text-text_primary border-b-[1px] border-solid border-br_E9ECEF">
       <button>
@@ -194,20 +220,21 @@ const SubjectTableItem = ({
           }
         />
       </button>
-
       <div>
         <p className="text-_14 font-semibold text-text_black">{index + 1}</p>
       </div>
       <div>
-        <p className="text-_14 font-semibold text-text_black">{item.name}</p>
+        <p className="text-_14 font-semibold text-text_black">{isVn ? item.name : item.nameKo}</p>
       </div>
       <div>
         <p className="text-_14 font-semibold text-text_black">
-          {item.specialized}
+          { isVn ? item.description : item.descriptionKo}
         </p>
       </div>
       <div>
-        <p className="text-_14 font-semibold text-text_black">{item.email}</p>
+        <p className="text-_14 font-semibold text-text_black">
+          {moment(item.createdDate).format("DD/MM/YY")}
+        </p>
       </div>
       <div className="flex justify-end">
         <button
