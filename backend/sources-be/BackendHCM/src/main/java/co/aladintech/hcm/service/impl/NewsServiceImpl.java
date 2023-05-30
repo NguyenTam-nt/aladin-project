@@ -142,6 +142,9 @@ public class NewsServiceImpl implements NewsService {
             categories = newsCategoryRepository.findAll();
         } else {
             categories = newsCategoryRepository.findAllById(categoriesId);
+            for(Long id : categoriesId) {
+                categories.addAll(newsCategoryRepository.findAllByParent(id));
+            }
         }
 
         Page<News> news = newsRepository.findAllByNewsCategoryInAndTitleIsLikeIgnoreCase(categories, keyword, pageable);
