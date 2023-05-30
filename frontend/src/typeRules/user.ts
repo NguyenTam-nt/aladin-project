@@ -4,18 +4,21 @@ export enum StatusUser {
 }
 
 export enum RoleUser {
-    ADMIN = "ROLE_ADMIN",
-    USER = "ROLE_USER",
+  ADMIN = "ROLE_ADMIN",
+  USER = "ROLE_USER",
 }
 
 export interface IUser {
-  role?: RoleUser;
-  id: number;
-  username: "string";
-  firstName: "string";
-  lastName: "string";
-  email: "string";
-  password: "string";
-  phone: "string";
+  id?: string
+  email?: string
+  login?: string
+  password?: string
+  fullname?: string
+  yearOfBirth?: string
+  gender?: string
+  position?: string
+  phoneNumber?: string
+  imageUrl?: string
+  role?: RoleUser
   userStatus: StatusUser;
 }

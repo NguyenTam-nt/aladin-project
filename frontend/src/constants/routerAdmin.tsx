@@ -23,8 +23,8 @@ const HandleNotice = lazy(() => import("@features/dashboard/Notice/components/Ca
 const Home = lazy(() => import("@features/dashboard/home").then(module => ({default: module.Home})))
 const Brand = lazy(() => import("@features/dashboard/about/brand").then(module => ({default: module.Brand})))
 const Brochure = lazy(() => import("@features/dashboard/about/brochure").then(module => ({default: module.Brochure})))
-const Categories = lazy(() => import("@features/dashboard/about/general").then(module => ({default: module.General})))
-const General = lazy(() => import("@features/dashboard/about/categories").then(module => ({default: module.Categories})))
+const General = lazy(() => import("@features/dashboard/about/general").then(module => ({default: module.General})))
+const Categories = lazy(() => import("@features/dashboard/about/categories").then(module => ({default: module.Categories})))
 const Structure = lazy(() => import("@features/dashboard/about/structure").then(module => ({default: module.Structure})))
 const Account = lazy(() => import("@features/dashboard/accounts").then(module => ({default: module.Account})))
 const Banner = lazy(() => import("@features/dashboard/banner").then(module => ({default: module.Banner})))
@@ -44,11 +44,6 @@ const HandleNews = lazy(() => import("@features/dashboard/news/components/Catego
 const EditPassword = lazy(() => import("@features/dashboard/password").then(module => ({default: module.EditPassword})))
 const ManageSubject = lazy(() => import("@features/dashboard/manageSubject").then(module => ({default: module.ManageSubject})))
 
-const DemoElement = () => {
-  return (
-    <p className="text-_32 text-[red] text-center">Trang này chưa code nhé!</p>
-  );
-};
 
 const EmptyElement = () => {
   return <Outlet />;

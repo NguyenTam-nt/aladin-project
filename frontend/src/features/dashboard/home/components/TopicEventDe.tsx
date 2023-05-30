@@ -36,7 +36,6 @@ export const TopicEventDe = () => {
                   onSubmitEdit({ ...data, outstanding: !data.outstanding })
                 }
                 onDelete={() => handleDelete(Number(data.id))}
-                isVideos
                 url={data.image ?? ""}
               />
             );
