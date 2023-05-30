@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
 import org.springframework.core.convert.converter.Converter;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -61,7 +62,24 @@ public class SecurityConfiguration {
 
             .antMatchers("/api/keycloak/**").hasAuthority(AuthoritiesConstants.SYSTEM)
 
-            .antMatchers("/api/**").permitAll()
+            .antMatchers(HttpMethod.PUT,"/api/view-pages/increment").permitAll()
+            .antMatchers(HttpMethod.GET,"/api/subjects/*").permitAll()
+            .antMatchers(HttpMethod.GET,"/api/posts/*").permitAll()
+            .antMatchers(HttpMethod.GET,"/api/news/*").permitAll()
+            .antMatchers(HttpMethod.GET,"/api/news-categories/*").permitAll()
+            .antMatchers(HttpMethod.GET,"/api/histories/*").permitAll()
+            .antMatchers(HttpMethod.GET,"/api/header-navbars/*").permitAll()
+            .antMatchers(HttpMethod.GET,"/api/galleries/*").permitAll()
+            .antMatchers(HttpMethod.GET,"/api/footer-link-news/*").permitAll()
+            .antMatchers(HttpMethod.GET,"/api/footer-info/*").permitAll()
+            .antMatchers(HttpMethod.GET,"/api/files/*").permitAll()
+            .antMatchers(HttpMethod.GET,"/api/content-sessions/*").permitAll()
+            .antMatchers(HttpMethod.GET,"/api/cardes/*").permitAll()
+            .antMatchers(HttpMethod.GET,"/api/cardes-categories/*").permitAll()
+            .antMatchers(HttpMethod.GET,"/api/banners/*").permitAll()
+            .antMatchers(HttpMethod.GET,"/api/video/*").permitAll()
+            .antMatchers(HttpMethod.GET,"/api/image/*").permitAll()
+            .antMatchers("/api/**").hasAnyAuthority(AuthoritiesConstants.SYSTEM, AuthoritiesConstants.ADMIN)
             .antMatchers("/management/health").permitAll()
             .antMatchers("/management/health/**").permitAll()
             .antMatchers("/management/info").permitAll()
