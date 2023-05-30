@@ -24,6 +24,7 @@ import React, {
 import * as Yup from "yup";
 import { useHandleMultiImage } from "../../hooks/useHandleMultiImage";
 import { uploadService } from "@services/uploadService";
+import { convertContent } from "@commons/index";
 
 type Props = {
   type?: "ADD" | "EDIT";
@@ -56,7 +57,7 @@ export const TopicPostItem = memo(
       }),
       onSubmit: async (values) => {
         let images: string[] = [];
-        if (files && contentType !== ContentType.general) {
+        if (files.length && contentType !== ContentType.general) {
           images = await handlePostImage(files);
         }
         const listNewsFile = images.map((item) => {
@@ -142,7 +143,8 @@ export const TopicPostItem = memo(
       (content: string) => {
         if (isVn) {
           formik.setFieldValue("content", content);
-          handleTranslate("content", content);
+          const newContent = convertContent(content)
+          handleTranslate("content", newContent);
           return;
         }
         formik.setFieldValue("contentKo", content);

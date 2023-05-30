@@ -5,13 +5,14 @@ import { TranslateContext } from "@contexts/Translation";
 import { GroupButtonAdmin } from "@features/dashboard/components/GroupButtonAdmin";
 import { TitleForm } from "@features/dashboard/components/TitleForm";
 import TitleInput from "@features/dashboard/components/TitleInput";
-import React, {  ChangeEventHandler, InputHTMLAttributes, useContext, useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { InputUploadFile } from "../components/InputUploadFIle";
 import { ImagePreview } from "../components/ImagePreview";
 import { useHandleImage } from "../hooks/useHandleImage";
 import { cadresService } from "@services/cadres";
-import { Formik, Form, Field, ErrorMessage, useFormikContext, FormikProps } from "formik";
+import { Formik, Form, Field, ErrorMessage, FormikProps } from "formik";
 import type { ICadresPostCheck, ICategotiesCadres } from "@typeRules/cadres";
+//@ts-ignore
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
 import * as Yup from "yup";
 import { uploadService } from "@services/uploadFile";

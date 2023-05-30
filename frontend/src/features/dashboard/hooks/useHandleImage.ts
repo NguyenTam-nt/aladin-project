@@ -8,7 +8,7 @@ export const useHandleImage = (image?:string, onChange?: (file:File) => void, ha
     const [message, setMessage] = useState("")
 
     useEffect(() => {
-      if(!preViewImage) {
+      if(!preViewImage.trim()) {
         setPreViewImage(image ?? "")
       }
     }, [image, preViewImage])

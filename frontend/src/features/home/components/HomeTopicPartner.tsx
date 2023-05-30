@@ -1,12 +1,4 @@
-import BannerProposal from "@assets/images/home_banner_proposal.png";
 import BannerBg from "@assets/images/home_banner_bg.png";
-import Company1 from "@assets/images/Company1.png";
-import Company2 from "@assets/images/Company2.png";
-import Company3 from "@assets/images/Company3.png";
-import Company4 from "@assets/images/Company4.jpg";
-import Company5 from "@assets/images/Company5.jpg";
-import Company6 from "@assets/images/Company6.jpg";
-import Company7 from "@assets/images/Company7.jpg";
 import { SwiperComponent } from "@components/SwiperComponent";
 import { SwiperSlide } from "swiper/react";
 import useWindowResize from "@hooks/useWindowResize";
@@ -17,16 +9,6 @@ import { useGetBanner } from "@features/abouts/components/useGetBanner";
 import { BannerType, IBanner } from "@typeRules/banner";
 import { useEffect, useState } from "react";
 import { bannerService } from "@services/banner";
-
-const data = [
-  Company1,
-  Company2,
-  Company3,
-  Company4,
-  Company5,
-  Company6,
-  Company7,
-]
 
 export const HomeTopicPartner = () => {
   const { width } = useWindowResize();

@@ -77,12 +77,15 @@ export const TopicHistoryItem = memo(
             })
             .then((data) => {
               onSubmit?.(data);
-            });
-            formik.resetForm()
-            handleDelete()
-          showSuccess("message.success._success");
+              showSuccess("message.success._success");
+              formik.resetForm()
+              handleDelete()
+            }).catch(() => {
+              showError("message.error._error");
+
+            })
+           
         } catch (error) {
-          showError("message.error._error");
         }
       },
     });
@@ -153,14 +156,16 @@ export const TopicHistoryItem = memo(
         formik.setFieldValue("description", data.description);
         formik.setFieldValue("descriptionKo", data.descriptionKo);
       }
+      
     }, [isAdd, data]);
 
     const handleTranslate = useCallback(
-      async (name: string, value: string) => {
+      async (name: keyof IHistory, value: string) => {
         try {
           const content = await translateService.post(value);
           formik.setFieldValue(`${name}Ko`, content);
-          if (!isAdd) {
+          //@ts-ignore
+          if (!isAdd && (value !== data?.[name] || content !== data?.[`${name}Ko`])) {
             handleSubmitEdit({
               ...data,
               [name]: value,
@@ -180,7 +185,7 @@ export const TopicHistoryItem = memo(
           formik.handleBlur(event);
           return;
         }
-        if (!isAdd) {
+        if (!isAdd && Number(value) !==  Number(data?.year)) {
           handleSubmitEdit({
             ...data,
             [name]: value,
@@ -278,12 +283,12 @@ const InputUpFile = memo(
       <div className="w-full mt-[24px]">
         <TitleInput forId={""} name="admin._about._general._form._upload" />
         <div className="h-[168px]">
-          <div className={clsx("h-full", { hidden: !!image })}>
+          <div className={clsx("h-full", { hidden: !!image.trim() })}>
             <InputUploadFile ref={refInput} onChange={onChange} />
           </div>
           <button
             onClick={handleClickInput}
-            className={clsx("h-full w-full", { hidden: !image })}
+            className={clsx("h-full w-full", { hidden: !image.trim() })}
           >
             <ImagePreview url={image} />
           </button>

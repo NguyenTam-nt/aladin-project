@@ -1,12 +1,8 @@
 import React from "react";
 import { GeneralHistoryItemMobile } from "./GeneralHistoryItemMobile";
+import type { IHistory } from "@typeRules/history";
 type Props = {
-  data: {
-    year: number,
-    des_vn: string,
-    des_ko: string,
-    img: string
-  }[]
+  data: IHistory[]
 }
 export const GeneralHitorySliderMobile = ({data}:Props) => {
   return (

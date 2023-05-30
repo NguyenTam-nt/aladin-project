@@ -26,7 +26,7 @@ export const HomeTopicNews = () => {
   }, [])
 
   const ImageNewList = useMemo(() => {
-      return newsList.map((item) => {
+      return newsList.slice(0, newsList.length <= 5 ? newsList.length : 5 ).map((item) => {
         return {
           image: item.files?.[0]?.link || ""
         }

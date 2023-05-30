@@ -1,3 +1,5 @@
+
+
 import { Input } from "@components/Input";
 import { GroupButtonAdmin } from "@features/dashboard/components/GroupButtonAdmin";
 import { ImagePreview } from "@features/dashboard/components/ImagePreview";
@@ -26,8 +28,8 @@ enum VideoForm {
 const initialValue = {
   name: "",
   nameKo: "",
-  description: "",
-  descriptionKo: "",
+  des: "",
+  desKo: "",
   type: "VIDEO",
   files: "",
 };

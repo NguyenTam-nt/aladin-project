@@ -8,6 +8,7 @@ export const pathNoticeHandle = {
   edit: "sua-thong-bao",
 };
 export const PAGE_SIZE = 12;
+export const PAGE_SIZE_HISTORY = 100;
 export const pathDocumentsHandle = {
   add: "tao-tai-lieu-van-ban",
   edit: "sua-tai-lieu-van-ban",

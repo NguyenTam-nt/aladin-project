@@ -6,14 +6,10 @@ import React from "react";
 import { FreeMode } from "swiper";
 import { SwiperSlide } from "swiper/react";
 import { GeneralHistoryItem } from "./GeneralHistoryItem";
+import type { IHistory } from "@typeRules/history";
 
 type Props = {
-  data: {
-    year: number,
-    des_vn: string,
-    des_ko: string,
-    img: string
-  }[]
+  data: IHistory[]
 }
 
 export const GeneralHistorySliderPC = ({data}:Props) => {

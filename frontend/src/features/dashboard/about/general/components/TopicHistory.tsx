@@ -21,6 +21,7 @@ export const TopicHistory = () => {
   };
   const { currenPage, setCurrentPage } = usePagination();
   const handleSubmit = (data: IHistory) => {
+    console.log({ data });
     setHistories({
       total: listHistories?.total ?? 0,
       data: [data, ...(listHistories?.data ?? [])],
@@ -30,6 +31,7 @@ export const TopicHistory = () => {
   const handleSubmitEdit = (data: IHistory) => {
     if (!listHistories) return;
     const newList = [...listHistories.data];
+    console.log({ data });
     const index = newList.findIndex((item) => item.id === data.id);
     newList.splice(index, 1, data);
 
@@ -83,10 +85,7 @@ export const TopicHistory = () => {
   };
 
   return (
-    <div
-      className="h-[700px] overflow-y-auto"
-      id="scrollableDiv"
-    >
+    <div className="h-[700px] overflow-y-auto" id="scrollableDiv">
       <div className="flex items-center">
         <SubHeaderTopic title="admin._about._general._topic._history" />
         <Button
@@ -137,13 +136,13 @@ const TopicHistoryList = memo(
   ({ data, onEdit, onDeleteHistory }: PropsTopicHistoryList) => {
     return (
       <>
-        {data.map((item, index) => {
+        {data.map((item) => {
           return (
             <TopicHistoryItem
               onDeleteHistory={onDeleteHistory}
               onSubmit={onEdit}
               data={item}
-              key={index}
+              key={item.id}
             />
           );
         })}

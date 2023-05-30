@@ -11,7 +11,6 @@ import type {  ISubjectPostCheck } from "@typeRules/subject";
 import { subjectService } from "@services/subject";
 import { uploadService } from "@services/uploadFile";
 import {  useNavigate } from "react-router-dom";
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
 import * as Yup from "yup";
 import { TranslateContext } from "@contexts/Translation";
 import { TitleForm } from "../components/TitleForm";
@@ -185,7 +184,6 @@ export const CreateSubject = () => {
             />
             <Field
               name={isVn ? SubjectForm.content : SubjectForm.contentKo}
-              editor={ClassicEditor}
               data={""}
           
               onBlur={(content: string) => {

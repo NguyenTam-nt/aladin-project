@@ -1,4 +1,3 @@
-import { prefixRootRoute } from "@configs/index";
 import clsx from "clsx";
 import {
   useLayoutEffect,
@@ -6,9 +5,7 @@ import {
   createContext,
   ReactNode,
   useEffect,
-  useMemo,
 } from "react";
-import { useLocation } from "react-router-dom";
 
 interface ModalState {
   isShow: boolean;
@@ -29,7 +26,6 @@ type Props = {
 export default function ModalProvider({ children }: Props) {
   const [isShow, setShowModal] = useState(false);
   const [element, setElement] = useState<JSX.Element>(<></>);
-  const params = useLocation()
 //   const {} = useRoutes
   const setElementModal = (elm: JSX.Element) => {
     setElement(elm);
@@ -63,10 +59,6 @@ export default function ModalProvider({ children }: Props) {
     //   ? (document.body.style.overflowY = "hidden")
     //   : (document.body.style.overflowY = "auto");
   }, [isShow]);
-
-  const isAdmin = useMemo(() => {
-    return params.pathname.includes(prefixRootRoute.admin)
-  }, [params.pathname])
 
   return (
     <ModalContext.Provider

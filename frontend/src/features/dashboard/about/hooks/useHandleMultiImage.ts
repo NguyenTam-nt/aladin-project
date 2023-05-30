@@ -1,7 +1,7 @@
 import { ChangeEvent, useEffect, useState } from "react";
 
 
-export const useHandleMultiImage = (images?:string[], onChange?: (files:File[]) => void, handleDeleteLogin?: () => void) => {
+export const useHandleMultiImage = (images?:string[], _?: (files:File[]) => void, handleDeleteLogin?: () => void) => {
 
     const [preViewImage, setPreViewImage] = useState<string[]>(images??[]);
     const [linkPasteImage, setLinkPasteImage] = useState<string[]>([])

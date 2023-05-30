@@ -6,12 +6,14 @@ import VnFlag from "@assets/images/VN.jpg";
 import KoFlag from "@assets/images/korean.jpg";
 import { ICArrowDown } from "@assets/icons/ICArrowDown";
 import { Colors } from "@constants/color";
-import { ICSearch } from "@assets/icons/ICSearch";
 import { Link } from "react-router-dom";
+import { AuthContext } from "@contexts/AuthContext";
+import { Avatar } from "@components/Avatar";
 
 export const HeaderAdmin = () => {
   const { t, isVn } = useContext(TranslateContext);
-
+  const {user} = useContext(AuthContext)
+ 
   return (
     <div
       className="h-[96px] pl-[32px] z-[90000] pr-[126px] py-[24px] bg-white flex justify-between items-center border-b-[1px] border-solid border-br_E9ECEF sticky top-0 left-0 right-0 min-w-[1280px]"
@@ -28,10 +30,10 @@ export const HeaderAdmin = () => {
       </div>
 
       <div className=" flex items-center">
-        <div>
+        {/* <div>
           <ICSearch color={Colors.text_primary} />
         </div>
-        <HeaderOptionSlash />
+        <HeaderOptionSlash /> */}
         <div className="relative menu">
           <div className="flex items-center cursor-pointer pl-2">
             {
@@ -59,11 +61,7 @@ export const HeaderAdmin = () => {
         </div>
         <HeaderOptionSlash />
         <div className="flex items-center">
-          <img
-            src="https://s3-alpha-sig.figma.com/img/eebf/c417/4d4828bf76f6e54e0b85f4bae6f2fcc1?Expires=1685318400&Signature=kytYT5eiYqJxzvh5vfEObtDd72oyufGbkSasqCLQtxxZXmut4XwNWYWyqp43gAymDXDDw1tVZ3ylaLkkWDDMB54vCzGVsAGolubDGaerCu3VsXaW8Ypcxip24ybdx3NZzeh8IxYKI2fh2qS9RPUZzFTK87ptoXRa5Y31FYDcug9iFLEqwqa-Zd74qb5OLh~PKRveP99ZR430RZTKEoPSrprIswNZIMbdfkKY8qQpyvDL40-qrp3H9GGsk7q3RBxvZEypztJy89qf4x7AajpBqLLq5OMQ2Z6R0PV3kQ4qCajYR97-54LBQcJZV00kPgYqW2uH0uAuibS7ivrYkb4SFg__&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4"
-            alt=""
-            className="w-[40px] h-[40px] rounded-[50%] object-cover"
-          />
+         <Avatar link={user?.imageUrl} name={user?.login + ""} />
           <span className="text-_14 text-text_primary mx-2">Admin</span>
           <div>
             <ICArrowDown color={Colors.text_primary} />

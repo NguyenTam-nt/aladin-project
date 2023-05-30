@@ -1,8 +1,6 @@
 import { ICArrowDown } from "@assets/icons/ICArrowDown";
 import { ICDelele } from "@assets/icons/ICDelele";
 import { ICMenu } from "@assets/icons/ICMenu";
-import { ICSearch } from "@assets/icons/ICSearch";
-import { Colors } from "@constants/color";
 import { paths } from "@constants/router";
 import { TranslateContext } from "@contexts/Translation";
 import type { IHeader } from "@typeRules/footer";
@@ -14,6 +12,9 @@ import React, {
 } from "react";
 import { Link } from "react-router-dom";
 import { useGetHeader } from "./useGetHeader";
+import { AuthContext } from "@contexts/AuthContext";
+import { prefixRootRoute } from "@configs/index";
+import { pathsAdmin } from "@constants/routerAdmin";
 
 type propsNavigate = {
   isShowSidebar: boolean;
@@ -23,6 +24,7 @@ type propsNavigate = {
 export const SidebarNavigation = ({ isShowSidebar, onShow }: propsNavigate) => {
   const { t, isVn } = useContext(TranslateContext);
   const {headers} = useGetHeader()
+  const {isLogin, doLogin} = useContext(AuthContext)
   useLayoutEffect(() => {
     if (isShowSidebar) {
       document.body.style.overflowY = "hidden";
@@ -56,15 +58,21 @@ export const SidebarNavigation = ({ isShowSidebar, onShow }: propsNavigate) => {
         </div>
       </div>
       <div className="mt-[14px] flex items-center justify-between py-[8px] border-b-[1px] border-solid border-br_E9ECEF">
-        <Link className="text-[14px] font-bold text-secondary" to="#">
+      {
+        !isLogin ? (
+          <button onClick={doLogin} className="text-[14px] font-bold text-secondary">
           {t("home.header.login")}
-        </Link>
-        <div className="flex items-center">
+        </button>
+        ) :  (
+          <Link className='text-[14px] font-bold text-secondary' to={`${prefixRootRoute.admin}/${pathsAdmin.info_account.prefix}`}>{t("home.header._managent")}</Link>
+        )
+      }
+        {/* <div className="flex items-center">
           <span className="text-_14 text-bg_7E8B99 mr-[10px]">
             {t("common._search")}
           </span>
           <ICSearch color={Colors.text_9EA8B3} />
-        </div>
+        </div> */}
       </div>
       {headers.map((item, index) => {
         return (
