@@ -108,6 +108,12 @@ export const pathsAdmin = {
   documents: {
     prefix: "tai-lieu-van-ban",
   },
+  documents_category: {
+    prefix: "danh-muc",
+  },
+  documents_handle: {
+    prefix: ":type",
+  },
   cadres: {
     prefix: "can-bo",
     create_cadres : "them-can-bo"
@@ -236,8 +242,13 @@ export const rootRouterAdmin = [
   {
     path: pathsAdmin.documents.prefix,
     name: "admin.navigation._file",
-    element: DemoElement,
+    element: ManageDocuments,
     icon: ICFile,
+  },
+  {
+    path: `${pathsAdmin.documents.prefix}/${pathsAdmin.documents_handle.prefix}`,
+    element: HandleDocuments,
+    isHidden: true,
   },
   {
     path: pathsAdmin.cadres.prefix,
@@ -284,7 +295,7 @@ export const rootRouterAdmin = [
   },
   {
     path:
-      pathsAdmin.info_account.prefix + "/" + pathsAdmin.info_account.edit,
+    pathsAdmin.info_account.prefix + "/" + pathsAdmin.info_account.edit,
     name: "admin.navigation._user._edit_user",
     element: EditInfoAccount,
     isHidden: true,

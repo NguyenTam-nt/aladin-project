@@ -48,6 +48,7 @@ export const ImagePreview = memo(
         )}
         {onDelete ? (
           <button
+            type="button"
             onClick={onDelete}
             className="absolute top-[17px] right-[17px]"
           >

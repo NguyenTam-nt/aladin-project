@@ -45,7 +45,7 @@ function Pagination({total, currenPage, setCurrentPage, limit}: Props) {
     if (page) {
       setCurrentPage(+page)
     }
-  }, [searchParams, currenPage, setCurrentPage])
+  }, [searchParams, currenPage])
 
   useEffect(() => {
     setPages(() => {

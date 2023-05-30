@@ -28,7 +28,7 @@ export const useHandleCreateNews = () => {
     const isAdd = useMemo(() => {
       return params?.type === pathNewsHandle.add;
     }, [params?.type]);
-  
+
     useEffect(() => {
       if (!isAdd) {
         const id = searchParam.get("slug");
@@ -171,7 +171,6 @@ export const useHandleCreateNews = () => {
       handleTranslate(name, value);
       formik.handleBlur(event);
     };
-  
     const handleChangeEditor = useCallback(
       (value: string) => {
         if (isVn) {

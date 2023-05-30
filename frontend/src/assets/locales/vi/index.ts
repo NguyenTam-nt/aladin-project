@@ -13,6 +13,7 @@ import info_manage from "./manage_infoAccount.json"
 import message from "./message.json"
 
 
+import validate from "./validate.json"
 export const vi = {
     ...home,
     ...button,
@@ -26,5 +27,7 @@ export const vi = {
     ...subject_manage ,
     ...video ,
     ...info_manage,
-    ...message
+    ...message,
+    ...info_manage ,
+    ...validate
 }

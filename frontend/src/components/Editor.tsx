@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { InputHTMLAttributes } from 'react'
 //@ts-ignore
 import {CKEditor} from '@ckeditor/ckeditor5-react'
 //@ts-ignore
@@ -10,13 +10,16 @@ type Props = {
   content: string
   onChange?: (content: string) => void
   onBlur?: (content: string) => void
-}
 
-const Editor = ({content, onChange, onBlur}: Props) => {
+} & InputHTMLAttributes<HTMLInputElement>
+
+const Editor = ({content, onChange, onBlur , ...props}: Props) => {
+
+  
   return (
     <CKEditor
       editor={ClassicEditor}
-      data={content}
+      data={content ?? props.value}
       onReady={(editor: any) => {
         MyCustomUploadAdapterPlugin(editor)
       }}
@@ -30,6 +33,7 @@ const Editor = ({content, onChange, onBlur}: Props) => {
         onBlur?.(data)
       }}
       onFocus={() => {}}
+    
     />
   )
 }

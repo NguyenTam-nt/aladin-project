@@ -1,6 +1,5 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { HeaderAdmin } from "../components/HeaderAdmin";
-
 import Pagination from "../components/Pagination";
 import { ModalContext } from "@contexts/ModalContext";
 import { ModalCreate } from "./components/ModalCreate";
@@ -10,21 +9,71 @@ import { ICClear } from "@assets/icons/ICClear";
 import DialogConfirmDelete from "@components/DialogConfirmDelete";
 import { Link } from "react-router-dom";
 import { pathsAdmin } from "@constants/routerAdmin";
+import type { IGallery } from "@typeRules/gallery";
+import { PopUpContext } from "@contexts/PopupContext";
+import { galleryService } from "@services/gallery";
+import { PAGE_SIZE } from "@constants/contain";
 
 export const ManageLibraryImage = () => {
-  const { t } = useContext(TranslateContext);
+  const { t  , isVn} = useContext(TranslateContext);
   const [currenPage, setCurrentPage] = useState(1);
   const [isShow, setIsShow] = useState<number>(-1);
   const { setElementModal } = useContext(ModalContext);
-  const handleShowModalDelete = () => {
+  const [totalPage, setTotalPage] = useState<number>(0);
+  const [data, setData] = useState<IGallery[]>([]);
+  const { showSuccess , showError } = useContext(PopUpContext)
+
+  const handleShowModalDelete = (id: number) => {
     setElementModal(
-      <DialogConfirmDelete message={t("image.delete_album", { name: "Abc" })} />
+      <DialogConfirmDelete
+        onClick={() => onDeleteById(id)}
+        message={t("image.delete_album", {
+          name: data.filter((item) => item.id === id)?.[0]?.nameKo,
+        })}
+      />
     );
   };
-
-  const handleShowModal = () => {
-    setElementModal(<ModalCreate />);
+  const getImages = (page : number) => { 
+    galleryService.getImage({ page: page, size: PAGE_SIZE ,sort: "createdDate,desc"  }).then((image) => {
+      setData(image.data);
+      setTotalPage(Math.ceil(image.total / PAGE_SIZE));
+    });
+  }
+  const changePage = (page: number) => {
+    setCurrentPage(page);
+    getImages(page - 1);
   };
+
+  const onDeleteById = (id: number) => {
+    galleryService
+      .deleteVideo(id)
+      .then(() => {
+        if (currenPage === totalPage && totalPage !== 1) {
+          if ((id && data.length === 1) ) {
+            getImages(currenPage - 2);
+            setCurrentPage(currenPage - 1);
+          }
+        } else {
+          getImages(currenPage -1);
+        }
+        showSuccess("message.success._success");
+      
+      });
+  };
+  const handleShowModal = () => {
+    setElementModal(
+      <ModalCreate
+        callback={() => {
+          getImages(0);
+          setCurrentPage(1);
+        }}
+      />
+    );
+  };
+  useEffect(() => {
+    getImages(0)
+  }, []);
+
 
   return (
     <div className="px-[24px]">
@@ -33,56 +82,53 @@ export const ManageLibraryImage = () => {
         {t("image.title_list")}
       </p>
       <div className="grid grid-cols-4 gap-[24px] mt-[40px]">
-        {[1, 2, 3, 4, 5, 6, 7, 8].map((_, index) =>
-          index === 0 ? (
-            <div>
-              <button
-                className="flex h-[312px] w-full items-center   justify-center  bg-bg_F5F7F9"
-                onClick={handleShowModal}
-              >
-                <ICAdd></ICAdd>
-              </button>
-              <p className="text-_24 text-text_primary  text-center line-clamp-2 mt-[16px]">
-                {t("image.title_create_new")}
-              </p>
-            </div>
-          ) : (
-            <div>
-              <button
-                onMouseEnter={() => setIsShow(index)}
-                onMouseLeave={() => setIsShow(-1)}
-                onClick={() => {
-                  handleShowModalDelete();
+        <div>
+          <button
+            className="flex h-[312px] w-full items-center   justify-center  bg-bg_F5F7F9"
+            onClick={handleShowModal}
+          >
+            <ICAdd></ICAdd>
+          </button>
+          <p className="text-_24 text-text_primary  text-center line-clamp-2 mt-[16px]">
+            {t("image.title_create_new")}
+          </p>
+        </div>
+        {data.map((item, index) => (
+          <div key={item.id}> 
+            <button
+              onMouseEnter={() => setIsShow(index)}
+              onMouseLeave={() => setIsShow(-1)}
+              onClick={() => {
+                handleShowModalDelete(item.id);
+              }}
+              className="relative w-full"
+            >
+              {isShow === index && (
+                <div className="absolute z-10 top-[50%] left-[50%] translate-x-[-30px] translate-y-[-37px]">
+                  <ICClear height={75} width={60}></ICClear>
+                </div>
+              )}
+              <img
+                className="h-[312px] w-[312px]  items-center justify-center object-cover"
+                style={{
+                  opacity: isShow === index ? 0.5 : 1,
                 }}
-                className="relative w-full"
-              >
-                {isShow === index && (
-                  <div className="absolute z-10 top-[50%] left-[50%] translate-x-[-30px] translate-y-[-37px]">
-                    <ICClear height={75} width={60}></ICClear>
-                  </div>
-                )}
-                <img
-                  className="h-[312px] w-[312px]  items-center justify-center object-cover"
-                  style={{
-                    opacity: isShow === index ? 0.5 : 1,
-                  }}
-                  src="https://s3-alpha-sig.figma.com/img/b69c/0ba2/adc1ec8c23b20a5518839269dfe8aa70?Expires=1685923200&Signature=ly2GkZoIgjvlhGwucbrz7id6XWMI2dR29waQ8NgQbPIvn8jlwZs3h8CL7PwYRQBY~z1ZG3mTqzckMM6DQZR1dOti8n-OIcd~oKZK0kpW89tSv8RTrMcLj3Kb~b3zywMc8d4ncPdq3UEm7w10Yqzr47VXeirP3WRQ6VG-upChaORlVMXef7T2K4izdUNM53J4BGt7niD7WNh62dDxYngEISJIgQ1FnXUKskjekY0viBF75Ad4EhM9BWwAaj2TGH2X1XihSW02vyBPp9YbmXO0Ovxp1OEjHwrJijWpo8cqQaNNYosCjBQdox~Iy5fYH9w7c-cRIBmcN1vomo7kcQDPGw__&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4"
-                ></img>
-              </button>
-              <Link to={pathsAdmin.library_image.detail + "?id=123"}>
-                <p className="text-_24 text-text_primary   line-clamp-2 mt-[16px]">
-                  Imperdiet fames adipiscing facilisis duis vel nisi. Amet.
-                </p>
-              </Link>
-            </div>
-          )
-        )}
+                src={item.files?.[0]?.link ? item.files?.[0]?.link : "https://liftlearning.com/wp-content/uploads/2020/09/default-image.png" }
+              ></img>
+            </button>
+            <Link to={pathsAdmin.library_image.detail + "?id="+ item.id}>
+              <p className="text-_24 text-text_primary   line-clamp-2 mt-[16px]">
+                {isVn ? item.name : item.nameKo}
+              </p>
+            </Link>
+          </div>
+        ))}
       </div>
       <div className="mt-[120px] flex justify-end">
-        <Pagination
+      <Pagination
           currenPage={currenPage}
-          setCurrentPage={setCurrentPage}
-          total={10}
+          setCurrentPage={changePage}
+          total={totalPage}
         />
       </div>
     </div>

@@ -11,6 +11,7 @@ import subject_manage from "./manage_subject.json"
 import video from "./manage_video.json"
 import info_manage from "./manage_infoAccount.json"
 import message from "./message.json"
+import validate from "./validate.json"
 export const ko = {
     ...home,
     ...button,
@@ -24,5 +25,7 @@ export const ko = {
     ...subject_manage ,
     ...video ,
     ...info_manage,
-    ...message
+    ...message,
+    ...info_manage ,
+    ...validate
 }
