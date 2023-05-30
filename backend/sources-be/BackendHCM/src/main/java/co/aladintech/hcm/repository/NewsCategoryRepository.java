@@ -20,5 +20,5 @@ public interface NewsCategoryRepository extends JpaRepository<NewsCategory, Long
 
     @Transactional
     @Modifying
-    void deleteAllByParent(Long id);
+    void deleteAllByParent(Long parent);
 }

@@ -103,7 +103,7 @@ jhipster:
   # CORS is disabled by default on microservices, as you should access them through a gateway.
   # If you want to enable it, please uncomment the configuration below.
   cors:
-     allowed-origins: "https://hanquochoc.edu.vn,http://hanquochoc.edu.vn,http://localhost:9000,https://localhost:9000,http://192.168.1.122:28080,http://localhost:3000,http://localhost:5173,http://101.99.6.31:8998,http://101.99.6.31:18088"
+     allowed-origins: "https://hanquochoc.edu.vn,http://hanquochoc.edu.vn,http://localhost:8080,http://localhost:9000,https://localhost:9000,http://192.168.1.122:28080,http://localhost:3000,http://localhost:5173,http://101.99.6.31:8998,http://101.99.6.31:18088"
      allowed-methods: "*"
      allowed-headers: "*"
      exposed-headers: "Authorization,Link,X-Total-Count"

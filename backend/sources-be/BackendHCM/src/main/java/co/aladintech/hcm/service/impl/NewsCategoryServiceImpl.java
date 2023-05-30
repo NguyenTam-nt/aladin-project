@@ -2,6 +2,7 @@ package co.aladintech.hcm.service.impl;
 
 import co.aladintech.hcm.domain.NewsCategory;
 import co.aladintech.hcm.repository.NewsCategoryRepository;
+import co.aladintech.hcm.repository.NewsRepository;
 import co.aladintech.hcm.service.NewsCategoryService;
 import co.aladintech.hcm.service.dto.NewsCategoryDTO;
 import co.aladintech.hcm.service.dto.NewsCategoryListChildrenDTO;
@@ -15,6 +16,7 @@ import java.util.stream.Collectors;
 import co.aladintech.hcm.service.mapper.NewsMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -30,6 +32,8 @@ public class NewsCategoryServiceImpl implements NewsCategoryService {
     private final Logger log = LoggerFactory.getLogger(NewsCategoryServiceImpl.class);
 
     private final NewsCategoryRepository newsCategoryRepository;
+    @Autowired
+    private NewsRepository newsRepository;
 
     private final NewsCategoryMapper newsCategoryMapper;
     private final NewsMapper newsMapper;
@@ -79,7 +83,7 @@ public class NewsCategoryServiceImpl implements NewsCategoryService {
 
         }
 
-        newsCategoryRepository.deleteAllByParent(newsCategory.getId());
+//        newsCategoryRepository.deleteAllByParent(newsCategory.getId());
 
         List<NewsCategory> s = newsCategoryRepository.saveAll(newsCategoryNews);
         newsCategoryListChildrenDTO.setChildren(s.stream().map(newsCategoryMapper::toDto).collect(Collectors.toList()));
@@ -178,8 +182,14 @@ public class NewsCategoryServiceImpl implements NewsCategoryService {
     @Override
     public void delete(Long id) {
         log.debug("Request to delete NewsCategory : {}", id);
-        newsCategoryRepository.deleteAllByParent(id);
-        newsCategoryRepository.deleteById(id);
+
+        Optional<NewsCategory> newsCategory = newsCategoryRepository.findById(id);
+        if(newsCategory.isPresent()) {
+            newsRepository.deleteAllByNewsCategory(newsCategory.get());
+            newsCategoryRepository.deleteAllByParent(id);
+            newsCategoryRepository.deleteById(id);
+        }
+
     }
 
     @Override
