@@ -29,8 +29,8 @@ export const useHandleNews = () => {
         const query = event.target.value;
           setSearchQuery(query);
           if(query.trim()) {
-            setCurrentPage(0)
-             setSearchParam({page: `0`})
+            setCurrentPage(1)
+             setSearchParam({page: `1`})
           }
       },
       []
@@ -70,13 +70,13 @@ export const useHandleNews = () => {
       if (!searchQuery.trim()) {
         if (debounceFuc.current) debounceFuc.current.cancel();
         handleGetData(
-          Number(currenPage ?? 0),
+          Number(currenPage ?? 1),
           searchQuery,
           listFilter
         );
       } else {
         handleGetDataBySearch(
-          Number(currenPage ?? 0),
+          Number(currenPage ?? 1),
           searchQuery,
           listFilter
         );
@@ -89,14 +89,14 @@ export const useHandleNews = () => {
   
     const pushListFilter = useCallback((ids: number[]) => {
       setListFilter(ids)
-      setCurrentPage(0)
-      setSearchParam({page: `0`})
+      setCurrentPage(1)
+      setSearchParam({page: `1`})
     }, [])
   
     const clearListFilter = useCallback(() => {
       setListFilter([])
       setCurrentPage(0)
-      setSearchParam({page: `0`})
+      setSearchParam({page: `1`})
     }, [])
   
     const handleDelete = useCallback((ids:number[]) => {

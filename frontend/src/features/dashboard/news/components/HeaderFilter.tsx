@@ -130,17 +130,17 @@ const ListFilter = memo(({ onClear, onPushListFilter }: PropsListFilter) => {
   );
 
   const handleChange = useCallback(() => {
-    if (listFilterCurrent.length) {
+    // if (listFilterCurrent.length) {
       onPushListFilter([...listFilterCurrent]);
-    }
+    // }
   }, [listFilterCurrent, onPushListFilter]);
 
   const handleClearFilter = useCallback(() => {
-    if (listFilterCurrent.length) {
+    // if (listFilterCurrent.length) {
       onClear();
       setListFilterCurrent([]);
-    }
-  }, [listFilterCurrent.length, onClear]);
+    // }
+  }, [onClear]);
 
   return (
     <div className=" relative h-full">

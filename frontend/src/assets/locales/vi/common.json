@@ -18,6 +18,10 @@
         "_message_delete_post": "Xóa hình ảnh này khỏi hệ thống?" ,
         "sub_cadres_1": "Giảng viên và chuyên viên cơ hữu",
         "sub_cadres_2" : "Giảng viên tình nguyện và phái cử" ,
-        "update_image" : "Tải ảnh lên"
+        "update_image" : "Tải ảnh lên",
+        "_404": {
+            "_title": "404 - Trang không tìm thấy",
+            "sub_title": "Xin lỗi, trang bạn đang tìm kiếm không tồn tại."
+        }
     }
 }

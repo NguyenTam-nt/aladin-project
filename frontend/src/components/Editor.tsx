@@ -1,25 +1,24 @@
-import React, { InputHTMLAttributes } from 'react'
+import React from 'react'
 //@ts-ignore
 import {CKEditor} from '@ckeditor/ckeditor5-react'
 //@ts-ignore
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
 import { uploadService } from '@services/uploadService'
-// import uploadService from '../../services/uploadService'
 
 type Props = {
   content: string
   onChange?: (content: string) => void
   onBlur?: (content: string) => void
 
-} & InputHTMLAttributes<HTMLInputElement>
+}
 
-const Editor = ({content, onChange, onBlur , ...props}: Props) => {
+const Editor = ({content, onChange, onBlur}: Props) => {
 
   
   return (
     <CKEditor
       editor={ClassicEditor}
-      data={content ?? props.value}
+      data={content}
       onReady={(editor: any) => {
         MyCustomUploadAdapterPlugin(editor)
       }}

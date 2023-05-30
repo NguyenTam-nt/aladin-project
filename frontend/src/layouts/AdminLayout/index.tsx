@@ -1,10 +1,15 @@
 import { HeaderAdmin } from "layouts/HeaderAdmin";
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import { Outlet } from "react-router-dom";
 import { SidebarAdmin } from "./SidebarAdmin";
 import { Footer } from "layouts/Footer";
+import { AuthContext } from "@contexts/AuthContext";
 
 export const AdminLayout = () => {
+  const {isLogin} = useContext(AuthContext)
+  useEffect(() => {
+    
+  }, [])
   return (
     <div className="min-w-[1280px] xl:min-w-full ">
       <HeaderAdmin />

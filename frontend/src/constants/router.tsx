@@ -1,3 +1,4 @@
+import NotFound from "@features/NotFound";
 import { BrochurePage } from "@features/abouts/components/brochure";
 import { Structure } from "@features/abouts/components/structure";
 import AllSubject from "@features/subject/allSubject/AllSubject";
@@ -316,7 +317,7 @@ export const rootRouter: IRouter[] = [
   }
 ];
 
-export const routerDetail = [
+export const routerDetail:IRouter[] = [
   {
     path: `${paths.news.prefix}/${paths.news.detail}`,
     element: NewsDetailPage,
@@ -335,4 +336,9 @@ export const routerDetail = [
     name: "home.header.navigation.sub_news._detail",
     isDetail: true,
   },
+  {
+    path: "*",
+    element: NotFound,
+    name: ""
+  }
 ]

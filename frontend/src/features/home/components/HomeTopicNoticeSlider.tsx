@@ -1,11 +1,14 @@
 import { SwiperComponent } from "@components/SwiperComponent";
+import { NoticeId } from "@constants/contain";
 import {  withResponsive } from "@constants/container";
 import { paths } from "@constants/router";
 import { TranslateContext } from "@contexts/Translation";
 import useInView from "@hooks/useInView";
 import useWindowResize from "@hooks/useWindowResize";
+import  { newsService } from "@services/newsService";
+import type { INews } from "@typeRules/news";
 import clsx from "clsx";
-import React, { memo, useContext, useMemo } from "react";
+import React, { memo, useContext, useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { Navigation } from "swiper";
 import { SwiperSlide } from "swiper/react";
@@ -89,16 +92,21 @@ let data = [
 type Props = {
   navigationNextRef: React.RefObject<HTMLDivElement>;
   navigationPrevRef: React.RefObject<HTMLDivElement>;
+  notices: INews[]
 };
 
 export const HomeTopicNoticeSlider = ({
   navigationNextRef,
   navigationPrevRef,
+  notices
 }: Props) => {
-  const noticeCountItems = useMemo(() => {
-    return Array.from({ length: Math.ceil(data.length / 6) }, (_, i) => i);
-  }, []);
+
   const {width} = useWindowResize()
+
+  const noticeCountItems = useMemo(() => {
+    return Array.from({ length: Math.ceil(notices.length / 6) }, (_, i) => i);
+  }, [notices.length]);
+
   return (
     <SwiperComponent
       slidesPerView={ width > withResponsive._768 ? 2 : 1}
@@ -111,7 +119,7 @@ export const HomeTopicNoticeSlider = ({
       {noticeCountItems.map((_, _index) => {
         return (
           <SwiperSlide key={_index}>
-            {data.slice(_index * 6, 6*(_index+1)).map((item, index) => {
+            {notices.slice(_index * 6, 6*(_index+1)).map((item, index) => {
               return <HomeNoticeSliderItem isDisable={_index > 1} isEven={(_index+1)%2 === 0} index={index} data={item} key={index} />;
             })}
           </SwiperSlide>
@@ -122,12 +130,7 @@ export const HomeTopicNoticeSlider = ({
 };
 
 type PropsSwiper = {
-    data: {
-      title_vn: string,
-      title_ko: string,
-      date: string,
-      view_count: number
-    }
+    data: INews
     index?: number
     isEven?: boolean
     isDisable?: boolean
@@ -148,12 +151,12 @@ const HomeNoticeSliderItem = memo(({data, index, isEven, isDisable}:PropsSwiper)
         }}
       >
         <p className=" leading-[32px] line-clamp-1 text-_16 m992:text-_18 font-semibold text-text_primary">
-        {isVn ? data.title_vn : data.title_ko}
+        {isVn ? data.title : data.titleKo}
         </p>
         <div className="flex items-center text-_14 text-bg_7E8B99">
-          <span>{data.date}</span>
+          <span>{new Date(data?.createdDate + "").toLocaleDateString()}</span>
           <div className="w-[1px] h-[16px] bg-br_E9ECEF mx-[8px]" />
-          {data.view_count} {t("button.view_count")}
+          {data?.view ?? 0} {t("button.view_count")}
         </div>
       </div>
     </Link>

@@ -28,7 +28,7 @@ export const HomeTopicNews = () => {
   const ImageNewList = useMemo(() => {
       return newsList.map((item) => {
         return {
-          image: item.files?.[0].link || ""
+          image: item.files?.[0]?.link || ""
         }
       })
   }, [newsList])
@@ -66,7 +66,7 @@ export const HomeTopicNewsImages = ({images}:{images:{image:string}[]}) => {
             key={index}
             className="h-[100px] xl:h-[125px] min-w-[100px] xl:min-w-[125px] max-w-[160px] xl:max-w-[200px] overflow-hidden"
           >
-            <ImageTranslation link={item.image} />
+            <ImageTranslation link={item?.image} />
           </div>
         );
       })}

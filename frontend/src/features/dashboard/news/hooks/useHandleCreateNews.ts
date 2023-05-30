@@ -24,7 +24,7 @@ export const useHandleCreateNews = () => {
     const [currentNews, setCurrentNews] = useState<INews>();
     const navigation = useNavigate();
     const { preViewImage, handleChange, file, message, handleMessageFile } =
-      useHandleImage(currentNews && currentNews?.files?.[0].link);
+      useHandleImage(currentNews && currentNews?.files?.[0]?.link);
     const isAdd = useMemo(() => {
       return params?.type === pathNewsHandle.add;
     }, [params?.type]);
@@ -34,13 +34,13 @@ export const useHandleCreateNews = () => {
         const id = searchParam.get("slug");
         newsService.getNewsById(Number(id)).then((data) => {
           setCurrentNews(data);
-          formik.setFieldValue("title", data.title);
-          formik.setFieldValue("titleKo", data.titleKo);
-          formik.setFieldValue("description", data.description);
-          formik.setFieldValue("descriptionKo", data.descriptionKo);
-          formik.setFieldValue("content", data.content);
-          formik.setFieldValue("contentKo", data.contentKo);
-          formik.setFieldValue("idParent", data.newsCategory?.id);
+          formik.setFieldValue("title", data?.title);
+          formik.setFieldValue("titleKo", data?.titleKo);
+          formik.setFieldValue("description", data?.description);
+          formik.setFieldValue("descriptionKo", data?.descriptionKo);
+          formik.setFieldValue("content", data?.content);
+          formik.setFieldValue("contentKo", data?.contentKo);
+          formik.setFieldValue("idParent", data?.newsCategory?.id);
         });
       }
     }, [isAdd]);
@@ -171,17 +171,22 @@ export const useHandleCreateNews = () => {
       handleTranslate(name, value);
       formik.handleBlur(event);
     };
+
     const handleChangeEditor = useCallback(
-      (value: string) => {
+      (content: string) => {
         if (isVn) {
-          formik.setFieldValue("content", value);
-          handleTranslate("content", value);
+          formik.setFieldValue("content", content);
+          handleTranslate("content", content);
         } else {
-          formik.setFieldValue("contentKo", value);
+          formik.setFieldValue("contentKo", content);
         }
       },
       [handleTranslate, isVn]
     );
+
+    console.log({
+      formik
+    })
   
 
     return {
