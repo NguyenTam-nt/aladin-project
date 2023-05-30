@@ -48,10 +48,14 @@ public class TranslateResource {
     }
 
     @PostMapping("/translate")
-    public ResponseEntity<?> translate(@Valid @RequestBody TranslateDTO translateDTO) throws URISyntaxException, IOException {
+    public ResponseEntity<?> translate(@Valid @RequestBody TranslateDTO translateDTO) {
         log.debug("REST request to translate : {}", translateDTO);
-
-        return ResponseEntity.ok(GoogleTranslate.translateKo(translateDTO.getContent()));
+        String trans = translateDTO.getContent();
+        try {
+            trans = GoogleTranslate.translateKo(translateDTO.getContent());
+        } catch (Exception e) {
+        }
+        return ResponseEntity.ok(trans);
     }
 
 }
