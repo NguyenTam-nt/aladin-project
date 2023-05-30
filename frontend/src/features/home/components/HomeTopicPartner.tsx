@@ -13,6 +13,10 @@ import useWindowResize from "@hooks/useWindowResize";
 import { withResponsive } from "@constants/container";
 import useInView from "@hooks/useInView";
 import clsx from "clsx";
+import { useGetBanner } from "@features/abouts/components/useGetBanner";
+import { BannerType, IBanner } from "@typeRules/banner";
+import { useEffect, useState } from "react";
+import { bannerService } from "@services/banner";
 
 const data = [
   Company1,
@@ -27,13 +31,20 @@ const data = [
 export const HomeTopicPartner = () => {
   const { width } = useWindowResize();
   const {ref, isInView} = useInView()
+  const {banner} = useGetBanner(BannerType.bannerParter)
+  const [bannerHome, setBannerHome] = useState<IBanner[]>([]);
+  useEffect(() => {
+    bannerService.getByType(BannerType.bannerLogoParter).then((data) => {
+      setBannerHome(data?.data);
+    });
+  }, []);
   return (
     <>
       <div className="bg-bg_F8F8F8 relative h-[157px] xl:h-[422px] flex flex-col mt-[40px] xl:mt-[140px]"  ref={ref}>
         <div className={clsx("w-rp", {"animate__animated animate__fadeInUp": isInView})}>
           <img
             className={clsx("w-full h-[73px] xl:h-[283px] object-cover translate-y-[-50%]")}
-            src={BannerProposal}
+            src={banner?.link}
             alt=""
           />
         </div>
@@ -51,10 +62,10 @@ export const HomeTopicPartner = () => {
             slidesPerView={width > withResponsive._1280 ? 7 : width > withResponsive._768 ? 5 : 3}
             spaceBetween={24}
           >
-            {data.map((item, index) => {
+            {bannerHome.map((item, index) => {
               return (
                 <SwiperSlide key={index}>
-                  <img src={item} alt="" />
+                  <img src={item?.link} alt="" />
                 </SwiperSlide>
               );
             })}

@@ -15,3 +15,5 @@ export const pathDocumentsHandle = {
 
 export const NoticeId = 6231;
 export const EventId = 8601
+export const StudyNewsId = 8851
+export const ViewPageId = 8901

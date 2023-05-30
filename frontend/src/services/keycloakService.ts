@@ -1,7 +1,7 @@
 import Keycloak from 'keycloak-js'
 
 const _kc = Keycloak({
-  url: `https://supershop.vn/auth`,
+  url: `https://hanquochoc.edu.vn/auth`,
   clientId: 'hcm',
   realm: 'hcm',
 })

@@ -174,7 +174,7 @@ export const TopicPostItem = memo(
         <div className="mt-[16px]">
           <TitleInput name="admin._about._general._form._content" forId={""} />
           <Editor
-            content={isVn ? formik.values.content : formik.values.contentKo}
+            content={isVn ? formik.values.content ?? "" : formik.values.contentKo ?? ""}
             onBlur={handleBlurEditor}
             onChange={() => {}}
           />

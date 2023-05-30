@@ -1,4 +1,4 @@
-import React, { memo, useContext, useRef, useState } from "react";
+import React, { memo, useCallback, useContext, useRef, useState } from "react";
 import { HeaderAdmin } from "../components/HeaderAdmin";
 import { TranslateContext } from "@contexts/Translation";
 // import { ModalContext } from "@contexts/ModalContext";
@@ -11,11 +11,42 @@ import { ICClear } from "@assets/icons/ICClear";
 import { ModalContext } from "@contexts/ModalContext";
 import { ModalCreate } from "./components/ModalCreate";
 import DialogConfirmDelete from "@components/DialogConfirmDelete";
+import type { IResponseData } from "@typeRules/responsive";
+import type { IUser } from "@typeRules/user";
+import { debounce } from "lodash";
+import { userService } from "@services/user";
+import { PAGE_SIZE } from "@constants/contain";
 
 export const Account = () => {
   const [currenPage, setCurrentPage] = useState(1);
   const { setElementModal } = useContext(ModalContext);
-  // const [searchValue, setSearchValue] = useState("");
+  const [listData, setListData] = useState<IResponseData<IUser>>()
+  const [searchValue, setSearchValue] = useState("");
+  const debounceFuc = useRef<ReturnType<typeof debounce>>();
+  const [loading, setLoading] = useState(false)
+  const handleGetData = useCallback(
+    (page: number, query: string) => {
+      setLoading(true)
+     userService.getBySearch({
+      page: page - 1,
+      size: PAGE_SIZE
+     },
+      query
+     )
+    },
+    []
+  );
+
+  const handleGetDataBySearch = useCallback(
+    (page: number, query: string) => {
+      if (debounceFuc.current) debounceFuc.current.cancel();
+      debounceFuc.current = debounce(() => {
+        handleGetData(page, query)
+      }, 300);
+      debounceFuc.current();
+    },
+    [handleGetData]
+  );
 
   const handleShowModal = () => {
     setElementModal(<ModalCreate />)
