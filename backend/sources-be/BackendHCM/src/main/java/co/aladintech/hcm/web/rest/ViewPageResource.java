@@ -110,7 +110,7 @@ public class ViewPageResource {
         if(viewPages != null && viewPages.size() > 0) {
             viewPage = viewPages.get(0);
             viewPage.setView(viewPage.getView() + 1);
-        }  {
+        }  else {
             viewPage = new ViewPage();
             viewPage.setView(1L);
         }

@@ -193,7 +193,7 @@ spring:
       client:
         provider:
           oidc:
-            issuer-uri: https://supershop.vn/auth/realms/hcm
+            issuer-uri: https://hanquochoc.edu.vn/auth/realms/hcm
         registration:
           oidc:
             client-id: hcm
@@ -264,11 +264,11 @@ jhipster:
 
 # application:
 keycloak:
-  serverUrl: https://supershop.vn/auth
+  serverUrl: https://hanquochoc.edu.vn/auth
   realm: hcm
   clientId: hcm
   clientSecret: hcm
   userName: system
   password: admin
-urlImage: http://192.168.1.123:8001/api/image/
-urlVideo: http://192.168.1.123:8001/api/video/
+urlImage: https://hanquochoc.edu.vn/api/image/
+urlVideo: https://hanquochoc.edu.vn/api/video/
