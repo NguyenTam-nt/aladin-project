@@ -1,5 +1,6 @@
 package co.aladintech.hcm.web.rest;
 
+import co.aladintech.hcm.domain.ViewPage;
 import co.aladintech.hcm.repository.ViewPageRepository;
 import co.aladintech.hcm.service.ViewPageService;
 import co.aladintech.hcm.service.dto.ViewPageDTO;
@@ -99,6 +100,25 @@ public class ViewPageResource {
             .ok()
             .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, viewPageDTO.getId().toString()))
             .body(result);
+    }
+
+    @PutMapping("/view-pages/increment")
+    public ResponseEntity<?>incrementViewPage() throws URISyntaxException {
+
+        List<ViewPage> viewPages = viewPageRepository.findAll();
+        ViewPage viewPage;
+        if(viewPages != null && viewPages.size() > 0) {
+            viewPage = viewPages.get(0);
+            viewPage.setView(viewPage.getView() + 1);
+        }  {
+            viewPage = new ViewPage();
+            viewPage.setView(1L);
+        }
+        viewPageRepository.save(viewPage);
+
+
+        return ResponseEntity
+            .ok().body(viewPage.getView());
     }
 
     /**
