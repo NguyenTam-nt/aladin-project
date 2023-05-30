@@ -16,7 +16,9 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -123,5 +125,27 @@ public class UploadResource {
         headers.add("Content-Type", "video/mp4");
         headers.add("Content-Length", Long.toString(file.length()));
         return ResponseEntity.ok().headers(headers).body(stream);
+    }
+
+    @PostMapping("/files-upload")
+    public List<String> uploads(@RequestBody MultipartFile[] files, Principal principal) throws Exception {
+        List<String> urls = new ArrayList<>();
+        for (MultipartFile file : files) {
+            urls.add(uploadFile(file, file.getOriginalFilename()));
+        }
+        return urls;
+    }
+
+    public String uploadFile(MultipartFile multipartFile, String name) {
+        try {
+            Path root = Paths.get("/uploads/files/");
+            Path resolve = root.resolve(name);
+            Files.createDirectories(root);
+            Files.copy(multipartFile.getInputStream(), resolve);
+            log.info("dang up file image");
+        } catch (Exception e) {
+            log.error("Error");
+        }
+        return "/uploads/files/" + name;
     }
 }
