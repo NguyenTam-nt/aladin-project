@@ -1,0 +1,254 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2 id="jhi-cadres-heading" data-cy="CadresCreateUpdateHeading" jhiTranslate="gatewayHcmApp.cadres.home.createOrEditLabel">
+        Create or edit a Cadres
+      </h2>
+
+      <div>
+        <jhi-alert-error></jhi-alert-error>
+
+        <div class="row mb-3" *ngIf="editForm.controls.id.value !== null">
+          <label class="form-label" jhiTranslate="global.field.id" for="field_id">ID</label>
+          <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="gatewayHcmApp.cadres.fullname" for="field_fullname">Fullname</label>
+          <input type="text" class="form-control" name="fullname" id="field_fullname" data-cy="fullname" formControlName="fullname" />
+          <div *ngIf="editForm.get('fullname')!.invalid && (editForm.get('fullname')!.dirty || editForm.get('fullname')!.touched)">
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('fullname')?.errors?.required"
+              jhiTranslate="entity.validation.required"
+            >
+              This field is required.
+            </small>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="gatewayHcmApp.cadres.fullnameKo" for="field_fullnameKo">Fullname Ko</label>
+          <input
+            type="text"
+            class="form-control"
+            name="fullnameKo"
+            id="field_fullnameKo"
+            data-cy="fullnameKo"
+            formControlName="fullnameKo"
+          />
+          <div *ngIf="editForm.get('fullnameKo')!.invalid && (editForm.get('fullnameKo')!.dirty || editForm.get('fullnameKo')!.touched)">
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('fullnameKo')?.errors?.required"
+              jhiTranslate="entity.validation.required"
+            >
+              This field is required.
+            </small>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="gatewayHcmApp.cadres.position" for="field_position">Position</label>
+          <input type="text" class="form-control" name="position" id="field_position" data-cy="position" formControlName="position" />
+          <div *ngIf="editForm.get('position')!.invalid && (editForm.get('position')!.dirty || editForm.get('position')!.touched)">
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('position')?.errors?.required"
+              jhiTranslate="entity.validation.required"
+            >
+              This field is required.
+            </small>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="gatewayHcmApp.cadres.positionKo" for="field_positionKo">Position Ko</label>
+          <input
+            type="text"
+            class="form-control"
+            name="positionKo"
+            id="field_positionKo"
+            data-cy="positionKo"
+            formControlName="positionKo"
+          />
+          <div *ngIf="editForm.get('positionKo')!.invalid && (editForm.get('positionKo')!.dirty || editForm.get('positionKo')!.touched)">
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('positionKo')?.errors?.required"
+              jhiTranslate="entity.validation.required"
+            >
+              This field is required.
+            </small>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="gatewayHcmApp.cadres.email" for="field_email">Email</label>
+          <input type="text" class="form-control" name="email" id="field_email" data-cy="email" formControlName="email" />
+          <div *ngIf="editForm.get('email')!.invalid && (editForm.get('email')!.dirty || editForm.get('email')!.touched)">
+            <small class="form-text text-danger" *ngIf="editForm.get('email')?.errors?.required" jhiTranslate="entity.validation.required">
+              This field is required.
+            </small>
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('email')?.errors?.pattern"
+              jhiTranslate="entity.validation.pattern"
+              [translateValues]="{ pattern: 'Email' }"
+            >
+              This field should follow pattern for Email.
+            </small>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="gatewayHcmApp.cadres.major" for="field_major">Major</label>
+          <input type="text" class="form-control" name="major" id="field_major" data-cy="major" formControlName="major" />
+          <div *ngIf="editForm.get('major')!.invalid && (editForm.get('major')!.dirty || editForm.get('major')!.touched)">
+            <small class="form-text text-danger" *ngIf="editForm.get('major')?.errors?.required" jhiTranslate="entity.validation.required">
+              This field is required.
+            </small>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="gatewayHcmApp.cadres.majorKo" for="field_majorKo">Major Ko</label>
+          <input type="text" class="form-control" name="majorKo" id="field_majorKo" data-cy="majorKo" formControlName="majorKo" />
+          <div *ngIf="editForm.get('majorKo')!.invalid && (editForm.get('majorKo')!.dirty || editForm.get('majorKo')!.touched)">
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('majorKo')?.errors?.required"
+              jhiTranslate="entity.validation.required"
+            >
+              This field is required.
+            </small>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="gatewayHcmApp.cadres.workResponsibility" for="field_workResponsibility"
+            >Work Responsibility</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            name="workResponsibility"
+            id="field_workResponsibility"
+            data-cy="workResponsibility"
+            formControlName="workResponsibility"
+          />
+          <div
+            *ngIf="
+              editForm.get('workResponsibility')!.invalid &&
+              (editForm.get('workResponsibility')!.dirty || editForm.get('workResponsibility')!.touched)
+            "
+          >
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('workResponsibility')?.errors?.required"
+              jhiTranslate="entity.validation.required"
+            >
+              This field is required.
+            </small>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="gatewayHcmApp.cadres.workResponsibilityKo" for="field_workResponsibilityKo"
+            >Work Responsibility Ko</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            name="workResponsibilityKo"
+            id="field_workResponsibilityKo"
+            data-cy="workResponsibilityKo"
+            formControlName="workResponsibilityKo"
+          />
+          <div
+            *ngIf="
+              editForm.get('workResponsibilityKo')!.invalid &&
+              (editForm.get('workResponsibilityKo')!.dirty || editForm.get('workResponsibilityKo')!.touched)
+            "
+          >
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('workResponsibilityKo')?.errors?.required"
+              jhiTranslate="entity.validation.required"
+            >
+              This field is required.
+            </small>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="gatewayHcmApp.cadres.title" for="field_title">Title</label>
+          <input type="text" class="form-control" name="title" id="field_title" data-cy="title" formControlName="title" />
+          <div *ngIf="editForm.get('title')!.invalid && (editForm.get('title')!.dirty || editForm.get('title')!.touched)">
+            <small class="form-text text-danger" *ngIf="editForm.get('title')?.errors?.required" jhiTranslate="entity.validation.required">
+              This field is required.
+            </small>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="gatewayHcmApp.cadres.titleKo" for="field_titleKo">Title Ko</label>
+          <input type="text" class="form-control" name="titleKo" id="field_titleKo" data-cy="titleKo" formControlName="titleKo" />
+          <div *ngIf="editForm.get('titleKo')!.invalid && (editForm.get('titleKo')!.dirty || editForm.get('titleKo')!.touched)">
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('titleKo')?.errors?.required"
+              jhiTranslate="entity.validation.required"
+            >
+              This field is required.
+            </small>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="gatewayHcmApp.cadres.content" for="field_content">Content</label>
+          <input type="text" class="form-control" name="content" id="field_content" data-cy="content" formControlName="content" />
+          <div *ngIf="editForm.get('content')!.invalid && (editForm.get('content')!.dirty || editForm.get('content')!.touched)">
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('content')?.errors?.required"
+              jhiTranslate="entity.validation.required"
+            >
+              This field is required.
+            </small>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="gatewayHcmApp.cadres.contentKo" for="field_contentKo">Content Ko</label>
+          <input type="text" class="form-control" name="contentKo" id="field_contentKo" data-cy="contentKo" formControlName="contentKo" />
+          <div *ngIf="editForm.get('contentKo')!.invalid && (editForm.get('contentKo')!.dirty || editForm.get('contentKo')!.touched)">
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('contentKo')?.errors?.required"
+              jhiTranslate="entity.validation.required"
+            >
+              This field is required.
+            </small>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

@@ -1,0 +1,32 @@
+{
+  "gatewayHcmApp": {
+    "files": {
+      "home": {
+        "title": "Files",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Thêm mới một Files",
+        "createOrEditLabel": "Thêm mới hoặc cập nhật Files",
+        "notFound": "No Files found"
+      },
+      "created": "Một Files mới được tạo với định danh {{ param }}",
+      "updated": "Một Files cập nhật với định danh {{ param }}",
+      "deleted": "Một Files đã xóa với định danh {{ param }}",
+      "delete": {
+        "question": "Bạn có chắc là muốn xóa Files {{ id }}?"
+      },
+      "detail": {
+        "title": "Files"
+      },
+      "id": "ID",
+      "objectId": "Object Id",
+      "type": "Type",
+      "link": "Link",
+      "name": "Name",
+      "contentSession": "Content Session",
+      "news": "News",
+      "cadres": "Cadres",
+      "subject": "Subject",
+      "gallery": "Gallery"
+    }
+  }
+}

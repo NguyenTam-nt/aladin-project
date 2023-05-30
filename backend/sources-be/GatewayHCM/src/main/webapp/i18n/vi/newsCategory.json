@@ -1,0 +1,26 @@
+{
+  "gatewayHcmApp": {
+    "newsCategory": {
+      "home": {
+        "title": "News Categories",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Thêm mới một News Category",
+        "createOrEditLabel": "Thêm mới hoặc cập nhật News Category",
+        "notFound": "No News Categories found"
+      },
+      "created": "Một News Category mới được tạo với định danh {{ param }}",
+      "updated": "Một News Category cập nhật với định danh {{ param }}",
+      "deleted": "Một News Category đã xóa với định danh {{ param }}",
+      "delete": {
+        "question": "Bạn có chắc là muốn xóa News Category {{ id }}?"
+      },
+      "detail": {
+        "title": "News Category"
+      },
+      "id": "ID",
+      "name": "Name",
+      "nameKo": "Name Ko",
+      "news": "News"
+    }
+  }
+}

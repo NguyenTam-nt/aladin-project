@@ -1,0 +1,9 @@
+{
+  "gatewayHcmApp": {
+    "GalleryType": {
+      "null": "",
+      "IMAGE": "IMAGE",
+      "VIDEO": "VIDEO"
+    }
+  }
+}

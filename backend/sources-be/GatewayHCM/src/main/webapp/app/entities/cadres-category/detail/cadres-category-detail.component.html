@@ -1,0 +1,42 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <div *ngIf="cadresCategory">
+      <h2 data-cy="cadresCategoryDetailsHeading"><span jhiTranslate="gatewayHcmApp.cadresCategory.detail.title">Cadres Category</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="global.field.id">ID</span></dt>
+        <dd>
+          <span>{{ cadresCategory.id }}</span>
+        </dd>
+        <dt><span jhiTranslate="gatewayHcmApp.cadresCategory.name">Name</span></dt>
+        <dd>
+          <span>{{ cadresCategory.name }}</span>
+        </dd>
+        <dt><span jhiTranslate="gatewayHcmApp.cadresCategory.nameKo">Name Ko</span></dt>
+        <dd>
+          <span>{{ cadresCategory.nameKo }}</span>
+        </dd>
+        <dt><span jhiTranslate="gatewayHcmApp.cadresCategory.cadres">Cadres</span></dt>
+        <dd>
+          <div *ngIf="cadresCategory.cadres">
+            <a [routerLink]="['/cadres', cadresCategory.cadres.id, 'view']">{{ cadresCategory.cadres.id }}</a>
+          </div>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/cadres-category', cadresCategory.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

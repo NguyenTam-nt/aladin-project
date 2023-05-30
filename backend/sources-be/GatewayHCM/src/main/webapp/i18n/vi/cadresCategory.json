@@ -1,0 +1,26 @@
+{
+  "gatewayHcmApp": {
+    "cadresCategory": {
+      "home": {
+        "title": "Cadres Categories",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Thêm mới một Cadres Category",
+        "createOrEditLabel": "Thêm mới hoặc cập nhật Cadres Category",
+        "notFound": "No Cadres Categories found"
+      },
+      "created": "Một Cadres Category mới được tạo với định danh {{ param }}",
+      "updated": "Một Cadres Category cập nhật với định danh {{ param }}",
+      "deleted": "Một Cadres Category đã xóa với định danh {{ param }}",
+      "delete": {
+        "question": "Bạn có chắc là muốn xóa Cadres Category {{ id }}?"
+      },
+      "detail": {
+        "title": "Cadres Category"
+      },
+      "id": "ID",
+      "name": "Name",
+      "nameKo": "Name Ko",
+      "cadres": "Cadres"
+    }
+  }
+}

@@ -1,0 +1,15 @@
+package.json skip
+src\main\resources\config\liquibase\master.xml skip
+pom.xml skip
+src\main\resources\config\application.yml skip
+src\main\resources\config\application-dev.yml skip
+src\main\java\co\aladintech\hcm\config\SecurityConfiguration.java skip
+src\main\java\co\aladintech\hcm\config\LiquibaseConfiguration.java skip
+angular.json skip
+webpack\webpack.custom.js skip
+src\main\webapp\app\entities\entity-navbar-items.ts skip
+src\main\webapp\app\entities\entity-routing.module.ts skip
+src\main\webapp\app\layouts\navbar\navbar.component.html skip
+src\main\webapp\i18n\en\global.json skip
+src\main\webapp\i18n\vi\global.json skip
+src\main\webapp\i18n\ko\global.json skip

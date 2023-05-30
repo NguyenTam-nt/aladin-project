@@ -1,0 +1,26 @@
+{
+  "gatewayHcmApp": {
+    "cadresCategory": {
+      "home": {
+        "title": "Cadres Categories",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new Cadres Category",
+        "createOrEditLabel": "Create or edit a Cadres Category",
+        "notFound": "No Cadres Categories found"
+      },
+      "created": "A new Cadres Category is created with identifier {{ param }}",
+      "updated": "A Cadres Category is updated with identifier {{ param }}",
+      "deleted": "A Cadres Category is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Cadres Category {{ id }}?"
+      },
+      "detail": {
+        "title": "Cadres Category"
+      },
+      "id": "ID",
+      "name": "Name",
+      "nameKo": "Name Ko",
+      "cadres": "Cadres"
+    }
+  }
+}

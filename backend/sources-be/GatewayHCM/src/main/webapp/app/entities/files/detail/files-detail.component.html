@@ -1,0 +1,74 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <div *ngIf="files">
+      <h2 data-cy="filesDetailsHeading"><span jhiTranslate="gatewayHcmApp.files.detail.title">Files</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="global.field.id">ID</span></dt>
+        <dd>
+          <span>{{ files.id }}</span>
+        </dd>
+        <dt><span jhiTranslate="gatewayHcmApp.files.objectId">Object Id</span></dt>
+        <dd>
+          <span>{{ files.objectId }}</span>
+        </dd>
+        <dt><span jhiTranslate="gatewayHcmApp.files.type">Type</span></dt>
+        <dd>
+          <span>{{ files.type }}</span>
+        </dd>
+        <dt><span jhiTranslate="gatewayHcmApp.files.link">Link</span></dt>
+        <dd>
+          <span>{{ files.link }}</span>
+        </dd>
+        <dt><span jhiTranslate="gatewayHcmApp.files.name">Name</span></dt>
+        <dd>
+          <span>{{ files.name }}</span>
+        </dd>
+        <dt><span jhiTranslate="gatewayHcmApp.files.contentSession">Content Session</span></dt>
+        <dd>
+          <div *ngIf="files.contentSession">
+            <a [routerLink]="['/content-session', files.contentSession.id, 'view']">{{ files.contentSession.id }}</a>
+          </div>
+        </dd>
+        <dt><span jhiTranslate="gatewayHcmApp.files.news">News</span></dt>
+        <dd>
+          <div *ngIf="files.news">
+            <a [routerLink]="['/news', files.news.id, 'view']">{{ files.news.id }}</a>
+          </div>
+        </dd>
+        <dt><span jhiTranslate="gatewayHcmApp.files.cadres">Cadres</span></dt>
+        <dd>
+          <div *ngIf="files.cadres">
+            <a [routerLink]="['/cadres', files.cadres.id, 'view']">{{ files.cadres.id }}</a>
+          </div>
+        </dd>
+        <dt><span jhiTranslate="gatewayHcmApp.files.subject">Subject</span></dt>
+        <dd>
+          <div *ngIf="files.subject">
+            <a [routerLink]="['/subject', files.subject.id, 'view']">{{ files.subject.id }}</a>
+          </div>
+        </dd>
+        <dt><span jhiTranslate="gatewayHcmApp.files.gallery">Gallery</span></dt>
+        <dd>
+          <div *ngIf="files.gallery">
+            <a [routerLink]="['/gallery', files.gallery.id, 'view']">{{ files.gallery.id }}</a>
+          </div>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/files', files.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

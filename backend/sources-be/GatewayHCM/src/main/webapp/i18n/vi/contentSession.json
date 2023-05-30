@@ -1,0 +1,31 @@
+{
+  "gatewayHcmApp": {
+    "contentSession": {
+      "home": {
+        "title": "Content Sessions",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Thêm mới một Content Session",
+        "createOrEditLabel": "Thêm mới hoặc cập nhật Content Session",
+        "notFound": "No Content Sessions found"
+      },
+      "created": "Một Content Session mới được tạo với định danh {{ param }}",
+      "updated": "Một Content Session cập nhật với định danh {{ param }}",
+      "deleted": "Một Content Session đã xóa với định danh {{ param }}",
+      "delete": {
+        "question": "Bạn có chắc là muốn xóa Content Session {{ id }}?"
+      },
+      "detail": {
+        "title": "Content Session"
+      },
+      "id": "ID",
+      "type": "Type",
+      "category": "Category",
+      "categoryKo": "Category Ko",
+      "tilte": "Tilte",
+      "tilteKo": "Tilte Ko",
+      "content": "Content",
+      "contentKo": "Content Ko",
+      "files": "Files"
+    }
+  }
+}

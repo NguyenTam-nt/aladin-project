@@ -1,0 +1,27 @@
+{
+  "gatewayHcmApp": {
+    "history": {
+      "home": {
+        "title": "Histories",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Thêm mới một History",
+        "createOrEditLabel": "Thêm mới hoặc cập nhật History",
+        "notFound": "No Histories found"
+      },
+      "created": "Một History mới được tạo với định danh {{ param }}",
+      "updated": "Một History cập nhật với định danh {{ param }}",
+      "deleted": "Một History đã xóa với định danh {{ param }}",
+      "delete": {
+        "question": "Bạn có chắc là muốn xóa History {{ id }}?"
+      },
+      "detail": {
+        "title": "History"
+      },
+      "id": "ID",
+      "year": "Year",
+      "image": "Image",
+      "description": "Description",
+      "descriptionKo": "Description Ko"
+    }
+  }
+}
