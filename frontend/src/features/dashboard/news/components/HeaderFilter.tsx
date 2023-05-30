@@ -27,12 +27,19 @@ type Props = {
   onClear: () => void;
   onPushListFilter: (ids: number[]) => void;
   listFilter: number[];
-  searchQuery:  string
+  searchQuery: string;
   onDelete: () => void;
 };
 
 export const HeaderFilter = memo(
-  ({ onChange, onPushListFilter, onClear, listFilter, searchQuery, onDelete }: Props) => {
+  ({
+    onChange,
+    onPushListFilter,
+    onClear,
+    listFilter,
+    searchQuery,
+    onDelete,
+  }: Props) => {
     const navigation = useNavigate();
     const handleNavigateCategory = () => {
       navigation(
@@ -98,112 +105,113 @@ type PropsListFilter = {
   listFilter: number[];
 };
 
-const ListFilter = memo(
-  ({ onClear, onPushListFilter }: PropsListFilter) => {
-    const [isShow, setIsShow] = useState(false);
-    const {categories, fechData} = useGetCategory(6)
-    const { isVn } = useContext(TranslateContext);
-    const [listFilterCurrent, setListFilterCurrent] = useState<number[]>([]);
-    const handleShow = () => {
-      setIsShow(!isShow);
-    };
+const ListFilter = memo(({ onClear, onPushListFilter }: PropsListFilter) => {
+  const [isShow, setIsShow] = useState(false);
+  const { categories, fechData } = useGetCategory(6);
+  const { isVn } = useContext(TranslateContext);
+  const [listFilterCurrent, setListFilterCurrent] = useState<number[]>([]);
+  const handleShow = () => {
+    setIsShow(!isShow);
+  };
 
-    const handleChangeCheckBox = useCallback(
-      (id: number) => {
-        const newList = [...listFilterCurrent]
-        const index = newList.findIndex((item) => item === id);
-        if (index >= 0) {
-          newList.splice(index, 1);
-          setListFilterCurrent(newList);
-          return;
-        }
-        newList.push(id);
+  const handleChangeCheckBox = useCallback(
+    (id: number) => {
+      const newList = [...listFilterCurrent];
+      const index = newList.findIndex((item) => item === id);
+      if (index >= 0) {
+        newList.splice(index, 1);
         setListFilterCurrent(newList);
-      },
-      [listFilterCurrent]
-    );
-
-    const handleChange = useCallback(() => {
-      if(listFilterCurrent.length) {
-        onPushListFilter([...listFilterCurrent]);
+        return;
       }
-    }, [listFilterCurrent, onPushListFilter]);
+      newList.push(id);
+      setListFilterCurrent(newList);
+    },
+    [listFilterCurrent]
+  );
 
-    const handleClearFilter = useCallback(() =>{
-      if(listFilterCurrent.length) {
-        onClear()
-        setListFilterCurrent([])
-      }
-    }, [listFilterCurrent.length, onClear])
+  const handleChange = useCallback(() => {
+    if (listFilterCurrent.length) {
+      onPushListFilter([...listFilterCurrent]);
+    }
+  }, [listFilterCurrent, onPushListFilter]);
 
-    return (
-      <div className=" relative h-full">
-        <Button
-          onClick={handleShow}
-          text="button._filter"
-          imageLeft={
-            <span className="mr-2">
-              <ICFilter />
-            </span>
-          }
-          color="empty"
-          className="border border-secondary text-secondary h-full max-w-[110px]"
-        />
-        <div
-          className={clsx(
-            "absolute bg-white z-[5] h-0 overflow-hidden w-[227px] shadow-lg ease-in duration-300 top-[100%] left-0 text-_14 text-text_primary mt-[12px]",
-            { "footer-animation-list": isShow }
-          )}
-          style={{
-            ["--footer-size" as string]:
-              categories.length > 6 ? 8 : categories.length + 2,
-            ["--height-li" as string]: "40px",
-          }}
+  const handleClearFilter = useCallback(() => {
+    if (listFilterCurrent.length) {
+      onClear();
+      setListFilterCurrent([]);
+    }
+  }, [listFilterCurrent.length, onClear]);
+
+  return (
+    <div className=" relative h-full">
+      <Button
+        onClick={handleShow}
+        text="button._filter"
+        imageLeft={
+          <span className="mr-2">
+            <ICFilter />
+          </span>
+        }
+        color="empty"
+        className="border border-secondary text-secondary h-full max-w-[110px]"
+      />
+      <div
+        id="filter-news"
+        className={clsx(
+          "absolute bg-white z-[5] h-0 w-[227px]  overflow-y-scroll shadow-lg ease-in duration-300 top-[100%] left-0 text-_14 text-text_primary mt-[12px]",
+          { "footer-animation-list": isShow }
+        )}
+        style={{
+          ["--footer-size" as string]:
+            categories.length > 6 ? 8 : categories.length + 2,
+          ["--height-li" as string]: "40px",
+        }}
+      >
+        <InfiniteScroll
+          scrollableTarget="filter-news"
+          hasMore
+          next={fechData}
+          dataLength={categories.length}
+          // style={{
+          //   maxHeight: "240px",
+          // }}
+          loader={<></>}
         >
-          <InfiniteScroll
-            hasMore
-            next={fechData}
-            dataLength={categories.length}
-           style={{
-            maxHeight: "240px"
-           }}
-          >
-            <ul className="border-b border-br_E9ECEF px-[16px] overflow-y-scroll">
-              {categories.map((item, index) => {
-                const id = `${item}_${index}`;
-                return (
-                  <li key={index} className="flex items-center h-[40px]">
-                    <span>
-                      <Checkbox
-                        onChange={() => handleChangeCheckBox(Number(item.id))}
-                        id={id}
-                        checked={listFilterCurrent.some((_i) => _i === item.id)}
-                      />
-                    </span>
-                    <label htmlFor={id} className="ml-[19px] line-clamp-1">
-                      {isVn ? item.name : item.nameKo}
-                    </label>
-                  </li>
-                );
-              })}
-            </ul>
-          </InfiniteScroll>
-          <div className="h-[80px] justify-between px-[16px]  flex items-center">
-            <Button
-              onClick={handleClearFilter}
-              text="button._reset"
-              color="empty"
-              className=" text-text_primary w-fit h-[32px]"
-            />
-            <Button
-              onClick={handleChange}
-              text="button._accept"
-              color="primary"
-              className="w-[88px] h-[32px]"
-            />
-          </div>
+          <ul className="border-b border-br_E9ECEF px-[16px]">
+            {categories.map((item, index) => {
+              const id = `${item}_${index}`;
+              return (
+                <li key={index} className="flex items-center h-[40px]">
+                  <span>
+                    <Checkbox
+                      onChange={() => handleChangeCheckBox(Number(item.id))}
+                      id={id}
+                      checked={listFilterCurrent.some((_i) => _i === item.id)}
+                    />
+                  </span>
+                  <label htmlFor={id} className="ml-[19px] line-clamp-1">
+                    {isVn ? item.name : item.nameKo}
+                  </label>
+                </li>
+              );
+            })}
+          </ul>
+        </InfiniteScroll>
+        <div className="h-[80px] bg-white sticky bottom-0 left-0 right-0  justify-between px-[16px]  flex items-center">
+          <Button
+            onClick={handleClearFilter}
+            text="button._reset"
+            color="empty"
+            className=" text-text_primary w-fit h-[32px]"
+          />
+          <Button
+            onClick={handleChange}
+            text="button._accept"
+            color="primary"
+            className="w-[88px] h-[32px]"
+          />
         </div>
       </div>
-    );
-  }
-);
+    </div>
+  );
+});

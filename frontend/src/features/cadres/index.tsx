@@ -3,11 +3,12 @@ import { HeaderTilteLink } from "@components/HeaderTilteLink";
 
 import { LinkPageHeader } from "@components/LinkPageHeader";
 import AllCadres from "./allCadres/AllCadres";
+import { BannerType } from "@typeRules/banner";
 
 const CadresPage = () => {
   return (
     <>
-      <Banner></Banner>
+      <Banner type={BannerType.cadres}></Banner>
       <LinkPageHeader />
       <HeaderTilteLink></HeaderTilteLink>;
       <div className="w-rp  justify-between items-center  pb-[41px] xl:pb-[120px]">

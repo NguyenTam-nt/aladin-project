@@ -3,6 +3,7 @@ import type { IFile } from "./file";
 export enum ContentType {
     general = "GENERAL",
     brand = "BRAND",
+    structure = "STRUCTURE",
 }
 
 export interface IContent {

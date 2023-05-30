@@ -2,7 +2,7 @@ import { ICPlus } from "@assets/icons/ICPlus";
 import { Button } from "@components/Button";
 import { Colors } from "@constants/color";
 import { SubHeaderTopic } from "@features/dashboard/home/components/SubHeaderTopic";
-import React, { useState } from "react";
+import React from "react";
 import { TopicPostItem } from "./TopicPostItem";
 import { useHandlePost } from "../../hooks/useHandlePost";
 import { ContentType } from "@typeRules/content";
@@ -35,7 +35,7 @@ export const TopicPost = () => {
       {isShow ? <TopicPostItem onSubmit={handlePostContent} type="ADD" /> : null}
       {
         listContent.map((item) => {
-          return <TopicPostItem data={item} onSubmit={handlePutContent} onDelete={handleDeleteContent} />
+          return <TopicPostItem key={item.id} data={item} onSubmit={handlePutContent} onDelete={handleDeleteContent} />
         })
       }
     </>

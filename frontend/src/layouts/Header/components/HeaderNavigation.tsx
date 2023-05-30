@@ -3,22 +3,26 @@ import { TranslateContext } from "@contexts/Translation";
 import { Link } from "react-router-dom";
 import { ICArrowDown } from "@assets/icons/ICArrowDown";
 import { ICMenu } from "@assets/icons/ICMenu";
-import { rootRouter } from "@constants/router";
+import { paths } from "@constants/router";
 import clsx from "clsx";
+import { useGetHeader } from "./useGetHeader";
 
 export const HeaderNavigation = () => {
+
+  const {isVn} = useContext(TranslateContext)
+  const {headers} = useGetHeader()
   return (
     <div className="h-[60px] flex justify-between items-center">
-      {rootRouter.slice(0, 5).map((item, index) => {
-        const subNews = item?.subNavs?.filter(_item => !_item.isHiden) ?? []
-        return !item.isDetail ? (
-          <div key={index} className={clsx({ "header-subnav": item?.subNavs })}>
+      {headers.slice(0, 5).map((item, index) => {
+        const subNews = item?.items ?? []
+        return  (
+          <div key={index} className={clsx({ "header-subnav": item?.items?.length })}>
             <HeaderNavigationLink
-              to={item.path}
-              text={item.name ?? ""} 
+              to={item.link ?? ""}
+              text={`${isVn ? item.name : item.nameKo}`} 
               withArrow={subNews.length > 0}
             />
-            {item?.subNavs && !item?.isHiden && (
+            {item?.items && item?.items.length ? (
               <div
                 className="header-subnav-child shadow-lg"
                 style={{
@@ -28,19 +32,19 @@ export const HeaderNavigation = () => {
                 <ul>
                   {subNews.map((_item, indexSub) => {
                     return (
-                     !_item?.isHiden && (<li key={indexSub}>
+                     (<li key={indexSub}>
                         <HeaderSubNavigationLink
-                          to={`${item.path}${ _item.path ? item.isHidenRouter ? `?type=${_item.path}` : `/${_item.path}` : ""}`}
-                          text={_item.name ?? ""}
+                          to={`${item.link}${ _item.link ? item.link === paths.news.prefix ? `?type=${_item.link}` : `/${_item.link}` : ""}`}
+                          text={`${isVn ? _item.name : _item.nameKo}`} 
                         />
                       </li> )
                     );
                   })}
                 </ul>
               </div>
-            )}
+            ) : null }
           </div>
-        ) : null
+        )
       })}
 
       <div className="header-subnav cursor-pointer">
@@ -48,19 +52,19 @@ export const HeaderNavigation = () => {
         <div
           className="header-subnav-child shadow-lg right-0"
           style={{
-            ["--length-subnav" as string]: rootRouter.slice(5).filter(item => !item.isDetail).length,
+            ["--length-subnav" as string]: headers.slice(5).length
           }}
         >
           <ul>
-            {rootRouter.slice(5).map((item, index) => {
-              return !item.isDetail ? (
+            {headers.slice(5).map((item, index) => {
+              return  (
                 <li key={index}>
                   <HeaderSubNavigationLink
-                    to={item.path}
-                    text={item.name ?? ""}
+                    to={`${item?.link}`}
+                    text={`${isVn ? item?.name : item?.nameKo}`} 
                   />
                 </li>
-              ) : null
+              )
             })}
           </ul>
         </div>

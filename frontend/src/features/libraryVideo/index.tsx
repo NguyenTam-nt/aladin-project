@@ -4,11 +4,12 @@ import { HeaderTilteLink } from "@components/HeaderTilteLink";
 import { LinkPageHeader } from "@components/LinkPageHeader";
 import VideoBanner from "./components/VideoBanner";
 import VideoList from "./components/VideoList";
+import { BannerType } from "@typeRules/banner";
 
 const LibraryVideo = () => {
   return (
     <div>
-      <Banner></Banner>
+      <Banner  type={BannerType.library_video}></Banner>
       <LinkPageHeader />
       <HeaderTilteLink></HeaderTilteLink>
       <div className="w-rp  justify-between items-center mb-[120px] mt-[70px] ">

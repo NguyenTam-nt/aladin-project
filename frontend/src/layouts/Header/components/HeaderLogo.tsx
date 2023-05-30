@@ -88,11 +88,11 @@ export const HeaderLogo = () => {
               className=" w-full h-full object-cover"
             />
           </Link>
-          <div className="ml-[16px] flex-1">
+          <Link to={paths.home.prefix} className="ml-[16px] flex-1">
             <h3 className=" text-_9 xl:text-[20px] font-bold text-text_secondary">
               {t("home.header.subTitle")}
             </h3>
-          </div>
+          </Link>
         </div>
         <div className="hidden xl:block  w-[45%]">
           <HeaderNavigation />

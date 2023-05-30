@@ -78,7 +78,7 @@ export const TopicVideo = () => {
     <>
       <SubHeaderTopic isPaddingTop={false} title="admin._home._topic._video" />
       <div className="flex items-center h-[168px]">
-        <div className="w-[648px]">
+        <div className="w-[648px] h-full">
           <InputUploadFile
             isVideos
             onPaseLink={onPaseLink}

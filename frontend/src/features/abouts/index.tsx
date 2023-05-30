@@ -3,11 +3,12 @@ import { LinkPageHeader } from '@components/LinkPageHeader'
 import React from 'react'
 import { Outlet } from 'react-router-dom'
 import { Banner } from './components/Banner'
+import { BannerType } from '@typeRules/banner'
 
 const AboutPage = () => {
   return (
     <div className='mb-[40px] xl:mb-[120px]'>
-        <Banner />
+        <Banner type={BannerType.about}  />
         <LinkPageHeader />
         <HeaderTilteLink />
         <Outlet />

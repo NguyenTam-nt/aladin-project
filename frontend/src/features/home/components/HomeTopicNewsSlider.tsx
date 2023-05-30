@@ -6,10 +6,12 @@ import { Grid, Navigation, Pagination } from "swiper";
 import { withResponsive } from "@constants/container";
 import { SwiperComponent } from "@components/SwiperComponent";
 import useWindowResize from "@hooks/useWindowResize";
+import type { INews } from "@typeRules/news";
 
 type Props = {
   navigationPrevRef: React.RefObject<HTMLDivElement>;
   navigationNextRef: React.RefObject<HTMLDivElement>;
+  data: INews[]
 };
 
 const data = [
@@ -60,6 +62,7 @@ const data = [
 export const HomeTopicNewsSlider = ({
   navigationPrevRef,
   navigationNextRef,
+  data
 }: Props) => {
   const { width } = useWindowResize();
   return (

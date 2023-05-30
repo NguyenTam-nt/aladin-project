@@ -8,7 +8,7 @@ export const AdminLayout = () => {
   return (
     <div className="min-w-[1280px] xl:min-w-full ">
       <HeaderAdmin />
-      <div className="grid grid-cols-[360px_1fr] mt-[96px]">
+      <div className="grid grid-cols-[360px_1fr]">
         <div className="h-full">
           <SidebarAdmin />
         </div>

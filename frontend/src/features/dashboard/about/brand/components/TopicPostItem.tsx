@@ -10,10 +10,14 @@ import { TranslateContext } from "@contexts/Translation";
 import { ImagePreview } from "@features/dashboard/components/ImagePreview";
 import { InputUploadFile } from "@features/dashboard/components/InputUploadFIle";
 import TitleInput from "@features/dashboard/components/TitleInput";
+import type { IContent } from "@typeRules/content";
 import React, { ChangeEvent, memo, useContext, useState } from "react";
 
 type Props = {
   type?: "ADD" | "EDIT";
+  data?: IContent;
+  onSubmit?: (data: IContent) => void;
+  onDelete?: (id: number) => void;
 };
 
 export const TopicPostItem = memo(({ type = "EDIT" }: Props) => {
@@ -35,7 +39,7 @@ export const TopicPostItem = memo(({ type = "EDIT" }: Props) => {
       <DialogConfirmDelete message={t("admin._notice._delete_history")} />
     );
   };
-  console.log({type})
+  
   return (
     <div>
       <div className="">
@@ -49,7 +53,7 @@ export const TopicPostItem = memo(({ type = "EDIT" }: Props) => {
       </div>
       <div className="mt-[16px] flex h-[168px]">
         <div className="w-[648px]">
-          <InputUploadFile onChange={onChange} onPaseLink={onPaseLink} />
+          <InputUploadFile multiple  onChange={onChange} onPaseLink={onPaseLink} />
         </div>
         <div className="flex-1 ml-3">
           <ImagePreview url={image} />

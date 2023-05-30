@@ -6,6 +6,10 @@ import { SwiperSlide } from "swiper/react";
 import { BannerItemImage } from "./BannerItemImage";
 import useInView from "@hooks/useInView";
 import clsx from "clsx";
+import { useGetBanner } from "@features/abouts/components/useGetBanner";
+import { BannerType } from "@typeRules/banner";
+import { useHandlePost } from "@features/dashboard/hooks/useHandlePost";
+import { PostType } from "@typeRules/post";
 
 const data = [
   {
@@ -72,6 +76,7 @@ const data = [
 
 export const Banner = () => {
   const length = useMemo(() => data.length, []);
+  const {banner} = useGetBanner(BannerType.bannerHomePost)
   const { width } = useWindowResize();
   const previewNumber = useMemo(() => {
     return width >= withResponsive._1024
@@ -81,11 +86,15 @@ export const Banner = () => {
       : 2;
   }, [width]);
   const { ref, isInView } = useInView();
+  const {
+    listPost,
+  } = useHandlePost(PostType.postBanner);
   return (
     <div className="banner_home mt-[40px]">
-      <div className="flex h-full" ref={ref}>
+      <div className="flex h-full relative" ref={ref}>
+        <img className="absolute inset-0 w-full h-full " src={banner?.link} alt="" />
         <SwiperComponent slidesPerView={previewNumber} loop={false}>
-          {data.map((item, index) => {
+          {listPost.map((item, index) => {
             return (
               <SwiperSlide
                 key={index}

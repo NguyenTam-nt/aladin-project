@@ -7,9 +7,11 @@ import { Input } from "@components/Input";
 import { Colors } from "@constants/color";
 import { ModalContext } from "@contexts/ModalContext";
 import { TranslateContext } from "@contexts/Translation";
+import { ImagePreview } from "@features/dashboard/components/ImagePreview";
+import { InputUploadFile } from "@features/dashboard/components/InputUploadFIle";
 import TitleInput from "@features/dashboard/components/TitleInput";
 import { translateService } from "@services/translate";
-import type { IContent } from "@typeRules/content";
+import { ContentType, IContent } from "@typeRules/content";
 import { useFormik } from "formik";
 import React, {
   ChangeEvent,
@@ -20,16 +22,25 @@ import React, {
   useMemo,
 } from "react";
 import * as Yup from "yup";
+import { useHandleMultiImage } from "../../hooks/useHandleMultiImage";
+import { uploadService } from "@services/uploadService";
 
 type Props = {
   type?: "ADD" | "EDIT";
   data?: IContent;
   onSubmit?: (data: IContent) => void;
   onDelete?: (id: number) => void;
+  contentType?: ContentType;
 };
 
 export const TopicPostItem = memo(
-  ({ type = "EDIT", data, onSubmit, onDelete }: Props) => {
+  ({
+    type = "EDIT",
+    data,
+    onSubmit,
+    onDelete,
+    contentType = ContentType.general,
+  }: Props) => {
     const formik = useFormik({
       initialValues: {
         title: "",
@@ -43,16 +54,36 @@ export const TopicPostItem = memo(
         content: Yup.string().required("message.warn._required"),
         contentKo: Yup.string().required("message.warn._required"),
       }),
-      onSubmit: (values) => {
+      onSubmit: async (values) => {
+        let images: string[] = [];
+        if (files && contentType !== ContentType.general) {
+          images = await handlePostImage(files);
+        }
+        const listNewsFile = images.map((item) => {
+          return {
+            link: item,
+          };
+        });
+
+        const linkPaste = linkPasteImage.map(item => ({link: item}))
         if (isAdd) {
           onSubmit?.({
             ...values,
+            files: [...listNewsFile, ...linkPaste]
           });
+          formik.resetForm()
+          handleDelete()
           return;
         }
         onSubmit?.({
+          ...data,
           ...values,
           id: data?.id,
+          files: [
+            ...listNewsFile,
+            ...linkPaste,
+            ...data?.files ?? []
+          ]
         });
       },
     });
@@ -70,6 +101,10 @@ export const TopicPostItem = memo(
       }
     }, [isAdd, data]);
 
+    const { preViewImage, handleChange, handlePastLink, files, linkPasteImage, handleDelete } =
+      useHandleMultiImage(
+        data?.files && data?.files.map((item) => item?.link ?? "")
+      );
     const { t, isVn } = useContext(TranslateContext);
     const { setElementModal } = useContext(ModalContext);
     const handleShowModal = () => {
@@ -115,8 +150,16 @@ export const TopicPostItem = memo(
       [isVn, handleTranslate]
     );
 
+    const handlePostImage = useCallback(async (files: File[]) => {
+      const formData = new FormData();
+      files.forEach((file) => {
+        formData.append("file", file);
+      });
+      return await uploadService.postImages(formData);
+    }, []);
+
     return (
-      <form onSubmit={formik.handleSubmit}>
+      <form onSubmit={formik.handleSubmit} className="mb-[24px]">
         <div className="relative">
           <TitleInput name="admin._about._general._form._title" forId={""} />
           <Input
@@ -136,6 +179,24 @@ export const TopicPostItem = memo(
             onChange={() => {}}
           />
         </div>
+        {contentType !== ContentType.general ? (
+          <div className="mt-[16px] flex flex-wrap gap-[24px]">
+            <div className="w-[648px]  h-[168px]">
+              <InputUploadFile
+                multiple
+                onChange={handleChange}
+                onPaseLink={handlePastLink}
+              />
+            </div>
+            {preViewImage.map((item, index) => {
+              return (
+                <div key={index} className=" h-[168px] w-[250px]">
+                  <ImagePreview url={item} />
+                </div>
+              );
+            })}
+          </div>
+        ) : null}
         <div className="mt-[24px] gap-x-[24px] flex items-center">
           {!isAdd ? (
             <Button

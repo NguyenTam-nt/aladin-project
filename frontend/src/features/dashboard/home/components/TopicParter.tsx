@@ -128,7 +128,7 @@ const PartnerLogo = () => {
   const { handleChange } = useHandleImage("", hanldeChangeVideo);
 
   useEffect(() => {
-    bannerService.getByType(BannerType.bannerParter).then((data) => {
+    bannerService.getByType(BannerType.bannerLogoParter).then((data) => {
       setBannerHome(data?.data);
     });
   }, []);
@@ -146,7 +146,7 @@ const PartnerLogo = () => {
               <ImagePreview
                 className=" !object-contain !w-auto !h-auto absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%]"
                 onDelete={() => handleDeleteLogin(Number(item.id))}
-                url={item.link}
+                url={item?.link ?? ""}
               />
             </div>
           );

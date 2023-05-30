@@ -78,7 +78,7 @@ export default function ModalProvider({ children }: Props) {
     >
       <>
         {isShow ? (
-          <div className={clsx("fixed z-30 inset-0 w-full h-[100vh] overflow-x-hidden  overflow-y-auto flex justify-center overscroll-y-auto", {"mt-[96px]": isAdmin})}>
+          <div className={clsx("fixed z-30 inset-0 w-full h-[100vh] overflow-x-hidden  overflow-y-auto flex justify-center overscroll-y-auto")}>
             <div
               className="fixed inset-0 bg-bg_0_0_0_003 z-30"
               onClick={hideModal}

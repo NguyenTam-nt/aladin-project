@@ -14,7 +14,7 @@ export const HeaderAdmin = () => {
 
   return (
     <div
-      className="h-[96px] pl-[32px] z-[90000] pr-[126px] py-[24px] bg-white flex justify-between items-center border-b-[1px] border-solid border-br_E9ECEF fixed top-0 left-0 right-0"
+      className="h-[96px] pl-[32px] z-[90000] pr-[126px] py-[24px] bg-white flex justify-between items-center border-b-[1px] border-solid border-br_E9ECEF sticky top-0 left-0 right-0 min-w-[1280px]"
     >
       <div className="flex items-center">
         <Link to="/">

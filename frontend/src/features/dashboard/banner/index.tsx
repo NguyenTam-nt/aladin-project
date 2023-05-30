@@ -1,4 +1,4 @@
-import React, { memo, useContext, useEffect, useMemo, useState } from "react";
+import React, { memo, useCallback, useContext, useEffect, useMemo, useState } from "react";
 import { HeaderAdmin } from "../components/HeaderAdmin";
 import { SubHeaderTopic } from "../home/components/SubHeaderTopic";
 import { ICAdd } from "@assets/icons/ICAdd";
@@ -8,6 +8,7 @@ import { ModalContext } from "@contexts/ModalContext";
 import { ModalBanner } from "./ModalBanner";
 import { bannerService } from "@services/banner";
 import { BannerType, IBanner } from "@typeRules/banner";
+import { PopUpContext } from "@contexts/PopupContext";
 
 const titlebanners = [
   {
@@ -79,11 +80,18 @@ export const Banner = () => {
     setBanners([...newBanners])
   }
 
+  const handleDeleteBanner = (id:number) => {
+    const newBanners = [...banners]
+    const index = newBanners.findIndex(item => item.id === id)
+    newBanners.splice(index, 1)
+    setBanners([...newBanners])
+  }
+
   return (
     <>
       <HeaderAdmin title="admin._banner._title" />
       {banners.map((item) => {
-        return <BannerItem onPut={handlePutBanner} key={item.id} data={item} />;
+        return <BannerItem onDelete={handleDeleteBanner} onPut={handlePutBanner} key={item.id} data={item} />;
       })}
     </>
   );
@@ -92,11 +100,13 @@ export const Banner = () => {
 type Props = {
   data: IBanner;
   onPut: (data:IBanner) => void;
+  onDelete: (id:number) => void
 };
 
-export const BannerItem = memo(({ data, onPut }: Props) => {
+export const BannerItem = memo(({ data, onPut, onDelete }: Props) => {
   const { t, isVn } = useContext(TranslateContext);
   const { setElementModal } = useContext(ModalContext);
+  const {showError, showSuccess} = useContext(PopUpContext)
   const handleShowModal = () => {
     setElementModal(<ModalBanner onSubmit={onPut} data={data} />);
   };
@@ -106,6 +116,17 @@ export const BannerItem = memo(({ data, onPut }: Props) => {
     return isVn ? item?.name : item?.nameKo;
   }, [data.type, isVn]);
 
+  const handleDelete = useCallback(() => {
+    bannerService.putBanner({
+      ...data,
+      link: " "
+    }).then(() => {
+      onDelete(Number(data.id))
+      showSuccess("message.success._success")
+    }).catch(() => {
+      showError("message.error._error")
+    })
+  }, [data, onDelete, showError, showSuccess])
 
 
   return (
@@ -123,7 +144,7 @@ export const BannerItem = memo(({ data, onPut }: Props) => {
           </p>
         </div>
         <div className="flex-1 h-[168px]">
-          <ImagePreview onDelete={() => {}} onActive={() => {}} url={data.link} />
+          <ImagePreview onDelete={handleDelete} url={data?.link ?? ""} />
         </div>
       </div>
     </div>

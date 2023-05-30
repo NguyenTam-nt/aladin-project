@@ -1,6 +1,6 @@
 export enum PostType {
     postBanner = "BANNERPOST",
-    postEvent = "BANNERPOST",
+    postEvent = "BANNEREVENT",
     postStudy = "POSTSTUDY",
     postCenter = "POSTCENTER"
 }

@@ -12,10 +12,13 @@ export enum BannerType{
     bannerHomePost = "BANNER_HOME_POST",
     bannerParter = "BANNER_PAGE",
     bannerLogoParter = "BANNER_LOGO_PAGE",
+    aboutBrochure = "ABOUT_BROCURE",
 }
 
 export interface IBanner {
   id?: number
-  type: BannerType
-  link: string
+  title?: string,
+  titleKo?: string,
+  type?: BannerType
+  link?: string
 }
