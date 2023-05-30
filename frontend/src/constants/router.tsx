@@ -1,18 +1,6 @@
-// import LibraryVideo from "@features/libraryVideo";
 import { BrochurePage } from "@features/abouts/components/brochure";
 import { Structure } from "@features/abouts/components/structure";
-// import CadresPage from "@features/cadres";
-// import BrandPage from "@features/abouts/components/Brand";
-// import GeneralPage from "@features/abouts/components/general";
-// import HomePage from "@features/home";
-// import AboutPage from "@features/abouts";
 import AllSubject from "@features/subject/allSubject/AllSubject";
-// import SubjectPage from "@features/subject";
-// import NoticePage from "@features/notice";
-// import DocumentPage from "@features/documents";
-// import NewsPage from "@features/news";
-// import NewsDetailPage from "@features/newsDetail";
-// import LibraryImage from "@features/libraryImage";
 import { lazy } from "react";
 
 const HomePage = lazy(() => import("@features/home"))
@@ -27,12 +15,12 @@ const NoticePage = lazy(() => import("@features/notice"))
 const SubjectPage = lazy(() => import("@features/subject"))
 const GeneralPage = lazy(() => import("@features/abouts/components/general"))
 const BrandPage = lazy(() => import("@features/abouts/components/Brand"))
-// const SubjectPage = lazy(() => import("@features/subject"))
 
 
-interface IRouter {
+export interface IRouter {
   path: string;
   name: string;
+  nameKo?: string;
   element: any;
   isHiden?: boolean;
   isHidenRouter?: boolean;
@@ -182,14 +170,7 @@ export const rootRouter: IRouter[] = [
         path: paths.news.admissions,
         name: "home.header.navigation.admissions",
         // element: AdmissionsNews,
-      },
-      {
-        path: paths.news.detail,
-        // element: NewsDetailPage,
-        name: "home.header.navigation.sub_news._detail",
-        isHiden: true,
-        isDetail: true,
-      },
+      }
     ],
   },
   {
@@ -332,7 +313,10 @@ export const rootRouter: IRouter[] = [
         isHiden: true,
       },
     ],
-  },
+  }
+];
+
+export const routerDetail = [
   {
     path: `${paths.news.prefix}/${paths.news.detail}`,
     element: NewsDetailPage,
@@ -351,4 +335,4 @@ export const rootRouter: IRouter[] = [
     name: "home.header.navigation.sub_news._detail",
     isDetail: true,
   },
-];
+]

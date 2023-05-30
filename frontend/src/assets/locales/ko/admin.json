@@ -188,6 +188,7 @@
             "_title": "배너 관리",
             "_form": {
                 "_title": "새 배너 추가",
+                "_title_edit": "배너 편집",
                 "_name": "글 제목",
                 "_name_placeholder": "게시물 제목 입력",
                 "_upload": "이미지 업로드"

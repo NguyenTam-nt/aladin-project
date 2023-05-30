@@ -8,19 +8,12 @@ import clsx from 'clsx'
 import React, { useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { paths } from '@constants/router'
+import type { INews } from '@typeRules/news'
 
 type Props = {
     isChangeColor?: boolean
     index?: number
-    data?: {
-      title_vn: string,
-      description_vn:string,
-      sub_des_vn: string,
-      title_ko: string,
-      description_ko: string
-      sub_des_ko: string,
-      view_count: number
-    }
+    data?:  INews
 }
 
 export const HomeTopicNewsItem = ({isChangeColor = false, index = 0, data}:Props) => {
@@ -28,7 +21,7 @@ export const HomeTopicNewsItem = ({isChangeColor = false, index = 0, data}:Props
   const {isVn} = useContext(TranslateContext)
   const navigate = useNavigate()
   const natigateToDetail = () => {
-    navigate(`${paths.news.prefix}/${paths.news.detail}?slug=trao-thuong`)
+    navigate(`${paths.news.prefix}/${paths.news.detail}?slug=${data?.id}`)
   }
   return (
     <div ref={ref} className={clsx("w-full p-[12px] lg:p-[16px]  2xl:p-[24px] flex flex-col h-[218px] xl:h-[274px]", {"bg-white": !isChangeColor, "bg-secondary": isChangeColor, "animate__animated animate__fadeInUp":isInView})}
@@ -36,16 +29,20 @@ export const HomeTopicNewsItem = ({isChangeColor = false, index = 0, data}:Props
       ["--animate-count" as string]: index < 1 ? 1 : 0
     }}
     >
-    <p className={clsx("text-_16", {"text-text_primary": !isChangeColor, "text-text_white": isChangeColor})}> {isVn ? data?.title_vn : data?.title_ko}</p>
+    <p className={clsx("text-_16", {"text-text_primary": !isChangeColor, "text-text_white": isChangeColor})}> {isVn ? data?.title : data?.titleKo}</p>
     <div className={clsx("h-[1px] w-[45px] my-[8px]  xl:my-[16px]", {"bg-br_E9ECEF": !isChangeColor, "bg-text_white": isChangeColor})} />
     <p className={clsx("leading-[36px] text-_18 xl:text-_24", {"text-text_primary": !isChangeColor, "text-text_white": isChangeColor})}>
-    {isVn ? data?.description_vn : data?.description_ko}
+    {isVn ? data?.description : data?.descriptionKo}
     </p>
-    <p className={clsx("text-text_secondary text-_14", {"text-text_secondary": !isChangeColor, "text-text_white":isChangeColor})}>
-    {isVn ? data?.sub_des_vn : data?.sub_des_ko}
-    </p>
+    <div className={clsx("text-text_secondary text-_14", {"text-text_secondary": !isChangeColor, "text-text_white":isChangeColor})}
+      dangerouslySetInnerHTML={{
+        __html: `${isVn ? data?.content : data?.contentKo}`
+      }}
+    >
+    
+    </div>
     <div className="flex mt-auto items-center h-[28px] justify-between w-full">
-      <TextViewCount colorEye={isChangeColor ? Colors.text_white : Colors.text_7E8B99} className={clsx({"text-text_white":isChangeColor})} viewCount={data?.view_count ?? 0} />
+      <TextViewCount colorEye={isChangeColor ? Colors.text_white : Colors.text_7E8B99} className={clsx({"text-text_white":isChangeColor})} viewCount={data?.view ?? 0} />
       <div>
         <Button
         onClick={natigateToDetail}

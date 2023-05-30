@@ -43,8 +43,6 @@ const configure = () => {
 
     const token = await getAccessToken();
 
-  
-    
     if (token) {
       config.headers.Authorization = "Bearer " + token;
     }

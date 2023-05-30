@@ -6,25 +6,16 @@ import { Checkbox } from "@components/Checkbox";
 import { ChangeEvent, useContext, useState } from "react";
 import { TranslateContext } from "@contexts/Translation";
 import { ICDelele } from "@assets/icons/ICDelele";
+import type { IFooter } from "@typeRules/footer";
+import { footerService } from "@services/footer";
+import { PopUpContext } from "@contexts/PopupContext";
+import type { ICategory } from "@typeRules/news";
 
-const dataChildren = [
-  "Đào tạo",
-  "Nghiên cứu khoa học",
-  "Sinh viên",
-  "Tài liệu văn bản",
-  "Đào tạo1",
-  "Nghiên cứu khoa học1",
-  "Sinh viên1",
-  "Tài liệu văn bản1 Tài liệu văn bản1 Tài liệu văn bản1 Tài liệu văn bản1",
-  "Đào tạo2",
-  "Nghiên cứu khoa học2",
-  "Sinh viên2",
-  "Tài liệu văn bản2",
-];
+export const FooterGroup = ({ data, categories }: { data: IFooter, categories:ICategory[] }) => {
+  const { t, isVn } = useContext(TranslateContext);
+  const [listFilter, setListFilter] = useState<IFooter[]>(data.items ?? []);
+  const { showError, showSuccess } = useContext(PopUpContext);
 
-export const FooterGroup = ({ data }: { data: string }) => {
-  const { t } = useContext(TranslateContext);
-  const [listFilter, setListFilter] = useState<string[]>([]);
   const [isShow, setIsShow] = useState(false);
   const handleShow = () => {
     setIsShow(!isShow);
@@ -35,26 +26,49 @@ export const FooterGroup = ({ data }: { data: string }) => {
     index: number
   ) => {
     const isChecked = event.target.checked;
+    const newList = [...listFilter];
     if (isChecked) {
-      setListFilter([...listFilter, dataChildren[index]]);
+      newList.push({
+        name: categories[index].name,
+        nameKo: categories[index].nameKo,
+        path: Number(categories[index].id) ?? 0,
+        parentId: data.id,
+      });
+      setListFilter([...newList]);
     } else {
-      const _i = listFilter.findIndex((item) => item === dataChildren[index]);
-      const newList = listFilter;
+      const _i = newList.findIndex((item) => item.id === categories[index].id);
       newList.splice(_i, 1);
       setListFilter([...newList]);
     }
+    handlePutItem([...newList])
   };
 
-  const handleDeleteByName = (name: string) => {
-    const _i = listFilter.findIndex((item) => item === name);
-    const newList = listFilter;
+  const handlePutItem = (dataItem: IFooter[]) => {
+    footerService
+      .put(dataItem, Number(data.id))
+      .then((data) => {
+        setListFilter([...data]);
+        showSuccess("message.success._success");
+      })
+      .catch(() => {
+        showError("message.error._error");
+      });
+  };
+
+  const handleDeleteByName = (id: number) => {
+    const _i = listFilter.findIndex((item) => item.id === id);
+    const newList = [...listFilter];
     newList.splice(_i, 1);
     setListFilter([...newList]);
+    handlePutItem([...newList])
   };
 
   return (
     <div className="mt-2">
-      <SubHeaderTopic isPaddingTop={false} title={data} />
+      <SubHeaderTopic
+        isPaddingTop={false}
+        title={isVn ? data?.name ?? "" : data?.nameKo ?? ""}
+      />
       <div>
         <TitleInput forId="" name="admin._footer._choose" />
         <div className="">
@@ -68,8 +82,10 @@ export const FooterGroup = ({ data }: { data: string }) => {
                         key={index}
                         className="w-max line-clamp-1 flex items-center border border-br_E9ECEF gap-x-2 px-1 py-1 h-full"
                       >
-                        {item}{" "}
-                        <button onClick={() => handleDeleteByName(item)}>
+                        {isVn ? item?.name : item?.nameKo}{" "}
+                        <button
+                          onClick={() => handleDeleteByName(Number(item.id))}
+                        >
                           <ICDelele />
                         </button>
                       </div>
@@ -86,12 +102,12 @@ export const FooterGroup = ({ data }: { data: string }) => {
               { "footer-animation-list": isShow }
             )}
             style={{
-              ["--footer-size" as string]: dataChildren.length,
+              ["--footer-size" as string]: categories.length,
               ["--height-li" as string]: "44px",
             }}
           >
-            {dataChildren.map((item, index) => {
-              const isChecked = listFilter.some((_item) => _item === item);
+            {categories.map((item, index) => {
+              const isChecked = listFilter.some((_item) => Number(_item.path) === item.id);
               return (
                 <li
                   key={index}
@@ -101,7 +117,7 @@ export const FooterGroup = ({ data }: { data: string }) => {
                     checked={isChecked}
                     onChange={(event) => handleChecked(event, index)}
                   />
-                  <label htmlFor="">{item}</label>
+                  <label htmlFor="">{isVn ? item.name : item.nameKo}</label>
                 </li>
               );
             })}

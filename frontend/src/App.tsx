@@ -5,20 +5,21 @@ import ModalProvider from "@contexts/ModalContext";
 import { useRefreshWeb } from "@hooks/useRefreshWeb";
 import AuthProvider from "@contexts/AuthContext";
 import { PopupProvider } from "@contexts/PopupContext";
+import { LoadingData } from "@components/LoadingData";
 
 function App() {
-  useRefreshWeb()
+  useRefreshWeb();
 
   return (
-    <Suspense>
+    <Suspense fallback={<LoadingData />}>
       <AuthProvider>
-      <TranslateProvider>
-        <PopupProvider>
-        <ModalProvider>
-          <RouterRoot />
-        </ModalProvider>
-        </PopupProvider>
-      </TranslateProvider>
+          <TranslateProvider>
+            <PopupProvider>
+              <ModalProvider>
+                <RouterRoot />
+              </ModalProvider>
+            </PopupProvider>
+          </TranslateProvider>
       </AuthProvider>
     </Suspense>
   );

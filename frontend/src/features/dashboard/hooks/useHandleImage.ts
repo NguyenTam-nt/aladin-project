@@ -12,7 +12,7 @@ export const useHandleImage = (image?:string, onChange?: (file:File) => void, ha
         setPreViewImage(image ?? "")
       }
     }, [image, preViewImage])
-  
+
     const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
       const file = event.target.files![0];
       setCurrentFile(file)
@@ -22,8 +22,8 @@ export const useHandleImage = (image?:string, onChange?: (file:File) => void, ha
     };
   
     const handleDelete = () => {
-      setPreViewImage("");
       handleDeleteLogin?.()
+      setPreViewImage(" ");
       setCurrentFile(undefined)
     };
 

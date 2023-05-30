@@ -33,7 +33,7 @@ export const GeneralHistorySliderPC = ({data}:Props) => {
         {
           data.map((item, index) => {
             return (
-              <SwiperSlide>
+              <SwiperSlide key={index}>
                 <GeneralHistoryItem data={item} isReverse={(index + 1)%2 === 0} />
               </SwiperSlide>
 

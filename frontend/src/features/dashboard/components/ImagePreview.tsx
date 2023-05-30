@@ -23,7 +23,6 @@ export const ImagePreview = memo(
     isVideos = false,
     className = "",
   }: Props) => {
-    console.log({i: isUrl(url)})
     return isUrl(url) ? (
       <div className="w-full h-full relative rounded-[5px] overflow-hidden border border-br_E9ECEF">
         {onActive ? (

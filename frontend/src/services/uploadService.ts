@@ -7,6 +7,10 @@ export const uploadService = {
         const api = getApi("image")
         return HttpService.axiosClient.post(api, data)
     },
+    postImages: (data:any):Promise<string[]> => {
+        const api = getApi("images")
+        return HttpService.axiosClient.post(api, data)
+    },
     postVideo: (data:any):Promise<any> => {
         const api = getApi("video")
         return HttpService.axiosClient.post(api, data)

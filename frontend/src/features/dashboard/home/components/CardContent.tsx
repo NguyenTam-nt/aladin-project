@@ -21,7 +21,7 @@ export const CardContent = ({
   const { t, isVn } = useContext(TranslateContext);
 
   return (
-    <div className="h-auto border border-br_E9ECEF">
+    <div className="h-auto border flex flex-col border-br_E9ECEF">
       <div className="w-full h-[145px] relative">
         {onActive ? (
           <button
@@ -38,7 +38,7 @@ export const CardContent = ({
         />
         <div className="absolute inset-0 bg-bg_card_admin" />
       </div>
-      <div className="p-[16px]">
+      <div className="p-[16px] flex flex-col flex-1">
         <p className="text-_18 font-semibold text-secondary">
          {isVn ? data?.title : data?.titleKo}
         </p>
@@ -50,7 +50,7 @@ export const CardContent = ({
             {isVn ? data?.description : data?.descriptionKo}
           </p>
         </div>
-        <div className="mt-[16px]">
+        <div className="mt-auto">
           <Button
             onClick={onModalEdit}
             color="primary"

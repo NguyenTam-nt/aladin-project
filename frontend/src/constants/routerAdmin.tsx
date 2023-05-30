@@ -13,34 +13,35 @@ import { ICSubject } from "@assets/icons/AdminNavigation/ICSubject";
 import { ICUser } from "@assets/icons/AdminNavigation/ICUser";
 import { ICFooter } from "@assets/icons/ICFooter";
 import { ICHeader } from "@assets/icons/ICHeader";
-import { HandleNotice } from "@features/dashboard/Notice/components/Category/HandleNotice";
-import { Brand } from "@features/dashboard/about/brand";
-import { Brochure } from "@features/dashboard/about/brochure";
-import { Categories } from "@features/dashboard/about/categories";
-import { General } from "@features/dashboard/about/general";
-import { Structure } from "@features/dashboard/about/structure";
-import { Account } from "@features/dashboard/accounts";
-import { Banner } from "@features/dashboard/banner";
-import { Footer } from "@features/dashboard/components/footer";
-import { ManageDocuments } from "@features/dashboard/documents";
-import { HandleDocuments } from "@features/dashboard/documents/components/Category/HandleDocuments";
-import { Header } from "@features/dashboard/header";
-import { Home } from "@features/dashboard/home";
-import { InfoAccount } from "@features/dashboard/infoAccount";
-import { EditInfoAccount } from "@features/dashboard/infoAccount/EditInfoAccount";
-import { Login } from "@features/dashboard/login";
-import { ManageCadres } from "@features/dashboard/manageCadres";
-import { CreateCadres } from "@features/dashboard/manageCadres/CreateCadres";
-import { ManageLibraryImage } from "@features/dashboard/manageLibraryImage";
-import ManageAlbumDetail from "@features/dashboard/manageLibraryImage/manageAlbumDetail";
-import { ManageLibraryVideo } from "@features/dashboard/manageLibraryVideo";
-import { ManageSubject } from "@features/dashboard/manageSubject";
-import { CreateSubject } from "@features/dashboard/manageSubject/CreateSubject";
-import { News } from "@features/dashboard/news";
-import { CategoryNews } from "@features/dashboard/news/components/Category";
-import { HandleNews } from "@features/dashboard/news/components/Category/HandleNews";
-import { EditPassword } from "@features/dashboard/password";
+import { lazy } from "react";
 import { Outlet } from "react-router-dom";
+
+
+const Header = lazy(() => import("@features/dashboard/header").then(module => ({default: module.Header})))
+const HandleNotice = lazy(() => import("@features/dashboard/Notice/components/Category/HandleNotice").then(module => ({default: module.HandleNotice})))
+const Home = lazy(() => import("@features/dashboard/home").then(module => ({default: module.Home})))
+const Brand = lazy(() => import("@features/dashboard/about/brand").then(module => ({default: module.Brand})))
+const Brochure = lazy(() => import("@features/dashboard/about/brochure").then(module => ({default: module.Brochure})))
+const Categories = lazy(() => import("@features/dashboard/about/general").then(module => ({default: module.General})))
+const General = lazy(() => import("@features/dashboard/about/categories").then(module => ({default: module.Categories})))
+const Structure = lazy(() => import("@features/dashboard/about/structure").then(module => ({default: module.Structure})))
+const Account = lazy(() => import("@features/dashboard/accounts").then(module => ({default: module.Account})))
+const Banner = lazy(() => import("@features/dashboard/banner").then(module => ({default: module.Banner})))
+const Footer = lazy(() => import("@features/dashboard/components/footer").then(module => ({default: module.Footer})))
+const InfoAccount = lazy(() => import("@features/dashboard/infoAccount").then(module => ({default: module.InfoAccount})))
+const EditInfoAccount = lazy(() => import("@features/dashboard/infoAccount/EditInfoAccount").then(module => ({default: module.EditInfoAccount})))
+const Login = lazy(() => import("@features/dashboard/login").then(module => ({default: module.Login})))
+const ManageCadres = lazy(() => import("@features/dashboard/manageCadres").then(module => ({default: module.ManageCadres})))
+const CreateCadres = lazy(() => import("@features/dashboard/manageCadres/CreateCadres").then(module => ({default: module.CreateCadres})))
+const ManageLibraryImage = lazy(() => import("@features/dashboard/manageLibraryImage").then(module => ({default: module.ManageLibraryImage})))
+const ManageAlbumDetail = lazy(() => import("@features/dashboard/manageLibraryImage/manageAlbumDetail"))
+const ManageLibraryVideo = lazy(() => import("@features/dashboard/manageLibraryVideo").then(module => ({default: module.ManageLibraryVideo})))
+const CreateSubject = lazy(() => import("@features/dashboard/manageSubject/CreateSubject").then(module => ({default: module.CreateSubject})))
+const News = lazy(() => import("@features/dashboard/news").then(module => ({default: module.News})))
+const CategoryNews = lazy(() => import("@features/dashboard/news/components/Category").then(module => ({default: module.CategoryNews})))
+const HandleNews = lazy(() => import("@features/dashboard/news/components/Category/HandleNews").then(module => ({default: module.HandleNews})))
+const EditPassword = lazy(() => import("@features/dashboard/password").then(module => ({default: module.EditPassword})))
+const ManageSubject = lazy(() => import("@features/dashboard/manageSubject").then(module => ({default: module.ManageSubject})))
 
 const DemoElement = () => {
   return (

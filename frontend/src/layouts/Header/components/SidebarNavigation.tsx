@@ -3,8 +3,9 @@ import { ICDelele } from "@assets/icons/ICDelele";
 import { ICMenu } from "@assets/icons/ICMenu";
 import { ICSearch } from "@assets/icons/ICSearch";
 import { Colors } from "@constants/color";
-import { rootRouter } from "@constants/router";
+import { paths } from "@constants/router";
 import { TranslateContext } from "@contexts/Translation";
+import type { IHeader } from "@typeRules/footer";
 import clsx from "clsx";
 import React, {
   useContext,
@@ -12,6 +13,7 @@ import React, {
   useLayoutEffect,
 } from "react";
 import { Link } from "react-router-dom";
+import { useGetHeader } from "./useGetHeader";
 
 type propsNavigate = {
   isShowSidebar: boolean;
@@ -19,8 +21,8 @@ type propsNavigate = {
 };
 
 export const SidebarNavigation = ({ isShowSidebar, onShow }: propsNavigate) => {
-  const { t } = useContext(TranslateContext);
-
+  const { t, isVn } = useContext(TranslateContext);
+  const {headers} = useGetHeader()
   useLayoutEffect(() => {
     if (isShowSidebar) {
       document.body.style.overflowY = "hidden";
@@ -64,16 +66,16 @@ export const SidebarNavigation = ({ isShowSidebar, onShow }: propsNavigate) => {
           <ICSearch color={Colors.text_9EA8B3} />
         </div>
       </div>
-      {rootRouter.map((item, index) => {
+      {headers.map((item, index) => {
         return (
           <SubNavLinkItem
             onHidden={onShow}
-            subNavs={item.subNavs?.filter((item) => !item.isHiden)}
+            subNavs={item.items}
             key={index}
-            path={item.path}
-            isHidenRouter={item.isHidenRouter}
-            name={item.name}
-            isHidenArrow={item?.isHiden}
+            path={item.link + ""}
+            // isHidenRouter={item.isHidenRouter}
+            name={`${isVn ? item.name : item.nameKo}`}
+            // isHidenArrow={item?.isHiden}
           />
         );
       })}
@@ -90,17 +92,14 @@ export const SidebarNavigation = ({ isShowSidebar, onShow }: propsNavigate) => {
 type Props = {
   name: string;
   path: string;
-  isHidenArrow?: boolean;
-  isHidenRouter?: boolean;
-  subNavs?: {
-    path: string;
-    name: string;
-  }[];
+  // isHidenArrow?: boolean;
+  // isHidenRouter?: boolean;
+  subNavs?: IHeader[]
   onHidden: () => void;
 };
 
-export const SubNavLinkItem = ({ name, path, subNavs, onHidden, isHidenArrow, isHidenRouter }: Props) => {
-  const { t } = useContext(TranslateContext);
+export const SubNavLinkItem = ({ name, path, subNavs, onHidden }: Props) => {
+  const { t, isVn } = useContext(TranslateContext);
   const [isShow, setIsShow] = useState(false);
   const handleShow = () => {
     setIsShow(!isShow);
@@ -123,7 +122,7 @@ export const SubNavLinkItem = ({ name, path, subNavs, onHidden, isHidenArrow, is
         <Link onClick={onHidden} to={path} className="py-[8px] block">
           {t(name)}
         </Link>
-        {subNavs?.length && !isHidenArrow ? (
+        {subNavs?.length ? (
           <div className=" cursor-pointer " onClick={handleShow}>
             <ICArrowDown />
           </div>
@@ -139,12 +138,12 @@ export const SubNavLinkItem = ({ name, path, subNavs, onHidden, isHidenArrow, is
           {subNavs.map((_item, index) => {
             return (
               <Link
-              to={`${path}${ _item.path ? isHidenRouter ? `?type=${_item.path}` : `/${_item.path}` : ""}`}
+              to={`${path}${ _item.link ? path === paths.news.prefix ? `?type=${_item.link}` : `/${_item.link}` : ""}`}
                 onClick={onHidden}
                 className="h-[32px] flex items-center"
                 key={index}
               >
-                ● <span className="ml-2">{t(_item.name)}</span>
+                ● <span className="ml-2">{isVn ? _item.name : _item.nameKo}</span>
               </Link>
             );
           })}

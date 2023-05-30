@@ -1,5 +1,5 @@
 import { ICArrowDown } from '@assets/icons/ICArrowDown'
-import { ICSearch } from '@assets/icons/ICSearch'
+// import { ICSearch } from '@assets/icons/ICSearch'
 import { Colors } from '@constants/color'
 import { Ilanguage, TranslateContext } from '@contexts/Translation'
 import VnFlag from "@assets/images/VN.jpg";
@@ -20,10 +20,10 @@ export const HeaderOption = () => {
 
   return (
     <div className="flex items-center">
-    <div className='mr-[18px] xl:mr-0'>
+    {/* <div className='mr-[18px] xl:mr-0'>
       <ICSearch color={width < withResponsive._1280 ? Colors.text_secondary : Colors.text_white} />
     </div>
-    <HeaderOptionSlash />
+    <HeaderOptionSlash /> */}
     <div className="flex">
       {/* <Link className="text-[14px] text-white font-normal" to="#">
     {t("home.header.signup")}

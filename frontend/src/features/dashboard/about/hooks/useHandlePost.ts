@@ -1,7 +1,8 @@
 import { PopUpContext } from "@contexts/PopupContext"
+import { bannerService } from "@services/banner"
 import { contentService } from "@services/content"
 import type { ContentType, IContent } from "@typeRules/content"
-import { useCallback, useContext, useState } from "react"
+import { useCallback, useContext, useEffect, useState } from "react"
 
 export const useHandlePost = (type:ContentType) => {
     const [listContent, setListContent] = useState<IContent[]>([])
@@ -16,6 +17,8 @@ export const useHandlePost = (type:ContentType) => {
     const handlePostContent = useCallback((data:IContent) => {
         contentService.post({
             ...data,
+            category: type,
+            categoryKo: type,
             type
         }).then(res => {
             setListContent([...listContent, res])
@@ -48,6 +51,13 @@ export const useHandlePost = (type:ContentType) => {
             showError("message.error._error")
         })
     }, [listContent, showSuccess, showError])
+
+
+    useEffect(() => {
+        contentService.getByType(type).then((data) => {
+            setListContent([...data.data])
+        })
+    }, [type])
 
     return {
         listContent,
