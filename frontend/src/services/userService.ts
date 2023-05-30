@@ -13,6 +13,10 @@ export const userService = {
     getBySearch: (params: IParams, query: string):Promise<IUser> => {
         const api = getApi("_search/users")
         return HttpService.axiosClient.get(`${api}/${query}`, {params})
+    },
+    getInfo: ():Promise<IUser> => {
+        const api = getApi("keycloak/userinfo")
+        return HttpService.axiosClient.get(api) 
     }
 
 }

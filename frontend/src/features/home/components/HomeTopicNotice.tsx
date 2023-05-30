@@ -1,10 +1,10 @@
+import React from "react";
 import { paths } from "@constants/router";
 import { useSwiperNavigationRef } from "@hooks/useSwiperNavigationRef";
-import React from "react";
 import { HomeTopicLayout } from "./HomeTopicLayout";
 import { HomeTopicNoticeSlider } from "./HomeTopicNoticeSlider";
-
-
+import { NoticeId } from "@constants/contain";
+import { useGetNews } from "../hooks/useGetNews";
 
 export const HomeTopicNotice = () => {
   const {
@@ -14,7 +14,8 @@ export const HomeTopicNotice = () => {
     handlePre,
     NavigationElement,
   } = useSwiperNavigationRef();
-  return (
+  const {news} = useGetNews(`${NoticeId}`)
+  return news.length ? (
     <HomeTopicLayout
       title="home.home_topic._notice"
       isPaddingTop
@@ -23,9 +24,13 @@ export const HomeTopicNotice = () => {
       path={paths.notice.prefix}
     >
       <div className="mt-[36px] xl:mt-[44px]">
-       <HomeTopicNoticeSlider navigationNextRef={navigationNextRef} navigationPrevRef={navigationPrevRef} />
+        <HomeTopicNoticeSlider
+           notices={news}
+          navigationNextRef={navigationNextRef}
+          navigationPrevRef={navigationPrevRef}
+        />
         {NavigationElement}
       </div>
     </HomeTopicLayout>
-  );
+  ) : null;
 };

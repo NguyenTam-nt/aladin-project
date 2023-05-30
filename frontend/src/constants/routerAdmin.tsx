@@ -16,7 +16,8 @@ import { ICHeader } from "@assets/icons/ICHeader";
 import { lazy } from "react";
 import { Outlet } from "react-router-dom";
 
-
+const ManageDocuments = lazy(() => import("@features/dashboard/documents").then(module => ({default: module.ManageDocuments})))
+const HandleDocuments = lazy(() => import("@features/dashboard/documents/components/Category/HandleDocuments").then(module => ({default: module.HandleDocuments})))
 const Header = lazy(() => import("@features/dashboard/header").then(module => ({default: module.Header})))
 const HandleNotice = lazy(() => import("@features/dashboard/Notice/components/Category/HandleNotice").then(module => ({default: module.HandleNotice})))
 const Home = lazy(() => import("@features/dashboard/home").then(module => ({default: module.Home})))
