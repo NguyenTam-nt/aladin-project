@@ -8,7 +8,7 @@ export default defineConfig({
     port: 3000,
     proxy: {
       "/api": {
-        target: "http://101.99.6.88:8998/",
+        target: "https://www.hanquochoc.edu.vn/",
         changeOrigin: true,
       },
     }
