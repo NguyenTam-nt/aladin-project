@@ -1,0 +1,172 @@
+
+application {
+  config {
+    baseName GatewayHCM
+    applicationType gateway
+    packageName co.aladintech.hcm
+    authenticationType oauth2
+    prodDatabaseType oracle
+    devDatabaseType oracle 
+    languages [vi, ko]      
+    serverPort 8000
+  }
+
+}
+
+application {
+  config {
+    baseName BackendHCM
+    applicationType microservice
+    packageName co.aladintech.hcm
+    authenticationType oauth2
+    prodDatabaseType oracle
+    devDatabaseType oracle
+    languages [vi, ko]
+    serverPort 8001
+    skipClient true
+    searchEngine elasticsearch
+  }
+  entities *
+}
+
+entity HeaderNavbar {
+	index Integer
+    name String
+    nameKo String
+    link String
+    parent Long
+}
+
+enum BannerType {
+	HOME, HOME_VIDEO, HOME_ADS,
+    TRADEMARK, LOGIN, BROCHURE
+}
+
+entity Banner {
+	title String
+    titleKo String
+	type String required
+    link String required
+}
+
+entity Posts {
+	type String
+	title String required
+	titleKo String required
+    description String required
+    descriptionKo String required
+    image String required
+    link String required
+    outstanding Boolean
+    view Long
+}
+
+entity History {
+	year Integer required
+    image String required
+	description String required
+	descriptionKo String required
+}
+
+enum CSCategory {
+	HISTORY, TRADEMARK, PERSONNEL
+}
+
+entity ContentSession {
+	type String required
+    category String required
+    categoryKo String required
+	tilte String required
+	tilteKo String required
+    content String required
+    contentKo String required
+}
+
+enum NewsCategoryDefault {
+	NOTIFICATION, DOCUMENT
+}
+
+entity NewsCategory {
+	name String
+	nameKo String
+    parent Long
+}
+
+entity News { 
+	tilte String required
+	tilteKo String required
+    description String required
+    descriptionKo String required
+    content String required
+    contentKo String required
+    view Long
+}
+
+entity Files {
+    type String
+    link String required
+    name String
+}
+
+entity Cadres {
+	fullname String required
+	fullnameKo String required
+    position String required
+    positionKo String required
+    email String required pattern(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$/)
+    major String required
+    majorKo String required
+    workResponsibility String required
+    workResponsibilityKo String required
+    title String required
+    titleKo String required
+    content String required
+    contentKo String required
+}
+
+entity CadresCategory {
+	name String required
+	nameKo String required
+}
+
+entity Subject {
+	name String required
+	nameKo String required
+    description String required
+    descriptionKo String required
+    title String required
+    titleKo String required
+    content String required
+    contentKo String required
+}
+
+enum GalleryType {
+    IMAGE, VIDEO
+}
+
+entity Gallery {
+	name String required
+	nameKo String required
+    type GalleryType
+} 
+
+entity ViewPage {
+	view Long
+} 
+
+relationship OneToMany {
+  	ContentSession to Files
+    NewsCategory to News
+  	News to Files
+  	Cadres to Files  
+  	Subject to Files 
+  	Gallery to Files
+    CadresCategory to Cadres
+}
+
+
+dto * with mapstruct
+paginate * with pagination
+service * with serviceClass
+service * with serviceImpl
+search News with elasticsearch

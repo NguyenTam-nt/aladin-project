@@ -7,26 +7,36 @@ import React, { useContext } from "react";
 import { ButtonActionVideo } from "./ButtonActionVideo";
 import ModalVideo from "./ModalVideo";
 import { TranslateContext } from "@contexts/Translation";
+import type { IGallery } from "@typeRules/gallery";
+import { getDate } from "@commons/index";
 
-const NewsItem = () => {
+interface NewsItemProps {
+data : IGallery
+totalList : IGallery[]
+index : number
+}
+
+const NewsItem = ({data ,totalList ,index} :NewsItemProps ) => {
+  
+
   const {setElementModal} = useContext(ModalContext)
-  const { t} = useContext(TranslateContext)
+  const { t , isVn} = useContext(TranslateContext)
 
   const showModal = () => {
-    setElementModal(<ModalVideo currentIndex={0} />)
+    setElementModal(<ModalVideo currentIndex={index}   bannerItem={totalList} />)
   }
   return (
     <div className=" relative h-[360px]  bg-bg_FAFAFA">
       <div className="overflow-hidden h-[360px]">
-        <ImageTranslation link="https://images.unsplash.com/photo-1558429121-8cebc52d40a2?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1954&q=80"></ImageTranslation>
+        <video className="w-full h-full" src={data?.files?.[0]?.link}></video>
       </div>
       <div className="absolute w-full  z-5 bottom-[0px] left-0   bg-gr_text ">
         <div className="mx-[24px]">
        <TagNews></TagNews>
         <p className=" text-_18 font-bold leading-[32px] text-text_white mt-[10px] line-clamp-2">
-          Nulla ullamcorper volutpat proin integer nisi ullamcorper ut diam. Nulla ullamcorper volutpat proin integer nisi ullamcorper ut diam.
+          { isVn ? data.name : data.nameKo}
         </p>
-        <p className=" text-_14 text-text_white ">  {t("common.create_day") + ": "+"23/02/2023"}</p>
+        <p className=" text-_14 text-text_white ">  {t("common.create_day") + ":" + getDate(data.createdDate)}</p>
         <div className="flex flex-row my-[24px]">
         <ButtonActionVideo onPlayNow={showModal}></ButtonActionVideo>
         </div>
@@ -38,20 +48,31 @@ const NewsItem = () => {
 
 
 
-const data = [1,2,3,4]
 
 
-const VideoList = () => {
+interface VideoListProps {
+  data: IGallery[];
+  currentPage: number;
+  setCurrentPage: (index: number) => void;
+  totalPages: number;
+}
+
+
+const VideoList = (props: VideoListProps) => {
+  const { data, currentPage, setCurrentPage, totalPages } = props;
 
   return (
     <>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-[24px] mt-[24px]">
-        {data.map((_) => (
-          <NewsItem></NewsItem>
+        {data.map((item , index) => (
+          <NewsItem key={item.id} index={index}  data={item} totalList={data}></NewsItem>
         ))}
-     
       </div>
-      <Pagination currentPage={1} totalPages={30} />
+      <Pagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        setCurrentPage={setCurrentPage}
+      />
     </>
   );
 };

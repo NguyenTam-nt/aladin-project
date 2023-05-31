@@ -1,0 +1,68 @@
+{
+  "applications": ["GatewayHCM", "BackendHCM"],
+  "changelogDate": "20230520090456",
+  "clientRootFolder": "BackendHCM",
+  "databaseType": "sql",
+  "dto": "mapstruct",
+  "embedded": false,
+  "entityTableName": "files",
+  "fields": [
+    {
+      "fieldName": "objectId",
+      "fieldType": "Long",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "type",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "link",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "name",
+      "fieldType": "String"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "microserviceName": "BackendHCM",
+  "name": "Files",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "contentSession",
+      "otherEntityRelationshipName": "files",
+      "relationshipName": "contentSession",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityName": "news",
+      "otherEntityRelationshipName": "files",
+      "relationshipName": "news",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityName": "cadres",
+      "otherEntityRelationshipName": "files",
+      "relationshipName": "cadres",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityName": "subject",
+      "otherEntityRelationshipName": "files",
+      "relationshipName": "subject",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityName": "gallery",
+      "otherEntityRelationshipName": "files",
+      "relationshipName": "gallery",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "service": "serviceImpl"
+}

@@ -1,0 +1,80 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <div *ngIf="cadres">
+      <h2 data-cy="cadresDetailsHeading"><span jhiTranslate="gatewayHcmApp.cadres.detail.title">Cadres</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="global.field.id">ID</span></dt>
+        <dd>
+          <span>{{ cadres.id }}</span>
+        </dd>
+        <dt><span jhiTranslate="gatewayHcmApp.cadres.fullname">Fullname</span></dt>
+        <dd>
+          <span>{{ cadres.fullname }}</span>
+        </dd>
+        <dt><span jhiTranslate="gatewayHcmApp.cadres.fullnameKo">Fullname Ko</span></dt>
+        <dd>
+          <span>{{ cadres.fullnameKo }}</span>
+        </dd>
+        <dt><span jhiTranslate="gatewayHcmApp.cadres.position">Position</span></dt>
+        <dd>
+          <span>{{ cadres.position }}</span>
+        </dd>
+        <dt><span jhiTranslate="gatewayHcmApp.cadres.positionKo">Position Ko</span></dt>
+        <dd>
+          <span>{{ cadres.positionKo }}</span>
+        </dd>
+        <dt><span jhiTranslate="gatewayHcmApp.cadres.email">Email</span></dt>
+        <dd>
+          <span>{{ cadres.email }}</span>
+        </dd>
+        <dt><span jhiTranslate="gatewayHcmApp.cadres.major">Major</span></dt>
+        <dd>
+          <span>{{ cadres.major }}</span>
+        </dd>
+        <dt><span jhiTranslate="gatewayHcmApp.cadres.majorKo">Major Ko</span></dt>
+        <dd>
+          <span>{{ cadres.majorKo }}</span>
+        </dd>
+        <dt><span jhiTranslate="gatewayHcmApp.cadres.workResponsibility">Work Responsibility</span></dt>
+        <dd>
+          <span>{{ cadres.workResponsibility }}</span>
+        </dd>
+        <dt><span jhiTranslate="gatewayHcmApp.cadres.workResponsibilityKo">Work Responsibility Ko</span></dt>
+        <dd>
+          <span>{{ cadres.workResponsibilityKo }}</span>
+        </dd>
+        <dt><span jhiTranslate="gatewayHcmApp.cadres.title">Title</span></dt>
+        <dd>
+          <span>{{ cadres.title }}</span>
+        </dd>
+        <dt><span jhiTranslate="gatewayHcmApp.cadres.titleKo">Title Ko</span></dt>
+        <dd>
+          <span>{{ cadres.titleKo }}</span>
+        </dd>
+        <dt><span jhiTranslate="gatewayHcmApp.cadres.content">Content</span></dt>
+        <dd>
+          <span>{{ cadres.content }}</span>
+        </dd>
+        <dt><span jhiTranslate="gatewayHcmApp.cadres.contentKo">Content Ko</span></dt>
+        <dd>
+          <span>{{ cadres.contentKo }}</span>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/cadres', cadres.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

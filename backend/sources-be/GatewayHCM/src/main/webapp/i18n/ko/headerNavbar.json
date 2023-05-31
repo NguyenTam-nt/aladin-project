@@ -1,0 +1,28 @@
+{
+  "gatewayHcmApp": {
+    "headerNavbar": {
+      "home": {
+        "title": "Header Navbars",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new Header Navbar",
+        "createOrEditLabel": "Create or edit a Header Navbar",
+        "notFound": "No Header Navbars found"
+      },
+      "created": "A new Header Navbar is created with identifier {{ param }}",
+      "updated": "A Header Navbar is updated with identifier {{ param }}",
+      "deleted": "A Header Navbar is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Header Navbar {{ id }}?"
+      },
+      "detail": {
+        "title": "Header Navbar"
+      },
+      "id": "ID",
+      "index": "Index",
+      "name": "Name",
+      "nameKo": "Name Ko",
+      "link": "Link",
+      "parent": "Parent"
+    }
+  }
+}

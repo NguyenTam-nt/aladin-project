@@ -17,6 +17,7 @@ import { TitleForm } from "../components/TitleForm";
 import { GroupButtonAdmin } from "../components/GroupButtonAdmin";
 import { TranslateToKorean } from "../manageCadres/hooks/useTranslate";
 import { PopUpContext } from "@contexts/PopupContext";
+import { InputUploadFileImage } from "../components/InputUploadFIleImage";
 enum SubjectForm {
   name = "name",
   nameKo = "nameKo",
@@ -213,7 +214,7 @@ export const CreateSubject = () => {
                     e.target.files![0]
                   );
                 }}
-                as={InputUploadFile}
+                as={InputUploadFileImage}
               />
                <ErrorMessage
               name={SubjectForm.files}

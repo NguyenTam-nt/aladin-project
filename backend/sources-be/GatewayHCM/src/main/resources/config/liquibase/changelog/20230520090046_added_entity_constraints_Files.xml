@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+    <!--
+        Added the constraints for entity Files.
+    -->
+    <changeSet id="20230520090046-2" author="jhipster">
+
+        <addForeignKeyConstraint baseColumnNames="content_session_id"
+                                 baseTableName="files"
+                                 constraintName="fk_files__content_session_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="content_session"/>
+
+        <addForeignKeyConstraint baseColumnNames="news_id"
+                                 baseTableName="files"
+                                 constraintName="fk_files__news_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="news"/>
+
+        <addForeignKeyConstraint baseColumnNames="cadres_id"
+                                 baseTableName="files"
+                                 constraintName="fk_files__cadres_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="cadres"/>
+
+        <addForeignKeyConstraint baseColumnNames="subject_id"
+                                 baseTableName="files"
+                                 constraintName="fk_files__subject_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="subject"/>
+
+        <addForeignKeyConstraint baseColumnNames="gallery_id"
+                                 baseTableName="files"
+                                 constraintName="fk_files__gallery_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="gallery"/>
+    </changeSet>
+</databaseChangeLog>

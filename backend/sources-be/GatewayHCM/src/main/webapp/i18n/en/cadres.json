@@ -1,0 +1,38 @@
+{
+  "gatewayHcmApp": {
+    "cadres": {
+      "home": {
+        "title": "Cadres",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new Cadres",
+        "createOrEditLabel": "Create or edit a Cadres",
+        "notFound": "No Cadres found"
+      },
+      "created": "A new Cadres is created with identifier {{ param }}",
+      "updated": "A Cadres is updated with identifier {{ param }}",
+      "deleted": "A Cadres is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Cadres {{ id }}?"
+      },
+      "detail": {
+        "title": "Cadres"
+      },
+      "id": "ID",
+      "fullname": "Fullname",
+      "fullnameKo": "Fullname Ko",
+      "position": "Position",
+      "positionKo": "Position Ko",
+      "email": "Email",
+      "major": "Major",
+      "majorKo": "Major Ko",
+      "workResponsibility": "Work Responsibility",
+      "workResponsibilityKo": "Work Responsibility Ko",
+      "title": "Title",
+      "titleKo": "Title Ko",
+      "content": "Content",
+      "contentKo": "Content Ko",
+      "files": "Files",
+      "cadresCategory": "Cadres Category"
+    }
+  }
+}

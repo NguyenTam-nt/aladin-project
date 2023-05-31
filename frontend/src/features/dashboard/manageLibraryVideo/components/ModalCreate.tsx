@@ -37,11 +37,10 @@ const initialValue = {
 
 export const ModalCreate = ( {callback} : { callback?: () => void}) => {
   const { preViewImage , handleChange ,handleDelete} =  useHandleImage()
-  const formikRef = useRef<FormikProps<IGalleryPostCheck> | null>(null);
+  const formikRef = useRef<FormikProps<IGalleryPostCheck> | null >(null);
   const { isVn , t} = useContext(TranslateContext)
   const {hideModal} = useContext(ModalContext)
   const { showSuccess , showError } = useContext(PopUpContext)
- 
   const postGallery = async (value: IGalleryPostCheck) => {
     const valueTranslate =
     await TranslateToKorean(value , formikRef);
@@ -118,11 +117,11 @@ export const ModalCreate = ( {callback} : { callback?: () => void}) => {
                 }}
                 as={Input}
               />
-                <ErrorMessage
-                  name={VideoForm.name}
-                  component="div"
-                  className="text-red-500"
-                />
+              <ErrorMessage
+                name={VideoForm.name}
+                component="div"
+                className="text-red-500"
+              />
             </div>
             <div>
               <div className="mt-[18px]">
@@ -134,17 +133,21 @@ export const ModalCreate = ( {callback} : { callback?: () => void}) => {
               <div className="w-[424px]">
                 <Field
                   type="file"
-                  id={VideoForm.files}
                   name={VideoForm.files}
-                  isVideos
-                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                    handleChange(e);
-                    formikRef.current?.setFieldValue(
-                      VideoForm.files,
-                      e.target.files![0]
+                  as={() => {
+                    return (
+                      <InputUploadFile
+                        isVideos
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                          handleChange(e);
+                          formikRef.current?.setFieldValue(
+                            VideoForm.files,
+                            e.target.files![0]
+                          );
+                        }}
+                      />
                     );
                   }}
-                  as={InputUploadFile}
                 />
                 <ErrorMessage
                   name={VideoForm.files}

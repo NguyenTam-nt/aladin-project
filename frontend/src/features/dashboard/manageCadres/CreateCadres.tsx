@@ -5,20 +5,18 @@ import { TranslateContext } from "@contexts/Translation";
 import { GroupButtonAdmin } from "@features/dashboard/components/GroupButtonAdmin";
 import { TitleForm } from "@features/dashboard/components/TitleForm";
 import TitleInput from "@features/dashboard/components/TitleInput";
-import React, { useContext, useEffect, useRef, useState } from "react";
-import { InputUploadFile } from "../components/InputUploadFIle";
+import React, {   useContext, useEffect, useRef, useState } from "react";
 import { ImagePreview } from "../components/ImagePreview";
 import { useHandleImage } from "../hooks/useHandleImage";
 import { cadresService } from "@services/cadres";
-import { Formik, Form, Field, ErrorMessage, FormikProps } from "formik";
+import { Formik, Form, Field, ErrorMessage,  FormikProps } from "formik";
 import type { ICadresPostCheck, ICategotiesCadres } from "@typeRules/cadres";
-//@ts-ignore
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
 import * as Yup from "yup";
 import { uploadService } from "@services/uploadFile";
 import { useNavigate } from "react-router-dom";
 import { TranslateToKorean } from "./hooks/useTranslate";
 import { PopUpContext } from "@contexts/PopupContext";
+import { InputUploadFileImage } from "../components/InputUploadFIleImage";
 enum CadresForm {
   fullname = "fullname",
   fullnameKo = "fullnameKo" ,
@@ -63,8 +61,6 @@ export const CreateCadres = () => {
   const { showSuccess, showError } = useContext(PopUpContext);
   const [cadresCategoryValue , setCadresCategoryValue] = useState<ICategotiesCadres[]>([])
   const navigate = useNavigate();
-
-
   const postCadres = async (value: ICadresPostCheck) => {
     const translateValue = await TranslateToKorean(value , formikRef);
     const formData = new FormData();
@@ -162,7 +158,7 @@ export const CreateCadres = () => {
                 as={SelectInput}
               >
                 <>
-                  <option selected disabled>
+                  <option selected disabled >
                     {t("cadres_manage._form_create._category._placeholder")}
                   </option>
                   {cadresCategoryValue.map((value) => (
@@ -313,7 +309,7 @@ export const CreateCadres = () => {
             />
             <Field
               name={isVn ? CadresForm.content : CadresForm.contentKo}
-              editor={ClassicEditor}
+              // editor={ClassicEditor}
               data={""}
               onBlur={(content: string) => {
                 onChangeValueInput(content, CadresForm.content);
@@ -333,16 +329,17 @@ export const CreateCadres = () => {
             <div className="w-[648px]">
               <Field
                 type="file"
-                id={CadresForm.files}
+                // id={CadresForm.files}  
                 name={CadresForm.files}
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                   handleChange(e);
                   formikRef.current?.setFieldValue(
                     CadresForm.files,
-                    e.target.files![0]
+                    e.target.files![0] 
                   );
-                }}
-                as={InputUploadFile}
+                }
+              }
+                as={InputUploadFileImage}
               />
               <ErrorMessage
                 name={CadresForm.files}

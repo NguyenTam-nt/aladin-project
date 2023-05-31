@@ -1,0 +1,26 @@
+{
+  "gatewayHcmApp": {
+    "gallery": {
+      "home": {
+        "title": "Galleries",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Thêm mới một Gallery",
+        "createOrEditLabel": "Thêm mới hoặc cập nhật Gallery",
+        "notFound": "No Galleries found"
+      },
+      "created": "Một Gallery mới được tạo với định danh {{ param }}",
+      "updated": "Một Gallery cập nhật với định danh {{ param }}",
+      "deleted": "Một Gallery đã xóa với định danh {{ param }}",
+      "delete": {
+        "question": "Bạn có chắc là muốn xóa Gallery {{ id }}?"
+      },
+      "detail": {
+        "title": "Gallery"
+      },
+      "id": "ID",
+      "nameKo": "Name Ko",
+      "type": "Type",
+      "files": "Files"
+    }
+  }
+}

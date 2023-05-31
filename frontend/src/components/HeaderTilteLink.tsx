@@ -1,6 +1,6 @@
 import { ICArrowDown } from "@assets/icons/ICArrowDown";
 import { withResponsive } from "@constants/container";
-import { paths, rootRouter } from "@constants/router";
+import { paths } from "@constants/router";
 import { TranslateContext } from "@contexts/Translation";
 import useWindowResize from "@hooks/useWindowResize";
 import type { IHeader } from "@typeRules/footer";

@@ -14,6 +14,7 @@ export interface ISubject {
   contentKo: string;
   files: [
     {
+      id? : string;
       type: string;
       link: string;
       name: string;

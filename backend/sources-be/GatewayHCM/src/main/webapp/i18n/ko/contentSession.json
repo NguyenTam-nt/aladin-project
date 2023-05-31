@@ -1,0 +1,31 @@
+{
+  "gatewayHcmApp": {
+    "contentSession": {
+      "home": {
+        "title": "Content Sessions",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new Content Session",
+        "createOrEditLabel": "Create or edit a Content Session",
+        "notFound": "No Content Sessions found"
+      },
+      "created": "A new Content Session is created with identifier {{ param }}",
+      "updated": "A Content Session is updated with identifier {{ param }}",
+      "deleted": "A Content Session is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Content Session {{ id }}?"
+      },
+      "detail": {
+        "title": "Content Session"
+      },
+      "id": "ID",
+      "type": "Type",
+      "category": "Category",
+      "categoryKo": "Category Ko",
+      "tilte": "Tilte",
+      "tilteKo": "Tilte Ko",
+      "content": "Content",
+      "contentKo": "Content Ko",
+      "files": "Files"
+    }
+  }
+}

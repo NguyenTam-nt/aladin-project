@@ -1,0 +1,38 @@
+{
+  "gatewayHcmApp": {
+    "cadres": {
+      "home": {
+        "title": "Cadres",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Thêm mới một Cadres",
+        "createOrEditLabel": "Thêm mới hoặc cập nhật Cadres",
+        "notFound": "No Cadres found"
+      },
+      "created": "Một Cadres mới được tạo với định danh {{ param }}",
+      "updated": "Một Cadres cập nhật với định danh {{ param }}",
+      "deleted": "Một Cadres đã xóa với định danh {{ param }}",
+      "delete": {
+        "question": "Bạn có chắc là muốn xóa Cadres {{ id }}?"
+      },
+      "detail": {
+        "title": "Cadres"
+      },
+      "id": "ID",
+      "fullname": "Fullname",
+      "fullnameKo": "Fullname Ko",
+      "position": "Position",
+      "positionKo": "Position Ko",
+      "email": "Email",
+      "major": "Major",
+      "majorKo": "Major Ko",
+      "workResponsibility": "Work Responsibility",
+      "workResponsibilityKo": "Work Responsibility Ko",
+      "title": "Title",
+      "titleKo": "Title Ko",
+      "content": "Content",
+      "contentKo": "Content Ko",
+      "files": "Files",
+      "cadresCategory": "Cadres Category"
+    }
+  }
+}

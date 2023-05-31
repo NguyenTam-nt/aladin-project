@@ -92,6 +92,7 @@ const HeaderNavigationLink = ({
   withSlash?: boolean;
 }) => {
   const { t } = useContext(TranslateContext);
+  
   return (
     <>
       <div className="flex items-center">
@@ -118,6 +119,7 @@ export const HeaderSubNavigationLink = ({
   to: string;
   withSlash?: boolean;
 }) => {
+
   const { t } = useContext(TranslateContext);
   return (
     <>

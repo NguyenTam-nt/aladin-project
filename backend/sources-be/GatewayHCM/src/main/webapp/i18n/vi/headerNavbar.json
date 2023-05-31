@@ -1,0 +1,28 @@
+{
+  "gatewayHcmApp": {
+    "headerNavbar": {
+      "home": {
+        "title": "Header Navbars",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Thêm mới một Header Navbar",
+        "createOrEditLabel": "Thêm mới hoặc cập nhật Header Navbar",
+        "notFound": "No Header Navbars found"
+      },
+      "created": "Một Header Navbar mới được tạo với định danh {{ param }}",
+      "updated": "Một Header Navbar cập nhật với định danh {{ param }}",
+      "deleted": "Một Header Navbar đã xóa với định danh {{ param }}",
+      "delete": {
+        "question": "Bạn có chắc là muốn xóa Header Navbar {{ id }}?"
+      },
+      "detail": {
+        "title": "Header Navbar"
+      },
+      "id": "ID",
+      "index": "Index",
+      "name": "Name",
+      "nameKo": "Name Ko",
+      "link": "Link",
+      "parent": "Parent"
+    }
+  }
+}

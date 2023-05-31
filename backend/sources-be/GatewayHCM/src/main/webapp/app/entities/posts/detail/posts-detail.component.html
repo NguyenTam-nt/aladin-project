@@ -1,0 +1,56 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <div *ngIf="posts">
+      <h2 data-cy="postsDetailsHeading"><span jhiTranslate="gatewayHcmApp.posts.detail.title">Posts</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="global.field.id">ID</span></dt>
+        <dd>
+          <span>{{ posts.id }}</span>
+        </dd>
+        <dt><span jhiTranslate="gatewayHcmApp.posts.title">Title</span></dt>
+        <dd>
+          <span>{{ posts.title }}</span>
+        </dd>
+        <dt><span jhiTranslate="gatewayHcmApp.posts.titleKo">Title Ko</span></dt>
+        <dd>
+          <span>{{ posts.titleKo }}</span>
+        </dd>
+        <dt><span jhiTranslate="gatewayHcmApp.posts.description">Description</span></dt>
+        <dd>
+          <span>{{ posts.description }}</span>
+        </dd>
+        <dt><span jhiTranslate="gatewayHcmApp.posts.descriptionKo">Description Ko</span></dt>
+        <dd>
+          <span>{{ posts.descriptionKo }}</span>
+        </dd>
+        <dt><span jhiTranslate="gatewayHcmApp.posts.image">Image</span></dt>
+        <dd>
+          <span>{{ posts.image }}</span>
+        </dd>
+        <dt><span jhiTranslate="gatewayHcmApp.posts.link">Link</span></dt>
+        <dd>
+          <span>{{ posts.link }}</span>
+        </dd>
+        <dt><span jhiTranslate="gatewayHcmApp.posts.outstanding">Outstanding</span></dt>
+        <dd>
+          <span>{{ posts.outstanding }}</span>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/posts', posts.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

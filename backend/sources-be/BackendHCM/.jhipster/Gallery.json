@@ -1,0 +1,36 @@
+{
+  "applications": ["GatewayHCM", "BackendHCM"],
+  "changelogDate": "20230520090457",
+  "clientRootFolder": "BackendHCM",
+  "databaseType": "sql",
+  "dto": "mapstruct",
+  "embedded": false,
+  "entityTableName": "gallery",
+  "fields": [
+    {
+      "fieldName": "nameKo",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "type",
+      "fieldType": "GalleryType",
+      "fieldValues": "IMAGE,VIDEO"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "microserviceName": "BackendHCM",
+  "name": "Gallery",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "files",
+      "otherEntityRelationshipName": "gallery",
+      "relationshipName": "files",
+      "relationshipType": "one-to-many"
+    }
+  ],
+  "service": "serviceImpl"
+}

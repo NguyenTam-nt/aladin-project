@@ -15,8 +15,10 @@ import { TranslateContext } from "@contexts/Translation";
 import axios from "axios";
 import { Loading } from "@components/Loading";
 import clsx from "clsx";
+import type { IGallery } from "@typeRules/gallery";
 type Props = {
   currentIndex: number;
+  bannerItem : IGallery[]
 };
 
 const ImagesVideo = [
@@ -31,7 +33,12 @@ const ImagesData = [
   "https://cdn.pixabay.com/photo/2018/07/05/22/16/panorama-3519309_960_720.jpg",
 ];
 
-export default function ModalVideo({ currentIndex }: Props) {
+export default function ModalVideo({ currentIndex  ,bannerItem}: Props) {
+
+  const ImagesVideo = [...bannerItem.map((file) => file.files[0].link)];
+
+
+  
   const [activeThumb, setThumbActive] = useState<any>();
   const {
     handleNext,
@@ -143,23 +150,30 @@ export default function ModalVideo({ currentIndex }: Props) {
             modules={[Thumbs]}
             className="swiper-item-thumb"
           >
-            {ImagesData.map((item, index) => {
-              return (
-                <SwiperSlide
-                  key={index}
-                  className="flex justify-center w-[28px] h-[28px]"
-                >
-                  <img
-                    className="max-h-[32px] max-w-[32px] min-w-[32px] min-h-[32px] object-cover rounded-md"
-                    src={item}
-                    alt="ảnh mạng nhé"
-                  />
-                </SwiperSlide>
-              );
-            })}
+            {ImagesVideo.map(
+              (item, index) => {
+           
+                
+                return (
+                  <SwiperSlide
+                    key={index}
+                    className="flex justify-center w-[28px] h-[28px]"
+                  >
+                    <video
+                      className="max-h-[32px] max-w-[32px] min-w-[32px] min-h-[32px] object-cover rounded-md"
+                      src={item}
+                    />
+                  </SwiperSlide>
+                );
+              }
+            )}
           </SwiperComponent>
           {!isOpenLoading ? (
-            <div className={clsx("ml-auto md:justify-self-end mt-[24px] md:m-0 cursor-pointer")}>
+            <div
+              className={clsx(
+                "ml-auto md:justify-self-end mt-[24px] md:m-0 cursor-pointer"
+              )}
+            >
               <div onClick={upload}>
                 <ICDownload />
               </div>

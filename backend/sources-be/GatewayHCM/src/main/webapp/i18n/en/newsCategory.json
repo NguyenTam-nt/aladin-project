@@ -1,0 +1,26 @@
+{
+  "gatewayHcmApp": {
+    "newsCategory": {
+      "home": {
+        "title": "News Categories",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new News Category",
+        "createOrEditLabel": "Create or edit a News Category",
+        "notFound": "No News Categories found"
+      },
+      "created": "A new News Category is created with identifier {{ param }}",
+      "updated": "A News Category is updated with identifier {{ param }}",
+      "deleted": "A News Category is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete News Category {{ id }}?"
+      },
+      "detail": {
+        "title": "News Category"
+      },
+      "id": "ID",
+      "name": "Name",
+      "nameKo": "Name Ko",
+      "news": "News"
+    }
+  }
+}

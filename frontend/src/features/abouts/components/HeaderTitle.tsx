@@ -26,6 +26,9 @@ type Props = {
 };
 
 export const HeaderTitle = ({ title, listLink }: Props) => {
+
+
+  
   const { t } = useContext(TranslateContext);
   const { width } = useWindowResize();
   return (

@@ -15,4 +15,8 @@ export const uploadService = {
         const api = getApi("video")
         return HttpService.axiosClient.post(api, data)
     },
+    postFiles: (data:any):Promise<any> => {
+        const api = getApi("files-upload")
+        return HttpService.axiosClient.post(api, data)
+    },
 }
