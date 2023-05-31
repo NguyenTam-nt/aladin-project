@@ -4,7 +4,6 @@ import TitleInput from "../../TitleInput";
 import { Input } from "@components/Input";
 import { FooterInfoType, IFooterInfo } from "@typeRules/footer";
 import { footerService } from "@services/footer";
-import { TranslateContext } from "@contexts/Translation";
 import { PopUpContext } from "@contexts/PopupContext";
 
 const titleFooterInfo = [

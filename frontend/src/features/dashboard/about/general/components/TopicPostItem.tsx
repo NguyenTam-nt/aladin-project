@@ -24,6 +24,8 @@ import React, {
 import * as Yup from "yup";
 import { useHandleMultiImage } from "../../hooks/useHandleMultiImage";
 import { uploadService } from "@services/uploadService";
+import { convertContent } from "@commons/index";
+import { TextError } from "@features/dashboard/components/TextError";
 
 type Props = {
   type?: "ADD" | "EDIT";
@@ -51,12 +53,12 @@ export const TopicPostItem = memo(
       validationSchema: Yup.object({
         title: Yup.string().required("message.warn._required"),
         titleKo: Yup.string().required("message.warn._required"),
-        content: Yup.string().required("message.warn._required"),
-        contentKo: Yup.string().required("message.warn._required"),
+        content: Yup.string().required("message.warn._required").max(5000, "message.warn._max_length"),
+        contentKo: Yup.string().required("message.warn._required").max(5000, "message.warn._max_length"),
       }),
       onSubmit: async (values) => {
         let images: string[] = [];
-        if (files && contentType !== ContentType.general) {
+        if (files.length && contentType !== ContentType.general) {
           images = await handlePostImage(files);
         }
         const listNewsFile = images.map((item) => {
@@ -120,7 +122,8 @@ export const TopicPostItem = memo(
       async (name: string, value: string) => {
         try {
           if (isVn) {
-            const content = await translateService.post(value);
+            const newContent = convertContent(value)
+            const content = await translateService.post(newContent);
             formik.setFieldValue(`${name}Ko`, content);
           }
         } catch (error) {}
@@ -142,7 +145,8 @@ export const TopicPostItem = memo(
       (content: string) => {
         if (isVn) {
           formik.setFieldValue("content", content);
-          handleTranslate("content", content);
+          const newContent = convertContent(content)
+          handleTranslate("content", newContent);
           return;
         }
         formik.setFieldValue("contentKo", content);
@@ -159,7 +163,7 @@ export const TopicPostItem = memo(
     }, []);
 
     return (
-      <form onSubmit={formik.handleSubmit} className="mb-[24px]">
+      <form onSubmit={formik.handleSubmit} className="mb-[24px] [&>div]:relative">
         <div className="relative">
           <TitleInput name="admin._about._general._form._title" forId={""} />
           <Input
@@ -169,6 +173,7 @@ export const TopicPostItem = memo(
             onChange={formik.handleChange}
             placeholder="admin._about._general._form._title_placeholder"
           />
+          {formik.errors.title && formik.touched.title && <TextError message={formik.errors.title} />}
         </div>
 
         <div className="mt-[16px]">
@@ -178,6 +183,7 @@ export const TopicPostItem = memo(
             onBlur={handleBlurEditor}
             onChange={() => {}}
           />
+           {formik.errors.content && <TextError message={formik.errors.content} />}
         </div>
         {contentType !== ContentType.general ? (
           <div className="mt-[16px] flex flex-wrap gap-[24px]">

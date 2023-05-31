@@ -22,14 +22,14 @@ const getAccessToken = async () => {
 
 const configure = () => {
   axiosClient.interceptors.request.use(async (config: any) => {
-    const { method, url } = config;
+    // const { method, url } = config;
 
-    if (
-      (method === "get" && url === "/api/contact") ||
-      url === "/api/histories"
-    ) {
-      return config;
-    }
+    // if (
+    //   (method === "get" && url === "/api/contact") ||
+    //   url === "/api/histories"
+    // ) {
+    //   return config;
+    // }
 
     // if (UserService.isLoggedIn()) {
     //   const cb = () => {

@@ -1,5 +1,4 @@
 import { PopUpContext } from "@contexts/PopupContext"
-import { bannerService } from "@services/banner"
 import { contentService } from "@services/content"
 import type { ContentType, IContent } from "@typeRules/content"
 import { useCallback, useContext, useEffect, useState } from "react"

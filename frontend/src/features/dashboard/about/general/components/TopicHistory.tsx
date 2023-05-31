@@ -83,10 +83,7 @@ export const TopicHistory = () => {
   };
 
   return (
-    <div
-      className="h-[700px] overflow-y-auto"
-      id="scrollableDiv"
-    >
+    <div className="h-[700px] overflow-y-auto" id="scrollableDiv">
       <div className="flex items-center">
         <SubHeaderTopic title="admin._about._general._topic._history" />
         <Button
@@ -137,13 +134,13 @@ const TopicHistoryList = memo(
   ({ data, onEdit, onDeleteHistory }: PropsTopicHistoryList) => {
     return (
       <>
-        {data.map((item, index) => {
+        {data.map((item) => {
           return (
             <TopicHistoryItem
               onDeleteHistory={onDeleteHistory}
               onSubmit={onEdit}
               data={item}
-              key={index}
+              key={item.id}
             />
           );
         })}

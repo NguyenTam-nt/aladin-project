@@ -36,10 +36,12 @@ export const SidebarAdminItem = ({ data }: Props) => {
         className={clsx(
           "relative  h-[60px] items-center  flex justify-between"
         )}
+        onClick={ !!data.subNavs ? handleShow : undefined }
       >
         <Link
           to={`${prefixRootRoute.admin}/${data.path}`}
           className="flex items-center"
+         
         >
           <div className="w-[24px] flex justify-center">
             <data.icon
@@ -50,6 +52,7 @@ export const SidebarAdminItem = ({ data }: Props) => {
             className={clsx("block ml-[16px]", {
               "text-secondary font-bold": (!!match && !data.subNavs) || (!!match && !isShow && data.subNavs ),
             })}
+            
           >
             {t(data.name)}
           </div>
@@ -59,7 +62,7 @@ export const SidebarAdminItem = ({ data }: Props) => {
             className={clsx(" cursor-pointer duration-300 ease-linear ", {
               "rotate-180": isShow,
             })}
-            onClick={handleShow}
+          
           >
             <ICArrowDown color={!!match ? Colors.secondary : Colors.text_primary} />
           </div>

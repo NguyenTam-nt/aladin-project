@@ -4,7 +4,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 
 export const useGetCategory = (size: number) => {
   const [categories, setCategories] = useState<ICategory[]>([]);
-  const [total, setTotalPage] = useState<number>(0);
+  const [total] = useState<number>(0);
 
   useEffect(() => {
     if (categories.length === 0) {

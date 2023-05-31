@@ -21,17 +21,6 @@ type Props = {
   bannerItem : IGallery[]
 };
 
-const ImagesVideo = [
-  "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
-  "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
-  "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
-];
-
-const ImagesData = [
-  "https://media.istockphoto.com/id/1363664395/vi/anh/sao-bi%E1%BB%83n-v%C3%A0-v%E1%BB%8F-s%C3%B2-tr%C3%AAn-b%C3%A3i-bi%E1%BB%83n-m%C3%B9a-h%C3%A8-trong-n%C6%B0%E1%BB%9Bc-bi%E1%BB%83n-n%E1%BB%81n-m%C3%B9a-h%C3%A8.jpg?s=1024x1024&w=is&k=20&c=20U3sH2E1iqZxhRDpqZrpYDW-6Xykgde2520SJIrfYs=",
-  "https://cdn.pixabay.com/photo/2016/04/18/22/05/seashells-1337565_1280.jpg",
-  "https://cdn.pixabay.com/photo/2018/07/05/22/16/panorama-3519309_960_720.jpg",
-];
 
 export default function ModalVideo({ currentIndex  ,bannerItem}: Props) {
 
@@ -202,7 +191,6 @@ const VideoItem = ({ url, isActive }: PropVideoItem) => {
 
   useEffect(() => {
     if (refVideo.current) {
-      console.log({ isActive });
       if (isActive) {
         refVideo.current.play();
       } else {

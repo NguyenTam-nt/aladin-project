@@ -4,6 +4,7 @@ export enum StatusUser {
 }
 
 export enum RoleUser {
+  SYSTEM = "ROLE_SYSTEM",
   ADMIN = "ROLE_ADMIN",
   USER = "ROLE_USER",
 }
@@ -20,5 +21,4 @@ export interface IUser {
   phoneNumber?: string
   imageUrl?: string
   role?: RoleUser
-  userStatus: StatusUser;
 }

@@ -2,7 +2,6 @@ import React, { useContext, useEffect, useState } from "react";
 import { SubHeaderTopic } from "./SubHeaderTopic";
 import { InputUploadFile } from "@features/dashboard/components/InputUploadFIle";
 import { ImagePreview } from "@features/dashboard/components/ImagePreview";
-import Company1 from "@assets/images/Company1.png";
 import { useHandleImage } from "@features/dashboard/hooks/useHandleImage";
 import { bannerService } from "@services/banner";
 import { BannerType, IBanner } from "@typeRules/banner";

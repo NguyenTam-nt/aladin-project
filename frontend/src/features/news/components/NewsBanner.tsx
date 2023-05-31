@@ -13,14 +13,6 @@ export const typeColorTag = [
   "bg-bg_F59638",
   "bg-bg_E93A76",
 ];
-
-interface INewsBannerItem {
-  tagName: string;
-  title: string;
-  time: string;
-  image: string;
-}
-
 interface INewsBanner {
   newsBanner : INews[] ,
   navigationToDetail : string 

@@ -2,6 +2,7 @@ import { TranslateContext } from "@contexts/Translation";
 import clsx from "clsx";
 import React, { useContext, useMemo } from "react";
 import { TextYear } from "./GeneralHistoryItem";
+import type { IHistory } from "@typeRules/history";
 
 const colors = [
   {
@@ -23,12 +24,7 @@ const colors = [
 ];
 
 type Props = {
-  data: {
-    year: number,
-    des_vn: string,
-    des_ko: string,
-    img: string
-  }
+  data: IHistory
 }
 
 export const GeneralHistoryItemMobile = ({data}:Props) => {
@@ -36,7 +32,7 @@ export const GeneralHistoryItemMobile = ({data}:Props) => {
     return colors[Math.floor(Math.random() * colors.length)];
   }, []);
 
-  const {isVn} = useContext(TranslateContext)
+  const {isVn, t} = useContext(TranslateContext)
 
   return (
     <div className={clsx("flex flex-col mb-[24px]")}>
@@ -47,7 +43,7 @@ export const GeneralHistoryItemMobile = ({data}:Props) => {
             ["--bg-color-line" as string]: color.bg,
           }}
         />
-        <TextYear year={data.year} color={color.color} />
+        <TextYear year={Number(data?.year) === new Date().getFullYear() ? t("common._now") : data.year} color={color.color} />
       </div>
       <div className={clsx("flex items-center my-[16px]")}>
         <div
@@ -57,7 +53,7 @@ export const GeneralHistoryItemMobile = ({data}:Props) => {
           }}
         />
         <p className="text-_14 text-justify line-clamp-5 w-[70%]">
-        {isVn ? data.des_vn : data.des_ko}
+        {isVn ? data?.description : data?.descriptionKo}
         </p>
       </div>
       <div className={clsx("flex  items-center w-full")}>
@@ -69,7 +65,7 @@ export const GeneralHistoryItemMobile = ({data}:Props) => {
         />
         <img
           className="w-auto max-w-[75%] h-[208px] object-cover"
-          src={data.img}
+          src={data?.image}
           alt=""
         />
       </div>

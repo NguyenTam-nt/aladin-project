@@ -145,7 +145,7 @@ const ManageAlbumDetail = () => {
     }
   };
 
-  const onDeleteById = (id?: number) => {
+  const onDeleteById = (_?: number) => {
     if (data) {
       const files = [...data?.files.content];
       const filteredFiles = files.filter(

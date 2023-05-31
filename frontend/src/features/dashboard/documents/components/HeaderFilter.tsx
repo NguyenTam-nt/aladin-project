@@ -1,4 +1,3 @@
-import { ICCategory } from "@assets/icons/ICCategory";
 import { ICClear } from "@assets/icons/ICClear";
 import { ICFilter } from "@assets/icons/ICFilter";
 import { ICPlus } from "@assets/icons/ICPlus";
@@ -41,11 +40,11 @@ export const HeaderFilter = memo(
     onDelete,
   }: Props) => {
     const navigation = useNavigate();
-    const handleNavigateCategory = () => {
-      navigation(
-        `${prefixRootRoute.admin}/${pathsAdmin.documents.prefix}/${pathsAdmin.documents_category.prefix}`
-      );
-    };
+    // const handleNavigateCategory = () => {
+    //   navigation(
+    //     `${prefixRootRoute.admin}/${pathsAdmin.documents.prefix}/${pathsAdmin.documents_category.prefix}`
+    //   );
+    // };
 
     const handleNavigateCreateDocuments = () => {
       navigation(

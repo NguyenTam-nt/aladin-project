@@ -7,10 +7,9 @@ import { TitleForm } from "@features/dashboard/components/TitleForm";
 import TitleInput from "@features/dashboard/components/TitleInput";
 import { TranslateToKorean } from "@features/dashboard/manageCadres/hooks/useTranslate";
 import { galleryService } from "@services/gallery";
-import { uploadService } from "@services/uploadService";
 import type { IGalleryPostCheck } from "@typeRules/gallery";
 import { Field, Form, Formik, FormikProps } from "formik";
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef } from "react";
 import * as Yup from "yup";
 enum ImageForm {
   name = "name",
@@ -38,6 +37,7 @@ export const ModalCreate = ({ callback} : { callback ? : () => void}) => {
   const postGallery = async (value: IGalleryPostCheck) => {
     const valueTranslate = await TranslateToKorean(value, formikRef);
     galleryService
+    //@ts-ignore
       .post({
         ...value,
         ...valueTranslate,

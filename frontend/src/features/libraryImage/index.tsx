@@ -1,4 +1,3 @@
-import { HeaderTilteLink } from "@components/HeaderTilteLink";
 import React, { useContext, useEffect, useState } from "react";
 import ImagesList from "./components/ImageList";
 import { Banner } from "@features/abouts/components/Banner";

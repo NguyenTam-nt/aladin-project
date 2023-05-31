@@ -21,7 +21,7 @@ export const HomeTopicNotice = () => {
       isPaddingTop
       onNextClick={handleNext}
       onPreClick={handlePre}
-      path={paths.notice.prefix}
+      path={`${paths.news.prefix}?type=${NoticeId}`}
     >
       <div className="mt-[36px] xl:mt-[44px]">
         <HomeTopicNoticeSlider

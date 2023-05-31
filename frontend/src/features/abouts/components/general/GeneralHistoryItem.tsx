@@ -1,15 +1,11 @@
 import { TranslateContext } from "@contexts/Translation";
+import type { IHistory } from "@typeRules/history";
 import clsx from "clsx";
 import React, { useContext, useMemo } from "react";
 
 type Props = {
   isReverse?: boolean;
-  data: {
-    year: number,
-    des_vn: string,
-    des_ko: string,
-    img: string
-  }
+  data: IHistory
 };
 
 const colors = [
@@ -42,7 +38,7 @@ export const GeneralHistoryItem = ({ isReverse = false, data }: Props) => {
     <div className={clsx("flex h-full", colReverse)}>
       <div className="flex-1 flex justify-between">
         <div className={clsx("flex flex-col items-center", colReverse)}>
-            <TextYear year={data.year === new Date().getFullYear() ? t("common._now") : data.year} color={ colors[Math.floor(Math.random() * colors.length)].color} />
+            <TextYear year={Number(data?.year) === new Date().getFullYear() ? t("common._now") : data.year} color={ colors[Math.floor(Math.random() * colors.length)].color} />
           <div
             className={clsx("line-about-general", {
               "line-down": !isReverse,
@@ -60,7 +56,7 @@ export const GeneralHistoryItem = ({ isReverse = false, data }: Props) => {
           })}
         >
           <p className="text-_14 text-justify line-clamp-5">
-            {isVn ? data.des_vn : data.des_ko}
+            {isVn ? data?.description : data?.descriptionKo}
           </p>
           <div
             className={clsx("line-about-general", {
@@ -82,7 +78,7 @@ export const GeneralHistoryItem = ({ isReverse = false, data }: Props) => {
         >
           <img
             className="max-w-[312px] max-h-[208px] object-cover"
-            src={data.img}
+            src={data?.image}
             alt=""
           />
           <div

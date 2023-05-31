@@ -24,7 +24,7 @@ export const HomeTopicScientificResearch = () => {
       onNextClick={handleNext}
       onPreClick={handlePre}
       title="home.home_topic._study"
-      path={`${paths.news.prefix}/${paths.news.study}`}
+      path={`${paths.news.prefix}?type=${StudyNewsId}`}
     >
       <div className="mt-[44px] flex flex-col-reverse md:flex-row gap-x-[24px]">
         <div className="p-[32px] md:w-[424px] h-auto max-h-[752px]  overflow-hidden text-text_white bg-secondary">

@@ -39,7 +39,7 @@ export const TopicBanner = () => {
           link: " ",
         })
         .then(() => {
-          setBannerHome({ ...bannerHome, link: " " });
+          setBannerHome({ ...bannerHome, link: "" });
           showSuccess("message.success._success");
         })
         .catch(() => {
@@ -85,7 +85,7 @@ export const TopicBanner = () => {
           <div className="w-[648px] h-full">
             <InputUploadFile onChange={handleChange} />
           </div>
-          {preViewImage ? (
+          {preViewImage.trim() ? (
             <div className="w-[312px] h-[168px]">
               <ImagePreview onDelete={handleDelete} url={preViewImage} />
             </div>

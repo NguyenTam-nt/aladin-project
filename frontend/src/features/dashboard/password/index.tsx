@@ -1,37 +1,38 @@
-import React, { memo } from "react";
+import React, { memo, useCallback, useContext } from "react";
 import { HeaderAdmin } from "../components/HeaderAdmin";
 // import { TranslateContext } from "@contexts/Translation";
 import { Button } from "@components/Button";
 import TitleInput from "../components/TitleInput";
 import { Input } from "@components/Input";
+import { AuthContext } from "@contexts/AuthContext";
+import { Avatar } from "@components/Avatar";
+import * as Yup from "yup";
+import { useFormik } from "formik";
+import { TextError } from "../components/TextError";
+import { userService } from "@services/user";
+import { PopUpContext } from "@contexts/PopupContext";
 
 enum AccoutnForm {
-  name = "name",
-  gender = "gender",
-  year = "year",
-  position = "position",
-  phone = "phone",
-  email = "email",
-  username = "username",
-  password = "password",
+  currentPassword = "currentPassword",
+  newPassword = "newPassword",
+  confirmPassword = "confirmPassword",
 }
 
 export const EditPassword = () => {
+  const { user } = useContext(AuthContext);
+
   return (
     <div className="px-[24px]">
       <HeaderAdmin title="info_manage._title" />
       <div className=" grid  grid-cols-[88px_1fr]">
         <div>
-          <img
-            className="h-[88px] w-[88px] rounded-[44px] object-cover"
-            src="https://s3-alpha-sig.figma.com/img/2e52/1670/c6d04f2582d9750e35ac9271f3d1643f?Expires=1685923200&Signature=ngoPFy~fH9WBHtbN4OU74eiERZl-0TuO55TuTDoNRnDNhigGz3qj578EF~0A~qL0MQkIpZPxngnOzEhdFsiRC2kycLBoivul1S7xHWyNcNpaeeUm8zostvnU8S-PaYU5SDRRmQyd~Uz1eTG5yOBYUmCa7JbQavrFPrlIpmwnDx13xITSgakAXwd5jKSVLR34OPBlQLAbaooE~G5nbhUWd~VkPel9ZacBGdH6rUfaTzR6028AJ2kcVfNv9yEcnRNNCpQPUT1HDKiaWqQRZzwZqaJ4Nxb9N1BxSSBbesVOq1pqzJAQO2tfDJHVg8HVMHfTYNrgIpLIV6PW-AmdNlX6Hw__&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4"
-          ></img>
+          <Avatar link={user?.imageUrl} name={user?.login || ""} size={88} />
         </div>
         <div className="ml-[24px] flex flex-col  justify-center ">
           <p className=" leading-[32px] text-_32 font-bold ">
-            Nguyễn Thanh Tùng
+            {user?.fullname || ""}
           </p>
-          <p className="mt-[15px]">Trưởng phòng</p>
+          <p className="mt-[15px]">{user?.position}</p>
         </div>
       </div>
       <InfoAccountTable />
@@ -40,64 +41,129 @@ export const EditPassword = () => {
 };
 
 const InfoAccountTable = memo(() => {
-  // const { t } = useContext(TranslateContext);
+  const { user } = useContext(AuthContext);
+  const { showError, showSuccess } = useContext(PopUpContext);
+  const formik = useFormik({
+    initialValues: {
+      currentPassword: "",
+      newPassword: "",
+      confirmPassword: "",
+    },
+    validationSchema: Yup.object({
+      currentPassword: Yup.string().required("message.warn._required"),
+      newPassword: Yup.string()
+        .required("message.warn._required")
+        .matches(
+          /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{6,}$/,
+          "message.warn._validate_password"
+        )
+        .notOneOf([Yup.ref("currentPassword")], "message.warn._password_old"),
+      confirmPassword: Yup.string().oneOf(
+        [Yup.ref("newPassword")],
+        "message.warn._confirm_password"
+      ),
+    }),
+    onSubmit: (values) => {
+      const password = values.newPassword;
+      userService
+        .update({
+          ...user,
+          password,
+        })
+        .then(() => {
+          showSuccess("message.success._success");
+          resetForm()
+        })
+        .catch(() => {
+          showError("message.error._error");
+        });
+    },
+  });
+
+  const resetForm = useCallback(() => {
+    formik.resetForm();
+  }, []);
+
+  console.log({ eror: formik.errors });
+
   return (
     <div className=" bg-white py-[40px] px-[24px]">
-      <div className="grid grid-cols-1 gap-[24px]">
+      <form
+        onSubmit={formik.handleSubmit}
+        className="grid grid-cols-1 gap-[24px] [&>div]:relative"
+      >
         <div>
           <TitleInput
-            forId={AccoutnForm.name}
+            forId={AccoutnForm.currentPassword}
             name="info_manage._form_create._old_password._name"
           />
           <Input
-            id={AccoutnForm.name}
+            id={AccoutnForm.currentPassword}
             type="password"
+            name={AccoutnForm.currentPassword}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
             placeholder="info_manage._form_create._old_password._placeholder"
             className="h-[44px]"
           />
+          {formik.errors.currentPassword && formik.touched.currentPassword && (
+            <TextError message={formik.errors.currentPassword} />
+          )}
         </div>
 
         <div>
           <TitleInput
-            forId={AccoutnForm.name}
+            forId={AccoutnForm.newPassword}
             name="info_manage._form_create._new_password._name"
           />
           <Input
-            id={AccoutnForm.name}
+            id={AccoutnForm.newPassword}
+            name={AccoutnForm.newPassword}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
             type="password"
             placeholder="info_manage._form_create._new_password._placeholder"
             className="h-[44px]"
           />
+          {formik.errors.newPassword && formik.touched.newPassword && (
+            <TextError message={formik.errors.newPassword} />
+          )}
         </div>
         <div>
           <TitleInput
-            forId={AccoutnForm.name}
+            forId={AccoutnForm.confirmPassword}
             name="info_manage._form_create._re_new_password._name"
           />
           <Input
-            id={AccoutnForm.name}
+            id={AccoutnForm.confirmPassword}
             type="password"
+            name={AccoutnForm.confirmPassword}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
             placeholder="info_manage._form_create._re_new_password._placeholder"
             className="h-[44px]"
           />
+          {formik.errors.confirmPassword && formik.touched.confirmPassword && (
+            <TextError message={formik.errors.confirmPassword} />
+          )}
         </div>
         <div>
           <div className="flex justify-end items-center">
             <Button
-              onClick={() => {}}
+              onClick={resetForm}
               text="button._cancel"
               color="empty"
               className="!w-[120px] border border-br_E9ECEF mr-[24px]"
             />
             <Button
-              onClick={() => {}}
+              type="submit"
               text="button._edit"
               color="primary"
               className="!w-[120px]"
             />
           </div>
         </div>
-      </div>
+      </form>
     </div>
   );
 });

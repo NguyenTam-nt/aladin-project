@@ -29,6 +29,7 @@ import { historySevice } from "@services/historyService";
 import type { IHistory } from "@typeRules/history";
 import { PopUpContext } from "@contexts/PopupContext";
 import { translateService } from "@services/translate";
+import { convertContent } from "@commons/index";
 
 type PropsTopicHistoryItem = {
   type?: "ADD" | "EDIT";
@@ -57,8 +58,8 @@ export const TopicHistoryItem = memo(
       },
       validationSchema: Yup.object({
         year: Yup.string().required("message.warn._required"),
-        description: Yup.string().required("message.warn._required"),
-        descriptionKo: Yup.string().required("message.warn._required"),
+        description: Yup.string().required("message.warn._required").max(5000, "message.warn._max_length"),
+        descriptionKo: Yup.string().required("message.warn._required").max(5000, "message.warn._max_length"),
       }),
       onSubmit: async (values) => {
         if (!isAdd) return;
@@ -77,12 +78,15 @@ export const TopicHistoryItem = memo(
             })
             .then((data) => {
               onSubmit?.(data);
-            });
-            formik.resetForm()
-            handleDelete()
-          showSuccess("message.success._success");
+              showSuccess("message.success._success");
+              formik.resetForm()
+              handleDelete()
+            }).catch(() => {
+              showError("message.error._error");
+
+            })
+           
         } catch (error) {
-          showError("message.error._error");
         }
       },
     });
@@ -153,14 +157,17 @@ export const TopicHistoryItem = memo(
         formik.setFieldValue("description", data.description);
         formik.setFieldValue("descriptionKo", data.descriptionKo);
       }
+      
     }, [isAdd, data]);
 
     const handleTranslate = useCallback(
-      async (name: string, value: string) => {
+      async (name: keyof IHistory, value: string) => {
         try {
-          const content = await translateService.post(value);
+          const newValue = convertContent(value)
+          const content = await translateService.post(newValue);
           formik.setFieldValue(`${name}Ko`, content);
-          if (!isAdd) {
+          //@ts-ignore
+          if (!isAdd && (value !== data?.[name] || content !== data?.[`${name}Ko`])) {
             handleSubmitEdit({
               ...data,
               [name]: value,
@@ -180,7 +187,7 @@ export const TopicHistoryItem = memo(
           formik.handleBlur(event);
           return;
         }
-        if (!isAdd) {
+        if (!isAdd && Number(value) !==  Number(data?.year)) {
           handleSubmitEdit({
             ...data,
             [name]: value,
@@ -278,12 +285,12 @@ const InputUpFile = memo(
       <div className="w-full mt-[24px]">
         <TitleInput forId={""} name="admin._about._general._form._upload" />
         <div className="h-[168px]">
-          <div className={clsx("h-full", { hidden: !!image })}>
+          <div className={clsx("h-full", { hidden: !!image.trim() })}>
             <InputUploadFile ref={refInput} onChange={onChange} />
           </div>
           <button
             onClick={handleClickInput}
-            className={clsx("h-full w-full", { hidden: !image })}
+            className={clsx("h-full w-full", { hidden: !image.trim() })}
           >
             <ImagePreview url={image} />
           </button>

@@ -119,7 +119,7 @@ export const HomeTopicMonthlyEvents = () => {
       title="home.home_topic._event"
       onNextClick={handleNext}
       onPreClick={handlePre}
-      path={`${paths.news.prefix}/${paths.news.event}`}
+      path={`${paths.news.prefix}/?type=${EventId}`}
     >
       <div className="mt-[32px] m992:mt-[52px]">
         <SwiperComponent

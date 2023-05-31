@@ -17,7 +17,6 @@ import React, {
   useState,
 } from "react";
 import { ModalCreateCategory } from "./ModalCreateCategory";
-import DialogConfirmDelete from "@components/DialogConfirmDelete";
 import type { ICategory } from "@typeRules/news";
 import { newsService } from "@services/newsService";
 import { PopUpContext } from "@contexts/PopupContext";
@@ -170,17 +169,17 @@ type Props = {
   onSubmitEdit: (data: ICategory) => void;
 };
 
-const CategoryItem = memo(({ value, onDelete, onSubmitEdit }: Props) => {
-  const { t, isVn } = useContext(TranslateContext);
+const CategoryItem = memo(({ value, onSubmitEdit }: Props) => {
+  const { isVn } = useContext(TranslateContext);
   const { setElementModal } = useContext(ModalContext);
-  const handleShowModal = () => {
-    setElementModal(
-      <DialogConfirmDelete
-        onClick={handleDelete}
-        message={t("admin._notice._delete_category")}
-      />
-    );
-  };
+  // const handleShowModal = () => {
+  //   setElementModal(
+  //     <DialogConfirmDelete
+  //       onClick={handleDelete}
+  //       message={t("admin._notice._delete_category")}
+  //     />
+  //   );
+  // };
 
   const handleShowModalEdit = () => {
     setElementModal(
@@ -188,10 +187,10 @@ const CategoryItem = memo(({ value, onDelete, onSubmitEdit }: Props) => {
     );
   };
 
-  const handleDelete = () => {
-    console.log({ value });
-    if (value?.id) onDelete(value.id);
-  };
+  // const handleDelete = () => {
+  //   console.log({ value });
+  //   if (value?.id) onDelete(value.id);
+  // };
 
   const handleChangeStatusEdit = (event: ChangeEvent<HTMLInputElement>) => {
     const isSelected = event.target.checked;

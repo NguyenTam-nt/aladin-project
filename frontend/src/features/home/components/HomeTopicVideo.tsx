@@ -2,7 +2,6 @@ import { ICArrowLeftLong } from "@assets/icons/ICArrowLeftLong";
 import { SwiperComponent } from "@components/SwiperComponent";
 import { Colors } from "@constants/color";
 import { withResponsive } from "@constants/container";
-import { paths } from "@constants/router";
 import { TranslateContext } from "@contexts/Translation";
 import { useHandlePost } from "@features/dashboard/hooks/useHandlePost";
 import useInView from "@hooks/useInView";

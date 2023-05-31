@@ -1,6 +1,6 @@
 import { ICArrowNextPage } from "@assets/icons/ICArrowNextPage";
 import { Colors } from "@constants/color";
-import React, { useState } from "react";
+import React  from "react";
 
 type IPagination = {
   currentPage: number;

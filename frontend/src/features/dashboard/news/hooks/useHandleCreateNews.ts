@@ -183,10 +183,6 @@ export const useHandleCreateNews = () => {
       },
       [handleTranslate, isVn]
     );
-
-    console.log({
-      formik
-    })
   
 
     return {

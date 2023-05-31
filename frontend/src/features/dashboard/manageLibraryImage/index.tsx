@@ -21,7 +21,7 @@ export const ManageLibraryImage = () => {
   const { setElementModal } = useContext(ModalContext);
   const [totalPage, setTotalPage] = useState<number>(0);
   const [data, setData] = useState<IGallery[]>([]);
-  const { showSuccess , showError } = useContext(PopUpContext)
+  const { showSuccess } = useContext(PopUpContext)
 
   const handleShowModalDelete = (id: number) => {
     setElementModal(

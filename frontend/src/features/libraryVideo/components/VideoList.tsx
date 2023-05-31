@@ -1,5 +1,4 @@
 
-import { ImageTranslation } from "@components/ImageTranslation";
 import TagNews from "@components/TagNews";
 import { ModalContext } from "@contexts/ModalContext";
 import Pagination from "@features/news/components/Paginnation";

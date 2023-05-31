@@ -1,93 +1,15 @@
 import { SwiperComponent } from "@components/SwiperComponent";
-import { NoticeId } from "@constants/contain";
 import {  withResponsive } from "@constants/container";
 import { paths } from "@constants/router";
 import { TranslateContext } from "@contexts/Translation";
 import useInView from "@hooks/useInView";
 import useWindowResize from "@hooks/useWindowResize";
-import  { newsService } from "@services/newsService";
 import type { INews } from "@typeRules/news";
 import clsx from "clsx";
-import React, { memo, useContext, useEffect, useMemo, useState } from "react";
+import React, { memo, useContext, useMemo } from "react";
 import { Link } from "react-router-dom";
 import { Navigation } from "swiper";
 import { SwiperSlide } from "swiper/react";
-
-let data = [
-  {
-    title_vn: "Kết quả xét tốt nghiệp đợt 1 năm 2023 hệ Chính quy và Văn bằng 2",
-    title_ko: "2023년 1차 일반 및 디플로마 2 졸업 결과",
-    date: "25/12/2023",
-    view_count: 25
-  },
-  {
-    title_vn: "Thực hiện khảo sát sinh viên tốt nghiệp đợt 2 năm 2022",
-    title_ko: "2022년 2차 졸업생 설문조사 실시",
-    date: "25/12/2023",
-    view_count: 25
-  },
-  {
-    title_vn: "Thời khóa biểu các lớp hệ Chính quy học kỳ 2 năm học 2022-2023",
-    title_ko: "2022-2023학년도 2학기 정규수업시간표",
-    date: "25/12/2023",
-    view_count: 25
-  },
-  {
-    title_vn: "Nộp hồ sơ xét tốt nghiệp đợt 1 năm 2023",
-    title_ko: "2023년 1차 졸업 지원서 제출",
-    date: "25/12/2023",
-    view_count: 25
-  },
-  {
-    title_vn: "Khảo sát ý kiến sinh viên về môn học trong học kỳ 1 năm học 2022-2023",
-    title_ko: "2022~2023학년도 1학기 주제에 대한 학생들의 의견 조사",
-    date: "25/12/2023",
-    view_count: 25
-  },
-  {
-    title_vn: "Thông báo v/v phúc khảo bài thi kết thúc môn học học kỳ 3, năm học 2021-2...",
-    title_ko: "2021-2학년도 3학기 기말고사 심사공고...",
-    date: "25/12/2023",
-    view_count: 25
-  },
-  {
-    title_vn: "Chuỗi chương trình “Việt - Hàn Kết Nối 2022 tại TP. Hồ Chí Minh",
-    title_ko: '일련의 프로그램 "Vietnam - Korea Connect 2022 in Ho Chi Minh City. 호치민',
-    date: "25/12/2023",
-    view_count: 25
-  },
-  {
-    title_vn: "Chương trình giao lưu Korea Youth Public Diplomacy Delegation",
-    title_ko: "대한민국 청년공공외교 대표단 교류사업",
-    date: "25/12/2023",
-    view_count: 25
-  },
-  {
-    title_vn: "Chương trình trao đổi sinh viên với Đại học Daegu Haany, Hàn Quốc",
-    title_ko: "한국 대구한의대학교 학생교류 프로그램",
-    date: "25/12/2023",
-    view_count: 25
-  },
-  {
-    title_vn: 'Cuộc chi "The Link Between You and Me: The Bridge to Korea"',
-    title_ko: '"너와 나의 연결고리: 한국으로 가는 다리" 공모전',
-    date: "25/12/2023",
-    view_count: 25
-  },
-  {
-    title_vn: 'Tuyển bổ sung sinh viên tham gia chương trình "OK Class"',
-    title_ko: '"OK Class" 프로그램에 참여할 학생을 추가 모집합니다.',
-    date: "25/12/2023",
-    view_count: 25
-  },
-  {
-    title_vn: 'Thông báo mức học phí bậc đại học năm học 2022-2023',
-    title_ko: '2022~2023학년도 학부 등록금 안내',
-    date: "25/12/2023",
-    view_count: 25
-  },
-];
-
 
 type Props = {
   navigationNextRef: React.RefObject<HTMLDivElement>;

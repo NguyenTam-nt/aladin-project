@@ -153,7 +153,7 @@ const CadresTable = memo(
     refCheckboxAll,
     refCheckboxList,
   }: CadresTableProps) => {
-    const { t , isVn } = useContext(TranslateContext);
+    const { t  } = useContext(TranslateContext);
 
     return (
       <>

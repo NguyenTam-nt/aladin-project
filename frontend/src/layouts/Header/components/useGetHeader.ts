@@ -17,7 +17,8 @@ export const useGetHeader = () => {
 
   useEffect(() => {
     headerService.getByIndex().then(async (data) => {
-      const index = data.findIndex((item) => item.link === paths.news.prefix);
+      const newData = data.filter(item => item.status)
+      const index = newData.findIndex((item) => item.link === paths.news.prefix);
 
       if (index >= 0) {
         const categories = await newsService.getParent({
@@ -26,16 +27,17 @@ export const useGetHeader = () => {
           sort: "id,desc",
         });
 
-        data[index].items = categories.data.map((item) => {
+        newData[index].items = categories.data.map((item) => {
           return {
             name: item.name,
             nameKo: item.nameKo,
             link: item.id + "",
+            status: item.status
           };
         });
       }
-      localStorage.setItem('header', JSON.stringify(data))
-      setHeaders([...data]);
+      localStorage.setItem('header', JSON.stringify(newData))
+      setHeaders([...newData]);
     });
   }, []);
 

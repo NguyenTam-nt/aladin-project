@@ -1,3 +1,5 @@
+
+
 import { Input } from "@components/Input";
 import { GroupButtonAdmin } from "@features/dashboard/components/GroupButtonAdmin";
 import { ImagePreview } from "@features/dashboard/components/ImagePreview";
@@ -43,9 +45,12 @@ export const ModalCreate = ( {callback} : { callback?: () => void}) => {
     const valueTranslate =
     await TranslateToKorean(value , formikRef);
     const formData = new FormData();
+    //@ts-ignore
     formData.append("file", formikRef.current!.values.files);
     const urlImage = await uploadService.postVideo(formData);
-    galleryService.post({
+    galleryService.post(
+    //@ts-ignore
+      {
       ...value,
       ...valueTranslate,
       files: [

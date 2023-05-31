@@ -1,7 +1,11 @@
 {
     "message": {
         "warn": {
-            "_required": "Bắt buộc"
+            "_required": "Bắt buộc",
+            "_password_old": "Mật khẩu mới không trùng với mật khẩu cũ.",
+            "_confirm_password": "Mật khẩu không trùng khớp.",
+            "_validate_password": "Mật khẩu phải từ 6 ký tự trở lên bao gồm chữa viết hoa, thường và ký tự đặc biệt.",
+            "_max_length": "Vui lòng nhập tối đa 5000 ký tự"
         },
         "success": {
             "_success": "Thành công"

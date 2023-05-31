@@ -1,4 +1,3 @@
-import { HeaderTilteLink } from "@components/HeaderTilteLink";
 import { Banner } from "@features/abouts/components/Banner";
 import { LinkPageHeader } from "@components/LinkPageHeader";
 import AllDocument from "./allDocument";
@@ -11,7 +10,7 @@ import { HeaderTilteCustom } from "@components/HeaderTilteCustom";
 
 const DocumentPage = () => {
   const params = useLocation();
-  const [headerItem , setHeaderItem ] = useState<any>([])
+  const [headerItem ] = useState<any>([])
   const { t } =  useContext(TranslateContext)
 
   useEffect(() => {

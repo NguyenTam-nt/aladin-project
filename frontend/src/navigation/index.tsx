@@ -1,11 +1,12 @@
-import { LoadingData } from "@components/LoadingData";
 import { prefixRootRoute } from "@configs/index";
 import { rootRouter, routerDetail } from "@constants/router";
 import { rootRouterAdmin } from "@constants/routerAdmin";
-import { AdminLayout } from "layouts/AdminLayout";
-import { PublicLayout } from "layouts/PublicLayout";
-import { Suspense } from "react";
+import { Suspense, lazy } from "react";
 import { Route, Routes } from "react-router-dom";
+
+const PublicLayout = lazy(()=> import("layouts/PublicLayout").then(module => ({default:  module.PublicLayout})))
+const AdminLayout = lazy(()=> import("layouts/AdminLayout").then(module => ({default:  module.AdminLayout})))
+
 export const RouterRoot = () => {
   return (
     <Routes>
@@ -16,7 +17,7 @@ export const RouterRoot = () => {
               key={index}
               path={item.path}
               element={
-                <Suspense fallback={<LoadingData />}>
+                <Suspense>
                   <item.element />
                 </Suspense>
               }
@@ -44,7 +45,7 @@ export const RouterRoot = () => {
       <Route path={prefixRootRoute.admin} element={<AdminLayout />}>
         {rootRouterAdmin.map((item, index) => {
           return (
-            <Route key={index} path={item.path} element={<item.element />}>
+            <Route key={index} path={item.path} element={<Suspense><item.element /></Suspense>}>
               {item.subNavs &&
                 item.subNavs.map((itemchild, index) => {
                   return (

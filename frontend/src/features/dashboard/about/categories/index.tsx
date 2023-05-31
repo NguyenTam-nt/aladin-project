@@ -16,13 +16,6 @@ import React, {
   useState,
 } from "react";
 
-const data = [
-  "Tổng quan",
-  "Thương hiệu",
-  "Cơ cấu tổ chức - nhân sự",
-  "Broucher",
-];
-
 export const Categories = () => {
   const { t } = useContext(TranslateContext);
   const [data, setData] = useState<IHeader>();
