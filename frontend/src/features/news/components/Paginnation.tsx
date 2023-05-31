@@ -5,10 +5,11 @@ import React, { useState } from "react";
 type IPagination = {
   currentPage: number;
   totalPages: number;
+  setCurrentPage : (currentPage: number) => void;
 };
 
 const Pagination = (props: IPagination) => {
-  const [currentPage, setCurrentPage] = useState(props.currentPage ?? 1);
+  const {currentPage , setCurrentPage } = props
   const totalPages = props.totalPages;
 
   const prevPage = () => {
@@ -44,8 +45,9 @@ const Pagination = (props: IPagination) => {
 
     if (endPage > totalPages) {
       endPage = totalPages;
-      startPage = totalPages - maxPages + 1;
+      startPage = totalPages - maxPages + 1 >= 1 ? totalPages - maxPages + 1 : 1
     }
+    
 
     for (let i = startPage; i <= endPage; i++) {
       pageNumbers.push(

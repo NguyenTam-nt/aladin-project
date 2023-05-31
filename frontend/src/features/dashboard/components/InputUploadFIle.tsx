@@ -40,6 +40,7 @@ export const InputUploadFile = React.forwardRef(
               ref={ref}
               onClick={onInputClick}
               accept={
+                
                 !isAny ? (isVideos ? "video/*" : "image/*") : "video/*,image/*"
               }
               onChange={onChange}

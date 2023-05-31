@@ -3,6 +3,7 @@
     "header": {
       "title": "뉴스 목록",
       "other_sub_news": "다른 것",
+      "_files" : "문서" , 
       "sub_news": {
         "_train": "기차",
         "_study": "과학적 연구",

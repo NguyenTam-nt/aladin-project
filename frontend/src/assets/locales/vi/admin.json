@@ -204,6 +204,7 @@
                 "_des": "Mô tả",
                 "_content": "Nội dung",
                 "_upload": "Tải ảnh lên",
+                "_upload_file": "Tải tài liệu lên",
                 "_title_placeholder": "Nhập tiêu đề tài liệu văn bản",
                 "_des_placeholder": "Nhập mô tả bài viết"
             },

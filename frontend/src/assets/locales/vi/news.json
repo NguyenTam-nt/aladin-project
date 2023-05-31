@@ -3,6 +3,7 @@
     "header": {
       "title": "Danh sách tin tức",
        "other_sub_news" : "Khác" ,
+        "_files" : "Tài liệu" , 
       "sub_news": {
         "_train": "Đào tạo",
         "_study": "Nghiên cứu khoa học",

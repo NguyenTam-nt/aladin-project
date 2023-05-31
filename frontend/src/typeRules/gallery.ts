@@ -71,6 +71,6 @@ export interface IGalleryPostCheck extends Record<string, any> {
   nameKo: string;
   des? :string ,
   desKo? : string,
-  type: string;
-  files: string;
+  type?: string;
+  files?: string;
 }

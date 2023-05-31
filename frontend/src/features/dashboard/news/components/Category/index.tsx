@@ -220,9 +220,9 @@ const CategoryItem = memo(({ value, onDelete, onSubmitEdit }: Props) => {
         <button onClick={handleShowModalEdit}>
           <ICEdit />
         </button>
-        <button onClick={handleShowModal}>
+        {/* <button onClick={handleShowModal}>
           <ICClear />
-        </button>
+        </button> */}
       </div>
     </div>
   );

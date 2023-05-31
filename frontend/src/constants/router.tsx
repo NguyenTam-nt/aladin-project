@@ -2,6 +2,7 @@ import NotFound from "@features/NotFound";
 import { BrochurePage } from "@features/abouts/components/brochure";
 import { Structure } from "@features/abouts/components/structure";
 import AllSubject from "@features/subject/allSubject/AllSubject";
+
 import { lazy } from "react";
 
 const HomePage = lazy(() => import("@features/home"))
@@ -16,8 +17,8 @@ const NoticePage = lazy(() => import("@features/notice"))
 const SubjectPage = lazy(() => import("@features/subject"))
 const GeneralPage = lazy(() => import("@features/abouts/components/general"))
 const BrandPage = lazy(() => import("@features/abouts/components/Brand"))
-
-
+const CadresDetailPage = lazy(() => import("@features/cadresDetail"))
+const  SubjectDetailPage  = lazy(()=> import("@features/subjectsDetail"))
 export interface IRouter {
   path: string;
   name: string;
@@ -80,9 +81,11 @@ export const paths = {
     cadres: "",
     primary: "can-bo-co-huu",
     internship: "can-bo-thuu-tap",
+    detail : "chi-tiet-can-bo"
   },
   subject: {
     prefix: "/bo-mon",
+    detail  : "chi-tiet-bo-mon"
   },
   library_image: {
     prefix: "/thu-vien-hinh-anh",
@@ -325,6 +328,12 @@ export const routerDetail:IRouter[] = [
     isDetail: true,
   },
   {
+    path: `${paths.cadres.prefix}/${paths.cadres.detail}`,
+    element: CadresDetailPage,
+    name: "home.header.navigation.sub_news._detail",
+    isDetail: true,
+  },
+  {
     path: `${paths.notice.prefix}/${paths.notice.detail}`,
     element: NewsDetailPage,
     name: "home.header.navigation.sub_news._detail",
@@ -333,6 +342,12 @@ export const routerDetail:IRouter[] = [
   {
     path: `${paths.documents.prefix}/${paths.documents.detail}`,
     element: NewsDetailPage,
+    name: "home.header.navigation.sub_news._detail",
+    isDetail: true,
+  },
+  {
+    path: `${paths.subject.prefix}/${paths.subject.detail}`,
+    element: SubjectDetailPage,
     name: "home.header.navigation.sub_news._detail",
     isDetail: true,
   },

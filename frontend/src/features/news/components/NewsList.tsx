@@ -1,44 +1,47 @@
 
 import { ImageTranslation } from "@components/ImageTranslation";
 import React, { useContext } from "react";
-import Pagination from "./Paginnation";
 import TagNews from "@components/TagNews";
 import { Link } from "react-router-dom";
 import { TranslateContext } from "@contexts/Translation";
+import type { INews } from "@typeRules/news";
+import { getDate } from "@commons/index";
 
 
-const NewsItem = ({ item  , navigation  }: { item: INewsItem  , navigation : string}) => {
-  const { tagName, title, time, image ,  } = item;
-  const { t } = useContext(TranslateContext);
+const NewsItem = ({
+  item,
+  navigation,
+}: {
+  item: INews;
+  navigation: string;
+}) => {
+  const { t, isVn } = useContext(TranslateContext);
   return (
-    <Link to={`${navigation}?id=1`} className="h-[360px]  bg-bg_FAFAFA">
+    <Link to={`${navigation}?id=${item.id}`} className="h-[360px]  bg-bg_FAFAFA">
       <div className=" overflow-hidden h-[184px]">
-        <ImageTranslation link={image}></ImageTranslation>
+        <ImageTranslation link={item.files![0].link || ""}></ImageTranslation>
       </div>
       <div className=" mx-[24px] mt-[26px]">
-        <TagNews title={tagName} />
-
+        <TagNews
+          title={isVn ? item.newsCategory?.name : item.newsCategory?.nameKo}
+        />
         <p className=" text-_18 font-bold leading-[32px] text-text_black  mt-[10px] line-clamp-2">
-          {title}
+          {isVn ? item.title : item.titleKo}
         </p>
-
-        <p className=" text-_14 text-text_black ">    {t("common.create_day") + ": " + time}</p>
+        <p className=" text-_14 text-text_black ">
+          {t("common.create_day") + ": " + getDate(item.createdDate || "")}
+        </p>
       </div>
     </Link>
   );
 }; 
 
 
-interface INewsItem {
-  tagName: string;
-  title: string;
-  time: string;
-  image: string;
-}
+
 
 
 interface INewsList {
-  newsItem : INewsItem[]
+  newsItem : INews[]
   navigationToDetail : string 
 }
 
@@ -52,7 +55,7 @@ const NewsList = (props: INewsList) => {
           <NewsItem key={index} item={item}  navigation={navigationToDetail}></NewsItem>
         ))}
       </div>
-      <Pagination currentPage={1} totalPages={30} />
+  
     </>
   );
 };
