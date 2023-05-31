@@ -63,6 +63,7 @@ export const Banner = () => {
       bannerService.getByType(BannerType.notice),
       bannerService.getByType(BannerType.file_document),
       bannerService.getByType(BannerType.cadres),
+      bannerService.getByType(BannerType.subject),
       bannerService.getByType(BannerType.library_image),
       bannerService.getByType(BannerType.library_video),
     ]
