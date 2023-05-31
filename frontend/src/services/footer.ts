@@ -11,7 +11,7 @@ export const footerService = {
         return HttpService.axiosClient.get(footerApi, {params: {sort: "id,asc"}})
     },
     put: (data:IFooter[], id:number):Promise<IFooter[]> => {
-        return HttpService.axiosClient.put(`${footerInfoApi}/change-item/${id}`, data)
+        return HttpService.axiosClient.put(`${footerApi}/change-item/${id}`, data)
     },
     getFooterInfo: ():Promise<IResponseData<IFooterInfo>> => {
 
