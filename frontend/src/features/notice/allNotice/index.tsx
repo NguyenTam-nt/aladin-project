@@ -72,10 +72,14 @@ const AllNotice = () => {
   return (
     <div className="w-rp  justify-between items-center mb-[120px] ">
       <NewsBanner
+      // @ts-ignore
         newsBanner={bannerItem}
         navigationToDetail={navigatonToDetail}
       />
-      <NewsList newsItem={data} navigationToDetail={navigatonToDetail} />
+      <NewsList
+      // @ts-ignore
+       newsItem={data} 
+       navigationToDetail={navigatonToDetail} />
     </div>
   );
 };

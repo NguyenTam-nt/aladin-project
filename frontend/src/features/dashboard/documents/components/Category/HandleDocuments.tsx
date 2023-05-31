@@ -6,15 +6,9 @@ import { ImagePreview } from "@features/dashboard/components/ImagePreview";
 import { InputUploadFile } from "@features/dashboard/components/InputUploadFIle";
 import { TitleForm } from "@features/dashboard/components/TitleForm";
 import TitleInput from "@features/dashboard/components/TitleInput";
-import React, { memo, useState } from "react";
+import React, { memo } from "react";
 import { TextError } from "@features/dashboard/components/TextError";
 import { IFileList, useHandleCreateDocuments } from "../../hooks/useHandleCreateDocuments";
-import { ICFilePDF } from "@assets/icons/ICFilePDF";
-import { ICFileExcel } from "@assets/icons/ICFIleExcel";
-import { ICFileDOC } from "@assets/icons/ICFileDOC";
-import { ICFileVideo } from "@assets/icons/ICFileVideo";
-import { ICFileOther } from "@assets/icons/ICFileOther";
-import { ICFileImage } from "@assets/icons/ICFileImage";
 import { ICClear } from "@assets/icons/ICClear";
 import { GetFileType } from "@commons/getTypeFile";
 

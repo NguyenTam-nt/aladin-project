@@ -1,11 +1,7 @@
-import { GetFileType } from "@commons/getTypeFile";
 import { getDate } from "@commons/index";
 import { TranslateContext } from "@contexts/Translation";
-import { newsService } from "@services/newsService";
 import { subjectService } from "@services/subject";
-import type { INews } from "@typeRules/news";
 import type { ISubject } from "@typeRules/subject";
-import FileSaver, { saveAs } from 'file-saver';
 import React, { useContext, useEffect, useState } from "react";
 import {  useSearchParams } from "react-router-dom";
 

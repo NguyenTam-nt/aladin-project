@@ -1,6 +1,5 @@
 import React from 'react'
 import type { IIcon } from 'typeRules/icon'
-import { Colors } from '@constants/color'
 
 export const ICFilePDF= ({ width = 32, height = 32}:IIcon) => {
   return (

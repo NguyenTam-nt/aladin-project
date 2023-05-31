@@ -8,7 +8,6 @@ import { AuthContext } from "@contexts/AuthContext";
 import { Avatar } from "@components/Avatar";
 import * as Yup from "yup";
 import { useFormik } from "formik";
-import { TranslateContext } from "@contexts/Translation";
 import { TextError } from "../components/TextError";
 import { userService } from "@services/user";
 import { PopUpContext } from "@contexts/PopupContext";

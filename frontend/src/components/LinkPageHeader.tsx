@@ -5,14 +5,13 @@ import useWindowResize from "@hooks/useWindowResize";
 import clsx from "clsx";
 import { useGetHeader } from "layouts/Header/components/useGetHeader";
 import React, { useContext, useMemo } from "react";
-import { Link, useLocation, useSearchParams } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 export const LinkPageHeader = () => {
   const { t, isVn } = useContext(TranslateContext);
   const { width } = useWindowResize();
   const params = useLocation();
   const {headers} = useGetHeader()
-  const [searchParams] = useSearchParams()
   const listLink = useMemo(() => {
     let result = [];
     const list = params.pathname.split("/");

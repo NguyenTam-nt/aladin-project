@@ -3,7 +3,7 @@ import { getDate } from "@commons/index";
 import { TranslateContext } from "@contexts/Translation";
 import { newsService } from "@services/newsService";
 import type { INews } from "@typeRules/news";
-import FileSaver, { saveAs } from 'file-saver';
+import FileSaver from 'file-saver';
 import React, { useContext, useEffect, useState } from "react";
 import {  useSearchParams } from "react-router-dom";
 

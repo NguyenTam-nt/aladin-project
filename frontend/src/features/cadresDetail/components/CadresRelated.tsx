@@ -3,7 +3,6 @@ import TagNews from "@components/TagNews";
 import { paths } from "@constants/router";
 import { TranslateContext } from "@contexts/Translation";
 import { cadresService } from "@services/cadres";
-import { newsService } from "@services/newsService";
 import type { ICadres } from "@typeRules/cadres";
 import React, { useContext, useEffect, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";

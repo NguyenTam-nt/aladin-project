@@ -1,12 +1,11 @@
 import { ICArrowDown } from "@assets/icons/ICArrowDown";
 import { Colors } from "@constants/color";
 import { withResponsive } from "@constants/container";
-import { rootRouter } from "@constants/router";
 import { TranslateContext } from "@contexts/Translation";
 import useWindowResize from "@hooks/useWindowResize";
 import clsx from "clsx";
 import React, { useContext, useEffect, useMemo, useState } from "react";
-import { Link, useLocation, useSearchParams } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 
 
 export type PropsHeader = {

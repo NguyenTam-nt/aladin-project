@@ -3,7 +3,6 @@ import { Input } from "@components/Input";
 // import { TranslateContext } from "@contexts/Translation";
 import TitleInput from "@features/dashboard/components/TitleInput";
 import React, { useContext, useEffect, useRef } from "react";
-import { InputUploadFile } from "../components/InputUploadFIle";
 import { ImagePreview } from "../components/ImagePreview";
 import { useHandleImage } from "../hooks/useHandleImage";
 import { Formik, FormikProps ,Form, Field, ErrorMessage } from "formik";

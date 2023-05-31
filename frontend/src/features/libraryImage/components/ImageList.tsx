@@ -5,7 +5,7 @@ import ModalImage from "./ModalImage";
 import useInView from "@hooks/useInView";
 import clsx from "clsx";
 import { useSearchParams } from "react-router-dom";
-import type { IFileGalleryValue, IGallery, IGalleryImage } from "@typeRules/gallery";
+import type { IFileGalleryValue, IGalleryImage } from "@typeRules/gallery";
 import { galleryService } from "@services/gallery";
 import { TranslateContext } from "@contexts/Translation";
 import bgImage from "@assets/images/backgroudImage.png";

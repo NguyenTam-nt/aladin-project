@@ -13,7 +13,7 @@ type Props = {
 
 export const InputUploadFileImage = React.forwardRef(
   (
-    { onChange, onPaseLink, isVideos, isAny = false, ...props}: Props,
+    { onChange, isVideos, isAny = false}: Props,
     ref: React.LegacyRef<HTMLInputElement>
   ) => {
     const { t } = useContext(TranslateContext);

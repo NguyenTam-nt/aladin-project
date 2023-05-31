@@ -5,7 +5,6 @@ import { LinkPageHeader } from "@components/LinkPageHeader";
 import VideoBanner from "./components/VideoBanner";
 import VideoList from "./components/VideoList";
 import { BannerType } from "@typeRules/banner";
-import { useSearchParams } from "react-router-dom";
 import type { IGallery } from "@typeRules/gallery";
 import { galleryService } from "@services/gallery";
 

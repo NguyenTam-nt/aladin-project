@@ -1,12 +1,11 @@
-import { HeaderTilteLink } from "@components/HeaderTilteLink";
 import { Banner } from "@features/abouts/components/Banner";
 import { LinkPageHeader } from "@components/LinkPageHeader";
 import AllNews from "./allNews";
 import { BannerType } from "@typeRules/banner";
 import { useContext, useEffect, useState } from "react";
 import { newsService } from "@services/newsService";
-import { useLocation, useSearchParams } from "react-router-dom";
-import { HeaderTilteCustom, PropsHeader } from "@components/HeaderTilteCustom";
+import { useLocation } from "react-router-dom";
+import { HeaderTilteCustom } from "@components/HeaderTilteCustom";
 import { TranslateContext } from "@contexts/Translation";
 
 const NewsPage = () => {

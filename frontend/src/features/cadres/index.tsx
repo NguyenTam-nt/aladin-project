@@ -1,5 +1,4 @@
 import { Banner } from "@features/abouts/components/Banner";
-import { HeaderTilteLink } from "@components/HeaderTilteLink";
 
 import { LinkPageHeader } from "@components/LinkPageHeader";
 import AllCadres from "./allCadres/AllCadres";
