@@ -1,7 +1,13 @@
 import { ImageTranslation } from "@components/ImageTranslation";
+import { paths } from "@constants/router";
 import Pagination from "@features/news/components/Paginnation";
-import React from "react";
-
+import { cadresService } from "@services/cadres";
+import { newsService } from "@services/newsService";
+import { subjectService } from "@services/subject";
+import type { ICadres } from "@typeRules/cadres";
+import type { ISubject } from "@typeRules/subject";
+import React, { useEffect, useState } from "react";
+import { Link, useSearchParams } from "react-router-dom";
 const dumyItems = [
   {
     imageUrl : "https://s3-alpha-sig.figma.com/img/261a/531d/1d0e01f0952185440e03681d5c2666cd?Expires=1685318400&Signature=o66zwYhgYfNHF9-9qdp2wm-99RGtlWUWfhgLQJTwG9U3IksxpDiyf~yZc2O1aPc0CQLVGStw1OvUn1qL4D76NkFUs9jjDH3GXi1c~funyTAJBw5Cb1RZ5seqbDOXQJE~fpe14Cz7V7AHDF1lJ2z4WfEZsd7gnJB1Pu1ZXZEFhWZh5XnxI9TNziDcRjN07t~b5iSdHTpSFka8GKaflo~JeDzpGJsnDpgB0H1Sx0ZwqwsvcSkLv4CqnQ5ynx4cnJ5HiM0FZBiq0wu3Wk1AP09-vL23LRQDyKPhYaoOfVFBZUnw5~wW2jvRh3QIz5HlhFAHvVOJvQDYqhPGLiua-n4~Jw__&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4" ,
@@ -90,16 +96,20 @@ const dumyItem2 = [
 
 ]
 
+
 interface INewsItem  {
   imageUrl : string ,
   name : string ,
   sub : string , 
+  navigation : string  ,
+  id: number
 }
 
 
 const NewsItem = (props : INewsItem) => {
-  const { imageUrl, name, sub  } = props
+  const { imageUrl, name, sub ,navigation ,id } = props
   return (
+    <Link to={`${navigation}?id=${id}`}>
     <div className="h-[212px] m992:h-[461px]  bg-bg_FAFAFA ">
       <div className=" overflow-hidden h-[212px] m992:h-[461px] relative flex flex-1">
         <ImageTranslation link={imageUrl}></ImageTranslation>
@@ -111,6 +121,7 @@ const NewsItem = (props : INewsItem) => {
         </div>
       </div>
     </div>
+    </Link>
   );
 };
 
@@ -121,22 +132,85 @@ interface CadresListProps {
 
 
 const CadresList = (props : CadresListProps ) => {
-  return (
-    <>
-      <div className="grid grid-cols-2  m992:grid-cols-4 gap-[24px] mt-[24px]">
-        {(!props?.type ? dumyItems : dumyItem2).map((item, index) => (
-          <NewsItem
-            imageUrl={item.imageUrl}
-            name={item.name}
-            sub={item.sub}
-            key={index}
-          
-          ></NewsItem>
-        ))}
-      </div>
-      <Pagination currentPage={1} totalPages={30} />
-    </>
-  );
+  const navigatonToDetail = !props.type ?  `${paths.cadres.prefix}/${paths.cadres.detail}` : `${paths.subject.prefix}/${paths.subject.detail}`
+  const [searchParam] = useSearchParams();
+  const [data , setData] = useState<ICadres[]>([])
+  const [dataSubject , setDataSubject] = useState<ISubject[]>([])
+  const [currentPage , setCurrentPage] = useState(1)
+  const [totalPages , setTotalPages] = useState(0)
+  
+  const getNewsList = (page: number, id?: string) => {
+    if(props.type) {
+      subjectService.get({ page: page, size: 8 }).then((news) => {
+        setDataSubject(news.data);
+        setTotalPages(Math.ceil(news.total / 8));
+      });
+    }
+    else {
+    if (id) {
+      
+      cadresService.getById(id, { page: page, size: 8 }).then((news) => {
+        setData(news.data);
+        setTotalPages(Math.ceil(news.total / 8));
+      });
+    } else {
+      cadresService.get({ page: page, size: 8 }).then((news) => {
+        setData(news.data);
+        setTotalPages(Math.ceil(news.total / 8));
+      });
+    }
+  }
+  };
+
+  const onChangePage = (page: number) => {
+    setCurrentPage(page);
+    if (searchParam.get("type")) {
+      getNewsList(page - 1, searchParam.get("type") || "0");
+      return;
+    }
+    getNewsList(page - 1);
+  };
+ 
+  useEffect(() => {
+    onChangePage(1);
+  }, [searchParam ,props.type]);
+
+    return (
+      <>
+        <div className="grid grid-cols-2  m992:grid-cols-4 gap-[24px] mt-[24px]">
+          {(!props?.type ? data : dataSubject).map((item, index) => {
+            if ("fullname" in item) {
+              return (
+                <NewsItem
+                  navigation={navigatonToDetail}
+                  imageUrl={item.files[0].link}
+                  id={item.id}
+                  name={item.fullname}
+                  sub={item.major}
+                  key={item.id}
+                />
+              );
+            } else {
+              return (
+                <NewsItem
+                  navigation={navigatonToDetail}
+                  imageUrl={item.files[0].link}
+                  id={item.id}
+                  name={item.title}
+                  sub={item.description}
+                  key={item.id}
+                />
+              );
+            }
+          })}
+        </div>
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          setCurrentPage={setCurrentPage}
+        />
+      </>
+    );
 };
 
 export default CadresList;

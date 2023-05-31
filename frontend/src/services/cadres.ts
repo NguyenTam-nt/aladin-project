@@ -12,6 +12,12 @@ export const cadresService = {
   get: (params?: IParams): Promise<IResponseData<ICadres>> => {
     return HttpService.axiosClient.get(pathCadres, { params });
   },
+  getById: ( id : string, params?: IParams): Promise<IResponseData<ICadres>> => {
+    return HttpService.axiosClient.get(pathCadres, {params: {...params, keyword: "", categoriesId : id}});
+  },
+  getCadresById: ( id : string): Promise<ICadres> => {
+    return HttpService.axiosClient.get(pathCadres + `/${id}`);
+  },
   post: (data: ICadresPost): Promise<ICadresPost> => {
     return HttpService.axiosClient.post(pathCadres, data);
   },

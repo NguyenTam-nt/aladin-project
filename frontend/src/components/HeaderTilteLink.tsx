@@ -73,6 +73,8 @@ type Props = {
 };
 
 const HeaderTitle = ({ title, listLink, prefix, isQuery }: Props) => {
+  
+   
   const { t } = useContext(TranslateContext);
   const [isShow, setIsShow] = useState(false);
   const { width } = useWindowResize();

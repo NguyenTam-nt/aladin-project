@@ -11,6 +11,9 @@ export const newsService = {
     get: (params?:IParams):Promise<IResponseData<ICategory>> => {
         return HttpService.axiosClient.get(pathCategory, {params})
     },
+    getById: (id: number):Promise<ICategory> => {
+        return HttpService.axiosClient.get(pathCategory+`/${id}`)
+    },
     getParent: (params?:IParams):Promise<IResponseData<ICategory>> => {
         const api = getApi("news-categories/parent")
         return HttpService.axiosClient.get(api, {params})

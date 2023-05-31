@@ -4,7 +4,10 @@ import NewsRelated from "./components/NewsRelated";
 import { LinkPageHeader } from "@components/LinkPageHeader";
 import { BannerType } from "@typeRules/banner";
 
+
 const NewsDetailPage = () => {
+
+
   return (
     <>
       <Banner  type={BannerType.news}></Banner>

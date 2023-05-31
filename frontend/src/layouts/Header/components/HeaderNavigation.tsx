@@ -31,8 +31,8 @@ export const HeaderNavigation = () => {
               >
                 <ul>
                   {subNews.map((_item, indexSub) => {
-                    return (
-                     (<li key={indexSub}>
+                    return  (
+                        (<li key={indexSub}>  
                         <HeaderSubNavigationLink
                           to={`${item.link}${ _item.link ? item.link === paths.news.prefix ? `?type=${_item.link}` : `/${_item.link}` : ""}`}
                           text={`${isVn ? _item.name : _item.nameKo}`} 
@@ -57,6 +57,7 @@ export const HeaderNavigation = () => {
         >
           <ul>
             {headers.slice(5).map((item, index) => {
+
               return  (
                 <li key={index}>
                   <HeaderSubNavigationLink
@@ -84,6 +85,7 @@ const HeaderNavigationLink = ({
   withSlash?: boolean;
 }) => {
   const { t } = useContext(TranslateContext);
+  
   return (
     <>
       <div className="flex items-center">
@@ -110,6 +112,7 @@ export const HeaderSubNavigationLink = ({
   to: string;
   withSlash?: boolean;
 }) => {
+
   const { t } = useContext(TranslateContext);
   return (
     <>

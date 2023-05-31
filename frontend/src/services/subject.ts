@@ -11,6 +11,9 @@ export const subjectService = {
   get: (params?: IParams): Promise<IResponseData<ISubject>> => {
     return HttpService.axiosClient.get(pathSubject, { params });
   },
+  getCadresById: ( id : string): Promise<ISubject> => {
+    return HttpService.axiosClient.get(pathSubject + `/${id}`);
+  },
   post: (data: ISubjectPost): Promise<ISubjectPost> => {
     return HttpService.axiosClient.post(pathSubject, data);
   },
