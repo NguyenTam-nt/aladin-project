@@ -66,7 +66,7 @@ export const HomeTopicScientificResearchSliderItem = memo(
   }: PropsHomeTopicScientificResearchSliderItem) => {
     return (
       <Link
-        to={`${paths.news.prefix}/${paths.news.detail}?slug=trao-thuong`}
+        to={`${paths.news.prefix}/${paths.news.detail}?id=${data.id}`}
         className={clsx("flex flex-col", { "flex-col-reverse": isReversed })}
       >
         <div

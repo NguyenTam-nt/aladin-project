@@ -63,7 +63,7 @@ const HomeNoticeSliderItem = memo(({data, index, isEven, isDisable}:PropsSwiper)
   const { t, isVn } = useContext(TranslateContext);
   const {ref, isInView} = useInView()
   return (
-    <Link to={`${paths.notice.prefix}/${paths.notice.detail}?id=1`}>
+    <Link to={`${paths.notice.prefix}/${paths.notice.detail}?id=${data.id}`}>
       <div 
       ref={ref} 
       className={clsx("pb-[8px] border-b-[1px] border-solid border-br_E9ECEF animate__animated",

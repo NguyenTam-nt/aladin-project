@@ -53,7 +53,7 @@ export const HomeTopicScientificResearchItem = ({ data }: PropsItem) => {
   const { isVn } = useContext(TranslateContext);
   return (
     <Link
-      to={`${paths.news.prefix}/${paths.news.detail}?slug=trao-thuong`}
+      to={`${paths.news.prefix}/${paths.news.detail}?id=${data.id}`}
       className="pb-2 block border-b-[1px] border-solid border-text_white"
     >
       <p className="text-_16 xl:text-_18 line-clamp-1 leading-[32px]">
