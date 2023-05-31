@@ -46,7 +46,7 @@ export const HomeTopicEventItem = ({ isReversed = false, data }: Props) => {
           {isVn ? data.title : data.titleKo}
         </p>
         <p
-          className="text-_14 mt-[14px] mb-[40px] px-[32px]"
+          className="text-_14 mt-[14px] mb-[40px] line-clamp-2 px-[32px]"
           style={{ color: color.color }}
         >
           {isVn ? data.description : data.descriptionKo}
