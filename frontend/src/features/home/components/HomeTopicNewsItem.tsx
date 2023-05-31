@@ -29,12 +29,12 @@ export const HomeTopicNewsItem = ({isChangeColor = false, index = 0, data}:Props
       ["--animate-count" as string]: index < 1 ? 1 : 0
     }}
     >
-    <p className={clsx("text-_16", {"text-text_primary": !isChangeColor, "text-text_white": isChangeColor})}> {isVn ? data?.title : data?.titleKo}</p>
+    <p className={clsx("text-_16", {"text-text_primary line-clamp-1": !isChangeColor, "text-text_white": isChangeColor})}> {isVn ? data?.title : data?.titleKo}</p>
     <div className={clsx("h-[1px] w-[45px] my-[8px]  xl:my-[16px]", {"bg-br_E9ECEF": !isChangeColor, "bg-text_white": isChangeColor})} />
-    <p className={clsx("leading-[36px] text-_18 xl:text-_24", {"text-text_primary": !isChangeColor, "text-text_white": isChangeColor})}>
+    <p className={clsx("leading-[36px] text-_18 xl:text-_24 line-clamp-2", {"text-text_primary": !isChangeColor, "text-text_white": isChangeColor})}>
     {isVn ? data?.description : data?.descriptionKo}
     </p>
-    <div className={clsx("text-text_secondary text-_14", {"text-text_secondary": !isChangeColor, "text-text_white":isChangeColor})}
+    <div className={clsx("text-text_secondary text-_14 line-clamp-2", {"text-text_secondary": !isChangeColor, "text-text_white":isChangeColor})}
       dangerouslySetInnerHTML={{
         __html: `${isVn ? data?.content : data?.contentKo}`
       }}
