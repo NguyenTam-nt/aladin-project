@@ -250,9 +250,14 @@ const AccountTableItem = ({ data, onDelete }: PropsItem) => {
         </select>
       </div>
       <div className="flex justify-end">
-        <button onClick={handleShowModal}>
-          <ICClear />
-        </button>
+        {
+          data.role !== RoleUser.SYSTEM ? (
+          <button onClick={handleShowModal}>
+            <ICClear />
+          </button>
+
+          ) : null
+        }
       </div>
     </div>
   );

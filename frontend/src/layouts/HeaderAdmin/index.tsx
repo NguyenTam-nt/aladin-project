@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { memo, useContext } from "react";
 import Logo from "@assets/images/logo.jpg";
 import { Ilanguage, TranslateContext } from "@contexts/Translation";
 import { HeaderItemFlag } from "layouts/Header/components/HeaderItemFlag";
@@ -10,10 +10,9 @@ import { Link } from "react-router-dom";
 import { AuthContext } from "@contexts/AuthContext";
 import { Avatar } from "@components/Avatar";
 
-export const HeaderAdmin = () => {
+export const HeaderAdmin = memo(() => {
   const { t, isVn } = useContext(TranslateContext);
   const {user} = useContext(AuthContext)
- 
   return (
     <div
       className="h-[96px] pl-[32px] z-[90000] pr-[126px] py-[24px] bg-white flex justify-between items-center border-b-[1px] border-solid border-br_E9ECEF sticky top-0 left-0 right-0 min-w-[1280px]"
@@ -70,7 +69,7 @@ export const HeaderAdmin = () => {
       </div>
     </div>
   );
-};
+})
 
 const HeaderOptionSlash = () => {
   return (

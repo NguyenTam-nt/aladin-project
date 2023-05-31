@@ -78,7 +78,7 @@ export const SidebarNavigation = ({ isShowSidebar, onShow }: propsNavigate) => {
         return (
           <SubNavLinkItem
             onHidden={onShow}
-            subNavs={item.items}
+            subNavs={item.items?.filter(item => item.status) ?? []}
             key={index}
             path={item.link + ""}
             // isHidenRouter={item.isHidenRouter}

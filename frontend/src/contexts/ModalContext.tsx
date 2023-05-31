@@ -37,8 +37,7 @@ export default function ModalProvider({ children }: Props) {
   };
 
   useEffect(() => {
-    window.addEventListener("popstate", function (event) {
-        console.log({event})
+    window.addEventListener("popstate", function () {
         if(isShow) {
             hideModal();
         }

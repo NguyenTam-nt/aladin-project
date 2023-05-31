@@ -45,7 +45,6 @@ export const useHandleMultiImage = (images?:string[], _?: (files:File[]) => void
     const handleMessageFile = () => {
       setMessage("message.warn._required")
     }
-console.log([...linkPasteImage, ...preViewImage])
     return {
         preViewImage: [...linkPasteImage, ...preViewImage],
         handleChange,

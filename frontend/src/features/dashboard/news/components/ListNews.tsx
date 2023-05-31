@@ -10,7 +10,7 @@ import { ModalContext } from "@contexts/ModalContext";
 import { TranslateContext } from "@contexts/Translation";
 import Pagination from "@features/dashboard/components/Pagination";
 import type {  INews } from "@typeRules/news";
-import React, { ChangeEvent, MutableRefObject, Ref, useContext } from "react";
+import React, { ChangeEvent, MutableRefObject, Ref, memo, useContext } from "react";
 import { Link } from "react-router-dom";
 
 type Props = {
@@ -27,7 +27,7 @@ type Props = {
   loading: boolean;
 };
 
-export const ListNews = ({
+export const ListNews = memo(({
   data,
   total,
   currentPage,
@@ -120,4 +120,4 @@ export const ListNews = ({
       </div>
     </div>
   );
-};
+})

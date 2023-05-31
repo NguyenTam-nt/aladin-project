@@ -8,10 +8,10 @@ export const useHandleImage = (image?:string, onChange?: (file:File) => void, ha
     const [message, setMessage] = useState("")
 
     useEffect(() => {
-      if(!preViewImage.trim()) {
+      // if(!preViewImage.trim()) {
         setPreViewImage(image ?? "")
-      }
-    }, [image, preViewImage])
+      // }
+    }, [image])
 
     const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
       const file = event.target.files![0];
@@ -23,7 +23,7 @@ export const useHandleImage = (image?:string, onChange?: (file:File) => void, ha
   
     const handleDelete = () => {
       handleDeleteLogin?.()
-      setPreViewImage(" ");
+      setPreViewImage("");
       setCurrentFile(undefined)
     };
 

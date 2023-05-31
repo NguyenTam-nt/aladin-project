@@ -36,8 +36,6 @@ export const PopUp = memo(({ message }: Props) =>  {
         setSecond(timeLine);
       }
       if (timeLine <= 0) {
-        console.log("delete", message.id)
-        hiddenPopup(message.id ?? "")
         setIsHidePopUp(true);
       }
     }, 100);

@@ -39,7 +39,7 @@ export const ImagePreview = memo(
           <img
             alt=""
             src={url}
-            className={clsx("w-full h-full object-cover " + className)}
+            className={clsx("w-full h-full object-contain " + className)}
           />
         ) : (
           <video  className="w-full h-full object-cover" muted={true} autoPlay>
@@ -52,7 +52,7 @@ export const ImagePreview = memo(
             onClick={onDelete}
             className="absolute top-[17px] right-[17px]"
           >
-            <ICDeleteImage />
+            <ICDeleteImage color={Colors.text_C53434} />
           </button>
         ) : null}
       </div>

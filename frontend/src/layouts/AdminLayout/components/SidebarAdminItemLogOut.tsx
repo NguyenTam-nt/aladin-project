@@ -10,8 +10,8 @@ export const SidebarAdminItemLogOut = () => {
     const {doLogout} = useContext(AuthContext)
     const navigate = useNavigate()
     const handleLogout = () => {
-      doLogout()
       navigate(prefixRootRoute.public)
+      doLogout()
     }
   return (
     <div onClick={handleLogout} className="flex items-center cursor-pointer h-[60px]  px-[29px] border-l-[4px] border-solid border-transparent">

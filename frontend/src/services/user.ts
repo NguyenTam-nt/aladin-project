@@ -28,5 +28,9 @@ export const userService = {
     delete: (userId:string):Promise<void> => {
         const api = getApi("keycloak/delete")
         return HttpService.axiosClient.delete(`${api}/${userId}`)
+    },
+    update: (data:IUser):Promise<IUser> => {
+        const api = getApi("keycloak/update")
+        return HttpService.axiosClient.put(`${api}`, data)
     }
 }

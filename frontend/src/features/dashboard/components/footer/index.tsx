@@ -19,7 +19,6 @@ export const Footer = () => {
     footerService
       .get()
       .then((data) => {
-        console.log({ data });
         setData(data);
       })
       .finally(() => {

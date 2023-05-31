@@ -34,7 +34,6 @@ export const ModalHandleMenu = ({ data, onEdit }: Props) => {
     async (name: string, value: string) => {
       if (isVn) {
         const content = await translateService.post(value);
-        console.log(`${name}Ko`)
         setHeaders({
           ...headers,
           [`${name}Ko`]: content,

@@ -188,7 +188,6 @@ const VideoItem = ({ url, isActive }: PropVideoItem) => {
 
   useEffect(() => {
     if (refVideo.current) {
-      console.log({ isActive });
       if (isActive) {
         refVideo.current.play();
       } else {

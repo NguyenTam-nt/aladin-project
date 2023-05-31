@@ -8,41 +8,49 @@ import clsx from "clsx";
 import { useGetHeader } from "./useGetHeader";
 
 export const HeaderNavigation = () => {
-
-  const {isVn} = useContext(TranslateContext)
-  const {headers} = useGetHeader()
+  const { isVn } = useContext(TranslateContext);
+  const { headers } = useGetHeader();
   return (
     <div className="h-[60px] flex justify-between items-center">
       {headers.slice(0, 5).map((item, index) => {
-        const subNews = item?.items ?? []
-        return  (
-          <div key={index} className={clsx({ "header-subnav": item?.items?.length })}>
+        const subNews = item?.items?.filter(item => item.status) ?? [];
+        return (
+          <div
+            key={index}
+            className={clsx({ "header-subnav": item?.items?.length })}
+          >
             <HeaderNavigationLink
               to={item.link ?? ""}
-              text={`${isVn ? item.name : item.nameKo}`} 
+              text={`${isVn ? item.name : item.nameKo}`}
               withArrow={subNews.length > 0}
             />
             {item?.items && item?.items.length ? (
               <div
                 className="header-subnav-child shadow-lg"
                 style={{
-                  ["--length-subnav" as string]:  subNews?.length,
+                  ["--length-subnav" as string]: subNews?.length,
                 }}
               >
                 <ul>
                   {subNews.map((_item, indexSub) => {
                     return (
-                     (<li key={indexSub}>
+                      <li key={indexSub}>
                         <HeaderSubNavigationLink
-                          to={`${item.link}${ _item.link ? item.link === paths.news.prefix ? `?type=${_item.link}` : `/${_item.link}` : ""}`}
-                          text={`${isVn ? _item.name : _item.nameKo}`} 
+                          to={`${item.link}${
+                            _item.link
+                              ? item.link === paths.news.prefix
+                                ? `?type=${_item.link}`
+                                : `/${_item.link}`
+                              : ""
+                          }`}
+                          text={`${isVn ? _item.name : _item.nameKo}`}
                         />
-                      </li> )
-                    );
+                      </li>
+                    )
                   })}
                 </ul>
               </div>
-            ) : null }
+            ) : null}
           </div>
         )
       })}
@@ -52,19 +60,19 @@ export const HeaderNavigation = () => {
         <div
           className="header-subnav-child shadow-lg right-0"
           style={{
-            ["--length-subnav" as string]: headers.slice(5).length
+            ["--length-subnav" as string]: headers.slice(5).length,
           }}
         >
           <ul>
             {headers.slice(5).map((item, index) => {
-              return  (
+              return (
                 <li key={index}>
                   <HeaderSubNavigationLink
                     to={`${item?.link}`}
-                    text={`${isVn ? item?.name : item?.nameKo}`} 
+                    text={`${isVn ? item?.name : item?.nameKo}`}
                   />
                 </li>
-              )
+              );
             })}
           </ul>
         </div>
@@ -76,7 +84,7 @@ export const HeaderNavigation = () => {
 const HeaderNavigationLink = ({
   withArrow = false,
   text,
-  to
+  to,
 }: {
   withArrow?: boolean;
   text: string;

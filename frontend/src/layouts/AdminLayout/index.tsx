@@ -1,14 +1,11 @@
 import { HeaderAdmin } from "layouts/HeaderAdmin";
-import React, { useContext } from "react";
+import React, { lazy } from "react";
 import { Outlet } from "react-router-dom";
-import { SidebarAdmin } from "./SidebarAdmin";
 import { Footer } from "layouts/Footer";
-import { AuthContext } from "@contexts/AuthContext";
-import NotFound from "@features/NotFound";
+
+const SidebarAdmin = lazy(() => import("./SidebarAdmin").then(module => ({default: module.SidebarAdmin})))
 
 export const AdminLayout = () => {
-  const {isLogin} = useContext(AuthContext)
-  if(!isLogin) return <NotFound />
   return (
     <div className="min-w-[1280px] xl:min-w-full ">
       <HeaderAdmin />

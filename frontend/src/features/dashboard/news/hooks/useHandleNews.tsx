@@ -41,7 +41,7 @@ export const useHandleNews = () => {
         setLoading(true)
         newsService
           .gewNewCategory?.(
-            { page: page - 1, size: PAGE_SIZE },
+            { page: page - 1, size: PAGE_SIZE, sort: "id,desc" },
             query,
             listFilter.join(",")
           )

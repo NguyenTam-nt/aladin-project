@@ -20,8 +20,7 @@ export  const TranslateToKorean = async (value: FilteredObject , refFormik?:  Re
               .then((translationResult) => {
                 filteredObject[key] = translationResult;
               })
-              .catch((error) => {
-                 console.log(error);
+              .catch(() => {
                  
               });
             translationPromises.push(translationPromise);

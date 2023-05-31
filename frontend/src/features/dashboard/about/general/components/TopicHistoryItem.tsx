@@ -29,6 +29,7 @@ import { historySevice } from "@services/historyService";
 import type { IHistory } from "@typeRules/history";
 import { PopUpContext } from "@contexts/PopupContext";
 import { translateService } from "@services/translate";
+import { convertContent } from "@commons/index";
 
 type PropsTopicHistoryItem = {
   type?: "ADD" | "EDIT";
@@ -57,8 +58,8 @@ export const TopicHistoryItem = memo(
       },
       validationSchema: Yup.object({
         year: Yup.string().required("message.warn._required"),
-        description: Yup.string().required("message.warn._required"),
-        descriptionKo: Yup.string().required("message.warn._required"),
+        description: Yup.string().required("message.warn._required").max(5000, "message.warn._max_length"),
+        descriptionKo: Yup.string().required("message.warn._required").max(5000, "message.warn._max_length"),
       }),
       onSubmit: async (values) => {
         if (!isAdd) return;
@@ -162,7 +163,8 @@ export const TopicHistoryItem = memo(
     const handleTranslate = useCallback(
       async (name: keyof IHistory, value: string) => {
         try {
-          const content = await translateService.post(value);
+          const newValue = convertContent(value)
+          const content = await translateService.post(newValue);
           formik.setFieldValue(`${name}Ko`, content);
           //@ts-ignore
           if (!isAdd && (value !== data?.[name] || content !== data?.[`${name}Ko`])) {

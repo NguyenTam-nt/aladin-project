@@ -36,11 +36,12 @@ export const SidebarAdminItem = ({ data }: Props) => {
         className={clsx(
           "relative  h-[60px] items-center  flex justify-between"
         )}
+        onClick={ !!data.subNavs ? handleShow : undefined }
       >
         <Link
           to={`${prefixRootRoute.admin}/${data.path}`}
           className="flex items-center"
-          onClick={ !!data.subNavs ? handleShow : undefined }
+         
         >
           <div className="w-[24px] flex justify-center">
             <data.icon

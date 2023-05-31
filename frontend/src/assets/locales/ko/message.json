@@ -1,7 +1,11 @@
 {
     "message": {
         "warn": {
-            "_required": "필수"
+            "_required": "필수",
+            "_password_old": "새 비밀번호가 이전 비밀번호와 일치하지 않습니다.",
+             "_confirm_password": "비밀번호가 일치하지 않습니다.",
+             "_validate_password": "비밀번호는 대문자, 소문자, 특수문자를 포함하여 6자 이상이어야 합니다.",
+             "_max_length": "최대 5000자까지 입력하세요."
         },
         "success": {
             "_success": "성공"

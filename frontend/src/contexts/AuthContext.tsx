@@ -10,6 +10,7 @@ interface AuthState {
   isLogin: boolean
   doLogin: () => void
   doLogout: () => void
+  updateUser: (user:IUser) => void
 }
 
 export const AuthContext = createContext<AuthState>({
@@ -17,6 +18,7 @@ export const AuthContext = createContext<AuthState>({
   hasRole: () => false,
   doLogin: () => {},
   doLogout: () => {},
+  updateUser: (_:IUser) => {},
   isLogin: false,
 })
 
@@ -60,6 +62,13 @@ export default function AuthProvider({children}: Props) {
     return roles.some((role) => role === user.role)
   }
 
+  const updateUser = (user:IUser) => {
+    setUser({
+      ...user
+    })
+    localStorage.setItem('account', JSON.stringify(user))
+  }
+
 
   return (
     <AuthContext.Provider
@@ -69,6 +78,7 @@ export default function AuthProvider({children}: Props) {
         hasRole,
         doLogin,
         doLogout,
+        updateUser
       }}
     >
       {children}

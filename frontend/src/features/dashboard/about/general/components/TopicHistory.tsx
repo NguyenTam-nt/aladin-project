@@ -21,7 +21,6 @@ export const TopicHistory = () => {
   };
   const { currenPage, setCurrentPage } = usePagination();
   const handleSubmit = (data: IHistory) => {
-    console.log({ data });
     setHistories({
       total: listHistories?.total ?? 0,
       data: [data, ...(listHistories?.data ?? [])],
@@ -31,7 +30,6 @@ export const TopicHistory = () => {
   const handleSubmitEdit = (data: IHistory) => {
     if (!listHistories) return;
     const newList = [...listHistories.data];
-    console.log({ data });
     const index = newList.findIndex((item) => item.id === data.id);
     newList.splice(index, 1, data);
 
