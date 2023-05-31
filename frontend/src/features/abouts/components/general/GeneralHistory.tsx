@@ -19,6 +19,7 @@ export const GeneralHistory = () => {
       })
     }, [])
   return (
+    data.length > 0 ? (
     <div>
        <GeneralTitle title={isVn ? "1. Lịch sử hình thành và phát triển" : "1. 형성과 발전의 역사"} />
         {width >= withResponsive._992 ? (
@@ -27,5 +28,6 @@ export const GeneralHistory = () => {
           <GeneralHitorySliderMobile data={data} />
         )}
       </div>
+    ) : null
   )
 }
