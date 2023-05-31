@@ -54,6 +54,7 @@ export const HomeTopicMonthlyEvents = () => {
       title="home.home_topic._event"
       onNextClick={handleNext}
       onPreClick={handlePre}
+      isPaddingTop
       path={`${paths.news.prefix}/?type=${EventId}`}
     >
       <div className="mt-[32px] m992:mt-[52px]">

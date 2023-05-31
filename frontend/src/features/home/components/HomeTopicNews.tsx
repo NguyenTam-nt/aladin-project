@@ -59,7 +59,7 @@ export const HomeTopicNews = () => {
 export const HomeTopicNewsImages = ({images}:{images:{image:string}[]}) => {
   const {ref, isInView} = useInView()
   return (
-    <div ref={ref} className={clsx("flex flex-wrap max-w-[336px] md:max-w-[366px] lg:max-w-[424px] gap-[16px] xl:gap-[24px] h-[218px] xl:h-[274px]", {"animate__animated animate__slideInLeft":isInView})}>
+    <div ref={ref} className={clsx("flex flex-wrap max-w-[336px] overflow-hidden md:max-w-[366px] lg:max-w-[424px] gap-[16px] xl:gap-[24px] h-[218px] xl:h-[274px]", {"animate__animated animate__slideInLeft":isInView})}>
       {images.map((item, index) => {
         return (
           <div
