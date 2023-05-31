@@ -5,7 +5,7 @@ import { ICFileOther } from "@assets/icons/ICFileOther";
 import { ICFilePDF } from "@assets/icons/ICFilePDF";
 import { ICFileVideo } from "@assets/icons/ICFileVideo";
 import type { IFileList } from "@features/dashboard/documents/hooks/useHandleCreateDocuments";
-import React, {useCallback} from "react"
+import React from "react"
 
 export const GetFileType = (file: IFileList , size : number) => {
   const type = file.type;
