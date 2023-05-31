@@ -203,7 +203,7 @@ const InfoAccountTable = memo(({ file }: { file: File | undefined }) => {
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             value={formik.values.position}
-            placeholder="info_manage._form_create._birth._placeholder"
+            placeholder="info_manage._form_create._position._placeholder"
             className="h-[44px]"
           />
           {formik.errors.position && formik.touched.position && <TextError message={formik.errors.position} />}
