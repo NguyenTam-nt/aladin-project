@@ -105,12 +105,11 @@ public class NewsServiceImpl implements NewsService {
     }
 
     @Override
-    @Transactional(readOnly = true)
     public Optional<NewsDTO> findOne(Long id) {
         log.debug("Request to get News : {}", id);
         Optional<News> newsOptiona = newsRepository.findById(id);
         if(newsOptiona.isPresent()) {
-            long v = newsOptiona.get().getView() == null ? 1 : newsOptiona.get().getView() + 1;
+            long v = newsOptiona.get().getView() == null ? 1 : (newsOptiona.get().getView() + 1);
             newsOptiona.get().setView(v);
             newsRepository.save(newsOptiona.get());
         }

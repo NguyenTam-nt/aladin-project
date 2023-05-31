@@ -15,7 +15,6 @@ import org.hibernate.annotations.Fetch;
  */
 @Entity
 @Table(name = "news")
-@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @org.springframework.data.elasticsearch.annotations.Document(indexName = "hcm_news")
 @SuppressWarnings("common-java:DuplicatedBlocks")
 public class News extends AbstractAuditingEntity<Long> implements Serializable {
