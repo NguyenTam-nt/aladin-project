@@ -19,7 +19,7 @@ export const AuthContext = createContext<AuthState>({
   doLogin: () => {},
   doLogout: () => {},
   updateUser: (_:IUser) => {},
-  isLogin: false,
+  isLogin: !!localStorage.getItem('accessToken'),
 })
 
 type Props = {
