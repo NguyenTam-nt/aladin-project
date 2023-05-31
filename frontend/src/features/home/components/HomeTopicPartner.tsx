@@ -47,7 +47,7 @@ export const HomeTopicPartner = () => {
             {bannerHome.map((item, index) => {
               return (
                 <SwiperSlide key={index}>
-                  <img src={item?.link} className="h-[48px]" alt="" />
+                  <img src={item?.link} className=" h-[48px] xl:h-auto" alt="" />
                 </SwiperSlide>
               );
             })}
