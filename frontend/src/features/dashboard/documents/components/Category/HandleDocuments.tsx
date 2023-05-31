@@ -131,7 +131,7 @@ export const HandleDocuments = memo(() => {
           />
           <div className="flex gap-[24px] h-[168px]">
             <div className="w-[424px] h-full">
-              <InputUploadFile accept={""} onChange={handleChangFile} />
+              <InputUploadFile isAny accept={""} onChange={handleChangFile} />
             </div>
           </div>
         </div>

@@ -12,6 +12,8 @@
         "_male": "Nam",
         "_female": "Nữ",
         "_chosse_image": "Chọn hình ảnh tải lên",
+        "_chosse_video": "Chọn video tải lên",
+        "_chosse_file" : "Chọn file tải lên",
         "_or": "hoặc",
         "_pase_link": "Dán đường liên kết",
         "_des_post": "Mô tả bài viết",

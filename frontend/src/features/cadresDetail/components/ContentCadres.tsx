@@ -30,30 +30,30 @@ const ContentNews = () => {
   const { t, isVn } = useContext(TranslateContext);
   return news ? (
     <div className="flex flex-1 flex-col mt-[84px]">
-      <div className="flex flex-row">
+      <div className="flex flex-col xl:flex-row">
         <img
           className="h-[401px] w-[312px] object-cover"
           src={news.files[0].link}
         ></img>
         <div className="flex flex-col ml-[24px]">
           <div className="flex flex-row   items-center">
-            <span className=" text-secondary">{news.position}</span>
+            <span className=" text-secondary">{isVn ? news.position : news.positionKo}</span>
             <div className=" ml-[16px] h-[1px] w-[30%] text-_18 bg-black "></div>
           </div>
           <div>
-            <p className="text-_32 mt-[24px]">{news.fullname}</p>
+            <p className="text-_32 mt-[24px]">{isVn ? news.fullname : news.fullnameKo}</p>
           </div>
           <div className="mt-[24px]">
             <p className="text-_18 font-semibold ">
               {t("cadres_manage._form_create._specialized._name")}
             </p>
-            <p className="text-_14 mt-[8px]">{news.major}</p>
+            <p className="text-_14 mt-[8px]">{isVn ? news.major : news.majorKo}</p>
           </div>
           <div className="mt-[24px]">
             <p className="text-_18 font-semibold ">
               {t("cadres_manage._form_create._job._name")}
             </p>
-            <p className="text-_14 mt-[8px]">{news.workResponsibility}</p>
+            <p className="text-_14 mt-[8px]">{isVn ? news.workResponsibility : news.workResponsibilityKo}</p>
           </div>
           <div className="mt-[24px]">
             <p className="text-_18 font-semibold ">

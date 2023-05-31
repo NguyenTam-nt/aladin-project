@@ -8,8 +8,8 @@ const pathSubject = getApi("subjects");
 const pathSubjectDelete = getApi("subjects/allid?ids=");
 
 export const subjectService = {
-  get: (params?: IParams): Promise<IResponseData<ISubject>> => {
-    return HttpService.axiosClient.get(pathSubject, { params });
+  get: (params: IParams , query = ""): Promise<IResponseData<ISubject>> => {
+    return HttpService.axiosClient.get(pathSubject,  {params: {...params, keyword: query}});
   },
   getCadresById: ( id : string): Promise<ISubject> => {
     return HttpService.axiosClient.get(pathSubject + `/${id}`);

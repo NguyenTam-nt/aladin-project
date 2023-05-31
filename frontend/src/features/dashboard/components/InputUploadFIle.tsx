@@ -29,7 +29,13 @@ export const InputUploadFile = React.forwardRef(
         <div className="flex items-center">
           <ICUploadImage />
           <span className=" text-text_primary ml-[20px]">
-            {t("common._chosse_image")}
+            {t(
+              isAny
+                ? "common._chosse_file"
+                : isVideos
+                ? "common._chosse_video"
+                : "common._chosse_image"  
+            )}
           </span>
           <label
             htmlFor={id}
@@ -40,7 +46,6 @@ export const InputUploadFile = React.forwardRef(
               ref={ref}
               onClick={onInputClick}
               accept={
-                
                 !isAny ? (isVideos ? "video/*" : "image/*") : "video/*,image/*"
               }
               onChange={onChange}

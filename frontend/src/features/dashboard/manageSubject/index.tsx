@@ -1,4 +1,4 @@
-import React, { memo, useContext, useEffect, useState } from "react";
+import React, { ChangeEvent, memo, useCallback, useContext, useEffect, useRef, useState } from "react";
 import { HeaderAdmin } from "../components/HeaderAdmin";
 import { TranslateContext } from "@contexts/Translation";
 // import { ModalContext } from "@contexts/ModalContext";
@@ -12,12 +12,15 @@ import DialogConfirmDelete from "@components/DialogConfirmDelete";
 
 import { useHandleCheckbox } from "../hooks/useHandleCheckbox";
 import { Checkbox } from "@components/Checkbox";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import { pathsAdmin } from "@constants/routerAdmin";
 import type { ISubject } from "@typeRules/subject";
 import { subjectService } from "@services/subject";
 import { PAGE_SIZE } from "@constants/contain";
 import moment from "moment";
+import { debounce } from "lodash";
+import { PopUpContext } from "@contexts/PopupContext";
+
 
 
 export const ManageSubject = () => {
@@ -27,6 +30,7 @@ export const ManageSubject = () => {
   const setElementModalDelete = useContext(ModalContext).setElementModal;
   const [data, setData] = useState<ISubject[]>([]);
   const [totalPage, setTotalPage] = useState(0);
+  const { showSuccess } = useContext(PopUpContext)
   const {
     refCheckboxAll,
     refCheckboxList,
@@ -35,18 +39,31 @@ export const ManageSubject = () => {
     listChecked,
     setListChecked
   } = useHandleCheckbox(data.map((item) => item.id));
+  const [_, setSearchParam] = useSearchParams()
+  const debounceFuc = useRef<ReturnType<typeof debounce>>();
+  const [searchQuery, setSearchQuery] = useState<string>("");
+  const handleChangeSearch = useCallback(
+    (event: ChangeEvent<HTMLInputElement>) => {
+      const query = event.target.value;
+      setSearchQuery(query);
+      if (query.trim()) {
+        setCurrentPage(1);
+        setSearchParam({ page: `1` });
+      }
+    },
+    []
+  );
 
-  const getSubject = (page: number) => {
+  const getSubject = useCallback((page: number , query?: string) => {
     subjectService
-      .get({ page: page, size: PAGE_SIZE, sort: "createdDate,desc" })
+      .get({ page: page, size: PAGE_SIZE, sort: "createdDate,desc" } , query)
       .then((data) => {
         setData(data.data);
         setTotalPage(Math.ceil(data.total / PAGE_SIZE));
       });
-  };
+  } , []);
 
   const onDeleteById = (id?: number) => {
- 
     subjectService
       .delete(id ? id!.toString() : listChecked.join(","))
       .then(() => {
@@ -59,6 +76,7 @@ export const ManageSubject = () => {
           getSubject(currenPage -1);
         }
         setListChecked([])
+        showSuccess("message.success._success");
       });
   };
 
@@ -66,10 +84,26 @@ export const ManageSubject = () => {
     setCurrentPage(page);
     getSubject(page - 1);
   };
+  const handleGetDataBySearch = useCallback(
+    (page: number, query: string) => {
+      if (debounceFuc.current) debounceFuc.current.cancel();
+      debounceFuc.current = debounce(() => {
+        getSubject(page, query)
+      }, 300);
+      debounceFuc.current();
+    },
+    [getSubject]
+  );
+
 
   useEffect(() => {
-    getSubject(0);
-  }, []);
+    if (!searchQuery.trim()) {
+      if (debounceFuc.current) debounceFuc.current.cancel();
+      getSubject(Number(currenPage - 1 ?? 0), searchQuery);
+    } else {
+      handleGetDataBySearch(Number(currenPage - 1 ?? 0), searchQuery);
+    }
+  }, [searchQuery, currenPage]);
 
   const handleShowModalDelete = (id?: number) => {
     setElementModalDelete(
@@ -90,7 +124,7 @@ export const ManageSubject = () => {
     <div className="px-[24px]">
       <HeaderAdmin title="subject_manage._title" />
       <div className="flex items-center h-[48px]">
-        <InputAdmin />
+      <InputAdmin searchQuery={searchQuery} onChange={handleChangeSearch} />
         <Button
           onClick={() => {
             handleShowModalDelete();
@@ -119,7 +153,8 @@ export const ManageSubject = () => {
         refCheckboxAll={refCheckboxAll}
         refCheckboxList={refCheckboxList}
         setsubjectChooseById={handleCheckedItem}
-        onDeleteById={onDeleteById}
+        onDeleteById={handleShowModalDelete}
+        listChecked={listChecked}
       />
       <div className="mt-[120px] flex justify-end">
         <Pagination
@@ -141,7 +176,8 @@ type subjectTableProps = {
   setsubjectChooseById: (
     event: React.ChangeEvent<HTMLInputElement>,
     index: number
-  ) => void;
+  ) => void ,
+  listChecked : number[]
 };
 
 const SubjectTable = memo(
@@ -152,6 +188,7 @@ const SubjectTable = memo(
     onDeleteById,
     refCheckboxAll,
     refCheckboxList,
+    listChecked
   }: subjectTableProps) => {
     const { t } = useContext(TranslateContext);
 
@@ -183,6 +220,7 @@ const SubjectTable = memo(
               setsubjectChooseById={setsubjectChooseById}
               onDeleteById={onDeleteById}
               refCheckboxList={refCheckboxList}
+              listChecked={listChecked}
             />
           );
         })}
@@ -200,6 +238,7 @@ interface subjectTableItemProps {
   ) => void;
   onDeleteById: (id: number) => void;
   refCheckboxList: React.MutableRefObject<HTMLInputElement[]>;
+  listChecked : number[]
 }
 
 const SubjectTableItem = ({
@@ -207,13 +246,14 @@ const SubjectTableItem = ({
   index,
   setsubjectChooseById,
   onDeleteById,
-  refCheckboxList,
+  refCheckboxList,listChecked
 }: subjectTableItemProps) => {
   const { isVn} = useContext(TranslateContext)
   return (
     <div className="py-[16px] grid  grid-cols-[1fr_1fr_3fr_6fr_2fr_2fr]  text-_18 font-semibold text-text_primary border-b-[1px] border-solid border-br_E9ECEF">
       <button>
         <Checkbox
+          checked={listChecked.some((_item) => _item === item?.id)}
           onChange={(event) => setsubjectChooseById(event, index)}
           ref={(ref: HTMLInputElement) =>
             (refCheckboxList.current[index] = ref)

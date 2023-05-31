@@ -9,8 +9,8 @@ const pathCadresDelete = getApi("cadres/allid?ids=");
 const pathCadresCategory = getApi("cadres-categories");
 
 export const cadresService = {
-  get: (params?: IParams): Promise<IResponseData<ICadres>> => {
-    return HttpService.axiosClient.get(pathCadres, { params });
+  get: (params: IParams , query = ""): Promise<IResponseData<ICadres>> => {
+    return HttpService.axiosClient.get(pathCadres,  {params: {...params, keyword: query}});
   },
   getById: ( id : string, params?: IParams): Promise<IResponseData<ICadres>> => {
     return HttpService.axiosClient.get(pathCadres, {params: {...params, keyword: "", categoriesId : id}});
