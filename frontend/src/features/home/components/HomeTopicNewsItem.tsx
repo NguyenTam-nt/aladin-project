@@ -79,7 +79,7 @@ export const HomeTopicNewsItem = ({
             "text-text_white": isChangeColor,
           })}
           dangerouslySetInnerHTML={{
-            __html: `${isVn ? data?.content : data?.contentKo}`,
+            __html: `${isVn ? `${data?.content}`.length > 300 ? `${data?.content.slice(0, 297)}...` : data?.content  : `${data?.contentKo}`.length > 300 ? `${data?.contentKo.slice(0, 297)}...` : data?.contentKo}`,
           }}
         ></div>
       ) : null}
