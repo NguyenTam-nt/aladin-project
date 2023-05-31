@@ -83,7 +83,10 @@ export const Banner = () => {
   const handleDeleteBanner = (id:number) => {
     const newBanners = [...banners]
     const index = newBanners.findIndex(item => item.id === id)
-    newBanners.splice(index, 1)
+    newBanners.splice(index, 1, {
+      ...newBanners[index],
+      link: ""
+    })
     setBanners([...newBanners])
   }
 
