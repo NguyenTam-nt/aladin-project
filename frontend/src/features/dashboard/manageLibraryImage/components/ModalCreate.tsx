@@ -37,7 +37,6 @@ export const ModalCreate = ({ callback} : { callback ? : () => void}) => {
   const postGallery = async (value: IGalleryPostCheck) => {
     const valueTranslate = await TranslateToKorean(value, formikRef);
     galleryService
-    //@ts-ignore
       .post({
         ...value,
         ...valueTranslate,

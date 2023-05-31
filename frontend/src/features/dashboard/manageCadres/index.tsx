@@ -1,4 +1,4 @@
-import React, { memo, useContext, useEffect, useState } from "react";
+import React, { ChangeEvent, memo, useCallback, useContext, useEffect, useRef, useState } from "react";
 import { HeaderAdmin } from "../components/HeaderAdmin";
 import { TranslateContext } from "@contexts/Translation";
 // import { ModalContext } from "@contexts/ModalContext";
@@ -12,11 +12,13 @@ import DialogConfirmDelete from "@components/DialogConfirmDelete";
 
 import { useHandleCheckbox } from "../hooks/useHandleCheckbox";
 import { Checkbox } from "@components/Checkbox";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import { pathsAdmin } from "@constants/routerAdmin";
 import { cadresService } from "@services/cadres";
 import type { ICadres } from "@typeRules/cadres";
 import { PAGE_SIZE } from "@constants/contain";
+import { debounce } from "lodash";
+import { PopUpContext } from "@contexts/PopupContext";
 
 
 
@@ -25,6 +27,7 @@ export const ManageCadres = () => {
   const { t } = useContext(TranslateContext);
   const setElementModalDelete = useContext(ModalContext).setElementModal;
   const [data, setData] = useState<ICadres[]>([]);
+  const { showSuccess} = useContext(PopUpContext)
   const [totalPage , setTotalPage] = useState(0)
   const {
     refCheckboxAll,
@@ -34,15 +37,29 @@ export const ManageCadres = () => {
     listChecked,
     setListChecked
   } = useHandleCheckbox(data.map((item) => item.id));
+  const [_, setSearchParam] = useSearchParams()
+  const debounceFuc = useRef<ReturnType<typeof debounce>>();
+  const [searchQuery, setSearchQuery] = useState<string>("");
+  const handleChangeSearch = useCallback(
+    (event: ChangeEvent<HTMLInputElement>) => {
+      const query = event.target.value;
+      setSearchQuery(query);
+      if (query.trim()) {
+        setCurrentPage(1);
+        setSearchParam({ page: `1` });
+      }
+    },
+    []
+  );
 
-   const getCadres = (page: number) => {
+   const getCadres = useCallback((page: number , query? : string) => {
      cadresService
-       .get({ page: page , size: PAGE_SIZE, sort: "createdDate,desc" })
+       .get({ page: page , size: PAGE_SIZE, sort: "createdDate,desc"  } , query)
        .then((data) => {
          setData(data.data);
          setTotalPage(Math.ceil(data.total / PAGE_SIZE));
        });
-   };
+   } , []);
 
    const onDeleteById = (id?: number) => {
     cadresService
@@ -57,19 +74,36 @@ export const ManageCadres = () => {
         } else {
           getCadres(currenPage -1);
         }
+        showSuccess("message.success._success");
         setListChecked([])
       });
   };
 
    const changePage = (page: number) => { 
       setCurrentPage(page)
-      getCadres(page -1)
+    
    }
 
+
+  const handleGetDataBySearch = useCallback(
+    (page: number, query: string) => {
+      if (debounceFuc.current) debounceFuc.current.cancel();
+      debounceFuc.current = debounce(() => {
+        getCadres(page, query)
+      }, 300);
+      debounceFuc.current();
+    },
+    [getCadres]
+  );
+
   useEffect(() => {
-    setCurrentPage(1)
-    getCadres(0)
-  }, []); 
+    if (!searchQuery.trim()) {
+      if (debounceFuc.current) debounceFuc.current.cancel();
+      getCadres(Number(currenPage -1 ?? 0), searchQuery);
+    } else {
+      handleGetDataBySearch(Number(currenPage -1 ?? 0), searchQuery);
+    }
+  }, [searchQuery , currenPage]);
 
   const handleShowModalDelete = (id?: number) => {
     setElementModalDelete(
@@ -90,7 +124,7 @@ export const ManageCadres = () => {
     <div className="px-[24px]">
       <HeaderAdmin title="cadres_manage._title" />
       <div className="flex items-center h-[48px]">
-        <InputAdmin />
+      <InputAdmin searchQuery={searchQuery} onChange={handleChangeSearch} />
         <Button
           onClick={() => {
             handleShowModalDelete();
@@ -119,7 +153,8 @@ export const ManageCadres = () => {
         refCheckboxAll={refCheckboxAll}
         refCheckboxList={refCheckboxList}
         setCadresChooseById={handleCheckedItem}
-        onDeleteById={onDeleteById}
+        onDeleteById={handleShowModalDelete}
+        listChecked={listChecked}
       />
       <div className="mt-[120px] flex justify-end">
         <Pagination
@@ -142,6 +177,7 @@ type CadresTableProps = {
     event: React.ChangeEvent<HTMLInputElement>,
     index: number
   ) => void;
+  listChecked : number[]
 };
 
 const CadresTable = memo(
@@ -152,6 +188,7 @@ const CadresTable = memo(
     onDeleteById,
     refCheckboxAll,
     refCheckboxList,
+    listChecked
   }: CadresTableProps) => {
     const { t  } = useContext(TranslateContext);
 
@@ -182,6 +219,7 @@ const CadresTable = memo(
               setCadresChooseById={setCadresChooseById}
               onDeleteById={onDeleteById}
               refCheckboxList={refCheckboxList}
+              listChecked={listChecked}
             />
           );
         })}
@@ -199,6 +237,7 @@ interface CadresTableItemProps {
   ) => void;
   onDeleteById: (id: number) => void;
   refCheckboxList: React.MutableRefObject<HTMLInputElement[]>;
+  listChecked : number[]
 }
 
 const CadresTableItem = ({
@@ -207,12 +246,14 @@ const CadresTableItem = ({
   setCadresChooseById,
   onDeleteById,
   refCheckboxList,
+  listChecked
 }: CadresTableItemProps) => {
   const {  isVn } = useContext(TranslateContext);
   return (
-    <div  className=" items-center gap-x-[24px]  grid grid-cols-[30px_30px_1fr_1fr_20%_12%]  font-semibold text-_14 text-text_primary py-[16px] border-b border-br_E9ECEF">
+    <div className=" items-center gap-x-[24px]  grid grid-cols-[30px_30px_1fr_1fr_20%_12%]  font-semibold text-_14 text-text_primary py-[16px] border-b border-br_E9ECEF">
       <button>
         <Checkbox
+          checked={listChecked.some((_item) => _item === item?.id)}
           onChange={(event) => setCadresChooseById(event, index)}
           ref={(ref: HTMLInputElement) =>
             (refCheckboxList.current[index] = ref)
@@ -220,21 +261,23 @@ const CadresTableItem = ({
         />
       </button>
       <div>
-      <p className="text-_14 font-semibold text-text_black  text-justify ">
-        {index + 1}
-      </p>
+        <p className="text-_14 font-semibold text-text_black  text-justify ">
+          {index + 1}
+        </p>
       </div>
       <div>
-      <p className="text-_14 font-semibold text-text_black">{ isVn ? item.fullname : item.fullnameKo}</p>
+        <p className="text-_14 font-semibold text-text_black">
+          {isVn ? item.fullname : item.fullnameKo}
+        </p>
       </div>
       <p className="text-_14 font-semibold text-text_black">
-        {isVn ? item.position  : item.positionKo}
+        {isVn ? item.position : item.positionKo}
       </p>
-      <p className="text-_14 font-semibold text-text_black">{ item.email }</p>
+      <p className="text-_14 font-semibold text-text_black">{item.email}</p>
       <div className="flex justify-end">
         <button
           onClick={() => {
-            onDeleteById(item.id );
+            onDeleteById(item.id);
           }}
         >
           <ICClear />
