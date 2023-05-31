@@ -57,7 +57,8 @@ public class KeyCloakService {
         UserRepresentation user = new UserRepresentation();
         user.setUsername(userKeycloak.getLogin());
         user.setEmail(userKeycloak.getEmail());
-        user.setCredentials(Collections.singletonList(credential));
+        if (userKeycloak.getPassword() != null)
+            user.setCredentials(Collections.singletonList(credential));
         Map<String, List<String>> map = new HashMap<>();
         List<String> gender = new ArrayList<>();
         gender.add(userKeycloak.getGender());

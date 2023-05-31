@@ -46,6 +46,13 @@ public class KeyCloakResource {
         return "User Details Updated Successfully.";
     }
 
+    @PutMapping(path = "/update")
+    public String updateUser(Principal principal, @RequestBody UserKeycloak userKeycloak){
+        String userid = userService.getUserFromAuthentication((AbstractAuthenticationToken) principal).getId();
+        service.updateUser(userid, userKeycloak);
+        return "User Details Updated Successfully.";
+    }
+
     @GetMapping( "/searchuser")
     public Object searchUSer(Pageable pageable, @RequestParam String username){
         try {
