@@ -20,7 +20,7 @@ import tech.jhipster.config.DefaultProfileUtil;
 import tech.jhipster.config.JHipsterConstants;
 
 @SpringBootApplication
-@EnableConfigurationProperties({ ApplicationProperties.class })
+@EnableConfigurationProperties({LiquibaseProperties.class, ApplicationProperties.class })
 public class BackendHcmApp {
 
     private static final Logger log = LoggerFactory.getLogger(BackendHcmApp.class);
