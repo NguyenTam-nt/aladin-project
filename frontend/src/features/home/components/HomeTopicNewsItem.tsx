@@ -47,8 +47,8 @@ export const HomeTopicNewsItem = ({
       }}
     >
       <p
-        className={clsx("text-_16", {
-          "text-text_primary line-clamp-1": !isChangeColor,
+        className={clsx("text-_16 line-clamp-1", {
+          "text-text_primary ": !isChangeColor,
           "text-text_white": isChangeColor,
         })}
       >
