@@ -8,7 +8,7 @@ export const BannerVideo = () => {
     const refVideo = useRef<HTMLVideoElement>(null)
     const {banner} = useGetBanner(BannerType.home)
     useEffect(() => {
-        if(refVideo.current) {
+        if(refVideo.current &&  banner?.link) {
             if(isInView) {
                 refVideo.current.play()
             }else {
@@ -16,7 +16,7 @@ export const BannerVideo = () => {
             }
 
         }
-    }, [isInView])
+    }, [isInView,  banner?.link])
   return (
     <div ref={ref} className='banner_home_video'>
     {   banner?.link ? <video loop muted ref={refVideo} className='w-full h-full object-cover'>
