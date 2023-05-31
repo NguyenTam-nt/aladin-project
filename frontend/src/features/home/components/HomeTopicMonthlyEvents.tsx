@@ -16,71 +16,6 @@ import { useGetNews } from "../hooks/useGetNews";
 import { EventId } from "@constants/contain";
 import type { INews } from "@typeRules/news";
 
-type IData = {
-  date: string;
-  view_count: number;
-  title_vn: string;
-  title_ko: string;
-  description: { _vn: string; _ko: string }[];
-};
-
-const data: IData[] = [
-  {
-    date: "05/18/2023",
-    view_count: 256,
-    title_vn:
-      "Tăng cường mối quan hệ hợp tác Việt - Hàn qua hoạt động văn hóa.",
-    title_ko: "문화 활동을 통한 베트남-한국 협력 관계 강화.",
-    description: [
-      {
-        _vn: "Cơ hội quý giá để các bạn sinh viên trực tiếp lắng nghe chia sẻ và trao đổi với chuyên gia Hàn Quốc",
-        _ko: "학생들이 한국 전문가들과 직접 듣고, 공유하고, 토론하는 소중한 기회",
-      },
-      {
-        _vn: "Cơ hội quý giá để các bạn sinh viên trực tiếp lắng nghe chia sẻ và trao đổi với chuyên gia Hàn Quốc",
-        _ko: "학생들이 한국 전문가들과 직접 듣고, 공유하고, 토론하는 소중한 기회",
-      },
-    ],
-  },
-  {
-    date: "05/19/2023",
-    view_count: 256,
-    title_vn: "Chia sẻ kinh nghiệm trong xây dựng giáo trình tiếng Hàn",
-    title_ko: "국어 교재 제작 경험 공유",
-    description: [
-      {
-        _vn: "Cơ hội quý giá để các bạn sinh viên trực tiếp lắng nghe chia sẻ và trao đổi với chuyên gia Hàn Quốc",
-        _ko: "학생들이 한국 전문가들과 직접 듣고, 공유하고, 토론하는 소중한 기회",
-      },
-    ],
-  },
-  {
-    date: "05/20/2023",
-    view_count: 256,
-    title_vn:
-      "Ra mắt Tạp chí Văn hóa Nghệ thuật Hàn Quốc Koreana số mùa Thu 2022",
-    title_ko: "한국문화예술잡지 코리아나 2022년 가을호 창간",
-    description: [
-      {
-        _vn: "Cơ hội quý giá để các bạn sinh viên trực tiếp lắng nghe chia sẻ và trao đổi với chuyên gia Hàn Quốc",
-        _ko: "학생들이 한국 전문가들과 직접 듣고, 공유하고, 토론하는 소중한 기회",
-      },
-    ],
-  },
-  {
-    date: "05/21/2023",
-    view_count: 256,
-    title_vn: "Chương trình giao lưu Korea Youth Public Diplomacy Delegation ",
-    title_ko: "대한민국 청년공공외교 대표단 교류사업",
-    description: [
-      {
-        _vn: "Cơ hội quý giá để các bạn sinh viên trực tiếp lắng nghe chia sẻ và trao đổi với chuyên gia Hàn Quốc",
-        _ko: "학생들이 한국 전문가들과 직접 듣고, 공유하고, 토론하는 소중한 기회",
-      },
-    ],
-  },
-];
-
 export const HomeTopicMonthlyEvents = () => {
   const {
     navigationNextRef,
@@ -93,12 +28,12 @@ export const HomeTopicMonthlyEvents = () => {
   const { news } = useGetNews(`${EventId}`);
 
   const currentIndex = useMemo(() => {
-    return data.findIndex(
+    return news.findIndex(
       (item) =>
-        new Date(item.date).toLocaleDateString() ===
+        new Date(item.createdDate || "").toLocaleDateString() ===
         new Date().toLocaleDateString()
     );
-  }, []);
+  }, [news]);
 
   const renderItem = useCallback(
     (item: INews, index: React.Key | null | undefined) => {
@@ -161,7 +96,7 @@ const HomeTopicMonthlyEventsItem = memo(({ data }: Props) => {
   }, [date])
   return (
     <Link
-      to={`${paths.news.prefix}/${paths.news.detail}?slug=trao-thuong`}
+      to={`${paths.news.prefix}/${paths.news.detail}?id=${data.id}`}
       className={clsx(
         "p-[16px] block xl:p-[25px] home-topic-event h-[312px] overflow-y-scroll border-[1px] border-solid border-br_E9ECEF",
         { "home-topic-event-avtive": isActive }

@@ -65,7 +65,7 @@ export const ListNotice = () => {
             <div className="flex justify-end items-center gap-[12px]">
               <InputSwitch />
               <Link
-                to={`${prefixRootRoute.admin}/${pathsAdmin.notice.prefix}/${pathNoticeHandle.edit}?slug=${index}`}
+                to={`${prefixRootRoute.admin}/${pathsAdmin.notice.prefix}/${pathNoticeHandle.edit}}`}
               >
                 <ICEdit />
               </Link>
