@@ -108,7 +108,13 @@ public class NewsServiceImpl implements NewsService {
     @Transactional(readOnly = true)
     public Optional<NewsDTO> findOne(Long id) {
         log.debug("Request to get News : {}", id);
-        return newsRepository.findById(id).map(newsMapper::toDto);
+        Optional<News> newsOptiona = newsRepository.findById(id);
+        if(newsOptiona.isPresent()) {
+            long v = newsOptiona.get().getView() == null ? 1 : newsOptiona.get().getView() + 1;
+            newsOptiona.get().setView(v);
+            newsRepository.save(newsOptiona.get());
+        }
+        return newsOptiona.map(newsMapper::toDto);
     }
 
     @Override
