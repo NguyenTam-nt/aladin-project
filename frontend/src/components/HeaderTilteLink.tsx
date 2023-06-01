@@ -23,6 +23,9 @@ export const HeaderTilteLink = () => {
     return rootPath?.items?.filter(item => item.status) ?? []
   }, [rootPath]);
 
+ 
+  
+
   const subQuery = useMemo(() => {
     const query = params.pathname.split("/");
     const typeQuery = querys.get("type")
@@ -39,12 +42,12 @@ export const HeaderTilteLink = () => {
     return undefined;
   }, [subNavs, params.pathname, querys]);
 
-  console.log({subQuery})
+ 
 
   return (
     <HeaderTitle
       prefix={params.pathname.split("/")[1]}
-      title={ isVn ? subQuery?.name || "" : subQuery?.nameKo || ""}
+      title={ subQuery ? isVn ?  subQuery?.name || "" : subQuery?.nameKo || ""  : isVn ?  rootPath?.name || "" :  rootPath?.nameKo || "" }
       listLink={subNavs.filter(item => item.link !== subQuery?.link)}
       isQuery={rootPath?.link === paths.news.prefix}
     />
