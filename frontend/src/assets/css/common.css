@@ -314,3 +314,11 @@ input[type=number] {
   overflow: hidden;
   text-align: left;
 }
+
+ol {
+  margin-left: 20px;
+}
+
+.hidden-scrollbar::-webkit-scrollbar {
+  display: none;
+}

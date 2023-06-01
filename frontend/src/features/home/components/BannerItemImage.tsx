@@ -50,7 +50,7 @@ export const BannerItemImage = memo(({
       <div className="flex items-center  h-full relative">
         <div className="p-[16px] xl:p-[32px] h-[70%] flex flex-col">
           <div className="py-[24px] border-b-[1px] border-solid border-text_white">
-            <p className=" text-text_225_225_225_032 text-_16 xl:text-[24px] line-clamp-1">
+            <p className=" text-white text-_16 xl:text-[24px] line-clamp-1">
               {isVn ? data.title : data.titleKo}
             </p>
             {/* <p className=" text-text_225_225_225_088 text-_24 xl:text-[32px] line-clamp-1">

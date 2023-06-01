@@ -201,11 +201,11 @@ export const rootRouterAdmin = [
         name: "admin.navigation._sub_abouts._brochure",
         element: Brochure,
       },
-      {
-        path: pathsAdmin.about.category,
-        name: "admin.navigation._sub_abouts._category",
-        element: Categories,
-      },
+      // {
+      //   path: pathsAdmin.about.category,
+      //   name: "admin.navigation._sub_abouts._category",
+      //   element: Categories,
+      // },
     ],
   },
   {

@@ -35,7 +35,7 @@ export const HomeTopicPartner = () => {
           src={BannerBg}
           alt=""
         />
-        <div className={clsx("w-rp-l gap-x-[72px] mt-[16px] xl:mt-[30px] gap-y-[24px]", {"animate__animated animate__fadeIn":isInView})}
+        <div className={clsx("w-rp-l gap-x-[72px] mt-[16px] xl:mt-[12px] gap-y-[24px]", {"animate__animated animate__fadeIn":isInView})}
           style={{
             ["--animate-count" as string]: 2
           }}

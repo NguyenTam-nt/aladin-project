@@ -53,8 +53,8 @@ export const TopicPostItem = memo(
       validationSchema: Yup.object({
         title: Yup.string().required("message.warn._required"),
         titleKo: Yup.string().required("message.warn._required"),
-        content: Yup.string().required("message.warn._required").max(5000, "message.warn._max_length"),
-        contentKo: Yup.string().required("message.warn._required").max(5000, "message.warn._max_length"),
+        content: Yup.string().required("message.warn._required"),
+        contentKo: Yup.string().required("message.warn._required"),
       }),
       onSubmit: async (values) => {
         let images: string[] = [];
@@ -183,7 +183,7 @@ export const TopicPostItem = memo(
             onBlur={handleBlurEditor}
             onChange={() => {}}
           />
-           {formik.errors.content && <TextError message={formik.errors.content} />}
+           {formik.errors.content && isAdd && <TextError message={formik.errors.content} />}
         </div>
         {contentType !== ContentType.general ? (
           <div className="mt-[16px] flex flex-wrap gap-[24px]">
