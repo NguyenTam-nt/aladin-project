@@ -267,7 +267,7 @@ const SubjectTableItem = ({
         <p className="text-_14 font-semibold text-text_black">{isVn ? item.name : item.nameKo}</p>
       </div>
       <div>
-        <p className="text-_14 font-semibold text-text_black">
+        <p className="text-_14 font-semibold text-text_black line-clamp-2">
           { isVn ? item.description : item.descriptionKo}
         </p>
       </div>

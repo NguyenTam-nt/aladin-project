@@ -25,10 +25,10 @@ const NewsItem = (props: INewsItem) => {
           <ImageTranslation link={imageUrl}></ImageTranslation>
           <div className=" absolute  bottom-0 left-0  bg-bg_0_0_0_003 h-[84px] w-full flex items-center  text-center justify-center">
             <div>
-              <p className=" text-_14 xl:text-_16   text-text_white font-bold  leading-[28px] ">
+              <p className=" text-_14 xl:text-_16  line-clamp-2 text-text_white font-bold  leading-[28px] ">
                 {name}
               </p>
-              <p className="text-_12 xl:text-_14 text-text_white ">{sub}</p>
+              <p className="text-_12 xl:text-_14 text-text_white  line-clamp-2 ">{sub}</p>
             </div>
           </div>
         </div>
