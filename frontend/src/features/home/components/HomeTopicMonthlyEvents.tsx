@@ -49,7 +49,7 @@ export const HomeTopicMonthlyEvents = () => {
     [currentIndex]
   );
 
-  return (
+  return news.length ? (
     <HomeTopicLayout
       title="home.home_topic._event"
       onNextClick={handleNext}
@@ -78,7 +78,7 @@ export const HomeTopicMonthlyEvents = () => {
         {NavigationElement}
       </div>
     </HomeTopicLayout>
-  );
+  ) : <div className="mb-[40px] xl:mb-[120px]" />;
 };
 
 type Props = {
@@ -93,8 +93,8 @@ const HomeTopicMonthlyEventsItem = memo(({ data }: Props) => {
   }, [data?.createdDate]);
 
   const isActive = useMemo(() => {
-    return new Date().toLocaleDateString() === date.toLocaleDateString()
-  }, [date])
+    return new Date().toLocaleDateString() === date.toLocaleDateString();
+  }, [date]);
   return (
     <Link
       to={`${paths.news.prefix}/${paths.news.detail}?id=${data.id}`}
