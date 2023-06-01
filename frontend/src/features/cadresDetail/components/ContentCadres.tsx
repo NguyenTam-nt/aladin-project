@@ -32,7 +32,7 @@ const ContentNews = () => {
     <div className="flex flex-1 flex-col mt-[84px]">
       <div className="flex flex-col xl:flex-row">
         <img
-          className="h-[401px] w-[312px] object-cover"
+          className="h-auto max-w-[500px]"
           src={news.files[0].link}
         ></img>
         <div className="flex flex-col ml-[24px]">
