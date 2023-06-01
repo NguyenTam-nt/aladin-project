@@ -67,11 +67,12 @@ const VideoList = (props: VideoListProps) => {
           <NewsItem key={item.id} index={index}  data={item} totalList={data}></NewsItem>
         ))}
       </div>
-      <Pagination
+      {currentPage === 1 && totalPages === 0 ? null : <Pagination
         currentPage={currentPage}
         totalPages={totalPages}
         setCurrentPage={setCurrentPage}
-      />
+      />}
+   
     </>
   );
 };

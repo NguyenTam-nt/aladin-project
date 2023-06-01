@@ -30,27 +30,13 @@ const VideoBanner = ({bannerItem} : { bannerItem : IGallery[]}) => {
 
   return (
     <div className="relative">
-      <div className="absolute inset-0 banner-bg-about z-[2]"></div>
+      <div className="absolute inset-0 banner-bg-about "></div>
       <BannerVideoSlider
         onSetIndex={handleCurrentIndex}
         bannerItem={bannerItem}
+        handlePlayNow={handlePlayNow}
       />
-      {bannerItem?.length > 0 && (
-        <div className="absolute  bottom-[54px] left-[48px] z-[4]  w-[70%] text-text_white">
-          <TagNews
-            title={isVn ? bannerItem?.[0]?.name : bannerItem?.[0]?.nameKo}
-          ></TagNews>
-          <h3 className=" text-[18px] xl:text-_48 font-semibold xl:font-bold   my-[12px] line-clamp-1">
-            {isVn ? bannerItem?.[0]?.name : bannerItem?.[0]?.nameKo}
-          </h3>
-          <p className=" text-_14 xl:text-_16 font-semibold">
-            {t("common.create_day")}: {getDate(bannerItem?.[0]?.createdDate)}
-          </p>
-          <div className="flex flex-row mt-[38px]">
-            <ButtonActionVideo onPlayNow={handlePlayNow}></ButtonActionVideo>
-          </div>
-        </div>
-      )}
+    
     </div>
   );
 };

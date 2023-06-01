@@ -47,8 +47,8 @@ export interface IGalleryPost {
   nameKo: string;
   des? :string ,
   desKo? : string,
-  type: string;
-  files: IFileGallery[]
+  type?: string;
+  files?: IFileGallery[]
 }
 
 export interface IGalleryPutImage {

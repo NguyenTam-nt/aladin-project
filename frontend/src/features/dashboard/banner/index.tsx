@@ -43,7 +43,7 @@ const titlebanners = [
   },
   {
     type: BannerType.library_image,
-    name: "Quản lý banner thư viên hình ảnh",
+    name: "Quản lý banner thư viện hình ảnh",
     nameKo: "이미지 갤러리 배너 관리",
   },
   {

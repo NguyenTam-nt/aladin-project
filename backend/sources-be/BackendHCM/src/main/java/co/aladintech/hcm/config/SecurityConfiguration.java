@@ -58,8 +58,8 @@ public class SecurityConfiguration {
             .antMatchers("/api/authenticate").permitAll()
             .antMatchers("/api/auth-info").permitAll()
             .antMatchers("/api/admin/**").hasAuthority(AuthoritiesConstants.ADMIN)
-            .antMatchers("/api/keycloak/userinfo").permitAll()
-            .antMatchers(HttpMethod.PUT,"/api/keycloak/update").permitAll()
+            .antMatchers("/api/keycloak/userinfo").authenticated()
+            .antMatchers(HttpMethod.PUT,"/api/keycloak/update").authenticated()
             .antMatchers("/api/keycloak/**").hasAuthority(AuthoritiesConstants.SYSTEM)
 
             .antMatchers(HttpMethod.PUT,"/api/view-pages/increment").permitAll()

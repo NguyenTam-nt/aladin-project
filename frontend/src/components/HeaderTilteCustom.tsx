@@ -82,7 +82,17 @@ export const HeaderTilteCustom = ({ title, listLink, prefix, isQuery ,isChildren
   };
 
   useEffect(() => {
-    if (!searchParam.get("type")) {
+     if(isChildren) {
+    
+      if (searchParam.get("id")) {
+        setTitleLeft(
+          listLink.find((item) => item.id === Number(searchParam.get("id")))
+            ?.name || title
+        );
+        setListLinkRight(listLink.filter((item) => item.id !== Number(searchParam.get("id"))));
+      } 
+      
+     } else if (!searchParam.get("type")) {
       setTitleLeft(title);
       setListLinkRight(listLink || []);
     } else {
@@ -105,6 +115,8 @@ export const HeaderTilteCustom = ({ title, listLink, prefix, isQuery ,isChildren
       );
     }
   }, [listLink, searchParam, title, isChildren]);
+ 
+  
 
   return (
     <div className="w-rp flex flex-1 flex-row  items-center   mt-[40px] xl:mt-[94px]">
@@ -151,11 +163,11 @@ export const HeaderTilteCustom = ({ title, listLink, prefix, isQuery ,isChildren
               { "footer-animation-list": isShow }
             )}
             style={{
-              ["--footer-size" as string]: listLink.slice(limitSlice).length,
+              ["--footer-size" as string]: listLinkRight.slice(limitSlice).length,
               ["--height-li" as string]: "32px",
             }}
           >
-            {listLink.slice(limitSlice).map((item, index) => {
+            {listLinkRight.slice(limitSlice).map((item, index) => {
                      const active = searchParam.get("id") === item.id.toString();
               return (
                 <li
@@ -163,15 +175,19 @@ export const HeaderTilteCustom = ({ title, listLink, prefix, isQuery ,isChildren
                   className="h-[32px] w-[200px] flex items-center border-b-[1px] border-solid border-br_E9ECEF px-[16px]"
                 >
                   <Link
-                    to={`/${prefix}${
+                    to={
                       isChildren
-                        ? `?id=${item.path}`
-                        : item.path
-                        ? isQuery
-                          ? `?type=${item.path}`
-                          : `/${item.path}`
-                        : ""
-                    }`}
+                        ? `/${prefix}?id=${item.id}`
+                        : `/${prefix}${
+                            item.path
+                              ? isQuery
+                                ? `?type=${item.path}`
+                                : `/${item.path}`
+                              : item.parent
+                              ? `?type=${item.parent}&id=${item.id}`
+                              : ""
+                          }`
+                    }
                     className="text-_14 xl:text-_18 hover:text-primary duration-300 w-auto line-clamp-1"
                     style={{
                       fontWeight: active ? "bold" : "normal",

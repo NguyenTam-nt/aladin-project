@@ -28,7 +28,9 @@ export const ManageLibraryImage = () => {
       <DialogConfirmDelete
         onClick={() => onDeleteById(id)}
         message={t("image.delete_album", {
-          name: data.filter((item) => item.id === id)?.[0]?.nameKo,
+          name: isVn
+            ? data.filter((item) => item.id === id)?.[0]?.name
+            : data.filter((item) => item.id === id)?.[0]?.nameKo,
         })}
       />
     );
@@ -43,6 +45,8 @@ export const ManageLibraryImage = () => {
     setCurrentPage(page);
     getImages(page - 1);
   };
+
+
 
   const onDeleteById = (id: number) => {
     galleryService

@@ -20,9 +20,14 @@ export const ManageLibraryVideo = () => {
   const [data, setData] = useState<IGallery[]>([]);
   const { setElementModal } = useContext(ModalContext);
   const { showSuccess , showError } = useContext(PopUpContext)
-  const handleShowModalDelete = (id : number) => {
+  const handleShowModalDelete = (id: number) => {
     setElementModal(
-      <DialogConfirmDelete onClick={() => onDeleteById(id)} message={t("video.delete_album", { name:  data.filter((item) => item.id === id)?.[0]?.name,})} />
+      <DialogConfirmDelete
+        onClick={() => onDeleteById(id)}
+        message={t("video.delete_album", {
+          name: isVn ?  data.filter((item) => item.id === id)?.[0]?.name :  data.filter((item) => item.id === id)?.[0]?.nameKo,
+        })}
+      />
     );
   };
   const getVideos = (page : number) => { 
