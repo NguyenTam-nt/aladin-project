@@ -78,7 +78,7 @@ public class SubjectServiceImpl implements SubjectService {
         log.debug("Request to get all Subjects");
         if(keyword == null ) keyword = "";
         keyword = "%"+ keyword + "%";
-        return subjectRepository.findAllByTitleIsLikeIgnoreCase(keyword, pageable).map(subjectMapper::toDto);
+        return subjectRepository.findAllByNameIsLikeIgnoreCase(keyword, pageable).map(subjectMapper::toDto);
     }
 
     @Override
