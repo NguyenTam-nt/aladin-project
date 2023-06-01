@@ -35,6 +35,7 @@
   --ck-image-style-spacing: 1.5em;
   --ck-inline-image-style-spacing: calc(var(--ck-image-style-spacing) / 2);
   --ck-todo-list-checkmark-size: 16px;
+  --num: 0
 
 }
 
