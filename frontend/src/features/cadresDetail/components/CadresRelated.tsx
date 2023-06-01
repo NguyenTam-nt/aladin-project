@@ -57,10 +57,12 @@ const NewsRelated = () => {
 
   return (
     <div>
-      <p className=" text-_24 xl:text-_40  font-semibold text-text_primary mb-[24px] xl:mb-[56px] mt-[40px] xl:mt-[0px]">
-        {t("common._newRelated")}
-      </p>
-      {related.slice(0,3).map((item, index) => (
+      {related?.length > 0 && (
+        <p className=" text-_24 xl:text-_40  font-semibold text-text_primary mb-[24px] xl:mb-[56px] mt-[40px] xl:mt-[0px]">
+          {t("common._newRelated")}
+        </p>
+      )}
+      {related.slice(0, 3).map((item, index) => (
         <RelatedItem item={item} key={index}></RelatedItem>
       ))}
     </div>
