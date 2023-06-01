@@ -39,8 +39,10 @@ public class UploadResource {
             Files.createDirectories(Paths.get(UPLOAD_IMAGE));
         }
         System.out.println(imageInput.getContentType());
-        if ((!imageInput.getContentType().equals("image/png")) && (!imageInput.getContentType().equals("image/jpeg"))) {
-            return "Not Png or jpg";
+        if ((!imageInput.getContentType().equals("image/png")) && (!imageInput.getContentType().equals("image/jpeg"))
+            && (!imageInput.getContentType().equals("image/webp"))
+        ) {
+            return "Not Png or jpg webp";
         }
         BufferedImage image = ImageIO.read(imageInput.getInputStream());
         String name = String.valueOf(System.currentTimeMillis());
@@ -71,8 +73,10 @@ public class UploadResource {
         }
         List<String> result = new ArrayList<>();
         for (MultipartFile file : imageInputs){
-            if ((!file.getContentType().equals("image/png")) && (!file.getContentType().equals("image/jpeg"))) {
-                log.error("Not Png or jpg");
+            if ((!file.getContentType().equals("image/png")) && (!file.getContentType().equals("image/jpeg"))
+                && (!file.getContentType().equals("image/webp"))
+            ) {
+                log.error("Not Png or jpg webp");
             } else {
                 BufferedImage image = ImageIO.read(file.getInputStream());
                 String name = String.valueOf(System.currentTimeMillis());
