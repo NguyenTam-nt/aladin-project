@@ -31,12 +31,13 @@ const VideoBanner = ({bannerItem} : { bannerItem : IGallery[]}) => {
   return (
     <div className="relative">
       <div className="absolute inset-0 banner-bg-about "></div>
-      <BannerVideoSlider
-        onSetIndex={handleCurrentIndex}
-        bannerItem={bannerItem}
-        handlePlayNow={handlePlayNow}
-      />
-    
+      {bannerItem?.length > 0 && (
+        <BannerVideoSlider
+          onSetIndex={handleCurrentIndex}
+          bannerItem={bannerItem}
+          handlePlayNow={handlePlayNow}
+        />
+      )}
     </div>
   );
 };
