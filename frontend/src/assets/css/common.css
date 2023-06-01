@@ -322,3 +322,52 @@ ol {
 .hidden-scrollbar::-webkit-scrollbar {
   display: none;
 }
+
+@property --num {
+  syntax: "<integer>";
+  initial-value: 0;
+  inherits: false;
+}
+
+.counter {
+  counter-reset: num 0;
+  font: 800 40px system-ui;
+  padding: 2rem;
+  animation: counter 2s infinite alternate ease-in-out;
+}
+.counter::after {
+  content: counter(num);
+}
+
+@keyframes counter {
+  from {
+    --num: 0;
+  }
+  to {
+    --num: var(--counter);
+  }
+}
+
+.numbers__window__digit {
+  font: inherit;
+  word-break: break-all;
+  display: block;
+  width: 0;
+  padding: 0 0.52em 0 0;
+  margin: 0 auto;
+  overflow: inherit;
+  animation: counting 0.4s steps(10) forwards infinite;
+}
+
+.numbers__window__digit::before {
+  content: attr(data-fake);
+  display: inline-block;
+  width: 100%;
+  height: auto;
+}
+
+@keyframes counting {
+  100% {
+    transform: translate3d(0, -10em, 0);
+  }
+}

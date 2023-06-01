@@ -96,6 +96,11 @@
         }
        },
        "home_topic": {
+        "_general": "Tổng quan khoa học hàn quốc",
+        "_general_dh": "Bậc Đại học",
+        "_general_ts": "Bậc Tiến sĩ",
+        "_general_ths": "Bậc Thạc sĩ",
+        "_general_sv": "Sinh viên",
         "_news": "Tin tức",
         "_notice": "Thông báo",
         "_event": "Sự kiện nổi bật",

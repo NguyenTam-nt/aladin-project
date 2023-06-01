@@ -97,6 +97,11 @@
        },
        "home_topic":
         {
+            "_general": "한국 과학 개요",
+         "_general_dh": "대학",
+         "_general_ts": "박사 학위",
+         "_general_ths": "석사 학위",
+         "_general_sv": "학생",
             "_news": "뉴스",
             "_notice": "공지",
             "_event": "주요 이벤트",
