@@ -78,7 +78,7 @@ public class CadresServiceImpl implements CadresService {
         log.debug("Request to get all Cadres");
         if(keyword == null ) keyword = "";
         keyword = "%"+ keyword + "%";
-        return cadresRepository.findAllByTitleIsLikeIgnoreCase(keyword, pageable).map(cadresMapper::toDto);
+        return cadresRepository.findAllByFullnameIsLikeIgnoreCase(keyword, pageable).map(cadresMapper::toDto);
     }
 
     @Override

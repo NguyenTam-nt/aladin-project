@@ -13,5 +13,5 @@ import org.springframework.stereotype.Repository;
 @SuppressWarnings("unused")
 @Repository
 public interface SubjectRepository extends JpaRepository<Subject, Long> {
-    Page<Subject> findAllByTitleIsLikeIgnoreCase(String keyword, Pageable pageable);
+    Page<Subject> findAllByNameIsLikeIgnoreCase(String keyword, Pageable pageable);
 }
