@@ -1,8 +1,8 @@
 import clsx from "clsx";
-import React, {  InputHTMLAttributes } from "react";
+import React, {  InputHTMLAttributes, memo } from "react";
 type Props = InputHTMLAttributes<HTMLInputElement>;
 
-export const InputSwitch = React.forwardRef(
+export const InputSwitch = memo(React.forwardRef(
   ({className, ...props }: Props, ref: React.LegacyRef<HTMLInputElement>) => {
     return (
       <label className={clsx("switch " + className)}>
@@ -11,4 +11,4 @@ export const InputSwitch = React.forwardRef(
       </label>
     );
   }
-);
+))

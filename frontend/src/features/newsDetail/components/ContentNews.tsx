@@ -39,8 +39,6 @@ const ContentNews = () => {
         <div>
           <p className="text-_24 mt-[24px]">{t("news.header._files")}</p>
           {news.files?.slice(1).map((file) => {
-            console.log(file);
-            
             const onPress = () => {
               FileSaver.saveAs(`https://hanquochoc.edu.vn/${file.link}`, file.name);
             }

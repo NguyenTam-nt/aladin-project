@@ -4,9 +4,9 @@ import { withResponsive } from "@constants/container";
 import { TranslateContext } from "@contexts/Translation";
 import useWindowResize from "@hooks/useWindowResize";
 import clsx from "clsx";
-import React, { useContext } from "react";
+import React, { memo, useContext } from "react";
 
-export const TextViewCount = ({viewCount, className, colorEye}:{viewCount: number, className?: string, colorEye?: string}) => {
+export const TextViewCount = memo(({viewCount, className, colorEye}:{viewCount: number, className?: string, colorEye?: string}) => {
     const {t} = useContext(TranslateContext)
     const {width} = useWindowResize()
   return (
@@ -17,4 +17,4 @@ export const TextViewCount = ({viewCount, className, colorEye}:{viewCount: numbe
       </span>
     </div>
   );
-};
+})

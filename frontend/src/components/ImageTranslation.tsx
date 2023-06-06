@@ -1,6 +1,6 @@
-import React, { useRef, MouseEvent } from "react";
+import React, { useRef, MouseEvent, memo } from "react";
 
-export const ImageTranslation = ({ link }: { link: string }) => {
+export const ImageTranslation = memo(({ link }: { link: string }) => {
   const refImage = useRef<HTMLImageElement>(null);
   const refOffsetTop = useRef<number>(0)
   const refOffsetLeft = useRef<number>(0)
@@ -36,4 +36,4 @@ export const ImageTranslation = ({ link }: { link: string }) => {
       alt=""
     />
   );
-};
+})

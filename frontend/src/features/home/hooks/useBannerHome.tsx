@@ -49,9 +49,6 @@ export const useBannerHome = (length:number) => {
     const withRe = useMemo(() => {
       return width >= withResponsive._1024 ? width / length : width >= withResponsive._640 ? width / 3 : width/2
     }, [width, length])
-  
-
-    console.log({length, withRe})
 
     return {
         refImage,

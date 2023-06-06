@@ -15,7 +15,6 @@ export const useGetCategory = (size: number) => {
 
   const getCategories = useCallback(
     (page: number) => {
-      console.log(page);
       newsService.getById(9301).then((data) => {
         setCategories(data.children || []);
       });

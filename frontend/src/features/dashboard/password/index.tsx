@@ -84,8 +84,6 @@ const InfoAccountTable = memo(() => {
     formik.resetForm();
   }, []);
 
-  console.log({ eror: formik.errors });
-
   return (
     <div className=" bg-white py-[40px] px-[24px]">
       <form

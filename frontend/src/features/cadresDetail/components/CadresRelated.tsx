@@ -12,7 +12,6 @@ import { Link, useSearchParams } from "react-router-dom";
 const RelatedItem = React.memo(({ item } : { item : ICadres}) => {
   const {t ,isVn} = useContext(TranslateContext)
   const navigatonToDetail = `${paths.cadres.prefix}/${paths.cadres.detail}`
-
   
   return (
     <Link

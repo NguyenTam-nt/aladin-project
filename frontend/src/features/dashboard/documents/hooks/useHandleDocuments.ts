@@ -103,9 +103,6 @@ export const useHandleDocuments = () => {
       newsService.deleteNews(ids.join(",")).then(() => {
         showSuccess("message.success._success")
         let page = Number(currenPage)
-        console.log({
-        page, totalPage
-        })
         if(ids.length >= listData.length && Number(currenPage) >= totalPage) {
           page = page - 1
           setSearchParam({page: `${page}`})

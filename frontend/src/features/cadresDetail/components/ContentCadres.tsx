@@ -15,16 +15,12 @@ const ContentNews = () => {
 
   useEffect(() => {
     if(searchParam.get("id")) {
-      cadresService.getCadresById(searchParam.get("id") || "0").then((news) => {
-        console.log("news" ,news);
-        
+      cadresService.getCadresById(searchParam.get("id") || "0").then((news) => {        
         setNews(news);
       });
     }
    
   }, [searchParam]);
-
-  console.log("news news news" ,news);
   
 
   const { t, isVn } = useContext(TranslateContext);
@@ -76,8 +72,6 @@ const ContentNews = () => {
         <div>
           <p className="text-_24 mt-[24px]">{t("news.header._files")}</p>
           {news.files?.slice(1).map((file) => {
-            console.log(file);
-
             const onPress = () => {
               FileSaver.saveAs(`${file.link}`, file.name);
             };

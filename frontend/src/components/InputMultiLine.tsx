@@ -1,10 +1,10 @@
 import { TranslateContext } from "@contexts/Translation";
 import clsx from "clsx";
-import React, { TextareaHTMLAttributes, useContext } from "react";
+import React, { TextareaHTMLAttributes, memo, useContext } from "react";
 
 type Props = TextareaHTMLAttributes<HTMLTextAreaElement>;
 
-export const InputMultiLine = ({ placeholder, className, ...props }: Props) => {
+export const InputMultiLine = memo(({ placeholder, className, ...props }: Props) => {
   const { t } = useContext(TranslateContext);
   return (
     <textarea
@@ -16,4 +16,4 @@ export const InputMultiLine = ({ placeholder, className, ...props }: Props) => {
       )}
     />
   );
-};
+})

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { memo } from 'react'
 //@ts-ignore
 import {CKEditor} from '@ckeditor/ckeditor5-react'
 //@ts-ignore
@@ -12,7 +12,7 @@ type Props = {
 
 }
 
-const Editor = ({content, onChange, onBlur}: Props) => {
+const Editor = memo(({content, onChange, onBlur}: Props) => {
 
   
   return (
@@ -35,7 +35,7 @@ const Editor = ({content, onChange, onBlur}: Props) => {
     
     />
   )
-}
+})
 
 class MyUploadAdapter {
   public loader

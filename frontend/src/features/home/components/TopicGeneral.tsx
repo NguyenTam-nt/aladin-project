@@ -1,5 +1,11 @@
 import { TranslateContext } from "@contexts/Translation";
-import React, { useContext, useEffect, useRef, useState } from "react";
+import useInView from "@hooks/useInView";
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useId,
+} from "react";
 
 const data = [
   {
@@ -30,7 +36,11 @@ export const TopicGeneral = () => {
       <div className=" w-max min-w-[60%] flex justify-around items-center gap-[24px]">
         {data.map((item, index) => {
           return (
-            <TopicGeneralItem key={index} total={item.total} title={item.title}/>
+            <TopicGeneralItem
+              key={index}
+              total={item.total}
+              title={item.title}
+            />
           );
         })}
       </div>
@@ -45,34 +55,56 @@ const TopicGeneralItem = ({
   title: string;
   total: number;
 }) => {
-//   const [totalCount, setTotalCount] = useState(0);
-//   const refIn = useRef<any>(null);
+  const id = useId();
+  const { ref, isInView } = useInView();
+
+  const incNbrRec = useCallback(
+    (i: number, endNbr: number, elt: HTMLElement | null) => {
+      if (i <= endNbr) {
+        if (elt) elt.innerHTML = `${i}`;
+        setTimeout(function () {
+          //Delay a bit before calling the function again.
+          incNbrRec(i + 1, endNbr, elt);
+        }, 50);
+      }
+    },
+    []
+  );
+
+  const incEltNbr = useCallback(
+    (id: string) => {
+      let elt = document.getElementById(id);
+      let endNbr = Number(document.getElementById(id)?.innerHTML);
+      incNbrRec(total > 20 ? total - 20 : 0, endNbr, elt);
+    },
+    [incNbrRec, total]
+  );
+
   const { t } = useContext(TranslateContext);
-//   useEffect(() => {
-//     let totalCount1 = 0
-//      refIn.current = setInterval(() => {
-//         totalCount1 += 1
-//         setTotalCount(totalCount1)
-//         if(totalCount1 >= total) {
-//             clearInterval(refIn.current)
-//         }
-//     }, 100);
-//   }, []);
+  useEffect(() => {
+    if (isInView) {
+      incEltNbr(id);
+    }
+  }, [id, incEltNbr, isInView]);
 
   return (
     <div
       //   key={index}
+      ref={ref}
       className="flex flex-col items-center justify-center"
     >
       <p
-        className="text-[48px] xl:text-[64px] font-bold text-secondary"
+        id={id}
+        className="text-[48px] xl:text-[64px] font-bold text-secondary "
         style={{
           ["--counter" as string]: total,
         }}
       >
         {total}
       </p>
-      <p className="text-_16 xl:text-_18 font-medium text-text_primary">{t(title)}</p>
+      <p className="text-_16 xl:text-_18 font-medium text-text_primary">
+        {t(title)}
+      </p>
     </div>
   );
 };

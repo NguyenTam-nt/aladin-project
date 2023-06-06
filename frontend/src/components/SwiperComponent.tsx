@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import { Swiper, SwiperProps } from "swiper/react";
 
 import { Navigation } from "swiper";
@@ -9,7 +9,7 @@ type Props = {
   children: React.ReactNode
 } & SwiperProps;
 
-export const SwiperComponent = ({
+export const SwiperComponent = memo(({
   navigationPrevRef,
   navigationNextRef,
   children,
@@ -41,4 +41,4 @@ export const SwiperComponent = ({
     {children}
     </Swiper>
   );
-};
+})
