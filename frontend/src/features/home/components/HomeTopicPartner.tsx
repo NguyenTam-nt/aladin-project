@@ -11,7 +11,6 @@ import { useEffect, useState } from "react";
 import { bannerService } from "@services/banner";
 
 export const HomeTopicPartner = () => {
-  const { width } = useWindowResize();
   const {ref, isInView} = useInView()
   const {banner} = useGetBanner(BannerType.bannerParter)
   const [bannerHome, setBannerHome] = useState<IBanner[]>([]);
@@ -22,7 +21,7 @@ export const HomeTopicPartner = () => {
   }, []);
   return (
     <>
-      <div className="bg-bg_F8F8F8 relative h-[157px] xl:h-[422px] flex flex-col mt-[40px] xl:mt-[140px]"  ref={ref}>
+      <div className="bg-bg_F8F8F8 relative h-auto flex flex-col mt-[40px] xl:mt-[140px]"  ref={ref}>
         <div className={clsx("w-rp", {"animate__animated animate__fadeInUp": isInView})}>
           <img
             className={clsx("w-full h-[73px] xl:h-[283px] object-cover translate-y-[-50%]")}
@@ -35,23 +34,18 @@ export const HomeTopicPartner = () => {
           src={BannerBg}
           alt=""
         />
-        <div className={clsx("w-rp-l gap-x-[72px] mt-[16px] xl:mt-[12px] gap-y-[24px]", {"animate__animated animate__fadeIn":isInView})}
+        <div className={clsx("w-rp-l gap-x-[32px] flex-1 translate-y-[-50%] flex flex-wrap justify-center mt-[16px] xl:mt-[12px] gap-y-[24px]", {"animate__animated animate__fadeIn":isInView})}
           style={{
             ["--animate-count" as string]: 2
           }}
         >
-          <SwiperComponent
-            slidesPerView={width > withResponsive._1280 ? 7 : width > withResponsive._768 ? 5 : 3}
-            spaceBetween={24}
-          >
             {bannerHome.map((item, index) => {
               return (
-                <SwiperSlide key={index}>
-                  <img src={item?.link} className=" h-[48px] xl:h-auto" alt="" />
-                </SwiperSlide>
+                <div key={index}>
+                  <img src={item?.link} className="w-full h-[48px]" alt="" />
+                </div>
               );
             })}
-          </SwiperComponent>
         </div>
       </div>
     </>
