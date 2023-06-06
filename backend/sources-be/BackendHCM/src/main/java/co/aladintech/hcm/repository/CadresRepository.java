@@ -16,5 +16,5 @@ import java.util.List;
 @SuppressWarnings("unused")
 @Repository
 public interface CadresRepository extends JpaRepository<Cadres, Long> {
-    Page<Cadres> findAllByTitleIsLikeIgnoreCase(String keyword, Pageable pageable);
+    Page<Cadres> findAllByFullnameIsLikeIgnoreCase(String keyword, Pageable pageable);
 }
