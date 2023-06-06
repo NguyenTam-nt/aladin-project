@@ -11,6 +11,9 @@ export default {
         text_blue: "#0167B2",
         text_white: "#FFFFFF",
         text_black: "#000",
+        br_E6E6E6: "#E6E6E6",
+        text_red: "#FF0000",
+        header_bg: "rgba(0, 0, 0, 0.3)"
       },
       fontFamily: {
         "iCielBC_Cubano": ["iCielBC Cubano"],
