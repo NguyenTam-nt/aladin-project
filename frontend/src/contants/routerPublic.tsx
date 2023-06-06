@@ -41,6 +41,7 @@ export const routersPublic:IRouter[] = [
         path: paths.home.prefix,
         element: DemoElement,
         name: "",
+        isHiden: true,
     },
     {
         path: paths.about.prefix,

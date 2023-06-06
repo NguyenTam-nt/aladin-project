@@ -10,7 +10,7 @@ export const Header = () => {
       <div className="w-rp h-full flex items-center justify-between">
         {
             routersPublic.map((item, index) => {
-                return <Link  to={item.path} key={index}>{t(item.name)}</Link>
+                return !item.isHiden ? <Link  to={item.path} key={index}>{t(item.name)}</Link> : null
             })
         }
       </div>
