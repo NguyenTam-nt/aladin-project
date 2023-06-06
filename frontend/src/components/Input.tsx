@@ -1,6 +1,6 @@
 import { TranslateContext } from "@contexts/Translation";
 import clsx from "clsx";
-import React, { useContext, InputHTMLAttributes } from "react";
+import React, { useContext, InputHTMLAttributes, memo } from "react";
 type Props = {
   withIndicator?: boolean;
   IconComponent?: React.ReactNode;
@@ -8,7 +8,7 @@ type Props = {
   renderLeft?: () => React.ReactElement;
 } & InputHTMLAttributes<HTMLInputElement>;
 
-export const Input = React.forwardRef(
+export const Input = memo(React.forwardRef(
   (
     {
       withIndicator,
@@ -44,4 +44,4 @@ export const Input = React.forwardRef(
       </div>
     );
   }
-);
+))

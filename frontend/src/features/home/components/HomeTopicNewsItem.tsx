@@ -10,7 +10,6 @@ import { useNavigate } from "react-router-dom";
 import { paths } from "@constants/router";
 import type { INews } from "@typeRules/news";
 import useWindowResize from "@hooks/useWindowResize";
-import { size } from "lodash";
 import { withResponsive } from "@constants/container";
 
 type Props = {

@@ -70,7 +70,7 @@ export const BannerItemImage = memo(({
               }
               color="empty"
               text="button.see_more"
-              className=" bg-transparent mt-auto text-text_white w-[138px] xl:w-[181px] border-[1px] border-solid border-text_white mt-[24px] animated-up-delay"
+              className=" bg-transparent mt-auto text-text_white w-[138px] xl:w-[181px] border-[1px] border-solid border-text_white animated-up-delay"
             />
           </div>
         </div>

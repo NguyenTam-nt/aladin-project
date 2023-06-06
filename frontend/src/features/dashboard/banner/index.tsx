@@ -94,8 +94,8 @@ export const Banner = () => {
   return (
     <>
       <HeaderAdmin title="admin._banner._title" />
-      {banners.map((item) => {
-        return <BannerItem onDelete={handleDeleteBanner} onPut={handlePutBanner} key={item.id} data={item} />;
+      {banners.map((item, index) => {
+        return <BannerItem onDelete={handleDeleteBanner} onPut={handlePutBanner} key={index} data={item} />;
       })}
     </>
   );
@@ -116,16 +116,16 @@ export const BannerItem = memo(({ data, onPut, onDelete }: Props) => {
   };
 
   const title = useMemo(() => {
-    const item = titlebanners.find((_i) => _i.type === data.type);
+    const item = titlebanners.find((_i) => _i?.type === data?.type);
     return isVn ? item?.name : item?.nameKo;
-  }, [data.type, isVn]);
+  }, [data?.type, isVn]);
 
   const handleDelete = useCallback(() => {
     bannerService.putBanner({
       ...data,
       link: " "
     }).then(() => {
-      onDelete(Number(data.id))
+      onDelete(Number(data?.id))
       showSuccess("message.success._success")
     }).catch(() => {
       showError("message.error._error")

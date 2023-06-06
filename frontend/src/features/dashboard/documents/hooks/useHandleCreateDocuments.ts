@@ -108,10 +108,8 @@ export const useHandleCreateDocuments = () => {
               .then((file) => {
                 formDataArray.push(
                   ...file.map((fileData, index) => {
-                    console.log("fileData" ,fileData);
                     
                     if (fileData.id) {
-                      console.log("aaabbbb");
                       
                       return fileData;
                     }
@@ -247,10 +245,6 @@ export const useHandleCreateDocuments = () => {
       },
       [handleTranslate, isVn]
     );
-
-    console.log({
-      formik
-    })
 
     const handleChangFile = (event: ChangeEvent<HTMLInputElement>) => {
       const file = event.target.files![0];

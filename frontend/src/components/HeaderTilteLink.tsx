@@ -6,7 +6,7 @@ import useWindowResize from "@hooks/useWindowResize";
 import type { IHeader } from "@typeRules/footer";
 import clsx from "clsx";
 import { useGetHeader } from "layouts/Header/components/useGetHeader";
-import React, { useContext, useMemo, useState } from "react";
+import React, { memo, useContext, useMemo, useState } from "react";
 import { Link, useLocation, useSearchParams } from "react-router-dom";
 
 export const HeaderTilteLink = () => {
@@ -39,8 +39,6 @@ export const HeaderTilteLink = () => {
     return undefined;
   }, [subNavs, params.pathname, querys]);
 
-  console.log({subQuery})
-
   return (
     <HeaderTitle
       prefix={params.pathname.split("/")[1]}
@@ -72,7 +70,7 @@ type Props = {
   listLink: IHeader[]
 };
 
-const HeaderTitle = ({ title, listLink, prefix, isQuery }: Props) => {
+const HeaderTitle = memo(({ title, listLink, prefix, isQuery }: Props) => {
   const { t, isVn } = useContext(TranslateContext);
   const [isShow, setIsShow] = useState(false);
   const { width } = useWindowResize();
@@ -139,4 +137,4 @@ const HeaderTitle = ({ title, listLink, prefix, isQuery }: Props) => {
       ) : null}
     </div>
   );
-};
+})

@@ -2,8 +2,7 @@ import { Banner } from "@features/abouts/components/Banner";
 import { LinkPageHeader } from "@components/LinkPageHeader";
 import AllDocument from "./allDocument";
 import { BannerType } from "@typeRules/banner";
-import { useContext, useEffect, useState } from "react";
-import { newsService } from "@services/newsService";
+import { useContext, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { TranslateContext } from "@contexts/Translation";
 import { HeaderTilteCustom } from "@components/HeaderTilteCustom";
@@ -13,15 +12,12 @@ const DocumentPage = () => {
   const [headerItem ] = useState<any>([])
   const { t } =  useContext(TranslateContext)
 
-  useEffect(() => {
-    newsService.gewNewCategory({ } , "" , "9301").then((parent) => {
-      console.log("parent" ,parent);
-      
-     
+  // useEffect(() => {
+  //   newsService.gewNewCategory({ } , "" , "9301").then((parent) => {
 
-      // setHeaderItem(newParent);
-    });
-  }, []);
+  //     // setHeaderItem(newParent);
+  //   });
+  // }, []);
   return (
     <>
       <Banner  type={BannerType.file_document}></Banner>

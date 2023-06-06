@@ -4,7 +4,7 @@ import { withResponsive } from "@constants/container";
 import { TranslateContext } from "@contexts/Translation";
 import useWindowResize from "@hooks/useWindowResize";
 import clsx from "clsx";
-import React, { useContext, useEffect, useMemo, useState } from "react";
+import React, { memo, useContext, useEffect, useMemo, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 
 
@@ -58,7 +58,7 @@ const NewTextOptions = ({ title, path, active  }: TitleProps) => {
   );
 };
 
-export const HeaderTilteCustom = ({ title, listLink, prefix, isQuery ,isChildren }: PropsHeader) => {
+export const HeaderTilteCustom =  memo(({ title, listLink, prefix, isQuery ,isChildren }: PropsHeader) => {
 
 
   const [titleLeft , setTitleLeft] = useState("")
@@ -204,4 +204,4 @@ export const HeaderTilteCustom = ({ title, listLink, prefix, isQuery ,isChildren
       ) : null}
     </div>
   );
-};
+})

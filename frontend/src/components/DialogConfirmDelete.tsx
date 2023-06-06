@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { memo, useContext } from "react";
 import { ICClear } from "@assets/icons/ICClear";
 import { ModalContext } from "@contexts/ModalContext";
 import { Button } from "./Button";
@@ -8,7 +8,7 @@ type Props = {
   onClick?: any;
 };
 
-export default function DialogConfirmDelete({ message, onClick }: Props) {
+const DialogConfirmDelete = memo(({ message, onClick }: Props) =>  {
   const { hideModal } = useContext(ModalContext);
 
   return (
@@ -19,7 +19,7 @@ export default function DialogConfirmDelete({ message, onClick }: Props) {
       <p className="text-center md:text-_24 font-semibold mt-[22px] mb-[33px]">
         {message}
       </p>
-      <div className="flex w-full justify-center ">
+    <div className="flex w-full justify-center ">
         <Button
           onClick={hideModal}
           color="empty"
@@ -38,4 +38,7 @@ export default function DialogConfirmDelete({ message, onClick }: Props) {
       </div>
     </div>
   );
-}
+})
+
+
+export default DialogConfirmDelete

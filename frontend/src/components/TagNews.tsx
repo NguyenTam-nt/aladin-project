@@ -1,12 +1,12 @@
 import { typeColorTag } from "@features/news/components/NewsBanner";
 import clsx from "clsx";
-import React from "react"
+import React, { memo } from "react"
 
 interface  ITagNews {
   color ?:string  ,
   title ?: string
 }
-const TagNews = (props : ITagNews) => {
+const TagNews = memo((props : ITagNews) => {
 
     const { color ,  title  } = props
   return (
@@ -20,5 +20,5 @@ const TagNews = (props : ITagNews) => {
       {title || "Tag green"}
     </p>
   );
-};
+})
 export default TagNews

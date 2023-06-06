@@ -331,24 +331,31 @@ ol {
 
 .counter {
   counter-reset: num 0;
-  font: 800 40px system-ui;
+  /* font: 800 40px system-ui; */
   padding: 2rem;
+  position: relative;
   animation: counter 2s infinite alternate ease-in-out;
+  /* content: var(--num); */
 }
 .counter::after {
-  content: counter(num);
+  position: absolute;
+  display: block;
+  top: 0;
+  left: 0;
+  content: counter(counter);
+  color: #555;
 }
 
-@keyframes counter {
+/* @keyframes counter {
   from {
     --num: 0;
   }
   to {
     --num: var(--counter);
   }
-}
+} */
 
-.numbers__window__digit {
+/* .numbers__window__digit {
   font: inherit;
   word-break: break-all;
   display: block;
@@ -370,4 +377,4 @@ ol {
   100% {
     transform: translate3d(0, -10em, 0);
   }
-}
+} */

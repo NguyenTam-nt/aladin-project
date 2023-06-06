@@ -4,10 +4,10 @@ import { TranslateContext } from "@contexts/Translation";
 import useWindowResize from "@hooks/useWindowResize";
 import clsx from "clsx";
 import { useGetHeader } from "layouts/Header/components/useGetHeader";
-import React, { useContext, useMemo } from "react";
+import React, { memo, useContext, useMemo } from "react";
 import { Link, useLocation } from "react-router-dom";
 
-export const LinkPageHeader = () => {
+export const LinkPageHeader = memo(() => {
   const { t, isVn } = useContext(TranslateContext);
   const { width } = useWindowResize();
   const params = useLocation();
@@ -106,4 +106,4 @@ export const LinkPageHeader = () => {
       </div>
     </div>
   ) : null
-};
+})
