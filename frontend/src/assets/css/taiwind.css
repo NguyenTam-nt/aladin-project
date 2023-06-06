@@ -3,9 +3,8 @@
 @tailwind utilities;
 
 :root {
-  --primary: #014F59;
-  --secondary: #00A8B5;
-  --text-primary: #272E35;
+  --primary: #99BC20;
+  --secondary: #074A20;
   --text-blue: #0167B2;
   --text-white: #FFFFFF;
   --text-black: #0000;
@@ -48,5 +47,25 @@
 
   .w-rp-l {
     @apply  3xl:w-[1637px] lg:w-[90vw] w-full mx-auto;
+  }
+
+  .title-64 {
+    @apply text-_64 font-normal leading-[80px] font-iCielBC_Cubano
+  }
+
+  .title-48 {
+    @apply text-_48 font-normal leading-[64px] font-iCielBC_Cubano
+  }
+  .title-32 {
+    @apply text-_32 font-normal leading-[48px] font-iCielBC_Cubano
+  }
+  .title-24 {
+    @apply text-_24 font-normal leading-[36px] font-iCielBC_Cubano
+  }
+  .title-20 {
+    @apply text-_20 font-normal leading-[30px] font-iCielBC_Cubano
+  }
+  .title-18 {
+    @apply text-_18 font-normal leading-[28px] font-iCielBC_Cubano
   }
 }
