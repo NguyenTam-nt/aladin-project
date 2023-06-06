@@ -1,0 +1,110 @@
+
+{  
+    "home": {
+       "header": {
+        "title": "TRƯỜNG ĐẠI HỌC KHOA HỌC XÃ HỘI VÀ NHÂN VĂN, ĐHQG-HCM",
+        "subTitle": "ĐỀ ÁN XÂY DỰNG TRƯỜNG ĐẠI HỌC TRỌNG ĐIỂM VỀ HÀN QUỐC HỌC TẠI VIỆT NAM",
+        "login": "Đăng nhập",
+        "signup": "Đăng ký",
+        "vnflag": "Vietnamese",
+        "enflag": "English",
+        "koflag": "Korean",
+        "viTag": "VIE",
+        "koTag": "KOR",
+        "_managent": "Quản lý",
+        "navigation": {
+          "home": "Trang chủ",
+          "about": "Giới thiệu",
+          "sub_abouts": {
+            "_general": "Tổng quan",
+            "_brand": "Thương hiệu",
+            "_structure": "Cơ cấu tổ chức nhân sự",
+            "_brochure": "Brochure"
+          },
+          "news": "Tin tức",
+          "sub_news": {
+            "_news": "Danh sách tin tức",
+            "_train": "Đào tạo",
+            "_study": "Nghiên cứu khoa học",
+            "_scholarship": "Học bổng",
+            "_student": "Sinh viên",
+            "_event": "Sự kiện",
+            "_career": "Cơ hội nghề nghiệp",
+            "_detail": "Chi tiết"
+          },
+          "notice": "Thông báo",
+          "sub_notice": {
+            "_notice": "Danh sách thông báo",
+            "_government": "Hệ chính quy",
+            "_postgraduate": "Hệ sau đại học",
+            "_shortCourse": "Khoá học ngắn hạn"
+          },
+          "admissions": "Tuyển sinh",
+          "documents": "Tài liệu - văn bản",
+          "sub_documents" : {
+            "_documents": "Tài liệu - văn bản",
+            "_lessons" : "Bài giảng" ,
+            "_curriculum": "Giáo trình",
+            "_sample": "Văn bản mẫu",
+            "_library": "Thư viện"
+          } ,
+          "cadres": "Cán bộ",
+          "sub_cadres": {
+            "_cadres": "Danh sách cán bộ",
+            "_cadres1": "Giảng viên và chuyên viên cơ hữu",
+            "_cadres2": "Giảng viên tình nguyện và phái cử"
+          },
+          "subject": "Bộ môn",
+          "_subject": "Danh sách bộ môn",
+          "library_image": "Thư viện ảnh",
+          "video": "Video",
+          "library_video": "Thư viện video"
+        }
+       },
+       "footer": {
+        "address1": "KHOA HÀN QUỐC HỌC, TRƯỜNG ĐH KHXH&NV, ĐHQG-HCM",
+        "address2": "TRUNG TÂM HÀN QUỐC HỌC ỨNG DỤNG",
+        "emailinput": "Nhập email",
+        "follow_btn": "Theo dõi ngay",
+        "access_count": "Tổng số lượt truy cập",
+        "train": {
+            "title": "Đào tạo",
+            "item1": "Bậc cử nhân",
+            "item2": "Bậc thạc sĩ",
+            "item3": "Bậc tiến sĩ",
+            "item4": "Đào tạo trực tuyến",
+            "item5": "Đào tạo quốc tế",
+            "item6": "Đào tạo ngắn hạn"
+        },
+        "information": {
+            "title": "Thông tin",
+            "item1": "Đối tác quốc tế",
+            "item2": "Nghiên cứu",
+            "item3": "Nafosted",
+            "item4": "Đại học xanh",
+            "item5": "Tài nguyên thương hiệu",
+            "item6": "Quản hệ doanh nghiệp"
+        },
+        "student": {
+            "title": "Sinh viên",
+            "item1": "Sinh viên quốc tế",
+            "item2": "Sinh viên tương lai",
+            "item3": "Việc làm",
+            "item4": "Học bổng",
+            "item5": "Tra cứu bằng",
+            "item6": "Khuyến học, khuyến tài"
+        }
+       },
+       "home_topic": {
+        "_general": "Tổng quan khoa học hàn quốc",
+        "_general_dh": "Bậc Đại học",
+        "_general_ts": "Bậc Tiến sĩ",
+        "_general_ths": "Bậc Thạc sĩ",
+        "_general_sv": "Sinh viên",
+        "_news": "Tin tức",
+        "_notice": "Thông báo",
+        "_event": "Sự kiện nổi bật",
+        "_study": "Nghiên cứu khoa học"
+       }
+    }
+} 

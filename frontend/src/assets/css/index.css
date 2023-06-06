@@ -1,0 +1,13 @@
+@import "./taiwind.css";
+@import "./ckeditor.css";
+
+@font-face {
+    font-family: 'iCielBC Cubano';
+    src: url('../fonts/iCielBCCubano-Normal.otf') format('truetype');
+    font-weight: 400;
+  }
+
+body {
+    font-family: 'iCielBC Cubano';
+  }
+  
