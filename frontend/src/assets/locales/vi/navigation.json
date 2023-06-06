@@ -1,0 +1,13 @@
+{
+    "navigation": {
+        "header": {
+            "home": "Trang chủ",
+            "about": "Gới thiệu",
+            "sale": "Khuyến mãi",
+            "order": "Đặt bàn",
+            "memu": "Thực đơn",
+            "news": "Tin tức",
+            "contact": "Liên hệ"
+        }
+    }
+}

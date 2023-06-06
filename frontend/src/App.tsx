@@ -1,11 +1,8 @@
-import { useTranslation } from "react-i18next";
+import { RouterRoot } from "navigation";
 
 
 function App() {
-  const {t} = useTranslation()
-  return<div>
-    {t("home.logo-name")}
-  </div>;
+  return <RouterRoot />
 }
 
 export default App;
