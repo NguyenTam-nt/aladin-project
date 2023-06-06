@@ -1,3 +1,4 @@
+import { lazy } from "react";
 
 export interface IRouter {
     path: string;
@@ -5,6 +6,8 @@ export interface IRouter {
     element: any;
     isHiden?: boolean;
   }
+
+  const HomePage = lazy(() => import("@features/home").then((module) => ({default: module.HomePage})))
 
   const DemoElement = () => {
     return <>Demo element</>
@@ -39,7 +42,7 @@ export interface IRouter {
 export const routersPublic:IRouter[] = [
     {
         path: paths.home.prefix,
-        element: DemoElement,
+        element: HomePage,
         name: "",
         isHiden: true,
     },
