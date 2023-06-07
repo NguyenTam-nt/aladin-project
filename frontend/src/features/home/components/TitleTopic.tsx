@@ -9,6 +9,6 @@ type Props = {
 export const TitleTopic = ({title, className}:Props) => {
     const {t} = useTranslation()
   return (
-    <h2 className={`title-48 text-secondary ${className}`}>{t(title)}</h2>
+    <h2 className={`title-48 text-secondary uppercase ${className}`}>{t(title)}</h2>
   )
 }

@@ -437,5 +437,40 @@
       transform: translate(24px, 0);
     }
   }
+
+
+  .rotate-logo {
+    animation: rotateLogo 0.8s cubic-bezier(0, 0.2, 0.8, 1);
+  }
+
+  @keyframes rotateLogo {
+    0%{
+      transform: rotate(-180deg);
+      opacity: 0.3;
+    }
+    100% {
+      transform: rotate(0deg);
+      opacity: 1;
+    }
+  }
+  
+  .scale-logo {
+    
+    animation: scaleLogo 0.5s cubic-bezier(0, 0.2, 0.8, 1) forwards;
+    animation-delay: 0.8s;
+    transform-origin: center center;
+  }
+
+  @keyframes scaleLogo {
+    0%{
+      transform: scale(0.1);
+      opacity: 0.3;
+    }
+    100% {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+  
   
   

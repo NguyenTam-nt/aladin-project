@@ -23,6 +23,9 @@ export interface IRouter {
     sale: {
         prefix: "/khuyen-mai",
     },
+    news: {
+        prefix: "/tin-tuc",
+    },
     order: {
         prefix: "/dat-ban",
     },
@@ -52,9 +55,9 @@ export const routersPublic:IRouter[] = [
         name: "navigation.header.memu",
     },
     {
-        path: paths.sale.prefix,
+        path: paths.news.prefix,
         element: DemoElement,
-        name: "navigation.header.sale",
+        name: "navigation.header.news",
     },
   
    

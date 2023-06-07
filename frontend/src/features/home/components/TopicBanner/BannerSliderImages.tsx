@@ -1,3 +1,4 @@
+import { SliderIndicator } from "@components/SliderIndicator";
 import { SwiperComponent } from "@components/SwiperComponent";
 import React, { useState } from "react";
 import { SwiperSlide } from "swiper/react";
@@ -16,8 +17,8 @@ export const BannerSliderImages = () => {
         loop={false}
         loopFillGroupWithBlank={true}
         autoplay={{
-        delay: 5000,
-        disableOnInteraction: false,
+          delay: 5000,
+          disableOnInteraction: false,
         }}
       >
         <>
@@ -39,23 +40,7 @@ export const BannerSliderImages = () => {
         </>
       </SwiperComponent>
       <div className=" max-w-fit absolute z-[3] bottom-[64px] left-[50%] translate-x-[-50%]">
-        <SwiperComponent
-            slidesPerView={3}
-            initialSlide={1}
-            freeMode={true}
-            onSwiper={setThumbActive}
-            watchSlidesProgress={true}
-            className="h-[4px]  swiper-banner-home"
-        >
-            {[1, 2, 3].map((_: any, index) => {
-            return (
-                <SwiperSlide key={index} className="w-full h-[3px]">
-                     <div className="w-[48px] h-[4px] mr-[12px] bg-[#ccc] cursor-pointer"></div>
-                </SwiperSlide>
-            );
-            })}
-        </SwiperComponent>
-
+        <SliderIndicator dataLength={3}  setThumbActive={setThumbActive} />
       </div>
     </div>
   );

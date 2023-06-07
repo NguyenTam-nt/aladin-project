@@ -1,6 +1,8 @@
 import { ICLogo } from "@assets/icons";
+import { ICGm } from "@assets/icons/ICGm";
+import { ICLogoFrame } from "@assets/icons/ICLogoFrame";
 import { routersPublic } from "@constants/routerPublic";
-import React, { useEffect } from "react";
+import React, { useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 
@@ -12,7 +14,6 @@ export const Header = () => {
       const header = document.getElementById("header");
 
       if (lastIndex < document.documentElement.scrollTop - 120) {
-  
         header!.style.transform = `translateY(${-120}px)`;
 
         lastIndex = document.documentElement.scrollTop - 120;
@@ -28,28 +29,40 @@ export const Header = () => {
       });
     };
   }, []);
+
+  const headerData = useMemo(() => {
+    return routersPublic.filter((item) => !item.isHiden);
+  }, []);
+
   return (
     <div
       className="w-full h-[120px] bg-header_bg backdrop-blur-[4px] active-header"
       id="header"
     >
       <div className="w-rp h-full flex items-center text-_18 uppercase justify-between text-white">
-        {routersPublic.slice(0, 4).map((item, index) => {
-          return !item.isHiden ? (
+        {headerData.slice(0, 3).map((item, index) => {
+          return (
             <Link to={item.path} key={index}>
               {t(item.name)}
             </Link>
-          ) : null;
+          );
         })}
-        <Link to="">
-            <ICLogo />
+        <Link className="flex items-center relative justify-center" to="">
+          <div className="rotate-logo ">
+            <ICLogoFrame />
+          </div>
+          <div className=" absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%]">
+            <div className="scale-logo scale-0">
+              <ICGm />
+            </div>
+          </div>
         </Link>
-        {routersPublic.slice(4).map((item, index) => {
-          return !item.isHiden ? (
+        {headerData.slice(3).map((item, index) => {
+          return (
             <Link to={item.path} key={index}>
               {t(item.name)}
             </Link>
-          ) : null;
+          );
         })}
       </div>
     </div>
