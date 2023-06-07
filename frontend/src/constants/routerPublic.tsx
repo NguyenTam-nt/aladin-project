@@ -29,8 +29,8 @@ export interface IRouter {
     memu: {
         prefix: "/thuc-don",
     },
-    news: {
-        prefix: "/tin-tuc",
+    ecruitment: {
+        prefix: "/tuyen-dung",
     },
     contact: {
         prefix: "/lien-he",
@@ -47,29 +47,32 @@ export const routersPublic:IRouter[] = [
         isHiden: true,
     },
     {
-        path: paths.about.prefix,
+        path: paths.memu.prefix,
         element: DemoElement,
-        name: "navigation.header.about",
+        name: "navigation.header.memu",
     },
     {
         path: paths.sale.prefix,
         element: DemoElement,
         name: "navigation.header.sale",
     },
+  
+   
     {
         path: paths.order.prefix,
         element: DemoElement,
         name: "navigation.header.order",
     },
+   
     {
-        path: paths.memu.prefix,
+        path: paths.about.prefix,
         element: DemoElement,
-        name: "navigation.header.memu",
+        name: "navigation.header.about",
     },
     {
-        path: paths.news.prefix,
+        path: paths.ecruitment.prefix,
         element: DemoElement,
-        name: "navigation.header.news",
+        name: "navigation.header.ecruitment",
     },
     {
         path: paths.contact.prefix,

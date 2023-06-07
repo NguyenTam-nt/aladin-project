@@ -1,0 +1,19 @@
+import { ICHomeTopicDeviceLeft } from '@assets/icons/ICHomeTopicDeviceLeft'
+import { ICHomeTopicDeviceRight } from '@assets/icons/ICHomeTopicDeviceRight'
+import React from 'react'
+
+export const HomeTopicDevice = () => {
+  return (
+   <div className='relative h-[560px] py-[110px] '>
+    <div className='absolute left-0 top-0'>
+        <ICHomeTopicDeviceLeft />
+    </div>
+    <div className='absolute right-0 top-0'>
+        <ICHomeTopicDeviceRight />
+    </div>
+    <div className='w-rp '>
+    </div>
+
+   </div> 
+  )
+}
