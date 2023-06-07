@@ -13,7 +13,9 @@ export default {
         text_black: "#000",
         br_E6E6E6: "#E6E6E6",
         text_red: "#FF0000",
-        header_bg: "rgba(0, 0, 0, 0.3)"
+        header_bg: "rgba(0, 0, 0, 0.3)",
+        GreyPrimary: "#222124",
+
       },
       backgroundImage: {
         banner_home: "linear-gradient(90deg, rgba(0, 0, 0, 0.5) -0.81%, rgba(0, 0, 0, 0) 100%)"
@@ -68,6 +70,15 @@ export default {
         _48: "48px",
         _64: "64px",
       },
+      spacing: {
+        spc32: "32px",
+        spc60: "60px",
+        spc167: "167px",
+        spc176: "176px"
+      },
+      borderRadius: {
+        r32: "32px"
+      }
     },
   },
   plugins: [],
