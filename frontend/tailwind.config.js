@@ -15,6 +15,10 @@ export default {
         text_red: "#FF0000",
         header_bg: "rgba(0, 0, 0, 0.3)"
       },
+      backgroundImage: {
+        banner_home: "linear-gradient(90deg, rgba(0, 0, 0, 0.5) -0.81%, rgba(0, 0, 0, 0) 100%)"
+      }
+      ,
       fontFamily: {
         "iCielBC_Cubano": ["iCielBC Cubano"],
         "IBM_Plex_Sans": ["IBM Plex Sans"],
