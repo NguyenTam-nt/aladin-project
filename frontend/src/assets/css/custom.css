@@ -67,3 +67,8 @@
       opacity: 1;
       transition: all 0.5s ease-in-out;
 }
+
+.footer-animation-list {
+  height: calc(var(--footer-size) * var(--height-li));
+  transition: all ease 0.3s;
+} 
