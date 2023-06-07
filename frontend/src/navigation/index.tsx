@@ -1,5 +1,5 @@
-import { prefixRootRoute } from "contants";
-import { routersPublic } from "contants/routerPublic";
+import { prefixRootRoute } from "@constants/index";
+import { routersPublic } from "@constants/routerPublic";
 import { Suspense, lazy} from "react";
 import { Route, Routes } from "react-router-dom";
 

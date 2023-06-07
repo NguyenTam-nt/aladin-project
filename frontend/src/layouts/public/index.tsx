@@ -10,7 +10,7 @@ export const PublicLayout = () => {
   return (
    <>
     <Header />
-    <div className='min-h-[600px]'>
+    <div className='min-h-[1200px]'>
          <Outlet />
     </div>
     <Footer />

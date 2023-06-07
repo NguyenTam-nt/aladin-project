@@ -1,5 +1,14 @@
 import React from "react";
+import { Banner } from "./components/Banner";
+import { HomeTopicDevice } from "./components/HomeTopicDevice";
 
 export const HomePage = () => {
-  return <div>HomePgae</div>;
+  return (
+    <>
+      <Banner />
+      <div className="home-body">
+        <HomeTopicDevice />
+      </div>
+    </>
+  );
 };

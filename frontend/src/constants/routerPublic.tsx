@@ -11,6 +11,9 @@ const HomePage = lazy(() =>
   import("@features/home").then((module) => ({ default: module.HomePage }))
 );
 const PromotionPage = lazy(() => import("@features/promotion/user/index"));
+const TableReserVation = lazy(
+  () => import("@features/promotion/user/TableReserVation")
+);
 
 const DemoElement = () => {
   return <>Demo element</>;
@@ -59,7 +62,7 @@ export const routersPublic: IRouter[] = [
   },
   {
     path: paths.order.prefix,
-    element: DemoElement,
+    element: TableReserVation,
     name: "navigation.header.order",
   },
   {
