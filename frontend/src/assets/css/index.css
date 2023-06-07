@@ -2,9 +2,9 @@
 @import 'swiper/css/grid';
 @import 'swiper/css/pagination';
 
-
 @import "./ckeditor.css";
 @import "./taiwind.css";
+@import "./animated.css";
 @import "./custom.css";
 
 
