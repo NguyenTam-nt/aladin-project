@@ -1,5 +1,5 @@
-import React from 'react'
-import { TitleTopic } from './TitleTopic'
+import React, { memo } from 'react'
+import { TitleTopic } from '../TitleTopic'
 
 import device1 from "@assets/images/home/device1.webp";
 import device2 from "@assets/images/home/device2.png";
@@ -25,7 +25,7 @@ const data = [
   },
 ];
 
-export const HomeTopicDeviceList = () => {
+export const HomeTopicDeviceList = memo(() => {
   return (
     <div className="w-rp ">
     <div className="flex justify-center mb-[64px]">
@@ -48,4 +48,4 @@ export const HomeTopicDeviceList = () => {
     </div>
   </div>
   )
-}
+})

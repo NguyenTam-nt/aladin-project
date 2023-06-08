@@ -1,10 +1,10 @@
 import { ICHomeTopicDeviceLeft } from "@assets/icons/ICHomeTopicDeviceLeft";
 import { ICHomeTopicDeviceRight } from "@assets/icons/ICHomeTopicDeviceRight";
-import React from "react";
+import React, { memo } from "react";
 import { HomeTopicDeviceList } from "./HomeTopicDeviceList";
 
 
-export const HomeTopicDevice = () => {
+export const HomeTopicDevice = memo(() => {
   return (
     <div className="relative h-[560px] py-[110px] ">
       <div className="absolute left-0 top-0">
@@ -16,4 +16,4 @@ export const HomeTopicDevice = () => {
       <HomeTopicDeviceList />
     </div>
   );
-};
+})

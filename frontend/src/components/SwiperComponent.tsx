@@ -1,7 +1,7 @@
-import React, { memo } from "react";
-import { Swiper, SwiperProps } from "swiper/react";
+import React, { Ref, memo } from "react";
+import { Swiper, SwiperProps, SwiperRef } from "swiper/react";
 
-import { Autoplay, FreeMode, Navigation, Thumbs } from "swiper";
+import { Autoplay, FreeMode, Keyboard, Navigation, Thumbs } from "swiper";
 
 type Props = {
   navigationPrevRef?: React.RefObject<HTMLDivElement>;
@@ -36,7 +36,7 @@ export const SwiperComponent = memo(({
             swiper.navigation?.update();
           }, 300);
       }}
-      modules={[ Navigation, Autoplay, Thumbs, FreeMode]}
+      modules={[ Keyboard, Navigation, Autoplay, Thumbs, FreeMode]}
       {...props}
     >
     {children}

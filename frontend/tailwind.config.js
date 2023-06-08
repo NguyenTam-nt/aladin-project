@@ -13,12 +13,16 @@ export default {
         text_black: "#000",
         br_E6E6E6: "#E6E6E6",
         text_red: "#FF0000",
+        bg_E73F3F: "#E73F3F",
         header_bg: "rgba(0, 0, 0, 0.3)",
+        text_A1A0A3: "#A1A0A3",
         GreyPrimary: "#222124",
 
       },
       backgroundImage: {
-        banner_home: "linear-gradient(90deg, rgba(0, 0, 0, 0.5) -0.81%, rgba(0, 0, 0, 0) 100%)"
+        banner_home: "linear-gradient(90deg, rgba(0, 0, 0, 0.5) -0.81%, rgba(0, 0, 0, 0) 100%)",
+        home_topic_sale_item: "linear-gradient(0deg, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0) 100%)",
+        home_topic_sale: "linear-gradient(0deg, rgba(153, 188, 32, 0.88), rgba(153, 188, 32, 0.88))"
       }
       ,
       fontFamily: {
@@ -56,6 +60,7 @@ export default {
         _10: "10px",
         _11: "11px",
         _12: "12px",
+        _13: "13px",
         _14: "14px",
         _16: "16px",
         _18: "18px",
