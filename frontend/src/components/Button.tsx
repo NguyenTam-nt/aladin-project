@@ -28,11 +28,11 @@ export const Button = memo(
         type="button"
         {...props}
         className={clsx(
-          "relative h-[48px] text-_14 xl:text-_16 w-full font-bold overflow-hidden rounded-[16px_0_16px_0] flex justify-center items-center",
+          "relative h-[48px] text-_14 xl:text-_16 w-full font-bold overflow-hidden rounded-[16px_0_16px_0] flex justify-center items-center btn-hover-effect btn-hover-effect--effect-3",
           {
             "bg-primary text-text_white": color === "primary",
             "bg-text_white text-primary": color === "empty",
-            "justify-between": image,
+            // "justify-between": image,
           },
           className
         )}

@@ -1,6 +1,12 @@
+@import 'swiper/css';
+@import 'swiper/css/grid';
+@import 'swiper/css/pagination';
+
 @import "./ckeditor.css";
 @import "./taiwind.css";
+@import "./animated.css";
 @import "./custom.css";
+
 
 @font-face {
     font-family: 'iCielBC Cubano';
@@ -13,3 +19,53 @@ body {
     font-family: "IBM Plex Sans";
 }
 
+
+.banner_home {
+  height: calc(100vh - 120px);
+  max-height: calc(100vh - 120px);
+  min-height: calc(100vh - 120px);
+}
+
+.banner_home_video {
+  height: calc(100vh - 120px);
+  max-height: calc(100vh - 120px);
+  min-height: calc(100vh - 120px);
+}
+
+.active-header {
+    
+  position: fixed !important;
+  top: 0;
+  left: 0;
+  right: 0;
+  /* transition: all 0.25s ease; */
+  z-index: 13 !important;
+  /* animation: sliderToBottom cubic-bezier(0.55, 0, 0.1, 1) 0.8s; */
+  transition: all 0.8s cubic-bezier(0.55, 0, 0.1, 1)
+
+}
+
+@keyframes sliderToBottom {
+  from {
+      transform: translateY(-50px);
+      opacity: 0;
+  }
+
+  to {
+      transform: translateY(0);
+      opacity: 1;
+  }
+}
+
+.home-body {
+  background-image: url("../images/home/paper_bg.webp");
+  /* background-repeat: repeat-y; */
+}
+
+.home-topic-device-left {
+  background-image: url("../images/home/bg_device_letf.webp");
+  width: 580.68px;
+  height: 594.55px;
+  background-repeat: no-repeat;
+  transform: rotate(105deg);
+}

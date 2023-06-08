@@ -1,13 +1,19 @@
 import { lazy } from "react";
 
 export interface IRouter {
-    path: string;
-    name: string;
-    element: any;
-    isHiden?: boolean;
-  }
+  path: string;
+  name: string;
+  element: any;
+  isHiden?: boolean;
+}
 
-  const HomePage = lazy(() => import("@features/home").then((module) => ({default: module.HomePage})))
+const HomePage = lazy(() =>
+  import("@features/home").then((module) => ({ default: module.HomePage }))
+);
+const PromotionPage = lazy(() => import("@features/promotion/user/index"));
+const TableReserVation = lazy(
+  () => import("@features/promotion/user/TableReserVation")
+);
 
   const DemoElement = () => {
     return <>Demo element</>
@@ -23,21 +29,23 @@ export interface IRouter {
     sale: {
         prefix: "/khuyen-mai",
     },
+    news: {
+        prefix: "/tin-tuc",
+    },
     order: {
         prefix: "/dat-ban",
     },
     memu: {
         prefix: "/thuc-don",
     },
-    news: {
-        prefix: "/tin-tuc",
+    ecruitment: {
+        prefix: "/tuyen-dung",
     },
     contact: {
         prefix: "/lien-he",
     },
+}
 
-  };
-  
 
 export const routersPublic:IRouter[] = [
     {
@@ -47,29 +55,38 @@ export const routersPublic:IRouter[] = [
         isHiden: true,
     },
     {
-        path: paths.about.prefix,
-        element: DemoElement,
-        name: "navigation.header.about",
-    },
-    {
-        path: paths.sale.prefix,
-        element: DemoElement,
-        name: "navigation.header.sale",
-    },
-    {
-        path: paths.order.prefix,
-        element: DemoElement,
-        name: "navigation.header.order",
-    },
-    {
         path: paths.memu.prefix,
         element: DemoElement,
         name: "navigation.header.memu",
     },
     {
+        path: paths.sale.prefix,
+        element: PromotionPage,
+        name: "navigation.header.sale",
+        isHiden: true
+      },
+    {
         path: paths.news.prefix,
         element: DemoElement,
         name: "navigation.header.news",
+    },
+  
+   
+    {
+        path: paths.order.prefix,
+        element: TableReserVation,
+        name: "navigation.header.order",
+    },
+   
+    {
+        path: paths.about.prefix,
+        element: DemoElement,
+        name: "navigation.header.about",
+    },
+    {
+        path: paths.ecruitment.prefix,
+        element: DemoElement,
+        name: "navigation.header.ecruitment",
     },
     {
         path: paths.contact.prefix,

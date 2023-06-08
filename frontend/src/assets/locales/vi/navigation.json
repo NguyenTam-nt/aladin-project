@@ -2,11 +2,12 @@
     "navigation": {
         "header": {
             "home": "Trang chủ",
-            "about": "Gới thiệu",
+            "about": "Giới thiệu",
             "sale": "Khuyến mãi",
             "order": "Đặt bàn",
-            "memu": "Thực đơn",
             "news": "Tin tức",
+            "memu": "Thực đơn",
+            "ecruitment": "Tuyển dụng",
             "contact": "Liên hệ"
         }
     }
