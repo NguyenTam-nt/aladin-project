@@ -1,3 +1,4 @@
+
 import { lazy } from "react";
 
 export interface IRouter {
@@ -14,6 +15,8 @@ const PromotionPage = lazy(() => import("@features/promotion/user/index"));
 const TableReserVation = lazy(
   () => import("@features/promotion/user/TableReserVation")
 );
+
+const ContactPage = lazy(() => import("@features/contact"));
 
   const DemoElement = () => {
     return <>Demo element</>
@@ -90,7 +93,7 @@ export const routersPublic:IRouter[] = [
     },
     {
         path: paths.contact.prefix,
-        element: DemoElement,
+        element: ContactPage,
         name: "navigation.header.contact",
     }
 ]
