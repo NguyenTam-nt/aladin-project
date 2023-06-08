@@ -35,12 +35,18 @@ export const HomeTopicSalesSlider = () => {
         <>
           {dataRender.map((_, indexP) => {
             return (
-              <SwiperSlide key={indexP} className="flex items-center gap-x-[24px]">
-                {data.slice(indexP * 3, indexP * 3 + 3).map((_, index) => {
-                  return (
-                    <HomeTopicSalesItem key={index} index={indexP * 3 + index + 1} />
-                  );
-                })}
+              <SwiperSlide
+                key={indexP}>
+                <div  className="grid grid-cols-3 items-center gap-x-[24px]">
+                  {data.slice(indexP * 3, indexP * 3 + 3).map((_, index) => {
+                    return (
+                      <HomeTopicSalesItem
+                        key={index}
+                        index={indexP * 3 + index + 1}
+                      />
+                    );
+                  })}
+                </div>
               </SwiperSlide>
             );
           })}
