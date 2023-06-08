@@ -25,4 +25,5 @@ export const Colors = {
     bg_CFD6DD : "#CFD6DD",
     text_C53434: "#C53434" ,
     bg_1A73E8 : "#1A73E8",
+    text_5A5C60: "#5A5C60"
 }
