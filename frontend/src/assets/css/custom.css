@@ -72,3 +72,43 @@
   height: calc(var(--footer-size) * var(--height-li));
   transition: all ease 0.3s;
 } 
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus, 
+input:-webkit-autofill:active{
+    -webkit-box-shadow: 0 0 0 30px white inset !important;
+}
+
+
+/* custom scroll bar */
+
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: rgba(0,0,0,.1);
+  border-radius: 6px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+.list-facilities::-webkit-scrollbar{
+  width: 4px;
+}
+
+.list-facilities::-webkit-scrollbar-thumb {
+  background: rgba(0,0,0,.1);
+  border-radius: unset;
+}

@@ -10,17 +10,21 @@ export interface IRouter {
 const HomePage = lazy(() =>
   import("@features/home").then((module) => ({ default: module.HomePage }))
 );
-const News = lazy(() => import("@features/news/user/index"));
+const MenuPage = lazy(() =>
+  import("@features/menu").then((module) => ({ default: module.Menu }))
+);
+
 const TableReserVation = lazy(
   () => import("@features/news/user/TableReserVation")
 );
 const Recruitment = lazy(() => import("@features/recruitment/index"));
+const News = lazy(() => import("@features/news/user/index"));
 const NewDetail = lazy(() => import("@features/news/user/NewDetail"));
+const ContactPage = lazy(() => import("@features/contact"));
 
 const DemoElement = () => {
   return <>Demo element</>;
 };
-
 export const paths = {
   home: {
     prefix: "/",
@@ -60,7 +64,7 @@ export const routersPublic: IRouter[] = [
   },
   {
     path: paths.memu.prefix,
-    element: DemoElement,
+    element: MenuPage,
     name: "navigation.header.memu",
   },
   {
@@ -97,7 +101,7 @@ export const routersPublic: IRouter[] = [
   },
   {
     path: paths.contact.prefix,
-    element: DemoElement,
+    element: ContactPage,
     name: "navigation.header.contact",
   },
 ];

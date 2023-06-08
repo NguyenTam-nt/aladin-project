@@ -62,7 +62,7 @@ const TableReserVationForm = () => {
             <div className="col-span-1">
               <TitleInput isRequired name="form.hour" />
               <input
-                type="text"
+                type="time"
                 className="w-full px-3 py-2 radius-tl-br16 placeholder:text-sm outline-none border border-gray-200"
                 placeholder={t("form.choseHourOder") as string}
               />
