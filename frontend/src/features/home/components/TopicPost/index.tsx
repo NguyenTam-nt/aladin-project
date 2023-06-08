@@ -24,7 +24,6 @@ export const TopicPost = () => {
         onActiveIndexChange={onActiveIndexChange}
         navigationNextRef={navigationNextRef}
         navigationPrevRef={navigationPrevRef}
-        // autoplay={false}
       >
         {[1, 2, 3].map((_, index) => {
           return (

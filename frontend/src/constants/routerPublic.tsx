@@ -10,6 +10,11 @@ export interface IRouter {
 const HomePage = lazy(() =>
   import("@features/home").then((module) => ({ default: module.HomePage }))
 );
+
+const MenuPage = lazy(() =>
+  import("@features/menu").then((module) => ({ default: module.Menu }))
+);
+
 const PromotionPage = lazy(() => import("@features/promotion/user/index"));
 const TableReserVation = lazy(
   () => import("@features/promotion/user/TableReserVation")
@@ -56,7 +61,7 @@ export const routersPublic:IRouter[] = [
     },
     {
         path: paths.memu.prefix,
-        element: DemoElement,
+        element: MenuPage,
         name: "navigation.header.memu",
     },
     {
