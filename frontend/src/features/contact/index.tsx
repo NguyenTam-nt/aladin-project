@@ -6,18 +6,13 @@ import ContactForm from "./components/ContactForm";
 import bgContact from "@assets/images/contact/bg-contact.jpg";
 import AddressContactSession from "./components/AddressContactSession";
 import { TopicPlace } from "@features/home/components/TopicPlace";
+import { paths } from "@constants/routerPublic";
 
 const ContactPage = () => {
   return (
     <>
-      <Banner />
-      <div className="w-full h-full"
-         style={{
-          backgroundImage: `url(${bgContact})`,
-          backgroundRepeat: "no-repeat",
-          backgroundSize: "cover",
-        }}
-      >
+      <Banner name="Liên hệ" Link={paths.contact.prefix} />
+      <div className="w-full h-full">
         <div className="w-rp pt-[138px] h-full pb-[112px]">
           <TitleOfContent name="contact.title" />
           <ContactForm />
