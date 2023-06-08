@@ -1,7 +1,7 @@
 import React from "react";
 import WapperContent from "../../../components/WapperContent";
-import Banner from "./Banner";
 import TableReserVationForm from "@components/form/TableReserVationForm";
+import Banner from "./Banner";
 
 const TableReserVation = () => {
   return (
