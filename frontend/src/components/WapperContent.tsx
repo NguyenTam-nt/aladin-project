@@ -4,7 +4,7 @@ import bgWapper from "@assets/images/bg-page-lsht.png";
 interface Props {
   children: React.ReactNode;
 }
-const WapperContent = (props: any) => {
+const WapperContent = (props: Props) => {
   const { children } = props;
   return (
     <div

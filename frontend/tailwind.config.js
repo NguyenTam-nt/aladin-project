@@ -76,10 +76,15 @@ export default {
         _64: "64px",
       },
       spacing: {
+        spc26: "26px",
         spc32: "32px",
         spc60: "60px",
+        spc120: "120px",
         spc167: "167px",
         spc176: "176px"
+      },
+      lineHeight: {
+        22: "22px"
       },
       borderRadius: {
         r32: "32px"
