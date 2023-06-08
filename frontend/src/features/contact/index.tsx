@@ -5,6 +5,7 @@ import ContactForm from "./components/ContactForm";
 
 import bgContact from "@assets/images/contact/bg-contact.jpg";
 import AddressContactSession from "./components/AddressContactSession";
+import { TopicPlace } from "@features/home/components/TopicPlace";
 
 const ContactPage = () => {
   return (
@@ -21,9 +22,11 @@ const ContactPage = () => {
           <TitleOfContent name="contact.title" />
           <ContactForm />
 
-          <TitleOfContent name="contact.address_title" className="mt-20" />
+          <div className="mt-20"></div>
+          {/* <TitleOfContent name="contact.address_title" className="mt-20" /> */}
 
-          <AddressContactSession />
+          <TopicPlace />
+          {/* <AddressContactSession /> */}
         </div>
       </div>
     </>
