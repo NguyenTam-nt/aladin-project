@@ -1,6 +1,6 @@
 import React from "react";
 import Banner from "./Banner";
-import WapperContent from "./WapperContent";
+import WapperContent from "../../../components/WapperContent";
 import TitleOfContent from "@components/TitleOfContent";
 import FoodReferialCard from "@components/FoodReferialCard";
 import imageCard from "@assets/images/imgCard.png";
@@ -50,13 +50,15 @@ const PromotionPage = () => {
   ];
   return (
     <div className="">
-      <Banner />
+      <Banner
+        dataBanner={{
+          name: "navigation.header.news",
+          listNavigate: [{ name: "navigation.header.news", path: "/tin-tuc" }],
+        }}
+      />
       <WapperContent>
         <div className="pb-[120px]">
-          <TitleOfContent
-            name="titleofcontent.promotionTitle"
-            className="mb-spc60"
-          />
+          <TitleOfContent name="titleofcontent.news" className="mb-spc60" />
           <div className="grid grid-cols-4 gap-x-6 gap-y-10 mb-10">
             {fakeData.map((itemFood, indexF) => {
               return <FoodReferialCard key={indexF} itemInforCard={itemFood} />;
