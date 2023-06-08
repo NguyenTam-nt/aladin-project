@@ -1,13 +1,19 @@
 import { lazy } from "react";
 
 export interface IRouter {
-    path: string;
-    name: string;
-    element: any;
-    isHiden?: boolean;
-  }
+  path: string;
+  name: string;
+  element: any;
+  isHiden?: boolean;
+}
 
-  const HomePage = lazy(() => import("@features/home").then((module) => ({default: module.HomePage})))
+const HomePage = lazy(() =>
+  import("@features/home").then((module) => ({ default: module.HomePage }))
+);
+const PromotionPage = lazy(() => import("@features/promotion/user/index"));
+const TableReserVation = lazy(
+  () => import("@features/promotion/user/TableReserVation")
+);
 
   const DemoElement = () => {
     return <>Demo element</>
@@ -38,9 +44,8 @@ export interface IRouter {
     contact: {
         prefix: "/lien-he",
     },
+}
 
-  };
-  
 
 export const routersPublic:IRouter[] = [
     {
@@ -55,6 +60,12 @@ export const routersPublic:IRouter[] = [
         name: "navigation.header.memu",
     },
     {
+        path: paths.sale.prefix,
+        element: PromotionPage,
+        name: "navigation.header.sale",
+        isHiden: true
+      },
+    {
         path: paths.news.prefix,
         element: DemoElement,
         name: "navigation.header.news",
@@ -63,7 +74,7 @@ export const routersPublic:IRouter[] = [
    
     {
         path: paths.order.prefix,
-        element: DemoElement,
+        element: TableReserVation,
         name: "navigation.header.order",
     },
    
