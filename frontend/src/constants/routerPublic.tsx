@@ -10,87 +10,94 @@ export interface IRouter {
 const HomePage = lazy(() =>
   import("@features/home").then((module) => ({ default: module.HomePage }))
 );
-const PromotionPage = lazy(() => import("@features/promotion/user/index"));
+const News = lazy(() => import("@features/news/user/index"));
 const TableReserVation = lazy(
-  () => import("@features/promotion/user/TableReserVation")
+  () => import("@features/news/user/TableReserVation")
 );
+const Recruitment = lazy(() => import("@features/recruitment/index"));
+const NewDetail = lazy(() => import("@features/news/user/NewDetail"));
 
-  const DemoElement = () => {
-    return <>Demo element</>
-  }
-  
-  export const paths = {
-    home: {
-      prefix: "/",
-    },
-    about: {
-        prefix: "/gioi-thieu",
-    },
-    sale: {
-        prefix: "/khuyen-mai",
-    },
-    news: {
-        prefix: "/tin-tuc",
-    },
-    order: {
-        prefix: "/dat-ban",
-    },
-    memu: {
-        prefix: "/thuc-don",
-    },
-    ecruitment: {
-        prefix: "/tuyen-dung",
-    },
-    contact: {
-        prefix: "/lien-he",
-    },
-}
+const DemoElement = () => {
+  return <>Demo element</>;
+};
 
+export const paths = {
+  home: {
+    prefix: "/",
+  },
+  about: {
+    prefix: "/gioi-thieu",
+  },
+  sale: {
+    prefix: "/khuyen-mai",
+  },
+  news: {
+    prefix: "/tin-tuc",
+  },
+  NewDetail: {
+    prefix: "/tin-tuc/:id",
+  },
+  order: {
+    prefix: "/dat-ban",
+  },
+  memu: {
+    prefix: "/thuc-don",
+  },
+  ecruitment: {
+    prefix: "/tuyen-dung",
+  },
+  contact: {
+    prefix: "/lien-he",
+  },
+};
 
-export const routersPublic:IRouter[] = [
-    {
-        path: paths.home.prefix,
-        element: HomePage,
-        name: "",
-        isHiden: true,
-    },
-    {
-        path: paths.memu.prefix,
-        element: DemoElement,
-        name: "navigation.header.memu",
-    },
-    {
-        path: paths.sale.prefix,
-        element: PromotionPage,
-        name: "navigation.header.sale",
-        isHiden: true
-      },
-    {
-        path: paths.news.prefix,
-        element: DemoElement,
-        name: "navigation.header.news",
-    },
-  
-   
-    {
-        path: paths.order.prefix,
-        element: TableReserVation,
-        name: "navigation.header.order",
-    },
-   
-    {
-        path: paths.about.prefix,
-        element: DemoElement,
-        name: "navigation.header.about",
-    },
-    {
-        path: paths.ecruitment.prefix,
-        element: DemoElement,
-        name: "navigation.header.ecruitment",
-    },
-    {
-        path: paths.contact.prefix,
-        element: DemoElement,
-        name: "navigation.header.contact",
-    }
-]
+export const routersPublic: IRouter[] = [
+  {
+    path: paths.home.prefix,
+    element: HomePage,
+    name: "",
+    isHiden: true,
+  },
+  {
+    path: paths.memu.prefix,
+    element: DemoElement,
+    name: "navigation.header.memu",
+  },
+  {
+    path: paths.sale.prefix,
+    element: News,
+    name: "navigation.header.sale",
+    isHiden: true,
+  },
+  {
+    path: paths.news.prefix,
+    element: News,
+    name: "navigation.header.news",
+  },
+  {
+    path: paths.NewDetail.prefix,
+    element: NewDetail,
+    name: "navigation.header.newDetail",
+  },
+  {
+    path: paths.order.prefix,
+    element: TableReserVation,
+    name: "navigation.header.order",
+  },
+
+  {
+    path: paths.about.prefix,
+    element: DemoElement,
+    name: "navigation.header.about",
+  },
+  {
+    path: paths.ecruitment.prefix,
+    element: Recruitment,
+    name: "navigation.header.ecruitment",
+  },
+  {
+    path: paths.contact.prefix,
+    element: DemoElement,
+    name: "navigation.header.contact",
+  },
+];

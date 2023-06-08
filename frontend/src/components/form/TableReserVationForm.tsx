@@ -1,3 +1,4 @@
+// import { CalendarIcon } from "@assets/icons/iconComponent";
 import TitleInput from "@components/TitleInput";
 import TitleOfContent from "@components/TitleOfContent";
 import React from "react";
@@ -49,13 +50,14 @@ const TableReserVationForm = () => {
                 placeholder={t("form.inputNumberCustomers") as string}
               />
             </div>
-            <div className="col-span-1">
+            <div className="col-span-1 relative">
               <TitleInput isRequired name="form.day" />
               <input
-                type="text"
+                type="date"
                 className="w-full px-3 py-2 radius-tl-br16 placeholder:text-sm outline-none border border-gray-200"
                 placeholder={t("form.choseDayOder") as string}
               />
+              <div className="a">{/* <CalendarIcon /> */}</div>
             </div>
             <div className="col-span-1">
               <TitleInput isRequired name="form.hour" />
@@ -84,7 +86,7 @@ const TableReserVationForm = () => {
           </div>
           <div className="flex items-center justify-center mt-9">
             <button className="radius-tl-br16 w-spc167 py-3 text-center text-sm leading-5 font-bold bg-primary text-white">
-              đặt bàn
+              {t("form.tableReser")}
             </button>
           </div>
         </div>
