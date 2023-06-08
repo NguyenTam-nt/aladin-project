@@ -12,6 +12,19 @@
       "sales": {
         "title": "KHUYến mại hot trong tuần",
         "des": "Lectus ipsum dis eu enim lacus nunc. Duis pellentesque felis sit commodo mattis cras mattis netus. Sagittis id diam eu eu. Varius pellentesque ac congue in. Arcu venenatis tortor rhoncus tellus felis pellentesque at. Eu eget pellentesque suspendisse vitae amet"
+      },
+      "customer": {
+        "title": "CẢM NHẬN KHách hàng tại GIANG MỸ"
+      },
+      "news": {
+        "title": "Tin tức sự kiện"
+      },
+      "place": {
+        "title": "Nhà hàng trên toàn quốc",
+        "city_name": "Tỉnh/ Thành phố",
+        "list_base": "Danh sách cơ sở",
+        "base": "Cơ sở",
+        "chosse_place": "Chọn khu vực"
       }
     }
 } 
