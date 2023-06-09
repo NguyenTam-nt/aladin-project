@@ -5,7 +5,10 @@ import TitleOfContent from "@components/TitleOfContent";
 import FoodReferialCard from "@components/FoodReferialCard";
 import imageCard from "@assets/images/imgCard.png";
 import { Pagination } from "@components/Paginnation";
+import { windownSizeHeight, windownSizeWidth } from "@constants/index";
+// import { Banner } from "@components/Banner";
 const PromotionPage = () => {
+  console.log(windownSizeWidth, windownSizeHeight, "responsive");
   const [currentPage, setCurrentPage] = useState<number>(1);
   const fakeData = [
     {
@@ -51,6 +54,7 @@ const PromotionPage = () => {
   ];
   return (
     <div className="">
+      {/* <Banner /> */}
       <Banner
         dataBanner={{
           name: "navigation.header.news",

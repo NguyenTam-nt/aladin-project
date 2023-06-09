@@ -117,3 +117,16 @@ input:-webkit-autofill:active{
   height: calc(var(--footer-size) * var(--height-li));
   transition: all ease 0.3s;
 } 
+
+
+/* disAble range value input type="number" */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}

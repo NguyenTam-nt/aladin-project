@@ -13,6 +13,7 @@ export default {
         text_black: "#000",
         br_E6E6E6: "#E6E6E6",
         text_red: "#FF0000",
+        red_error: "#E73F3F",
         bg_E73F3F: "#E73F3F",
         header_bg: "rgba(0, 0, 0, 0.3)",
         text_A1A0A3: "#A1A0A3",
