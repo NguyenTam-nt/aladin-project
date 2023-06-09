@@ -17,7 +17,7 @@ export default {
         header_bg: "rgba(0, 0, 0, 0.3)",
         text_A1A0A3: "#A1A0A3",
         GreyPrimary: "#222124",
-
+        br_CBCBCB: "#CBCBCB"
       },
       backgroundImage: {
         banner_home: "linear-gradient(90deg, rgba(0, 0, 0, 0.5) -0.81%, rgba(0, 0, 0, 0) 100%)",
