@@ -13,7 +13,7 @@ const WapperContent = (props: Props) => {
         backgroundRepeat: "no-repeat",
         backgroundSize: "cover",
       }}
-      className="px-[15%] pt-spc120 h-auto"
+      className="xl:px-[15%] px-[10%] pt-spc120 h-auto"
     >
       {children}
     </div>

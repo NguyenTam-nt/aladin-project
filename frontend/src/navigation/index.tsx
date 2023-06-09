@@ -8,6 +8,7 @@ const PublicLayout = lazy(() =>
     default: modaule.PublicLayout,
   }))
 );
+const LayoutManage = lazy(() => import("../layouts/LayoutManage"));
 
 export const RouterRoot = () => {
   return (
@@ -26,6 +27,9 @@ export const RouterRoot = () => {
             />
           );
         })}
+      </Route>
+      <Route path={prefixRootRoute.admin} element={<LayoutManage />}>
+        <Route path={"trangchu"} element={<div>quan ly trang chủ</div>} />
       </Route>
     </Routes>
   );
