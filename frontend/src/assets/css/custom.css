@@ -112,3 +112,8 @@ input:-webkit-autofill:active{
   background: rgba(0,0,0,.1);
   border-radius: unset;
 }
+
+.footer-animation-list {
+  height: calc(var(--footer-size) * var(--height-li));
+  transition: all ease 0.3s;
+} 
