@@ -1,6 +1,7 @@
 export const prefixRootRoute = {
     public: "/",
-    admin: "/quan-ly"
+    admin: "/quan-ly",
+    slug: "id"
 }
 
 export const windownSizeWidth = window.innerWidth

@@ -1,7 +1,7 @@
 import React from "react";
-import { GroupTile } from "./GroupTile";
-import { TopicMenuList } from "./TopicMenuList";
 import { TopicMenuGroup } from "./TopicMenuGroup";
+import { ICHomeTopicMenuLeft } from "@assets/icons/ICHomeTopicMenuLeft";
+import { ICHomeTopicMenuRight } from "@assets/icons/ICHomeTopicMenuRight";
 
 const data = [
   {
@@ -16,13 +16,25 @@ const data = [
 
 export const TopicMenu = () => {
   return (
-    <div className="w-rp py-[120px]">
-      <div className="grid grid-cols-1 gap-y-[80px]">
-        {data.map((item, index) => {
-          return (
-           <TopicMenuGroup key={index} title={item.title} listItem={item.listItem} />
-          );
-        })}
+    <div className="relative">
+      <div className="absolute left-0 bottom-0">
+        <ICHomeTopicMenuLeft />
+      </div>
+      <div className="absolute right-0 top-0">
+        <ICHomeTopicMenuRight />
+      </div>
+      <div className="w-rp py-[120px]">
+        <div className="grid grid-cols-1 gap-y-[80px]">
+          {data.map((item, index) => {
+            return (
+              <TopicMenuGroup
+                key={index}
+                title={item.title}
+                listItem={item.listItem}
+              />
+            );
+          })}
+        </div>
       </div>
     </div>
   );

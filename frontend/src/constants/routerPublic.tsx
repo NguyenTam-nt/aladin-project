@@ -25,9 +25,8 @@ const News = lazy(() => import("@features/news/user/index"));
 const NewDetail = lazy(() => import("@features/news/user/NewDetail"));
 const ContactPage = lazy(() => import("@features/contact"));
 
-const DemoElement = () => {
-  return <>Demo element</>;
-};
+const AboutUsPage = lazy(() => import("@features/about-us"));
+
 export const paths = {
   home: {
     prefix: "/",
@@ -98,7 +97,7 @@ export const routersPublic: IRouter[] = [
 
   {
     path: paths.about.prefix,
-    element: DemoElement,
+    element: AboutUsPage,
     name: "navigation.header.about",
   },
   {
