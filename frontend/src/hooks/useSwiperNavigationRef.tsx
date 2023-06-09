@@ -5,6 +5,7 @@ export const useSwiperNavigationRef = () => {
   const navigationPrevRef = React.useRef<HTMLDivElement>(null);
   const navigationNextRef = React.useRef<HTMLDivElement>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [activeThumb, setThumbActive] = useState<any>();
 
   const handleNext = () => {
     navigationNextRef.current?.click();
@@ -34,6 +35,8 @@ export const useSwiperNavigationRef = () => {
     handlePre,
     NavigationElement,
     currentIndex,
-    onActiveIndexChange
+    onActiveIndexChange,
+    activeThumb,
+    setThumbActive
   };
 };

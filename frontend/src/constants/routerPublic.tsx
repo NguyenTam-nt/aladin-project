@@ -24,6 +24,10 @@ const ContactPage = lazy(() => import("@features/contact"));
 
 const AboutUsPage = lazy(() => import("@features/about-us"));
 
+const MenuDetail = lazy(() =>
+import("@features/menu-detail").then((module) => ({ default: module.MenuDetail }))
+);
+
 export const paths = {
   home: {
     prefix: "/",
@@ -45,6 +49,7 @@ export const paths = {
   },
   memu: {
     prefix: "/thuc-don",
+    detail: ":id"
   },
   ecruitment: {
     prefix: "/tuyen-dung",
@@ -65,6 +70,12 @@ export const routersPublic: IRouter[] = [
     path: paths.memu.prefix,
     element: MenuPage,
     name: "navigation.header.memu",
+  },
+  {
+    path: `${paths.memu.prefix}/${paths.memu.detail}`,
+    element: MenuDetail,
+    name: "navigation.header.memu_detail",
+    isHiden: true
   },
   {
     path: paths.sale.prefix,
