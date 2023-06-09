@@ -180,7 +180,7 @@ const TableReserVationForm = () => {
                   <small className="text-red_error">{errors.hour}</small>
                 )}
               </div>
-              <div className="sm:col-span-1 col-span-2">
+              <div className="col-span-2">
                 <TitleInput isRequired name="form.place" />
                 <select
                   value={values.place}

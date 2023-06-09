@@ -9,6 +9,7 @@ export const Banner = () => {
   const { t } = useTranslation();
   const rootPath = useMemo(() => {
     const paramsList = params.pathname.split("/");
+
     let paths = [];
     if (paramsList.length > 1) {
       const query = params.pathname.split("/")[1];
@@ -32,8 +33,9 @@ export const Banner = () => {
         className=" absolute inset-0 h-full w-full object-cover"
         src={banner}
       />
-      <div className="w-rp  mb-[140px] text-text_white">
-        <h3 className="title-32  uppercase">{t(rootPath?.[0]?.name || "")}</h3>
+      <div className="bg-banner_home absolute inset-0 z-[1]" />
+      <div className="w-rp relative z-[2] mb-[140px] text-text_white">
+        <h3 className="title-32  uppercase">{t(rootPath?.[rootPath.length - 1]?.name || "")}</h3>
         <div className="mt-[16px] text-_16 font-semibold">
           <Link to="/">{t("navigation.header.home")}</Link>
           {rootPath.map((item, index) => {

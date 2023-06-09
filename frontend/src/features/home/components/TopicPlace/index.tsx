@@ -6,7 +6,7 @@ import { TopicPlaceItem } from "./TopicPlaceItem";
 export const TopicPlace = () => {
   const { t } = useTranslation();
   return (
-    <div className="w-rp">
+    <div className="w-rp relative">
       <TitleTopic title="home.place.title" />
      <TopicPlaceItem />
     </div>

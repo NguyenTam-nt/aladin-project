@@ -14,11 +14,15 @@ export default {
         br_E6E6E6: "#E6E6E6",
         text_red: "#FF0000",
         red_error: "#E73F3F",
+        text_EA222A: "#EA222A",
         bg_E73F3F: "#E73F3F",
         header_bg: "rgba(0, 0, 0, 0.3)",
         text_A1A0A3: "#A1A0A3",
         GreyPrimary: "#222124",
-        br_CBCBCB: "#CBCBCB"
+        br_CBCBCB: "#CBCBCB",
+        bg_255_255_255_08: "rgba(255, 255, 255, 0.8)",
+        bg_255_255_255_03: "rgba(255, 255, 255, 0.3)",
+        bg_01A63E: "#01A63E"
       },
       backgroundImage: {
         banner_home: "linear-gradient(90deg, rgba(0, 0, 0, 0.5) -0.81%, rgba(0, 0, 0, 0) 100%)",

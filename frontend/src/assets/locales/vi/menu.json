@@ -1,0 +1,16 @@
+{
+    "menu": {
+        "comment_title": "Đánh giá và bình luận",
+        "see_all_comment": "Xem tất cả bình luận",
+        "btn_evaluation": "Viết đánh giá",
+        "modal": {
+            "title": "Hãy để lại đánh giá cho chúng tôi",
+            "name": "Họ và tên",
+            "email": "Email",
+            "evaluate": "Đánh giá",
+            "name_placeholder": "Nhập họ và tên",
+            "email_placeholder": "Nhập email",
+            "evaluate_placeholder": "Nhập đánh giá của bạn"
+        }
+    }
+}
