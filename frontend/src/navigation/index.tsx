@@ -14,7 +14,6 @@ export const RouterRoot = () => {
     <Routes>
       <Route path={prefixRootRoute.public} element={<PublicLayout />}>
         {routersPublic.map((item, index) => {
-          console.log(item.path, "path");
           return (
             <Route
               key={index}

@@ -1,5 +1,0 @@
-export {ReactComponent as CalendarIcon} from './calendarIcon.svg'
-export {ReactComponent as CalendarGreenIcon} from './calendarGreen.svg'
-export {ReactComponent as RecruitmentCardIcon} from './recruitmentCardIcon.svg'
-export {ReactComponent as DolarIcon} from './dollarIcon.svg'
-export {ReactComponent as AddressWork} from './mapRecruiIcon.svg'
