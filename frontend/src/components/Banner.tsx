@@ -32,7 +32,7 @@ export const Banner = () => {
     <div className="h-[488px] w-full relative flex items-end">
       <img
         alt=""
-        className=" absolute inset-0 z-[-1] h-full w-full object-cover"
+        className=" absolute inset-0 h-full w-full object-cover"
         src={banner}
       />
       <div className="w-rp  mb-[140px] text-text_white">

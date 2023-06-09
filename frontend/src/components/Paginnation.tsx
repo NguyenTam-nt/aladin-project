@@ -1,0 +1,106 @@
+import { ICArrowNextPage } from "@assets/icons/ICArrowNextPage";
+import { Colors } from "@constants/color";
+import clsx from "clsx";
+import React, { memo } from "react";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
+
+type IPagination = {
+  currentPage: number;
+  totalPages: number;
+  setCurrentPage: (currentPage: number) => void;
+};
+
+export const Pagination = memo((props: IPagination) => {
+  const { currentPage, setCurrentPage } = props;
+  const totalPages = props.totalPages;
+  const [_, setSearchParam] = useSearchParams();
+
+  const prevPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+      setSearchParam({ page: `${currentPage - 1}` });
+    }
+  };
+
+  const nextPage = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage(currentPage + 1);
+      setSearchParam({ page: `${currentPage + 1}` });
+    }
+  };
+
+  const goToPage = (page: number) => {
+    if (page >= 1 && page <= totalPages) {
+      setCurrentPage(page);
+      setSearchParam({ page: `${page}` });
+    }
+  };
+
+  const renderPageNumbers = () => {
+    const pageNumbers = [];
+    const maxPages = 5;
+    const halfMaxPages = Math.floor(maxPages / 2);
+
+    let startPage = currentPage - halfMaxPages;
+    let endPage = currentPage + halfMaxPages;
+
+    if (startPage < 1) {
+      startPage = 1;
+      endPage = maxPages;
+    }
+
+    if (endPage > totalPages) {
+      endPage = totalPages;
+      startPage =
+        totalPages - maxPages + 1 >= 1 ? totalPages - maxPages + 1 : 1;
+    }
+
+    for (let i = startPage; i <= endPage; i++) {
+      const isActive = currentPage === i;
+      pageNumbers.push(
+        <button key={i} onClick={() => goToPage(i)}>
+          <li
+            className={clsx(
+              "flex text-text_secondary rounded-[8px_0_8px_0] bg-white h-[40px] w-[40px] border-[1px] items-center justify-center",
+              {
+                "border-primary !bg-primary text-text_white": isActive,
+              }
+            )}
+          >
+            {i}
+          </li>
+        </button>
+      );
+    }
+
+    return pageNumbers;
+  };
+
+  return (
+    <div className=" flex gap-x-[16px] mt-[32px] xl:mt-[40px] ">
+      <div className=" w-[40px] h-[40px]">
+        {currentPage !== 1 && (
+          <button
+            onClick={prevPage}
+            disabled={currentPage === 1}
+            className="rotate-[-180deg] w-full h-full flex items-center justify-center rounded-[8px_0_8px_0] bg-white"
+          >
+            <ICArrowNextPage></ICArrowNextPage>
+          </button>
+        )}
+      </div>
+      <ul className="page-numbers flex flex-row gap-x-[16px]">{renderPageNumbers()}</ul>
+      <div className=" w-[40px] h-[40px]">
+        {currentPage !== totalPages && (
+          <button
+            onClick={nextPage}
+            disabled={currentPage === totalPages}
+            className="w-full h-full flex items-center justify-center rounded-[8px_0_8px_0] bg-white"
+          >
+            <ICArrowNextPage></ICArrowNextPage>
+          </button>
+        )}
+      </div>
+    </div>
+  );
+});
