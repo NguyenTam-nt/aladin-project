@@ -1,12 +1,13 @@
 import TitleOfContent from "@components/TitleOfContent";
 import WapperContent from "@components/WapperContent";
-import React from "react";
+import React, { useState } from "react";
 import RecruitmentItem from "./RecruitmentItem";
 import rectangle from "@assets/images/recruitmentCardIcon.svg";
 import Banner from "@features/news/user/Banner";
-import Pagination from "@commons/Pagination";
+import { Pagination } from "@components/Paginnation";
 
 const Recruitment = () => {
+  const [currentPage, setCurrentPage] = useState<number>(1);
   const fakeDate = [
     {
       url: rectangle,
@@ -58,7 +59,11 @@ const Recruitment = () => {
             })}
           </div>
           <div className="pt-6 flex justify-end">
-            <Pagination totalPages={20} />
+            <Pagination
+              totalPages={20}
+              currentPage={currentPage}
+              setCurrentPage={setCurrentPage}
+            />
           </div>
         </div>
       </WapperContent>

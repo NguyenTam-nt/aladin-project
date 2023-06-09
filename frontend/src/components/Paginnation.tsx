@@ -78,8 +78,8 @@ export const Pagination = memo((props: IPagination) => {
 
   return (
     <div className=" flex gap-x-[16px] mt-[32px] xl:mt-[40px] ">
-      <div className=" w-[40px] h-[40px]">
-        {currentPage !== 1 && (
+      {currentPage !== 1 && (
+        <div className=" w-[40px] h-[40px]">
           <button
             onClick={prevPage}
             disabled={currentPage === 1}
@@ -87,11 +87,14 @@ export const Pagination = memo((props: IPagination) => {
           >
             <ICArrowNextPage></ICArrowNextPage>
           </button>
-        )}
-      </div>
-      <ul className="page-numbers flex flex-row gap-x-[16px]">{renderPageNumbers()}</ul>
-      <div className=" w-[40px] h-[40px]">
-        {currentPage !== totalPages && (
+        </div>
+      )}
+
+      <ul className="page-numbers flex flex-row gap-x-[16px]">
+        {renderPageNumbers()}
+      </ul>
+      {currentPage !== totalPages && (
+        <div className=" w-[40px] h-[40px]">
           <button
             onClick={nextPage}
             disabled={currentPage === totalPages}
@@ -99,8 +102,8 @@ export const Pagination = memo((props: IPagination) => {
           >
             <ICArrowNextPage></ICArrowNextPage>
           </button>
-        )}
-      </div>
+        </div>
+      )}
     </div>
   );
 });
