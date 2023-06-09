@@ -17,12 +17,12 @@ const FoodReferialCard = (props: Props) => {
       onClick={() => {
         handleClickItem(itemInforCard.timeString);
       }}
-      className="col-span-1 h-[176px] bg-white min-h-[302px] radius-tl-br cursor-pointer"
+      className="col-span-1 h-[176px] bg-white min-h-[302px] radius-tl-br cursor-pointer overflow-hidden"
     >
       <img
         src={itemInforCard.img || ""}
         alt="card"
-        className="rounded-tl-r32 min-h-[176px]"
+        className="w-full min-h-[176px]"
       />
       <div className="py-6 px-4 ">
         <p className="text-base font-semibold mb-1 text-GreyPrimary line-clamp-2">

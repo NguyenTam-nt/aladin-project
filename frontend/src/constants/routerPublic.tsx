@@ -17,6 +17,9 @@ const MenuPage = lazy(() =>
 const TableReserVation = lazy(
   () => import("@features/news/user/TableReserVation")
 );
+const RecruitmentDetail = lazy(
+  () => import("@features/recruitment/RecruitmentDetail")
+);
 const Recruitment = lazy(() => import("@features/recruitment/index"));
 const News = lazy(() => import("@features/news/user/index"));
 const NewDetail = lazy(() => import("@features/news/user/NewDetail"));
@@ -47,8 +50,11 @@ export const paths = {
   memu: {
     prefix: "/thuc-don",
   },
-  ecruitment: {
+  recruitment: {
     prefix: "/tuyen-dung",
+  },
+  recruitmentDetail: {
+    prefix: "/tuyen-dung/:id",
   },
   contact: {
     prefix: "/lien-he",
@@ -82,6 +88,7 @@ export const routersPublic: IRouter[] = [
     path: paths.NewDetail.prefix,
     element: NewDetail,
     name: "navigation.header.newDetail",
+    isHiden: true,
   },
   {
     path: paths.order.prefix,
@@ -95,9 +102,15 @@ export const routersPublic: IRouter[] = [
     name: "navigation.header.about",
   },
   {
-    path: paths.ecruitment.prefix,
+    path: paths.recruitment.prefix,
     element: Recruitment,
     name: "navigation.header.ecruitment",
+  },
+  {
+    path: paths.recruitmentDetail.prefix,
+    element: RecruitmentDetail,
+    name: "navigation.header.ecruitment",
+    isHiden: true,
   },
   {
     path: paths.contact.prefix,
