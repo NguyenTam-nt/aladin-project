@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 interface Props {
   itemInforCard: {
@@ -8,9 +9,10 @@ interface Props {
   };
 }
 const FoodReferialCard = (props: Props) => {
+  const navigate = useNavigate();
   const { itemInforCard } = props;
   const handleClickItem = (slug: string) => {
-    console.log(slug, "đi đến trang chi tiết khuyến mãi");
+    navigate("/tin-tuc/chitiettintic");
   };
   return (
     <div
