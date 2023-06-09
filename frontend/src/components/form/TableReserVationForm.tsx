@@ -65,7 +65,7 @@ const TableReserVationForm = () => {
   return (
     <form onSubmit={handleSubmit}>
       <div className="pb-36">
-        <div className="h-auto radius-tl-br bg-text_white py-16 px-28">
+        <div className="h-auto radius-tl-br bg-text_white py-16 2xl:px-28 lg:px-24 sm:px-11 px-8">
           <TitleOfContent
             name="titleofcontent.tableReserVationForm"
             className="w-full text-center mb-4 "
@@ -74,8 +74,8 @@ const TableReserVationForm = () => {
             {t("form.timeOrder")}
           </p>
           <div className="mt-12">
-            <div className="grid grid-cols-2 gap-x-5 gap-y-5">
-              <div className="col-span-1">
+            <div className="grid grid-cols-2 sm:gap-x-5 gap-y-5">
+              <div className="sm:col-span-1 col-span-2">
                 <TitleInput isRequired name="form.name" />
                 <input
                   type="text"
@@ -92,7 +92,7 @@ const TableReserVationForm = () => {
                   <small className="text-red_error">{errors.fullName}</small>
                 )}
               </div>
-              <div className="col-span-1">
+              <div className="sm:col-span-1 col-span-2">
                 <TitleInput isRequired name="form.phoneNumber" />
                 <input
                   type="text"
@@ -111,7 +111,7 @@ const TableReserVationForm = () => {
                   <small className="text-red_error">{errors.phoneNumber}</small>
                 )}
               </div>
-              <div className="col-span-1">
+              <div className="sm:col-span-1 col-span-2">
                 <TitleInput isRequired name="form.email" />
                 <input
                   type="text"
@@ -128,7 +128,7 @@ const TableReserVationForm = () => {
                   <small className="text-red_error">{errors.email}</small>
                 )}
               </div>
-              <div className="col-span-1">
+              <div className="sm:col-span-1 col-span-2">
                 <TitleInput isRequired name="form.numberCustomers" />
                 <input
                   type="number"
@@ -149,7 +149,7 @@ const TableReserVationForm = () => {
                   </small>
                 )}
               </div>
-              <div className="col-span-1 relative">
+              <div className="sm:col-span-1 col-span-2 relative">
                 <TitleInput isRequired name="form.day" />
                 <input
                   type="date"
@@ -166,7 +166,7 @@ const TableReserVationForm = () => {
                   <small className="text-red_error">{errors.day}</small>
                 )}
               </div>
-              <div className="col-span-1">
+              <div className="sm:col-span-1 col-span-2">
                 <TitleInput isRequired name="form.hour" />
                 <input
                   type="time"
@@ -183,7 +183,7 @@ const TableReserVationForm = () => {
                   <small className="text-red_error">{errors.hour}</small>
                 )}
               </div>
-              <div className="col-span-2">
+              <div className="sm:col-span-1 col-span-2">
                 <TitleInput isRequired name="form.place" />
                 <select
                   value={values.place}
