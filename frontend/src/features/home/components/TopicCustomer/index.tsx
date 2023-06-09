@@ -3,6 +3,7 @@ import { TitleWithSeeAll } from "../TitleWithSeeAll";
 import { TopicCustomerItem } from "./TopicCustomerItem";
 import { ICHomeTopicCustomerRight } from "@assets/icons/ICHomeTopicCustomerRight";
 import { ICHomeTopicCustomerLeft } from "@assets/icons/ICHomeTopicCustomerLeft";
+import { paths } from "@constants/routerPublic";
 
 export const TopicCustomer = () => {
   return (
@@ -14,7 +15,7 @@ export const TopicCustomer = () => {
         <ICHomeTopicCustomerLeft />
       </div>
       <div className="w-rp relative">
-        <TitleWithSeeAll title="home.customer.title" pathNavigate="" />
+        <TitleWithSeeAll title="home.customer.title" pathNavigate={paths.customer.prefix} />
         <div className="grid grid-cols-4 gap-[24px] [&>div]:flex [&>div]:flex-col [&>div]:gap-y-[24px]">
           <div className=" justify-center">
             <TopicCustomerItem />
