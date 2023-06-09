@@ -31,6 +31,10 @@ const MenuDetail = lazy(() =>
 import("@features/menu-detail").then((module) => ({ default: module.MenuDetail }))
 );
 
+const ThanksCustomer = lazy(() =>
+import("@features/thanks-customer").then((module) => ({ default: module.ThanksCustomer }))
+);
+
 export const paths = {
   home: {
     prefix: "/",
@@ -63,6 +67,9 @@ export const paths = {
   contact: {
     prefix: "/lien-he",
   },
+  customer: {
+    prefix: "/cam-on-khach-hang"
+  }
 };
 
 export const routersPublic: IRouter[] = [
@@ -127,4 +134,11 @@ export const routersPublic: IRouter[] = [
     element: ContactPage,
     name: "navigation.header.contact",
   },
+  {
+    path: paths.customer.prefix,
+    element: ThanksCustomer,
+    name: "navigation.header.customer",
+    isHiden: true,
+    
+  }
 ];
