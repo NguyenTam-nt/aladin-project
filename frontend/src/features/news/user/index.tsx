@@ -4,6 +4,7 @@ import WapperContent from "../../../components/WapperContent";
 import TitleOfContent from "@components/TitleOfContent";
 import FoodReferialCard from "@components/FoodReferialCard";
 import imageCard from "@assets/images/imgCard.png";
+import Pagination from "@commons/Pagination";
 
 const PromotionPage = () => {
   const fakeData = [
@@ -64,7 +65,9 @@ const PromotionPage = () => {
               return <FoodReferialCard key={indexF} itemInforCard={itemFood} />;
             })}
           </div>
-          <div>pgimation</div>
+          <div className="flex justify-end">
+            <Pagination totalPages={20} />
+          </div>
         </div>
       </WapperContent>
     </div>

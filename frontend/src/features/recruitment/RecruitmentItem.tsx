@@ -2,6 +2,7 @@ import React from "react";
 import { CalendarIcon } from "@assets/icons/CalendarIcon";
 import { DolarIcon } from "@assets/icons/DolarIcon";
 import { AddressWork } from "@assets/icons/AddressWork";
+import { useNavigate } from "react-router-dom";
 
 interface Props {
   itemRecrui: {
@@ -13,8 +14,15 @@ interface Props {
   };
 }
 const RecruitmentItem = ({ itemRecrui }: Props) => {
+  const navigate = useNavigate();
+  const handleViewDetail = () => {
+    navigate("/tuyen-dung/chitiettuyendung");
+  };
   return (
-    <div className="min-h-[199px] flex radius-tl-br bg-white cursor-pointer">
+    <div
+      onClick={handleViewDetail}
+      className="min-h-[199px] flex radius-tl-br bg-text_white cursor-pointer"
+    >
       <div className="w-2/4 overflow-hidden rounded-tl-r32 h-full">
         <img src={itemRecrui.url} className="w-full" alt="" />
       </div>

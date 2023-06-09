@@ -4,6 +4,7 @@ import React from "react";
 import RecruitmentItem from "./RecruitmentItem";
 import rectangle from "@assets/images/recruitmentCardIcon.svg";
 import Banner from "@features/news/user/Banner";
+import Pagination from "@commons/Pagination";
 
 const Recruitment = () => {
   const fakeDate = [
@@ -56,7 +57,9 @@ const Recruitment = () => {
               );
             })}
           </div>
-          <div className="pt-6">pagination</div>
+          <div className="pt-6 flex justify-end">
+            <Pagination totalPages={20} />
+          </div>
         </div>
       </WapperContent>
     </div>
