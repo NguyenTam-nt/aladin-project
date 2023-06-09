@@ -24,9 +24,6 @@ const ContactPage = lazy(() => import("@features/contact"));
 
 const AboutUsPage = lazy(() => import("@features/about-us"));
 
-const DemoElement = () => {
-  return <>Demo element</>;
-};
 export const paths = {
   home: {
     prefix: "/",
