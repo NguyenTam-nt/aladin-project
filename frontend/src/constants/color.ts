@@ -31,14 +31,18 @@ export const Colors = {
     text_48403D: "#48403D",
     text_A1A0A3: "#A1A0A3",
     bg_F4A118: "#F4A118",
-    bg_CBCBCB: "#CBCBCB"
+    bg_CBCBCB: "#CBCBCB",
+    text_FF0000: "#FF0000",
+    bg_01A63E: "#01A63E",
+    bg_2196F3: "#2196F3",
+    bg_E73F3F: "#E73F3F",
 }
 
 
 export const listStarColor = [
-    "#E73F3F",
-    "#F4A118",
+    Colors.bg_E73F3F,
+    Colors.bg_F4A118,
     "#415A77",
     "#1EC3D0",
-    "#01A63E"
+    Colors.bg_01A63E
 ]

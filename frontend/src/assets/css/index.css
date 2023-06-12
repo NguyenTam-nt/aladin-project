@@ -52,15 +52,15 @@ body {
 
 
 .banner_home {
-  height: calc(100vh - 120px);
-  max-height: calc(100vh - 120px);
-  min-height: calc(100vh - 120px);
+  height: calc(100vh);
+  max-height: calc(100vh);
+  min-height: calc(100vh);
 }
 
 .banner_home_video {
-  height: calc(100vh - 120px);
-  max-height: calc(100vh - 120px);
-  min-height: calc(100vh - 120px);
+  height: calc(100vh);
+  max-height: calc(100vh);
+  min-height: calc(100vh);
 }
 
 .active-header {
@@ -86,11 +86,6 @@ body {
       transform: translateY(0);
       opacity: 1;
   }
-}
-
-.home-body {
-  background-image: url("../images/home/paper_bg.webp");
-  /* background-repeat: repeat-y; */
 }
 
 .home-topic-device-left {
