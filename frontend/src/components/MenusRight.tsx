@@ -27,7 +27,7 @@ export const MenusRight = () => {
     >
       <button
         onClick={handleOpen}
-        className="h-[54px] w-[223px] absolute  origin-[top_right] right-[calc(100%_+_54px)] gap-x-2 rotate-[-90deg] text-_18 text-text_white flex font-iCielBC_Cubano items-center justify-center px-[24px] rounded-[0_16px_0_0] bg-secondary"
+        className="h-[40px] lg:h-[54px] w-[223px] absolute  origin-[top_right] right-[calc(100%_+_40px)]  lg:right-[calc(100%_+_54px)] gap-x-2 rotate-[-90deg] text-_18 text-text_white flex font-iCielBC_Cubano items-center justify-center px-[24px] rounded-[0_16px_0_0] bg-secondary"
       >
         <ICArowDown color={Colors.text_white} />
         {t("common.choosed_menu")}

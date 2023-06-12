@@ -46,21 +46,21 @@
   }
 
   .w-rp-l {
-    @apply  3xl:w-[1600px] lg:w-[90vw] w-full mx-auto;
+    @apply  3xl:w-[1600px] lg:w-[90vw] lg:px-0 w-[100vw] px-[20px] mx-auto;
   }
 
   .title-64 {
-    @apply text-_64 font-normal leading-[80px] font-iCielBC_Cubano
+    @apply text-_24 leading-[36px] lg:text-_64 font-normal lg:leading-[80px] font-iCielBC_Cubano 
   }
 
   .title-48 {
-    @apply text-_48 font-normal leading-[64px] font-iCielBC_Cubano
+    @apply text-_24 leading-[36px] lg:text-_48 font-normal lg:leading-[64px] font-iCielBC_Cubano
   }
   .title-32 {
-    @apply text-_32 font-normal leading-[48px] font-iCielBC_Cubano
+    @apply text-_20 leading-[30px] lg:text-_32 font-normal lg:leading-[48px] font-iCielBC_Cubano
   }
   .title-24 {
-    @apply text-_24 font-normal leading-[36px] font-iCielBC_Cubano
+    @apply  text-_18 leading-[28px]  lg:text-_24 font-normal lg:leading-[36px] font-iCielBC_Cubano
   }
   .title-20 {
     @apply text-_20 font-normal leading-[30px] font-iCielBC_Cubano

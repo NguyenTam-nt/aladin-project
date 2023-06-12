@@ -69,11 +69,13 @@
 }
 
  .btn-common:hover:before  {
+  display: block;
   animation: btncommonBefor 0.3s ease-in-out forwards;
   animation-delay: 0.2s;
 }
 
  .btn-common:hover:after  {
+  display: block;
   animation: btncommonAfter 0.3s ease-in-out forwards;
   animation-delay: 0.2s;
 }
@@ -110,7 +112,7 @@
   top: 0;
   left: 0;
   content: "";
-  display: block;
+  display: none;
   width: 40%;
   height: 40%;
   border: 2px solid var(--color-btn);
@@ -124,7 +126,7 @@
   bottom: 0;
   right: 0;
   content: "";
-  display: block;
+  display: none;
   width: 40%;
   height: 40%;
   border: 2px solid var(--color-btn);
@@ -287,6 +289,7 @@ select:focus {
 .menu-item:hover {
   transform: perspective(500px) translateZ(50px);
   transition: all ease-out 0.3s;
+  z-index: 3;
 }
 
 .image_hover{

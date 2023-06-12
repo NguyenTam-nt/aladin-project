@@ -11,6 +11,7 @@ type Props = {
   imageLeft?: React.ReactNode;
   className?: string;
   classNameParent?: string;
+  withAnimation?: boolean;
 } & ButtonHTMLAttributes<HTMLButtonElement>;
 
 export const Button = memo(
@@ -22,13 +23,16 @@ export const Button = memo(
     className,
     imageLeft,
     classNameParent,
+    withAnimation = true,
     ...props
   }: Props) => {
     const { t } = useTranslation();
 
     return (
       <div
-        className={clsx("btn-common w-max relative h-max " + classNameParent)}
+        className={clsx("w-max relative h-max " + classNameParent, {
+          "btn-common": withAnimation
+        })}
         style={{
           ["--color-btn" as string]:
             color === "primary" ? Colors.primary : Colors.text_white,
