@@ -311,6 +311,19 @@ select:focus {
  clip-path: polygon(0 0, 0 100%, 100% 50%);
 
 }
+
+.popup-with-arrow::before {
+  position: absolute;
+  content: "";
+  right: 100%;
+  top: 0;
+  display: block;
+ width: 15px;
+ height: 54px;
+ background-color: transparent;
+
+}
+
 .popup-with-arrow {
   display: none;
 }
