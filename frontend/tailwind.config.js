@@ -36,6 +36,9 @@ export default {
         "iCielBC_Cubano": ["iCielBC Cubano"],
         "IBM_Plex_Sans": ["IBM Plex Sans"],
       },
+      boxShadow: {
+        DEFAULT: '3px 4px 4px rgba(0, 0, 0, 0.25)'
+      },
       screens: {
         _320: "320px",
         _370: "370px",
