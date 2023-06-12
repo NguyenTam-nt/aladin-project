@@ -36,6 +36,7 @@ export const Colors = {
     bg_01A63E: "#01A63E",
     bg_2196F3: "#2196F3",
     bg_E73F3F: "#E73F3F",
+    Grey_Primary: "#222124"
 }
 
 
