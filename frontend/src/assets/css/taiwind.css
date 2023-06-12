@@ -74,4 +74,10 @@
   .radius-tl-br16{
     @apply rounded-tl-2xl rounded-br-2xl
   }
+  .radius-tl-br24{
+    @apply rounded-tl-3xl rounded-br-3xl
+  }
+  .radius-tl-br48{
+    @apply rounded-tl-[48px] rounded-br-[48px]
+  }
 }

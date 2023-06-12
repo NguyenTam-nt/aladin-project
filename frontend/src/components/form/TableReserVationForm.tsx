@@ -64,13 +64,13 @@ const TableReserVationForm = () => {
   const { values, errors, touched, handleChange, handleSubmit } = formik;
   return (
     <form onSubmit={handleSubmit}>
-      <div className="pb-36">
-        <div className="h-auto radius-tl-br bg-text_white py-16 2xl:px-28 lg:px-24 sm:px-11 px-8">
+      <div className="pb-36 lg:px-0 sm:px-5">
+        <div className="h-auto md:radius-tl-br bg-text_white py-16 2xl:px-28 lg:px-24 px-5">
           <TitleOfContent
             name="titleofcontent.tableReserVationForm"
             className="w-full text-center mb-4 "
           />
-          <p className="text-2xl leading-9 text-center font-normal text-text_secondary">
+          <p className="lg:text-2xl lg:leading-9 text-sm leading-22 text-center font-normal text-text_secondary">
             {t("form.timeOrder")}
           </p>
           <div className="mt-12">
@@ -214,7 +214,7 @@ const TableReserVationForm = () => {
                   value={values.note}
                   onChange={handleChange}
                   className={
-                    "w-full px-3 py-2 radius-tl-br16  text-sm leading-22 placeholder:text-sm outline-none border " +
+                    "w-full px-3 py-2 radius-tl-br16 resize-none text-sm leading-22 placeholder:text-sm outline-none border " +
                     (errors.note ? "border-red_error" : "border-br_E6E6E6")
                   }
                   placeholder={t("form.inputNote") as string}
