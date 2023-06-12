@@ -4,10 +4,12 @@ import { ICHotline } from "@assets/icons/ICHotline";
 import { ICPhone } from "@assets/icons/ICPhone";
 import { ICYoutubeContact } from "@assets/icons/ICYoutubeContact";
 import { ICZalo } from "@assets/icons/ICZalo";
+import { GotoTop } from "@components/GotoTop";
 import { MenusRight } from "@components/MenusRight";
 import { Colors } from "@constants/color";
+import { windownSizeWidth, withResponsive } from "@constants/index";
 import { TopicPlaceItemBase } from "@features/home/components/TopicPlace/TopicPlaceItem";
-import React, { ReactNode } from "react";
+import React, { ReactNode, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 
 const data = [
@@ -39,17 +41,23 @@ type Props = {
 
 export const ContactProvider = ({ children }: Props) => {
   const { t } = useTranslation();
+  const widthBreak = useMemo(() => {
+    return windownSizeWidth > withResponsive._1024;
+  }, []);
   return (
     <>
-      <div className="fixed bottom-[288px] z-[11] gap-y-[24px] group-contact right-0 flex flex-col">
+      <div className="fixed bottom-[266px] lg:bottom-[288px] [&>button]:rounded-[8px_0_8px_0]  lg:[&>button]:rounded-[16px_0_16px_0] [&>button]:w-[40px] [&>button]:h-[40px] lg:[&>button]:w-[54px] lg:[&>button]:h-[54px] z-[11] gap-y-[16px] lg:gap-y-[24px] group-contact right-0 flex flex-col">
         <MenusRight />
 
-        <button className="w-[54px] relative flex items-center justify-center h-[54px] rounded-[16px_0_16px_0] bg-bg_01A63E">
+        <button className="relative flex items-center justify-center  bg-bg_01A63E">
           <span>
-            <ICPhone />
+            <ICPhone
+              width={widthBreak ? 20 : 15}
+              height={widthBreak ? 20 : 15}
+            />
           </span>
           <div className="popup-with-arrow absolute top-0 right-[100%]">
-            <div className="flex-1 shadow-lg overflow-x-hidden px-[16px] rounded-[16px_0_16px_0] absolute h-[328px] w-[220px] bg-white top-0 right-[15px] overflow-y-auto list-facilities">
+            <div className="flex-1 shadow-lg overflow-x-hidden px-[16px] rounded-[16px_0_16px_0] absolute h-auto max-h-[328px] w-[220px] bg-white top-0 right-[15px] overflow-y-auto list-facilities">
               {data.map((item, index) => {
                 return (
                   <div
@@ -74,21 +82,27 @@ export const ContactProvider = ({ children }: Props) => {
           </div>
         </button>
 
-        <button className="w-[54px] flex items-center justify-center h-[54px] rounded-[16px_0_16px_0] bg-bg_2196F3">
+        <button className=" flex items-center justify-center bg-bg_2196F3">
           <span>
-            <ICZalo />
+            <ICZalo width={widthBreak ? 32 : 24} height={widthBreak ? 12 : 9} />
           </span>
         </button>
 
-        <button className="w-[54px] flex items-center justify-center h-[54px] rounded-[16px_0_16px_0] bg-text_red">
+        <button className="flex items-center justify-center bg-text_red">
           <span>
-            <ICYoutubeContact />
+            <ICYoutubeContact
+              width={widthBreak ? 29 : 10}
+              height={widthBreak ? 20 : 14}
+            />
           </span>
         </button>
-
-        <button className="w-[54px] flex items-center justify-center h-[54px] rounded-[16px_0_16px_0] bg-bg_0068FF">
+        <button className="flex items-center justify-center bg-bg_0068FF">
           <span>
-            <ICFacebook width={11} height={20} color={Colors.text_white} />
+            <ICFacebook
+              width={widthBreak ? 11 : 8}
+              height={widthBreak ? 20 : 14}
+              color={Colors.text_white}
+            />
           </span>
         </button>
       </div>

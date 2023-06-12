@@ -9,7 +9,7 @@ type Props = {
 
 export const HomeTopicSalesItem = memo(({ index }: Props) => {
   return (
-    <div className="card-effect overflow-hidden h-[426px] relative rounded-[32px_0_32px_0]">
+    <div className=" overflow-hidden h-[330px] lg:h-[426px] relative rounded-[32px_0_32px_0]">
       <div className="rounded-[32px_0_32px_0] z-[3] flex items-end absolute inset-[3px] overflow-hidden p-[24px]">
         <DiscountItem discount={30} />
         <div className="absolute z-[1] bg-home_topic_sale_item inset-0" />
@@ -20,7 +20,7 @@ export const HomeTopicSalesItem = memo(({ index }: Props) => {
         />
         <div className="flex w-full flex-col justify-center relative text-text_white z-[3] items-center">
           <div className="flex items-center">
-            <span className="text-_18 font-bold">
+            <span className="text-_16 font-semibold lg:text-_18 lg:font-bold">
               {formatNumberDot(600000)}
             </span>
             <MoneyLineThrough money={800000} />

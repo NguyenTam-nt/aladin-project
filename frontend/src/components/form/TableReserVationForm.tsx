@@ -1,5 +1,8 @@
 // import { CalendarIcon } from "@assets/icons/iconComponent";
 import { Button } from "@components/Button";
+import { Input } from "@components/Input";
+import { SelectInput } from "@components/SelectInput";
+import { Textarea } from "@components/Textarea";
 import TitleInput from "@components/TitleInput";
 import TitleOfContent from "@components/TitleOfContent";
 import { useTranslation } from "react-i18next";
