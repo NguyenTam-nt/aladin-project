@@ -61,7 +61,7 @@ export const TopicPlaceItem = () => {
   );
 };
 
-const TopicPlaceItemBase = () => {
+export const TopicPlaceItemBase = () => {
   return (
     <div className="flex-1 px-[24px] overflow-y-auto list-facilities">
       {data.map((item, index) => {

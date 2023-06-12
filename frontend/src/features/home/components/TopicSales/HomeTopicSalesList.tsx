@@ -16,16 +16,6 @@ export const HomeTopicSalesList = memo(() => {
         <p className=" text-_16 mt-[24px] text-text_white">
           {t("home.sales.des")}
         </p>
-        <Button
-          className="max-w-[143px] h-[48px] mt-[24px]"
-          color="empty"
-          image={
-            <span className="ml-2">
-              <ICArowRight color={Colors.primary} />
-            </span>
-          }
-          text={"button.see_more"}
-        />
       </div>
       <div className="flex-1">
        <HomeTopicSalesSlider />
