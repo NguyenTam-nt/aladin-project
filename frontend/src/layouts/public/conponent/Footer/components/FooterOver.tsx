@@ -9,11 +9,11 @@ export const FooterOver = () => {
 
   return (
     <div className=" bg-secondary  text-[14px]">
-      <div className="py-[24px]  w-rp flex flex-col-reverse m992:flex-row justify-between items-center xl:border-t-[1px] xl:border-text_white xl:border-solid ">
-        <span className="text-text_white text-center m992:text-left mt-[24px] m992:mt-0">
+      <div className="py-[24px] gap-y-[16px]  w-rp flex flex-col lg:flex-col-reverse m992:flex-row justify-between lg:items-center xl:border-t-[1px] xl:border-text_white xl:border-solid ">
+        <span className="text-text_white lg:text-center m992:text-left mt-[24px] m992:mt-0">
            Giang Mỹ Hotpot, Copyright @2023 - Design by Aladin Technology Company
         </span>
-        <div className="flex items-center gap-x-[16px]"> 
+        <div className="flex lg:items-center gap-x-[16px]"> 
           <div className="w-[24px] flex items-center justify-center h-[24px] rounded-[50%] bg-white">
             <ICFacebook />
           </div>

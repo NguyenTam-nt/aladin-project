@@ -31,15 +31,15 @@ export const HomeTopicDeviceList = memo(() => {
     <div className="flex justify-center mb-[64px]">
       <TitleTopic title="home.device.title" />
     </div>
-    <div className="grid grid-cols-4 gap-[24px]">
+    <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-[24px]">
       {data.map((item, index) => {
         return (
           <div
             key={index}
             className="flex flex-col gap-y-[24px] items-center justify-center"
           >
-            <div>
-              <img src={item.image} />
+            <div className='w-[80px] h-[80px] lg:w-[120px] lg:h-[120px]'>
+              <img className='w-full h-full object-cover' src={item.image} />
             </div>
             <p className="text-center">{item.name}</p>
           </div>

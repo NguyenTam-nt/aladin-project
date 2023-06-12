@@ -12,9 +12,9 @@ export const GroupTile = ({title, listItem}:Props) => {
   return (
     <div className="flex justify-between items-center pb-[16px] border-b border-text_A1A0A3">
       <TitleTopic title={title} />
-      <div className="flex text-_20 font-bold gap-x-[32px] uppercase text-text_secondary">
+      <div className="flex text-_16 font-semibold lg:text-_20 lg:font-bold gap-x-[32px] uppercase text-text_secondary">
         {
-            listItem.map((item, index) => {
+            [].map((item, index) => {
                 return   <p key={index}>{item}</p>
             })
         }

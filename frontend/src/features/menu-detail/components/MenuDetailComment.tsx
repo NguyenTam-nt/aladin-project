@@ -36,7 +36,7 @@ export const MenuDetailComment = () => {
       {listComments.map((item, index) => {
         return <CommentItem data={item} key={index} />;
       })}
-      <Button className="max-w-[173px] h-[26px] bg-transparent hover:shadow" color="empty" text="menu.see_all_comment" image={<span className="ml-2"><ICArowDown color={Colors.primary} /></span>} />
+      <Button withAnimation={false} className="max-w-[173px] h-[26px] bg-transparent hover:shadow" color="empty" text="menu.see_all_comment" image={<span className="ml-2"><ICArowDown color={Colors.primary} /></span>} />
     </div>
   );
 };

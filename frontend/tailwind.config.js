@@ -23,7 +23,8 @@ export default {
         bg_255_255_255_03: "rgba(255, 255, 255, 0.3)",
         bg_01A63E: "#01A63E",
         bg_2196F3: "#2196F3",
-        bg_0068FF: "#0068FF"
+        bg_0068FF: "#0068FF",
+        bg_F1F1F1: "#F1F1F1"
       },
       backgroundImage: {
         banner_home: "linear-gradient(90deg, rgba(0, 0, 0, 0.5) -0.81%, rgba(0, 0, 0, 0) 100%)",
@@ -38,6 +39,7 @@ export default {
       screens: {
         _320: "320px",
         _370: "370px",
+        _420: "420px",
         sm: "640px",
         // => @media (min-width: 640px) { ... }
 

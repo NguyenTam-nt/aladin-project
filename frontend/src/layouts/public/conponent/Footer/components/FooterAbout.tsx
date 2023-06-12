@@ -1,10 +1,13 @@
-import React, {  useState } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import clsx from "clsx";
-import footerImage from "@assets/images/home/footer_image.png"
+import footerImage from "@assets/images/home/footer_image.png";
 import { ICLogoFooter } from "@assets/icons/LogoFooter";
 import { routersPublic } from "@constants/routerPublic";
 import { useTranslation } from "react-i18next";
+import { Colors } from "@constants/color";
+import { ICArowDown } from "@assets/icons/ICArowDown";
+import { windownSizeWidth, withResponsive } from "@constants/index";
 
 // path: paths.home.prefix,
 // element: HomePage,
@@ -14,39 +17,38 @@ import { useTranslation } from "react-i18next";
 const data = [
   {
     title: "Về Giang Mỹ",
-    items: routersPublic.filter(item => !item.isHiden)
+    items: routersPublic.filter((item) => !item.isHiden),
   },
   {
     title: "Hỗ trợ",
     items: [
       {
         name: "Hướng dẫn đặt bàn",
-        path: "#"
+        path: "#",
       },
       {
         name: "Chính sách bảo mật",
-        path: "#"
+        path: "#",
       },
       {
         name: "Câu hỏi thường gặp",
-        path: "#"
-      }, 
+        path: "#",
+      },
       {
         name: "CSKH: 1900636465",
-        path: "#"
+        path: "#",
       },
       {
         name: "Hỗ trợ dịch vụ: 1900636465",
-        path: "#"
+        path: "#",
       },
       {
         name: "Email: giangmyhotpot@gmail.com",
-        path: "#"
-      }
-
-    ]
+        path: "#",
+      },
+    ],
   },
-]
+];
 
 export const FooterAbout = () => {
   return (
@@ -55,19 +57,31 @@ export const FooterAbout = () => {
         <div className="m992:col-span-3 mb-[24px] xl:mb-0">
           <div>
             <>
-              <ICLogoFooter />
+              <ICLogoFooter
+                width={windownSizeWidth > withResponsive._992 ? 102 : 33}
+                height={windownSizeWidth > withResponsive._992 ? 94 : 31}
+              />
             </>
             <div className="mt-[24px]">
-              <h3 className="text-_9 md:text-_14 w-[80%]">
-              Giang Mỹ Hotpot là nhà hàng ngon, uy tín và chất lương, Giúp khách hàng đặt bàn dễ dàng. Giải pháp dột phá mới cho câu chuyện ăn gì, ở đâu.
+              <h3 className="text-_14 lg:w-[80%]">
+                Giang Mỹ Hotpot là nhà hàng ngon, uy tín và chất lương, Giúp
+                khách hàng đặt bàn dễ dàng. Giải pháp dột phá mới cho câu chuyện
+                ăn gì, ở đâu.
               </h3>
             </div>
           </div>
-          <div className="text-_14 mt-[16px] w-[80%]">
-            <p>Giấy phép ĐKKD số 0123456789 do Phòng Tài chính kế hoạch - UBND quận Hai Bà Trưng cấp ngay 01/01/2020.</p>
+          <div className="text-_14 mt-[16px] lg:w-[80%]">
+            <p>
+              Giấy phép ĐKKD số 0123456789 do Phòng Tài chính kế hoạch - UBND
+              quận Hai Bà Trưng cấp ngay 01/01/2020.
+            </p>
           </div>
           <div className="flex items-center gap-x-[16px] mt-[16px] mb-0 m992:mb-[24px] xl:mb-0">
-            <img src={footerImage} alt="footer-image" className=" object-cover" />
+            <img
+              src={footerImage}
+              alt="footer-image"
+              className=" object-cover"
+            />
           </div>
         </div>
         {data.map((item, index) => {
@@ -82,18 +96,19 @@ export const FooterAbout = () => {
   );
 };
 
-const FooterAboutGroup = ({data}:{data:any}) => {
+const FooterAboutGroup = ({ data }: { data: any }) => {
   const [isShow, setIsShow] = useState(true);
-  const {t} = useTranslation()
+  const handleShow = () => {
+    setIsShow(!isShow);
+  };
+  const { t } = useTranslation();
   return (
     <>
       <div className="flex items-center justify-between mt-[12px] m992:mt-0">
-        <h3 className="text-_16 font-semibold xl:text-[16px]">
-           { data.title}
-        </h3>
-        {/* <button className="m992:hidden" onClick={handleShow}>
-          <ICArrowDown color={Colors.text_white} />
-        </button> */}
+        <h3 className="text-_16 font-semibold xl:text-[16px]">{data.title}</h3>
+        <button className="m992:hidden" onClick={handleShow}>
+          <ICArowDown color={Colors.text_white} />
+        </button>
       </div>
       <ul
         className={clsx("mt-[16px] overflow-hidden h-0 ease-in duration-300", {
@@ -104,7 +119,7 @@ const FooterAboutGroup = ({data}:{data:any}) => {
           ["--height-li" as string]: "32px",
         }}
       >
-        {data.items.map((item:any, index:number) => {
+        {data.items.map((item: any, index: number) => {
           return (
             <li key={index} className="h-[32px] items-center">
               <Link

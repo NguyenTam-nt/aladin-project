@@ -24,9 +24,11 @@ export const MenuBofyFilterBySort = () => {
         <span className="text-_14 text-text_black">
           {t("common.sort_by")}:{" "}
         </span>
-        <div   ref={ref} className="w-[224px] relative">
+        <div ref={ref} className="w-[224px] relative">
           <Button
+            classNameParent="!w-full"
             onClick={handleToggleItem}
+            withAnimation={false}
             image={
               <span>
                 <ICArowDown color={Colors.primary} />
