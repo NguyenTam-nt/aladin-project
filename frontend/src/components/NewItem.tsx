@@ -8,25 +8,25 @@ interface Props {
     img: string;
   };
 }
-const FoodReferialCard = (props: Props) => {
+const NewItem = (props: Props) => {
   const navigate = useNavigate();
   const { itemInforCard } = props;
   const handleClickItem = (slug: string) => {
-    navigate("/tin-tuc/chitiettintic");
+    navigate(`/tin-tuc/${slug}`);
   };
   return (
     <div
       onClick={() => {
-        handleClickItem(itemInforCard.timeString);
+        handleClickItem(itemInforCard.description);
       }}
       className="col-span-1 h-[176px] bg-white min-h-[302px] radius-tl-br cursor-pointer overflow-hidden"
     >
       <img
         src={itemInforCard.img || ""}
         alt="card"
-        className="w-full min-h-[176px]"
+        className="w-full max-h-[176px]"
       />
-      <div className="py-6 px-4 ">
+      <div className="py-6 px-4 min-h-[126px]">
         <p className="text-base font-semibold mb-1 text-GreyPrimary line-clamp-2">
           {itemInforCard.description}
         </p>
@@ -38,4 +38,4 @@ const FoodReferialCard = (props: Props) => {
   );
 };
 
-export default FoodReferialCard;
+export default NewItem;
