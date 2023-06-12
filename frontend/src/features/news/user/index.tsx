@@ -2,10 +2,13 @@ import React, { useState } from "react";
 import Banner from "./Banner";
 import WapperContent from "../../../components/WapperContent";
 import TitleOfContent from "@components/TitleOfContent";
-import FoodReferialCard from "@components/FoodReferialCard";
 import imageCard from "@assets/images/imgCard.png";
 import { Pagination } from "@components/Paginnation";
+import { windownSizeHeight, windownSizeWidth } from "@constants/index";
+import NewItem from "@components/NewItem";
+// import { Banner } from "@components/Banner";
 const PromotionPage = () => {
+  console.log(windownSizeWidth, windownSizeHeight, "responsive");
   const [currentPage, setCurrentPage] = useState<number>(1);
   const fakeData = [
     {
@@ -57,12 +60,16 @@ const PromotionPage = () => {
           listNavigate: [{ name: "navigation.header.news", path: "/tin-tuc" }],
         }}
       />
+
       <WapperContent>
-        <div className="pb-[120px]">
-          <TitleOfContent name="titleofcontent.news" className="mb-spc60" />
-          <div className="grid grid-cols-4 gap-x-6 gap-y-10 mb-10">
+        <div className="md:pb-[120px] pb-20 px-5">
+          <TitleOfContent
+            name="titleofcontent.news"
+            className="md:mb-spc60 mb-6"
+          />
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3  m992:gap-x-6 xl:grid-cols-4 gap-x-5 md:gap-y-10 gap-y-6 mb-10">
             {fakeData.map((itemFood, indexF) => {
-              return <FoodReferialCard key={indexF} itemInforCard={itemFood} />;
+              return <NewItem key={indexF} itemInforCard={itemFood} />;
             })}
           </div>
           <div className="flex justify-end">

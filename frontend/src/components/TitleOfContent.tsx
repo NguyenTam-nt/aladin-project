@@ -8,7 +8,9 @@ const TitleOfContent = (props: Props) => {
   const { t } = useTranslation();
   const { name, className = "" } = props;
   return (
-    <h3 className={"title-48 text-secondary uppercase " + className}>
+    <h3
+      className={"lg:title-48 title-24 text-secondary uppercase " + className}
+    >
       {t(name)}
     </h3>
   );

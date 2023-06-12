@@ -13,6 +13,7 @@ export default {
         text_black: "#000",
         br_E6E6E6: "#E6E6E6",
         text_red: "#FF0000",
+        red_error: "#E73F3F",
         text_EA222A: "#EA222A",
         bg_E73F3F: "#E73F3F",
         header_bg: "rgba(0, 0, 0, 0.3)",
@@ -36,9 +37,16 @@ export default {
         "iCielBC_Cubano": ["iCielBC Cubano"],
         "IBM_Plex_Sans": ["IBM Plex Sans"],
       },
+      boxShadow: {
+        DEFAULT: '3px 4px 4px rgba(0, 0, 0, 0.25)'
+      },
       screens: {
         _320: "320px",
         _370: "370px",
+
+        xs: "480px",
+        // => @media (min-width: 480px) { ... }
+
         _420: "420px",
         sm: "640px",
         // => @media (min-width: 640px) { ... }

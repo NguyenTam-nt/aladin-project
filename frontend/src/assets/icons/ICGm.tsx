@@ -2,7 +2,11 @@ import { Colors } from "@constants/color";
 import type { IIcon } from "@typeRules/icon";
 import React from "react";
 
-export const ICGm = ({width = 76, height = 16, color = Colors.text_white}:IIcon) => {
+export const ICGm = ({
+  width = 76,
+  height = 16,
+  color = Colors.text_white,
+}: IIcon) => {
   return (
     <svg
       width={width}

@@ -17,7 +17,6 @@ export const Banner = () => {
         routersPublic.find((item) => item.path === `/${query}`) as IRouter
       );
       if (paramsList.length > 2) {
-
         const subParm = routersPublic.find(
           (item) => item.path === `/${query}/:${prefixRootRoute.slug}`
         );
@@ -36,7 +35,9 @@ export const Banner = () => {
       />
       <div className="bg-banner_home absolute inset-0 z-[1]" />
       <div className="w-rp relative z-[2] mb-[140px] text-text_white">
-        <h3 className="title-32  uppercase">{t(rootPath?.[rootPath.length - 1]?.name || "")}</h3>
+        <h3 className="title-32  uppercase">
+          {t(rootPath?.[rootPath.length - 1]?.name || "")}
+        </h3>
         <div className="mt-[16px] text-_16 font-semibold">
           <Link to="/">{t("navigation.header.home")}</Link>
           {rootPath.map((item, index) => {
