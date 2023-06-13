@@ -1,12 +1,15 @@
+import { ICDeleteTrash } from '@assets/icons/ICDeleteTrash'
 import { ICTicketDiscount } from '@assets/icons/ICTicketDiscount'
 import TitleOfContent from '@components/TitleOfContent'
 import { paths } from '@constants/routerPublic'
 import { Banner } from '@features/contact/components/Banner'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
+import { useNavigate } from 'react-router-dom'
 
 function index() {
   const { t } = useTranslation();
+  const navigate = useNavigate()
 
   return (
     <div>
@@ -16,32 +19,61 @@ function index() {
           <TitleOfContent name="order_food.title" />
 
           <div className="mt-10">
-            <table>
-              <tr>
-                <th>STT</th>
-                <th>Sản phẩm</th>
-                <th>Số lượng</th>
-                <th>Đơn giá (VNĐ)</th>
-                <th>Tổng giá</th>
-                <th>Xóa</th>
+            <table className='w-full'>
+              <tr className='py-4'>
+                <th className='py-4 text-left pr-6'>STT</th>
+                <th className='py-4 text-left pr-6'>Sản phẩm</th>
+                <th className='py-4 text-left pr-6 whitespace-nowrap'>Số lượng</th>
+                <th className='py-4 text-left pr-6 whitespace-nowrap'>Đơn giá (VNĐ)</th>
+                <th className='py-4 text-left pr-6 whitespace-nowrap'>Tổng giá</th>
+                <th className='py-4 text-left'>Xóa</th>
               </tr>
-              <tr>
-                <td>1</td>
-                <td>
-                  <div className="w-10 h-10">
-                    <img
-                      className="w-full h-full object-cover"
-                      src={"https://images.unsplash.com/photo-1513104890138-7c749659a591?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxleHBsb3JlLWZlZWR8MXx8fGVufDB8fHx8fA%3D%3D&w=1000&q=80"}
-                      alt="iamge order food"
-                    />
-                  </div>
-                  <span className='leading-1'>Combo 2 Người lớn ăn thả</span>
-                </td>
-                <td>Số lượng</td>
-                <td>Đơn giá (VNĐ)</td>
-                <td>Tổng giá</td>
-                <td>Xóa</td>
-              </tr>
+              {
+                [1,2,3].map((item: any, idx: any) => {
+                  return <tr className='border-t border-t-br_CBCBCB items-center' key={idx}>
+                  <td className='py-4  pr-6'>{idx + 1}</td>
+                  <td className='py-4  pr-6 flex items-center justify-start gap-4'>
+                    <div className="w-10 h-10 flex-shrink-0">
+                      <img
+                        className="w-full h-full object-cover"
+                        src={"https://images.unsplash.com/photo-1513104890138-7c749659a591?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxleHBsb3JlLWZlZWR8MXx8fGVufDB8fHx8fA%3D%3D&w=1000&q=80"}
+                        alt="iamge order food"
+                      />
+                    </div>
+                    <span className='line-clamp-1'>Combo 2 Người lớn ăn thả Combo 2 Người lớn ăn thả Combo 2 Người lớn ăn thả</span>
+                  </td>
+                  <td className='py-4  pr-6'>
+                    <div className="flex items-center justify-center gap-4">
+                      <span className='text-_18 lg:text-_24 mb-1 cursor-pointer'>
+                        −
+                      </span>
+                      <div className="text-[13px] font-bold">
+                        1
+                      </div>
+                      <span className='text-2xl mb-1 cursor-pointer'>
+                        +
+                      </span>
+                    </div>
+                  </td>
+                  <td className='py-4  pr-6 '>
+                    <div className="flex items-center justify-between gap-2">
+                      <div className='text-sm text-secondary'>600.000</div>
+                      <div className='text-xs text-text_A1A0A3'>/</div>
+                      <div className='text-xs text-text_A1A0A3 line-through'>800.000</div>
+                    </div>
+                  </td>
+                  <td className='py-4  pr-6'>
+                    <div className='text-sm text-secondary'>600.000</div>
+                  </td>
+                  <td className='py-4 cursor-pointer'>
+                    <div className=" flex justify-end items-center">
+                      <ICDeleteTrash />
+                    </div>
+                  </td>
+                </tr>
+                })
+              }
+              
             </table>
           </div>
         </div>
@@ -83,10 +115,14 @@ function index() {
               <span className='text-base font-semibold text-red_error'>140.000 VNĐ</span>
             </div>
             <div className="flex items-center justify-center gap-6 mt-10">
-              <button className="flex-1 radius-tl-br16 w-spc167 py-3 text-center text-sm leading-5 font-bold border border-primary text-primary">
+              <button className="flex-1 radius-tl-br16 w-spc167 py-3 text-center text-sm leading-5 font-bold border border-primary text-primary"
+                onClick={() => navigate(paths.memu.prefix)}
+              >
                Tiếp tục mua hàng
               </button>
-              <button className="flex-1 radius-tl-br16 w-spc167 py-3 text-center text-sm leading-5 font-bold bg-primary text-white">
+              <button className="flex-1 radius-tl-br16 w-spc167 py-3 text-center text-sm leading-5 font-bold bg-primary text-white"
+                onClick={() => navigate(paths.orderFood.info)}
+              >
                 Thanh toán
               </button>
             </div>

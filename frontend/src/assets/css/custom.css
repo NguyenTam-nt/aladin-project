@@ -369,3 +369,59 @@ select:focus {
     transform: translate3d(0, 0, 0);
   }
 }
+
+.side-bar-show {
+  transform: translateX(0);
+  transition: all ease 0.5s;
+}
+
+.side-bar-hide {
+  transform: translateX(-100%);
+  transition: all ease 0.5s;
+}
+.footer-animation-list {
+  height: calc(var(--footer-size) * var(--height-li));
+  transition: all ease 0.3s;
+} 
+
+
+/* disAble range value input type="number" */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+
+
+/* RADIO BUTTON */
+input[type="radio"] {
+  appearance: none;
+  background-color: transparent;
+  margin: 0;
+  font: inherit;
+  color: currentColor;
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--text-A1A0A3);
+  border-radius: 50%;
+  display: grid;
+  place-content: center;
+}
+
+input[type=radio]:checked {
+  border: 2px solid var(--primary);
+}
+
+input[type="radio"]:checked::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: var(--primary);
+}
