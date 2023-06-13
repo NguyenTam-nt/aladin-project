@@ -15,6 +15,7 @@ export default {
         text_red: "#FF0000",
         red_error: "#E73F3F",
         text_EA222A: "#EA222A",
+        red_error: "#E73F3F",
         bg_E73F3F: "#E73F3F",
         header_bg: "rgba(0, 0, 0, 0.3)",
         text_A1A0A3: "#A1A0A3",
@@ -22,6 +23,7 @@ export default {
         br_CBCBCB: "#CBCBCB",
         bg_255_255_255_08: "rgba(255, 255, 255, 0.8)",
         bg_255_255_255_03: "rgba(255, 255, 255, 0.3)",
+        bg_255_255_255_064: "rgba(255, 255, 255, 0.64)",
         bg_01A63E: "#01A63E",
         bg_2196F3: "#2196F3",
         bg_0068FF: "#0068FF",
@@ -50,6 +52,10 @@ export default {
         // => @media (min-width: 480px) { ... }
 
         _420: "420px",
+
+        xs: "480px",
+        // => @media (min-width: 480px) { ... }
+
         sm: "640px",
         // => @media (min-width: 640px) { ... }
 

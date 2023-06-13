@@ -33,8 +33,8 @@ export const TopicCustomer = () => {
             <SwiperComponent slidesPerView={windownSizeWidth > withResponsive._420 ? 2 : "auto"} spaceBetween={16}>
               {[1, 2, 4, 5, 6].map((_, index) => {
                 return (
-                  <SwiperSlide className="w-[70%] _420:w-full">
-                    <div key={index} className="justify-center">
+                  <SwiperSlide key={index} className="w-[70%] _420:w-full">
+                    <div  className="justify-center">
                       <TopicCustomerItem />
                     </div>
                   </SwiperSlide>
