@@ -11,7 +11,7 @@ const TableReserVationForm = () => {
   const { t } = useTranslation();
   return (
     <div className="pb-[40px] lg:pb-36">
-      <div className="h-auto lg:radius-tl-br bg-text_white py-[16px] lg:py-16 px-[20px] lg:px-28">
+      <div className="h-auto lg:radius-tl-br bg-text_white py-[16px] lg:py-16 px-[16px] lg:px-28">
         <TitleOfContent
           name="titleofcontent.tableReserVationForm"
           className="w-full text-center mb-4 "

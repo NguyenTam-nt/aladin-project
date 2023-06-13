@@ -351,3 +351,13 @@ select:focus {
     transform: translate3d(0, 0, 0);
   }
 }
+
+.side-bar-show {
+  transform: translateX(0);
+  transition: all ease 0.5s;
+}
+
+.side-bar-hide {
+  transform: translateX(-100%);
+  transition: all ease 0.5s;
+}

@@ -1,3 +1,4 @@
+import { ICArrowActive } from "@assets/icons/ICArrowActive";
 import { ICHotline } from "@assets/icons/ICHotline";
 import { SelectInput } from "@components/SelectInput";
 import clsx from "clsx";
@@ -75,29 +76,41 @@ export const TopicPlaceItemBase = () => {
       {data.map((item, index) => {
         return (
           <div
-            onClick={() => handleActiveIndex(index)}
             key={index}
-            className={clsx(
-              "py-[16px] cursor-pointer border-b border-br_E6E6E6 mx-[24px]",
-              {
-                "bg-bg_F1F1F1 mx-0 px-[24px] border-none": activeIndex === index,
-              }
-            )}
+            onClick={() => handleActiveIndex(index)}
+            className={clsx("flex items-center justify-between px-[24px]", {
+              "bg-bg_F1F1F1 border-none px-[24px] !mx-0": activeIndex === index,
+            })}
           >
-            <p className="text-_14 font-semibold text-GreyPrimary ">
-              {item.title}
-            </p>
-            <p className="text-_14 font-semibold text-text_secondary my-2">
-              {item.address}
-            </p>
-            <div className="flex items-center gap-x-[6px]">
-              <div>
-                <ICHotline />
-              </div>
-              <p className="text-_14 font-semibold text-text_secondary ">
-                {item.phone}
+            <div
+              className={clsx(
+                "py-[16px] cursor-pointer border-b border-br_E6E6E6",
+                {
+                  "border-none": activeIndex === index,
+                }
+              )}
+            >
+              <p className="text-_14 font-semibold text-GreyPrimary ">
+                {item.title}
               </p>
+              <p className="text-_14 font-semibold text-text_secondary my-2">
+                {item.address}
+              </p>
+              <div className="flex items-center gap-x-[6px]">
+                <div>
+                  <ICHotline />
+                </div>
+                <p className="text-_14 font-semibold text-text_secondary ">
+                  {item.phone}
+                </p>
+              </div>
             </div>
+
+            {activeIndex === index ? (
+              <span className="hidden lg:block">
+                <ICArrowActive />
+              </span>
+            ) : null}
           </div>
         );
       })}

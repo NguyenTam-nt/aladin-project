@@ -79,11 +79,13 @@ export const ModalEvaluation = () => {
             color="empty"
             text="button.cancel"
             className="border border-primary max-w-[154px]"
+            classNameParent="min-w-[154px]"
           />
           <Button
             color="primary"
             text="button.evaluate"
             className="border border-primary max-w-[154px]"
+            classNameParent="min-w-[154px]"
           />
         </div>
       </div>
