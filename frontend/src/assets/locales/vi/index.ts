@@ -4,6 +4,8 @@ import button from "./button.json"
 import titleofcontent from "./titleofcontent.json"
 import form from "./form.json"
 import contact from "./contact.json"
+import common from "./common.json"
+import menu from "./menu.json"
 import orderFood from "./order-food.json"
 
 export const vi = {
@@ -13,5 +15,7 @@ export const vi = {
     ...titleofcontent,
     ...form,
     ...contact,
+    ...common,
+    ...menu,
     ...orderFood
 }

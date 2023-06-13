@@ -1,11 +1,12 @@
-import {useState, useEffect, useRef} from 'react'
+import {useState, useEffect, useRef, RefObject} from 'react'
 
- export function useInView(isListening = false){
+
+ export function useInView<T>(isListening = false){
   const [isInView, setIsInView] = useState(false)
-  const ref = useRef<HTMLDivElement>(null)
+  const ref = useRef<T>(null)
 
   useEffect(() => {
-    const rf = ref.current
+    const rf = ref.current as HTMLElement
     const observer = new IntersectionObserver((entries) => {
       if(isListening) {
         setIsInView(entries[0].isIntersecting)

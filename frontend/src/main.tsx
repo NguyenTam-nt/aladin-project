@@ -2,7 +2,6 @@ import React, { Suspense, lazy } from "react";
 import ReactDOM from "react-dom/client";
 import i18n from "@configs/i18n";
 import { I18nextProvider } from "react-i18next";
-import "@fontsource/ibm-plex-sans";
 import "./assets/css/index.css";
 import { BrowserRouter } from "react-router-dom";
 import HttpService from "@configs/api";

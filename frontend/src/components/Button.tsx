@@ -1,5 +1,6 @@
+import { Colors } from "@constants/color";
 import clsx from "clsx";
-import React, { ButtonHTMLAttributes, memo, useContext } from "react";
+import React, { ButtonHTMLAttributes, Fragment, memo, useContext } from "react";
 import { useTranslation } from "react-i18next";
 
 type Props = {
@@ -9,6 +10,8 @@ type Props = {
   image?: React.ReactNode;
   imageLeft?: React.ReactNode;
   className?: string;
+  classNameParent?: string;
+  withAnimation?: boolean;
 } & ButtonHTMLAttributes<HTMLButtonElement>;
 
 export const Button = memo(
@@ -19,28 +22,40 @@ export const Button = memo(
     image,
     className,
     imageLeft,
+    classNameParent,
+    withAnimation = true,
     ...props
   }: Props) => {
     const { t } = useTranslation();
 
     return (
-      <button
-        type="button"
-        {...props}
-        className={clsx(
-          "relative h-[48px] text-_14 xl:text-_16 w-full font-bold overflow-hidden rounded-[16px_0_16px_0] flex justify-center items-center btn-hover-effect btn-hover-effect--effect-3",
-          {
-            "bg-primary text-text_white": color === "primary",
-            "bg-text_white text-primary": color === "empty",
-            // "justify-between": image,
-          },
-          className
-        )}
+      <div
+        className={clsx("w-max relative h-max " + classNameParent, {
+          "btn-common": withAnimation
+        })}
+        style={{
+          ["--color-btn" as string]:
+            color === "primary" ? Colors.primary : Colors.text_white,
+        }}
       >
-        {imageLeft ? imageLeft : null}
-        {t(text)}
-        {image ? image : null}
-      </button>
+        <button
+          type="button"
+          {...props}
+          className={clsx(
+            "relative h-[48px] z-[1]  text-_14 w-full font-bold overflow-hidden rounded-[16px_0_16px_0] flex justify-center items-center btn-hover-effect btn-hover-effect--effect-3",
+            {
+              "bg-primary text-text_white": color === "primary",
+              "bg-text_white text-primary": color === "empty",
+              // "justify-between": image,
+            },
+            className
+          )}
+        >
+          {imageLeft ? imageLeft : null}
+          {t(text)}
+          {image ? image : null}
+        </button>
+      </div>
     );
   }
 );

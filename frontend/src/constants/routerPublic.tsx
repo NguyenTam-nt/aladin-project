@@ -17,6 +17,9 @@ const MenuPage = lazy(() =>
 const TableReserVation = lazy(
   () => import("@features/news/user/TableReserVation")
 );
+const RecruitmentDetail = lazy(
+  () => import("@features/recruitment/RecruitmentDetail")
+);
 const Recruitment = lazy(() => import("@features/recruitment/index"));
 const News = lazy(() => import("@features/news/user/index"));
 const NewDetail = lazy(() => import("@features/news/user/NewDetail"));
@@ -25,9 +28,14 @@ const ContactPage = lazy(() => import("@features/contact"));
 const AboutUsPage = lazy(() => import("@features/about-us"));
 const OrderFoodPage = lazy(() => import("@features/order-food"));
 
-const DemoElement = () => {
-  return <>Demo element</>;
-};
+const MenuDetail = lazy(() =>
+import("@features/menu-detail").then((module) => ({ default: module.MenuDetail }))
+);
+
+const ThanksCustomer = lazy(() =>
+import("@features/thanks-customer").then((module) => ({ default: module.ThanksCustomer }))
+);
+
 export const paths = {
   home: {
     prefix: "/",
@@ -52,13 +60,20 @@ export const paths = {
   },
   memu: {
     prefix: "/thuc-don",
+    detail: ":id"
   },
-  ecruitment: {
+  recruitment: {
     prefix: "/tuyen-dung",
+  },
+  recruitmentDetail: {
+    prefix: "/tuyen-dung/:id",
   },
   contact: {
     prefix: "/lien-he",
   },
+  customer: {
+    prefix: "/cam-on-khach-hang"
+  }
 };
 
 export const routersPublic: IRouter[] = [
@@ -72,6 +87,12 @@ export const routersPublic: IRouter[] = [
     path: paths.memu.prefix,
     element: MenuPage,
     name: "navigation.header.memu",
+  },
+  {
+    path: `${paths.memu.prefix}/${paths.memu.detail}`,
+    element: MenuDetail,
+    name: "navigation.header.memu_detail",
+    isHiden: true
   },
   {
     path: paths.sale.prefix,
@@ -88,6 +109,7 @@ export const routersPublic: IRouter[] = [
     path: paths.NewDetail.prefix,
     element: NewDetail,
     name: "navigation.header.newDetail",
+    isHiden: true,
   },
   {
     path: paths.order.prefix,
@@ -101,14 +123,27 @@ export const routersPublic: IRouter[] = [
     name: "navigation.header.about",
   },
   {
-    path: paths.ecruitment.prefix,
+    path: paths.recruitment.prefix,
     element: Recruitment,
     name: "navigation.header.ecruitment",
+  },
+  {
+    path: paths.recruitmentDetail.prefix,
+    element: RecruitmentDetail,
+    name: "navigation.header.ecruitment",
+    isHiden: true,
   },
   {
     path: paths.contact.prefix,
     element: ContactPage,
     name: "navigation.header.contact",
+  },
+  {
+    path: paths.customer.prefix,
+    element: ThanksCustomer,
+    name: "navigation.header.customer",
+    isHiden: true,
+    
   },
   {
     path: paths.orderFood.prefix,

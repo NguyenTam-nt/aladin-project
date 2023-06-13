@@ -1,7 +1,8 @@
 export const Colors = {
     primary: "#99BC20",
-    secondary: "##074A20",
+    secondary: "#074A20",
     text_secondary: "#555F6D",
+    text_5F5F61: "#5F5F61",
     text_primary: "#272E35",
     text_blue: "#0167B2",
     text_white: "#FFFFFF",
@@ -26,5 +27,23 @@ export const Colors = {
     text_C53434: "#C53434" ,
     bg_1A73E8 : "#1A73E8",
     text_5A5C60: "#5A5C60",
-    text_EA222A: "#EA222A"
+    text_EA222A: "#EA222A",
+    text_48403D: "#48403D",
+    text_A1A0A3: "#A1A0A3",
+    bg_F4A118: "#F4A118",
+    bg_CBCBCB: "#CBCBCB",
+    text_FF0000: "#FF0000",
+    bg_01A63E: "#01A63E",
+    bg_2196F3: "#2196F3",
+    bg_E73F3F: "#E73F3F",
+    Grey_Primary: "#222124"
 }
+
+
+export const listStarColor = [
+    Colors.bg_E73F3F,
+    Colors.bg_F4A118,
+    "#415A77",
+    "#1EC3D0",
+    Colors.bg_01A63E
+]

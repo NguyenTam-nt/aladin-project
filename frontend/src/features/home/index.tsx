@@ -19,7 +19,7 @@ export const HomePage = () => {
         <HomeTopicSales />
         <TopicMenu />
         <TopicVideo />
-        <div className="pt-[80px] pb-[100px]">
+        <div className="pt-[80px] pb-[24px] lg:pb-[100px]">
           <TopicPost />
           <TopicCustomer />
           <TopicNews />

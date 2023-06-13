@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 interface Props {
   itemInforCard: {
@@ -7,24 +8,25 @@ interface Props {
     img: string;
   };
 }
-const FoodReferialCard = (props: Props) => {
+const NewItem = (props: Props) => {
+  const navigate = useNavigate();
   const { itemInforCard } = props;
   const handleClickItem = (slug: string) => {
-    console.log(slug, "đi đến trang chi tiết khuyến mãi");
+    navigate(`/tin-tuc/${slug}`);
   };
   return (
     <div
       onClick={() => {
-        handleClickItem(itemInforCard.timeString);
+        handleClickItem(itemInforCard.description);
       }}
-      className="col-span-1 h-[176px] bg-white min-h-[302px] radius-tl-br cursor-pointer"
+      className="col-span-1 h-[176px] bg-white min-h-[302px] radius-tl-br cursor-pointer overflow-hidden"
     >
       <img
         src={itemInforCard.img || ""}
         alt="card"
-        className="rounded-tl-r32 min-h-[176px]"
+        className="w-full max-h-[176px]"
       />
-      <div className="py-6 px-4 ">
+      <div className="py-6 px-4 min-h-[126px]">
         <p className="text-base font-semibold mb-1 text-GreyPrimary line-clamp-2">
           {itemInforCard.description}
         </p>
@@ -36,4 +38,4 @@ const FoodReferialCard = (props: Props) => {
   );
 };
 
-export default FoodReferialCard;
+export default NewItem;

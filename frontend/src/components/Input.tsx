@@ -27,7 +27,7 @@ export const Input = memo(React.forwardRef(
       <div
         className={clsx(
           (className =
-            "h-[48px] w-full rounded-[16px_0_16px_0] flex items-center py-[13px] px-[16px] border-[1px] border-solid border-br_E6E6E6 focus-within:border-primary " +
+            "h-[48px] placeholder:text-text_A1A0A3 placeholder:text-_14 w-full rounded-[16px_0_16px_0] flex items-center py-[13px] px-[16px] border-[1px] border-solid border-br_E6E6E6 focus-within:border-primary " +
             className)
         )}
       >

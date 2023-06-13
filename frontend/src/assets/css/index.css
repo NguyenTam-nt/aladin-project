@@ -1,6 +1,7 @@
 @import 'swiper/css';
 @import 'swiper/css/grid';
 @import 'swiper/css/pagination';
+@import "swiper/css/effect-fade";
 
 @import "./ckeditor.css";
 @import "./taiwind.css";
@@ -8,28 +9,59 @@
 @import "./custom.css";
 
 
-@font-face {
+
+
+  @font-face {
+    font-family: 'IBM Plex Sans';
+    src: url('../fonts/IBM_Plex_Sans/IBMPlexSans-Medium.ttf') format('truetype');
+    font-weight: 500;
+    font-style: normal;
+  }
+  @font-face {
+    font-family: 'IBM Plex Sans';
+    src: url('../fonts/IBM_Plex_Sans/IBMPlexSans-Bold.ttf') format('truetype');
+    font-weight: 700;
+  }
+  @font-face {
+    font-family: 'IBM Plex Sans';
+    src: url('../fonts/IBM_Plex_Sans/IBMPlexSans-SemiBold.ttf') format('truetype');
+    font-weight: 600;
+  }
+
+  @font-face {
+    font-family: 'IBM Plex Sans';
+    src: url('../fonts/IBM_Plex_Sans/IBMPlexSans-Light.ttf') format('truetype');
+    font-weight: 300;
+  }
+
+  @font-face {
+    font-family: 'IBM Plex Sans';
+    src: url('../fonts/IBM_Plex_Sans/IBMPlexSans-Regular.ttf') format('truetype');
+    font-weight: 400;
+  }
+  
+  @font-face {
     font-family: 'iCielBC Cubano';
     src: url('../fonts/iCielBCCubano-Normal.otf') format('truetype');
     font-weight: 400;
   }
 
-
 body {
     font-family: "IBM Plex Sans";
+    scroll-behavior: smooth;
 }
 
 
 .banner_home {
-  height: calc(100vh - 120px);
-  max-height: calc(100vh - 120px);
-  min-height: calc(100vh - 120px);
+  height: calc(100vh);
+  max-height: calc(100vh);
+  min-height: calc(100vh);
 }
 
 .banner_home_video {
-  height: calc(100vh - 120px);
-  max-height: calc(100vh - 120px);
-  min-height: calc(100vh - 120px);
+  height: calc(100vh);
+  max-height: calc(100vh);
+  min-height: calc(100vh);
 }
 
 .active-header {
@@ -55,11 +87,6 @@ body {
       transform: translateY(0);
       opacity: 1;
   }
-}
-
-.home-body {
-  background-image: url("../images/home/paper_bg.webp");
-  /* background-repeat: repeat-y; */
 }
 
 .home-topic-device-left {

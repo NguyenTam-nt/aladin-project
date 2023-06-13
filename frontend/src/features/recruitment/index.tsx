@@ -1,11 +1,13 @@
 import TitleOfContent from "@components/TitleOfContent";
 import WapperContent from "@components/WapperContent";
-import React from "react";
+import React, { useState } from "react";
 import RecruitmentItem from "./RecruitmentItem";
 import rectangle from "@assets/images/recruitmentCardIcon.svg";
 import Banner from "@features/news/user/Banner";
+import { Pagination } from "@components/Paginnation";
 
 const Recruitment = () => {
+  const [currentPage, setCurrentPage] = useState<number>(1);
   const fakeDate = [
     {
       url: rectangle,
@@ -47,16 +49,22 @@ const Recruitment = () => {
         }}
       />
       <WapperContent>
-        <div className="pb-[120px]">
+        <div className="lg:pb-spc120 pb-20 px-5">
           <TitleOfContent name="titleofcontent.recruitment" className="mb-6" />
-          <div className="grid grid-cols-2 gap-x-spc26 gap-y-10">
+          <div className="grid 2xl:grid-cols-2 xl:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 2xl:gap-x-spc26 2xl:gap-y-10 gap-6">
             {fakeDate.map((itemRecrui, indexRecui) => {
               return (
                 <RecruitmentItem key={indexRecui} itemRecrui={itemRecrui} />
               );
             })}
           </div>
-          <div className="pt-6">pagination</div>
+          <div className="pt-6 flex justify-end">
+            <Pagination
+              totalPages={20}
+              currentPage={currentPage}
+              setCurrentPage={setCurrentPage}
+            />
+          </div>
         </div>
       </WapperContent>
     </div>
