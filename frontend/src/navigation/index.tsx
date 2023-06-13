@@ -31,12 +31,10 @@ export const RouterRoot = () => {
       </Route>
       <Route path={prefixRootRoute.admin} element={<LayoutManage />}>
         {RouterManage.map((routeItem, indexRout) => {
-          console.log(routeItem.path);
-
           return (
             <Route
               key={indexRout}
-              index={routeItem.index ? routeItem.index : false}
+              index={routeItem.exact ? routeItem.exact : false}
               path={routeItem.path}
               element={<routeItem.element />}
             />
