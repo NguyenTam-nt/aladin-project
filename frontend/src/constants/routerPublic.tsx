@@ -23,6 +23,7 @@ const NewDetail = lazy(() => import("@features/news/user/NewDetail"));
 const ContactPage = lazy(() => import("@features/contact"));
 
 const AboutUsPage = lazy(() => import("@features/about-us"));
+const OrderFoodPage = lazy(() => import("@features/order-food"));
 
 const DemoElement = () => {
   return <>Demo element</>;
@@ -45,6 +46,9 @@ export const paths = {
   },
   order: {
     prefix: "/dat-ban",
+  },
+  orderFood: {
+    prefix: "/dat-hang",
   },
   memu: {
     prefix: "/thuc-don",
@@ -105,5 +109,10 @@ export const routersPublic: IRouter[] = [
     path: paths.contact.prefix,
     element: ContactPage,
     name: "navigation.header.contact",
+  },
+  {
+    path: paths.orderFood.prefix,
+    element: OrderFoodPage,
+    name: "navigation.header.order_food",
   },
 ];
