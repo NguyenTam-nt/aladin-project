@@ -48,7 +48,7 @@ const TableReserVationForm = () => {
         .min(1, "Tối thiểu 1 khách hàng.")
         .required("Không được để trống khách hàng."),
       day: Yup.date()
-        // .min(new Date().toLocaleDateString(), "Ngày phải tối thiểu từ hôm nay.")
+        .min(new Date().toLocaleDateString(), "Ngày phải tối thiểu từ hôm nay.")
         .required("Phải chọn ngày đặt bàn."),
       hour: Yup.string().trim().required("Phải chọn khung giờ đặt bàn."),
       place: Yup.string().trim().required("Phải chọn cơ sở."),
