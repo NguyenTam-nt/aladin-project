@@ -1,7 +1,8 @@
 {
-  "order-food": {
+  "order_food": {
       "title": "Đơn hàng",
-      "payment_title": "Thanh toán"
-  
+      "payment_title": "Thanh toán",
+      "input_placeholder": "Nhập mã giảm giá",
+      "input_btn": "Áp dụng"
   }
 }

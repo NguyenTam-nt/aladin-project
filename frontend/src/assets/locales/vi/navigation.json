@@ -12,7 +12,8 @@
             "memu_detail": "Chi tiết Món ăn",
             "ecruitment": "Tuyển dụng",
             "contact": "Liên hệ",
-            "customer": "Cảm nhận khách hàng"
+            "customer": "Cảm nhận khách hàng",
+            "order_food": "Đặt hàng"
         }
     }
 }

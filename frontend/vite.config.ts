@@ -13,5 +13,7 @@ export default defineConfig({
       },
     }
   },
-  plugins: [react(), tsconfigPaths()],
+  plugins: [react({
+    include: "**/*.tsx",
+  }), tsconfigPaths()],
 })
