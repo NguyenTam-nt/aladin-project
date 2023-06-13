@@ -40,6 +40,7 @@ export const MenuDetailStar = () => {
       <div className="flex items-center justify-between">
         <h3 className="title-48 text-secondary">{t("menu.comment_title")}</h3>
         <Button
+          classNameParent="min-w-[167px] "
           onClick={handleShowModal}
           className="max-w-[167px] h-[48px] bg-transparent text-_14 font-bold border border-primary"
           color="empty"

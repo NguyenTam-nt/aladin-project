@@ -20,7 +20,7 @@ export const MenusRight = () => {
       className={clsx(
         "flex  absolute z-[2] top-[-247px] ease-in-out duration-300",
         {
-          "right-[-356px]": !open,
+          "right-[calc(-100vw_+_40px)] _420:right-[-356px]": !open,
           "right-0": open,
         }
       )}
@@ -32,7 +32,7 @@ export const MenusRight = () => {
         <ICArowDown color={Colors.text_white} />
         {t("common.choosed_menu")}
       </button>
-      <div className="w-[356px] flex flex-col py-[24px] h-[644px] bg-primary">
+      <div className=" w-[calc(100vw_-_40px)] _420:w-[356px] flex flex-col py-[24px] h-[644px] bg-primary">
         <div className="mx-[16px] py-[16px] flex justify-between items-center border-b border-br_E6E6E6">
           <span className="text-_18 font-iCielBC_Cubano text-secondary">
             {t("common.choosed_menu_title")}

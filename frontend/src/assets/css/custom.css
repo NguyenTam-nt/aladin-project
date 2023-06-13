@@ -369,3 +369,30 @@ select:focus {
     transform: translate3d(0, 0, 0);
   }
 }
+
+.side-bar-show {
+  transform: translateX(0);
+  transition: all ease 0.5s;
+}
+
+.side-bar-hide {
+  transform: translateX(-100%);
+  transition: all ease 0.5s;
+}
+.footer-animation-list {
+  height: calc(var(--footer-size) * var(--height-li));
+  transition: all ease 0.3s;
+} 
+
+
+/* disAble range value input type="number" */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
