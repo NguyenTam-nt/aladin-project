@@ -396,3 +396,32 @@ input::-webkit-inner-spin-button {
 input[type=number] {
   -moz-appearance: textfield;
 }
+
+
+
+/* RADIO BUTTON */
+input[type="radio"] {
+  appearance: none;
+  background-color: transparent;
+  margin: 0;
+  font: inherit;
+  color: currentColor;
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--text-A1A0A3);
+  border-radius: 50%;
+  display: grid;
+  place-content: center;
+}
+
+input[type=radio]:checked {
+  border: 2px solid var(--primary);
+}
+
+input[type="radio"]:checked::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: var(--primary);
+}
