@@ -17,7 +17,6 @@ export const Banner = () => {
         routersPublic.find((item) => item.path === `/${query}`) as IRouter
       );
       if (paramsList.length > 2) {
-
         const subParm = routersPublic.find(
           (item) => item.path === `/${query}/:${prefixRootRoute.slug}`
         );

@@ -14,6 +14,7 @@ export default {
         br_E6E6E6: "#E6E6E6",
         text_red: "#FF0000",
         text_EA222A: "#EA222A",
+        red_error: "#E73F3F",
         bg_E73F3F: "#E73F3F",
         header_bg: "rgba(0, 0, 0, 0.3)",
         text_A1A0A3: "#A1A0A3",
