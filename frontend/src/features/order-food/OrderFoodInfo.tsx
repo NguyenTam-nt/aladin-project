@@ -9,7 +9,7 @@ function OrderFoodInfo() {
   return (
     <div className='pb-16'>
       <Banner name="Thông tin đơn đặt hàng" Link={paths.orderFood.info} />
-      <div className="w-rp mt-[120px] h-full">
+      <div className="w-rp mt-10 lg:mt-[120px] h-full">
         <TitleOfContent name="order_food_info.title" />
         <div className="mt-6">
           <OrderFoodInfoForm />

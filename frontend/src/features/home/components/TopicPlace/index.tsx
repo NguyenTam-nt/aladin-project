@@ -8,7 +8,7 @@ export const TopicPlace = () => {
   return (
     <div className="w-rp relative">
       <TitleTopic title="home.place.title" />
-     <TopicPlaceItem />
+      <TopicPlaceItem />
     </div>
   );
 };
