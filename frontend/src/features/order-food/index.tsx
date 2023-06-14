@@ -14,12 +14,12 @@ function index() {
   return (
     <div>
       <Banner name="Đặt hàng" Link={paths.orderFood.prefix} />
-      <div className="w-rp mt-[120px] h-full flex gap-6">
-        <div className="w-2/3">
+      <div className="w-rp mt-10 lg:mt-[120px] h-full flex flex-wrap lg:flex-nowrap gap-6">
+        <div className="w-full lg:w-2/3">
           <TitleOfContent name="order_food.title" />
 
-          <div className="mt-10">
-            <table className='w-full'>
+          <div className="mt-4 lg:mt-10 hidden lg:block">
+            <table className='w-full '>
               <tr className='py-4'>
                 <th className='py-4 text-left pr-6'>STT</th>
                 <th className='py-4 text-left pr-6'>Sản phẩm</th>
@@ -76,11 +76,59 @@ function index() {
               
             </table>
           </div>
+
+          <div className="mt-4 lg:mt-10 block lg:hidden">
+            {
+              [1,2,3].map((item: any, idx: any) => {
+                return <div className='py-4  border-t border-t-br_CBCBCB first:border-t-0 items-center' key={idx}>
+                <div className='flex items-center justify-start gap-4'>
+                  <div className="w-10 h-10 flex-shrink-0">
+                    <img
+                      className="w-full h-full object-cover"
+                      src={"https://images.unsplash.com/photo-1513104890138-7c749659a591?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxleHBsb3JlLWZlZWR8MXx8fGVufDB8fHx8fA%3D%3D&w=1000&q=80"}
+                      alt="iamge order food"
+                    />
+                  </div>
+                  <div className="flex items-center justify-between gap-6">
+                    <div className="">
+                      <span className='line-clamp-1'>Combo 2 Người lớn ăn thả Combo 2 Người lớn ăn thả Combo 2 Người lớn ăn thả</span>
+                      <div className="flex items-center gap-2">
+                        <div className='text-sm text-secondary'>600.000</div>
+                        <div className='text-xs text-text_A1A0A3'>/</div>
+                        <div className='text-xs text-text_A1A0A3 line-through'>800.000</div>
+                      </div>
+                    </div>
+                    <div className=" flex justify-end items-center">
+                      <ICDeleteTrash />
+                    </div>
+                  </div>
+                  
+                </div>
+                <div className="flex items-center justify-start gap-4">
+                  <span className='text-_18 lg:text-_24 mb-1 cursor-pointer'>
+                    −
+                  </span>
+                  <div className="text-[13px] font-bold">
+                    1
+                  </div>
+                  <span className='text-2xl mb-1 cursor-pointer'>
+                    +
+                  </span>
+                </div>
+                
+                <div className='flex justify-start items-center gap-2 py-2'>
+                  <span className='text-sm text-GreyPrimary'>Tổng cộng: </span>
+                  <span className='text-sm text-secondary'>600.000</span>
+                </div>
+              </div>
+              })
+            }
+          </div>
         </div>
-        <div className="w-1/3">
+        <div className="w-full lg:w-1/3 mb-20 lg:mb-0">
           <TitleOfContent name="order_food.payment_title" />
 
-          <div className="mt-10">
+          <div className="mt-6 lg:mt-10">
             <div className="flex items-center justify-between gap-2 radius-tl-br24 border border-primary py-2.5 px-4 ">
               <div className="flex-1 flex items-center gap-2">
                 <div className=" ">
@@ -114,13 +162,13 @@ function index() {
               <h4 className='text-base '>Tổng cộng (Chưa có VAT)</h4>
               <span className='text-base font-semibold text-red_error'>140.000 VNĐ</span>
             </div>
-            <div className="flex items-center justify-center gap-6 mt-10">
-              <button className="flex-1 radius-tl-br16 w-spc167 py-3 text-center text-sm leading-5 font-bold border border-primary text-primary"
+            <div className="flex flex-wrap lg:flex-nowrap items-center justify-center gap-6 mt-6 lg:mt-10">
+              <button className="w-full lg:w-spc167 lg:flex-1 radius-tl-br16  py-3 text-center text-sm leading-5 font-bold border border-primary text-primary"
                 onClick={() => navigate(paths.memu.prefix)}
               >
                Tiếp tục mua hàng
               </button>
-              <button className="flex-1 radius-tl-br16 w-spc167 py-3 text-center text-sm leading-5 font-bold bg-primary text-white"
+              <button className="w-full lg:w-spc167 lg:flex-1 radius-tl-br16 py-3 text-center text-sm leading-5 font-bold bg-primary text-white"
                 onClick={() => navigate(paths.orderFood.info)}
               >
                 Thanh toán

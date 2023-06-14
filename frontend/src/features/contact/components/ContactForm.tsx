@@ -6,9 +6,9 @@ import { useTranslation } from 'react-i18next';
 function ContactForm() {
   const { t } = useTranslation();
   return (
-    <div className="mt-10">
+    <div className="mt-6 lg:mt-10">
       <div className="grid grid-cols-2 gap-x-5 gap-y-5">
-        <div className="col-span-1">
+        <div className="col-span-2 lg:col-span-1">
           <TitleInput isRequired name="form.name" />
           <input
             type="text"
@@ -16,7 +16,7 @@ function ContactForm() {
             placeholder={t("form.inputName") as string}
           />
         </div>
-        <div className="col-span-1">
+        <div className="col-span-2 lg:col-span-1">
           <TitleInput isRequired name="form.phoneNumber" />
           <input
             type="text"
@@ -24,7 +24,7 @@ function ContactForm() {
             placeholder={t("form.inputPhoneNumber") as string}
           />
         </div>
-        <div className="col-span-1">
+        <div className="col-span-2 lg:col-span-1">
           <TitleInput isRequired name="form.email" />
           <input
             type="text"
@@ -32,7 +32,7 @@ function ContactForm() {
             placeholder={t("form.inputEmail") as string}
           />
         </div>
-        <div className="col-span-1">
+        <div className="col-span-2 lg:col-span-1">
           <TitleInput isRequired={false} name="form.address" />
           <input
             type="text"
@@ -50,7 +50,7 @@ function ContactForm() {
         </div>
       </div>
       <div className="flex items-center justify-start mt-9">
-        <button className="radius-tl-br16 w-spc167 py-3 text-center text-sm leading-5 font-bold bg-primary text-white">
+        <button className="radius-tl-br16 w-spc167 py-3.5 text-center text-sm leading-5 font-bold bg-primary text-white">
           Liên hệ
         </button>
       </div>

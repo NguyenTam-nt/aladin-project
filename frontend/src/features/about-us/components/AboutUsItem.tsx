@@ -30,10 +30,10 @@ function AboutUsItem() {
 
   return (
     <div className='w-rp mb-6 hover:cursor-pointer'>
-      <div className="bg-white py-6 px-4 flex gap-4 justify-between items-center  rounded-tl-3xl rounded-br-3xl "
+      <div className="bg-white py-3 lg:py-6 px-4 pr-6 lg:pr-4 flex gap-4 justify-between items-center radius-tl-br16 lg:radius-tl-br24 "
         onClick={() => {setOpen(!open)}}
       >
-        <h4 className='text-secondary text-_18 uppercase font-bold'>Cơ sở 1 - 24 Nguyễn Tuân</h4>
+        <h4 className='flex justify-center items-center h-6 lg:h-auto text-secondary text-_14 lg:text-_18 uppercase font-bold'>Cơ sở 1 - 24 Nguyễn Tuân</h4>
         <div className="">
           <ICArowDown color='black' className=''  />
         </div>
@@ -48,12 +48,12 @@ function AboutUsItem() {
         }}
         ref={collapseMenuRef}
       >
-        <div className="py-11">
+        <div className="py-6 lg:py-11">
 
           <h5 className='text-_14 font-semibold text-black'>Địa chỉ: Số 225 Trần Phú, Hà Đông, Hà Nội</h5>
           <h5 className='text-_14 font-semibold text-black mt-4'>Số điện thoại: 0325625846</h5>
 
-          <div className="grid grid-cols-2 gap-6 py-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 py-6">
             {[1,2,3,4].map((i) => {
               return <img key={i}
                 className="w-full  h-full object-cover rounded-tl-r32 rounded-br-r32"
@@ -70,7 +70,7 @@ function AboutUsItem() {
             Feugiat commodo donec volutpat amet mattis nibh. Eget eget blandit sed sem vehicula. Vel iaculis dolor nibh morbi sed tincidunt. Sit sodales bibendum amet feugiat integer nunc sit. Sit tellus posuere quis mi. In sit dignissim lorem dolor ac elementum posuere nec purus. A diam aliquam cursus pharetra mauris eros duis.
           </p>
 
-          <div className="grid grid-cols-2 gap-6 py-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 py-6">
             {[1,2,3,4].map((i) => {
               return <img key={i}
                 className="w-full  h-full object-cover rounded-tl-r32 rounded-br-r32"

@@ -13,9 +13,11 @@ const ContactPage = () => {
     <>
       <Banner name="Liên hệ" Link={paths.contact.prefix} />
       <div className="w-full h-full">
-        <div className="w-rp pt-[138px] h-full pb-[112px]">
-          <TitleOfContent name="contact.title" />
-          <ContactForm />
+        <div className=" pt-10 lg:pt-[138px] h-full pb-[112px]">
+          <div className="w-rp">
+            <TitleOfContent name="contact.title" />
+            <ContactForm />
+          </div>
 
           <div className="mt-20"></div>
           {/* <TitleOfContent name="contact.address_title" className="mt-20" /> */}

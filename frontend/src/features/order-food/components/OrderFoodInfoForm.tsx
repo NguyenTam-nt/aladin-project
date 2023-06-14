@@ -65,7 +65,7 @@ function OrderFoodInfoForm() {
   return (
     <div className="">
       <div className="grid grid-cols-2 gap-x-5 gap-y-5">
-        <div className="col-span-1">
+        <div className="col-span-2 lg:col-span-1">
           <TitleInput isRequired name="form.name" />
           <input
             type="text"
@@ -81,7 +81,7 @@ function OrderFoodInfoForm() {
             <small className="text-red_error">{errors.fullName}</small>
           )}
         </div>
-        <div className="col-span-1">
+        <div className="col-span-2 lg:col-span-1">
           <TitleInput isRequired name="form.phoneNumber" />
           <input
             type="text"
@@ -97,7 +97,7 @@ function OrderFoodInfoForm() {
             <small className="text-red_error">{errors.phoneNumber}</small>
           )}
         </div>
-        <div className="col-span-1">
+        <div className="col-span-2 lg:col-span-1">
           <TitleInput isRequired name="form.email" />
           <input
             type="text"
@@ -113,8 +113,8 @@ function OrderFoodInfoForm() {
             <small className="text-red_error">{errors.email}</small>
           )}
         </div>
-        <div className="col-span-1 grid grid-cols-2 gap-6">
-          <div className="col-span-1">
+        <div className="col-span-2 lg:col-span-1 grid grid-cols-2 gap-6">
+          <div className="col-span-2 lg:col-span-1">
             <TitleInput isRequired name="form.chooseDay" />
             <input
               type="date"
@@ -131,7 +131,7 @@ function OrderFoodInfoForm() {
               <small className="text-red_error">{errors.day}</small>
             )}
           </div>
-          <div className="col-span-1">
+          <div className="col-span-2 lg:col-span-1">
             <TitleInput isRequired name="form.chooseHour" />
             <input
               type="time"
