@@ -6,6 +6,7 @@ import form from "./form.json"
 import contact from "./contact.json"
 import common from "./common.json"
 import menu from "./menu.json"
+import news from "./news.json"
 
 export const vi = {
     ...home,
@@ -15,5 +16,6 @@ export const vi = {
     ...form,
     ...contact,
     ...common,
-    ...menu
+    ...menu,
+    ...news
 }

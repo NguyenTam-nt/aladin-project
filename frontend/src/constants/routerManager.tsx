@@ -11,18 +11,20 @@ import LinkProductIcon from "@assets/icons/LinkProductIcon";
 import LinkStarIcon from "@assets/icons/LinkStarIcon";
 import LinkTableIcon from "@assets/icons/LinkTableIcon";
 import LinkVoucherIcon from "@assets/icons/LinkVoucherIcon";
-
+import { lazy } from "react";
 interface routeMntype {
   path: string;
   exact?: boolean;
   name: string;
   element: any;
   icon: any;
+  isHidden?: true;
 }
 
 function ManageHome() {
-  return <div>quản lý trang chủ</div>;
+  return <div className="h-[2000px]">quản lý trang chủ</div>;
 }
+const ManageNews = lazy(() => import("@features/news/admin/index"));
 
 export const RouterManage: routeMntype[] = [
   {
@@ -51,7 +53,7 @@ export const RouterManage: routeMntype[] = [
     icon: (color: any) => <LinkStarIcon color={color} />,
   },
   {
-    path: "danh-mục",
+    path: "danh-muc",
     element: ManageHome,
     name: "navigation.navleft.category",
     icon: (color: any) => <LinkCategoryIcon color={color} />,
@@ -76,7 +78,7 @@ export const RouterManage: routeMntype[] = [
   },
   {
     path: "tin-tuc",
-    element: ManageHome,
+    element: ManageNews,
     name: "navigation.navleft.news",
     icon: (color: any) => <LinkNewIcon color={color} />,
   },

@@ -5,13 +5,13 @@ import Navleft from "./Navleft";
 
 const LayoutManager = () => {
   return (
-    <div className="bg-text_white min-h-[1200px]">
+    <div className="bg-text_white">
       <Header />
-      <div className="mt-spc120 flex">
-        <div className="w-[15.8%]">
+      <div className="mt-spc120 grid grid-cols-[300px_1fr] min-h-screen">
+        <div className="w-[300px]">
           <Navleft />
         </div>
-        <div className="w-[84.2%] pl-24 pr-[300px] bg-[#F5F5F5]">
+        <div className=" pl-24 pt-[86px] pr-[300px] bg-gray_F5F5F5 h-screen overflow-y-scroll font-IBM_Plex_Sans">
           <Outlet />
         </div>
       </div>

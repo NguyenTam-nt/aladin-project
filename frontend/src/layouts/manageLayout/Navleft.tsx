@@ -49,9 +49,10 @@ const RenderLink = (props: Props) => {
 const Navleft = () => {
   const { t } = useTranslation();
   return (
-    <div className="pt-28">
+    <div className="pt-28 h-screen overflow-y-scroll">
       <ul>
         {RouterManage.map((item, index) => {
+          if (item.isHidden) return;
           return (
             <li key={index}>
               <RenderLink item={item} />
