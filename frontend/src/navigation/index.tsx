@@ -34,9 +34,8 @@ export const RouterRoot = () => {
           return (
             <Route
               key={indexRout}
-              index={routeItem.exact ? routeItem.exact : false}
               path={routeItem.path}
-              element={<routeItem.element />}
+              element={<Suspense><routeItem.element /></Suspense>}
             />
           );
         })}

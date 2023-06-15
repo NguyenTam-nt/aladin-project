@@ -83,7 +83,7 @@ export const RouterManage: routeMntype[] = [
     icon: LinkStarIcon,
   },
   {
-    path: "danh-mục",
+    path: "danh-muc",
     element: ManageHome,
     name: "navigation.navleft.category",
     icon: LinkCategoryIcon,

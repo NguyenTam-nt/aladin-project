@@ -68,7 +68,7 @@ const Navleft = () => {
           </div>
         </Link>
       </div>
-      <ul className="mt-[120px]">
+      <ul className="mt-[100px]">
         {RouterManage.map((item, index) => {
           return !item.isHidden ? (
             <li key={index}>
