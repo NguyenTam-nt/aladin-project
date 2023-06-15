@@ -4,6 +4,7 @@ import { Input } from "@components/Input";
 import { Textarea } from "@components/Textarea";
 import TitleInput from "@components/TitleInput";
 import { Colors } from "@constants/color";
+import { windownSizeWidth, withResponsive } from "@constants/index";
 import { useModalContext } from "@contexts/hooks/modal";
 import React, { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -32,8 +33,8 @@ export const ModalEvaluation = () => {
       xhtml.push(
         <button key={i} onClick={() => (isActive ? popStar(i) : pushStar(i))}>
           <ICStar
-            width={40}
-            height={38}
+            width={ windownSizeWidth > withResponsive._1024 ? 40 : 27}
+            height={ windownSizeWidth > withResponsive._1024 ? 38 : 25}
             color={isActive ? Colors.bg_F4A118 : Colors.bg_CBCBCB}
           />
         </button>
@@ -44,14 +45,14 @@ export const ModalEvaluation = () => {
   }, [stars, pushStar, popStar]);
 
   return (
-    <div className="w-[872px]  bg-white py-[64px] px-[24px]">
-      <h2 className="text-center text-_24 font-bold text-GreyPrimary">
+    <div className="w-[100%] lg:mx-0 lg:w-[872px]  bg-white py-[32px] lg:py-[64px] px-[16px] lg:px-[24px]">
+      <h2 className="text-center text-_16 lg:text-_24 font-bold text-GreyPrimary">
         {t("menu.modal.title")}
       </h2>
-      <div className="flex justify-center items-center gap-x-[16px] mt-[37px]">
+      <div className="flex justify-center items-center gap-x-[16px] mt-[27px] lg:mt-[37px]">
         {renderStar()}
       </div>
-      <div className="grid grid-cols-2 gap-[24px] mt-[45px]">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-[24px] mt-[45px]">
         <div>
           <TitleInput forId="menu.modal.name" name="menu.modal.name" />
           <Input
@@ -66,14 +67,14 @@ export const ModalEvaluation = () => {
             placeholder="menu.modal.email_placeholder"
           />
         </div>
-        <div className=" col-span-2">
+        <div className=" lg:col-span-2">
           <TitleInput forId="menu.modal.evaluate" name="menu.modal.evaluate" />
           <Textarea
             id="menu.modal.evaluate"
             placeholder="menu.modal.evaluate_placeholder"
           />
         </div>
-        <div className="flex col-span-2 items-center gap-x-[24px] justify-center">
+        <div className="flex lg:col-span-2 items-center gap-x-[24px] justify-center">
           <Button
             onClick={hideModal}
             color="empty"

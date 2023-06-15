@@ -11,8 +11,8 @@ export const MenuDetailBody = () => {
   const { t } = useTranslation();
 
   return (
-    <div className="w-rp py-[120px]">
-      <div className="flex gap-x-[24px]">
+    <div className="w-rp py-[24px] lg:py-[120px]">
+      <div className="flex flex-col lg:flex-row gap-x-[24px]">
         <MenuDetailSlider />
         <MenuDetailInfo />
       </div>

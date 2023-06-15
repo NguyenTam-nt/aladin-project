@@ -36,7 +36,7 @@ export const MenuDetailStar = () => {
     setElementModal(<ModalEvaluation />);
   };
   return (
-    <div className="mt-[80px]">
+    <div className="mt-[40px] lg:mt-[80px]">
       <div className="flex items-center justify-between">
         <h3 className="title-48 text-secondary">{t("menu.comment_title")}</h3>
         <Button
@@ -52,19 +52,19 @@ export const MenuDetailStar = () => {
           }
         />
       </div>
-      <div className="mt-[40px] flex gap-x-[24px] items-center">
-        <div className="w-[200px] bg-secondary text-text_white flex flex-col items-center justify-center h-[200px] rounded-[32px_0_32px_0]">
-          <p className="title-64 ">4.8</p>
+      <div className="mt-[40px] flex flex-col lg:flex-row gap-[24px] items-center">
+        <div className="w-full lg:w-[200px] bg-secondary text-text_white flex flex-col items-center justify-center h-[200px] rounded-[32px_0_32px_0]">
+          <p className="text-_64 font-iCielBC_Cubano">4.8</p>
           <p className="text-_24 font-bold">trên 5</p>
         </div>
-        <div className="flex-1 grid grid-cols-1 gap-y-[24px]">
+        <div className="w-full lg:w-auto lg:flex-1 grid grid-cols-1 gap-y-[24px]">
           {listStar.map((item, index) => {
             return (
               <div
                 key={index}
                 className="flex w-full h-[16px] items-center gap-x-[24px]"
               >
-                <span className="text-_16 font-semibold text-text_black">
+                <span className="text-_14 lg:text-_16 font-semibold text-text_black">
                   {item.type} sao
                 </span>
                 <div className="flex-1 h-[16px] overflow-hidden rounded-[8px_0_8px_0] bg-white">
