@@ -8,10 +8,11 @@ type IPagination = {
   currentPage: number;
   totalPages: number;
   setCurrentPage: (currentPage: number) => void;
+  limit?:number
 };
 
 export const Pagination = memo((props: IPagination) => {
-  const { currentPage, setCurrentPage } = props;
+  const { currentPage, setCurrentPage, limit = 5 } = props;
   const totalPages = props.totalPages;
   const [_, setSearchParam] = useSearchParams();
 
@@ -38,21 +39,21 @@ export const Pagination = memo((props: IPagination) => {
 
   const renderPageNumbers = () => {
     const pageNumbers = [];
-    const maxPages = 5;
-    const halfMaxPages = Math.floor(maxPages / 2);
+    // const maxPages = 5;
+    const halfMaxPages = Math.floor(limit / 2);
 
     let startPage = currentPage - halfMaxPages;
     let endPage = currentPage + halfMaxPages;
 
     if (startPage < 1) {
       startPage = 1;
-      endPage = maxPages;
+      endPage = limit;
     }
 
     if (endPage > totalPages) {
       endPage = totalPages;
       startPage =
-        totalPages - maxPages + 1 >= 1 ? totalPages - maxPages + 1 : 1;
+        totalPages - limit + 1 >= 1 ? totalPages - limit + 1 : 1;
     }
 
     for (let i = startPage; i <= endPage; i++) {
@@ -77,7 +78,7 @@ export const Pagination = memo((props: IPagination) => {
   };
 
   return (
-    <div className=" flex gap-x-[16px] mt-[32px] xl:mt-[40px] ">
+    <div className=" flex gap-x-[8px] lg:gap-x-[16px] mt-[32px] xl:mt-[40px] ">
       {currentPage !== 1 && (
         <div className=" w-[40px] h-[40px]">
           <button

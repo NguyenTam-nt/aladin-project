@@ -25,7 +25,7 @@ export const TopicCustomerItem = memo(() => {
           <p className="text-_16 font-semibold text-GreyPrimary">
             Nguyễn Cường Phong
           </p>
-          <p className="text-_12 font-normal text-text_secondary">
+          <p className="text-_12 mt-1 font-normal text-text_secondary">
             UX/UI Designer
           </p>
         </div>

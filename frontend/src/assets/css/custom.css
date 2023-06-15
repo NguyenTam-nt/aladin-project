@@ -397,6 +397,30 @@ input[type=number] {
   -moz-appearance: textfield;
 }
 
+.menu-body-category {
+  transition: all 0.3s ease;
+  transform: scale(0);
+  transform-origin: 350px top;
+}
+
+.menu-body-category::after {
+  position: absolute;
+  content: "";
+  right: 0px;
+  top: -14px;
+  /* transform: translateY(-50%); */
+  display: block;
+ width: 15px;
+ height: 15px;
+ background-color: var(--text-white);
+ clip-path: polygon(100% 0, 0% 100%, 100% 100%);
+}
+
+.scale-menu {
+  transform: scale(1);
+  transform-origin: 350px top;
+  transition: all 0.3s ease;
+}
 
 
 /* RADIO BUTTON */

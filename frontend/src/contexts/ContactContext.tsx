@@ -91,7 +91,7 @@ export const ContactProvider = ({ children }: Props) => {
         <button className="flex items-center justify-center bg-text_red">
           <span>
             <ICYoutubeContact
-              width={widthBreak ? 29 : 10}
+              width={widthBreak ? 29 : 20}
               height={widthBreak ? 20 : 14}
             />
           </span>

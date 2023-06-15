@@ -46,14 +46,14 @@ export const TopicMenuItem = memo(() => {
             <div className="flex items-center self-start  lg:self-center flex-1 gap-x-[16px] text-GreyPrimary text-_14 lg:font-semibold">
               <button
                 onClick={handleMinusCount}
-                className="text-_18 lg:text-_24 w-[30px] h-[30px]  flex items-center justify-center hover:shadow rounded"
+                className="text-_18 lg:text-_24 w-[30px] h-[30px]  flex items-center justify-center hover:shadow-sm rounded"
               >
                 −
               </button>
               <span className=" break-words">{count}</span>
               <button
                 onClick={handlePlusCount}
-                className="text-_18 lg:text-_24 w-[30px] h-[30px] flex items-center justify-center hover:shadow rounded"
+                className="text-_18 lg:text-_24 w-[30px] h-[30px] flex items-center justify-center hover:shadow-sm rounded"
               >
                 +
               </button>

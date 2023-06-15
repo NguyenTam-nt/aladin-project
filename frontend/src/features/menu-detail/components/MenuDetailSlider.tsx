@@ -59,13 +59,14 @@ export const MenuDetailSlider = () => {
         activeThumb,
       } = useSwiperNavigationRef();
   return (
-    <div className="w-[424px] gap-x-[24px]">
+    <div className=" w-full lg:w-[424px] gap-x-[24px]">
     <SwiperComponent
       initialSlide={1}
       navigationNextRef={navigationNextRef}
       navigationPrevRef={navigationPrevRef}
       onActiveIndexChange={onActiveIndexChange}
       slidesPerView={1}
+      spaceBetween={2}
       thumbs={{
         swiper:
           activeThumb && !activeThumb.destroyed ? activeThumb : null,
@@ -74,7 +75,7 @@ export const MenuDetailSlider = () => {
       {listImage.map((item, index) => {
         return (
           <SwiperSlide key={index}>
-            <div className="w-full h-[424px] rounded-[32px_0_32px_0] !overflow-hidden">
+            <div className="w-full h-[100vw] lg:h-[424px] rounded-[32px_0_32px_0] !overflow-hidden">
               {item.type === "image" ? (
                 <img
                   className="w-full h-full object-cover"
@@ -90,7 +91,7 @@ export const MenuDetailSlider = () => {
       })}
     </SwiperComponent>
     {NavigationElement}
-    <div className="mt-[24px] relative">
+    <div className="mt-[16px] lg:mt-[24px] relative">
       <SwiperComponent
         onSwiper={setThumbActive}
         slidesPerView={4}
@@ -101,9 +102,9 @@ export const MenuDetailSlider = () => {
           return (
             <SwiperSlide
               key={index}
-              className="w-full h-[88px] rounded-[16px_0_16px_0] !overflow-hidden"
+              className="w-full h-[calc(calc(100vw_-_104px)_/_4)] lg:h-[88px] rounded-[16px_0_16px_0] !overflow-hidden"
             >
-              <div className="w-full rounded-[16px_0_16px_0] !overflow-hidden duration-300 ease-in relative h-[88px]">
+              <div className="w-full rounded-[16px_0_16px_0] h-[calc(calc(100vw_-_104px)_/_4)] !overflow-hidden duration-300 ease-in relative lg:h-[88px]">
                 {item.type === "image" ? (
                   <img
                     className="w-full h-full object-cover"

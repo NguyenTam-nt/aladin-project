@@ -68,7 +68,7 @@
   }
   .title-18 {
     @apply text-_18 font-normal leading-[28px] font-iCielBC_Cubano
-  }
+  } 
   .radius-tl-br{
     @apply rounded-tl-r32 rounded-br-r32
   }
