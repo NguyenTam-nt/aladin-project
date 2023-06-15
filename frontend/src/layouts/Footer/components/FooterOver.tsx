@@ -29,7 +29,7 @@ export const FooterOver = () => {
           {t("home.footer.access_count")}: {countPage}
         </span>
         <span className="text-text_white text-center m992:text-left mt-[24px] m992:mt-0">
-          Non Copyrighted © 2022 Design and upload by rich technologies
+        Copyright @2022 - Design by Aladin Technology Compan
         </span>
         <div className="flex">
           {langs.map((item) => {
