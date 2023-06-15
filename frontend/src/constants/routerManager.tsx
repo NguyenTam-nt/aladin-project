@@ -16,103 +16,130 @@ import { lazy } from "react";
 
 const HomeAdmin = lazy(() => import("@features/dashboard/home").then(module => ({default: module.HomeAdmin})));
 const BannerAdmin = lazy(() => import("@features/dashboard/banners").then(module => ({default: module.BannerAdmin})));
+const PolicyAdmin = lazy(() => import("@features/dashboard/Policy").then(module => ({default: module.Policy})));
+const PolicyHandleAdmin = lazy(() => import("@features/dashboard/Policy/components/PolicyHandle").then(module => ({default: module.PolicyHandle})));
 
 interface routeMntype {
   path: string;
   exact?: boolean;
-  name: string;
+  name?: string;
   element: any;
-  icon: any;
+  icon?: any;
+  isHidden?: boolean;
 }
 
 function ManageHome() {
   return <div>quản lý trang chủ</div>;
 }
 
+export const pathsAdmin = {
+  home: {
+    prefix:  "trang-chu"
+  },
+  banner: {
+    prefix:  "banner"
+  },
+  policy: {
+    prefix: "chinh-sach",
+    add: "them",
+    update: "sua/:id"
+  }
+
+}
+
 export const RouterManage: routeMntype[] = [
   {
-    path: "/quan-ly",
-    exact: true,
+    path: pathsAdmin.home.prefix,
     element: HomeAdmin,
     name: "navigation.navleft.home",
-    icon: (color: any) => <LinkHomeIcon color={color} />,
+    icon: LinkHomeIcon,
   },
   {
-    path: "banner",
+    path: pathsAdmin.banner.prefix,
     element: BannerAdmin,
     name: "navigation.navleft.banner",
-    icon: (color: any) => <LinkBannerIcon color={color} />,
+    icon: LinkBannerIcon,
   },
   {
-    path: "chinh-sach",
-    element: ManageHome,
+    path: pathsAdmin.policy.prefix,
+    element: PolicyAdmin,
     name: "navigation.navleft.policy",
-    icon: (color: any) => <LinkPolicyIcon color={color} />,
+    icon: LinkPolicyIcon,
+  },
+  {
+    path: `${pathsAdmin.policy.prefix}/${pathsAdmin.policy.add}`,
+    element: PolicyHandleAdmin,
+    isHidden: true,
+  },
+  {
+    path: `${pathsAdmin.policy.prefix}/${pathsAdmin.policy.update}`,
+    element: PolicyHandleAdmin,
+    isHidden: true,
   },
   {
     path: "cam-nhan-khach-hang",
     element: ManageHome,
     name: "navigation.navleft.customorReview",
-    icon: (color: any) => <LinkStarIcon color={color} />,
+    icon: LinkStarIcon,
   },
   {
     path: "danh-mục",
     element: ManageHome,
     name: "navigation.navleft.category",
-    icon: (color: any) => <LinkCategoryIcon color={color} />,
+    icon: LinkCategoryIcon,
   },
   {
     path: "san-pham",
     element: ManageHome,
     name: "navigation.navleft.product",
-    icon: (color: any) => <LinkProductIcon color={color} />,
+    icon: LinkProductIcon,
   },
   {
     path: "binh-luan",
     element: ManageHome,
     name: "navigation.navleft.comments",
-    icon: (color: any) => <LinkCommentIcon color={color} />,
+    icon: LinkCommentIcon,
   },
   {
     path: "co-so",
     element: ManageHome,
     name: "navigation.navleft.place",
-    icon: (color: any) => <LinkPlaceIcon color={color} />,
+    icon: LinkPlaceIcon,
   },
   {
     path: "tin-tuc",
     element: ManageHome,
     name: "navigation.navleft.news",
-    icon: (color: any) => <LinkNewIcon color={color} />,
+    icon: LinkNewIcon,
   },
   {
     path: "tuyen-dung",
     element: ManageHome,
     name: "navigation.navleft.recuire",
-    icon: (color: any) => <LinkNewIcon color={color} />,
+    icon: LinkNewIcon,
   },
   {
     path: "lien-he",
     element: ManageHome,
     name: "navigation.navleft.contact",
-    icon: (color: any) => <LinkContacIcon color={color} />,
+    icon: LinkContacIcon,
   },
   {
     path: "yeu-cau-dat-ban",
     element: ManageHome,
     name: "navigation.navleft.tableReserVataion",
-    icon: (color: any) => <LinkTableIcon color={color} />,
+    icon: LinkTableIcon,
   },
   {
     path: "don-dat-mon",
     element: ManageHome,
     name: "navigation.navleft.foodOders",
-    icon: (color: any) => <LinkFootOrder color={color} />,
+    icon: LinkFootOrder,
   },
   {
     path: "voucher",
     element: ManageHome,
     name: "navigation.navleft.voucher",
-    icon: (color: any) => <LinkVoucherIcon color={color} />,
+    icon: LinkVoucherIcon
   },
 ];

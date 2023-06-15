@@ -4,5 +4,22 @@
         "upload_banner_home": "Tải ảnh lên (tối đa 5 ảnh)",
         "link": "Đường link chuyển hướng",
         "link_placeholder": "Dán đường link chuyển hướng"
+    },
+    "adminPolicy": {
+        "title": "Chính sách hỗ trợ",
+        "maxItem": "Tối đa 8 chính sách",
+        "update": "Sửa chính sách",
+        "delete": "Xóa chính sách",
+        "add": "Thêm chính sách",
+        "form": {
+            "title_add": "Thêm chính sách hỗ trợ",
+            "title_edit": "Chỉnh sửa chính sách hỗ trợ",
+            "name": "Tiêu đề",
+            "name_placeholder": "Nhập tiêu đề",
+            "des": "Mô tả",
+            "des_placeholder": "Nhập mô tả",
+            "content": "Nội dung",
+            "content_placeholder": "Nhập nội dung"
+        }
     }
 }
