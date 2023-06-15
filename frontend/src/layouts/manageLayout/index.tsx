@@ -12,7 +12,7 @@ const LayoutManager = () => {
         </div>
         <div className="relative bg-bg_fafafa">
           <Header />
-          <div className="pl-[96px] max-w-[calc(1920px_-_300px)]  min-h-[calc(100vh_-_120px)] ">
+          <div className="pl-[96px] max-w-[calc(1920px_-_300px)]  min-h-[calc(100vh_-_120px)] py-[80px]">
             <Outlet />
           </div>
         </div>
