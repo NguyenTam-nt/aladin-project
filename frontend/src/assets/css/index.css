@@ -97,3 +97,15 @@ body {
   background-repeat: no-repeat;
   transform: rotate(105deg);
 }
+
+::-webkit-scrollbar:horizontal{
+  height: 8px;
+}
+::-webkit-scrollbar-thumb:horizontal{
+        background: #ccc;
+        border-radius: 10px;    
+}
+/* Handle on hover */
+::-webkit-scrollbar-thumb:horizontal:hover {
+  background: #555;
+}
