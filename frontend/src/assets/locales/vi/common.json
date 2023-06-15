@@ -3,6 +3,15 @@
         "sort_by": "Sắp xếp theo",
         "info_product": "Thông tin sản phẩm",
         "choosed_menu": "Các món đã chọn",
-        "choosed_menu_title": "thực đơn bạn đã chọn"
+        "choosed_menu_title": "thực đơn bạn đã chọn",
+        "_chosse_image": "Chọn hình ảnh tải lên",
+        "_chosse_video": "Chọn video tải lên",
+        "_chosse_file" : "Chọn file tải lên",
+        "_or": "hoặc",
+        "_pase_link": "Dán đường liên kết",
+        "_des_post": "Mô tả bài viết",
+        "_message_delete_post": "Xóa hình ảnh này khỏi hệ thống?" ,
+        "update_image" : "Tải ảnh lên",
+        "image_uploaded": "Hình ảnh đã tải lên"
     }
 }
