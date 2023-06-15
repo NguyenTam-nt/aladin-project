@@ -1,38 +1,38 @@
 import { ICGm } from "@assets/icons/ICGm";
 import { ICLogoFrame } from "@assets/icons/ICLogoFrame";
 import { Colors } from "@constants/color";
+import { prefixRootRoute } from "@constants/index";
 import { RouterManage } from "@constants/routerManager";
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Link, NavLink, useLocation } from "react-router-dom";
+import {
+  Link,
+  NavLink,
+  useLocation,
+  useMatch,
+  useResolvedPath,
+} from "react-router-dom";
 interface Props {
   item: {
     path: string;
     exact?: boolean;
-    name: string;
+    name?: string;
     element: any;
-    icon: any;
+    icon?: any;
   };
 }
 const RenderLink = (props: Props) => {
-  const { pathname } = useLocation();
   const { t } = useTranslation();
-  const [colorIcon, setColorIcon] = useState(Colors.Grey_Primary);
-  useEffect(() => {
-    if (
-      `/${pathname.split("/")[pathname.split("/").length - 1]}`.includes(
-        props.item.path
-      )
-    ) {
-      setColorIcon(Colors.TrueBlue500);
-    } else {
-      setColorIcon(Colors.Grey_Primary);
-    }
-  }, [pathname]);
+
+  const resolved = useResolvedPath(
+    `${prefixRootRoute.admin}/${props.item.path}`
+  );
+  const match = useMatch({ path: resolved.pathname, end: false });
+
   return (
     <NavLink
       to={props.item.path}
-      end
+      // end
       className={({ isActive }) => {
         return (
           " flex gap-[10px] border-l-4 items-center py-[15px] leading-22 pl-[23px] text-sm " +
@@ -42,8 +42,12 @@ const RenderLink = (props: Props) => {
         );
       }}
     >
-      <div className="w-7">{props.item.icon(colorIcon)}</div>
-      {t(props.item.name)}
+      <div className="w-7">
+        <props.item.icon
+          color={match ? Colors.TrueBlue500 : Colors.Grey_Primary}
+        />
+      </div>
+      {t(props.item?.name || "")}
     </NavLink>
   );
 };
@@ -66,11 +70,11 @@ const Navleft = () => {
       </div>
       <ul className="mt-[120px]">
         {RouterManage.map((item, index) => {
-          return (
+          return !item.isHidden ? (
             <li key={index}>
               <RenderLink item={item} />
             </li>
-          );
+          ) : null
         })}
       </ul>
     </div>
