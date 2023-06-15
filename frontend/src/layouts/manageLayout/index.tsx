@@ -1,5 +1,5 @@
 import React from "react";
-import { Outlet } from "react-router-dom";
+import { Outlet, redirect, useLocation } from "react-router-dom";
 import Header from "./Header";
 import Navleft from "./Navleft";
 
@@ -11,7 +11,7 @@ const LayoutManager = () => {
         <div className="w-[300px]">
           <Navleft />
         </div>
-        <div className=" pl-24 pt-[86px] pr-[300px] bg-gray_F5F5F5 h-screen overflow-y-scroll font-IBM_Plex_Sans">
+        <div className="pl-24 pt-[86px] pr-[300px] bg-gray_F5F5F5 h-screen overflow-y-scroll font-IBM_Plex_Sans">
           <Outlet />
         </div>
       </div>

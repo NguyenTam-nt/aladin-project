@@ -2,7 +2,7 @@ import { Colors } from "@constants/color";
 import { RouterManage } from "@constants/routerManager";
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { NavLink, useLocation } from "react-router-dom";
+import { NavLink, redirect, useLocation, useMatch } from "react-router-dom";
 interface Props {
   item: {
     path: string;
@@ -27,6 +27,7 @@ const RenderLink = (props: Props) => {
       setColorIcon(Colors.Grey_Primary);
     }
   }, [pathname]);
+
   return (
     <NavLink
       to={props.item.path}
@@ -48,6 +49,7 @@ const RenderLink = (props: Props) => {
 
 const Navleft = () => {
   const { t } = useTranslation();
+
   return (
     <div className="pt-28 h-screen overflow-y-scroll">
       <ul>
