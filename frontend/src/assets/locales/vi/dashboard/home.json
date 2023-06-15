@@ -1,0 +1,25 @@
+{
+    "adminHome": {
+        "sales": {
+            "title": "Khuyến mãi hot"
+        
+        },
+        "form": {
+            "title": "Tiêu đề",
+            "title_placeholder": "Nhập tiêu đề",
+            "content": "Nội dung",
+            "content_placeholder": "Nhập nôi dung"
+
+        },
+        "video": {
+            "title": "Video/ảnh giới thiệu nhà hàng",
+            "form": {
+                "upload": "Tải ảnh/video lên"
+            }
+        },
+        "post": {
+            "title": "Bài viết giới thiệu ngắn",
+            "maxPost": "Tối đa 3 bài"
+        }
+    }
+}

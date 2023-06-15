@@ -30,7 +30,8 @@ export default {
         bg_F1F1F1: "#F1F1F1",
         TrueBlue_500: "#0073E5",
         gray_CFCFCF: "#CFCFCF",
-        bg_fafafa: "#fafafa"
+        bg_fafafa: "#fafafa",
+        text_7E8B99: "#7E8B99"
       },
       backgroundImage: {
         banner_home: "linear-gradient(90deg, rgba(0, 0, 0, 0.5) -0.81%, rgba(0, 0, 0, 0) 100%)",

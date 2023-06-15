@@ -1,0 +1,8 @@
+{
+    "adminBanner": {
+        "title": "Quản lý banner {{page}}",
+        "upload_banner_home": "Tải ảnh lên (tối đa 5 ảnh)",
+        "link": "Đường link chuyển hướng",
+        "link_placeholder": "Dán đường link chuyển hướng"
+    }
+}

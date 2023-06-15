@@ -11,6 +11,11 @@ import LinkProductIcon from "@assets/icons/LinkProductIcon";
 import LinkStarIcon from "@assets/icons/LinkStarIcon";
 import LinkTableIcon from "@assets/icons/LinkTableIcon";
 import LinkVoucherIcon from "@assets/icons/LinkVoucherIcon";
+import { lazy } from "react";
+
+
+const HomeAdmin = lazy(() => import("@features/dashboard/home").then(module => ({default: module.HomeAdmin})));
+const BannerAdmin = lazy(() => import("@features/dashboard/banners").then(module => ({default: module.BannerAdmin})));
 
 interface routeMntype {
   path: string;
@@ -28,13 +33,13 @@ export const RouterManage: routeMntype[] = [
   {
     path: "/quan-ly",
     exact: true,
-    element: ManageHome,
+    element: HomeAdmin,
     name: "navigation.navleft.home",
     icon: (color: any) => <LinkHomeIcon color={color} />,
   },
   {
     path: "banner",
-    element: ManageHome,
+    element: BannerAdmin,
     name: "navigation.navleft.banner",
     icon: (color: any) => <LinkBannerIcon color={color} />,
   },

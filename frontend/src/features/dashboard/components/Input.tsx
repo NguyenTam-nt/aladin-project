@@ -18,6 +18,8 @@ export const Input = memo(
         renderRight,
         renderLeft,
         className,
+        value,
+        maxLength,
         ...props
       }: Props,
       ref: React.LegacyRef<HTMLInputElement>
@@ -26,19 +28,24 @@ export const Input = memo(
       return (
         <div
           className={clsx(
-            "h-[48px] placeholder:text-text_A1A0A3 placeholder:text-_14 w-full rounded-[16px_0_16px_0] flex items-center py-[13px] px-[16px] border-[1px] border-solid border-br_E6E6E6 focus-within:border-primary " +
+            "h-[48px] placeholder:text-text_A1A0A3 placeholder:text-_14 w-full flex items-center py-[13px] px-[16px] border-[1px] border-solid border-text_A1A0A3 focus-within:!border-TrueBlue_500 " +
               className
           )}
         >
-          {renderLeft ? renderLeft?.() : null}
           <input
             ref={ref}
             autoComplete="off"
+            value={value}
+            maxLength={maxLength}
             {...props}
             className="flex-1 h-full outline-none bg-transparent"
             placeholder={t(placeholder) || ""}
           />
-          {renderRight ? renderRight?.() : null}
+          {maxLength && (
+            <div className="text-text_A1A0A3  flex items-center text-_14">
+              <span>{value?.toString().length || 0}</span>/{maxLength}
+            </div>
+          )}
         </div>
       );
     }
