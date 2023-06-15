@@ -5,14 +5,16 @@ import Navleft from "./Navleft";
 
 const LayoutManager = () => {
   return (
-    <div className="bg-text_white min-h-[1200px]">
-      <Header />
-      <div className="mt-spc120 flex">
-        <div className="w-[15.8%]">
+    <div className="bg-text_white min-w-[1280px] xl:min-w-full ">
+      <div className="grid grid-cols-[300px_1fr]">
+        <div className="sticky  z-10 bg-white top-0 left-0 shadow-sm">
           <Navleft />
         </div>
-        <div className="w-[84.2%] pl-24 pr-[300px] bg-[#F5F5F5]">
-          <Outlet />
+        <div className="relative bg-bg_fafafa">
+          <Header />
+          <div className="pl-[96px] max-w-[calc(1920px_-_300px)]  min-h-[calc(100vh_-_120px)] ">
+            <Outlet />
+          </div>
         </div>
       </div>
     </div>
