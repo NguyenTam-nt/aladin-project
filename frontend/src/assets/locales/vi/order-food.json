@@ -1,0 +1,15 @@
+{
+  "order_food": {
+      "title": "Đơn hàng",
+      "payment_title": "Thanh toán",
+      "input_placeholder": "Nhập mã giảm giá",
+      "input_btn": "Áp dụng"
+  },
+  "order_food_info": {
+    "title": "Thông tin Đơn đặt hàng",
+    "modal": {
+      "title": "Đăng ký đặt bàn thành công!",
+      "sub_title": "Bạn vui lòng chờ <span class='font-bold'>nhân viên</span> của chúng tôi <span class='font-bold'>xác nhận đơn hàng</span> của bạn."
+    }
+}
+}

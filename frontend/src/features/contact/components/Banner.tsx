@@ -9,12 +9,12 @@ export const Banner = memo(({name, path}: any) => {
   const {t} = useTranslation()
 
   return (
-    <div className="relative h-[488px] ">
+    <div className="relative h-[270px] lg:h-[488px] ">
       <img className="absolute object-cover w-full h-full" src={banner} alt="logo" />
       <div className="relative w-rp h-full">
-        <div className="absolute bottom-[28%] left-0 z-20">
+        <div className="hidden lg:block absolute bottom-[28%] left-0 z-20">
           <h2 className="title-32 font-normal mb-4 text-white">{name}</h2>
-          <div>
+          <div className=''>
             <Link className="text-white text-base text-center" to={"/"}>
               Trang chủ
             </Link>

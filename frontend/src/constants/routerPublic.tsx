@@ -26,6 +26,8 @@ const NewDetail = lazy(() => import("@features/news/user/NewDetail"));
 const ContactPage = lazy(() => import("@features/contact"));
 
 const AboutUsPage = lazy(() => import("@features/about-us"));
+const OrderFoodPage = lazy(() => import("@features/order-food"));
+const OrderFoodInfoPage = lazy(() => import("@features/order-food/OrderFoodInfo"));
 
 const MenuDetail = lazy(() =>
 import("@features/menu-detail").then((module) => ({ default: module.MenuDetail }))
@@ -53,6 +55,10 @@ export const paths = {
   },
   order: {
     prefix: "/dat-ban",
+  },
+  orderFood: {
+    prefix: "/dat-hang",
+    info: "/dat-hang/info"
   },
   memu: {
     prefix: "/thuc-don",
@@ -140,5 +146,16 @@ export const routersPublic: IRouter[] = [
     name: "navigation.header.customer",
     isHiden: true,
     
-  }
+  },
+  {
+    path: paths.orderFood.prefix,
+    element: OrderFoodPage,
+    name: "navigation.header.order_food",
+  },
+  {
+    path: paths.orderFood.info,
+    element: OrderFoodInfoPage,
+    name: "",
+    isHiden: true,
+  },
 ];

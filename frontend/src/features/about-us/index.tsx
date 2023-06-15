@@ -9,7 +9,7 @@ function AboutUsPage() {
     <div className='h-full'>
       <Banner name="Giới thiệu" Link={paths.about.prefix} />
 
-      <div className="w-full h-full py-20"
+      <div className="w-full h-full py-10 lg:py-20"
          style={{
           backgroundImage: `url(${bgContact})`,
           backgroundRepeat: "no-repeat",
