@@ -7,10 +7,16 @@ import { ICZalo } from "@assets/icons/ICZalo";
 import { GotoTop } from "@components/GotoTop";
 import { MenusRight } from "@components/MenusRight";
 import { Colors } from "@constants/color";
-import { windownSizeWidth, withResponsive } from "@constants/index";
+import {
+  prefixRootRoute,
+  windownSizeWidth,
+  withResponsive,
+} from "@constants/index";
 import { TopicPlaceItemBase } from "@features/home/components/TopicPlace/TopicPlaceItem";
+import clsx from "clsx";
 import React, { ReactNode, useMemo } from "react";
 import { useTranslation } from "react-i18next";
+import { useLocation } from "react-router-dom";
 
 const data = [
   {
@@ -41,12 +47,25 @@ type Props = {
 
 export const ContactProvider = ({ children }: Props) => {
   const { t } = useTranslation();
+  const { pathname } = useLocation();
   const widthBreak = useMemo(() => {
     return windownSizeWidth > withResponsive._1024;
   }, []);
+
+  const isAdmin = useMemo(() => {
+    return pathname.includes(prefixRootRoute.admin);
+  }, [pathname]);
+
   return (
     <>
-      <div className="fixed bottom-[266px] lg:bottom-[288px] [&>button]:rounded-[8px_0_8px_0]  lg:[&>button]:rounded-[16px_0_16px_0] [&>button]:w-[40px] [&>button]:h-[40px] lg:[&>button]:w-[54px] lg:[&>button]:h-[54px] z-[11] gap-y-[16px] lg:gap-y-[24px] group-contact right-0 flex flex-col">
+      <div
+        className={clsx(
+          "fixed bottom-[266px] lg:bottom-[288px] [&>button]:rounded-[8px_0_8px_0]  lg:[&>button]:rounded-[16px_0_16px_0] [&>button]:w-[40px] [&>button]:h-[40px] lg:[&>button]:w-[54px] lg:[&>button]:h-[54px] z-[11] gap-y-[16px] lg:gap-y-[24px] group-contact right-0 flex flex-col",
+          {
+            " opacity-0 z-[-2]": isAdmin,
+          }
+        )}
+      >
         <MenusRight />
 
         <button className="relative flex items-center justify-center  bg-bg_01A63E">
