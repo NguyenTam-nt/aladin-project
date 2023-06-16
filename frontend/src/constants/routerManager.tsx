@@ -19,6 +19,9 @@ const BannerAdmin = lazy(() => import("@features/dashboard/banners").then(module
 const PolicyAdmin = lazy(() => import("@features/dashboard/Policy").then(module => ({default: module.Policy})));
 const PolicyHandleAdmin = lazy(() => import("@features/dashboard/Policy/components/PolicyHandle").then(module => ({default: module.PolicyHandle})));
 
+const PlaceAdmin = lazy(() => import("@features/dashboard/place").then(module => ({default: module.PlaceAdmin})));
+const PlaceAdminAdd = lazy(() => import("@features/dashboard/place/PlaceAdminAdd"));
+
 interface routeMntype {
   path: string;
   exact?: boolean;
@@ -38,6 +41,11 @@ export const pathsAdmin = {
   },
   banner: {
     prefix:  "banner"
+  },
+  place: {
+    prefix: "co-so",
+    add: "them",
+    update: "sua/:id"
   },
   policy: {
     prefix: "chinh-sach",
@@ -101,10 +109,20 @@ export const RouterManage: routeMntype[] = [
     icon: LinkCommentIcon,
   },
   {
-    path: "co-so",
-    element: ManageHome,
+    path: pathsAdmin.place.prefix,
+    element: PlaceAdmin,
     name: "navigation.navleft.place",
     icon: LinkPlaceIcon,
+  },
+  {
+    path: `${pathsAdmin.place.prefix}/${pathsAdmin.place.add}`,
+    element: PlaceAdminAdd,
+    isHidden: true,
+  },
+  {
+    path: `${pathsAdmin.place.prefix}/${pathsAdmin.place.update}`,
+    element: PlaceAdminAdd,
+    isHidden: true,
   },
   {
     path: "tin-tuc",
