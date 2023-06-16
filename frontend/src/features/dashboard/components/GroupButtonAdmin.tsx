@@ -1,24 +1,35 @@
-
 import React, { useContext } from "react";
 import { Button } from "./Button";
+import { useModalContext } from "@contexts/hooks/modal";
 
 type Props = {
-    onSubmit?: () => void,
-    isAdd?: boolean
-}
+  onSubmit?: () => void;
+  onCacel?: () => void;
+  isAdd?: boolean;
+};
 
-export const GroupButtonAdmin = ({onSubmit, isAdd = true}:Props) => {
-    
+export const GroupButtonAdmin = ({
+  onSubmit,
+  isAdd = true,
+  onCacel,
+}: Props) => {
+  const { hideModal } = useModalContext();
   return (
     <div className="flex justify-end items-center mt-[24px]">
       <Button
-       type="button"
-        // onClick={hideModal}
+        type="button"
+        onClick={onCacel ? onCacel : hideModal}
         text="button._cancel"
         color="empty"
-        className="!w-[120px] border border-br_E9ECEF mr-[24px]"
+        className="!w-[120px] mr-[24px]"
       />
-      <Button type="submit" onClick={() => onSubmit?.()}  text={isAdd ? "button._save" : "button._save"} color="primary" className="!w-[120px]" />
+      <Button
+        type="submit"
+        onClick={() => onSubmit?.()}
+        text={isAdd ? "button._save" : "button._save"}
+        color="primary"
+        className="!w-[120px]"
+      />
     </div>
   );
 };

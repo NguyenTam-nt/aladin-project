@@ -12,6 +12,12 @@
         "_des_post": "Mô tả bài viết",
         "_message_delete_post": "Xóa hình ảnh này khỏi hệ thống?" ,
         "update_image" : "Tải ảnh lên",
-        "image_uploaded": "Hình ảnh đã tải lên"
+        "image_uploaded": "Hình ảnh đã tải lên",
+        "no": "Không",
+        "yes": "Có",
+        "menu_type": {
+            "kitchen": "Bếp",
+            "bar": "Bar"
+        }
     }
 }

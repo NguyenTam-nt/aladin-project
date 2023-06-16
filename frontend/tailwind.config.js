@@ -21,6 +21,7 @@ export default {
         text_A1A0A3: "#A1A0A3",
         GreyPrimary: "#222124",
         br_CBCBCB: "#CBCBCB",
+        br_E9ECEF: "#E9ECEF",
         bg_255_255_255_08: "rgba(255, 255, 255, 0.8)",
         bg_255_255_255_03: "rgba(255, 255, 255, 0.3)",
         bg_255_255_255_064: "rgba(255, 255, 255, 0.64)",
