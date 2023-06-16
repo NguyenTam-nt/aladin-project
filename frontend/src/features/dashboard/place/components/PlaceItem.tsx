@@ -11,10 +11,10 @@ export const PlaceItem = ({data}: any) => {
         {data.phone}
       </p>
       <div className="mt-4">
-        <Button color="empty" className="" text="adminPlace.updateBtn" />
+        <Button color="empty" className="" text="adminPlace.update_btn" />
         <Button color="empty"
           className="mt-2 border-bg_E73F3F text-bg_E73F3F"
-          text="adminPlace.deleteBtn"
+          text="adminPlace.delete_btn"
         />
       </div>
     </div>

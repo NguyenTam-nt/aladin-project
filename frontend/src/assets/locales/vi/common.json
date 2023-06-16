@@ -1,6 +1,8 @@
 {
     "common": {
         "sort_by": "Sắp xếp theo",
+        "desc": "Mới nhất",
+        "asc": "Cũ nhất",
         "info_product": "Thông tin sản phẩm",
         "choosed_menu": "Các món đã chọn",
         "choosed_menu_title": "thực đơn bạn đã chọn",
@@ -12,6 +14,9 @@
         "_des_post": "Mô tả bài viết",
         "_message_delete_post": "Xóa hình ảnh này khỏi hệ thống?" ,
         "update_image" : "Tải ảnh lên",
-        "image_uploaded": "Hình ảnh đã tải lên"
+        "image_uploaded": "Hình ảnh đã tải lên",
+        "delete": "Xóa",
+        "cancel": "Hủy",
+        "add": "Thêm"
     }
 }
