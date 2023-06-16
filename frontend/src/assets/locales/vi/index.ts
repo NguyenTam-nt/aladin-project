@@ -11,6 +11,7 @@ import homeAdmin from "./dashboard/home.json"
 import adminHome from "./dashboard/banner.json"
 import message from "./dashboard/message.json"
 import adminPlace from "./dashboard/place.json"
+import adminContact from "./dashboard/contact.json"
 
 export const vi = {
     ...home,
@@ -26,5 +27,6 @@ export const vi = {
     ...adminHome,
     ...message,
     ...adminPlace,
+    ...adminContact,
     ...adminHome
 }

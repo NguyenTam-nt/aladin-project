@@ -1,6 +1,8 @@
 {
     "common": {
         "sort_by": "Sắp xếp theo",
+        "desc": "Mới nhất",
+        "asc": "Cũ nhất",
         "info_product": "Thông tin sản phẩm",
         "choosed_menu": "Các món đã chọn",
         "choosed_menu_title": "thực đơn bạn đã chọn",
@@ -19,6 +21,9 @@
         "menu_type": {
             "kitchen": "Bếp",
             "bar": "Bar"
-        }
+        },
+        "delete": "Xóa",
+        "cancel": "Hủy",
+        "add": "Thêm"
     }
 }

@@ -28,6 +28,8 @@ const CommentAdmin = lazy(() => import("@features/dashboard/comment").then(modul
 const PlaceAdmin = lazy(() => import("@features/dashboard/place").then(module => ({default: module.PlaceAdmin})));
 const PlaceAdminAdd = lazy(() => import("@features/dashboard/place/PlaceAdminAdd"));
 
+const ContactAdmin = lazy(() => import("@features/dashboard/contact"));
+
 interface routeMntype {
   path: string;
   exact?: boolean;
@@ -52,6 +54,9 @@ export const pathsAdmin = {
     prefix: "co-so",
     add: "them",
     update: "sua/:id"
+  },
+  contact: {
+    prefix:  "lien-he"
   },
   policy: {
     prefix: "chinh-sach",
@@ -179,8 +184,8 @@ export const RouterManage: routeMntype[] = [
     icon: LinkNewIcon,
   },
   {
-    path: "lien-he",
-    element: ManageHome,
+    path: pathsAdmin.contact.prefix,
+    element: ContactAdmin,
     name: "navigation.navleft.contact",
     icon: LinkContacIcon,
   },

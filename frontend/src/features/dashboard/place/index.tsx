@@ -25,7 +25,7 @@ export const PlaceAdmin = () => {
           <TitleTopic name="adminPlace.title" isRequired={false} />
         </div>
         <Button
-          onClick={handelClickAddPlace} text="adminPlace.addBtn"
+          onClick={handelClickAddPlace} text="adminPlace.add_btn"
           className="max-w-[177px]"
           imageLeft={
             <span className="mr-2">
