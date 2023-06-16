@@ -10,6 +10,7 @@ import orderFood from "./order-food.json"
 import homeAdmin from "./dashboard/home.json"
 import adminHome from "./dashboard/banner.json"
 import message from "./dashboard/message.json"
+import adminPlace from "./dashboard/place.json"
 
 export const vi = {
     ...home,
@@ -23,5 +24,7 @@ export const vi = {
     ...orderFood,
     ...homeAdmin,
     ...adminHome,
-    ...message
+    ...message,
+    ...adminPlace,
+    ...adminHome
 }

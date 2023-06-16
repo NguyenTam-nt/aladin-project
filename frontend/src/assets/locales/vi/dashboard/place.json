@@ -1,0 +1,11 @@
+{
+  "adminPlace": {
+      "title": "Danh sách cơ sở",
+      "addBtn": "Thêm cơ sở",
+      "updateBtn": "Sửa cơ sở",
+      "deleteBtn": "Ẩn thông tin cơ sở",
+      "add": {
+        "title": "Thêm thông tin cơ sở"
+      }
+  }
+}
