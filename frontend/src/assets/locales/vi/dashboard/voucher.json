@@ -1,0 +1,53 @@
+{
+  "adminVoucher": {
+    "title": "Danh sách voucher đã tạo",
+    "btnAdd": "Tạo voucher",
+    "table": {
+      "code": "Mã voucher",
+      "name": "Tên chương trình",
+      "discount": "Giảm giá",
+      "sum": "Tổng voucher",
+      "used": "Lượt đã sử dụng",
+      "status": "Trạng thái",
+      "action": "Thao tác"
+    },
+    "status": {
+      "running": "Đang diễn ra",
+      "end": "Đã kết thúc",
+      "waiting": "Sắp diễn ra"
+    },
+    "btnStatus": {
+      "end": "Đã kết thúc",
+      "change": "Chỉnh sửa",
+      "stop": "Kết thúc"
+    },
+    "add": {
+      "title": "Thông tin cơ bản",
+      "secondTitle": "Thiết lập mã giảm giá",
+      "form": {
+        "name": "Tên chương trình giảm giá",
+        "inputName": "Tên voucher chỉ hiển thị trong màn quản lý",
+        "code": "Mã Voucher",
+        "inputCode": "Nhập mã Voucher",
+        "time": "Thời gian sử dụng mã",
+        "type": "Loại giảm giá | Mức giảm",
+        "typeMoney": "Theo số tiền",
+        "inputTypeMoney": "Nhập số tiền",
+        "typePercent": "Theo phần trăm",
+        "inputTypePercent": "Nhập giá trị lớn hơn 1%",
+        "maxDiscount": {
+          "title": "Mức giảm giá tối đa",
+          "limit": "Giới hạn",
+          "noLimit": "Không giới hạn",
+          "inputLimit": "Nhập số tiền tối đa được giảm"
+        },
+        "minPrice": {
+          "title": "Giá trị hóa đơn tối thiểu",
+          "input": "Nhập giá trị lớn hơn 1%"
+        },
+        "amount": "Lượt sử dụng tối đa",
+        "inputAmount": "Nhập số lượng voucher sử dụng tối đa"
+      }
+    }
+  }
+}

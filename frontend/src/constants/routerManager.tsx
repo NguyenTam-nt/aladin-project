@@ -29,6 +29,8 @@ const PlaceAdmin = lazy(() => import("@features/dashboard/place").then(module =>
 const PlaceAdminAdd = lazy(() => import("@features/dashboard/place/PlaceAdminAdd"));
 
 const ContactAdmin = lazy(() => import("@features/dashboard/contact"));
+const VoucherAdmin = lazy(() => import("@features/dashboard/voucher"));
+const VoucherAddAdmin = lazy(() => import("@features/dashboard/voucher/VoucherAdd"));
 
 interface routeMntype {
   path: string;
@@ -52,6 +54,11 @@ export const pathsAdmin = {
   },
   place: {
     prefix: "co-so",
+    add: "them",
+    update: "sua/:id"
+  },
+  voucher: {
+    prefix: "voucher",
     add: "them",
     update: "sua/:id"
   },
@@ -202,9 +209,19 @@ export const RouterManage: routeMntype[] = [
     icon: LinkFootOrder,
   },
   {
-    path: "voucher",
-    element: ManageHome,
+    path: pathsAdmin.voucher.prefix,
+    element: VoucherAdmin,
     name: "navigation.navleft.voucher",
     icon: LinkVoucherIcon
+  },
+  {
+    path: `${pathsAdmin.voucher.prefix}/${pathsAdmin.voucher.add}`,
+    element: VoucherAddAdmin,
+    isHidden: true,
+  },
+  {
+    path: `${pathsAdmin.voucher.prefix}/${pathsAdmin.voucher.update}`,
+    element: VoucherAddAdmin,
+    isHidden: true,
   },
 ];
