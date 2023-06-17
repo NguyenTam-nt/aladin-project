@@ -66,7 +66,7 @@ function PlaceAdminAdd() {
                 // onClick={hideModal}
                 text="button._cancel"
                 color="empty"
-                className="!w-[120px] border border-br_E9ECEF mr-[24px]"
+                className="!w-[120px] border border-TrueBlue_500 mr-[24px]"
               />
               <Button type="submit" onClick={() => "onSubmit?.()"}  text={true ? "button._save" : "button._save"} color="primary" className="!w-[120px]" />
             </div>
