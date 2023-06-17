@@ -21,6 +21,9 @@ const PolicyHandleAdmin = lazy(() => import("@features/dashboard/Policy/componen
 const ThanksCustomer = lazy(() => import("@features/dashboard/thanks-customer").then(module => ({default: module.ThanksCustomer})));
 const ThanksCustomerHandler = lazy(() => import("@features/dashboard/thanks-customer/components/ThanksCustomerHandler").then(module => ({default: module.ThanksCustomerHandler})));
 const CategoryProduct = lazy(() => import("@features/dashboard/category-product").then(module => ({default: module.CategoryProduct})));
+const ProductAdmin = lazy(() => import("@features/dashboard/product").then(module => ({default: module.ProductAdmin})));
+const ProductHandler = lazy(() => import("@features/dashboard/product/components/ProductHandler").then(module => ({default: module.ProductHandler})));
+const CommentAdmin = lazy(() => import("@features/dashboard/comment").then(module => ({default: module.CommentAdmin})));
 
 interface routeMntype {
   path: string;
@@ -51,6 +54,17 @@ export const pathsAdmin = {
     prefix: "cam-nhan-khach-hang",
     add: "them",
     update: ":id"
+  },
+  category: {
+    prefix: "danh-muc-san-pham"
+  },
+  product: {
+    prefix: "san-pham",
+    add: "them",
+    update: ":id"
+  },
+  comment: {
+    prefix: "binh-luan"
   }
 
 }
@@ -101,20 +115,30 @@ export const RouterManage: routeMntype[] = [
     isHidden: true,
   },
   {
-    path: "danh-muc",
+    path: pathsAdmin.category.prefix,
     element: CategoryProduct,
     name: "navigation.navleft.category",
     icon: LinkCategoryIcon,
   },
   {
-    path: "san-pham",
-    element: ManageHome,
+    path: pathsAdmin.product.prefix,
+    element: ProductAdmin,
     name: "navigation.navleft.product",
     icon: LinkProductIcon,
   },
   {
-    path: "binh-luan",
-    element: ManageHome,
+    path: `${pathsAdmin.product.prefix}/${pathsAdmin.product.add}`,
+    element: ProductHandler,
+    isHidden: true,
+  },
+  {
+    path: `${pathsAdmin.product.prefix}/${pathsAdmin.product.update}`,
+    element: ProductHandler,
+    isHidden: true,
+  },
+  {
+    path: pathsAdmin.comment.prefix,
+    element: CommentAdmin,
     name: "navigation.navleft.comments",
     icon: LinkCommentIcon,
   },

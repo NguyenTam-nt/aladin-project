@@ -1,3 +1,5 @@
+import { getVideoDuration, validateVideo } from "@commons/common";
+import { fileBytes } from "@constants/index";
 import { ChangeEvent, useCallback, useEffect, useRef, useState } from "react";
 
 export const useHandleImage = (
@@ -21,8 +23,21 @@ export const useHandleImage = (
     refInput.current?.click();
   }, []);
 
-  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+  const handleChange = async (event: ChangeEvent<HTMLInputElement>) => {
+    setMessage("")
     const file = event.target.files![0];
+
+    if(file.type.includes("video")) {
+      setIsVideo(true);
+      const messageVideo = await validateVideo(file)
+      if(messageVideo) {
+        setMessage(messageVideo)
+        return
+      }
+    }else {
+      setIsVideo(false);
+    }
+
     setCurrentFile(file);
     const link = URL.createObjectURL(file);
     setPreViewImage(link);

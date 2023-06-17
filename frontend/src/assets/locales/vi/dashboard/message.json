@@ -1,0 +1,13 @@
+{
+    "message": {
+        "video": {
+            "type": "Vui lòng chọn tệp video mp4.",
+            "size_20": "Vui lòng chọn tệp video dung lượng tối da 20MB",
+            "duration": "Vui lòng chọn tệp video có thời lượng 10s - 60s."
+        },
+        "image": {
+            "type": "Vui lòng chon tệp là hình ảnh.",
+            "size": "Vui lòng chon tệp hình ảnh dung lượng tối đa 20MB."
+        }
+    }
+}

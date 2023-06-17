@@ -13,6 +13,7 @@
         "_message_delete_post": "Xóa hình ảnh này khỏi hệ thống?" ,
         "update_image" : "Tải ảnh lên",
         "image_uploaded": "Hình ảnh đã tải lên",
+        "video_uploaded": "Video đã tải lên",
         "no": "Không",
         "yes": "Có",
         "menu_type": {

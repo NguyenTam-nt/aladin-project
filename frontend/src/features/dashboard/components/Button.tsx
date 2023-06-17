@@ -18,11 +18,11 @@ export const Button = memo(({ size = 14, color = "primary", text, image, classNa
     <button
     type="button"
       {...props}
-      className={clsx("relative h-[48px] px-[12px] text-_14  w-full font-bold overflow-hidden btn-4 hover:opacity-80 flex justify-center items-center", {
+      className={clsx("relative h-[48px] px-[12px] text-_14  w-full font-bold overflow-hidden btn-4 hover:opacity-80 flex justify-center items-center " + className, {
         "bg-TrueBlue_500 text-text_white": color === "primary",
         "bg-transparent text-TrueBlue_500 border border-TrueBlue_500": color === "empty",
         "justify-between": image
-      }, className)}
+      })}
     >
       {imageLeft ? imageLeft : null}
       {t(text)}
