@@ -32,6 +32,7 @@ export default {
         TrueBlue_500: "#0073E5",
         gray_CFCFCF: "#CFCFCF",
         bg_fafafa: "#fafafa",
+        waiting: "#FF5A1F",
         text_7E8B99: "#7E8B99"
       },
       backgroundImage: {
