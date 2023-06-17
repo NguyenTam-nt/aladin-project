@@ -26,7 +26,7 @@ export const GroupButtonAdmin = ({
       <Button
         type="submit"
         onClick={() => onSubmit?.()}
-        text={isAdd ? "button._save" : "button._save"}
+        text={isAdd ? "button._create" : "button._save"}
         color="primary"
         className="!w-[120px]"
       />

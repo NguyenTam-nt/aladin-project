@@ -5,6 +5,7 @@ import { prefixRootRoute } from "./constants";
 import { useLocation } from "react-router-dom";
 import { ContactProvider } from "@contexts/ContactContext";
 import { OrderProvider } from "@contexts/OrderContext";
+import AuthProvider from "@contexts/AuthContext";
 
 function App() {
   const location = useLocation();
@@ -19,11 +20,13 @@ function App() {
   }, [location.pathname, location.search]);
   return (
     <ModalProvider>
+      <AuthProvider>
       <OrderProvider>
         <ContactProvider>
           <RouterRoot />
         </ContactProvider>
       </OrderProvider>
+      </AuthProvider>
     </ModalProvider>
   );
 }

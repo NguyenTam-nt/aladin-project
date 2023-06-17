@@ -5,6 +5,11 @@ import clsx from "clsx";
 import React, { memo, useMemo } from "react";
 import { useLocation, useSearchParams } from "react-router-dom";
 
+/**
+ * 
+ * @author NguBV
+*/
+
 type IPagination = {
   currentPage: number;
   totalPages: number;

@@ -1,4 +1,5 @@
 import { ICDeleteTrashLight } from "@assets/icons/ICDeleteTrashLight";
+import { Video } from "@components/Video";
 import { Colors } from "@constants/color";
 import clsx from "clsx";
 import React, { memo } from "react";
@@ -9,6 +10,7 @@ type Props = {
   url: string;
   onDelete?: () => void;
   className?: string;
+  isVideoYotube?: boolean;
   optionVideo?: {
     width?: number;
     height?: number;
@@ -16,7 +18,7 @@ type Props = {
 };
 
 export const ImagePreview = memo(
-  ({ onDelete, url, isVideos = false, className = "", optionVideo }: Props) => {
+  ({ onDelete, url, isVideos = false, className = "", optionVideo, isVideoYotube = true }: Props) => {
     return url ? (
       <div className="w-full h-full relative rounded-[5px] overflow-hidden border border-text_A1A0A3">
         {!isVideos ? (
@@ -26,12 +28,14 @@ export const ImagePreview = memo(
             className={clsx("w-full h-full object-cover " + className)}
           />
         ) : (
-          <YouTube
-            className={clsx("w-full h-full " + className)}
-            videoId={url}
-            opts={optionVideo}
-            
-          />
+          isVideoYotube ? (
+            <YouTube
+              className={clsx("w-full h-full " + className)}
+              videoId={url}
+              opts={optionVideo}
+              
+            />
+          ) : <Video src={url} controls muted autoPlay={false} className="w-full h-full object-cover" />
         )}
         {onDelete ? (
           <button

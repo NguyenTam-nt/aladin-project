@@ -26,6 +26,8 @@
         "_accept": "Áp dụng",
         "_add_banner": "Thêm banner",
         "_edit": "Sửa",
-        "_upload_image": "Tải ảnh lên"
+        "_upload_image": "Tải ảnh lên",
+        "reply": "Trả lời",
+        "_send": "Gửi"
     }
 }

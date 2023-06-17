@@ -33,20 +33,20 @@
         "form": {
             "title_add": "Tạo mới cảm nhận khách hàng",
             "title_edit": "Chỉnh sửa cảm nhận khách hàng",
-            "name": "Tải ảnh sản phẩm",
+            "name": "Tải ảnh món ăn",
             "name_placeholder": "Nhập họ và tên",
             "job": "Nghề nghiệp",
             "job_placeholder": "Nhập nghề nghiệp",
             "comment":  "Lời nhận xét",
             "comment_placeholder": "Nhập lời nhận xét",
-            "upload_image_product": "Tải ảnh sản phẩm",
+            "upload_image_product": "Tải ảnh món ăn",
             "upload_avatar": "Tải ảnh đại diện"
         }
     },
     "category": {
-        "title": "Danh mục sản phẩm",
+        "title": "Danh mục món ăn",
         "add": "Thêm danh mục",
-        "message_delete": "Bạn có chắc chắn xóa danh mục sản phẩm này khỏi hệ thống?",
+        "message_delete": "Bạn có chắc chắn xóa danh mục món ăn này khỏi hệ thống?",
         "form": {
             "name_parent": "Tên danh mục lớn",
             "name_child": "Danh mục nhỏ",
@@ -61,6 +61,46 @@
             "name_child_item": "Danh mục con {{index}}",
             "name_child_item_placeholder": "Nhập tên danh mục con"
 
+        }
+    },
+    "adminProduct": {
+        "title": "Món ăn",
+        "add": "Thêm món ăn",
+        "update": "Sửa món ăn",
+        "delete": "Xóa món ăn",
+        "filter": "Lọc món ăn theo nhóm hàng",
+        "form": {
+            "title_add": "Tạo mới món ăn",       
+            "title_edit": "Chỉnh sửa món ăn",
+            "code": "Mã món ăn",
+            "code_placeholder": "Nhập mã món ăn",
+            "name": "Tên món ăn",
+            "name_placeholder": "Nhập tên món ăn",
+            "upload_product": "Tải ảnh món ăn",
+            "maxItem": "Tối đa 5 hình ảnh",
+            "upload_video_product": "Tải video món ăn",
+            "maxVideo": "Tối đa 1 video",
+            "cost": "Giá gốc",
+            "cost_placeholder": "Nhập giá gốc",
+            "discount": "Giá khuyến mãi",
+            "discount_placeholder": "Nhập giá khuyến mãi",
+            "category": "Danh mục",
+            "choose_place": "Chọn cơ sở bán",
+            "info": "Thông tin món ăn",
+            "info_placeholder": "Nhập thông tin món ăn"
+        }
+
+    },
+    "adminComment": {
+        "title": "Danh sách bình luận",
+        "message_delete": "Bạn có chắc chắn xóa bình luận này khỏi hệ thống?",
+        "message_confirm": "Bạn có chắc chắn phê duyệt",
+        "this_comment": "bình luận này?",
+        "modal": {
+            "title": "Bạn có muốn trả lời bình luận ngay bây giờ không ?",
+            "position": "Chức vụ",
+            "content": "Nội dung",
+            "content_placeholder": "Nhập nội dung"
         }
     }
 }

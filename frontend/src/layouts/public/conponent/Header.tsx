@@ -4,13 +4,15 @@ import { ICLogoFrame } from "@assets/icons/ICLogoFrame";
 import { ICMenuBar } from "@assets/icons/ICMenuBar";
 import { windownSizeWidth, withResponsive } from "@constants/index";
 import { IRouter, routersPublic } from "@constants/routerPublic";
-import React, { useEffect, useMemo, useState } from "react";
+import React, { memo, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import { SidebarNavigation } from "./SidebarNavigation";
+import { useAuthContext } from "@contexts/hooks/auth";
 
 export const Header = () => {
   const { t } = useTranslation();
+    const {doLogin} = useAuthContext()
   useEffect(() => {
     let lastIndex = 0;
     window.addEventListener("scroll", () => {
@@ -49,6 +51,7 @@ export const Header = () => {
       ) : (
         <HeaderMobile />
       )}
+      <button className="text-white" onClick={doLogin}>Login</button>
     </div>
   );
 };
@@ -85,7 +88,7 @@ const HeaderPC = ({ headerData }: { headerData: IRouter[] }) => {
   );
 };
 
-const HeaderMobile = () => {
+const HeaderMobile = memo(() => {
   const [isShowSidebar, setShow] = useState(false);
   const handleShow = () => {
     setShow(!isShowSidebar);
@@ -112,4 +115,4 @@ const HeaderMobile = () => {
       ) : null}
     </>
   );
-};
+})
