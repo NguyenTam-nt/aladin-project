@@ -31,6 +31,7 @@ const PlaceAdminAdd = lazy(() => import("@features/dashboard/place/PlaceAdminAdd
 const ContactAdmin = lazy(() => import("@features/dashboard/contact"));
 const VoucherAdmin = lazy(() => import("@features/dashboard/voucher"));
 const VoucherAddAdmin = lazy(() => import("@features/dashboard/voucher/VoucherAdd"));
+const OrderFoodAdmin = lazy(() => import("@features/dashboard/order-food"));
 
 interface routeMntype {
   path: string;
@@ -61,6 +62,9 @@ export const pathsAdmin = {
     prefix: "voucher",
     add: "them",
     update: "sua/:id"
+  },
+  orderFood: {
+    prefix: "dat-mon"
   },
   contact: {
     prefix:  "lien-he"
@@ -203,8 +207,8 @@ export const RouterManage: routeMntype[] = [
     icon: LinkTableIcon,
   },
   {
-    path: "don-dat-mon",
-    element: ManageHome,
+    path: pathsAdmin.orderFood.prefix,
+    element: OrderFoodAdmin,
     name: "navigation.navleft.foodOders",
     icon: LinkFootOrder,
   },
