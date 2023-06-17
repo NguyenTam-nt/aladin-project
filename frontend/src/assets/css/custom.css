@@ -473,3 +473,53 @@ input[type="radio"]:checked::before {
   transform-origin: 350px top;
   transition: all 0.3s ease;
 }
+
+.checkbox-custom {
+  width: 20px;
+  height: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.checkbox-custom > span {
+  display: none;
+}
+
+.checkbox-custom > input[type='checkbox']:checked ~ span {
+  display: block;
+}
+
+.radio-custom {
+  width: 20px;
+  height: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.radio-custom > span {
+  display: none;
+}
+
+/* .radio-custom > input[type='radio']:checked ~ span {
+  display: block;
+  color: blue;
+} */
+.radio-custom > input[type='radio']:checked ~ div {
+  /* background-color: var(--text-white); */
+  border-color: var(--text-0073E5);
+}
+
+.radio-custom > input[type='radio']:checked ~ div::after {
+  content: "";
+  display: block;
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background-color: var(--text-0073E5);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+}

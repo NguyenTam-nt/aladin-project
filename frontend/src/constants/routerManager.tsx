@@ -18,6 +18,9 @@ const HomeAdmin = lazy(() => import("@features/dashboard/home").then(module => (
 const BannerAdmin = lazy(() => import("@features/dashboard/banners").then(module => ({default: module.BannerAdmin})));
 const PolicyAdmin = lazy(() => import("@features/dashboard/Policy").then(module => ({default: module.Policy})));
 const PolicyHandleAdmin = lazy(() => import("@features/dashboard/Policy/components/PolicyHandle").then(module => ({default: module.PolicyHandle})));
+const ThanksCustomer = lazy(() => import("@features/dashboard/thanks-customer").then(module => ({default: module.ThanksCustomer})));
+const ThanksCustomerHandler = lazy(() => import("@features/dashboard/thanks-customer/components/ThanksCustomerHandler").then(module => ({default: module.ThanksCustomerHandler})));
+const CategoryProduct = lazy(() => import("@features/dashboard/category-product").then(module => ({default: module.CategoryProduct})));
 
 const PlaceAdmin = lazy(() => import("@features/dashboard/place").then(module => ({default: module.PlaceAdmin})));
 const PlaceAdminAdd = lazy(() => import("@features/dashboard/place/PlaceAdminAdd"));
@@ -55,7 +58,12 @@ export const pathsAdmin = {
   policy: {
     prefix: "chinh-sach",
     add: "them",
-    update: "sua/:id"
+    update: ":id"
+  },
+  thankCustomer: {
+    prefix: "cam-nhan-khach-hang",
+    add: "them",
+    update: ":id"
   }
 
 }
@@ -90,14 +98,24 @@ export const RouterManage: routeMntype[] = [
     isHidden: true,
   },
   {
-    path: "cam-nhan-khach-hang",
-    element: ManageHome,
+    path: pathsAdmin.thankCustomer.prefix,
+    element: ThanksCustomer,
     name: "navigation.navleft.customorReview",
     icon: LinkStarIcon,
   },
   {
+    path: `${pathsAdmin.thankCustomer.prefix}/${pathsAdmin.thankCustomer.add}`,
+    element: ThanksCustomerHandler,
+    isHidden: true,
+  },
+  {
+    path: `${pathsAdmin.thankCustomer.prefix}/${pathsAdmin.thankCustomer.update}`,
+    element: ThanksCustomerHandler,
+    isHidden: true,
+  },
+  {
     path: "danh-muc",
-    element: ManageHome,
+    element: CategoryProduct,
     name: "navigation.navleft.category",
     icon: LinkCategoryIcon,
   },
