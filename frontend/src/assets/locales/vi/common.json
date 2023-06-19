@@ -1,6 +1,8 @@
 {
     "common": {
         "sort_by": "Sắp xếp theo",
+        "desc": "Mới nhất",
+        "asc": "Cũ nhất",
         "info_product": "Thông tin sản phẩm",
         "choosed_menu": "Các món đã chọn",
         "choosed_menu_title": "thực đơn bạn đã chọn",
@@ -14,6 +16,9 @@
         "update_image" : "Tải ảnh lên",
         "image_uploaded": "Hình ảnh đã tải lên",
         "video_uploaded": "Video đã tải lên",
+        "delete": "Xóa",
+        "cancel": "Hủy",
+        "add": "Thêm",
         "no": "Không",
         "yes": "Có",
         "menu_type": {

@@ -10,6 +10,10 @@ import orderFood from "./order-food.json"
 import homeAdmin from "./dashboard/home.json"
 import adminHome from "./dashboard/banner.json"
 import message from "./dashboard/message.json"
+import adminPlace from "./dashboard/place.json"
+import adminContact from "./dashboard/contact.json"
+import adminOrderFood from "./dashboard/orderFood.json"
+import adminVoucher from "./dashboard/voucher.json"
 
 export const vi = {
     ...home,
@@ -23,5 +27,10 @@ export const vi = {
     ...orderFood,
     ...homeAdmin,
     ...adminHome,
-    ...message
+    ...message,
+    ...adminPlace,
+    ...adminContact,
+    ...adminOrderFood,
+    ...adminVoucher,
+    ...adminHome
 }

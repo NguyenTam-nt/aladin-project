@@ -25,6 +25,14 @@ const ProductAdmin = lazy(() => import("@features/dashboard/product").then(modul
 const ProductHandler = lazy(() => import("@features/dashboard/product/components/ProductHandler").then(module => ({default: module.ProductHandler})));
 const CommentAdmin = lazy(() => import("@features/dashboard/comment").then(module => ({default: module.CommentAdmin})));
 
+const PlaceAdmin = lazy(() => import("@features/dashboard/place").then(module => ({default: module.PlaceAdmin})));
+const PlaceAdminAdd = lazy(() => import("@features/dashboard/place/PlaceAdminAdd"));
+
+const ContactAdmin = lazy(() => import("@features/dashboard/contact"));
+const VoucherAdmin = lazy(() => import("@features/dashboard/voucher"));
+const VoucherAddAdmin = lazy(() => import("@features/dashboard/voucher/VoucherAdd"));
+const OrderFoodAdmin = lazy(() => import("@features/dashboard/order-food"));
+
 interface routeMntype {
   path: string;
   exact?: boolean;
@@ -44,6 +52,22 @@ export const pathsAdmin = {
   },
   banner: {
     prefix:  "banner"
+  },
+  place: {
+    prefix: "co-so",
+    add: "them",
+    update: "sua/:id"
+  },
+  voucher: {
+    prefix: "voucher",
+    add: "them",
+    update: "sua/:id"
+  },
+  orderFood: {
+    prefix: "dat-mon"
+  },
+  contact: {
+    prefix:  "lien-he"
   },
   policy: {
     prefix: "chinh-sach",
@@ -143,10 +167,20 @@ export const RouterManage: routeMntype[] = [
     icon: LinkCommentIcon,
   },
   {
-    path: "co-so",
-    element: ManageHome,
+    path: pathsAdmin.place.prefix,
+    element: PlaceAdmin,
     name: "navigation.navleft.place",
     icon: LinkPlaceIcon,
+  },
+  {
+    path: `${pathsAdmin.place.prefix}/${pathsAdmin.place.add}`,
+    element: PlaceAdminAdd,
+    isHidden: true,
+  },
+  {
+    path: `${pathsAdmin.place.prefix}/${pathsAdmin.place.update}`,
+    element: PlaceAdminAdd,
+    isHidden: true,
   },
   {
     path: "tin-tuc",
@@ -161,8 +195,8 @@ export const RouterManage: routeMntype[] = [
     icon: LinkNewIcon,
   },
   {
-    path: "lien-he",
-    element: ManageHome,
+    path: pathsAdmin.contact.prefix,
+    element: ContactAdmin,
     name: "navigation.navleft.contact",
     icon: LinkContacIcon,
   },
@@ -173,15 +207,25 @@ export const RouterManage: routeMntype[] = [
     icon: LinkTableIcon,
   },
   {
-    path: "don-dat-mon",
-    element: ManageHome,
+    path: pathsAdmin.orderFood.prefix,
+    element: OrderFoodAdmin,
     name: "navigation.navleft.foodOders",
     icon: LinkFootOrder,
   },
   {
-    path: "voucher",
-    element: ManageHome,
+    path: pathsAdmin.voucher.prefix,
+    element: VoucherAdmin,
     name: "navigation.navleft.voucher",
     icon: LinkVoucherIcon
+  },
+  {
+    path: `${pathsAdmin.voucher.prefix}/${pathsAdmin.voucher.add}`,
+    element: VoucherAddAdmin,
+    isHidden: true,
+  },
+  {
+    path: `${pathsAdmin.voucher.prefix}/${pathsAdmin.voucher.update}`,
+    element: VoucherAddAdmin,
+    isHidden: true,
   },
 ];

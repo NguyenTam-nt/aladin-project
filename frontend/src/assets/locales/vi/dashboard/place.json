@@ -1,0 +1,25 @@
+{
+  "adminPlace": {
+      "title": "Danh sách cơ sở",
+      "add_btn": "Thêm cơ sở",
+      "update_btn": "Sửa cơ sở",
+      "delete_btn": "Ẩn thông tin cơ sở",
+      "add": {
+        "title": "Thêm thông tin cơ sở"
+      },
+      "form": {
+        "name": "Tên cơ sở",
+        "input_name": "Nhập tên cơ sở",
+        "address": "Địa chỉ",
+        "input_address": "Nhập địa chỉ",
+        "phone": "Số điện thoại",
+        "input_phone": "Nhập số điện thoại",
+        "zalo": "Zalo",
+        "input_zalo": "Nhập số zalo",
+        "map": "Đường dẫn map",
+        "input_map": "Dán đường dẫn địa chỉ google map",
+        "describe": "Mô tả cơ sở",
+        "input_describe": "Nhập mô tả"
+      }
+  }
+}
