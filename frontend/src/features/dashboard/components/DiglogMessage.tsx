@@ -16,14 +16,35 @@ export const DiglogMessage = ({
   const { hideModal } = useModalContext();
   return (
     <div className="flex items-center flex-col bg-white justify-center w-[800px] h-auto py-[40px] px-[100px] relative">
-      <button onClick={hideModal} className="text-text_7E8B99 absolute top-[24px] text-_16 right-[24px]">
-       <ICClear />
+      <button
+        onClick={hideModal}
+        className="text-text_7E8B99 absolute top-[24px] text-_16 right-[24px]"
+      >
+        <ICClear />
       </button>
       <div>
         {type === "SUCCESS" && <ICSuccessMessage />}
-        {type === "ERROR" && <ICErrorMessage />}
+        {type === "ERROR" && <ICErrorMessage width={106} height={106} />}
       </div>
-      <span className="mt-[34px] text-GreyPrimary text-_20 font-bold">{t(message)}</span>
+      <span className="mt-[34px] text-GreyPrimary text-_20 font-bold">
+        {t(message)}
+      </span>
     </div>
   );
+};
+
+export const useShowMessage = () => {
+  const { setElementModal } = useModalContext();
+  const showSuccess = (message: string) => {
+    setElementModal(<DiglogMessage message={message} type="SUCCESS" />);
+  };
+
+  const showError = (message: string) => {
+    setElementModal(<DiglogMessage message={message} type="ERROR" />);
+  };
+
+  return {
+    showSuccess,
+    showError,
+  };
 };

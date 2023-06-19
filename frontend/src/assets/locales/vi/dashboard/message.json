@@ -8,6 +8,20 @@
         "image": {
             "type": "Vui lòng chon tệp là hình ảnh.",
             "size": "Vui lòng chon tệp hình ảnh dung lượng tối đa 20MB."
+        },
+        "form": {
+            "required": "Bắt buộc",
+            "max": "Vui lòng nhập tối đa {{max}}} ký tự."
+        },
+        "actions": {
+            "success": {
+                "post": "Cập nhật bài viết thành công!",
+                "update": "Cập nhật thành công!"
+            },
+            "error": {
+                "post": "Cập nhật bài viết thất bại!",
+                "update": "Cập nhật thất bại!"
+            }
         }
     }
 }

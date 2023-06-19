@@ -6,12 +6,14 @@ type Props = {
   onSubmit?: () => void;
   onCacel?: () => void;
   isAdd?: boolean;
+  loading?: boolean;
 };
 
 export const GroupButtonAdmin = ({
   onSubmit,
   isAdd = true,
   onCacel,
+  loading = false
 }: Props) => {
   const { hideModal } = useModalContext();
   return (
@@ -24,9 +26,10 @@ export const GroupButtonAdmin = ({
         className="!w-[120px] mr-[24px]"
       />
       <Button
+        disabled={loading}
         type="submit"
         onClick={() => onSubmit?.()}
-        text={isAdd ? "button._create" : "button._save"}
+        text={!loading ? isAdd ? "button._create" : "button._save" : "submitting..."}
         color="primary"
         className="!w-[120px]"
       />
