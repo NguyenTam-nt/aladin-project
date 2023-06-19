@@ -138,6 +138,21 @@ export const pathsAdmin = {
   comment: {
     prefix: "binh-luan",
   },
+  news: {
+    prefix: "tin-tuc",
+    add: "them",
+    update: ":id",
+  },
+  recuire: {
+    prefix: "tuyen-dung",
+    add: "them",
+    update: ":id",
+  },
+  orderFootTable: {
+    prefix: "yeu-cau-dat-ban",
+    add: "them",
+    update: ":id",
+  },
 };
 
 export const RouterManage: routeMntype[] = [
@@ -230,13 +245,13 @@ export const RouterManage: routeMntype[] = [
     isHidden: true,
   },
   {
-    path: "tin-tuc",
+    path: pathsAdmin.news.prefix,
     element: ManageNews,
     name: "navigation.navleft.news",
     icon: LinkNewIcon,
   },
   {
-    path: "tuyen-dung",
+    path: pathsAdmin.recuire.prefix,
     element: ManageHome,
     name: "navigation.navleft.recuire",
     icon: LinkNewIcon,
@@ -248,7 +263,7 @@ export const RouterManage: routeMntype[] = [
     icon: LinkContacIcon,
   },
   {
-    path: "yeu-cau-dat-ban",
+    path: pathsAdmin.orderFootTable.prefix,
     element: ManageHome,
     name: "navigation.navleft.tableReserVataion",
     icon: LinkTableIcon,
