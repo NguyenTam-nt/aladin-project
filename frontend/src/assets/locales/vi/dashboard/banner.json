@@ -1,0 +1,106 @@
+{
+    "adminBanner": {
+        "title": "Quản lý banner {{page}}",
+        "upload_banner_home": "Tải ảnh lên (tối đa 5 ảnh)",
+        "link": "Đường link chuyển hướng",
+        "link_placeholder": "Dán đường link chuyển hướng"
+    },
+    "adminPolicy": {
+        "title": "Chính sách hỗ trợ",
+        "maxItem": "Tối đa 8 chính sách",
+        "update": "Sửa chính sách",
+        "delete": "Xóa chính sách",
+        "add": "Thêm chính sách",
+        "message_delete": "Bạn có chắc chắn xóa chính sách này khỏi hệ thống?",
+        "form": {
+            "title_add": "Thêm chính sách hỗ trợ",
+            "title_edit": "Chỉnh sửa chính sách hỗ trợ",
+            "name": "Tiêu đề",
+            "name_placeholder": "Nhập tiêu đề",
+            "des": "Mô tả",
+            "des_placeholder": "Nhập mô tả",
+            "content": "Nội dung",
+            "content_placeholder": "Nhập nội dung"
+        }
+    },
+    "customer": {
+        "title": "Danh sách thông tin cảm nhận khách hàng",
+        "message_delete": "Bạn có chắc chắn xóa cảm nhận khách hàng này khỏi hệ thống?",
+        "maxItem": "Ghim tối đa 6 cảm nhận",
+        "update": "Sửa bài viết",
+        "delete": "Xóa bài viết",
+        "add": "Thêm bài viết",
+        "form": {
+            "title_add": "Tạo mới cảm nhận khách hàng",
+            "title_edit": "Chỉnh sửa cảm nhận khách hàng",
+            "name": "Tải ảnh món ăn",
+            "name_placeholder": "Nhập họ và tên",
+            "job": "Nghề nghiệp",
+            "job_placeholder": "Nhập nghề nghiệp",
+            "comment":  "Lời nhận xét",
+            "comment_placeholder": "Nhập lời nhận xét",
+            "upload_image_product": "Tải ảnh món ăn",
+            "upload_avatar": "Tải ảnh đại diện"
+        }
+    },
+    "category": {
+        "title": "Danh mục món ăn",
+        "add": "Thêm danh mục",
+        "message_delete": "Bạn có chắc chắn xóa danh mục món ăn này khỏi hệ thống?",
+        "form": {
+            "name_parent": "Tên danh mục lớn",
+            "name_child": "Danh mục nhỏ",
+            "fuc": "Chức năng",
+            "title_add": "THÊM DANH MỤC",
+            "title_edit": "Chỉnh sửa DANH MỤC",
+            "name_parent_placeholder": "Nhập tên danh mục lớn",
+            "display_home": "Hiển thị trên Trang chủ",
+            "type_menu": "Loại thực đơn",
+            "type_child": "Phân loại nhỏ ",
+            "image_child": "Hình ảnh danh mục con {{index}}",
+            "name_child_item": "Danh mục con {{index}}",
+            "name_child_item_placeholder": "Nhập tên danh mục con"
+
+        }
+    },
+    "adminProduct": {
+        "title": "Món ăn",
+        "add": "Thêm món ăn",
+        "update": "Sửa món ăn",
+        "delete": "Xóa món ăn",
+        "filter": "Lọc món ăn theo nhóm hàng",
+        "form": {
+            "title_add": "Tạo mới món ăn",       
+            "title_edit": "Chỉnh sửa món ăn",
+            "code": "Mã món ăn",
+            "code_placeholder": "Nhập mã món ăn",
+            "name": "Tên món ăn",
+            "name_placeholder": "Nhập tên món ăn",
+            "upload_product": "Tải ảnh món ăn",
+            "maxItem": "Tối đa 5 hình ảnh",
+            "upload_video_product": "Tải video món ăn",
+            "maxVideo": "Tối đa 1 video",
+            "cost": "Giá gốc",
+            "cost_placeholder": "Nhập giá gốc",
+            "discount": "Giá khuyến mãi",
+            "discount_placeholder": "Nhập giá khuyến mãi",
+            "category": "Danh mục",
+            "choose_place": "Chọn cơ sở bán",
+            "info": "Thông tin món ăn",
+            "info_placeholder": "Nhập thông tin món ăn"
+        }
+
+    },
+    "adminComment": {
+        "title": "Danh sách bình luận",
+        "message_delete": "Bạn có chắc chắn xóa bình luận này khỏi hệ thống?",
+        "message_confirm": "Bạn có chắc chắn phê duyệt",
+        "this_comment": "bình luận này?",
+        "modal": {
+            "title": "Bạn có muốn trả lời bình luận ngay bây giờ không ?",
+            "position": "Chức vụ",
+            "content": "Nội dung",
+            "content_placeholder": "Nhập nội dung"
+        }
+    }
+}

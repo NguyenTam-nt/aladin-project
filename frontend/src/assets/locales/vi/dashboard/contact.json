@@ -1,0 +1,22 @@
+{
+  "adminContact": {
+    "title": "Danh sách yêu cầu tư vấn",
+    "table": {
+      "fullname": "Họ và tên",
+      "phone": "Số điện thoại",
+      "email": "Email",
+      "address": "Địa chỉ",
+      "content": "Content",
+      "status": "Trạng thái",
+      "not_response": "Chưa phẩn hồi",
+      "responsed": "Đã phẩn hồi"
+    },
+    "form": {
+      "title": "PHẢN HỒI YÊU CẦU TƯ VẤN",
+      "customer_title": "Nội dung khách hàng yêu cầu tư vấn",
+      "response_title": "Nội dung nhà hàng phản hồi khách hàng",
+      "response": "Phản hồi khách hàng",
+      "input_response": "Nhập nội dung tư vấn khách hàng..."
+    }
+  }
+}

@@ -12,13 +12,81 @@ import LinkStarIcon from "@assets/icons/LinkStarIcon";
 import LinkTableIcon from "@assets/icons/LinkTableIcon";
 import LinkVoucherIcon from "@assets/icons/LinkVoucherIcon";
 import { lazy } from "react";
+
+const HomeAdmin = lazy(() =>
+  import("@features/dashboard/home").then((module) => ({
+    default: module.HomeAdmin,
+  }))
+);
+const BannerAdmin = lazy(() =>
+  import("@features/dashboard/banners").then((module) => ({
+    default: module.BannerAdmin,
+  }))
+);
+const PolicyAdmin = lazy(() =>
+  import("@features/dashboard/Policy").then((module) => ({
+    default: module.Policy,
+  }))
+);
+const PolicyHandleAdmin = lazy(() =>
+  import("@features/dashboard/Policy/components/PolicyHandle").then(
+    (module) => ({ default: module.PolicyHandle })
+  )
+);
+const ThanksCustomer = lazy(() =>
+  import("@features/dashboard/thanks-customer").then((module) => ({
+    default: module.ThanksCustomer,
+  }))
+);
+const ThanksCustomerHandler = lazy(() =>
+  import(
+    "@features/dashboard/thanks-customer/components/ThanksCustomerHandler"
+  ).then((module) => ({ default: module.ThanksCustomerHandler }))
+);
+const CategoryProduct = lazy(() =>
+  import("@features/dashboard/category-product").then((module) => ({
+    default: module.CategoryProduct,
+  }))
+);
+const ProductAdmin = lazy(() =>
+  import("@features/dashboard/product").then((module) => ({
+    default: module.ProductAdmin,
+  }))
+);
+const ProductHandler = lazy(() =>
+  import("@features/dashboard/product/components/ProductHandler").then(
+    (module) => ({ default: module.ProductHandler })
+  )
+);
+const CommentAdmin = lazy(() =>
+  import("@features/dashboard/comment").then((module) => ({
+    default: module.CommentAdmin,
+  }))
+);
+
+const PlaceAdmin = lazy(() =>
+  import("@features/dashboard/place").then((module) => ({
+    default: module.PlaceAdmin,
+  }))
+);
+const PlaceAdminAdd = lazy(
+  () => import("@features/dashboard/place/PlaceAdminAdd")
+);
+
+const ContactAdmin = lazy(() => import("@features/dashboard/contact"));
+const VoucherAdmin = lazy(() => import("@features/dashboard/voucher"));
+const VoucherAddAdmin = lazy(
+  () => import("@features/dashboard/voucher/VoucherAdd")
+);
+const OrderFoodAdmin = lazy(() => import("@features/dashboard/order-food"));
+
 interface routeMntype {
   path: string;
   exact?: boolean;
-  name: string;
+  name?: string;
   element: any;
-  icon: any;
-  isHidden?: true;
+  icon?: any;
+  isHidden?: boolean;
 }
 
 function ManageHome() {
@@ -26,90 +94,185 @@ function ManageHome() {
 }
 const ManageNews = lazy(() => import("@features/news/admin/index"));
 
+export const pathsAdmin = {
+  home: {
+    prefix: "trang-chu",
+  },
+  banner: {
+    prefix: "banner",
+  },
+  place: {
+    prefix: "co-so",
+    add: "them",
+    update: "sua/:id",
+  },
+  voucher: {
+    prefix: "voucher",
+    add: "them",
+    update: "sua/:id",
+  },
+  orderFood: {
+    prefix: "dat-mon",
+  },
+  contact: {
+    prefix: "lien-he",
+  },
+  policy: {
+    prefix: "chinh-sach",
+    add: "them",
+    update: ":id",
+  },
+  thankCustomer: {
+    prefix: "cam-nhan-khach-hang",
+    add: "them",
+    update: ":id",
+  },
+  category: {
+    prefix: "danh-muc-san-pham",
+  },
+  product: {
+    prefix: "san-pham",
+    add: "them",
+    update: ":id",
+  },
+  comment: {
+    prefix: "binh-luan",
+  },
+};
+
 export const RouterManage: routeMntype[] = [
   {
-    path: "/quan-ly",
-    exact: true,
-    element: ManageHome,
+    path: pathsAdmin.home.prefix,
+    element: HomeAdmin,
     name: "navigation.navleft.home",
-    icon: (color: any) => <LinkHomeIcon color={color} />,
+    icon: LinkHomeIcon,
   },
   {
-    path: "banner",
-    element: ManageHome,
+    path: pathsAdmin.banner.prefix,
+    element: BannerAdmin,
     name: "navigation.navleft.banner",
-    icon: (color: any) => <LinkBannerIcon color={color} />,
+    icon: LinkBannerIcon,
   },
   {
-    path: "chinh-sach",
-    element: ManageHome,
+    path: pathsAdmin.policy.prefix,
+    element: PolicyAdmin,
     name: "navigation.navleft.policy",
-    icon: (color: any) => <LinkPolicyIcon color={color} />,
+    icon: LinkPolicyIcon,
   },
   {
-    path: "cam-nhan-khach-hang",
-    element: ManageHome,
+    path: `${pathsAdmin.policy.prefix}/${pathsAdmin.policy.add}`,
+    element: PolicyHandleAdmin,
+    isHidden: true,
+  },
+  {
+    path: `${pathsAdmin.policy.prefix}/${pathsAdmin.policy.update}`,
+    element: PolicyHandleAdmin,
+    isHidden: true,
+  },
+  {
+    path: pathsAdmin.thankCustomer.prefix,
+    element: ThanksCustomer,
     name: "navigation.navleft.customorReview",
-    icon: (color: any) => <LinkStarIcon color={color} />,
+    icon: LinkStarIcon,
   },
   {
-    path: "danh-muc",
-    element: ManageHome,
+    path: `${pathsAdmin.thankCustomer.prefix}/${pathsAdmin.thankCustomer.add}`,
+    element: ThanksCustomerHandler,
+    isHidden: true,
+  },
+  {
+    path: `${pathsAdmin.thankCustomer.prefix}/${pathsAdmin.thankCustomer.update}`,
+    element: ThanksCustomerHandler,
+    isHidden: true,
+  },
+  {
+    path: pathsAdmin.category.prefix,
+    element: CategoryProduct,
     name: "navigation.navleft.category",
-    icon: (color: any) => <LinkCategoryIcon color={color} />,
+    icon: LinkCategoryIcon,
   },
   {
-    path: "san-pham",
-    element: ManageHome,
+    path: pathsAdmin.product.prefix,
+    element: ProductAdmin,
     name: "navigation.navleft.product",
-    icon: (color: any) => <LinkProductIcon color={color} />,
+    icon: LinkProductIcon,
   },
   {
-    path: "binh-luan",
-    element: ManageHome,
+    path: `${pathsAdmin.product.prefix}/${pathsAdmin.product.add}`,
+    element: ProductHandler,
+    isHidden: true,
+  },
+  {
+    path: `${pathsAdmin.product.prefix}/${pathsAdmin.product.update}`,
+    element: ProductHandler,
+    isHidden: true,
+  },
+  {
+    path: pathsAdmin.comment.prefix,
+    element: CommentAdmin,
     name: "navigation.navleft.comments",
-    icon: (color: any) => <LinkCommentIcon color={color} />,
+    icon: LinkCommentIcon,
   },
   {
-    path: "co-so",
-    element: ManageHome,
+    path: pathsAdmin.place.prefix,
+    element: PlaceAdmin,
     name: "navigation.navleft.place",
-    icon: (color: any) => <LinkPlaceIcon color={color} />,
+    icon: LinkPlaceIcon,
+  },
+  {
+    path: `${pathsAdmin.place.prefix}/${pathsAdmin.place.add}`,
+    element: PlaceAdminAdd,
+    isHidden: true,
+  },
+  {
+    path: `${pathsAdmin.place.prefix}/${pathsAdmin.place.update}`,
+    element: PlaceAdminAdd,
+    isHidden: true,
   },
   {
     path: "tin-tuc",
     element: ManageNews,
     name: "navigation.navleft.news",
-    icon: (color: any) => <LinkNewIcon color={color} />,
+    icon: LinkNewIcon,
   },
   {
     path: "tuyen-dung",
     element: ManageHome,
     name: "navigation.navleft.recuire",
-    icon: (color: any) => <LinkNewIcon color={color} />,
+    icon: LinkNewIcon,
   },
   {
-    path: "lien-he",
-    element: ManageHome,
+    path: pathsAdmin.contact.prefix,
+    element: ContactAdmin,
     name: "navigation.navleft.contact",
-    icon: (color: any) => <LinkContacIcon color={color} />,
+    icon: LinkContacIcon,
   },
   {
     path: "yeu-cau-dat-ban",
     element: ManageHome,
     name: "navigation.navleft.tableReserVataion",
-    icon: (color: any) => <LinkTableIcon color={color} />,
+    icon: LinkTableIcon,
   },
   {
-    path: "don-dat-mon",
-    element: ManageHome,
+    path: pathsAdmin.orderFood.prefix,
+    element: OrderFoodAdmin,
     name: "navigation.navleft.foodOders",
-    icon: (color: any) => <LinkFootOrder color={color} />,
+    icon: LinkFootOrder,
   },
   {
-    path: "voucher",
-    element: ManageHome,
+    path: pathsAdmin.voucher.prefix,
+    element: VoucherAdmin,
     name: "navigation.navleft.voucher",
-    icon: (color: any) => <LinkVoucherIcon color={color} />,
+    icon: LinkVoucherIcon,
+  },
+  {
+    path: `${pathsAdmin.voucher.prefix}/${pathsAdmin.voucher.add}`,
+    element: VoucherAddAdmin,
+    isHidden: true,
+  },
+  {
+    path: `${pathsAdmin.voucher.prefix}/${pathsAdmin.voucher.update}`,
+    element: VoucherAddAdmin,
+    isHidden: true,
   },
 ];

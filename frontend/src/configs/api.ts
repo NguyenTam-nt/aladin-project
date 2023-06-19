@@ -22,6 +22,7 @@ const getAccessToken = async () => {
 
 const configure = () => {
   axiosClient.interceptors.request.use(async (config: any) => {
+    config.headers["Accept-Language"] = "en";
     // const { method, url } = config;
 
     // if (

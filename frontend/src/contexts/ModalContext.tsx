@@ -1,3 +1,4 @@
+import { prefixRootRoute } from "@constants/index";
 import clsx from "clsx";
 import {
   useLayoutEffect,
@@ -5,7 +6,9 @@ import {
   createContext,
   ReactNode,
   useEffect,
+  useMemo,
 } from "react";
+import { useLocation } from "react-router-dom";
 
 interface ModalState {
   isShow: boolean;
@@ -26,7 +29,8 @@ type Props = {
 export default function ModalProvider({ children }: Props) {
   const [isShow, setShowModal] = useState(false);
   const [element, setElement] = useState<JSX.Element>(<></>);
-//   const {} = useRoutes
+  const { pathname } = useLocation();
+  //   const {} = useRoutes
   const setElementModal = (elm: JSX.Element) => {
     setElement(elm);
     setShowModal(true);
@@ -38,9 +42,9 @@ export default function ModalProvider({ children }: Props) {
 
   useEffect(() => {
     window.addEventListener("popstate", function () {
-        if(isShow) {
-            hideModal();
-        }
+      if (isShow) {
+        hideModal();
+      }
     });
 
     return () => {
@@ -50,7 +54,6 @@ export default function ModalProvider({ children }: Props) {
 
   useLayoutEffect(() => {
     // if(isShow) {
-
     // }else {
     // document.body
     // }
@@ -58,6 +61,10 @@ export default function ModalProvider({ children }: Props) {
     //   ? (document.body.style.overflowY = "hidden")
     //   : (document.body.style.overflowY = "auto");
   }, [isShow]);
+
+  const isAdmin = useMemo(() => {
+    return pathname.includes(prefixRootRoute.admin);
+  }, [pathname]);
 
   return (
     <ModalContext.Provider
@@ -69,12 +76,23 @@ export default function ModalProvider({ children }: Props) {
     >
       <>
         {isShow ? (
-          <div className={clsx("fixed z-30 inset-0 w-full h-[100vh] overflow-x-hidden  overflow-y-auto flex justify-center overscroll-y-auto")}>
+          <div
+            className={clsx(
+              "fixed z-30 inset-0 w-full h-[100vh] overflow-x-hidden  overflow-y-auto flex justify-center overscroll-y-auto"
+            )}
+          >
             <div
-              className="fixed inset-0 backdrop-blur-[4px] bg-header_bg z-30"
+              className={clsx("fixed inset-0 bg-header_bg z-30", {
+                " backdrop-blur-[4px]": !isAdmin,
+              })}
               onClick={hideModal}
             ></div>
-            <div className="relative z-[31] rounded-[32px_0_32px_0] overflow-hidden mt-auto w-auto h-auto mb-auto  scale-animate">
+            <div
+              className={clsx(
+                "relative z-[31] overflow-hidden mt-auto w-auto h-auto mb-auto  scale-animate",
+                { "rounded-[32px_0_32px_0]": !isAdmin }
+              )}
+            >
               {element}
             </div>
           </div>

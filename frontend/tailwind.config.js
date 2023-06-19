@@ -15,12 +15,14 @@ export default {
         text_red: "#FF0000",
         red_error: "#E73F3F",
         text_EA222A: "#EA222A",
-        red_error: "#E73F3F",
         bg_E73F3F: "#E73F3F",
         header_bg: "rgba(0, 0, 0, 0.3)",
         text_A1A0A3: "#A1A0A3",
         GreyPrimary: "#222124",
         br_CBCBCB: "#CBCBCB",
+        br_E9ECEF: "#E9ECEF",
+        br_D9D9D9: "#D9D9D9",
+        br_E8E8E8: "#E8E8E8",
         bg_255_255_255_08: "rgba(255, 255, 255, 0.8)",
         bg_255_255_255_03: "rgba(255, 255, 255, 0.3)",
         bg_255_255_255_064: "rgba(255, 255, 255, 0.64)",
@@ -30,7 +32,10 @@ export default {
         bg_F1F1F1: "#F1F1F1",
         TrueBlue_500: "#0073E5",
         gray_CFCFCF: "#CFCFCF",
-        gray_F5F5F5: "#F5F5F5"
+        gray_F5F5F5: "#F5F5F5",
+        bg_fafafa: "#fafafa",
+        waiting: "#FF5A1F",
+        text_7E8B99: "#7E8B99"
       },
       backgroundImage: {
         banner_home: "linear-gradient(90deg, rgba(0, 0, 0, 0.5) -0.81%, rgba(0, 0, 0, 0) 100%)",

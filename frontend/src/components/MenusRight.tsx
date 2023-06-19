@@ -8,25 +8,28 @@ import { useTranslation } from "react-i18next";
 import { Button } from "./Button";
 import { MoneyLineThrough } from "@features/home/components/MoneyLineThrough";
 import { ICDeleteTrash } from "@assets/icons/ICDeleteTrash";
+import { useClickOutItem } from "@hooks/useClickOutItem";
 
 export const MenusRight = () => {
   const { t } = useTranslation();
-  const [open, setOpen] = useState(false);
-  const handleOpen = () => {
-    setOpen(!open);
-  };
+  // const [open, setOpen] = useState(false);
+  const { ref, handleToggleItem, isShow } = useClickOutItem();
+  // const handleOpen = () => {
+  //   setOpen(!open);
+  // };
   return (
     <div
+      ref={ref}
       className={clsx(
         "flex  absolute z-[2] top-[-247px] ease-in-out duration-300",
         {
-          "right-[calc(-100vw_+_40px)] _420:right-[-356px]": !open,
-          "right-0": open,
+          "right-[calc(-100vw_+_40px)] _420:right-[-356px]": !isShow,
+          "right-0": isShow,
         }
       )}
     >
       <button
-        onClick={handleOpen}
+        onClick={handleToggleItem}
         className="h-[40px] lg:h-[54px] w-[223px] absolute  origin-[top_right] right-[calc(100%_+_40px)]  lg:right-[calc(100%_+_54px)] gap-x-2 rotate-[-90deg] text-_18 text-text_white flex font-iCielBC_Cubano items-center justify-center px-[24px] rounded-[0_16px_0_0] bg-secondary"
       >
         <ICArowDown color={Colors.text_white} />
@@ -37,7 +40,7 @@ export const MenusRight = () => {
           <span className="text-_18 font-iCielBC_Cubano text-secondary">
             {t("common.choosed_menu_title")}
           </span>
-          <button onClick={handleOpen}>
+          <button onClick={handleToggleItem}>
             <ICDeleteX />
           </button>
         </div>

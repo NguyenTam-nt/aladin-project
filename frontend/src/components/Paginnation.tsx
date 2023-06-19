@@ -1,19 +1,31 @@
 import { ICArrowNextPage } from "@assets/icons/ICArrowNextPage";
 import { Colors } from "@constants/color";
+import { prefixRootRoute } from "@constants/index";
 import clsx from "clsx";
-import React, { memo } from "react";
-import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import React, { memo, useMemo } from "react";
+import { useLocation, useSearchParams } from "react-router-dom";
+
+/**
+ * 
+ * @author NguBV
+*/
 
 type IPagination = {
   currentPage: number;
   totalPages: number;
   setCurrentPage: (currentPage: number) => void;
+  limit?: number;
 };
 
 export const Pagination = memo((props: IPagination) => {
-  const { currentPage, setCurrentPage } = props;
+  const { currentPage, setCurrentPage, limit = 5 } = props;
   const totalPages = props.totalPages;
   const [_, setSearchParam] = useSearchParams();
+  const { pathname } = useLocation();
+
+  const isAdmin = useMemo(() => {
+    return pathname.includes(prefixRootRoute.admin);
+  }, [pathname]);
 
   const prevPage = () => {
     if (currentPage > 1) {
@@ -38,21 +50,20 @@ export const Pagination = memo((props: IPagination) => {
 
   const renderPageNumbers = () => {
     const pageNumbers = [];
-    const maxPages = 5;
-    const halfMaxPages = Math.floor(maxPages / 2);
+    // const maxPages = 5;
+    const halfMaxPages = Math.floor(limit / 2);
 
     let startPage = currentPage - halfMaxPages;
     let endPage = currentPage + halfMaxPages;
 
     if (startPage < 1) {
       startPage = 1;
-      endPage = maxPages;
+      endPage = limit;
     }
 
     if (endPage > totalPages) {
       endPage = totalPages;
-      startPage =
-        totalPages - maxPages + 1 >= 1 ? totalPages - maxPages + 1 : 1;
+      startPage = totalPages - limit + 1 >= 1 ? totalPages - limit + 1 : 1;
     }
 
     for (let i = startPage; i <= endPage; i++) {
@@ -63,7 +74,10 @@ export const Pagination = memo((props: IPagination) => {
             className={clsx(
               "flex text-text_secondary rounded-[8px_0_8px_0] bg-white h-[40px] w-[40px] border-[1px] items-center justify-center",
               {
-                "border-primary !bg-primary text-text_white": isActive,
+                "border-primary !bg-primary text-text_white":
+                  isActive && !isAdmin,
+                "border-TrueBlue_500 !bg-TrueBlue_500 text-text_white":
+                  isActive && isAdmin,
               }
             )}
           >
@@ -77,7 +91,7 @@ export const Pagination = memo((props: IPagination) => {
   };
 
   return (
-    <div className=" flex gap-x-[16px] mt-[32px] xl:mt-[40px] ">
+    <div className=" flex gap-x-[8px] lg:gap-x-[16px] mt-[32px] xl:mt-[40px] ">
       {currentPage !== 1 && (
         <div className=" w-[40px] h-[40px]">
           <button
@@ -85,7 +99,9 @@ export const Pagination = memo((props: IPagination) => {
             disabled={currentPage === 1}
             className="rotate-[-180deg] w-full h-full flex items-center justify-center rounded-[8px_0_8px_0] bg-white"
           >
-            <ICArrowNextPage></ICArrowNextPage>
+            <ICArrowNextPage
+              color={isAdmin ? Colors.TrueBlue500 : Colors.primary}
+            />
           </button>
         </div>
       )}
@@ -100,7 +116,9 @@ export const Pagination = memo((props: IPagination) => {
             disabled={currentPage === totalPages}
             className="w-full h-full flex items-center justify-center rounded-[8px_0_8px_0] bg-white"
           >
-            <ICArrowNextPage></ICArrowNextPage>
+            <ICArrowNextPage
+              color={isAdmin ? Colors.TrueBlue500 : Colors.primary}
+            />
           </button>
         </div>
       )}

@@ -449,3 +449,7 @@ ul ul ul ul {
 .ck-content {
     min-height: 120px;
 }
+
+.ck.ck-editor__main>.ck-editor__editable {
+    background-color: transparent !important;
+}

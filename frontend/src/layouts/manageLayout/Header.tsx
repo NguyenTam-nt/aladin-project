@@ -1,40 +1,34 @@
 import React, { useEffect, useState } from "react";
 import { ICLogoFrame } from "@assets/icons/ICLogoFrame";
 import { Colors } from "@constants/color";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useMatch, useResolvedPath } from "react-router-dom";
 import { ICGm } from "@assets/icons/ICGm";
 import Avatar from "@assets/images/imageAccount.png";
 import { ICArowDown } from "@assets/icons/ICArowDown";
 import { RouterManage } from "@constants/routerManager";
 import { useTranslation } from "react-i18next";
+import { prefixRootRoute } from "@constants/index";
 const Header = () => {
   const { t } = useTranslation();
   const { pathname } = useLocation();
   const [nameHeader, setNameHeader] = useState<string | null>(null);
+  // const resolved = useResolvedPath(pathname);
+  // const match = useMatch({ path: pathname, end: false });
+
   useEffect(() => {
     const endPath = pathname.slice(pathname.lastIndexOf("/") + 1);
     const ObName = RouterManage.find((item) => {
       return item.path.includes(endPath);
     });
+    console.log(ObName, "jasjdfhj");
+
     if (ObName) {
-      setNameHeader(ObName.name);
+      setNameHeader(ObName.name!);
     }
   }, [pathname]);
   return (
-    <div className="h-spc120 w-full bg-text_white flex fixed top-0 z-max">
-      <div className="w-[15.8%] flex items-center justify-center">
-        <Link className="flex items-center relative justify-center" to="/">
-          <div className="rotate-logo">
-            <ICLogoFrame width={101.5} height={94} color={Colors.text_EA222A} />
-          </div>
-          <div className=" absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%]">
-            <div className="scale-logo scale-0">
-              <ICGm color={Colors.Grey_Primary} />
-            </div>
-          </div>
-        </Link>
-      </div>
-      <div className="flex items-center justify-between w-[84.2%] pl-24 pr-[300px] shadow">
+    <div className="h-spc120  pl-[96px] min-w-[calc(1920px_-_300px)]  w-full bg-text_white shadow-md flex sticky left-0 right-0 top-0 z-10 ">
+      <div className="flex items-center w-[1224px] justify-between">
         <p className="title-18 text-text_EA222A">
           {nameHeader && t(nameHeader)}
         </p>

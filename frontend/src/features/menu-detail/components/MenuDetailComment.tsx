@@ -32,7 +32,7 @@ const listComments = [
 
 export const MenuDetailComment = () => {
   return (
-    <div className="mt-[40px] flex flex-col gap-y-[43px]">
+    <div className="mt-[40px] flex flex-col gap-y-[24px] lg:gap-y-[43px]">
       {listComments.map((item, index) => {
         return <CommentItem data={item} key={index} />;
       })}
@@ -67,7 +67,7 @@ export const CommentItem = memo(
           </div>
         </div>
         <div
-          className="mt-[19px]"
+          className="mt-[19px] text-_14"
           dangerouslySetInnerHTML={{
             __html: data.comment,
           }}

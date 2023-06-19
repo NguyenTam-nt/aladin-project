@@ -1,0 +1,27 @@
+{
+  "adminOrderFood": {
+    "title": "Danh sách yêu cầu tư vấn",
+    "table": {
+      "code": "Mã đơn hàng",
+      "fullname": "Họ và tên",
+      "phone": "Số điện thoại",
+      "day": "Ngày",
+      "hour": "Giờ",
+      "status": "Trạng thái",
+      "cancel": "Đã hủy",
+      "done": "Hoàn thành"
+    },
+    "detail": {
+      "title": "Đơn đặt món: ",
+      "titleInfo": "Thông tin khách hàng",
+      "titleFood": "Món đã đặt",
+      "payment": {
+        "title": "Thanh toán",
+        "total": "Tổng giá trị hóa đơn",
+        "totalDiscount": "Tổng tiền đã giảm",
+        "codeDiscount": "Mã giảm giá:",
+        "totalOrder": "Tổng tiền thanh toán"
+      }
+    }
+  }
+}

@@ -1,9 +1,9 @@
 import Keycloak from 'keycloak-js'
 
 const _kc = Keycloak({
-  url: `https://hanquochoc.edu.vn/auth`,
-  clientId: 'hcm',
-  realm: 'hcm',
+  url: `https://ssa.cloudata.vn/auth`,
+  clientId: 'giangmy',
+  realm: 'giangmy',
 })
 
 /**

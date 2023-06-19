@@ -5,14 +5,19 @@ import Navleft from "./Navleft";
 
 const LayoutManager = () => {
   return (
-    <div className="bg-text_white">
-      <Header />
-      <div className="mt-spc120 grid grid-cols-[300px_1fr] min-h-screen">
-        <div className="w-[300px]">
-          <Navleft />
-        </div>
-        <div className="pl-24 pt-[86px] pr-[300px] bg-gray_F5F5F5 h-screen overflow-y-scroll font-IBM_Plex_Sans">
-          <Outlet />
+    <div className="bg-bg_fafafa min-w-[1920px] relative">
+      <div className="fixed w-[300px] z-10 bg-white top-0 bottom-0 left-0 shadow-sm">
+        <Navleft />
+      </div>
+      <div className="w-full grid grid-cols-[300px_1fr]">
+        <div />
+        <div className="relative">
+          <Header />
+          <div className="pl-[96px]  max-w-[calc(1920px_-_300px)]  min-h-[calc(100vh_-_120px)] py-[80px]">
+            <div className=" w-[1224px] ">
+              <Outlet />
+            </div>
+          </div>
         </div>
       </div>
     </div>

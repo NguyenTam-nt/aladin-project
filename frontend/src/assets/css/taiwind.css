@@ -9,12 +9,14 @@
   --text-white: #FFFFFF;
   --text-black: #0000;
   --text-4A4A4A: #4A4A4A;
+  --text-A1A0A3: #A1A0A3;
   --bg-F4FBF7: #F4FBF7;
   --br-E9ECEF: #E9ECEF;
   --bg-F08181: #F08181;
   --bg-F5B377: #F5B377;
   --bg-63A0F2: #63A0F2;
   --text-link: #0066FF;
+  --text-0073E5: #0073E5;
   --animate-duration: 1s;
   --animate-delay: 0.2s;
   --animate-repeat: 1;
@@ -67,7 +69,7 @@
   }
   .title-18 {
     @apply text-_18 font-normal leading-[28px] font-iCielBC_Cubano
-  }
+  } 
   .radius-tl-br{
     @apply rounded-tl-r32 rounded-br-r32
   }
