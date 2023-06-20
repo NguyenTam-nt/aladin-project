@@ -11,6 +11,9 @@ export const microServices = {
 } 
 
 export const getMicroService = (api:string, service = 'home') => {
-
     return `/services/${service}/api/${api}`;
+}
+
+export const getMicroServiceAdmin = (api:string, service = 'home') => {
+    return `/services/${service}/api/admin/${api}`;
 }

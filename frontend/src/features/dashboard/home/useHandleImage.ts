@@ -1,11 +1,11 @@
-import { getVideoDuration, validateVideo } from "@commons/common";
-import { fileBytes } from "@constants/index";
+import { isUrl, validateVideo } from "@commons/common";
 import { ChangeEvent, useCallback, useEffect, useRef, useState } from "react";
 
 export const useHandleImage = (
   image?: string,
   onChange?: (file: File) => void,
-  handleDeleteLogin?: () => void
+  handleDeleteLogin?: () => void,
+  handlePasteLink?: (link:string) => void
 ) => {
   const [preViewImage, setPreViewImage] = useState<string>(image ?? "");
   const refInput = useRef<HTMLInputElement>(null);
@@ -15,7 +15,13 @@ export const useHandleImage = (
 
   useEffect(() => {
     // if(!preViewImage.trim()) {
-    setPreViewImage(image ?? "");
+      if(!isUrl(image || "")) {
+        setIsVideo(true)
+      }else {
+        setIsVideo(false)
+      }
+      setPreViewImage(image ?? "");
+
     // }
   }, [image]);
 
@@ -24,23 +30,25 @@ export const useHandleImage = (
   }, []);
 
   const handleChange = async (event: ChangeEvent<HTMLInputElement>) => {
-    setMessage("")
+    setMessage("");
     const file = event.target.files![0];
 
-    if(file.type.includes("video")) {
+    if (file.type.includes("video")) {
       setIsVideo(true);
-      const messageVideo = await validateVideo(file)
-      if(messageVideo) {
-        setMessage(messageVideo)
-        return
+      const messageVideo = await validateVideo(file);
+      if (messageVideo) {
+        setMessage(messageVideo);
+        return;
       }
-    }else {
+    } else {
       setIsVideo(false);
     }
 
     setCurrentFile(file);
-    const link = URL.createObjectURL(file);
-    setPreViewImage(link);
+    if(!onChange) {
+      const link = URL.createObjectURL(file);
+      setPreViewImage(link);
+    }
     onChange?.(file);
   };
 
@@ -51,7 +59,7 @@ export const useHandleImage = (
   };
 
   const handleMessageFile = () => {
-    setMessage("message.warn._required");
+    setMessage("message.form.required");
   };
 
   const handlePaste = (link: string) => {
@@ -60,12 +68,18 @@ export const useHandleImage = (
       if (splitLink.trim()) {
         setPreViewImage(splitLink);
         setIsVideo(true);
+        handlePasteLink?.(splitLink)
         return;
       }
     }
     setIsVideo(false);
     setPreViewImage(link);
+    handlePasteLink?.(link)
   };
+
+  const resetImage = () => {
+    setPreViewImage(image || "")
+  }
 
   return {
     preViewImage,
@@ -77,6 +91,7 @@ export const useHandleImage = (
     handlePaste,
     isVideo,
     handleClickInput,
-    refInput
+    refInput,
+    resetImage
   };
 };

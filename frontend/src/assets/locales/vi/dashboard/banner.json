@@ -2,6 +2,8 @@
     "adminBanner": {
         "title": "Quản lý banner {{page}}",
         "upload_banner_home": "Tải ảnh lên (tối đa 5 ảnh)",
+        "maxBanner": "tối đa 5 ảnh",
+        "upload_image_home": "Tải ảnh lên",
         "link": "Đường link chuyển hướng",
         "link_placeholder": "Dán đường link chuyển hướng"
     },
@@ -12,6 +14,9 @@
         "delete": "Xóa chính sách",
         "add": "Thêm chính sách",
         "message_delete": "Bạn có chắc chắn xóa chính sách này khỏi hệ thống?",
+        "message_post": "Thêm chính sách thành công!",
+        "message_update": "Cập nhật chính sách thành công!",
+        "message_delete_success": "Xóa chính sách thành công!",
         "form": {
             "title_add": "Thêm chính sách hỗ trợ",
             "title_edit": "Chỉnh sửa chính sách hỗ trợ",
@@ -26,6 +31,9 @@
     "customer": {
         "title": "Danh sách thông tin cảm nhận khách hàng",
         "message_delete": "Bạn có chắc chắn xóa cảm nhận khách hàng này khỏi hệ thống?",
+        "message_delete_success": "Xóa cảm nhận khách hàng thành công!",
+        "message_post_success": "Thêm cảm nhận khách hàng thành công!",
+        "message_update_success": "Cập nhật cảm nhận khách hàng thành công!",
         "maxItem": "Ghim tối đa 6 cảm nhận",
         "update": "Sửa bài viết",
         "delete": "Xóa bài viết",
@@ -33,7 +41,7 @@
         "form": {
             "title_add": "Tạo mới cảm nhận khách hàng",
             "title_edit": "Chỉnh sửa cảm nhận khách hàng",
-            "name": "Tải ảnh món ăn",
+            "name": "Họ và tên",
             "name_placeholder": "Nhập họ và tên",
             "job": "Nghề nghiệp",
             "job_placeholder": "Nhập nghề nghiệp",

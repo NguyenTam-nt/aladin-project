@@ -8,6 +8,27 @@
         "image": {
             "type": "Vui lòng chon tệp là hình ảnh.",
             "size": "Vui lòng chon tệp hình ảnh dung lượng tối đa 20MB."
+        },
+        "form": {
+            "required": "Bắt buộc",
+            "max": "Vui lòng nhập tối đa {{max}}} ký tự."
+        },
+        "actions": {
+            "success": {
+                "post": "Cập nhật bài viết thành công!",
+                "update": "Cập nhật thành công!",
+                "delete": "Xóa bài viết thành công!",
+                "delete_banner": "Xóa thành công!"
+            },
+            "error": {
+                "post": "Cập nhật bài viết thất bại!",
+                "update": "Cập nhật thất bại!",
+                "delete": "Xóa bài viết thất bại!", 
+                "delete_banner": "Thất bại!"
+            },
+            "warning": {
+                "min_post": "Bài viết giới thiệu ngắn tối thiểu có một bài viết."
+            }
         }
     }
 }
