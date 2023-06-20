@@ -92,7 +92,14 @@ interface routeMntype {
 function ManageHome() {
   return <div className="h-[2000px]">quản lý trang chủ</div>;
 }
-const ManageNews = lazy(() => import("@features/news/admin/index"));
+const ManageNews = lazy(() => import("@features/dashboard/news/index"));
+const CreateNew = lazy(() => import("@features/dashboard/news/CreateNew"));
+const RecuitmentManage = lazy(
+  () => import("@features/dashboard/recruit/index")
+);
+const RecruitmentEdit = lazy(
+  () => import("@features/dashboard/recruit/RecruitmentEdit")
+);
 
 export const pathsAdmin = {
   home: {
@@ -251,8 +258,36 @@ export const RouterManage: routeMntype[] = [
     icon: LinkNewIcon,
   },
   {
+    path: `${pathsAdmin.news.prefix}/${pathsAdmin.news.add}`,
+    element: CreateNew,
+    isHidden: true,
+    name: "navigation.navleft.news",
+    icon: LinkNewIcon,
+  },
+  {
+    path: `${pathsAdmin.news.prefix}/${pathsAdmin.news.update}`,
+    element: CreateNew,
+    isHidden: true,
+    name: "navigation.navleft.news",
+    icon: LinkNewIcon,
+  },
+  {
     path: pathsAdmin.recuire.prefix,
-    element: ManageHome,
+    element: RecuitmentManage,
+    name: "navigation.navleft.recuire",
+    icon: LinkNewIcon,
+  },
+  {
+    path: `${pathsAdmin.recuire.prefix}/${pathsAdmin.recuire.add}`,
+    isHidden: true,
+    element: RecruitmentEdit,
+    name: "navigation.navleft.recuire",
+    icon: LinkNewIcon,
+  },
+  {
+    path: `${pathsAdmin.recuire.prefix}/${pathsAdmin.recuire.update}`,
+    isHidden: true,
+    element: RecruitmentEdit,
     name: "navigation.navleft.recuire",
     icon: LinkNewIcon,
   },
