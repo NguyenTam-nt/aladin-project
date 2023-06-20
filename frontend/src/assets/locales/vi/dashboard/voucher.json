@@ -43,7 +43,7 @@
         },
         "minPrice": {
           "title": "Giá trị hóa đơn tối thiểu",
-          "input": "Nhập giá trị lớn hơn 1%"
+          "input": "Nhập số tiền"
         },
         "amount": "Lượt sử dụng tối đa",
         "inputAmount": "Nhập số lượng voucher sử dụng tối đa"
