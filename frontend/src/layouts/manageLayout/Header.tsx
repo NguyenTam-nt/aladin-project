@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from "react";
-import { ICLogoFrame } from "@assets/icons/ICLogoFrame";
+import React from "react";
 import { Colors } from "@constants/color";
 import { ICArowDown } from "@assets/icons/ICArowDown";
 import { useAuthContext } from "@contexts/hooks/auth";
