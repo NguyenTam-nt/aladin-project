@@ -1,6 +1,7 @@
 import { ICArowDown } from "@assets/icons/ICArowDown";
 import { ICFacebook } from "@assets/icons/ICFacebook";
 import { ICHotline } from "@assets/icons/ICHotline";
+import { ICLogin } from "@assets/icons/ICLogin";
 import { ICPhone } from "@assets/icons/ICPhone";
 import { ICYoutubeContact } from "@assets/icons/ICYoutubeContact";
 import { ICZalo } from "@assets/icons/ICZalo";
@@ -16,7 +17,9 @@ import { TopicPlaceItemBase } from "@features/home/components/TopicPlace/TopicPl
 import clsx from "clsx";
 import React, { ReactNode, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import { useAuthContext } from "./hooks/auth";
+import { pathsAdmin } from "@constants/routerManager";
 
 const data = [
   {
@@ -48,6 +51,7 @@ type Props = {
 export const ContactProvider = ({ children }: Props) => {
   const { t } = useTranslation();
   const { pathname } = useLocation();
+  const {isLogin, doLogin} = useAuthContext()
   const widthBreak = useMemo(() => {
     return windownSizeWidth > withResponsive._1024;
   }, []);
@@ -55,6 +59,16 @@ export const ContactProvider = ({ children }: Props) => {
   const isAdmin = useMemo(() => {
     return pathname.includes(prefixRootRoute.admin);
   }, [pathname]);
+
+  const navigate = useNavigate()
+
+  const handleLogin = () => {
+    if(isLogin) {
+      navigate(`${prefixRootRoute.admin}/${pathsAdmin.home.prefix}`)
+    }else {
+      doLogin()
+    }
+  }
 
   return (
     <>
@@ -99,6 +113,12 @@ export const ContactProvider = ({ children }: Props) => {
               })}
             </div>
           </div>
+        </button>
+
+        <button onClick={handleLogin} className=" flex items-center justify-center bg-primary">
+          <span>
+            <ICLogin width={widthBreak ? 24 : 24} height={widthBreak ? 24 : 24} />
+          </span>
         </button>
 
         <button className=" flex items-center justify-center bg-bg_2196F3">

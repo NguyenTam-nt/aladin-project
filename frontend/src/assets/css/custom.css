@@ -585,3 +585,9 @@ input[type="radio"]:checked::before {
     transform: translate(24px, 0);
   }
 }
+
+
+.logout-box {
+  opacity: 1;
+  transition: all 0.3s linear;
+}

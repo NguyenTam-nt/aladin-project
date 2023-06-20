@@ -40,6 +40,7 @@ export const BannerSliderImages = () => {
                       alt=""
                     />
                     <BannerText title={item?.title} link={item.redirectUrl} content={item.content} />
+                    <div className='absolute inset-0 bg-banner_home z-[2]' />
                   </div>
                 </div>
               </SwiperSlide>

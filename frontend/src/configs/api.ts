@@ -67,7 +67,7 @@ axiosClient.interceptors.response.use(
     const { status } = error.response;
     if (window.document.location.pathname.includes("/quan-ly")) {
       if (status === 401 || status === 403) {
-        // authService.doLogin();
+        authService.doLogin();
       }
     }
     return Promise.reject(error);

@@ -51,7 +51,6 @@ export const Header = () => {
       ) : (
         <HeaderMobile />
       )}
-      <button className="text-white" onClick={doLogin}>Login</button>
     </div>
   );
 };

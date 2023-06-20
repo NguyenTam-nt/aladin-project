@@ -6,6 +6,7 @@ export const microServices = {
     feel: "feel", // cảm nhận khách hàng
     infor: "information", // news
     media: "media", // file
+    restaurant: "restaurant", // restaurant
     recruit: "recruitment" // tuyển dụng
 } 
 

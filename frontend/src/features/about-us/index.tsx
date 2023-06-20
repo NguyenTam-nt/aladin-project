@@ -1,10 +1,34 @@
 import { paths } from '@constants/routerPublic'
 import { Banner } from '@features/contact/components/Banner'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import bgContact from "@assets/images/contact/bg-contact.jpg";
 import AboutUsItem from './components/AboutUsItem';
+import PlaceService from '@services/PlaceService';
+import { SIZE_DATA } from '@constants/index';
+import type { IResponseData } from '@typeRules/index';
+import type { PlaceType } from '@typeRules/place';
 
 function AboutUsPage() {
+
+  const [placeResponse, setPlaceResponse] = useState<IResponseData<PlaceType>>()
+
+  useEffect(() => {
+    getPlaceData(0)
+  
+  }, [])
+  
+
+  const getPlaceData = async (page:number) => {
+    try {
+      PlaceService.get_home({page: page, size: SIZE_DATA, sort: "id,desc"})
+        .then(response => {
+          setPlaceResponse(response)
+        })
+        .catch(error => {
+        })
+    } catch (error) {
+    } 
+  }
   return (
     <div className='h-full'>
       <Banner name="Giới thiệu" Link={paths.about.prefix} />
@@ -16,10 +40,11 @@ function AboutUsPage() {
           backgroundSize: "cover",
         }}
       >
-        <AboutUsItem />
-        <AboutUsItem />
-        <AboutUsItem />
-        <AboutUsItem />
+        {
+          placeResponse && placeResponse.list && placeResponse.list.map((item, idx) => {
+            return <AboutUsItem item={item} idx={idx + 1} key={item.id} />
+          })
+        }
       </div>
     </div>
   )
