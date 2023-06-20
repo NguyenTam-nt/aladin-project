@@ -3,15 +3,8 @@ import { ICLogoFrame } from "@assets/icons/ICLogoFrame";
 import { Colors } from "@constants/color";
 import { prefixRootRoute } from "@constants/index";
 import { RouterManage } from "@constants/routerManager";
-import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import {
-  Link,
-  NavLink,
-  useLocation,
-  useMatch,
-  useResolvedPath,
-} from "react-router-dom";
+import { Link, NavLink, useMatch, useResolvedPath } from "react-router-dom";
 interface Props {
   item: {
     path: string;
@@ -54,6 +47,7 @@ const RenderLink = (props: Props) => {
 
 const Navleft = () => {
   const { t } = useTranslation();
+
   return (
     <div>
       <div className="flex items-center h-[120px] justify-center">
@@ -74,7 +68,7 @@ const Navleft = () => {
             <li key={index}>
               <RenderLink item={item} />
             </li>
-          ) : null
+          ) : null;
         })}
       </ul>
     </div>

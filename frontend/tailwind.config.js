@@ -32,6 +32,7 @@ export default {
         bg_F1F1F1: "#F1F1F1",
         TrueBlue_500: "#0073E5",
         gray_CFCFCF: "#CFCFCF",
+        gray_F5F5F5: "#F5F5F5",
         bg_fafafa: "#fafafa",
         waiting: "#FF5A1F",
         text_7E8B99: "#7E8B99"
@@ -117,6 +118,9 @@ export default {
       },
       borderRadius: {
         r32: "32px"
+      },
+      zIndex: {
+        max: '999'
       }
     },
   },
