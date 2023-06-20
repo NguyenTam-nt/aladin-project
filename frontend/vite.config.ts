@@ -8,8 +8,8 @@ export default defineConfig({
   server: {
     port: 3001,
     proxy: {
-      "/api": {
-        // target: "https://hanquochoc.edu.vn",
+      "/services": {
+        target: "http://192.168.1.24:8090",
         changeOrigin: true,
       },
     }

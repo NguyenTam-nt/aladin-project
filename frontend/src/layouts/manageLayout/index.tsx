@@ -6,7 +6,7 @@ import Navleft from "./Navleft";
 const LayoutManager = () => {
   return (
     <div className="bg-bg_fafafa min-w-[1920px] relative">
-      <div className="fixed w-[300px] z-10 bg-white top-0 bottom-0 left-0 shadow-sm">
+      <div className="fixed w-[300px] z-[12] bg-white top-0 bottom-0 left-0 shadow-sm">
         <Navleft />
       </div>
       <div className="w-full grid grid-cols-[300px_1fr]">

@@ -1,13 +1,13 @@
 import { SwiperComponent } from "@components/SwiperComponent";
 import { windownSizeWidth, withResponsive } from "@constants/index";
-import React, { useMemo, useState } from "react";
+import React, { memo, useMemo, useState } from "react";
 import { SwiperSlide } from "swiper/react";
 import { SliderIndicator } from "@components/SliderIndicator";
 import { HomeTopicSalesItem } from "./HomeTopicSalesItem";
 
 const data = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
-export const HomeTopicSalesSlider = () => {
+export const HomeTopicSalesSlider = memo(() => {
   const [activeThumb, setThumbActive] = useState<any>(null);
   const width = useMemo(() => {
     return windownSizeWidth > withResponsive._1690
@@ -65,4 +65,4 @@ export const HomeTopicSalesSlider = () => {
       </div>
     </>
   );
-};
+})

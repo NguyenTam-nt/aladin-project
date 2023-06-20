@@ -12,16 +12,12 @@ const Header = () => {
   const { t } = useTranslation();
   const { pathname } = useLocation();
   const [nameHeader, setNameHeader] = useState<string | null>(null);
-  // const resolved = useResolvedPath(pathname);
-  // const match = useMatch({ path: pathname, end: false });
 
   useEffect(() => {
     const endPath = pathname.slice(pathname.lastIndexOf("/") + 1);
     const ObName = RouterManage.find((item) => {
       return item.path.includes(endPath);
     });
-    console.log(ObName, "jasjdfhj");
-
     if (ObName) {
       setNameHeader(ObName.name!);
     }

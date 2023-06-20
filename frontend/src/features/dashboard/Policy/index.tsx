@@ -1,22 +1,54 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { TitleTopic } from "../home/components/TitleTopic";
 import { useTranslation } from "react-i18next";
 import { Button } from "../components/Button";
 import { PolicyItem } from "./components/PolicyItem";
-import { ICPlus } from "@assets/icons/ICPlus";
 import { ICAdd } from "@assets/icons/ICAdd";
 import { useNavigate } from "react-router-dom";
 import { prefixRootRoute } from "@constants/index";
 import { pathsAdmin } from "@constants/routerManager";
+import { policyService } from "@services/policy";
+import type { INews } from "@typeRules/index";
+import { useHandleLoading } from "../components/Loading";
+import { useShowMessage } from "../components/DiglogMessage";
 
 export const Policy = () => {
   const { t } = useTranslation();
+  const [policies, setPolicies] = useState<INews[]>([]);
   const navigation = useNavigate();
+  const { showLoading } = useHandleLoading();
+  const { showError, showSuccess } = useShowMessage();
   const handleNavigation = () => {
     navigation(
       `${prefixRootRoute.admin}/${pathsAdmin.policy.prefix}/${pathsAdmin.policy.add}`
     );
   };
+
+  useEffect(() => {
+    policyService
+      .getPolicy({ page: 0, size: 12, sort: "id,desc" })
+      .then((data) => {
+        setPolicies(data.list);
+      });
+  }, []);
+
+  const handleDelete = (id: number) => {
+    showLoading();
+    policyService
+      .delete(id)
+      .then(() => {
+        const newPolicies = [...policies];
+        const index = newPolicies.findIndex((item) => item.id === id);
+        newPolicies.splice(index, 1);
+
+        setPolicies([...newPolicies]);
+        showSuccess("adminPolicy.message_delete_success");
+      })
+      .catch(() => {
+        showError("message.actions.error.delete_banner");
+      });
+  };
+
   return (
     <>
       <div className="flex items-baseline justify-between">
@@ -26,27 +58,24 @@ export const Policy = () => {
             {t("adminPolicy.maxItem")}
           </span>
         </div>
-        <Button
-          onClick={handleNavigation}
-          className="max-w-[177px]"
-          text="adminPolicy.add"
-          imageLeft={
-            <span className="mr-2">
-              <ICAdd />
-            </span>
-          }
-          color={"empty"}
-        />
+        {policies.length < 8 ? (
+          <Button
+            onClick={handleNavigation}
+            className="max-w-[177px]"
+            text="adminPolicy.add"
+            imageLeft={
+              <span className="mr-2">
+                <ICAdd />
+              </span>
+            }
+            color={"empty"}
+          />
+        ) : null}
       </div>
       <div className="grid grid-cols-4 gap-[24px]">
-        <PolicyItem />
-        <PolicyItem />
-        <PolicyItem />
-        <PolicyItem />
-        <PolicyItem />
-        <PolicyItem />
-        <PolicyItem />
-        <PolicyItem />
+        {policies.map((item, index) => {
+          return <PolicyItem onDelete={handleDelete} data={item} key={index} />;
+        })}
       </div>
     </>
   );
