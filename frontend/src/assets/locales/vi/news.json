@@ -1,0 +1,19 @@
+{
+    "news": {
+        "listNew": "Danh sách tin tức",
+        "create": "Tạo mới tin tức",
+        "add": "Thêm bài viết",
+        "update": "Sửa tin tức",
+        "delete": "Xóa tin tức",
+        "uploadImage": "Tải hình ảnh lên ",
+        "form": {
+            "title": "Tiêu đề",
+            "des": "Mô tả",
+            "content": "Nội dung",
+            "inputTitle": "Nhập tiêu đề",
+            "inputContent": "Nhập nội dung",
+            "inputDes": "Nhập mô tả"
+        },
+        "message_delete": "Bạn có muốn xóa tin tức này không ?"
+    }
+}

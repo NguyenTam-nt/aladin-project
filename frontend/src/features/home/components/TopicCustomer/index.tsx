@@ -9,18 +9,21 @@ import { SwiperComponent } from "@components/SwiperComponent";
 import { SwiperSlide } from "swiper/react";
 import type { IReview } from "@typeRules/index";
 import { reviewService } from "@services/thanksCustomer";
+import useInView from "@hooks/useInView";
+import clsx from "clsx";
 
 export const TopicCustomer = () => {
-  const [reviews, setReviews] = useState<IReview[]>([])
+  const [reviews, setReviews] = useState<IReview[]>([]);
 
   useEffect(() => {
-    reviewService.get_home({page: 1, size: 6, sort: "show,desc"}).then((data) => {
-        setReviews(data)
-    })
-  }, [])
+    reviewService
+      .get_home({ page: 1, size: 6, sort: "show,desc" })
+      .then((data) => {
+        setReviews(data);
+      });
+  }, []);
 
-  return (
-    reviews.length ? (
+  return reviews.length ? (
     <div className="relative">
       {windownSizeWidth > withResponsive._1024 ? (
         <>
@@ -41,7 +44,12 @@ export const TopicCustomer = () => {
           <TopicCustomerPC data={reviews} />
         ) : (
           <div className="mt-[24px] ">
-            <SwiperComponent slidesPerView={windownSizeWidth > withResponsive._420 ? 2 : "auto"} spaceBetween={16}>
+            <SwiperComponent
+              slidesPerView={
+                windownSizeWidth > withResponsive._420 ? 2 : "auto"
+              }
+              spaceBetween={16}
+            >
               {reviews.map((item, index) => {
                 return (
                   <SwiperSlide key={index} className="w-[70%] _420:w-full">
@@ -56,31 +64,82 @@ export const TopicCustomer = () => {
         )}
       </div>
     </div>
-    ) : null
-  );
+  ) : null;
 };
 
 type PropsPc = {
-  data: IReview[]
-}
+  data: IReview[];
+};
 
-const TopicCustomerPC = memo(({data}:PropsPc) => {
+const TopicCustomerPC = memo(({ data }: PropsPc) => {
+  const { ref, isInView } = useInView<HTMLDivElement>();
   return (
-    <div className="grid grid-cols-4 gap-[24px] [&>div]:flex [&>div]:flex-col [&>div]:gap-y-[24px]">
+    <div
+      ref={ref}
+      className="grid grid-cols-4 gap-[24px] [&>div]:flex [&>div]:flex-col [&>div]:gap-y-[24px]"
+    >
       <div className=" justify-center">
-      {data?.[0] &&  <TopicCustomerItem data={data?.[0]} />}  
+        {data?.[0] && (
+          <div className={clsx({ "animate__animated animate__customer": isInView })}
+          style={{
+            ["--animate-count" as string]: 4,
+          }}
+          >
+            <TopicCustomerItem data={data?.[0]} />{" "}
+          </div>
+        )}
       </div>
       <div className="mt-[100px]">
-      {data?.[1] &&  <TopicCustomerItem data={data?.[1]} />}  
-      {data?.[2] &&  <TopicCustomerItem data={data?.[2]} />}  
+        {data?.[1] && (
+          <div className={clsx({ "animate__animated animate__customer": isInView })}
+          style={{
+            ["--animate-count" as string]: 2,
+          }}
+          >
+            <TopicCustomerItem data={data?.[1]} />{" "}
+          </div>
+        )}
+        {data?.[2] && (
+          <div className={clsx({ "animate__animated animate__customer": isInView })}
+          style={{
+            ["--animate-count" as string]: 3,
+          }}
+          >
+            <TopicCustomerItem data={data?.[2]} />{" "}
+          </div>
+        )}
       </div>
       <div>
-      {data?.[3] &&  <TopicCustomerItem data={data?.[3]} />}  
-      {data?.[4] &&  <TopicCustomerItem data={data?.[4]} />}  
+        {data?.[3] && (
+          <div className={clsx({ "animate__animated animate__customer": isInView })}
+          style={{
+            ["--animate-count" as string]: 1,
+          }}
+          >
+            <TopicCustomerItem data={data?.[3]} />{" "}
+          </div>
+        )}
+        {data?.[4] && (
+          <div className={clsx({ "animate__animated animate__customer": isInView })}
+          style={{
+            ["--animate-count" as string]: 2,
+          }}
+          >
+            <TopicCustomerItem data={data?.[4]} />{" "}
+          </div>
+        )}
       </div>
       <div className=" justify-center">
-      {data?.[5] &&  <TopicCustomerItem data={data?.[5]} />}  
+        {data?.[5] && (
+          <div className={clsx({ "animate__animated animate__customer": isInView })}
+          style={{
+            ["--animate-count" as string]: 0,
+          }}
+          >
+            <TopicCustomerItem data={data?.[5]} />{" "}
+          </div>
+        )}
       </div>
     </div>
   );
-})
+});

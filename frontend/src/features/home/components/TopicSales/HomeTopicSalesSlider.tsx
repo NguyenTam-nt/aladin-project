@@ -4,6 +4,8 @@ import React, { memo, useMemo, useState } from "react";
 import { SwiperSlide } from "swiper/react";
 import { SliderIndicator } from "@components/SliderIndicator";
 import { HomeTopicSalesItem } from "./HomeTopicSalesItem";
+import useInView from "@hooks/useInView";
+import clsx from "clsx";
 
 const data = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
@@ -12,22 +14,26 @@ export const HomeTopicSalesSlider = memo(() => {
   const width = useMemo(() => {
     return windownSizeWidth > withResponsive._1690
       ? 1600 - 1600 * 0.4 - 80
-      : windownSizeWidth > withResponsive._1024 ?  windownSizeWidth - windownSizeWidth * 0.4 - 80 : windownSizeWidth - 40;
+      : windownSizeWidth > withResponsive._1024
+      ? windownSizeWidth - windownSizeWidth * 0.4 - 80
+      : windownSizeWidth - 40;
   }, []);
-  const dataRender = Array.from({ length: Math.ceil(data.length / (windownSizeWidth > withResponsive._1024 ? 3 : 1)) });
+  const dataRender = Array.from({
+    length: Math.ceil(
+      data.length / (windownSizeWidth > withResponsive._1024 ? 3 : 1)
+    ),
+  });
+
+  const {ref, isInView} = useInView<HTMLDivElement>()
+
   return (
-    <>
+    <div ref={ref}>
       <SwiperComponent
-        // grabCursor={true}
-        // keyboard={{
-        //   enabled: true,
-        // }}
         thumbs={{
           swiper: activeThumb && !activeThumb.destroyed ? activeThumb : null,
         }}
         slidesPerView={windownSizeWidth > withResponsive._1024 ? 1 : "auto"}
         spaceBetween={24}
-        // slidesPerGroup={3}
         style={{
           width,
         }}
@@ -39,10 +45,18 @@ export const HomeTopicSalesSlider = memo(() => {
                   <div className="grid grid-cols-3 items-center gap-x-[24px]">
                     {data.slice(indexP * 3, indexP * 3 + 3).map((_, index) => {
                       return (
-                        <HomeTopicSalesItem
-                          key={index}
-                          index={indexP * 3 + index + 1}
-                        />
+                        <div className={clsx({
+                          "animate__animated animate__fadeInRight": isInView
+                        })}
+                        style={{
+                          ["--animate-count" as string]: index
+                        }}
+                        >
+                          <HomeTopicSalesItem
+                            key={index}
+                            index={indexP * 3 + index + 1}
+                          />
+                        </div>
                       );
                     })}
                   </div>
@@ -63,6 +77,6 @@ export const HomeTopicSalesSlider = memo(() => {
           setThumbActive={setThumbActive}
         />
       </div>
-    </>
+    </div>
   );
-})
+});

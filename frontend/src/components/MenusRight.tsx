@@ -9,6 +9,8 @@ import { Button } from "./Button";
 import { MoneyLineThrough } from "@features/home/components/MoneyLineThrough";
 import { ICDeleteTrash } from "@assets/icons/ICDeleteTrash";
 import { useClickOutItem } from "@hooks/useClickOutItem";
+import { useNavigate } from "react-router-dom";
+import { paths } from "@constants/routerPublic";
 
 export const MenusRight = () => {
   const { t } = useTranslation();
@@ -17,6 +19,12 @@ export const MenusRight = () => {
   // const handleOpen = () => {
   //   setOpen(!open);
   // };
+  const navigate = useNavigate();
+
+  const handleNavigate = () => {
+    navigate(paths.orderFood.prefix);
+  };
+
   return (
     <div
       ref={ref}
@@ -57,6 +65,7 @@ export const MenusRight = () => {
             </span>
           </div>
           <Button
+            onClick={handleNavigate}
             classNameParent="!w-full"
             className="bg-secondary w-full"
             color="primary"

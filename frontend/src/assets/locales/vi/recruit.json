@@ -1,0 +1,20 @@
+{
+    "recruit": {
+        "listRecruit": "Danh sách tin tuyển dụng",
+        "create": "Tạo mới tin tuyển dụng",
+        "add": "Thêm bài viết",
+        "update": "Sửa bài viết",
+        "delete": "Xóa bài viết",
+        "salary": "Lương",
+        "timeEndRecruit": "Hạn tuyển dụng",
+        "form": {
+            "title": "Nhập tiêu đề",
+            "salary": "Nhập mức lương",
+            "timeEnd": "Chọn ngày hết hạn tuyển dụng",
+            "address": "Nhập địa chỉ",
+            "content": "Nhập nội dung"
+        },
+        "address": "Địa chỉ",
+        "message_delete": "Bạn có chắc chắn xóa tin tuyển dụng này khỏi hệ thống?"
+    }
+}

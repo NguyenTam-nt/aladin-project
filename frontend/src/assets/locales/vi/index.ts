@@ -7,6 +7,8 @@ import contact from "./contact.json"
 import common from "./common.json"
 import place from "./place.json"
 import menu from "./menu.json"
+import news from "./news.json"
+import recruit from "./recruit.json"
 import orderFood from "./order-food.json"
 import homeAdmin from "./dashboard/home.json"
 import adminHome from "./dashboard/banner.json"
@@ -26,6 +28,8 @@ export const vi = {
     ...common,
     ...place,
     ...menu,
+    ...news,
+    ...recruit,
     ...orderFood,
     ...homeAdmin,
     ...adminHome,

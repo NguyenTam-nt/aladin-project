@@ -1,10 +1,16 @@
 import React, { useMemo, Fragment } from "react";
-import banner from "@assets/images/promotion/bannerTop.png";
 import { Link, useLocation } from "react-router-dom";
 import { IRouter, routersPublic } from "@constants/routerPublic";
 import { useTranslation } from "react-i18next";
 import { prefixRootRoute } from "@constants/index";
-export const Banner = () => {
+import type { HomeTopicType } from "@typeRules/home";
+import { useGetTopic } from "@features/dashboard/home/components/useGetTopic";
+
+type Props = {
+  type: HomeTopicType
+}
+
+export const Banner = ({type}:Props) => {
   const params = useLocation();
   const { t } = useTranslation();
   const rootPath = useMemo(() => {
@@ -26,12 +32,15 @@ export const Banner = () => {
     return paths;
   }, [params.pathname]);
 
+  const {listBanner} = useGetTopic(type)
+
+
   return (
     <div className="h-[488px] w-full relative flex items-end">
       <img
         alt=""
         className=" absolute inset-0 h-full w-full object-cover"
-        src={banner}
+        src={listBanner?.listBanner?.[0].linkMedia}
       />
       <div className="bg-banner_home absolute inset-0 z-[1]" />
       <div className="w-rp relative z-[2] mb-[140px] text-text_white">

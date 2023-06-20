@@ -4,11 +4,20 @@ import { useEffect, useState } from 'react'
 
 
 export const useGetTopic = (type:HomeTopicType) => {
-    const [listBanner, setListBanner] = useState<ITopicType>()
+    const [listBanner, setListBanner] = useState<ITopicType>(() => {
+        try {
+            return (
+              JSON.parse(localStorage.getItem(`banner-${type}`) || "") ?? undefined
+            );
+          } catch (error) {
+            return undefined;
+          }
+    })
     useEffect(() => {
         homeService.getHomeTopicByType(type).then((data) => {
-            console.log({data})
+           
             setListBanner(data)
+            localStorage.setItem(`banner-${type}`, JSON.stringify(data))
         })
     }, [type])
 

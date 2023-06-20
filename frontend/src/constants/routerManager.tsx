@@ -13,24 +13,71 @@ import LinkTableIcon from "@assets/icons/LinkTableIcon";
 import LinkVoucherIcon from "@assets/icons/LinkVoucherIcon";
 import { lazy } from "react";
 
+const HomeAdmin = lazy(() =>
+  import("@features/dashboard/home").then((module) => ({
+    default: module.HomeAdmin,
+  }))
+);
+const BannerAdmin = lazy(() =>
+  import("@features/dashboard/banners").then((module) => ({
+    default: module.BannerAdmin,
+  }))
+);
+const PolicyAdmin = lazy(() =>
+  import("@features/dashboard/Policy").then((module) => ({
+    default: module.Policy,
+  }))
+);
+const PolicyHandleAdmin = lazy(() =>
+  import("@features/dashboard/Policy/components/PolicyHandle").then(
+    (module) => ({ default: module.PolicyHandle })
+  )
+);
+const ThanksCustomer = lazy(() =>
+  import("@features/dashboard/thanks-customer").then((module) => ({
+    default: module.ThanksCustomer,
+  }))
+);
+const ThanksCustomerHandler = lazy(() =>
+  import(
+    "@features/dashboard/thanks-customer/components/ThanksCustomerHandler"
+  ).then((module) => ({ default: module.ThanksCustomerHandler }))
+);
+const CategoryProduct = lazy(() =>
+  import("@features/dashboard/category-product").then((module) => ({
+    default: module.CategoryProduct,
+  }))
+);
+const ProductAdmin = lazy(() =>
+  import("@features/dashboard/product").then((module) => ({
+    default: module.ProductAdmin,
+  }))
+);
+const ProductHandler = lazy(() =>
+  import("@features/dashboard/product/components/ProductHandler").then(
+    (module) => ({ default: module.ProductHandler })
+  )
+);
+const CommentAdmin = lazy(() =>
+  import("@features/dashboard/comment").then((module) => ({
+    default: module.CommentAdmin,
+  }))
+);
 
-const HomeAdmin = lazy(() => import("@features/dashboard/home").then(module => ({default: module.HomeAdmin})));
-const BannerAdmin = lazy(() => import("@features/dashboard/banners").then(module => ({default: module.BannerAdmin})));
-const PolicyAdmin = lazy(() => import("@features/dashboard/Policy").then(module => ({default: module.Policy})));
-const PolicyHandleAdmin = lazy(() => import("@features/dashboard/Policy/components/PolicyHandle").then(module => ({default: module.PolicyHandle})));
-const ThanksCustomer = lazy(() => import("@features/dashboard/thanks-customer").then(module => ({default: module.ThanksCustomer})));
-const ThanksCustomerHandler = lazy(() => import("@features/dashboard/thanks-customer/components/ThanksCustomerHandler").then(module => ({default: module.ThanksCustomerHandler})));
-const CategoryProduct = lazy(() => import("@features/dashboard/category-product").then(module => ({default: module.CategoryProduct})));
-const ProductAdmin = lazy(() => import("@features/dashboard/product").then(module => ({default: module.ProductAdmin})));
-const ProductHandler = lazy(() => import("@features/dashboard/product/components/ProductHandler").then(module => ({default: module.ProductHandler})));
-const CommentAdmin = lazy(() => import("@features/dashboard/comment").then(module => ({default: module.CommentAdmin})));
-
-const PlaceAdmin = lazy(() => import("@features/dashboard/place").then(module => ({default: module.PlaceAdmin})));
-const PlaceAdminAdd = lazy(() => import("@features/dashboard/place/PlaceAdminAdd"));
+const PlaceAdmin = lazy(() =>
+  import("@features/dashboard/place").then((module) => ({
+    default: module.PlaceAdmin,
+  }))
+);
+const PlaceAdminAdd = lazy(
+  () => import("@features/dashboard/place/PlaceAdminAdd")
+);
 
 const ContactAdmin = lazy(() => import("@features/dashboard/contact"));
 const VoucherAdmin = lazy(() => import("@features/dashboard/voucher"));
-const VoucherAddAdmin = lazy(() => import("@features/dashboard/voucher/VoucherAdd"));
+const VoucherAddAdmin = lazy(
+  () => import("@features/dashboard/voucher/VoucherAdd")
+);
 const OrderFoodAdmin = lazy(() => import("@features/dashboard/order-food"));
 
 interface routeMntype {
@@ -43,15 +90,23 @@ interface routeMntype {
 }
 
 function ManageHome() {
-  return <div>quản lý trang chủ</div>;
+  return <div className="h-[2000px]">quản lý trang chủ</div>;
 }
+const ManageNews = lazy(() => import("@features/dashboard/news/index"));
+const CreateNew = lazy(() => import("@features/dashboard/news/CreateNew"));
+const RecuitmentManage = lazy(
+  () => import("@features/dashboard/recruit/index")
+);
+const RecruitmentEdit = lazy(
+  () => import("@features/dashboard/recruit/RecruitmentEdit")
+);
 
 export const pathsAdmin = {
   home: {
-    prefix:  "trang-chu"
+    prefix: "trang-chu",
   },
   banner: {
-    prefix:  "banner"
+    prefix: "banner",
   },
   place: {
     prefix: "co-so",
@@ -61,37 +116,51 @@ export const pathsAdmin = {
   voucher: {
     prefix: "voucher",
     add: "them",
-    update: "sua/:id"
+    update: "sua/:id",
   },
   orderFood: {
-    prefix: "dat-mon"
+    prefix: "dat-mon",
   },
   contact: {
-    prefix:  "lien-he"
+    prefix: "lien-he",
   },
   policy: {
     prefix: "chinh-sach",
     add: "them",
-    update: ":id"
+    update: ":id",
   },
   thankCustomer: {
     prefix: "cam-nhan-khach-hang",
     add: "them",
-    update: ":id"
+    update: ":id",
   },
   category: {
-    prefix: "danh-muc-san-pham"
+    prefix: "danh-muc-san-pham",
   },
   product: {
     prefix: "san-pham",
     add: "them",
-    update: ":id"
+    update: ":id",
   },
   comment: {
-    prefix: "binh-luan"
-  }
-
-}
+    prefix: "binh-luan",
+  },
+  news: {
+    prefix: "tin-tuc",
+    add: "them",
+    update: ":id",
+  },
+  recuire: {
+    prefix: "tuyen-dung",
+    add: "them",
+    update: ":id",
+  },
+  orderFootTable: {
+    prefix: "yeu-cau-dat-ban",
+    add: "them",
+    update: ":id",
+  },
+};
 
 export const RouterManage: routeMntype[] = [
   {
@@ -183,14 +252,42 @@ export const RouterManage: routeMntype[] = [
     isHidden: true,
   },
   {
-    path: "tin-tuc",
-    element: ManageHome,
+    path: pathsAdmin.news.prefix,
+    element: ManageNews,
     name: "navigation.navleft.news",
     icon: LinkNewIcon,
   },
   {
-    path: "tuyen-dung",
-    element: ManageHome,
+    path: `${pathsAdmin.news.prefix}/${pathsAdmin.news.add}`,
+    element: CreateNew,
+    isHidden: true,
+    name: "navigation.navleft.news",
+    icon: LinkNewIcon,
+  },
+  {
+    path: `${pathsAdmin.news.prefix}/${pathsAdmin.news.update}`,
+    element: CreateNew,
+    isHidden: true,
+    name: "navigation.navleft.news",
+    icon: LinkNewIcon,
+  },
+  {
+    path: pathsAdmin.recuire.prefix,
+    element: RecuitmentManage,
+    name: "navigation.navleft.recuire",
+    icon: LinkNewIcon,
+  },
+  {
+    path: `${pathsAdmin.recuire.prefix}/${pathsAdmin.recuire.add}`,
+    isHidden: true,
+    element: RecruitmentEdit,
+    name: "navigation.navleft.recuire",
+    icon: LinkNewIcon,
+  },
+  {
+    path: `${pathsAdmin.recuire.prefix}/${pathsAdmin.recuire.update}`,
+    isHidden: true,
+    element: RecruitmentEdit,
     name: "navigation.navleft.recuire",
     icon: LinkNewIcon,
   },
@@ -201,7 +298,7 @@ export const RouterManage: routeMntype[] = [
     icon: LinkContacIcon,
   },
   {
-    path: "yeu-cau-dat-ban",
+    path: pathsAdmin.orderFootTable.prefix,
     element: ManageHome,
     name: "navigation.navleft.tableReserVataion",
     icon: LinkTableIcon,
@@ -216,7 +313,7 @@ export const RouterManage: routeMntype[] = [
     path: pathsAdmin.voucher.prefix,
     element: VoucherAdmin,
     name: "navigation.navleft.voucher",
-    icon: LinkVoucherIcon
+    icon: LinkVoucherIcon,
   },
   {
     path: `${pathsAdmin.voucher.prefix}/${pathsAdmin.voucher.add}`,
