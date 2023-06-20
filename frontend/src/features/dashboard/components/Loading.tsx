@@ -15,7 +15,11 @@ export const Loading = () => {
 export const useHandleLoading = () => {
   const { setElementModal, hideModal } = useModalContext();
   const showLoading = () => {
-    setElementModal(<Loading />);
+    setElementModal(
+      <div className=" fixed inset-0 flex items-center justify-center">
+        <Loading />
+      </div>
+    );
   };
 
   return {

@@ -4,7 +4,7 @@ import { useModalContext } from "@contexts/hooks/modal";
 
 type Props = {
   onSubmit?: () => void;
-  onCacel?: () => void;
+  onCancel?: () => void;
   isAdd?: boolean;
   loading?: boolean;
 };
@@ -12,7 +12,7 @@ type Props = {
 export const GroupButtonAdmin = ({
   onSubmit,
   isAdd = true,
-  onCacel,
+  onCancel,
   loading = false
 }: Props) => {
   const { hideModal } = useModalContext();
@@ -20,7 +20,7 @@ export const GroupButtonAdmin = ({
     <div className="flex justify-end items-center mt-[24px]">
       <Button
         type="button"
-        onClick={onCacel ? onCacel : hideModal}
+        onClick={onCancel ? onCancel : hideModal}
         text="button._cancel"
         color="empty"
         className="!w-[120px] mr-[24px]"

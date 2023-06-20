@@ -12,5 +12,9 @@ export const homeService = {
     updateHomeTopic: (data:ITopicType):Promise<ITopicType> => {
         const api = getMicroService(`admin/${apis.banner}`, microServices.home)
         return HttpService.axiosClient.put(api, data)
+    },
+    deleteHomeTopic: (id:number) => {
+        const api = getMicroService(`admin/${apis.banner}/${id}`, microServices.home)
+        return HttpService.axiosClient.delete(api)
     }
 }

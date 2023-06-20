@@ -1,5 +1,5 @@
 import { GroupButtonAdmin } from "@features/dashboard/components/GroupButtonAdmin";
-import React from "react";
+import React, { memo, useEffect } from "react";
 import { HomeTopicType, ITopicHome } from "@typeRules/home";
 import { useHandleImage } from "../useHandleImage";
 import TitleInput from "@components/TitleInput";
@@ -8,31 +8,95 @@ import { ImagePreview } from "@features/dashboard/components/ImagePreview";
 import { InputUploadFile } from "@features/dashboard/components/InputUploadFIle";
 import clsx from "clsx";
 import { useFormik } from "formik";
-import { Input } from "@features/dashboard/components/Input";
-import { Textarea } from "@features/dashboard/components/Textarea";
-import { useGetTopic } from "./useGetTopic";
+import { uploadService } from "@services/upload";
+import * as Yup from "yup";
+import { TextError } from "@features/dashboard/components/TextError";
+import { GroupInputContent } from "@features/dashboard/components/GroupInputContent";
 
 type Props = {
   type: HomeTopicType;
+  data?: ITopicHome;
+  onSubmit: (data: ITopicHome) => void;
+  onDelete?: (id: number) => void;
 };
 
-export const TopicByType = ({ type }: Props) => {
-  const {listBanner} =  useGetTopic(type)
+export const TopicByType = memo(({ type, data, onSubmit, onDelete }: Props) => {
   const formik = useFormik<ITopicHome>({
     initialValues: {
       title: "",
       content: "",
-      linkMedia: ""
     },
-    onSubmit: () => {},
+    validationSchema: Yup.object({
+      title: Yup.string()
+        .required("message.form.required")
+        .max(40, "message.form.max"),
+      content: Yup.string()
+        .required("message.form.required")
+        .max(350, "message.form.max"),
+    }),
+    onSubmit: async (dataValue) => {
+      try {
+        if (!data?.linkMedia && !file) {
+          handleMessageFile();
+          return;
+        }
+        let link = data?.linkMedia || null;
+        let id = data?.id || null;
+        if (file) {
+          const formData = new FormData();
+          formData.append("file", file);
+          const images = await uploadService.postImage(formData);
+          link = images.list?.[0].linkMedia || null;
+        }
+        onSubmit({
+          ...dataValue,
+          linkMedia: link || "",
+          id,
+        });
+        if (!data) {
+          formik.resetForm();
+          resetImage()
+        }
+      } catch (error) {}
+    },
   });
 
-  const { preViewImage, handleChange, refInput, handleDelete } =
-    useHandleImage();
+  const deleteBanner = () => {
+    if (data) onDelete?.(Number(data?.id));
+  };
 
-    const handleSetData = (listBanner:ITopicHome[]) => {
 
+
+  const {
+    preViewImage,
+    handleChange,
+    refInput,
+    handleDelete,
+    file,
+    handleMessageFile,
+    message,
+    resetImage
+  } = useHandleImage(data?.linkMedia || "");
+
+  const handleSetData = (listBanner?: ITopicHome) => {
+    formik.setFieldValue("title", listBanner?.title || "");
+    formik.setFieldValue("content", listBanner?.content || "");
+  };
+
+  useEffect(() => {
+    if (data) {
+      handleSetData(data);
     }
+  }, [data]);
+
+  const handleResetData = () => {
+    if(!data) {
+      resetImage();
+      formik.resetForm()
+    }else {
+      handleSetData(data)
+    }
+  }
 
   return (
     <>
@@ -50,13 +114,16 @@ export const TopicByType = ({ type }: Props) => {
             />
             <div className="flex-1">
               <div
-                className={clsx("h-full", { hidden: !!preViewImage.trim() })}
+                className={clsx("h-full max-h-[190px]", {
+                  hidden: !!preViewImage.trim(),
+                })}
               >
                 <InputUploadFile ref={refInput} onChange={handleChange} />
+                <TextError message={message} />
               </div>
               <div
                 //   onClick={handleClickInput}
-                className={clsx("h-full w-full", {
+                className={clsx("h-full w-full max-h-[190px]", {
                   hidden: !preViewImage.trim(),
                 })}
               >
@@ -66,30 +133,29 @@ export const TopicByType = ({ type }: Props) => {
           </div>
         ) : null}
         <div className="flex-1">
-          <div className="grid grid-cols-1 gap-y-[16px]">
-            <div>
-              <TitleInput isRequired={false} name={"adminHome.form.title"} />
-              <Input
-                placeholder="adminHome.form.title_placeholder"
-                maxLength={40}
-              />
-            </div>
-            <div>
-              <TitleInput isRequired={false} name={"adminHome.form.content"} />
-              <Textarea
-                placeholder="adminHome.form.content_placeholder"
-                maxLength={350}
-              />
-            </div>
-          </div>
+          <GroupInputContent
+            title={formik.values.title || ""}
+            content={formik.values.content || ""}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            titleError={formik.touched.title && formik.errors.title ? formik.errors.title : ""}
+            contentError={formik.touched.content && formik.errors.content ? formik.errors.content : ""}
+          />
         </div>
-        {type !== HomeTopicType.sales ? (
-          <button className=" absolute bottom-0 flex items-center justify-center right-[-64px] h-[190px] w-[40px] bg-bg_F1F1F1">
+        {(type !== HomeTopicType.sales && data) ? (
+          <button
+            onClick={deleteBanner}
+            className=" absolute bottom-0 flex items-center justify-center right-[-64px] h-[190px] w-[40px] bg-bg_F1F1F1"
+          >
             <ICDeleteTrashLight />
           </button>
         ) : null}
       </div>
-      <GroupButtonAdmin />
+      <GroupButtonAdmin
+        onCancel={handleResetData}
+        onSubmit={formik.handleSubmit}
+        isAdd={false}
+      />
     </>
   );
-};
+});

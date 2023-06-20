@@ -12,5 +12,5 @@ export const useGetTopic = (type:HomeTopicType) => {
         })
     }, [type])
 
-    return {listBanner}
+    return {listBanner, setListBanner}
 }

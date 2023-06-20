@@ -27,3 +27,5 @@ export const fileBytes = {
     "_10": 10485760,
     "_20": 20971520,
 }
+
+export const SIZE_DATA = 12

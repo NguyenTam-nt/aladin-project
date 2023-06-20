@@ -2,29 +2,39 @@ import { pathsAdmin } from "@constants/routerManager";
 import { useModalContext } from "@contexts/hooks/modal";
 import { Button } from "@features/dashboard/components/Button";
 import { DiglogComfirmDelete } from "@features/dashboard/components/DiglogComfirmDelete";
+import type { INews } from "@typeRules/index";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
-export const PolicyItem = () => {
+type Props = {
+  data: INews
+  onDelete: (id:number) => void
+}
+
+export const PolicyItem = ({data, onDelete}:Props) => {
   const navigation = useNavigate();
   const { setElementModal } = useModalContext();
   const handleNavigation = () => {
-    navigation(`123`);
+    navigation(`${data.id}`);
   };
+
+  const handleDelete = () => {
+    onDelete(Number(data.id))
+  }
 
   const handleDeleteModal = () => {
     setElementModal(
-      <DiglogComfirmDelete message="adminPolicy.message_delete" />
+      <DiglogComfirmDelete onClick={handleDelete} message="adminPolicy.message_delete" />
     );
   };
 
   return (
     <div className="h-[223px] flex flex-col p-[16px] bg-white">
       <p className=" text-_16 font-semibold text-text_black line-clamp-1">
-        Hỗ trợ đặt bàn
+       {data.title}
       </p>
       <p className=" line-clamp-2 text-_14 mr-[16px] text-text_secondary">
-        Nhà hàng chúng tôi luôn sẵn sàng hỗ trợ quý khách hàng đặt bàn theo ...
+      {data.description}
       </p>
       <div className="mt-auto">
         <Button

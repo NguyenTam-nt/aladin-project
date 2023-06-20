@@ -63,3 +63,9 @@ export const validateImage = async (file: File) => {
     return "";
   }
 
+
+
+  export const isUrl = (url: string) => {
+    const regexp = /(ftp|http|https|blog|data:image):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/
+    return regexp.test(url)
+  }  

@@ -2,52 +2,52 @@ import React from "react";
 import { TitleTopic } from "../home/components/TitleTopic";
 import { BannerHome } from "./components/BannerHome";
 import { BannerItem } from "./components/BannerItem";
-
-export enum BannerType {
-  "about" = "ABOUT",
-  "order" = "ORDER",
-  "menu" = "MENU",
-  "news" = "NEWS",
-  "contact" = "CONTACT",
-  "recruitment" = "RECRUITMENT",
-}
+import { HomeTopicType } from "@typeRules/home";
+import { useTranslation } from "react-i18next";
 
 const banners = [
   {
     name: "giới thiệu",
-    type: BannerType.about,
+    type: HomeTopicType.about,
   },
   {
     name: "đặt bàn",
-    type: BannerType.order,
+    type: HomeTopicType.book,
   },
   {
     name: "thực đơn",
-    type: BannerType.menu,
+    type: HomeTopicType.menu,
   },
   {
     name: "tin tức",
-    type: BannerType.news,
+    type: HomeTopicType.news,
   },
   {
     name: "liên hệ",
-    type: BannerType.contact,
+    type: HomeTopicType.contact,
   },
   {
     name: "tuyển dụng",
-    type: BannerType.recruitment,
+    type: HomeTopicType.recruit,
   },
 ];
 
 export const BannerAdmin = () => {
+  const {t} = useTranslation()
   return (
     <div className="grid grid-cols-1 gap-y-[24px]">
       <div>
+        <div className="flex items-baseline">
         <TitleTopic
           name="adminBanner.title"
           subTranslattion={{ page: "Trang chủ" }}
         />
+        <span className="text-_14 text-text_A1A0A3 italic ml-2">
+          {t("adminBanner.maxBanner")}
+        </span>
+        </div>
         <BannerHome />
+       
       </div>
         {banners.map((item, index) => {
           return <BannerItem key={index} name={item.name} type={item.type} />;

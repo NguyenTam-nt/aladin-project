@@ -12,45 +12,48 @@ import { useShowMessage } from "@features/dashboard/components/DiglogMessage";
 import { useHandleLoading } from "@features/dashboard/components/Loading";
 
 export const HomeVideo = () => {
+  const { listBanner, setListBanner } = useGetTopic(HomeTopicType.video);
+  const { showError, showSuccess } = useShowMessage();
+  const { showLoading } = useHandleLoading();
 
-  const {listBanner} = useGetTopic(HomeTopicType.video)
-  const {showError, showSuccess} = useShowMessage()
-  const {showLoading} = useHandleLoading()
-
-  const handleEditImage = async (file:File) => {
+  const handleEditImage = async (file: File) => {
     try {
-      showLoading()
-      const formData = new FormData()
-      formData.append("file", file)
-      const images = await uploadService.postImage(formData)
-      await homeService.updateHomeTopic({type: HomeTopicType.video, listBanner: [{
-        id: listBanner?.listBanner?.[0].id,
-        linkMedia: images?.list?.[0].linkMedia
-      }]})
-      showSuccess("message.actions.success.update")
-    } catch (error) {
-      showError("message.actions.error.update")
-    }
-   
-  }
+      showLoading();
+      const formData = new FormData();
+      formData.append("file", file);
+      const images = await uploadService.postImage(formData);
 
-  const handleSevice = async (link:string) => {
+      await handleSevice(images?.list?.[0].linkMedia || "");
+    } catch (error) {
+      showError("message.actions.error.update");
+    }
+  };
+
+  const handleSevice = async (link: string, message?: string) => {
     try {
-
-      await homeService.updateHomeTopic({type: HomeTopicType.video, listBanner: [{
-        id: listBanner?.listBanner?.[0].id,
-        linkMedia: link
-      }]})
-      showSuccess("message.actions.success.update")
+      const data = await homeService.updateHomeTopic({
+        type: HomeTopicType.video,
+        listBanner: [
+          {
+            id: listBanner?.listBanner?.[0].id,
+            linkMedia: link,
+          },
+        ],
+      });
+      setListBanner(data);
+      showSuccess(!message ? "message.actions.success.update" : message);
     } catch (error) {
-      showError("message.actions.error.update")
+      showError("message.actions.error.delete_banner");
     }
-   
-  }
-  
+  };
 
   const { preViewImage, handleChange, handlePaste, isVideo, handleDelete } =
-    useHandleImage(listBanner?.listBanner?.[0].linkMedia || "", handleEditImage);
+    useHandleImage(
+      listBanner?.listBanner?.[0].linkMedia || "",
+      handleEditImage,
+      () => handleSevice("", "message.actions.success.delete_banner"),
+      handleSevice
+    );
   return (
     <div className="mt-[40px]">
       <TitleTopic name="adminHome.video.title" />

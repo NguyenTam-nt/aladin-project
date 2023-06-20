@@ -4,4 +4,6 @@ export const apis = {
     image: "upload-image",
     video: "upload-video",
     file: "upload-file",
+    policy: "policy",
+    thanksCustomer: "reviews"
 }
