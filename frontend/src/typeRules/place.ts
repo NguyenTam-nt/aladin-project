@@ -1,5 +1,5 @@
 export type PlaceItemType = {
-  id: number
+  id?: number | string
   description: string
   linkMediaFirst: string
   linkMediaSecond: string
@@ -8,12 +8,13 @@ export type PlaceItemType = {
 }
 
 export type PlaceType = {
-  id: number
+  id?: number
   name: string
   address: string
   phone: string
   zalo: string
   linkMap: string
+  status: boolean
   infrastructureList: PlaceItemType[]
 }
 
