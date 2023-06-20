@@ -1,0 +1,14 @@
+{
+    "tableReservation": {
+        "tableHeader": {
+            "fullName": "Họ và tên",
+            "phoneNumber": "Số điện thoại",
+            "day": "Ngày",
+            "hour": "Giờ",
+            "place": "Cơ Sở",
+            "status": "Trạng thái"
+        },
+        "noReply": "Chưa phản hồi",
+        "reply": "Đã phản hồi"
+    }
+}
