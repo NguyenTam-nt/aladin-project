@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Colors } from "@constants/color";
 import { ICArowDown } from "@assets/icons/ICArowDown";
 import { useAuthContext } from "@contexts/hooks/auth";
@@ -6,8 +6,10 @@ import { Avatar } from "@components/Avatar";
 import { ICLogin } from "@assets/icons/ICLogin";
 import { useClickOutItem } from "@hooks/useClickOutItem";
 import clsx from "clsx";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { prefixRootRoute } from "@constants/index";
+import { RouterManage } from "@constants/routerManager";
+import { useTranslation } from "react-i18next";
 const Header = () => {
   const { user, doLogout } = useAuthContext();
   const { ref, isShow, handleToggleItem } = useClickOutItem();
@@ -18,10 +20,26 @@ const Header = () => {
     navigate(prefixRootRoute.public);
   };
 
+  const { t } = useTranslation();
+  const { pathname } = useLocation();
+  const [nameHeader, setNameHeader] = useState<string | null>(null);
+
+  useEffect(() => {
+    const endPath = pathname.slice(pathname.lastIndexOf("/") + 1);
+    const ObName = RouterManage.find((item) => {
+      return item.path.includes(endPath);
+    });
+    if (ObName) {
+      setNameHeader(ObName.name!);
+    }
+  }, [pathname]);
+
   return (
     <div className="h-spc120  pl-[96px] min-w-[calc(1920px_-_300px)]  w-full bg-text_white shadow-md flex sticky left-0 right-0 top-0 z-10 ">
       <div className="flex items-center w-[1224px] justify-between">
-        <p className="title-18 text-text_EA222A">Quản lý banner</p>
+        <p className="title-18 text-text_EA222A">
+          {nameHeader && t(nameHeader)}
+        </p>
         <div ref={ref} className=" relative">
           <button
             onClick={handleToggleItem}
@@ -42,7 +60,7 @@ const Header = () => {
             </p>
           </button>
           <button
-          onClick={handleLogout}
+            onClick={handleLogout}
             className={clsx(
               " absolute w-full opacity-0 flex items-center justify-center text-_16 font-semibold  h-[56px] bg-white top-[100%] left-0 shadow-lg",
               {
