@@ -151,6 +151,7 @@ export const routersPublic: IRouter[] = [
     path: paths.orderFood.prefix,
     element: OrderFoodPage,
     name: "navigation.header.order_food",
+    isHiden: true,
   },
   {
     path: paths.orderFood.info,
