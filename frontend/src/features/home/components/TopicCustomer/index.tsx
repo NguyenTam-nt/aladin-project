@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo, useEffect, useState } from "react";
 import { TitleWithSeeAll } from "../TitleWithSeeAll";
 import { TopicCustomerItem } from "./TopicCustomerItem";
 import { ICHomeTopicCustomerRight } from "@assets/icons/ICHomeTopicCustomerRight";
@@ -7,9 +7,20 @@ import { paths } from "@constants/routerPublic";
 import { windownSizeWidth, withResponsive } from "@constants/index";
 import { SwiperComponent } from "@components/SwiperComponent";
 import { SwiperSlide } from "swiper/react";
+import type { IReview } from "@typeRules/index";
+import { reviewService } from "@services/thanksCustomer";
 
 export const TopicCustomer = () => {
+  const [reviews, setReviews] = useState<IReview[]>([])
+
+  useEffect(() => {
+    reviewService.get_home({page: 1, size: 6, sort: "show,desc"}).then((data) => {
+        setReviews(data)
+    })
+  }, [])
+
   return (
+    reviews.length ? (
     <div className="relative">
       {windownSizeWidth > withResponsive._1024 ? (
         <>
@@ -27,15 +38,15 @@ export const TopicCustomer = () => {
           pathNavigate={paths.customer.prefix}
         />
         {windownSizeWidth > withResponsive._1024 ? (
-          <TopicCustomerPC />
+          <TopicCustomerPC data={reviews} />
         ) : (
           <div className="mt-[24px] ">
             <SwiperComponent slidesPerView={windownSizeWidth > withResponsive._420 ? 2 : "auto"} spaceBetween={16}>
-              {[1, 2, 4, 5, 6].map((_, index) => {
+              {reviews.map((item, index) => {
                 return (
                   <SwiperSlide key={index} className="w-[70%] _420:w-full">
-                    <div  className="justify-center">
-                      <TopicCustomerItem />
+                    <div className="justify-center">
+                      <TopicCustomerItem data={item} />
                     </div>
                   </SwiperSlide>
                 );
@@ -45,26 +56,31 @@ export const TopicCustomer = () => {
         )}
       </div>
     </div>
+    ) : null
   );
 };
 
-const TopicCustomerPC = () => {
+type PropsPc = {
+  data: IReview[]
+}
+
+const TopicCustomerPC = memo(({data}:PropsPc) => {
   return (
     <div className="grid grid-cols-4 gap-[24px] [&>div]:flex [&>div]:flex-col [&>div]:gap-y-[24px]">
       <div className=" justify-center">
-        <TopicCustomerItem />
+      {data?.[0] &&  <TopicCustomerItem data={data?.[0]} />}  
       </div>
       <div className="mt-[100px]">
-        <TopicCustomerItem />
-        <TopicCustomerItem />
+      {data?.[1] &&  <TopicCustomerItem data={data?.[1]} />}  
+      {data?.[2] &&  <TopicCustomerItem data={data?.[2]} />}  
       </div>
       <div>
-        <TopicCustomerItem />
-        <TopicCustomerItem />
+      {data?.[3] &&  <TopicCustomerItem data={data?.[3]} />}  
+      {data?.[4] &&  <TopicCustomerItem data={data?.[4]} />}  
       </div>
       <div className=" justify-center">
-        <TopicCustomerItem />
+      {data?.[5] &&  <TopicCustomerItem data={data?.[5]} />}  
       </div>
     </div>
   );
-};
+})

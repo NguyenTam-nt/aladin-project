@@ -1,31 +1,30 @@
-import { ICDeleteTrashLight } from "@assets/icons/ICDeleteTrashLight";
-import TitleInput from "@components/TitleInput";
 import { GroupButtonAdmin } from "@features/dashboard/components/GroupButtonAdmin";
-import { GroupInputContent } from "@features/dashboard/components/GroupInputContent";
+import React, { memo, useEffect } from "react";
+import { HomeTopicType, ITopicHome } from "@typeRules/home";
+import { useHandleImage } from "../useHandleImage";
+import TitleInput from "@components/TitleInput";
+import { ICDeleteTrashLight } from "@assets/icons/ICDeleteTrashLight";
 import { ImagePreview } from "@features/dashboard/components/ImagePreview";
-import { Input } from "@features/dashboard/components/Input";
 import { InputUploadFile } from "@features/dashboard/components/InputUploadFIle";
-import { TextError } from "@features/dashboard/components/TextError";
-import { useHandleImage } from "@features/dashboard/home/useHandleImage";
-import { uploadService } from "@services/upload";
-import type { HomeTopicType, ITopicHome } from "@typeRules/home";
 import clsx from "clsx";
 import { useFormik } from "formik";
-import React, { memo, useEffect } from "react";
+import { uploadService } from "@services/upload";
 import * as Yup from "yup";
+import { TextError } from "@features/dashboard/components/TextError";
+import { GroupInputContent } from "@features/dashboard/components/GroupInputContent";
 
 type Props = {
+  type: HomeTopicType;
   data?: ITopicHome;
   onSubmit: (data: ITopicHome) => void;
   onDelete?: (id: number) => void;
 };
 
-export const BannerHomeItem = memo(({ data, onSubmit, onDelete }: Props) => {
+export const TopicByType = memo(({ type, data, onSubmit, onDelete }: Props) => {
   const formik = useFormik<ITopicHome>({
     initialValues: {
       title: "",
       content: "",
-      redirectUrl: "",
     },
     validationSchema: Yup.object({
       title: Yup.string()
@@ -34,7 +33,6 @@ export const BannerHomeItem = memo(({ data, onSubmit, onDelete }: Props) => {
       content: Yup.string()
         .required("message.form.required")
         .max(350, "message.form.max"),
-      redirectUrl: Yup.string().required("message.form.required"),
     }),
     onSubmit: async (dataValue) => {
       try {
@@ -57,7 +55,7 @@ export const BannerHomeItem = memo(({ data, onSubmit, onDelete }: Props) => {
         });
         if (!data) {
           formik.resetForm();
-          resetImage();
+          resetImage()
         }
       } catch (error) {}
     },
@@ -67,21 +65,22 @@ export const BannerHomeItem = memo(({ data, onSubmit, onDelete }: Props) => {
     if (data) onDelete?.(Number(data?.id));
   };
 
+
+
   const {
     preViewImage,
     handleChange,
+    refInput,
     handleDelete,
     file,
     handleMessageFile,
     message,
-    resetImage,
-    refInput,
+    resetImage
   } = useHandleImage(data?.linkMedia || "");
 
   const handleSetData = (listBanner?: ITopicHome) => {
     formik.setFieldValue("title", listBanner?.title || "");
     formik.setFieldValue("content", listBanner?.content || "");
-    formik.setFieldValue("redirectUrl", listBanner?.redirectUrl || "");
   };
 
   useEffect(() => {
@@ -91,19 +90,22 @@ export const BannerHomeItem = memo(({ data, onSubmit, onDelete }: Props) => {
   }, [data]);
 
   const handleResetData = () => {
-    if (!data) {
+    if(!data) {
       resetImage();
-      formik.resetForm();
-    } else {
-      handleSetData(data);
+      formik.resetForm()
+    }else {
+      handleSetData(data)
     }
-  };
+  }
 
   return (
-    <div>
-      {/* {!!data?.linkMedia ? ( */}
-      <div className="mt-[24px]">
-        <div className="grid grid-cols-[288px_1fr] relative gap-x-[24px]">
+    <>
+      <div
+        className={clsx("grid grid-cols-1 relative gap-x-[24px]", {
+          "grid-cols-[288px_1fr]": type !== HomeTopicType.sales,
+        })}
+      >
+        {type !== HomeTopicType.sales ? (
           <div className="flex flex-col">
             <TitleInput
               isRequired={false}
@@ -120,7 +122,7 @@ export const BannerHomeItem = memo(({ data, onSubmit, onDelete }: Props) => {
                 <TextError message={message} />
               </div>
               <div
-                // onClick={handleClickInput}
+                //   onClick={handleClickInput}
                 className={clsx("h-full w-full max-h-[190px]", {
                   hidden: !preViewImage.trim(),
                 })}
@@ -129,53 +131,31 @@ export const BannerHomeItem = memo(({ data, onSubmit, onDelete }: Props) => {
               </div>
             </div>
           </div>
-          <div className="flex-1">
-            <GroupInputContent
-              title={formik.values.title || ""}
-              content={formik.values.content || ""}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              titleError={
-                formik.touched.title && formik.errors.title
-                  ? formik.errors.title
-                  : ""
-              }
-              contentError={
-                formik.touched.content && formik.errors.content
-                  ? formik.errors.content
-                  : ""
-              }
-            />
-          </div>
-          {data ? (
-            <button
-              onClick={deleteBanner}
-              className=" absolute bottom-0 flex items-center justify-center right-[-64px] h-[190px] w-[40px] bg-bg_F1F1F1"
-            >
-              <ICDeleteTrashLight />
-            </button>
-          ) : null}
-        </div>
-        <div className="mt-4">
-          <TitleInput name="adminBanner.link" />
-          <Input
-            name="redirectUrl"
-            value={formik.values.redirectUrl}
+        ) : null}
+        <div className="flex-1">
+          <GroupInputContent
+            title={formik.values.title || ""}
+            content={formik.values.content || ""}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
-            placeholder="adminBanner.link_placeholder"
+            titleError={formik.touched.title && formik.errors.title ? formik.errors.title : ""}
+            contentError={formik.touched.content && formik.errors.content ? formik.errors.content : ""}
           />
-          {formik.errors.redirectUrl && formik.touched.redirectUrl && (
-            <TextError message={formik.errors.redirectUrl} />
-          )}
         </div>
-        <GroupButtonAdmin
-          onCancel={handleResetData}
-          onSubmit={formik.handleSubmit}
-          isAdd={false}
-        />
+        {(type !== HomeTopicType.sales && data) ? (
+          <button
+            onClick={deleteBanner}
+            className=" absolute bottom-0 flex items-center justify-center right-[-64px] h-[190px] w-[40px] bg-bg_F1F1F1"
+          >
+            <ICDeleteTrashLight />
+          </button>
+        ) : null}
       </div>
-      {/* ) : null} */}
-    </div>
+      <GroupButtonAdmin
+        onCancel={handleResetData}
+        onSubmit={formik.handleSubmit}
+        isAdd={false}
+      />
+    </>
   );
-})
+});

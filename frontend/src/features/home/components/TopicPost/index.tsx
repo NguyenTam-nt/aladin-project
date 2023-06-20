@@ -4,10 +4,11 @@ import { SwiperSlide } from "swiper/react";
 import { TopicPostItem } from "./TopicPostItem";
 import { useSwiperNavigationRef } from "@hooks/useSwiperNavigationRef";
 import { ICArowLeft } from "@assets/icons/ICArrowLeft";
-import { ICArowRight } from "@assets/icons";
 import { Colors } from "@constants/color";
 import { ICArrowRightNext } from "@assets/icons/ICArrowRightNext";
 import { windownSizeWidth, withResponsive } from "@constants/index";
+import { useGetTopic } from "@features/dashboard/home/components/useGetTopic";
+import { HomeTopicType } from "@typeRules/home";
 
 export const TopicPost = () => {
   const {
@@ -19,7 +20,10 @@ export const TopicPost = () => {
     currentIndex,
     onActiveIndexChange,
   } = useSwiperNavigationRef();
-  return (
+
+  const { listBanner } = useGetTopic(HomeTopicType.post);
+
+  return listBanner?.listBanner?.length ? (
     <div className="w-rp relative mb-[70px] lg:mb-0">
       <SwiperComponent
         onActiveIndexChange={onActiveIndexChange}
@@ -27,10 +31,10 @@ export const TopicPost = () => {
         navigationPrevRef={navigationPrevRef}
         spaceBetween={windownSizeWidth > withResponsive._1024 ? 0 : 16}
       >
-        {[1, 2, 3].map((_, index) => {
+        {listBanner?.listBanner.map((item, index) => {
           return (
             <SwiperSlide key={index}>
-              <TopicPostItem />
+              <TopicPostItem data={item} />
             </SwiperSlide>
           );
         })}
@@ -49,10 +53,14 @@ export const TopicPost = () => {
           <ICArrowRightNext
             width={windownSizeWidth > withResponsive._1024 ? 36 : 24}
             height={windownSizeWidth > withResponsive._1024 ? 24 : 15}
-            color={currentIndex < 2 ? Colors.primary : Colors.text_5A5C60}
+            color={
+              currentIndex < listBanner?.listBanner.length - 1
+                ? Colors.primary
+                : Colors.text_5A5C60
+            }
           />
         </button>
       </div>
     </div>
-  );
+  ) : null;
 };

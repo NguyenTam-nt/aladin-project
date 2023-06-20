@@ -1,7 +1,7 @@
 import React, { useEffect, useRef }  from 'react'
 import { useTranslation } from 'react-i18next'
 
-export const TextError = ({message}: {message: string}) => {
+export const TextError = ({message, option}: {message: string, option?:{[key: string]: any}}) => {
   const ref = useRef<HTMLSpanElement>(null)
     const {t} = useTranslation()
     useEffect(() => {
@@ -10,6 +10,6 @@ export const TextError = ({message}: {message: string}) => {
       }
     }, [])
   return (
-    <span ref={ref} className=' text-_12 text-red_error absolute bottom-[-20px]'>{t(message)}</span>
+    <span ref={ref} className=' text-_12 text-red_error absolute bottom-[-20px]'>{t(message, {...option})}</span>
   )
 }

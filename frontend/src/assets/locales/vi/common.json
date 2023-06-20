@@ -24,6 +24,9 @@
         "menu_type": {
             "kitchen": "Bếp",
             "bar": "Bar"
-        }
+        },
+        "delete": "Xóa",
+        "cancel": "Hủy",
+        "add": "Thêm"
     }
 }

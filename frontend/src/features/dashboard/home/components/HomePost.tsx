@@ -11,13 +11,57 @@ import { useTranslation } from "react-i18next";
 import { ICDeleteTrashLight } from "@assets/icons/ICDeleteTrashLight";
 import { useModalContext } from "@contexts/hooks/modal";
 import { DiglogMessage } from "@features/dashboard/components/DiglogMessage";
+import { TopicByType } from "./TopicByType";
+import { HomeTopicType, ITopicHome, ITopicType } from "@typeRules/home";
+import { useGetTopic } from "./useGetTopic";
+import { useHandleLoading } from "@features/dashboard/components/Loading";
+import { useShowMessage } from "@features/dashboard/components/DiglogMessage";
+import { homeService } from "@services/home";
 
 export const HomePost = () => {
+  const { listBanner, setListBanner } = useGetTopic(HomeTopicType.post);
   const { t } = useTranslation();
-  const {setElementModal} = useModalContext()
+  const {showLoading} = useHandleLoading()
 
-  const handleShowModal = () => {
-    setElementModal(<DiglogMessage message="Cập nhật  bài viết thành công!" />)
+  const {showError, showSuccess, showWarning} = useShowMessage()
+
+  const handleSubmit = (data:ITopicHome) => {
+    showLoading()
+    const newList = listBanner?.listBanner ?? []
+    const index = newList.findIndex(item => item?.id === data?.id)
+
+    index >= 0 ? newList.splice(index, 1, data) : newList.unshift(data)
+
+    homeService.updateHomeTopic({
+      type: HomeTopicType.post,
+      listBanner: [...newList]
+    }).then((data:ITopicType) => {
+      setListBanner(data)
+      showSuccess("message.actions.success.post")
+    }).catch(() => {
+      showError("message.actions.error.post")
+    })
+  }
+
+  const handleDelete = (id:number) => {
+    if(listBanner?.listBanner && listBanner?.listBanner.length > 1) {
+      homeService.deleteHomeTopic(id).then(() => {
+        const newList = listBanner?.listBanner ?? []
+        const index = newList.findIndex(item => item?.id === id)
+          if(index >= 0) {
+            newList.splice(index, 1)
+            setListBanner({
+              type: HomeTopicType.post,
+              listBanner: [...newList]
+            })
+            showSuccess("message.actions.success.delete")
+          }
+      }).catch(() => {
+        showError("message.actions.error.delete")
+      })
+    }else {
+      showWarning("message.actions.warning.min_post")
+    }
   }
 
   return (
@@ -28,39 +72,15 @@ export const HomePost = () => {
           {t("adminHome.post.maxPost")}
         </span>
       </div>
-      <HomePostItem />
-      <GroupButtonAdmin onSubmit={handleShowModal} />
+      {listBanner?.listBanner.map((data, index) => {
+        return (
+          <TopicByType onDelete={handleDelete} onSubmit={handleSubmit} data={data} key={index} type={HomeTopicType.post} />
+        );
+      })}
+      {listBanner?.listBanner.length &&
+      listBanner?.listBanner.length >= 3 ? null : (
+        <TopicByType  onSubmit={handleSubmit} type={HomeTopicType.post} />
+      )}
     </div>
   );
 };
-
-export const HomePostItem = memo(() => {
-  const { preViewImage, handleChange, refInput, handleDelete } =
-    useHandleImage();
-  return (
-    <div className="grid grid-cols-[288px_1fr] relative gap-x-[24px]">
-      <div className="flex flex-col">
-        <TitleInput isRequired={false} forId="" name="button._upload_image" />
-        <div className="flex-1">
-          <div className={clsx("h-full", { hidden: !!preViewImage.trim() })}>
-            <InputUploadFile ref={refInput} onChange={handleChange} />
-          </div>
-          <div
-            //   onClick={handleClickInput}
-            className={clsx("h-full w-full", {
-              hidden: !preViewImage.trim(),
-            })}
-          >
-            <ImagePreview onDelete={handleDelete} url={preViewImage} />
-          </div>
-        </div>
-      </div>
-      <div className="flex-1">
-        <GroupInputContent />
-      </div>
-      <button className=" absolute bottom-0 flex items-center justify-center right-[-64px] h-[190px] w-[40px] bg-bg_F1F1F1">
-        <ICDeleteTrashLight />
-      </button>
-    </div>
-  );
-});
