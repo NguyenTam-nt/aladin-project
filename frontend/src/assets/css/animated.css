@@ -470,6 +470,28 @@
       opacity: 1;
     }
   }
+
+  @keyframes zoomInUp {
+    from {
+      opacity: 0;
+      -webkit-transform: scale3d(0.1, 0.1, 0.1) translate3d(0, 1000px, 0);
+      transform: scale3d(0.1, 0.1, 0.1) translate3d(0, 1000px, 0);
+      -webkit-animation-timing-function: cubic-bezier(0.55, 0.055, 0.675, 0.19);
+      animation-timing-function: cubic-bezier(0.55, 0.055, 0.675, 0.19);
+    }
+  
+    60% {
+      opacity: 1;
+      -webkit-transform: scale3d(0.475, 0.475, 0.475) translate3d(0, -60px, 0);
+      transform: scale3d(0.475, 0.475, 0.475) translate3d(0, -60px, 0);
+      -webkit-animation-timing-function: cubic-bezier(0.175, 0.885, 0.32, 1);
+      animation-timing-function: cubic-bezier(0.175, 0.885, 0.32, 1);
+    }
+  }
+  .animate__zoomInUp {
+    -webkit-animation-name: zoomInUp;
+    animation-name: zoomInUp;
+  }
   
   .scale-logo {
     
@@ -514,5 +536,23 @@
     100% {
       transform: translate(-50%, -50%) rotate(180deg);
      
+    }
+  }
+
+  .animate__customer {
+    animation-name: animationCutomer;
+    animation-delay: calc(var(--animate-delay) * var(--animate-count));
+  }
+
+
+  @keyframes animationCutomer {
+    0% {
+      transform: translate3d(-100%,100%, 0 );
+      opacity: 0;
+    }
+
+    100% {
+      transform: translate3d(0, 0, 0 );
+      opacity: 1;
     }
   }

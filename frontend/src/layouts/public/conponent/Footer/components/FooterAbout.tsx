@@ -10,6 +10,7 @@ import { ICArowDown } from "@assets/icons/ICArowDown";
 import { windownSizeWidth, withResponsive } from "@constants/index";
 import type { INews } from "@typeRules/index";
 import { policyService } from "@services/policy";
+import { ICPolicyNoticeFooter } from "@assets/icons/ICPolicyNoticeFooter";
 
 export const FooterAbout = () => {
   const { t } = useTranslation();
@@ -32,11 +33,7 @@ export const FooterAbout = () => {
             <p>{t("home.footer.sub_title")}</p>
           </div>
           <div className="flex items-center gap-x-[16px] mt-[16px] mb-0 m992:mb-[24px] xl:mb-0">
-            <img
-              src={footerImage}
-              alt="footer-image"
-              className=" object-cover"
-            />
+           <ICPolicyNoticeFooter />
           </div>
         </div>
         <div className="col-span-1">
@@ -110,7 +107,7 @@ const FooterAboutGroupPolicy = () => {
 
   useEffect(() => {
     policyService
-      .getPolicy({ page: 1, size: 6, sort: "id,desc" })
+      .getPolicy({ page: 0, size: 6, sort: "id,desc" })
       .then((data) => {
         setPolicy(data.list);
       });
