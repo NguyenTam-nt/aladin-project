@@ -5,6 +5,7 @@ import titleofcontent from "./titleofcontent.json"
 import form from "./form.json"
 import contact from "./contact.json"
 import common from "./common.json"
+import place from "./place.json"
 import menu from "./menu.json"
 import news from "./news.json"
 import recruit from "./recruit.json"
@@ -25,6 +26,7 @@ export const vi = {
     ...form,
     ...contact,
     ...common,
+    ...place,
     ...menu,
     ...news,
     ...recruit,

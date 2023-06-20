@@ -20,6 +20,11 @@
         "input_map": "Dán đường dẫn địa chỉ google map",
         "describe": "Mô tả cơ sở",
         "input_describe": "Nhập mô tả"
+      },
+      "notification": {
+        "delete": "Bạn có chắc chắn xóa cơ sở này khỏi hệ thống?",
+        "deleteSuccess": "Xóa thành công",
+        "deleteError": "Xóa thất bại"
       }
   }
 }

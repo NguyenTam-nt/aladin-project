@@ -111,7 +111,7 @@ export const pathsAdmin = {
   place: {
     prefix: "co-so",
     add: "them",
-    update: "sua/:id",
+    update: ":id"
   },
   voucher: {
     prefix: "voucher",
