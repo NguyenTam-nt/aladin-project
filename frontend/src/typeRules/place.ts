@@ -14,7 +14,7 @@ export type PlaceType = {
   phone: string
   zalo: string
   linkMap: string
-  status: boolean
+  status?: boolean
   infrastructureList: PlaceItemType[]
 }
 

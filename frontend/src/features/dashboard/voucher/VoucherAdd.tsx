@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { TitleTopic } from '../home/components/TitleTopic'
 import TitleInput from '@components/TitleInput'
 import { Input } from '../components/Input'
@@ -7,22 +7,127 @@ import { Button } from '../components/Button';
 import { Radio } from '../components/Radio';
 import { SelectInput } from '@components/SelectInput';
 import { UnitInput } from './components/UnitInput';
+import { useNavigate, useParams } from 'react-router';
+import { IVoucher, VOUCHER_PERCENT_TYPE, VOUCHER_TYPE, VoucherType } from '@typeRules/voucher';
+import { GroupButtonAdmin } from '../components/GroupButtonAdmin';
+import { TextError } from '../components/TextError';
+import { useFormik } from 'formik'
+import * as Yup from "yup";
+import VoucherService from '@services/VoucherService';
+import { useShowMessage } from '../components/DiglogMessage';
+import moment from 'moment';
 
 function VoucherAdd() {
-  const VOUCHER_TYPE_PERCENT = "PERCENT"
-  const VOUCHER_TYPE_MONEY = "MONEY"
   const { t } = useTranslation();
+  const params = useParams();
+  const navigation = useNavigate();
 
-  const [name, setName] = useState("")
-  const [code, setCode] = useState("")
-  const [start, setStart] = useState("")
-  const [end, setEnd] = useState("")
-  const [type, setType] = useState(VOUCHER_TYPE_MONEY)
-  const [valueDiscount, setvalueDiscount] = useState("")
+  const { showError, showSuccess } = useShowMessage();
+0
+  const [type, setType] = useState(VOUCHER_TYPE.money)
   const [isLimit, setIsLimit] = useState(true)
-  const [maxPriceLimit, setMaxPriceLimit] = useState("")
-  const [minPriceOrder, setMinPriceOrder] = useState("")
-  const [amount, setAmount] = useState("")
+
+  const [voucher, setVoucher] = useState<IVoucher>();
+
+  const isAdd = useMemo(() => {
+    return !params.id;
+  }, []);
+
+  useEffect(() => {
+    if (!isAdd) {
+      VoucherService.getById(Number(params.id)).then((data) => {
+        setVoucher(data);
+        formik.setFieldValue("name", data.name);
+        formik.setFieldValue("code", data.code);
+        formik.setFieldValue("start", data.startDate);
+        formik.setFieldValue("endDate", data.endDate);
+        formik.setFieldValue("valueDiscount", data.value);
+        formik.setFieldValue("minPriceOrder", data.minBill);
+        formik.setFieldValue("amount", data.numBill);
+        formik.setFieldValue("maxPriceLimit", data.minPrice);
+
+        setType(data.typeVoucher)
+        setIsLimit(data.typePercent == VOUCHER_PERCENT_TYPE.limit)
+      });
+    }
+  }, [isAdd]);
+
+
+  const formik = useFormik({
+    initialValues: {
+      name: "",
+      code: "",
+      start: "",
+      endDate: "",
+      valueDiscount: "",
+      minPriceOrder: "",
+      maxPriceLimit: "",
+      amount: "",
+    },
+    validationSchema: Yup.object({
+      name: Yup.string().required("message.form.required"),
+      code: Yup.string().required("message.form.required"),
+      start: Yup.date().required("message.form.required"),
+      endDate: Yup.date().required("message.form.required").test(
+        "endDate",
+        "message.form.enddateGreaterThanStartdate",
+        function (value) {
+          const { start } = this.parent
+          return !moment(value).isBefore(moment(start).add(1, "minutes"));
+        }
+      ),
+      valueDiscount: Yup.number().required("message.form.required").typeError('message.form.number'),
+      minPriceOrder: Yup.number().required("message.form.required").typeError('message.form.number'),
+      maxPriceLimit: Yup.number().typeError('message.form.number'),
+      amount: Yup.number().required("message.form.required").typeError('message.form.number'),
+    }),
+    onSubmit: async (data) => {
+      try {
+
+        let request: IVoucher = {
+          id: !isAdd ?  voucher?.id : undefined,
+          name: data.name,
+          code: data.code,
+          startDate: new Date(data.start).toISOString(),
+          endDate: new Date(data.endDate).toISOString(),
+          value: +data.valueDiscount,
+          typeVoucher: type,
+          typePercent: type == VOUCHER_TYPE.money ? VOUCHER_PERCENT_TYPE.none : isLimit ? VOUCHER_PERCENT_TYPE.limit : VOUCHER_PERCENT_TYPE.unlimit,
+          minBill: +data.minPriceOrder,
+          numBill: +data.amount,
+          minPrice: type == VOUCHER_TYPE.percent && isLimit ? + data.maxPriceLimit : 0
+        }
+        console.log(request);
+      
+        if (isAdd) {
+          VoucherService
+            .post(request)
+            .then(() => {
+              showSuccess("customer.message_post_success");
+              // goBack();
+              formik.resetForm();
+            })
+            .catch(() => {
+              showError("message.actions.error.delete_banner");
+            });
+        } else {
+          VoucherService
+            .update(request)
+            .then(() => {
+              showSuccess("customer.message_update_success");
+              goBack();
+            })
+            .catch(() => {
+              showError("message.actions.error.delete_banner");
+            });
+        }
+      } catch (error) {}
+    },
+  });
+
+  const goBack = () => {
+    navigation(-1);
+  };
 
   return (
     <div>
@@ -32,11 +137,26 @@ function VoucherAdd() {
       <div className="grid grid-cols-2 gap-4 -mt-4 ">
         <div className="col-span-2">
           <TitleInput isRequired={true} name={"adminVoucher.add.form.name"} />
-          <Input placeholder="adminVoucher.add.form.inputName" value={name} onChange={(e) => setName(e.target.value)} />
+          <Input placeholder="adminVoucher.add.form.inputName" 
+             name="name"
+             value={formik.values.name}
+             onChange={formik.handleChange}
+             onBlur={formik.handleBlur}
+          />
+          {formik.errors.name && formik.touched.name && (
+            <TextError message={formik.errors.name} />
+          )}
         </div>
         <div className="col-span-1">
           <TitleInput isRequired={true} name={"adminVoucher.add.form.code"} />
-          <Input placeholder="adminVoucher.add.form.inputCode"  maxLength={20} value={code} onChange={(e) => setCode(e.target.value)} />
+          <Input placeholder="adminVoucher.add.form.inputCode"  maxLength={20}  name="code"
+             value={formik.values.code}
+             onChange={formik.handleChange}
+             onBlur={formik.handleBlur}
+          />
+          {formik.errors.code && formik.touched.code && (
+            <TextError message={formik.errors.code} />
+          )}
         </div>
         <div className="col-span-1">
           <TitleInput isRequired={true} name={"adminVoucher.add.form.time"} />
@@ -45,9 +165,10 @@ function VoucherAdd() {
               {/* <Input placeholder="adminVoucher.form.inputName" /> */}
               <input
                 type="datetime-local"
-                name="start-datetime"
-                value={start}
-                onChange={(e) => setStart(e.target.value)}
+                name="start"
+                value={formik.values.start}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
                 className={
                   "h-12 w-full px-3 py-2 placeholder:text-sm outline-none border !border-text_A1A0A3 text-text_primary placeholder:text-text_A1A0A3 bg-transparent " 
                 }
@@ -56,15 +177,23 @@ function VoucherAdd() {
             <div className="flex-1">
               <input
                 type="datetime-local"
-                name="end-datetime"
-                value={end}
-                onChange={(e) => setEnd(e.target.value)}
+                name="endDate"
+                min={formik.values.start}
+                value={formik.values.endDate}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
                 className={
                   "h-12 w-full px-3 py-2 placeholder:text-sm outline-none border !border-text_A1A0A3 text-text_primary placeholder:text-text_A1A0A3 bg-transparent " 
                 }
               />
             </div>
           </div>
+          {formik.errors.start && formik.touched.start && (
+            <TextError message={formik.errors.start} />
+          )}
+          {formik.errors.endDate && formik.touched.endDate && (
+            <TextError message={formik.errors.endDate} />
+          )}
         </div>
       </div>
 
@@ -75,22 +204,33 @@ function VoucherAdd() {
       <div className="-mt-4">
         <TitleInput isRequired={true} name={"adminVoucher.add.form.type"} />
         <div className="flex">
-          <SelectInput className="h-[48px] w-[172px] !border-text_A1A0A3 !border-r-0" value={type}  onChange={(e) => setType(e.target.value)}>
+          <SelectInput className="h-[48px] !w-[172px] !border-text_A1A0A3 !border-r-0" value={type}  onChange={(e) => setType(e.target.value as VoucherType)}>
             <>
-              <option value={VOUCHER_TYPE_MONEY}>{t("adminVoucher.add.form.typeMoney")}</option>
-              <option value={VOUCHER_TYPE_PERCENT}>{t("adminVoucher.add.form.typePercent")}</option>
+              <option value={VOUCHER_TYPE.money}>{t("adminVoucher.add.form.typeMoney")}</option>
+              <option value={VOUCHER_TYPE.percent}>{t("adminVoucher.add.form.typePercent")}</option>
             </>
           </SelectInput>
           {
-            type == VOUCHER_TYPE_MONEY ? <UnitInput placeholder="adminVoucher.add.form.inputTypeMoney" unit="VNĐ" />
-              : <UnitInput placeholder="adminVoucher.add.form.inputTypePercent" unit="%" />
+            type == VOUCHER_TYPE.money ? 
+              <UnitInput placeholder="adminVoucher.add.form.inputTypeMoney" unit="VNĐ" name="valueDiscount"
+                value={formik.values.valueDiscount}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur} />
+              : <UnitInput placeholder="adminVoucher.add.form.inputTypePercent" unit="%" name="valueDiscount"
+                value={formik.values.valueDiscount}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+              />
           }
+          {formik.errors.valueDiscount && formik.touched.valueDiscount && (
+            <TextError message={formik.errors.valueDiscount} />
+          )}
           
         </div>
       </div>
 
         {
-          type == VOUCHER_TYPE_PERCENT && 
+          type == VOUCHER_TYPE.percent && 
         <div className="grid grid-cols-2 gap-4 mt-4">
           <div className="col-span-1">
             <TitleInput isRequired={true} name={"adminVoucher.add.form.maxDiscount.title"} />
@@ -114,30 +254,48 @@ function VoucherAdd() {
                 </label>
               </div>
             </div>
-            {isLimit && <Input placeholder="adminVoucher.add.form.maxDiscount.inputLimit" />}
+            {isLimit && <UnitInput placeholder="adminVoucher.add.form.maxDiscount.inputLimit" unit="VNĐ" name="maxPriceLimit"
+                value={formik.values.maxPriceLimit}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur} />}
+            {formik.errors.maxPriceLimit && formik.touched.maxPriceLimit && (
+              <TextError message={formik.errors.maxPriceLimit} />
+            )}
           </div>
         </div> 
         }
       <div className="grid grid-cols-2 gap-4 mt-4">
         <div className="col-span-1">
           <TitleInput isRequired={true} name={"adminVoucher.add.form.minPrice.title"} />
-          <Input placeholder="adminVoucher.add.form.minPrice.input" value={minPriceOrder} onChange={(e) => setMinPriceOrder(e.target.value)}  />
+          <UnitInput placeholder={type == VOUCHER_TYPE.money ?  "adminVoucher.add.form.inputTypeMoney" : "adminVoucher.add.form.inputTypePercent"} 
+            unit={type == VOUCHER_TYPE.money ? "VNĐ" : "%"} name="minPriceOrder"
+            value={formik.values.minPriceOrder}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur} />
+          {formik.errors.minPriceOrder && formik.touched.minPriceOrder && (
+            <TextError message={formik.errors.minPriceOrder} />
+          )}
         </div>
         <div className="col-span-1">
           <TitleInput isRequired={true} name={"adminVoucher.add.form.amount"} />
-          <Input placeholder="adminVoucher.add.form.inputAmount" value={amount} onChange={(e) => setAmount(e.target.value)}  />
+
+          <Input placeholder="adminVoucher.add.form.inputAmount" name="amount"
+             value={formik.values.amount}
+             onChange={formik.handleChange}
+             onBlur={formik.handleBlur}
+          />
+          {formik.errors.amount && formik.touched.amount && (
+            <TextError message={formik.errors.amount} />
+          )}
         </div>
       </div>
 
       <div className="flex justify-end items-center mt-[24px]">
-        <Button
-        type="button"
-          // onClick={hideModal}
-          text="button._cancel"
-          color="empty"
-          className="!w-[120px] border border-TrueBlue_500 mr-[24px]"
+        <GroupButtonAdmin
+          isAdd={isAdd}
+          onCancel={goBack}
+          onSubmit={formik.handleSubmit}
         />
-        <Button type="submit" onClick={() => "onSubmit?.()"}  text={true ? "common.add" : "button._save"} color="primary" className="!w-[120px]" />
       </div>
     </div>
   )
