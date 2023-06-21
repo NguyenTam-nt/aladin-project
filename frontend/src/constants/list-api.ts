@@ -5,5 +5,6 @@ export const apis = {
     video: "upload-video",
     file: "upload-file",
     policy: "policy",
+    infrastructures: "infrastructures",
     thanksCustomer: "reviews"
 }

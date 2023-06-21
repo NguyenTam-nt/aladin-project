@@ -1,37 +1,37 @@
 import HttpService from "@configs/api";
-import { getMicroService, microServices } from "./getMicroService";
+import { getMicroService, getMicroServiceAdmin, microServices } from "./getMicroService";
 import type { PlaceType } from "@typeRules/place";
+import type { IParams, IResponseData } from "@typeRules/index";
+import { apis } from "@constants/list-api";
 
 const suffix = "infrastructures"
 
-export type PlaceResponseType = {
-  totalElement: number
-  totalElementPage: number
-  list: PlaceType[]
-}
-
+const api = getMicroService(`${apis.infrastructures}`, microServices.restaurant)
+const apiAdmin = getMicroServiceAdmin(`${apis.infrastructures}`, microServices.restaurant)
 const PlaceService = {
-  get: async (): Promise<PlaceResponseType> => {
-    const url = getMicroService(suffix, microServices.restaurent)
-    return HttpService.axiosClient.get(url);
-  },
-  getById: async (id: number) => {
-    const url = getMicroService( suffix + "/" + id, microServices.restaurent)
-    return HttpService.axiosClient.get(url);
-  },  
-  put : async (id: number, data: any) => {
-    const url = getMicroService(suffix + "/" + id, microServices.restaurent)
-    return HttpService.axiosClient.put(url, data);
-  },
-  post : async (data: any) => {
-    const url = getMicroService(suffix, microServices.restaurent)
-    return HttpService.axiosClient.post(url, data);
-  },
-  delete : async (id: number) => {
-    const url = getMicroService(suffix, microServices.restaurent)
-    return HttpService.axiosClient.delete(url + "/" + id);
-  },
-}
+    get: (params:IParams):Promise<IResponseData<PlaceType>> => {
+        return HttpService.axiosClient.get(`${api}`, {params: {...params, page: Number(params.page) - 1}}) 
+    },
+    getById: (id:number):Promise<PlaceType> => {
+        return HttpService.axiosClient.get(`${api}/${id}`) 
+    },
+    update: (data:PlaceType):Promise<PlaceType> => {
+        return HttpService.axiosClient.put(apiAdmin, data)
+    },
+    post: (data:PlaceType):Promise<PlaceType> => {
+       
+        return HttpService.axiosClient.post(apiAdmin, data)
+    },
+    delete: (id:number) => {
+        return HttpService.axiosClient.delete(`${apiAdmin}/${id}`)
+    },
+    patch: (id:number):Promise<PlaceType> => {
+        return HttpService.axiosClient.patch(`${apiAdmin}/${id}`)
+    },
+    get_home: (params:IParams):Promise<IResponseData<PlaceType>> => {
 
+        return HttpService.axiosClient.get(`${api}/home`, {params: {...params, page: Number(params.page) - 1}}) 
+    }
+}
 
 export default PlaceService;

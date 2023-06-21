@@ -3,21 +3,27 @@ import { ImagePreview } from '@features/dashboard/components/ImagePreview';
 import { InputUploadFile } from '@features/dashboard/components/InputUploadFIle';
 import { useHandleImage } from '@features/dashboard/home/useHandleImage';
 import clsx from 'clsx'
-import React from 'react'
+import React, { useEffect } from 'react'
 
-function UploadInput() {
-  const { preViewImage, handleChange, refInput, handleDelete } = useHandleImage();
+function UploadInput({id, link, setFiles}: any) {
+  const { preViewImage, handleChange, refInput, handleDelete, file } = useHandleImage(link || "");
+  
+  useEffect(() => {
+    if(file) {
+      setFiles(file)
+    }
+  }, [file])
+  
 
   return (
-    <div className="flex flex-col min-h-[187px]">
+    <div className="">
       <TitleInput isRequired={false} forId="" name="button._upload_image" />
-      <div className="flex-1">
+      <div className="h-[187px]">
         <div className={clsx("h-full", { hidden: !!preViewImage.trim() })}>
           <InputUploadFile ref={refInput} onChange={handleChange} />
         </div>
         <div
-          //   onClick={handleClickInput}
-          className={clsx("h-full w-full", {
+          className={clsx("h-full w-full object-cover", {
             hidden: !preViewImage.trim(),
           })}
         >
