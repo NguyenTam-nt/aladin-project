@@ -2,7 +2,7 @@ import { ICArrowNextPage } from "@assets/icons/ICArrowNextPage";
 import { Colors } from "@constants/color";
 import { prefixRootRoute } from "@constants/index";
 import clsx from "clsx";
-import React, { memo, useMemo } from "react";
+import React, { memo, useEffect, useMemo } from "react";
 import { useLocation, useSearchParams } from "react-router-dom";
 
 /**
@@ -20,12 +20,20 @@ type IPagination = {
 export const Pagination = memo((props: IPagination) => {
   const { currentPage, setCurrentPage, limit = 5 } = props;
   const totalPages = props.totalPages;
-  const [_, setSearchParam] = useSearchParams();
+  const [searchParams, setSearchParam] = useSearchParams();
   const { pathname } = useLocation();
 
   const isAdmin = useMemo(() => {
     return pathname.includes(prefixRootRoute.admin);
   }, [pathname]);
+
+  useEffect(()=> {
+    const page = searchParams.get("page");
+    if(page) {
+       setCurrentPage(Number(page))
+    }
+}, [searchParams])
+
 
   const prevPage = () => {
     if (currentPage > 1) {

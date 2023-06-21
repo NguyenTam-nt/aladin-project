@@ -17,16 +17,18 @@ export const Header = () => {
     let lastIndex = 0;
     window.addEventListener("scroll", () => {
       const header = document.getElementById("header");
-      const headerbreak = windownSizeWidth > withResponsive._1024 ? 120 : 56;
-
-      if (lastIndex < document.documentElement.scrollTop - headerbreak) {
-        header!.style.transform = `translateY(${-headerbreak}px)`;
-
-        lastIndex = document.documentElement.scrollTop - headerbreak;
-      } else {
-        header!.style.transform = `translateY(${0}px)`;
-        if (lastIndex > 0)
+      if(header) {
+        const headerbreak = windownSizeWidth > withResponsive._1024 ? 120 : 56;
+  
+        if (lastIndex < document.documentElement.scrollTop - headerbreak) {
+          header!.style.transform = `translateY(${-headerbreak}px)`;
+  
           lastIndex = document.documentElement.scrollTop - headerbreak;
+        } else {
+          header!.style.transform = `translateY(${0}px)`;
+          if (lastIndex > 0)
+            lastIndex = document.documentElement.scrollTop - headerbreak;
+        }
       }
     });
 

@@ -11,32 +11,9 @@ import { ProductHandlerCategory } from "./ProductHandlerCategory";
 import { ProductHandlerPlace } from "./ProductHandlerPlace";
 import { Textarea } from "@features/dashboard/components/Textarea";
 import { GroupButtonAdmin } from "@features/dashboard/components/GroupButtonAdmin";
-
-// "adminProduct": {
-//     "title": "Món ăn",
-//     "add": "Thêm món ăn",
-//     "update": "Sửa món ăn",
-//     "delete": "Xóa món ăn",
-//     "filter": "Lọc món ăn theo nhóm hàng",
-//     "form": {
-//         "title_add": "Tạo mới món ăn",
-//         "title_edit": "Chỉnh sửa món ăn",
-//         "code": "Mã món ăn",
-//         "code_placeholder": "Nhập món ăn",
-//         "name": "Tên món ăn",
-//         "name_placeholder": "Nhập tên món ăn",
-//         "upload_product": "Tải ảnh món ăn",
-//         "maxItem": "Tối đa 5 hình ảnh",
-//         "upload_video_product": "Tải video món ăn",
-//         "maxVideo": "Tối đa 1 video",
-//         "cost": "Giá gốc",
-//         "discount": "Giá khuyến mãi",
-//         "category": "Danh mục",
-//         "choose_place": "Chọn cơ sở bán",
-//         "info": "Thông tin món ăn"
-//     }
-
-// }
+import { useFormik } from "formik";
+import { useHandleMultiImage } from "../useHandleMultiImage";
+import { useHandleImage } from "@features/dashboard/home/useHandleImage";
 
 
 export const ProductHandler = () => {
@@ -44,6 +21,22 @@ export const ProductHandler = () => {
 //   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
 //     setValue(event.currentTarget.value.replaceAll(".", ""));
 //   };
+const listImage = useHandleMultiImage();
+const videoFile = useHandleImage();
+
+  const fomick = useFormik({
+    initialValues: {
+      code: "",
+      name: "",
+      price: "",
+      pricePromotion: "",
+      description: "",
+    },
+    onSubmit: () => {
+
+    }
+  }) 
+
 
   return (
     <div>
@@ -57,8 +50,8 @@ export const ProductHandler = () => {
           <TitleInput name="adminProduct.form.name" />
           <Input placeholder="adminProduct.form.name_placeholder" />
         </div>
-        <ProductHandlerImages />
-        <ProductHandlerVideo />
+        <ProductHandlerImages listImage={listImage} />
+        <ProductHandlerVideo videoFile={videoFile} />
         <div className=" col-span-1">
           <TitleInput name="adminProduct.form.cost" />
           <Input placeholder="adminProduct.form.cost_placeholder" />

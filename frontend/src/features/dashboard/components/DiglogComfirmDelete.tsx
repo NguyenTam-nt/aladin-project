@@ -7,16 +7,18 @@ import { Button } from "./Button";
 
 export const DiglogComfirmDelete = ({
   message,
-  onClick
+  onClick,
+  onClear,
 }: {
   message: string;
-  onClick?: () => void
+  onClick?: () => void,
+  onClear?: () => void
 }) => {
   const { t } = useTranslation();
   const { hideModal } = useModalContext();
   return (
     <div className="flex items-center flex-col py-[53px] px-[157px] bg-white justify-center w-[800px] h-auto relative">
-      <button onClick={hideModal} className="text-text_7E8B99 absolute top-[24px] text-_16 right-[24px]">
+      <button onClick={onClear ? onClear : hideModal} className="text-text_7E8B99 absolute top-[24px] text-_16 right-[24px]">
        <ICClear />
       </button>
       <div>
@@ -26,7 +28,7 @@ export const DiglogComfirmDelete = ({
       <div className="flex  justify-center gap-x-[24px]">
       <Button
        type="button"
-        onClick={hideModal}
+        onClick={onClear ? onClear : hideModal}
         text="button._cancel"
         color="empty"
         className="!w-[120px] text-bg_E73F3F border border-bg_E73F3F"

@@ -1,12 +1,24 @@
 import TitleInput from '@components/TitleInput';
 import { InputUploadFile } from '@features/dashboard/components/InputUploadFIle';
-import React from 'react'
+import React, { ChangeEvent, memo } from 'react'
 import { useTranslation } from 'react-i18next';
 import { useHandleMultiImage } from '../useHandleMultiImage';
 import { ImagePreview } from '@features/dashboard/components/ImagePreview';
 
-export const ProductHandlerImages = () => {
-    const listImage = useHandleMultiImage();
+type Props = {
+  listImage: {
+    preViewImage: string[],
+    handleChange: (event:ChangeEvent<HTMLInputElement>) => void,
+    handleDelete : () => void,
+    file: FileList | undefined,
+    handleMessageFile: () => void,
+    message: string,
+    // handlePaste,
+    isVideo : boolean,
+  }
+}
+
+export const ProductHandlerImages = memo(({listImage}:Props) => {
     const { t } = useTranslation();
   return (
     <div className="col-span-2 flex gap-[24px]">
@@ -42,4 +54,4 @@ export const ProductHandlerImages = () => {
     ) : null}
   </div>
   )
-}
+})

@@ -2,12 +2,12 @@ import React from "react";
 import { Outlet, Navigate } from "react-router-dom";
 import Header from "./Header";
 import Navleft from "./Navleft";
-import { useAuthContext } from "@contexts/hooks/auth";
-import { prefixRootRoute } from "@constants/index";
+// import { useAuthContext } from "@contexts/hooks/auth";
+// import { prefixRootRoute } from "@constants/index";
 
 const LayoutManager = () => {
-  const { isLogin } = useAuthContext();
-  if (!isLogin) return <Navigate to={prefixRootRoute.public} />;
+  // const { isLogin } = useAuthContext();
+  // if (!isLogin) return <Navigate to={prefixRootRoute.public} />;
   return (
     <div className="bg-bg_fafafa min-w-[1920px] relative">
       <div className="fixed w-[300px] z-[12] bg-white top-0 bottom-0 left-0 shadow-sm">

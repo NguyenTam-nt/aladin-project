@@ -6,5 +6,7 @@ export const apis = {
     file: "upload-file",
     policy: "policy",
     infrastructures: "infrastructures",
-    thanksCustomer: "reviews"
+    thanksCustomer: "reviews",
+    category: "categories",
+    product: "products",
 }

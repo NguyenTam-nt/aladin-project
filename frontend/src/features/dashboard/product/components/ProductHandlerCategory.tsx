@@ -62,6 +62,7 @@ export const ProductHandlerCategory = memo(() => {
                 "h-[144px]":isShow
             })}>
               <div className="h-full overflow-y-auto category-select-group list-facilities">
+                
                 {dataCategory.map((item, index) => {
                     const isActive = indexActive === index
                   return (
