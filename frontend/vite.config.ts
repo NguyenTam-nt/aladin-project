@@ -6,7 +6,7 @@ import reactRefresh from '@vitejs/plugin-react-refresh'
 // https://vitejs.dev/config/
 export default defineConfig({
   server: {
-    port: 3001,
+    port: 3000,
     proxy: {
       "/services": {
         target: "http://192.168.1.24:8090",
