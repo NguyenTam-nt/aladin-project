@@ -17,6 +17,7 @@ import adminPlace from "./dashboard/place.json"
 import adminContact from "./dashboard/contact.json"
 import adminOrderFood from "./dashboard/orderFood.json"
 import adminVoucher from "./dashboard/voucher.json"
+import tablereservation from "./tablereservation.json"
 
 export const vi = {
     ...home,
@@ -30,6 +31,7 @@ export const vi = {
     ...menu,
     ...news,
     ...recruit,
+    ...tablereservation,
     ...orderFood,
     ...homeAdmin,
     ...adminHome,

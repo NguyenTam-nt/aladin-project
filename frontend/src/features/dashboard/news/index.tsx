@@ -8,6 +8,7 @@ import NewItem from "./component/NewItem";
 import { Pagination } from "@components/Paginnation";
 import { useNavigate } from "react-router-dom";
 import { pathsAdmin } from "@constants/routerManager";
+import { useTranslation } from "react-i18next";
 type Props = {
   name: string;
   icon?: React.ReactNode;
@@ -16,6 +17,7 @@ type Props = {
 } & ButtonHTMLAttributes<HTMLButtonElement>;
 
 const ManageNews = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const [currentPage, setCurrentPage] = useState<number>(1);
   const handleAddNew = () => {
@@ -30,7 +32,7 @@ const ManageNews = () => {
             <input
               type="text"
               className="w-full border border-[#CFCFCF] bg-transparent py-3 pl-12  font-normal text-sm leading-22"
-              placeholder="Nhập từ khóa tìm kiếm"
+              placeholder={t("news.search_placehoder") as string}
             />
             <div className="absolute left-5 top-2/4 -translate-y-2/4">
               <MagnifyingGlass color="#A1A0A3" />

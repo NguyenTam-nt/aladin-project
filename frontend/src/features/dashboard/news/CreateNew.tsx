@@ -60,7 +60,7 @@ const CreateNew = () => {
 
           <div className=" col-span-2 flex justify-end">
             <GroupButtonAdmin
-              onCacel={() => navigate(-1)}
+              onCancel={() => navigate(-1)}
               isAdd={id ? false : undefined}
             />
           </div>
