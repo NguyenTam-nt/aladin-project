@@ -119,7 +119,7 @@ export const pathsAdmin = {
   voucher: {
     prefix: "voucher",
     add: "them",
-    update: "sua/:id",
+    update: ":id",
   },
   orderFood: {
     prefix: "dat-mon",

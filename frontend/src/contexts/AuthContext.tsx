@@ -12,6 +12,7 @@ interface AuthState {
   doLogin: () => void
   doLogout: () => void
   updateUser: (user:IUser) => void
+  loading: boolean
 }
 
 export const AuthContext = createContext<AuthState>({
@@ -21,6 +22,7 @@ export const AuthContext = createContext<AuthState>({
   doLogout: () => {},
   updateUser: (_:IUser) => {},
   isLogin: !!localStorage.getItem('accessToken'),
+  loading: false
 })
 
 type Props = {
@@ -29,6 +31,7 @@ type Props = {
 
 export default function AuthProvider({children}: Props) {
   const [isLogin, setIsLogin] = useState(!!localStorage.getItem('accessToken'))
+  const [loading, setLoading] = useState(false)
   const [user, setUser] = useState<IUser>(
     JSON.parse(localStorage.getItem('account') + '') || null
   )
@@ -45,6 +48,7 @@ export default function AuthProvider({children}: Props) {
 
   useEffect(() => {
     setIsLogin(false)
+    setLoading(true)
     userService.getInfo()
       .then((user) => {
         setUser(user)
@@ -56,6 +60,8 @@ export default function AuthProvider({children}: Props) {
         if (status === 403 || status === 401) {
           doLogout()
         }
+      }).finally(() => {
+        setLoading(false)
       })
   }, [])
 
@@ -79,7 +85,8 @@ export default function AuthProvider({children}: Props) {
         hasRole,
         doLogin,
         doLogout,
-        updateUser
+        updateUser,
+        loading
       }}
     >
       {children}

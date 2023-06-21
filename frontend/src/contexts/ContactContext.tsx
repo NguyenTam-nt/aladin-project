@@ -20,6 +20,7 @@ import { useTranslation } from "react-i18next";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useAuthContext } from "./hooks/auth";
 import { pathsAdmin } from "@constants/routerManager";
+import { Loading } from "@features/dashboard/components/Loading";
 
 const data = [
   {
@@ -51,7 +52,7 @@ type Props = {
 export const ContactProvider = ({ children }: Props) => {
   const { t } = useTranslation();
   const { pathname } = useLocation();
-  const {isLogin, doLogin} = useAuthContext()
+  const {isLogin, doLogin, loading} = useAuthContext()
   const widthBreak = useMemo(() => {
     return windownSizeWidth > withResponsive._1024;
   }, []);
@@ -63,10 +64,13 @@ export const ContactProvider = ({ children }: Props) => {
   const navigate = useNavigate()
 
   const handleLogin = () => {
-    if(isLogin) {
-      navigate(`${prefixRootRoute.admin}/${pathsAdmin.home.prefix}`)
-    }else {
-      doLogin()
+    if(!loading) {
+      if(isLogin) {
+        navigate(`${prefixRootRoute.admin}/${pathsAdmin.home.prefix}`)
+      }else {
+        doLogin()
+      }
+
     }
   }
 
@@ -115,10 +119,17 @@ export const ContactProvider = ({ children }: Props) => {
           </div>
         </button>
 
-        <button onClick={handleLogin} className=" flex items-center justify-center bg-primary">
-          <span>
-            <ICLogin width={widthBreak ? 24 : 24} height={widthBreak ? 24 : 24} />
-          </span>
+        <button onClick={handleLogin} className=" text-_12 text-white flex items-center justify-center bg-primary">
+          {
+            loading ? (
+            "..."
+            ) : (
+            <span>
+              <ICLogin width={widthBreak ? 24 : 24} height={widthBreak ? 24 : 24} />
+            </span>
+
+            )
+          }
         </button>
 
         <button className=" flex items-center justify-center bg-bg_2196F3">

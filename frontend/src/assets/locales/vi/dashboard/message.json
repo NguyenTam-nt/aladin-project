@@ -11,6 +11,8 @@
         },
         "form": {
             "required": "Bắt buộc",
+            "number": "Phải là số",
+            "enddateGreaterThanStartdate": "Thời gian kết thúc phải lớn hơn thời gian bắt đầu",
             "max": "Vui lòng nhập tối đa {{max}}} ký tự."
         },
         "actions": {
