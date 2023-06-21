@@ -1,5 +1,10 @@
 import clsx from "clsx";
-import React, { useContext, InputHTMLAttributes, memo } from "react";
+import React, {
+  useContext,
+  InputHTMLAttributes,
+  memo,
+  ChangeEvent,
+} from "react";
 import { useTranslation } from "react-i18next";
 type Props = {
   withIndicator?: boolean;

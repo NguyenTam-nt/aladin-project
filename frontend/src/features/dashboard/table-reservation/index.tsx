@@ -12,15 +12,37 @@ import { useHandleCheckbox } from "../category-product/useHandleCheckbox";
 import { ICFilterDropdown } from "@assets/icons/ICFilterDropdown";
 import FilterPlaceBox from "./component/FilterPlaceBox";
 import FilterByTime from "./component/FilterByTime";
+import { useState } from "react";
+import { useModalContext } from "@contexts/hooks/modal";
+import { DiglogComfirmDelete } from "../components/DiglogComfirmDelete";
+import ModalFeedbackReservation from "./component/ModalFeedbackReservation";
+import ModalConfirm from "./component/ModalConfirm";
 
 const ManageTableReserVation = () => {
   const { t } = useTranslation();
-  const { ref, isShow, handleToggleItem } = useClickOutItem();
+  const { setElementModal } = useModalContext();
   const { refCheckboxAll, refCheckboxList, handleCheckAll, handleCheckedItem } =
     useHandleCheckbox([1, 2, 3, 4, 5, 6]);
+  const [isReply, setReply] = useState<boolean | null>(null);
+  const [place, setPlace] = useState<string | null>(null);
+  const handleDeleteModal = () => {
+    setElementModal(
+      <DiglogComfirmDelete message="common._message_delete_reservation" />
+    );
+  };
+  const handleFeadbackCustommer = () => {
+    setElementModal(<ModalFeedbackReservation data={true} />);
+  };
+  const handleShowModalConfirm = () => {
+    setElementModal(<ModalConfirm onClick={() => {}} />);
+  };
   return (
     <div>
-      <TitleOfContentManage name="news.listNew" />
+      {place ? (
+        <h3 className="title-24 font-bold font-IBM_Plex_Sans">{place}</h3>
+      ) : (
+        <TitleOfContentManage name="tableReservation.nameTable" />
+      )}
       <div className="mt-10 pb-6">
         <div className="flex items-center gap-6 justify-between">
           <div className="w-[800px] relative">
@@ -35,7 +57,7 @@ const ManageTableReserVation = () => {
           </div>
           <div className="flex items-center gap-6">
             <Button
-              //   onClick={handleAddNew}
+              onClick={handleDeleteModal}
               text="common.delete"
               className="max-w-[177px] whitespace-nowrap text-text_EA222A border-text_EA222A"
               imageLeft={
@@ -47,14 +69,14 @@ const ManageTableReserVation = () => {
             />
             <div className="flex gap-6 justify-between">
               <FilterByTime />
-              <FilterPlaceBox />
+              <FilterPlaceBox place={place} handleChosePlace={setPlace} />
             </div>
           </div>
         </div>
       </div>
       <div>
         <div className="w-full">
-          <div className="grid grid-cols-[5%_20%_15%_15%_10%_23%_12%] py-4 border-b text-_16 font-semibold">
+          <div className="grid grid-cols-[5%_20%_15%_15%_10%_23%_12%] [&>div]:py-4 border-b text-_16 font-semibold">
             <div>
               <Checkbox onChange={handleCheckAll} ref={refCheckboxAll} />
             </div>
@@ -67,10 +89,34 @@ const ManageTableReserVation = () => {
             <div className="text-center">
               {t("tableReservation.tableHeader.place")}
             </div>
-            <div>
-              <div className="flex items-center gap-1 cursor-pointer justify-end">
+            <div className="relative group">
+              <div className="flex items-center gap-[10px] cursor-pointer justify-end">
                 {t("tableReservation.tableHeader.status")}
                 <ICFilterDropdown color={Colors.text_primary} />
+              </div>
+              <div className="absolute hidden h-0 ease-in duration-75 group-hover:block group-hover:h-[92px] shadow-sm z-20 top-full right-0 w-full bg-white">
+                <div
+                  onClick={() => setReply(true)}
+                  className={
+                    "p-5 text-sm font-normal leading-22 px-4 py-3 cursor-pointer " +
+                    (isReply
+                      ? "text-text_white bg-TrueBlue_500"
+                      : "text-text_primary bg-white")
+                  }
+                >
+                  đã phản hồi
+                </div>
+                <div
+                  onClick={() => setReply(false)}
+                  className={
+                    "p-5 text-sm font-normal leading-22 px-4 py-3 cursor-pointer " +
+                    (isReply != null && !isReply
+                      ? "text-text_white bg-TrueBlue_500"
+                      : "text-text_primary bg-white")
+                  }
+                >
+                  chưa phản hồi
+                </div>
               </div>
             </div>
           </div>
@@ -83,12 +129,21 @@ const ManageTableReserVation = () => {
                 }}
               />
             </div>
-            <div>2</div>
-            <div>3</div>
-            <div className="">4</div>
-            <div className="text-center">5</div>
-            <div className="text-center">6</div>
-            <div className="flex items-center justify-end gap-1">
+            <div onClick={handleFeadbackCustommer}>2</div>
+            <div onClick={handleFeadbackCustommer}>3</div>
+            <div onClick={handleFeadbackCustommer} className="">
+              4
+            </div>
+            <div onClick={handleFeadbackCustommer} className="text-center">
+              5
+            </div>
+            <div onClick={handleFeadbackCustommer} className="text-center">
+              6
+            </div>
+            <div
+              className="flex items-center justify-end gap-1"
+              onClick={handleShowModalConfirm}
+            >
               <div className="w-3 h-3 rounded-[50%] bg-bg_01A63E hover:bg-red_error"></div>
               <p className="text-bg_01A63E cursor-pointer">
                 {t("tableReservation.noReply")}

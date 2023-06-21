@@ -4,27 +4,19 @@ import { useClickOutItem } from "@hooks/useClickOutItem";
 import React, { ChangeEvent, memo, useEffect, useRef } from "react";
 
 const FilterByTime = memo(() => {
-  const { ref, isShow, handleToggleItem } = useClickOutItem();
   const inputRef = useRef<HTMLInputElement>(null);
   const handleChangeTime = (e: ChangeEvent<HTMLInputElement>) => {
     console.log(e.target.value, "filer by time");
   };
-  useEffect(() => {
-    if (isShow && inputRef.current) {
-      inputRef.current.checked;
-      console.log([inputRef.current]);
-      console.log("click");
-    }
-    return () => {
-      inputRef.current?.removeEventListener("change", () => {});
-    };
-  }, [isShow]);
+  const handleClick = () => {
+    inputRef?.current?.showPicker();
+  };
   return (
-    <label htmlFor="a" ref={ref} className="relative">
+    <div className="relative">
       <Button
-        onClick={handleToggleItem}
+        onClick={handleClick}
         text="common.filter_by_date"
-        className="max-w-[177px] whitespace-nowrap"
+        className="max-w-[177px] whitespace-nowrap z-[9]"
         image={
           <span className="ml-2">
             <CalendarIcont />
@@ -33,14 +25,13 @@ const FilterByTime = memo(() => {
         color={"empty"}
       />
       <input
-        id="a"
         ref={inputRef}
         defaultValue={new Date().toLocaleString()}
         type="date"
-        // className="hidden"
+        className="absolute bottom-0 -z-10 bg-transparent"
         onChange={handleChangeTime}
       />
-    </label>
+    </div>
   );
 });
 

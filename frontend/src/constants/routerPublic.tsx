@@ -23,18 +23,25 @@ const RecruitmentDetail = lazy(
 const Recruitment = lazy(() => import("@features/recruitment/index"));
 const News = lazy(() => import("@features/news/user/index"));
 const NewDetail = lazy(() => import("@features/news/user/NewDetail"));
+const PolicyDetail = lazy(() => import("@features/policyDetail/index"));
 const ContactPage = lazy(() => import("@features/contact"));
 
 const AboutUsPage = lazy(() => import("@features/about-us"));
 const OrderFoodPage = lazy(() => import("@features/order-food"));
-const OrderFoodInfoPage = lazy(() => import("@features/order-food/OrderFoodInfo"));
+const OrderFoodInfoPage = lazy(
+  () => import("@features/order-food/OrderFoodInfo")
+);
 
 const MenuDetail = lazy(() =>
-import("@features/menu-detail").then((module) => ({ default: module.MenuDetail }))
+  import("@features/menu-detail").then((module) => ({
+    default: module.MenuDetail,
+  }))
 );
 
 const ThanksCustomer = lazy(() =>
-import("@features/thanks-customer").then((module) => ({ default: module.ThanksCustomer }))
+  import("@features/thanks-customer").then((module) => ({
+    default: module.ThanksCustomer,
+  }))
 );
 
 export const paths = {
@@ -58,11 +65,11 @@ export const paths = {
   },
   orderFood: {
     prefix: "/dat-hang",
-    info: "/dat-hang/info"
+    info: "/dat-hang/info",
   },
   memu: {
     prefix: "/thuc-don",
-    detail: ":id"
+    detail: ":id",
   },
   recruitment: {
     prefix: "/tuyen-dung",
@@ -73,9 +80,12 @@ export const paths = {
   contact: {
     prefix: "/lien-he",
   },
+  policyDetail: {
+    prefix: "/policy/:id",
+  },
   customer: {
-    prefix: "/cam-on-khach-hang"
-  }
+    prefix: "/cam-on-khach-hang",
+  },
 };
 
 export const routersPublic: IRouter[] = [
@@ -94,7 +104,7 @@ export const routersPublic: IRouter[] = [
     path: `${paths.memu.prefix}/${paths.memu.detail}`,
     element: MenuDetail,
     name: "navigation.header.memu_detail",
-    isHiden: true
+    isHiden: true,
   },
   {
     path: paths.sale.prefix,
@@ -136,6 +146,12 @@ export const routersPublic: IRouter[] = [
     isHiden: true,
   },
   {
+    path: paths.policyDetail.prefix,
+    element: PolicyDetail,
+    name: "navigation.header.policy_detail",
+    isHiden: true,
+  },
+  {
     path: paths.contact.prefix,
     element: ContactPage,
     name: "navigation.header.contact",
@@ -145,7 +161,6 @@ export const routersPublic: IRouter[] = [
     element: ThanksCustomer,
     name: "navigation.header.customer",
     isHiden: true,
-    
   },
   {
     path: paths.orderFood.prefix,

@@ -17,7 +17,12 @@ const dataCategory = [
   "Cơ sở 9 Cơ sở 1 - Nguyễn Trí Thanh",
   "Cơ sở 9 Cơ sở 1 - Nguyễn Trí Thanh",
 ];
-const FilterPlaceBox = memo(() => {
+
+interface Props {
+  handleChosePlace: (value: string | null) => void;
+  place: null | string;
+}
+const FilterPlaceBox = memo(({ handleChosePlace, place }: Props) => {
   const { ref, isShow, handleToggleItem } = useClickOutItem();
   return (
     <div ref={ref} className="relative">
@@ -35,31 +40,36 @@ const FilterPlaceBox = memo(() => {
 
       <div
         className={
-          "absolute top-[105%] right-0 min-w-[300%] bg-white overflow-y-auto list-facilities shadow-sm px-5 z-40 " +
+          "absolute top-[105%] right-0 min-w-[300%] bg-white overflow-y-auto list-facilities shadow-sm px-5 z-[9] " +
           (isShow ? "h-[200px]" : "h-0")
         }
       >
-        <div className="flex h-[48px] items-center">
-          <Checkbox
-          //   onChange={handleCheckAll} ref={refCheckboxAll}
-          />
-          <span className="text-_14 text-GreyPrimary ml-[6px]">
+        <div className="flex h-[48px] items-center cursor-pointer">
+          <div
+            className={"w-3 h-3 rounded-[50%] " + (place ? "" : "bg-bg_01A63E")}
+          ></div>
+
+          <span
+            onClick={() => handleChosePlace(null)}
+            className="text-_14 text-GreyPrimary ml-[6px] "
+          >
             Chọn tất cả
           </span>
         </div>
         {dataCategory.map((item, index) => {
           {
             return (
-              <div key={index} className="flex h-[48px] items-center">
-                <Checkbox
-                // onChange={(event) => {
-                //   handleCheckedItem(event, index);
-                // }}
-                // checked={listChecked.some((item) => item === index)}
-                // ref={(ref: HTMLInputElement) =>
-                //   (refCheckboxList.current[index] = ref)
-                // }
-                />
+              <div
+                onClick={() => handleChosePlace(item)}
+                key={index}
+                className="flex h-[48px] items-center cursor-pointer"
+              >
+                <div
+                  className={
+                    "w-3 h-3 rounded-[50%] " +
+                    (place === item ? "bg-bg_01A63E" : "")
+                  }
+                ></div>
                 <span className="text-_14 text-GreyPrimary ml-[6px]">
                   {item}
                 </span>
