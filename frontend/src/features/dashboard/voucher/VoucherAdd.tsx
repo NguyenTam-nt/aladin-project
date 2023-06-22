@@ -23,7 +23,7 @@ function VoucherAdd() {
   const navigation = useNavigate();
 
   const { showError, showSuccess } = useShowMessage();
-0
+
   const [type, setType] = useState(VOUCHER_TYPE.money)
   const [isLimit, setIsLimit] = useState(true)
 

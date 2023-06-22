@@ -1,6 +1,6 @@
 {
   "adminOrderFood": {
-    "title": "Danh sách yêu cầu tư vấn",
+    "title": "Quản lý đơn đặt món",
     "table": {
       "code": "Mã đơn hàng",
       "fullname": "Họ và tên",
