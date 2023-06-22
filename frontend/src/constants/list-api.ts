@@ -7,5 +7,6 @@ export const apis = {
     policy: "policy",
     infrastructures: "infrastructures",
     vouchers: "vouchers",
-    thanksCustomer: "reviews"
+    thanksCustomer: "reviews",
+    recruit: "recruits"
 }

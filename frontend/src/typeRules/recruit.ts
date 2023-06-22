@@ -7,3 +7,9 @@ export interface Recruit_type {
        address:string,
        content:string
 }
+
+export interface Data_Recruit {
+       list: Recruit_type[];
+       totalElement: number;
+       totalElementPage: number;
+}
