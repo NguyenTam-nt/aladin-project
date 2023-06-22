@@ -1,7 +1,8 @@
 {
   "contact": {
     "title": "Liên hệ",
-    "address_title": "Nhà hàng trên toàn quốc"
-
+    "address_title": "Nhà hàng trên toàn quốc",
+    "send_success": "Gửi yêu cầu thành công",
+    "send_fail": "Gửi yêu cầu thất bại"
   }
 }

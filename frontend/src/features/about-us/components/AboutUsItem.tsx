@@ -3,10 +3,8 @@ import { ICArowDown } from '@assets/icons/ICArowDown'
 import bg_sales from "@assets/images/home/bg_sales.webp";
 import type { PlaceType } from '@typeRules/place';
 import clsx from 'clsx';
-import React, { useState } from 'react'
+import React, { useEffect, useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next';
-
-const INITIAL_MAX_HEIGHT = 10000;
 
 type Props = {
   item: PlaceType,
@@ -17,24 +15,18 @@ function AboutUsItem({item, idx}: Props) {
 
   const { t } = useTranslation();
   const collapseMenuRef = React.useRef<any>(null);
-  const isFirstRender = React.useRef(true);
-  const maxHeightRef = React.useRef(INITIAL_MAX_HEIGHT);
+  const [maxHeight, setMaxHeight] = useState()
   const [open, setOpen] = useState(false)
-  React.useEffect(() => {
-    if (collapseMenuRef.current && !isFirstRender.current) {
-      if (
-        maxHeightRef.current > collapseMenuRef.current.offsetHeight &&
-        maxHeightRef.current !== INITIAL_MAX_HEIGHT
-      ) {
-      // HALT!! // Someone collapsed the menu too early! // The offsetHeight is not full.
-        return;
-      }
-      maxHeightRef.current = collapseMenuRef.current.offsetHeight;
+
+  useLayoutEffect(() => {
+    setOpen(false)
+    if(collapseMenuRef && collapseMenuRef.current && maxHeight == undefined) {
+      setMaxHeight(collapseMenuRef.current.clientHeight)
     }
-    if (open && isFirstRender.current) {
-      isFirstRender.current = false;
-    }
-  }, [open]);
+    
+  }, [collapseMenuRef, collapseMenuRef.current])
+
+
 
   return (
     <div className='w-rp mb-6 hover:cursor-pointer'>
@@ -43,15 +35,13 @@ function AboutUsItem({item, idx}: Props) {
       >
         <h4 className='flex justify-center items-center h-6 lg:h-auto text-secondary text-_14 lg:text-_18 uppercase font-bold'>{t("place.place")} {idx} - {item.name}</h4>
         <div className="">
-          <ICArowDown color='black' className=''  />
+          <ICArowDown color='black' className={`transition duration-300 ${open && "rotate-180 "}`}  />
         </div>
       </div>
       
-      <div className={clsx(" max-h-0 overflow-hidden", {
-        "": open
-      })}
+      <div className={clsx("overflow-hidden", {})}
         style={{
-          maxHeight: open ? `${maxHeightRef.current}px` : '0px',
+          maxHeight: open ? maxHeight + "px" : collapseMenuRef && collapseMenuRef.current ? "0" : "",
           transition: "max-height 1s ease"
         }}
         ref={collapseMenuRef}
@@ -63,7 +53,7 @@ function AboutUsItem({item, idx}: Props) {
 
           {
             item.infrastructureList.map(item => {
-              return <div className="">
+              return <div className="" key={item.id}>
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 py-6">
                   <img 
                     className="w-full  h-full object-cover rounded-tl-r32 rounded-br-r32"

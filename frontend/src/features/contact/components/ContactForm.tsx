@@ -7,9 +7,13 @@ import * as Yup from "yup";
 import type { IContact } from '@typeRules/contact';
 import ContactService from '@services/ContactService';
 import { TextError } from '@features/dashboard/components/TextError';
+import { useHandleLoading } from '@features/dashboard/components/Loading';
+import { useShowMessage } from '@features/dashboard/components/DiglogMessage';
 
 function ContactForm() {
   const { t } = useTranslation();
+  const { showLoading , hideLoading} = useHandleLoading();
+  const { showError, showSuccess, showWarning } = useShowMessage();
 
   const formik = useFormik({
     initialValues: {
@@ -41,7 +45,7 @@ function ContactForm() {
     }),
     onSubmit: async (data) => {
       try {
-
+        showLoading();
         let request: IContact = {
           fullname: data.fullname,
           phone: data.phone,
@@ -53,12 +57,13 @@ function ContactForm() {
           ContactService
             .post(request)
             .then(() => {
-              // showSuccess("customer.message_post_success");
+              showSuccess("contact.send_success");
               // goBack();
               formik.resetForm();
+              // hideLoading()
             })
             .catch(() => {
-              // showError("message.actions.error.delete_banner");
+              showError("contact.send_fail");
             });
         
       } catch (error) {}
