@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { TitleTopic } from '../home/components/TitleTopic'
 import { Button } from '../components/Button'
 import { ICAdd } from '@assets/icons/ICAdd'
@@ -13,15 +13,80 @@ import { Colors } from '@constants/color'
 import { ICFilterDropdown } from '@assets/icons/ICFilterDropdown'
 import { useModalContext } from '@contexts/hooks/modal'
 import ModalResponseContact from './components/ModalResponseContact'
+import clsx from 'clsx'
+import ContactService from '@services/ContactService'
+import { SIZE_DATA } from '@constants/index'
+import type { IResponseData } from '@typeRules/index'
+import type { IContact } from '@typeRules/contact'
+import { DiglogComfirmDelete } from '../components/DiglogComfirmDelete'
+import { useHandleLoading } from '../components/Loading'
+import { useShowMessage } from '../components/DiglogMessage'
 
 function ContactAdmin() {
   const { t } = useTranslation();
   const {setElementModal} = useModalContext()
-  const { refCheckboxAll, refCheckboxList, handleCheckAll, handleCheckedItem } = useHandleCheckbox([1, 2, 3, 4, 5, 6]);
+  const [openFilterStatus, setOpenFilterStatus] = useState(false)
+  const [filterStatus, setFilterStatus] = useState<boolean | undefined>()
+  const { showLoading } = useHandleLoading();
+  const { showError, showSuccess, showWarning } = useShowMessage();
 
-  const handleClickResponse = (data: any) => {
-    setElementModal(<ModalResponseContact data={data} />)
+  const [descId, setDescId] = useState<boolean>(true)
+  
+  const [contacts, setContacts] = useState<IResponseData<IContact>>();
+  const { refCheckboxAll, refCheckboxList, handleCheckAll, handleCheckedItem, listChecked, setListChecked } = useHandleCheckbox(contacts?.list.map(e => e.id as number) || []);
+
+  useEffect(() => {
+    getContactData(Number(1))
+  }, [])
+
+  useEffect(() => {
+    getContactData(Number(1))
+  }, [descId, filterStatus])
+
+  const getContactData = async (page:number) => {
+    try {
+      ContactService.get({page: page, size: SIZE_DATA, sort2: `id,${descId ? 'desc' : 'asc'}`, sort1: `status,${filterStatus ? 'desc' : 'asc'}`})
+        .then(response => {
+          setContacts(response)
+        })
+        .catch(error => {
+        })
+    } catch (error) {
+    } 
   }
+
+  
+  const handleClickResponse = (data: IContact) => {
+    setElementModal(<ModalResponseContact data={data} loadData={() => getContactData(Number(1))}/>)
+  }
+
+  
+  const handleShowModalDeleteAll = () => {
+    if(listChecked.length > 0) {
+      setElementModal(
+        <DiglogComfirmDelete
+          onClick={handleDeleteAll}
+          message="adminContact.notification.delete"
+        />
+      );
+    }
+  }
+
+  
+  const handleDeleteAll = () => {
+    showLoading();
+    ContactService
+      .deleteAll(listChecked.map(id => {return {id: id}}))
+      .then(() => {
+        getContactData(Number(1))
+        setListChecked([])
+        showSuccess("adminContact.notification.deleteSuccess");
+      })
+      .catch(() => {
+        showError("adminContact.notification.deleteError");
+      });
+  }
+
 
   return (
     <div>
@@ -31,7 +96,7 @@ function ContactAdmin() {
         </div>
         <div className="flex justify-center items-center gap-4">
           <Button
-            onClick={() => {}} text="common.delete"
+            onClick={handleShowModalDeleteAll} text="common.delete"
             className="max-w-[177px] whitespace-nowrap text-text_EA222A border-text_EA222A"
             imageLeft={
               <span className="mr-2">
@@ -41,7 +106,7 @@ function ContactAdmin() {
             color={"empty"}
           />
           <Button
-            onClick={() => {}} text="common.desc"
+            onClick={() => setDescId(true)} text="common.desc"
             className="max-w-[177px] whitespace-nowrap"
             imageLeft={
               <span className="mr-2">
@@ -51,7 +116,7 @@ function ContactAdmin() {
             color={"empty"}
           />
           <Button
-            onClick={() => {}} text="common.asc"
+            onClick={() => setDescId(false)} text="common.asc"
             className="max-w-[177px] whitespace-nowrap"
             imageLeft={
               <span className="mr-2">
@@ -72,46 +137,67 @@ function ContactAdmin() {
           <p>{t("adminContact.table.email")}</p>
           <p>{t("adminContact.table.address")}</p>
           <p>{t("adminContact.table.content")}</p>
-          <p className="flex justify-end gap-3">
+          <div className="  cursor-pointer relative"
+             onClick={() => setOpenFilterStatus(!openFilterStatus)}
+          >
+            <p className='flex justify-start gap-3'
+             
+            >
               {t("adminContact.table.status")} 
-            <ICFilterDropdown color={Colors.text_primary} />
-          </p>
+              <ICFilterDropdown color={Colors.text_primary} />
+            </p>
+            {
+              openFilterStatus && <div className="shadow-md absolute top-full left-0 translate-y-4 bg-white z-10">
+                <div className={clsx("py-3 min-w-[122px] text-_14  hover:bg-TrueBlue_500 hover:text-white text-GreyPrimary px-4", {
+                  "!bg-TrueBlue_500 !text-white": filterStatus
+                })}
+                  onClick={() => setFilterStatus(filterStatus ? undefined : true)}
+                >
+                  {t("adminContact.table.responsed")}
+                </div>
+                <div className={clsx("py-3 min-w-[122px] text-_14  hover:bg-TrueBlue_500 hover:text-white text-GreyPrimary px-4", {
+                  "!bg-TrueBlue_500 !text-white": filterStatus == false
+                })}
+                  onClick={() => setFilterStatus(!filterStatus ? undefined : false)}
+                >
+                  {t("adminContact.table.not_response")}
+                </div>
+              </div>
+            }
+          </div>
         </div>
-        {[1, 2, 3, 4, 5, 6, 7,8].map((item, idx) => {
+        {contacts && contacts.list.map((item, idx) => {
         return (
           <div
-            key={idx}
-            className="border-b border-br_E9ECEF py-[16px] grid grid-cols-[25px_148px_148px_212px_258px__1fr_122px] gap-x-[16px] [&>p]:text-_14 [&>P]:text-text_primary "
+            key={item.id}
+            className="cursor-pointer border-b border-br_E9ECEF py-[16px] grid grid-cols-[25px_148px_148px_212px_258px__1fr_122px] gap-x-[16px] [&>p]:text-_14 [&>P]:text-text_primary "
+            onClick={() => handleClickResponse(item)}
           >
-            <div>
+            <div onClick={(event) => {event.stopPropagation()}}>
               <Checkbox
-                onChange={(event) => handleCheckedItem(event, idx)}
+                onChange={(event) => {handleCheckedItem(event, idx); }}
                 ref={(element: HTMLInputElement) => {
                   refCheckboxList.current[idx] = element;
                 }}
               />
             </div>
-            <p className='line-clamp-1'>Nguyễn Mạnh Cường</p>
-            <p className='line-clamp-1'>0325666225</p>
-            <p className='line-clamp-1'>minhanh@gmail.com</p>
-            <p className='line-clamp-1'>24 Cự lộc- Thanh Xuân- Hà Nội</p>
-            <p className='line-clamp-1'>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Nostrum obcaecati totam, doloremque alias vitae harum eius blanditiis. Aliquam quas doloremque provident quisquam sapiente placeat quasi error nihil inventore, ipsum ea!
-            Deserunt dignissimos illo nihil reprehenderit iure? Voluptatum repellendus iure saepe aut obcaecati, unde corporis veritatis ab quidem voluptates molestiae tempore! Facere, nam! Porro necessitatibus ducimus in quibusdam neque nesciunt unde!
-            Saepe in excepturi, illum fuga consequatur tempora accusantium alias quasi voluptate aliquid quisquam quam mollitia aspernatur? Eum sapiente eligendi tenetur dolorum mollitia, aperiam molestiae quia saepe, asperiores inventore doloremque tempore.
-            Corrupti laudantium esse eos! Commodi libero et iste accusamus recusandae excepturi hic esse molestias cum, quo nostrum pariatur itaque non temporibus? Explicabo atque neque iure voluptas adipisci quasi nisi iste!
-            Maxime, totam ratione quos quibusdam aliquid aperiam eaque nostrum sint eveniet quis reiciendis animi fugiat excepturi pariatur corrupti et expedita dolorum illum enim tempora deleniti voluptatibus quae magnam quam! Officiis.</p>
+            <p className='line-clamp-1'>{item.fullname}</p>
+            <p className='line-clamp-1'>{item.phone}</p>
+            <p className='line-clamp-1'>{item.email}</p>
+            <p className='line-clamp-1'>{item.address}</p>
+            <p className='line-clamp-1'>
+              {item.content}
+            </p>
             <div className="flex justify-end gap-x-[16px]">
               {
-                Math.round(Math.random()) == 1 ? <div className="flex items-center gap-2 cursor-pointer"
-                  onClick={() => handleClickResponse({})}
+                !item.status ? <div className="flex items-center gap-2 cursor-pointer"
                 >
                   <span className="w-3 h-3 rounded-full bg-text_red"></span>
                   <span className='text-_14 text-text_red underline'>{t("adminContact.table.not_response")}</span>
                 </div> : <div className="flex items-start gap-2 relative"
-                   onClick={() => handleClickResponse(null)}
                 >
                   <span className="w-3 h-3 rounded-full bg-bg_01A63E"></span>
-                  <span className='text-_14 text-bg_01A63E underline -mt-1'>{t("adminContact.table.not_response")}</span>
+                  <span className='text-_14 text-bg_01A63E underline -mt-1'>{t("adminContact.table.responsed")}</span>
                   <span className=' absolute top-full right-0 text-_14 -translate-y-1.5 text-text_A1A0A3'>Bởi CuongNM</span>
                 </div>
               }
