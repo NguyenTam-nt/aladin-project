@@ -1,0 +1,27 @@
+{
+    "tableReservation": {
+        "nameTable": "Danh sách yêu cầu đặt bàn",
+        "tableHeader": {
+            "fullName": "Họ và tên",
+            "phoneNumber": "Số điện thoại",
+            "day": "Ngày",
+            "hour": "Giờ",
+            "place": "Cơ Sở",
+            "status": "Trạng thái"
+        },
+        "noReply": "Chưa phản hồi",
+        "reply": "Đã phản hồi",
+        "_message_delete_reservation": "Bạn có chắc chắn xóa yêu cầu này khỏi hệ thống?",
+        "form": {
+            "title": "PHẢN HỒI YÊU CẦU ĐẶT BÀN",
+            "customer_title": "Nội dung khách hàng yêu cầu tư vấn",
+            "reason_for_refusa":"Lý do từ chối"
+        },
+        "record_reques_order_table": "Ghi nhận yêu cầu đặt bàn",
+        "declinded_reques_order_table": "Từ chối yêu cầu đặt bàn",
+        "message_confirm": "Bạn có chắc chắn chuyển trạng thái sang ",
+        "next_to": "sang",
+        "message_note": "Lưu ý: Bạn sẽ không đổi từ trạng thái"
+
+    }
+}

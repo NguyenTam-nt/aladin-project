@@ -100,6 +100,9 @@ const RecuitmentManage = lazy(
 const RecruitmentEdit = lazy(
   () => import("@features/dashboard/recruit/RecruitmentEdit")
 );
+const ManageTableReserVation = lazy(
+  () => import("@features/dashboard/table-reservation/index")
+);
 
 export const pathsAdmin = {
   home: {
@@ -155,7 +158,7 @@ export const pathsAdmin = {
     add: "them",
     update: ":id",
   },
-  orderFootTable: {
+  tableReserVation: {
     prefix: "yeu-cau-dat-ban",
     add: "them",
     update: ":id",
@@ -298,8 +301,8 @@ export const RouterManage: routeMntype[] = [
     icon: LinkContacIcon,
   },
   {
-    path: pathsAdmin.orderFootTable.prefix,
-    element: ManageHome,
+    path: pathsAdmin.tableReserVation.prefix,
+    element: ManageTableReserVation,
     name: "navigation.navleft.tableReserVataion",
     icon: LinkTableIcon,
   },

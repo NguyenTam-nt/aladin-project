@@ -8,7 +8,6 @@ import { windownSizeHeight, windownSizeWidth } from "@constants/index";
 import NewItem from "@components/NewItem";
 // import { Banner } from "@components/Banner";
 const PromotionPage = () => {
-  console.log(windownSizeWidth, windownSizeHeight, "responsive");
   const [currentPage, setCurrentPage] = useState<number>(1);
   const fakeData = [
     {

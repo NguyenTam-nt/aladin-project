@@ -6,6 +6,7 @@
         "update": "Sửa tin tức",
         "delete": "Xóa tin tức",
         "uploadImage": "Tải hình ảnh lên ",
+        "search_placehoder": "Nhập từ khóa tìm kiếm",
         "form": {
             "title": "Tiêu đề",
             "des": "Mô tả",

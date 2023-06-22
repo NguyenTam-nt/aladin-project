@@ -25,8 +25,8 @@
             "kitchen": "Bếp",
             "bar": "Bar"
         },
-        "delete": "Xóa",
-        "cancel": "Hủy",
-        "add": "Thêm"
+        "filter_by_date": "Lọc theo ngày",
+        "filter_by_place": "Lọc theo cơ sở",
+        "searchInput": "Tìm kiếm theo Họ và tên/ Số điện thoại"
     }
 }
