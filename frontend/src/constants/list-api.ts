@@ -8,5 +8,6 @@ export const apis = {
     contact: "contacts",
     infrastructures: "infrastructures",
     vouchers: "vouchers",
-    thanksCustomer: "reviews"
+    thanksCustomer: "reviews",
+    recruit: "recruits"
 }
