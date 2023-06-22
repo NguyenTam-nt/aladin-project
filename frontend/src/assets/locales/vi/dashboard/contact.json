@@ -8,8 +8,8 @@
       "address": "Địa chỉ",
       "content": "Content",
       "status": "Trạng thái",
-      "not_response": "Chưa phẩn hồi",
-      "responsed": "Đã phẩn hồi"
+      "not_response": "Chưa phản hồi",
+      "responsed": "Đã phản hồi"
     },
     "form": {
       "title": "PHẢN HỒI YÊU CẦU TƯ VẤN",
@@ -17,6 +17,15 @@
       "response_title": "Nội dung nhà hàng phản hồi khách hàng",
       "response": "Phản hồi khách hàng",
       "input_response": "Nhập nội dung tư vấn khách hàng..."
+    },
+    "message": {
+      "response_success": "Phản hồi thành công",
+      "response_fail": "Phản hồi thất bại"
+    },
+    "notification": {
+      "delete": "Bạn có chắc chắn xóa yêu cầu này khỏi hệ thống?",
+      "deleteSuccess": "Xóa thành công",
+      "deleteError": "Xóa thất bại"
     }
   }
 }

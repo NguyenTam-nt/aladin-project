@@ -55,7 +55,7 @@ function VoucherAdmin() {
   
   const [vouchers, setVouchers] = useState<IResponseData<IVoucherGet>>();
   const { refCheckboxAll, refCheckboxList, handleCheckAll, handleCheckedItem, listChecked, setListChecked } = useHandleCheckbox(vouchers?.list.map(e => e.id as number) || []);
-  console.log(vouchers);
+  // console.log(vouchers);
   
   useEffect(() => {
     getVoucherData(Number(1))
