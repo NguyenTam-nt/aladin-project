@@ -97,8 +97,11 @@ const CreateNew = lazy(() => import("@features/dashboard/news/CreateNew"));
 const RecuitmentManage = lazy(
   () => import("@features/dashboard/recruit/index")
 );
-const RecruitmentEdit = lazy(
-  () => import("@features/dashboard/recruit/RecruitmentEdit")
+const AddRecruitment = lazy(
+  () => import("@features/dashboard/recruit/AddRecruitment")
+);
+const EditRecruitemt = lazy(
+  () => import("@features/dashboard/recruit/EditRecruitemt")
 );
 const ManageTableReserVation = lazy(
   () => import("@features/dashboard/table-reservation/index")
@@ -114,7 +117,7 @@ export const pathsAdmin = {
   place: {
     prefix: "co-so",
     add: "them",
-    update: ":id"
+    update: ":id",
   },
   voucher: {
     prefix: "voucher",
@@ -283,14 +286,14 @@ export const RouterManage: routeMntype[] = [
   {
     path: `${pathsAdmin.recuire.prefix}/${pathsAdmin.recuire.add}`,
     isHidden: true,
-    element: RecruitmentEdit,
+    element: AddRecruitment,
     name: "navigation.navleft.recuire",
     icon: LinkNewIcon,
   },
   {
     path: `${pathsAdmin.recuire.prefix}/${pathsAdmin.recuire.update}`,
     isHidden: true,
-    element: RecruitmentEdit,
+    element: EditRecruitemt,
     name: "navigation.navleft.recuire",
     icon: LinkNewIcon,
   },

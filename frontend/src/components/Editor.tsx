@@ -46,13 +46,12 @@ class MyUploadAdapter {
       const formData = new FormData();
       formData.append("file", file);
       // const images = undefined
-      // const images = await uploadService.postImage(formData);
+      const images = await uploadService.postImage(formData);
       return new Promise((rj) => {
         rj({
           urls: {
             // default: images?.data[0].thumbnail,
-            // default: images.list[0].linkMedia,
-            default: "",
+            default: images.list[0].linkMedia,
           },
         });
       });
