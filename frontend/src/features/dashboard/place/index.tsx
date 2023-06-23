@@ -32,7 +32,7 @@ export const PlaceAdmin = () => {
 
   const getPlaceData = async (page:number) => {
     try {
-      PlaceService.get_home({page: page, size: SIZE_DATA, sort: "id,desc"})
+      PlaceService.get({page: page, size: SIZE_DATA, sort: "id,desc"})
         .then(response => {
           setPlaceResponse(response)
         })
