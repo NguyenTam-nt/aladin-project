@@ -86,9 +86,9 @@ function VoucherAdmin() {
   };
 
 
-  const handleClickChange = (id: any) => {
+  const handleClickChange = (id: any, view: boolean) => {
     navigate(
-      `${prefixRootRoute.admin}/${pathsAdmin.voucher.prefix}/${id}`
+      `${prefixRootRoute.admin}/${pathsAdmin.voucher.prefix}/${id}?view=${view}`
     );
   }
 
@@ -262,7 +262,9 @@ function VoucherAdmin() {
                 }}
               />
             </div>
-            <p className='line-clamp-1 flex items-center'>{item.code}</p>
+            <p className='line-clamp-1 flex items-center hover:cursor-pointer hover:font-bold' 
+              onClick={() => handleClickChange(item.id, true)}
+            >{item.code}</p>
             <p className='line-clamp-1 flex items-center'>{item.name}</p>
             <p className='line-clamp-1 flex items-center'>{item.value} 
               {/* {item.typeVoucher == VOUCHER_TYPE.money ? "VNĐ" : "%"} */}
@@ -271,7 +273,7 @@ function VoucherAdmin() {
             <p className='line-clamp-1 flex items-center'>{item.used}</p>
             <div className="flex flex-col justify-start gap-2">
               {
-                item.voucherState == VOUCHER_STATE.end ? <div className="flex items-center cursor-pointer"
+                item.voucherState == VOUCHER_STATE.end ? <div className="flex items-center "
                 >
                   <span className='text-_14 text-text_red underline'>{t("adminVoucher.status.end")}</span>
                 </div> : item.voucherState == VOUCHER_STATE.running ? <div className="flex items-start relative"
@@ -292,7 +294,7 @@ function VoucherAdmin() {
                   onClick={() => {}}
                 >
                   <span className="text-_14 text-TrueBlue_500 cursor-pointer"
-                    onClick={() => handleClickChange(item.id)}
+                    onClick={() => handleClickChange(item.id, false)}
                   >{t("adminVoucher.btnStatus.change")}</span>
                   <span className='text-_14 text-text_red cursor-pointer'
                      onClick={() => handleShowModalStop(item.id)}
@@ -303,7 +305,7 @@ function VoucherAdmin() {
                 </div> : <div className="flex justify-end relative"
                 >
                    <span className="text-_14 text-TrueBlue_500 cursor-pointer"
-                    onClick={() => handleClickChange(item.id)}
+                    onClick={() => handleClickChange(item.id, false)}
                    >{t("adminVoucher.btnStatus.change")}</span>
                 </div>
               }
