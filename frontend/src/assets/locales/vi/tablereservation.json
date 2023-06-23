@@ -9,6 +9,10 @@
             "place": "Cơ Sở",
             "status": "Trạng thái"
         },
+        "status": {
+            "success": "Đặt bàn thành công.",
+            "error": "Đặt bàn thất bại."
+        },
         "noReply": "Chưa phản hồi",
         "reply": "Đã phản hồi",
         "_message_delete_reservation": "Bạn có chắc chắn xóa yêu cầu này khỏi hệ thống?",

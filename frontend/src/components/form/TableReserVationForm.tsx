@@ -1,35 +1,38 @@
-// import { CalendarIcon } from "@assets/icons/iconComponent";
 import { Button } from "@components/Button";
-import { Input } from "@components/Input";
-import { SelectInput } from "@components/SelectInput";
-import { Textarea } from "@components/Textarea";
 import TitleInput from "@components/TitleInput";
 import TitleOfContent from "@components/TitleOfContent";
-import { useTranslation } from "react-i18next";
+import { FomatDateYY_MM_DD } from "@constants/formatDateY_M_D";
+import { useShowMessage } from "@features/dashboard/components/DiglogMessage";
+import PlaceService from "@services/PlaceService";
+import { reservationTableSvice } from "@services/reservationTableSevice";
+import type { PlaceType } from "@typeRules/place";
 import { useFormik } from "formik";
+import { memo, useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import * as Yup from "yup";
-import { useState } from "react";
 
-const TableReserVationForm = () => {
+const TableReserVationForm = memo(() => {
   const { t } = useTranslation();
-  const [isDisable, setDisable] = useState<boolean>(false);
+  const { showError, showSuccess } = useShowMessage();
+  const [listPlaces, setListPlace] = useState<PlaceType[]>([]);
   const formik = useFormik({
     initialValues: {
-      fullName: "",
-      phoneNumber: "",
+      name: "",
+      phone: "",
       email: "",
-      numberCustomers: "",
-      day: "",
+      numGuest: 0,
+      chooseDate: "",
+      chooseIdInfrastructure: 0,
       hour: "",
-      place: "",
+      chooseInfrastructure: "",
       note: "",
     },
     validationSchema: Yup.object({
-      fullName: Yup.string()
+      name: Yup.string()
         .trim()
         .required("Không được để trống họ tên.")
         .min(5, "Họ tên phải tối thiểu 5 kí tự."),
-      phoneNumber: Yup.string()
+      phone: Yup.string()
         .trim()
         .required("Không được để trống số điện thoại")
         .matches(
@@ -44,24 +47,82 @@ const TableReserVationForm = () => {
           /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
           "Email không đúng định dạng."
         ),
-      numberCustomers: Yup.number()
+      numGuest: Yup.number()
         .min(1, "Tối thiểu 1 khách hàng.")
         .required("Không được để trống khách hàng."),
-      day: Yup.date()
-        // .min(new Date().toLocaleDateString(), "Ngày phải tối thiểu từ hôm nay.")
+      chooseDate: Yup.date()
+        .min(new Date().toLocaleDateString(), "Ngày phải tối thiểu từ hôm nay.")
         .required("Phải chọn ngày đặt bàn."),
       hour: Yup.string().trim().required("Phải chọn khung giờ đặt bàn."),
-      place: Yup.string().trim().required("Phải chọn cơ sở."),
+      chooseIdInfrastructure: Yup.number()
+        .min(1, "Phải chọn cơ sở")
+        .required("Phải chọn cơ sở."),
+      chooseInfrastructure: Yup.string().trim().required("Phải chọn cơ sở."),
       note: Yup.string()
         .trim()
         .required("Không được để trống")
         .min(20, "Ghi chú tối thiểu 20 kí tự."),
     }),
-    onSubmit: (values) => {
-      console.log(values, "formik");
+    onSubmit: async (values, { setSubmitting }) => {
+      try {
+        const stringDate = values.chooseDate
+          .split("-")
+          .concat(values.hour.split(":"));
+        const dateIso = new Date(
+          +stringDate[0],
+          +stringDate[1] - 1,
+          +stringDate[2],
+          +stringDate[3],
+          +stringDate[4]
+        ).toISOString();
+        const dataUpload = {
+          name: values.name,
+          phone: values.phone,
+          email: values.email,
+          numGuest: 0,
+          // numGuest: values.numGuest,
+          chooseDate: dateIso,
+          chooseIdInfrastructure: values.chooseIdInfrastructure,
+          chooseInfrastructure: values.chooseInfrastructure,
+          note: values.note,
+        };
+        const resultOrder = await reservationTableSvice.reserTable(dataUpload);
+        handleResetForm();
+        showSuccess("tableReservation.status.success");
+      } catch (error) {
+        showError("message.actions.error.delete_banner");
+        setSubmitting(false);
+      }
     },
   });
-  const { values, errors, touched, handleChange, handleSubmit } = formik;
+  const {
+    values,
+    errors,
+    isSubmitting,
+    touched,
+    handleChange,
+    setFieldValue,
+    resetForm,
+    handleSubmit,
+  } = formik;
+
+  const getListPlace = async () => {
+    try {
+      const { list, totalElement, totalElementPage } = await PlaceService.get({
+        page: 0,
+        size: 20,
+        sort: "id,desc",
+      });
+      setListPlace(list);
+    } catch (error) {}
+  };
+  const handleResetForm = () => {
+    resetForm();
+  };
+
+  useEffect(() => {
+    getListPlace();
+  }, []);
   return (
     <form onSubmit={handleSubmit}>
       <div className="pb-36 lg:px-0 sm:px-5">
@@ -79,36 +140,28 @@ const TableReserVationForm = () => {
                 <TitleInput isRequired name="form.name" />
                 <input
                   type="text"
-                  name="fullName"
-                  value={values.fullName}
+                  name="name"
+                  value={values.name}
                   onChange={handleChange}
-                  className={
-                    "w-full px-3 py-2 radius-tl-br16 text-sm leading-22  placeholder:text-sm outline-none border " +
-                    (errors.fullName ? "border-red_error" : "border-br_E6E6E6")
-                  }
+                  className="w-full px-3 py-2 radius-tl-br16 text-sm leading-22  placeholder:text-sm outline-none border "
                   placeholder={t("form.inputName") as string}
                 />
-                {errors.fullName && touched.fullName && (
-                  <small className="text-red_error">{errors.fullName}</small>
+                {errors.name && touched.name && (
+                  <small className="text-red_error">{errors.name}</small>
                 )}
               </div>
               <div className="sm:col-span-1 col-span-2">
                 <TitleInput isRequired name="form.phoneNumber" />
                 <input
                   type="text"
-                  name="phoneNumber"
-                  value={values.phoneNumber}
+                  name="phone"
+                  value={values.phone}
                   onChange={handleChange}
-                  className={
-                    "w-full px-3 py-2 radius-tl-br16  text-sm leading-22 placeholder:text-sm outline-none border  " +
-                    (errors.phoneNumber
-                      ? "border-red_error"
-                      : "border-br_E6E6E6")
-                  }
+                  className="w-full px-3 py-2 radius-tl-br16  text-sm leading-22 placeholder:text-sm outline-none border  "
                   placeholder={t("form.inputPhoneNumber") as string}
                 />
-                {errors.phoneNumber && touched.phoneNumber && (
-                  <small className="text-red_error">{errors.phoneNumber}</small>
+                {errors.phone && touched.phone && (
+                  <small className="text-red_error">{errors.phone}</small>
                 )}
               </div>
               <div className="sm:col-span-1 col-span-2">
@@ -118,10 +171,7 @@ const TableReserVationForm = () => {
                   name="email"
                   value={values.email}
                   onChange={handleChange}
-                  className={
-                    "w-full px-3 py-2  text-sm leading-22 placeholder:text-sm radius-tl-br16 outline-none border " +
-                    (errors.email ? "border-red_error" : "border-br_E6E6E6")
-                  }
+                  className="w-full px-3 py-2  text-sm leading-22 placeholder:text-sm radius-tl-br16 outline-none border "
                   placeholder={t("form.inputEmail") as string}
                 />
                 {errors.email && touched.email && (
@@ -132,38 +182,28 @@ const TableReserVationForm = () => {
                 <TitleInput isRequired name="form.numberCustomers" />
                 <input
                   type="number"
-                  name="numberCustomers"
-                  value={values.numberCustomers}
+                  name="numGuest"
+                  value={values.numGuest}
                   onChange={handleChange}
-                  className={
-                    "w-full px-3 py-2 radius-tl-br16  text-sm leading-22 placeholder:text-sm outline-none border " +
-                    (errors.numberCustomers
-                      ? "border-red_error"
-                      : "border-br_E6E6E6")
-                  }
+                  className="w-full px-3 py-2 radius-tl-br16  text-sm leading-22 placeholder:text-sm outline-none border "
                   placeholder={t("form.inputNumberCustomers") as string}
                 />
-                {errors.numberCustomers && touched.numberCustomers && (
-                  <small className="text-red_error">
-                    {errors.numberCustomers}
-                  </small>
+                {errors.numGuest && touched.numGuest && (
+                  <small className="text-red_error">{errors.numGuest}</small>
                 )}
               </div>
               <div className="sm:col-span-1 col-span-2 relative">
                 <TitleInput isRequired name="form.day" />
                 <input
                   type="date"
-                  name="day"
-                  value={values.day}
+                  name="chooseDate"
+                  value={FomatDateYY_MM_DD(values.chooseDate)}
                   onChange={handleChange}
-                  className={
-                    "w-full px-3 py-2 radius-tl-br16  text-sm leading-22 placeholder:text-sm outline-none border " +
-                    (errors.day ? "border-red_error" : "border-br_E6E6E6")
-                  }
+                  className="w-full px-3 py-2 radius-tl-br16  text-sm leading-22 placeholder:text-sm outline-none border "
                   placeholder={t("form.choseDayOder") as string}
                 />
-                {errors.day && (
-                  <small className="text-red_error">{errors.day}</small>
+                {errors.chooseDate && (
+                  <small className="text-red_error">{errors.chooseDate}</small>
                 )}
               </div>
               <div className="sm:col-span-1 col-span-2">
@@ -173,10 +213,7 @@ const TableReserVationForm = () => {
                   name="hour"
                   value={values.hour}
                   onChange={handleChange}
-                  className={
-                    "w-full px-3 py-2 radius-tl-br16  text-sm leading-22 placeholder:text-sm outline-none border " +
-                    (errors.hour ? "border-red_error" : "border-br_E6E6E6")
-                  }
+                  className="w-full px-3 py-2 radius-tl-br16  text-sm leading-22 placeholder:text-sm outline-none border "
                   placeholder={t("form.choseHourOder") as string}
                 />
                 {errors.hour && (
@@ -186,25 +223,40 @@ const TableReserVationForm = () => {
               <div className="col-span-2">
                 <TitleInput isRequired name="form.place" />
                 <select
-                  value={values.place}
-                  name="place"
-                  onChange={handleChange}
-                  className={
-                    "w-full px-3 py-2 radius-tl-br16  text-sm leading-22 placeholder:text-sm outline-none border " +
-                    (errors.place ? "border-red_error" : "border-br_E6E6E6")
-                  }
+                  value={+values.chooseIdInfrastructure}
+                  name="chooseIdInfrastructure"
+                  onChange={(e) => {
+                    setFieldValue(
+                      "chooseIdInfrastructure",
+                      Number(e.target.value)
+                    );
+                    setFieldValue(
+                      "chooseInfrastructure",
+                      listPlaces.find(
+                        (item) => item.id === Number(e.target.value)
+                      )?.name
+                    );
+                  }}
+                  className="w-full px-3 py-2 radius-tl-br16  text-sm leading-22 placeholder:text-sm outline-none border "
                 >
                   <option value="" disabled>
                     {t("form.chosePlace")}
                   </option>
-                  <option value="cs1">cơ sở 1</option>
-                  <option value="cs1">cơ sở 2</option>
-                  <option value="2">cơ sở 3</option>
-                  <option value="3">cơ sở 4</option>
+                  {listPlaces.length > 0 &&
+                    listPlaces.map((itemPlace, indexPlace) => {
+                      return (
+                        <option key={indexPlace} value={itemPlace.id}>
+                          {itemPlace.name}
+                        </option>
+                      );
+                    })}
                 </select>
-                {errors.place && touched.place && (
-                  <small className="text-red_error">{errors.place}</small>
-                )}
+                {errors.chooseIdInfrastructure &&
+                  touched.chooseIdInfrastructure && (
+                    <small className="text-red_error">
+                      {errors.chooseIdInfrastructure}
+                    </small>
+                  )}
               </div>
               <div className="col-span-2">
                 <TitleInput isRequired name="form.note" />
@@ -213,10 +265,7 @@ const TableReserVationForm = () => {
                   name="note"
                   value={values.note}
                   onChange={handleChange}
-                  className={
-                    "w-full px-3 py-2 radius-tl-br16 resize-none text-sm leading-22 placeholder:text-sm outline-none border " +
-                    (errors.note ? "border-red_error" : "border-br_E6E6E6")
-                  }
+                  className="w-full px-3 py-2 radius-tl-br16 resize-none text-sm leading-22 placeholder:text-sm outline-none border "
                   placeholder={t("form.inputNote") as string}
                 />
                 {errors.note && touched.note && (
@@ -237,6 +286,6 @@ const TableReserVationForm = () => {
       </div>
     </form>
   );
-};
+});
 
 export default TableReserVationForm;
