@@ -22,7 +22,7 @@
     "noImplicitUseStrict": false,
     "noStrictGenericChecks": false, 
     "noUnusedLocals": false,
-    "noUnusedParameters": false,
+    "noUnusedParameters": true,
     "resolveJsonModule": true,
     "skipLibCheck": true,
     "strict": true,
