@@ -17,18 +17,31 @@ export const ProductAdmin = () => {
   const { showLoading } = useHandleLoading();
   const [searchParams, setSearchParam] = useSearchParams();
   const { showError, showSuccess } = useShowMessage();
-  const [filterId, setFilterId] = useState<number>()
+  const [filterId, setFilterId] = useState<number | undefined>(() => {
+    const categoryChild = searchParams.get("categoryChild")
+    const categoryParent = searchParams.get("categoryParent")
+    if(categoryChild || categoryParent) {
+      if(categoryChild) {
+        if(typeof Number(categoryChild) === "number")
+          return Number(categoryChild)
+      }else {
+        if(typeof Number(categoryParent) === "number")
+         return Number(categoryParent)
+      }
+    } 
+    return  undefined
+  });
 
-  const handleChangeCategory = (id:number) => {
-    setFilterId(id)
-  }
+  const handleChangeCategory = (id: number) => {
+    setFilterId(id);
+  };
 
   useEffect(() => {
-    getProducts(Number(currentPage));
-  }, [currentPage]);
+    getProducts(Number(currentPage), filterId);
+  }, [currentPage, filterId]);
 
-  const getProducts = (page: number) => {
-    productService.get({ page, size: SIZE_DATA }).then((data) => {
+  const getProducts = (page: number, id?: number) => {
+    productService.get({ page, size: SIZE_DATA, id }).then((data) => {
       setProducts(data);
     });
   };
@@ -60,14 +73,34 @@ export const ProductAdmin = () => {
       });
   };
 
+  const handleUpdateData = (data: IProduct) => {
+    const newProducts = [...products!.list];
+    const index = newProducts.findIndex((item) => item.id === data.id);
+    newProducts.splice(index, 1, data);
+    if (products) {
+      setProducts({
+        ...products,
+        list: [...newProducts],
+      });
+    }
+  };
+
   return (
     <>
       <Header idCategory={filterId} onChange={handleChangeCategory} />
       <div className="grid grid-cols-4 gap-[24px]">
-        {products?.list.length &&
-          products.list.map((item) => {
-            return <ProductItem onDelete={handleDelete} data={item} key={item.id} />;
-          })}
+        {products?.list.length
+          ? products.list.map((item) => {
+              return (
+                <ProductItem
+                  onUpdate={handleUpdateData}
+                  onDelete={handleDelete}
+                  data={item}
+                  key={item.id}
+                />
+              );
+            })
+          : null}
       </div>
       <div className="flex justify-end">
         <Pagination

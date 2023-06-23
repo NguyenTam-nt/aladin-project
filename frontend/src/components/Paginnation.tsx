@@ -1,6 +1,7 @@
 import { ICArrowNextPage } from "@assets/icons/ICArrowNextPage";
 import { Colors } from "@constants/color";
 import { prefixRootRoute } from "@constants/index";
+import { useSearchParamHook } from "@hooks/useSearchParam";
 import clsx from "clsx";
 import React, { memo, useEffect, useMemo } from "react";
 import { useLocation, useSearchParams } from "react-router-dom";
@@ -20,14 +21,13 @@ type IPagination = {
 export const Pagination = memo((props: IPagination) => {
   const { currentPage, setCurrentPage, limit = 5 } = props;
   const totalPages = props.totalPages;
-  const [searchParams, setSearchParam] = useSearchParams();
-  const { pathname } = useLocation();
+  const {pathname, searchParams, setSearchParam, setQueries} = useSearchParamHook()
 
   const isAdmin = useMemo(() => {
     return pathname.includes(prefixRootRoute.admin);
   }, [pathname]);
 
-  useEffect(()=> {
+  useEffect(()=> { 
     const page = searchParams.get("page");
     if(page) {
        setCurrentPage(Number(page))
@@ -38,21 +38,22 @@ export const Pagination = memo((props: IPagination) => {
   const prevPage = () => {
     if (currentPage > 1) {
       setCurrentPage(currentPage - 1);
-      setSearchParam({ page: `${currentPage - 1}` });
+      // const qurey = searchParams.getAll("")
+      setQueries("page",`${currentPage - 1}`)
     }
   };
 
   const nextPage = () => {
     if (currentPage < totalPages) {
       setCurrentPage(currentPage + 1);
-      setSearchParam({ page: `${currentPage + 1}` });
+      setQueries("page",`${currentPage + 1}`)
     }
   };
 
   const goToPage = (page: number) => {
     if (page >= 1 && page <= totalPages) {
       setCurrentPage(page);
-      setSearchParam({ page: `${page}` });
+      setQueries("page",`${page}`)
     }
   };
 

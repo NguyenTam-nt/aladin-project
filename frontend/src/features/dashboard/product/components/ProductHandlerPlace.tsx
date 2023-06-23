@@ -36,7 +36,8 @@ export const ProductHandlerPlace = memo(({onChange, listValue = []}:Props) => {
 
   useEffect(() => {
     if(listValue.length) {
-      setListChecked(listValue.map(i => Number(i.id)))
+      const listDataChecked = categories.filter(item => listValue.some(i => i.id === item.id)).map(i => Number(i.id));
+      setListChecked(listDataChecked)
     }
   }, [listValue])
 

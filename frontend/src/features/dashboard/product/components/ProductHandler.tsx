@@ -62,15 +62,15 @@ export const ProductHandler = () => {
       listInfrastructure: [],
     },
     validationSchema: Yup.object({
-      code: Yup.string().required("message.form.required"),
-      name: Yup.string().required("message.form.required"),
+      code: Yup.string().trim().required("message.form.required"),
+      name: Yup.string().trim().required("message.form.required"),
       price: Yup.string()
         .required("message.form.required")
         .matches(/^[-+]?[0-9]+$/, "Vui lòng nhập số."),
       pricePromotion: Yup.string()
         .required("message.form.required")
         .matches(/^[-+]?[0-9]+$/, "Vui lòng nhập số."),
-      description: Yup.string().required("message.form.required"),
+      description: Yup.string().trim().required("message.form.required"),
       category: Yup.object().required("message.form.required"),
       listInfrastructure: Yup.array<IListMedia>().required(
         "message.form.required"
@@ -236,6 +236,7 @@ export const ProductHandler = () => {
   const handleBluerCode = useCallback(
     (event: ChangeEvent<HTMLInputElement>) => {
       const { value } = event.currentTarget;
+      if(product && product.code === value.trim()) return 
       productService.checkCode(value).catch((error) => {
         const status = error?.response?.data?.status;
         if (status === 400) {
@@ -244,7 +245,7 @@ export const ProductHandler = () => {
       });
       fomick.handleBlur(event);
     },
-    []
+    [product]
   );
 
   const handleChangeCategory = useCallback(
@@ -260,7 +261,7 @@ export const ProductHandler = () => {
 
   return (
     <div>
-      <TitleTopic isRequired={false} name="adminProduct.form.title_add" />
+      <TitleTopic isRequired={false} name={isAdd ? "adminProduct.form.title_add"  :"adminProduct.form.title_edit" }/>
       <div className="grid grid-cols-2 gap-[24px]">
         <div className=" col-span-1">
           <TitleInput name="adminProduct.form.code" />

@@ -37,7 +37,8 @@ export const Colors = {
     bg_2196F3: "#2196F3",
     bg_E73F3F: "#E73F3F",
     Grey_Primary: "#222124",
-    TrueBlue500:"#0073E5"
+    TrueBlue500:"#0073E5",
+    bg_FFC344: "#FFC344",
 }
 
 

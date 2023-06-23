@@ -33,3 +33,4 @@ export const productService = {
         return HttpService.axiosClient.get(`${apiAdmin}/check/${code}`)
     }
 }
+// /api/admin/products/priority/{id},

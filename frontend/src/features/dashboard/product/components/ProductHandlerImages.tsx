@@ -6,7 +6,6 @@ import type { ImagePreviewType } from "../useHandleMultiImage";
 import { ImagePreview } from "@features/dashboard/components/ImagePreview";
 import { SwiperComponent } from "@components/SwiperComponent";
 import { SwiperSlide } from "swiper/react";
-import { windownSizeWidth, withResponsive } from "@constants/index";
 import { useSwiperNavigationRef } from "@hooks/useSwiperNavigationRef";
 import { ICArowDown } from "@assets/icons/ICArowDown";
 import { Colors } from "@constants/color";

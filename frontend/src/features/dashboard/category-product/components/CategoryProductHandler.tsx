@@ -141,7 +141,8 @@ export const CategoryProductHandler = ({
   ) => {
     if (name === "id") return;
     const newChilds = [...listCategoryChild];
-    newChilds![index][name] = value;
+    //@ts-ignore
+     newChilds![index][name] = value;
     if (file) {
       newChilds![index].file = file;
     }

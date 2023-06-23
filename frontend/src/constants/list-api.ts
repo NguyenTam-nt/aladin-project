@@ -12,4 +12,5 @@ export const apis = {
     product: "products",
     vouchers: "vouchers",
     recruit: "recruits",
+    comment: "comments",
 }
