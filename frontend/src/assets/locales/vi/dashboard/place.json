@@ -4,6 +4,7 @@
       "add_btn": "Thêm cơ sở",
       "update_btn": "Sửa cơ sở",
       "delete_btn": "Ẩn thông tin cơ sở",
+      "display_btn": "Hiện thông tin cơ sở",
       "add": {
         "title": "Thêm thông tin cơ sở"
       },

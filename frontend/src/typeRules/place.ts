@@ -1,5 +1,5 @@
 export type PlaceItemType = {
-  id?: number | string
+  id?: number | string | null
   description: string
   linkMediaFirst: string
   linkMediaSecond: string
