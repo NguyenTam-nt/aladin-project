@@ -96,6 +96,7 @@ const NewForm = memo(({ newItemProps }: Props) => {
           message="recruit.message_delete"
           onClick={() => {
             handleDelete();
+            setFieldValue("linkMedia", "");
             hideModal();
           }}
         />
@@ -103,7 +104,6 @@ const NewForm = memo(({ newItemProps }: Props) => {
     } else {
       handleDelete();
     }
-    setFieldValue("linkMedia", "");
   };
   const handleResetDefault = () => {
     resetForm();
@@ -120,7 +120,7 @@ const NewForm = memo(({ newItemProps }: Props) => {
       setValues(newItemProps);
     }
   }, [newItemProps]);
-  console.log(preViewImage, "preview");
+  console.log(values, "preview");
   return (
     <div>
       <TitleOfContentManage
