@@ -3,11 +3,24 @@ import { ImagePreview } from "@features/dashboard/components/ImagePreview";
 import { InputUploadFile } from "@features/dashboard/components/InputUploadFIle";
 import { TextError } from "@features/dashboard/components/TextError";
 import { useHandleImage } from "@features/dashboard/home/useHandleImage";
-import React, { memo } from "react";
+import React, { ChangeEvent, memo } from "react";
 import { useTranslation } from "react-i18next";
 
-export const ProductHandlerVideo = memo(() => {
-  const videoImage = useHandleImage();
+type Props = {
+  videoFile: {
+    preViewImage: string,
+    handleChange: (event:ChangeEvent<HTMLInputElement>) => void,
+    handleDelete : () => void,
+    file: File | undefined,
+    handleMessageFile: () => void,
+    message: string,
+    // handlePaste,
+    isVideo : boolean,
+  }
+}
+
+export const ProductHandlerVideo = memo(({videoFile}:Props) => {
+
   const { t } = useTranslation();
   return (
     <div className="col-span-2 flex gap-[24px]">
@@ -22,20 +35,20 @@ export const ProductHandlerVideo = memo(() => {
           <InputUploadFile
             elmentNotice={<ListNoticeVideo />}
             isVideos
-            onChange={videoImage.handleChange}
+            onChange={videoFile.handleChange}
           />
         </div>
-        <TextError message={videoImage.message} />
+        <TextError message={videoFile.message} />
       </div>
-      {videoImage.preViewImage ? (
+      {videoFile.preViewImage ? (
         <div className="flex-1">
           <TitleInput name="common.video_uploaded" />{" "}
           <div className="w-[288px] h-[190px]">
             <ImagePreview
-              onDelete={videoImage.handleDelete}
+              onDelete={videoFile.handleDelete}
               isVideos
               isVideoYotube={false}
-              url={videoImage.preViewImage}
+              url={videoFile.preViewImage}
             />
           </div>
         </div>

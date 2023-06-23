@@ -2,6 +2,7 @@ import React from "react";
 import WapperContent from "../../../components/WapperContent";
 import TableReserVationForm from "@components/form/TableReserVationForm";
 import { Banner } from "@components/Banner";
+import { HomeTopicType } from "@typeRules/home";
 // import Banner from "./Banner";
 
 const TableReserVation = () => {
@@ -13,7 +14,7 @@ const TableReserVation = () => {
           listNavigate: [{ name: "navigation.header.order", path: "/dat-ban" }],
         }}
       /> */}
-      <Banner />
+      <Banner type={HomeTopicType.menu} />
       <WapperContent>
         <TableReserVationForm />
       </WapperContent>

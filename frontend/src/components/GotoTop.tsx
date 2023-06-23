@@ -12,11 +12,12 @@ export const GotoTop = () => {
   };
   useEffect(() => {
     window.addEventListener("scroll", () => {
-
-      if (document.documentElement.scrollTop >= 120) {
-        refScroll.current!.style.display = "flex"
-      } else {
-        refScroll.current!.style.display = "none"
+      if(refScroll.current) {
+        if (document.documentElement.scrollTop >= 120) {
+          refScroll.current!.style.display = "flex"
+        } else {
+          refScroll.current!.style.display = "none"
+        }
       }
     });
 

@@ -41,9 +41,9 @@ const Header = () => {
           {nameHeader && t(nameHeader)}
         </p>
         <div ref={ref} className=" relative">
-          <button
+          <div
             onClick={handleToggleItem}
-            className="flex items-center gap-2 relative"
+            className="flex cursor-pointer items-center gap-2 relative"
           >
             <div className="w-14 h-14 rounded-[50%] ">
               <Avatar
@@ -58,7 +58,7 @@ const Header = () => {
                 <ICArowDown color={Colors.Grey_Primary} />
               </button>
             </p>
-          </button>
+          </div>
           <button
             onClick={handleLogout}
             className={clsx(

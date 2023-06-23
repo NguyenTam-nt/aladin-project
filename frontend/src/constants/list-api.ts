@@ -7,7 +7,10 @@ export const apis = {
     policy: "policy",
     contact: "contacts",
     infrastructures: "infrastructures",
-    vouchers: "vouchers",
     thanksCustomer: "reviews",
-    recruit: "recruits"
+    category: "categories",
+    product: "products",
+    vouchers: "vouchers",
+    recruit: "recruits",
+    comment: "comments",
 }

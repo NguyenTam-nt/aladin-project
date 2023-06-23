@@ -13,6 +13,7 @@ export const TopicMenuList = memo(() => {
       {[1, 2, 3, 4].map((_, index) => {
         return (
           <div
+          key={index}
             className={clsx({
               "animate__animated animate__fadeInUp": isInView,
             })}

@@ -64,8 +64,12 @@ export const ThanksCustomer = () => {
           }
          showSuccess("customer.message_delete_success");
       })
-      .catch(() => {
-        showError("message.actions.error.delete_banner");
+      .catch((error) => {
+        if(error?.response?.data?.message) {
+          showError(error?.response?.data?.message)
+        }else {
+          showError("message.actions.error.delete_banner");
+        }
       });
   };
 

@@ -29,7 +29,7 @@ export const DiglogMessage = ({
         {type === "ERROR" && <ICErrorMessage width={106} height={106} />}
         {type === "WARNING" && <ICRequest color={Colors.bg_FFE600} width={106} height={106} />}
       </div>
-      <span className="mt-[34px] text-GreyPrimary text-_20 font-bold">
+      <span className="mt-[34px] text-center text-GreyPrimary text-_20 font-bold">
         {t(message)}
       </span>
     </div>

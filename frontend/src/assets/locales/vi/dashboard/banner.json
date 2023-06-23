@@ -54,7 +54,10 @@
     "category": {
         "title": "Danh mục món ăn",
         "add": "Thêm danh mục",
+        "edit": "Sửa danh mục",
         "message_delete": "Bạn có chắc chắn xóa danh mục món ăn này khỏi hệ thống?",
+        "message_delete_success": "Xóa danh mục thành công.",
+        "message_delete_error": "Xóa danh mục thất bại.",
         "form": {
             "name_parent": "Tên danh mục lớn",
             "name_child": "Danh mục nhỏ",
@@ -77,6 +80,8 @@
         "update": "Sửa món ăn",
         "delete": "Xóa món ăn",
         "filter": "Lọc món ăn theo nhóm hàng",
+        "message_delete": "Bạn có chắc chắn xóa sản phẩm này khỏi hệ thống?",
+        "message_eye": "Bạn có muốn ẩn (ngừng kinh doanh tạm thời) sản phẩm này không?",
         "form": {
             "title_add": "Tạo mới món ăn",       
             "title_edit": "Chỉnh sửa món ăn",
