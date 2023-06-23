@@ -48,6 +48,14 @@
         "amount": "Lượt sử dụng tối đa",
         "inputAmount": "Nhập số lượng voucher sử dụng tối đa"
       }
+    },
+    "notification": {
+      "delete": "Bạn có chắc chắn xóa voucher này khỏi hệ thống?",
+      "stop": "Bạn có chắc chắn muốn kết thúc chương trình này không?",
+      "deleteSuccess": "Xóa thành công",
+      "deleteError": "Xóa thất bại",
+      "stopSuccess": "Kết thúc thành công",
+      "stopError": "Kết thúc thất bại"
     }
   }
 }

@@ -29,3 +29,5 @@ export const fileBytes = {
 }
 
 export const SIZE_DATA = 12
+
+export const VOUCHER_DATE_FORMAT = "hh:mm DD-MM--YYYY"

@@ -9,4 +9,5 @@ export const apis = {
     thanksCustomer: "reviews",
     category: "categories",
     product: "products",
+    vouchers: "vouchers",
 }
