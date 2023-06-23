@@ -31,6 +31,7 @@ const RecuitmentManage = () => {
         await recruitService.getRecruit({
           page: currentPage - 1,
           size: 12,
+          sort: "desc",
         });
       setListRecruit(list);
       setTotalPages(Math.ceil(totalElement / 12));

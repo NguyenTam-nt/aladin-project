@@ -3,12 +3,22 @@ import { ICDesc } from "@assets/icons/ICDesc";
 import MagnifyingGlass from "@assets/icons/MagnifyingGlass";
 import TitleOfContentManage from "@components/TitleOfContentManage";
 import { Button } from "@features/dashboard/components/Button";
-import React, { ButtonHTMLAttributes, useState } from "react";
+import React, {
+  ButtonHTMLAttributes,
+  ChangeEvent,
+  useCallback,
+  useEffect,
+  useState,
+} from "react";
 import NewItem from "./component/NewItem";
 import { Pagination } from "@components/Paginnation";
 import { useNavigate } from "react-router-dom";
 import { pathsAdmin } from "@constants/routerManager";
 import { useTranslation } from "react-i18next";
+import { newService } from "@services/newService";
+import type { newItem_type } from "@typeRules/new";
+import type { IParams } from "@typeRules/index";
+import { debounce } from "lodash";
 type Props = {
   name: string;
   icon?: React.ReactNode;
@@ -20,9 +30,70 @@ const ManageNews = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const [currentPage, setCurrentPage] = useState<number>(1);
+  const [totalPages, setTotalPages] = useState<number>(1);
+  const [listNews, setListNews] = useState<newItem_type[]>([]);
+  const [filter, setFilter] = useState<"desc" | "asc">("desc");
+  const [keySearch, setKeySearch] = useState<string>("");
   const handleAddNew = () => {
     navigate(pathsAdmin.news.add);
   };
+  const defaultParams = {
+    page: currentPage - 1,
+    size: 12,
+    sort: `id,${filter}`,
+  };
+  const searchParams = {
+    query: keySearch,
+    page: currentPage - 1,
+    size: 12,
+    sort: `id,${filter}`,
+  };
+  const getListNew = async (params: IParams) => {
+    try {
+      const { list, totalElement, totalElementPage } = await newService.getNews(
+        params
+      );
+      setListNews(list);
+      setTotalPages(Math.ceil(totalElement / 12));
+    } catch (error) {
+      console.log("Không thể lấy dánh sách tin tức");
+    }
+  };
+  const searchListNew = async (params: IParams) => {
+    try {
+      const { list, totalElement, totalElementPage } =
+        await newService.searchNews(params);
+      setListNews(list);
+      setTotalPages(Math.ceil(totalElement / 12));
+    } catch (error) {
+      console.log("Không thể tìm thấy danh sách tin tức.");
+    }
+  };
+  const deleteItemNew = () => {
+    if (currentPage === 1) {
+      getListNew(keySearch != "" ? searchParams : defaultParams);
+    } else {
+      setCurrentPage(1);
+    }
+    navigate("");
+  };
+  const debounceDropDown = useCallback(
+    debounce((params) => searchListNew(params), 700),
+    []
+  );
+  const handleInputSerch = (e: ChangeEvent<HTMLInputElement>) => {
+    setKeySearch(e.target.value);
+    navigate("");
+    setCurrentPage(1);
+  };
+  useEffect(() => {
+    if (keySearch != "") {
+      debounceDropDown(searchParams);
+      return;
+    }
+    debounceDropDown.cancel();
+    getListNew(defaultParams);
+  }, [currentPage, filter, keySearch]);
   return (
     <div>
       <TitleOfContentManage name="news.listNew" />
@@ -31,6 +102,8 @@ const ManageNews = () => {
           <div className="w-[800px] relative">
             <input
               type="text"
+              value={keySearch}
+              onChange={handleInputSerch}
               className="w-full border border-[#CFCFCF] bg-transparent py-3 pl-12  font-normal text-sm leading-22"
               placeholder={t("news.search_placehoder") as string}
             />
@@ -52,7 +125,9 @@ const ManageNews = () => {
             />
             <div className="flex gap-6 justify-between">
               <Button
-                onClick={() => {}}
+                onClick={() => {
+                  setFilter("desc");
+                }}
                 text="common.desc"
                 className="max-w-[177px] whitespace-nowrap"
                 imageLeft={
@@ -63,7 +138,9 @@ const ManageNews = () => {
                 color={"empty"}
               />
               <Button
-                onClick={() => {}}
+                onClick={() => {
+                  setFilter("asc");
+                }}
                 text="common.asc"
                 className="max-w-[177px] whitespace-nowrap"
                 imageLeft={
@@ -77,21 +154,28 @@ const ManageNews = () => {
           </div>
         </div>
       </div>
-      <div className="grid grid-cols-4 gap-x-6 gap-y-10">
-        <NewItem id={1} />
-        <NewItem id={2} />
-        <NewItem id={3} />
-        <NewItem id={4} />
-        <NewItem id={5} />
-        <NewItem id={6} />
-      </div>
-      <div className="flex justify-end">
-        <Pagination
-          currentPage={currentPage}
-          setCurrentPage={setCurrentPage}
-          totalPages={10}
-        />
-      </div>
+      {listNews.length > 0 && (
+        <div className="grid grid-cols-4 gap-x-6 gap-y-10">
+          {listNews.map((itemNew, indexNew) => {
+            return (
+              <NewItem
+                itemNew={itemNew}
+                key={indexNew}
+                handleDelete={deleteItemNew}
+              />
+            );
+          })}
+        </div>
+      )}
+      {totalPages > 1 && (
+        <div className="flex justify-end">
+          <Pagination
+            currentPage={currentPage}
+            setCurrentPage={setCurrentPage}
+            totalPages={totalPages}
+          />
+        </div>
+      )}
     </div>
   );
 };

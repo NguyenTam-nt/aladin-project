@@ -73,7 +73,6 @@ const RecruitmentForm = ({ itemRecruit }: Props) => {
           linkMedia: imagePath ? imagePath : values.linkMedia,
         };
         const upData = itemRecruit?.id ? { id: itemRecruit.id, ...data } : data;
-        console.log(upData, "kjdf");
 
         const postRecruit = await recruitService.postOrUpdateRecruit(
           upData,

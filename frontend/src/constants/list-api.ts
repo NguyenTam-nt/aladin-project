@@ -9,5 +9,9 @@ export const apis = {
     infrastructures: "infrastructures",
     vouchers: "vouchers",
     thanksCustomer: "reviews",
-    recruit: "recruits"
+    recruit: "recruits",
+    new:'news',
+    searchNew: "_search/news",
+    books: "books"
+
 }
