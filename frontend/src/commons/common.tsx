@@ -69,3 +69,40 @@ export const validateImage = async (file: File) => {
     const regexp = /(ftp|http|https|blog|data:image):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/
     return regexp.test(url)
   }  
+
+
+  export const formatDateComment = (stringDate:string) => {
+    const dateFomat = new Date(stringDate);
+    let year: any = dateFomat.getFullYear();
+    let month: any = dateFomat.getMonth() + 1;
+    let day: any = dateFomat.getDate();
+    let hour: any = dateFomat.getHours();
+    let minus: any = dateFomat.getMinutes();
+    if (month < 10) {
+      month = `0${month}`;
+    }
+    if (day < 10) {
+      day = `0${day}`;
+    }
+
+    if (hour < 10) {
+      hour = `0${hour}`;
+    }
+    if (minus < 10) {
+      minus = `0${minus}`;
+    }
+    return `${year}/${month}/${day}-${hour}:${minus}`;
+  }
+  // export const FomatDateYY_MM_DD = (stringDate: string) => {
+  //   const dateFomat = new Date(stringDate);
+  //   let year: any = dateFomat.getFullYear();
+  //   let month: any = dateFomat.getMonth() + 1;
+  //   let day: any = dateFomat.getDate();
+  //   if (month < 10) {
+  //     month = `0${month}`;
+  //   }
+  //   if (day < 10) {
+  //     day = `0${day}`;
+  //   }
+  //   return `${year}-${month}-${day}`;
+  // };
