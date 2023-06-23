@@ -18,14 +18,11 @@ import { useShowMessage } from '../components/DiglogMessage';
 import moment from 'moment';
 
 function VoucherAdd() {
-  const VOUCHER_TYPE_PERCENT = "PERCENT"
-  const VOUCHER_TYPE_MONEY = "MONEY"
   const { t } = useTranslation();
   const params = useParams();
   const navigation = useNavigate();
 
   const { showError, showSuccess } = useShowMessage();
-
   const [type, setType] = useState(VOUCHER_TYPE.money)
   const [isLimit, setIsLimit] = useState(true)
 
