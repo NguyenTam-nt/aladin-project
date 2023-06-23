@@ -96,13 +96,17 @@ function PlaceAdminAdd() {
         showLoading();
 
         let request: PlaceType = {
-          id: !isAdd ?  place?.id : undefined,
+          id: place?.id,
           name: data.name,
           address: data.address,
           phone: data.phone,
           zalo: data.zalo,
           linkMap: data.linkMap,
-          infrastructureList: placeItems
+          status: place?.status,
+          infrastructureList: placeItems.slice(0, 2).map(p => {
+            if(isAdd) return {...p, id: null}
+            return p
+          })
         }
         
         if (isAdd) {
@@ -246,7 +250,7 @@ function PlaceAdminAdd() {
             <TitleInput isRequired={true} name={"adminPlace.form.describe"} />
             <div className="border-[1px] border-solid border-text_A1A0A3 p-3 space-y-4">
               {
-                placeItems && placeItems.map((item, idx) => {
+                placeItems && placeItems.slice(0, 2).map((item, idx) => {
                   return <div key={item.id} >
                     <div className="grid grid-cols-4 gap-4">
                       <UploadInput link={item.linkMediaFirst} setFiles={(e: any) => handleSetFile(item.id, 0, e)} />
