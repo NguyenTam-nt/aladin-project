@@ -9,13 +9,15 @@ import type { PlaceType } from "@typeRules/place";
 import clsx from "clsx";
 import React from "react";
 import { useNavigate } from "react-router";
+import { ModalConfirm } from "./ModalConfirm";
 
 type Props = {
   data: PlaceType
   onDelete: (id: number) => void;
+  onActive: (id: number) => void;
 }
 
-export const PlaceItem = ({data, onDelete}: Props) => {
+export const PlaceItem = ({data, onDelete, onActive}: Props) => {
   
   const { setElementModal } = useModalContext();
   const navigation = useNavigate();
@@ -32,6 +34,15 @@ export const PlaceItem = ({data, onDelete}: Props) => {
   const handleClickDelete = () => {
     onDelete(Number(data.id));
   }
+
+  const handleActiveModal = () => {
+    setElementModal(
+      <ModalConfirm
+        onClick={() => onActive(Number(data.id))}
+      />
+      
+    );
+  };
 
   const handleUpdate = () => {
     navigation(
@@ -62,7 +73,7 @@ export const PlaceItem = ({data, onDelete}: Props) => {
         <Button color="empty"
           className="mt-2 border-bg_E73F3F text-bg_E73F3F"
           text={data.status ? "adminPlace.delete_btn" : "adminPlace.display_btn"}
-          onClick={handleDeleteModal}
+          onClick={data.status ? handleDeleteModal : handleActiveModal}
         />
       </div>
     </div>
