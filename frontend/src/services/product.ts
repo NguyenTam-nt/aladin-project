@@ -8,10 +8,10 @@ const api = getMicroService(`${apis.product}`, microServices.restaurant)
 const apiAdmin = getMicroServiceAdmin(`${apis.product}`, microServices.restaurant)
 export const productService = {
     get: (params:IParams):Promise<IResponseData<IProduct>> => {
-        return HttpService.axiosClient.get(`${apiAdmin}`, {params: {...params, page: Number(params.page) - 1}}) 
+        return HttpService.axiosClient.get(`${api}`, {params: {...params, page: Number(params.page) - 1}}) 
     },
     getById: (id:number):Promise<IProduct> => {
-        return HttpService.axiosClient.get(`${apiAdmin}/${id}`) 
+        return HttpService.axiosClient.get(`${api}/${id}`) 
     },
     update: (data:IProduct):Promise<IProduct> => {
         return HttpService.axiosClient.put(apiAdmin, data)

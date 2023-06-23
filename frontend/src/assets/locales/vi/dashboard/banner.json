@@ -80,6 +80,8 @@
         "update": "Sửa món ăn",
         "delete": "Xóa món ăn",
         "filter": "Lọc món ăn theo nhóm hàng",
+        "message_delete": "Bạn có chắc chắn xóa sản phẩm này khỏi hệ thống?",
+        "message_eye": "Bạn có muốn ẩn (ngừng kinh doanh tạm thời) sản phẩm này không?",
         "form": {
             "title_add": "Tạo mới món ăn",       
             "title_edit": "Chỉnh sửa món ăn",

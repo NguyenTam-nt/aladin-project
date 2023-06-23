@@ -5,37 +5,45 @@ import { useHandleCheckbox } from "@features/dashboard/category-product/useHandl
 import { Checkbox } from "@features/dashboard/components/Checkbox";
 import { useClickOutItem } from "@hooks/useClickOutItem";
 import clsx from "clsx";
-import React, { memo, useMemo, useState } from "react";
+import React, { memo, useEffect, useMemo } from "react";
+import { useGetPlace } from "./useGetPlace";
+import InfiniteScroll from "react-infinite-scroll-component";
+import type { PlaceType } from "@typeRules/place";
+import type { IListInfrastructure } from "@typeRules/product";
 
-const dataCategory = [
-  "Cơ sở 1  Cơ sở 1 - Nguyễn Trí Thanh",
-  "Cơ sở 2 Cơ sở 1 - Nguyễn Trí Thanh",
-  "Cơ sở 3 Cơ sở 1 - Nguyễn Trí Thanh",
-  "Cơ sở 4 Cơ sở 1 - Nguyễn Trí Thanh",
-  "Cơ sở 5 Cơ sở 1 - Nguyễn Trí Thanh",
-  "Cơ sở 6 Cơ sở 1 - Nguyễn Trí Thanh",
-  "Cơ sở 7 Cơ sở 1 - Nguyễn Trí Thanh",
-  "Cơ sở 8 Cơ sở 1 - Nguyễn Trí Thanh",
-  "Cơ sở 9 Cơ sở 1 - Nguyễn Trí Thanh",
-  "Cơ sở 9 Cơ sở 1 - Nguyễn Trí Thanh",
-  "Cơ sở 9 Cơ sở 1 - Nguyễn Trí Thanh",
-];
+type Props = {
+  onChange: (data:IListInfrastructure[]) => void
+  listValue?: IListInfrastructure[]
+}
 
-export const ProductHandlerPlace = memo(() => {
+export const ProductHandlerPlace = memo(({onChange, listValue = []}:Props) => {
   const { ref, isShow, handleToggleItem } = useClickOutItem();
+  const { categories, fechData } = useGetPlace(true);
   const {
     refCheckboxAll,
     refCheckboxList,
     listChecked,
     handleCheckAll,
     handleCheckedItem,
-  } = useHandleCheckbox(dataCategory.map((_, index) => index));
+    setListChecked
+  } = useHandleCheckbox(categories.map((item) => Number(item.id)));
 
   const dataChecked = useMemo(() => {
-    return dataCategory.filter((_, index) =>
-      listChecked.some((item) => item === index)
+    return categories.filter((itemP) =>
+      listChecked.some((item) => item === itemP.id)
     );
   }, [listChecked]);
+
+  useEffect(() => {
+    if(listValue.length) {
+      setListChecked(listValue.map(i => Number(i.id)))
+    }
+  }, [listValue])
+
+  useEffect(() => {
+    const listDataChecked = categories.filter(item => listChecked.some(i => i === item.id)).map(i => ({id: i.id, name: i.name}));
+    onChange([...listDataChecked])
+  }, [listChecked, categories])
 
   return (
     <div className=" col-span-1">
@@ -43,15 +51,15 @@ export const ProductHandlerPlace = memo(() => {
       <div ref={ref} className="relative w-full">
         <button
           onClick={handleToggleItem}
-          className={clsx("w-full  py-[13px] px-[16px] h-[48px] flex justify-between items-center border-[1px] border-solid border-text_A1A0A3", {
-            "!border-TrueBlue_500":isShow
-          })}
+          className={clsx(
+            "w-full  py-[13px] px-[16px] h-[48px] flex justify-between items-center border-[1px] border-solid border-text_A1A0A3",
+            {
+              "!border-TrueBlue_500": isShow,
+            }
+          )}
         >
           <span className="text-text_A1A0A3 gap-x-1 text-_14 line-clamp-1">
-            {listChecked.length ?
-            dataChecked.join(", ")
-              
-              : "Chọn cơ sở"}
+            {listChecked.length ? dataChecked.map(item => item.name).join(", ") : "Chọn cơ sở"}
           </span>
           <span>
             <ICArowDown color={Colors.text_A1A0A3} />
@@ -65,32 +73,40 @@ export const ProductHandlerPlace = memo(() => {
             }
           )}
         >
-          <ul className=" px-[16px]">
-            <li className="flex h-[48px] items-center">
-              <Checkbox onChange={handleCheckAll} ref={refCheckboxAll} />{" "}
-              <span className="text-_14 text-GreyPrimary ml-[6px]">
-                Chọn tất cả
-              </span>
-            </li>
-            {dataCategory.map((item, index) => {
-              return (
-                <li key={index} className="flex h-[48px] items-center">
-                  <Checkbox
-                    onChange={(event) => {
-                      handleCheckedItem(event, index);
-                    }}
-                    checked={listChecked.some((item) => item === index)}
-                    ref={(ref: HTMLInputElement) =>
-                      (refCheckboxList.current[index] = ref)
-                    }
-                  />{" "}
-                  <span className="text-_14 text-GreyPrimary ml-[6px]">
-                    {item}
-                  </span>
-                </li>
-              );
-            })}
-          </ul>
+          <InfiniteScroll
+            hasMore
+            loader={<></>}
+            next={fechData}
+            dataLength={categories.length}
+            scrollableTarget="place-product"
+          >
+            <ul className=" px-[16px]">
+              <li className="flex h-[48px] items-center">
+                <Checkbox onChange={handleCheckAll} ref={refCheckboxAll} />{" "}
+                <span className="text-_14 text-GreyPrimary ml-[6px]">
+                  Chọn tất cả
+                </span>
+              </li>
+              {categories.map((item, index) => {
+                return (
+                  <li key={index} className="flex h-[48px] items-center">
+                    <Checkbox
+                      onChange={(event) => {
+                        handleCheckedItem(event, index);
+                      }}
+                      checked={listChecked.some((itemC) => itemC === item.id)}
+                      ref={(ref: HTMLInputElement) =>
+                        (refCheckboxList.current[index] = ref)
+                      }
+                    />{" "}
+                    <span className="text-_14 text-GreyPrimary ml-[6px]">
+                      {item.name}
+                    </span>
+                  </li>
+                );
+              })}
+            </ul>
+          </InfiniteScroll>
         </div>
       </div>
     </div>

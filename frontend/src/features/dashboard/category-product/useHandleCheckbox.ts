@@ -3,9 +3,8 @@ import { ChangeEvent, useEffect, useRef, useState } from "react";
 export const useHandleCheckbox = (listId: number[]) => {
   const refCheckboxAll = useRef<HTMLInputElement>(null);
   const refCheckboxList = useRef<HTMLInputElement[]>([]);
-  const [listChecked, setListChecked] = useState<number[]>([]);
+  const [listChecked, setListChecked] = useState<number[]>([]); 
 
- 
 
   useEffect(() => {
     if (listId?.length > 0 && listChecked?.length === listId?.length) {

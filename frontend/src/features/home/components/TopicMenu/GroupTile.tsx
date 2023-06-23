@@ -1,25 +1,61 @@
-import React from "react";
+import React, { memo } from "react";
 import { TitleTopic } from "../TitleTopic";
 import { useTranslation } from "react-i18next";
+import { SwiperComponent } from "@components/SwiperComponent";
+import { SwiperSlide } from "swiper/react";
+import { prefixRootRoute, windownSizeWidth, withResponsive } from "@constants/index";
+import { Link } from "react-router-dom";
+import { paths } from "@constants/routerPublic";
 
 type Props = {
-    title: string
-    listItem: string[]
-}
+  title: string;
+  listItem: string[];
+};
 
-export const GroupTile = ({title, listItem}:Props) => {
-    const {t} = useTranslation()
+export const GroupTile = ({ title, listItem }: Props) => {
+  const { t } = useTranslation();
   return (
-    <div className="flex justify-between items-center pb-[16px] border-b border-text_A1A0A3">
+    <div className="flex flex-col md:flex-row justify-between md:items-center pb-[12px] md:pb-[16px] border-b border-text_A1A0A3">
       <TitleTopic title={title} />
-      <div className="flex text-_16 font-semibold lg:text-_20 lg:font-bold gap-x-[32px] uppercase text-text_secondary">
-        {
-            [].map((item, index) => {
-                return   <p key={index}>{item}</p>
-            })
-        }
-        <p className="text-primary">{t("button.see_all")}</p>
-      </div>
+      {
+        windownSizeWidth > withResponsive._768 ? (
+        <div className="flex text-_16 mt-[16px] md:mt-0 font-semibold lg:text-_20 lg:font-bold gap-x-[32px] uppercase text-text_secondary">
+          {listItem.map((item, index) => {
+            return <p key={index}>{item}</p>;
+          })}
+          <Link to={`${prefixRootRoute.public}/${paths.memu.prefix}`} className="text-primary uppercase">{t("button.see_all")}</Link>
+        </div>
+
+        ) : (
+          <GroupLinkMobile listItem={listItem} />
+        )
+      }
     </div>
   );
 };
+
+const GroupLinkMobile = memo(({ listItem }: { listItem: string[] }) => {
+  const { t } = useTranslation();
+  return (
+    <SwiperComponent
+    freeMode={true}
+    slidesPerView={5}
+    spaceBetween={12}
+    style={{
+      width: windownSizeWidth,
+      marginTop: 16
+    }}
+    >
+      {listItem.map((item, index) => {
+        return (
+          <SwiperSlide>
+            <p key={index}>{item}</p>
+          </SwiperSlide>
+        );
+      })}
+      <SwiperSlide>
+        <Link to={`${paths.memu.prefix}`} className="text-primary uppercase">{t("button.see_all")}</Link>
+      </SwiperSlide>
+    </SwiperComponent>
+  );
+});

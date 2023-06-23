@@ -11,7 +11,9 @@ export interface ICategoryItem {
   id?: number | null;
   name: string;
   linkMedia: string;
+  type?: CategoryType
   file?: File | null
+  idParent?: number;
 }
 
 export interface ICategory {
@@ -20,6 +22,6 @@ export interface ICategory {
   isHome?: boolean;
   isMenu?: CategoryMenuType;
   type?: CategoryType;
-  idParent?: CategoryType;
   listCategoryChild?: ICategoryItem[];
+  idParent?: number;
 }

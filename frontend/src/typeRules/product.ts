@@ -21,6 +21,8 @@
 //     ]
 //   }
 
+import type { ICategoryItem } from "./category";
+
 export interface CheckType {
   status: number;
   message: string;
@@ -28,8 +30,8 @@ export interface CheckType {
 }
 
 export interface IListInfrastructure {
-  id: number;
-  name: string;
+  id?: number;
+  name?: string;
 }
 
 export enum MediaType {
@@ -38,19 +40,23 @@ export enum MediaType {
 }
 
 export interface IListMedia {
-  id: number;
-  linkMedia: "string";
-  type: MediaType;
+  id?: number | null;
+  linkMedia?: string;
+  type?: MediaType;
 }
 
 export interface IProduct {
   id?: number | null;
   code: string;
   name: string;
-  price: number;
-  pricePromotion: number;
+  price: string;
+  pricePromotion: string;
   description: string;
-  idCategory?: number;
+  percent?: number;
+  category?: ICategoryItem;
   listInfrastructure?: IListInfrastructure[];
   listMedia?: IListMedia[];
+  linkMedia?: string;
+  priority?: boolean;
+  show?: boolean;
 }
