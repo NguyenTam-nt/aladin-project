@@ -2,6 +2,7 @@
   "adminVoucher": {
     "title": "Danh sách voucher đã tạo",
     "btnAdd": "Tạo voucher",
+    "search_placehoder": "Tìm kiếm theo tên chương trình",
     "table": {
       "code": "Mã voucher",
       "name": "Tên chương trình",
