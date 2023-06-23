@@ -21,6 +21,7 @@ import { DiglogComfirmDelete } from '../components/DiglogComfirmDelete'
 import { useHandleLoading } from '../components/Loading'
 import { useShowMessage } from '../components/DiglogMessage'
 import { ModalConfirm } from './components/ModalConfirm'
+import MagnifyingGlass from '@assets/icons/MagnifyingGlass'
 
 const filters = [
   {
@@ -48,8 +49,9 @@ function VoucherAdmin() {
   const { showLoading } = useHandleLoading();
   const { showError, showSuccess, showWarning } = useShowMessage();
 
-  const [filter, setFilter] = useState("")
 
+  const [keyword, setKeyword] = useState("")
+  const [filter, setFilter] = useState("")
   const [openFilterStatus, setOpenFilterStatus] = useState(false)
   const [filterStatus, setFilterStatus] = useState("")
   
@@ -67,7 +69,7 @@ function VoucherAdmin() {
 
   const getVoucherData = async (page:number) => {
     try {
-      VoucherService.get({page: page, size: SIZE_DATA, sort: "id,desc", voucherState: filter != "" ? filter : filterStatus})
+      VoucherService.get({page: page, size: SIZE_DATA, sort: "id,desc", voucherState: filter != "" ? filter : filterStatus, keyword: keyword})
         .then(response => {
           setVouchers(response)
         })
@@ -84,9 +86,9 @@ function VoucherAdmin() {
   };
 
 
-  const handleClickChange = (id: any) => {
+  const handleClickChange = (id: any, view: boolean) => {
     navigate(
-      `${prefixRootRoute.admin}/${pathsAdmin.voucher.prefix}/${id}`
+      `${prefixRootRoute.admin}/${pathsAdmin.voucher.prefix}/${id}?view=${view}`
     );
   }
 
@@ -159,31 +161,44 @@ function VoucherAdmin() {
           );
         })}
       </div>
-      <div className="flex items-center justify-between">
-        <div className="-mb-[32px]">
+      <div className="">
+        <div className="-mb-[12px]">
           <TitleTopic name="adminVoucher.title" isRequired={false} />
         </div>
-        <div className="flex justify-center items-center gap-4">
-          <Button
-            onClick={handleShowModalDeleteAll} text="common.delete"
-            className="min-w-[92px] whitespace-nowrap text-text_EA222A border-text_EA222A"
-            imageLeft={
-              <span className="mr-2">
-                <ICDeleteTrashLight />
-              </span>
-            }
-            color={"empty"}
-          />
-          <Button
-            onClick={handelClickAddVoucher} text="adminVoucher.btnAdd"
-            className="min-w-[146px] whitespace-nowrap "
-            imageLeft={
-              <span className="mr-2">
-                <ICAdd/>
-              </span>
-            }
-            color={"empty"}
-          />
+        <div className="flex items-center justify-between gap-6">
+          <div className="flex-1 relative">
+            <input
+              type="text"
+              value={keyword} onChange={e => setKeyword(e.target.value)}
+              className="w-full border border-[#CFCFCF] bg-transparent py-3 pl-12  font-normal text-sm leading-22"
+              placeholder={t("adminVoucher.search_placehoder") as string}
+            />
+            <div className="absolute left-5 top-2/4 -translate-y-2/4">
+              <MagnifyingGlass color="#A1A0A3" />
+            </div>
+          </div>
+          <div className="flex justify-center items-center gap-4">
+            <Button
+              onClick={handleShowModalDeleteAll} text="common.delete"
+              className="min-w-[92px] whitespace-nowrap text-text_EA222A border-text_EA222A"
+              imageLeft={
+                <span className="mr-2">
+                  <ICDeleteTrashLight />
+                </span>
+              }
+              color={"empty"}
+            />
+            <Button
+              onClick={handelClickAddVoucher} text="adminVoucher.btnAdd"
+              className="min-w-[146px] whitespace-nowrap "
+              imageLeft={
+                <span className="mr-2">
+                  <ICAdd/>
+                </span>
+              }
+              color={"empty"}
+            />
+          </div>
         </div>
       </div>
       <div className="mt-4">
@@ -247,7 +262,9 @@ function VoucherAdmin() {
                 }}
               />
             </div>
-            <p className='line-clamp-1 flex items-center'>{item.code}</p>
+            <p className='line-clamp-1 flex items-center hover:cursor-pointer hover:font-bold' 
+              onClick={() => handleClickChange(item.id, true)}
+            >{item.code}</p>
             <p className='line-clamp-1 flex items-center'>{item.name}</p>
             <p className='line-clamp-1 flex items-center'>{item.value} 
               {/* {item.typeVoucher == VOUCHER_TYPE.money ? "VNĐ" : "%"} */}
@@ -256,7 +273,7 @@ function VoucherAdmin() {
             <p className='line-clamp-1 flex items-center'>{item.used}</p>
             <div className="flex flex-col justify-start gap-2">
               {
-                item.voucherState == VOUCHER_STATE.end ? <div className="flex items-center cursor-pointer"
+                item.voucherState == VOUCHER_STATE.end ? <div className="flex items-center "
                 >
                   <span className='text-_14 text-text_red underline'>{t("adminVoucher.status.end")}</span>
                 </div> : item.voucherState == VOUCHER_STATE.running ? <div className="flex items-start relative"
@@ -277,7 +294,7 @@ function VoucherAdmin() {
                   onClick={() => {}}
                 >
                   <span className="text-_14 text-TrueBlue_500 cursor-pointer"
-                    onClick={() => handleClickChange(item.id)}
+                    onClick={() => handleClickChange(item.id, false)}
                   >{t("adminVoucher.btnStatus.change")}</span>
                   <span className='text-_14 text-text_red cursor-pointer'
                      onClick={() => handleShowModalStop(item.id)}
@@ -288,7 +305,7 @@ function VoucherAdmin() {
                 </div> : <div className="flex justify-end relative"
                 >
                    <span className="text-_14 text-TrueBlue_500 cursor-pointer"
-                    onClick={() => handleClickChange(item.id)}
+                    onClick={() => handleClickChange(item.id, false)}
                    >{t("adminVoucher.btnStatus.change")}</span>
                 </div>
               }

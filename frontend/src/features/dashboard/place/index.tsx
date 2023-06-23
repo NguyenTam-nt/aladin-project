@@ -28,7 +28,8 @@ export const PlaceAdmin = () => {
 
   useEffect(() => {
     getPlaceData(Number(currentPage))
-  }, [])
+  }, [currentPage])
+
 
   const getPlaceData = async (page:number) => {
     try {
@@ -76,6 +77,29 @@ export const PlaceAdmin = () => {
       });
   };
 
+  const handleActive = (id: number) => {
+    showLoading();
+    PlaceService
+      .delete(id)
+      .then(() => {
+        const data = [...placeResponse!.list];
+        const index = data.findIndex((item) => item.id == id);
+        data.splice(index, 1);
+          if(Number(currentPage) >= totalPage && data.length <= 0) {
+            let page = currentPage
+            page = page - 1
+            setSearchParam({page: `${page}`})
+            setCurrentPage(page)
+          }else {
+            getPlaceData(Number(currentPage))
+          }
+         showSuccess("adminPlace.notification.activeSuccess");
+      })
+      .catch(() => {
+        showError("adminPlace.notification.activeError");
+      });
+  };
+
 
   return (
     <>
@@ -97,7 +121,7 @@ export const PlaceAdmin = () => {
       <div className="grid grid-cols-4 gap-[24px]">
         {
           placeResponse && placeResponse.list && placeResponse.list.map((item: PlaceType, idx: any) => {
-            return <PlaceItem data={item} onDelete={handleDelete} key={idx} />
+            return <PlaceItem data={item} onDelete={handleDelete} onActive={handleActive} key={idx} />
           })
         }
       </div>

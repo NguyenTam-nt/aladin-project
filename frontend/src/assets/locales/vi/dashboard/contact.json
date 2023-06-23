@@ -1,6 +1,7 @@
 {
   "adminContact": {
     "title": "Danh sách yêu cầu tư vấn",
+    "search_placehoder": "Tìm kiếm theo họ và tên",
     "table": {
       "fullname": "Họ và tên",
       "phone": "Số điện thoại",
