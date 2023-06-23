@@ -8,7 +8,8 @@ import { HomeTopicType } from "@typeRules/home";
 const TableReserVation = () => {
   return (
     <div>
-      <Banner type={HomeTopicType.book} />
+      {/* <Banner type={HomeTopicType.book} /> */}
+      <Banner type={HomeTopicType.menu} />
       <WapperContent>
         <TableReserVationForm />
       </WapperContent>

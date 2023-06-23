@@ -7,11 +7,13 @@ export const apis = {
     policy: "policy",
     contact: "contacts",
     infrastructures: "infrastructures",
-    vouchers: "vouchers",
     thanksCustomer: "reviews",
     recruit: "recruits",
     new:'news',
     searchNew: "_search/news",
-    books: "books"
-
+    books: "books",
+    category: "categories",
+    product: "products",
+    vouchers: "vouchers",
+    comment: "comments",
 }

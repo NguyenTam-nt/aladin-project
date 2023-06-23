@@ -6,15 +6,18 @@ import { DiglogComfirmDelete } from "@features/dashboard/components/DiglogComfir
 import { useShowMessage } from "@features/dashboard/components/DiglogMessage";
 import { useHandleLoading } from "@features/dashboard/components/Loading";
 import type { PlaceType } from "@typeRules/place";
+import clsx from "clsx";
 import React from "react";
 import { useNavigate } from "react-router";
+import { ModalConfirm } from "./ModalConfirm";
 
 type Props = {
   data: PlaceType
   onDelete: (id: number) => void;
+  onActive: (id: number) => void;
 }
 
-export const PlaceItem = ({data, onDelete}: Props) => {
+export const PlaceItem = ({data, onDelete, onActive}: Props) => {
   
   const { setElementModal } = useModalContext();
   const navigation = useNavigate();
@@ -32,6 +35,15 @@ export const PlaceItem = ({data, onDelete}: Props) => {
     onDelete(Number(data.id));
   }
 
+  const handleActiveModal = () => {
+    setElementModal(
+      <ModalConfirm
+        onClick={() => onActive(Number(data.id))}
+      />
+      
+    );
+  };
+
   const handleUpdate = () => {
     navigation(
       `${prefixRootRoute.admin}/${pathsAdmin.place.prefix}/${data.id}`
@@ -39,21 +51,29 @@ export const PlaceItem = ({data, onDelete}: Props) => {
   };
 
   return (
-    <div className="h-auto flex flex-col p-4 bg-white">
-      <p className=" text-_16 font-semibold text-text_black line-clamp-2">
+    <div className={clsx("h-auto flex flex-col p-4 bg-white", {
+      " ": !data.status
+    })}>
+      <p className={clsx(" text-_16 font-semibold text-text_black line-clamp-2", {
+      "opacity-30": !data.status
+    })}>
         {data.name}
       </p>
-      <p className=" line-clamp-1 mt-1 text-_14 mr-4 text-text_secondary">
+      <p className={clsx(" line-clamp-1 mt-1 text-_14 mr-4 text-text_secondary", {
+        "opacity-30": !data.status
+      })}>
         {data.phone}
       </p>
       <div className="mt-4">
-        <Button color="empty" className="" text="adminPlace.update_btn" 
-          onClick={handleUpdate}
+        <Button color="empty" className={clsx("", {
+            "opacity-30 hover:opacity-30": !data.status
+          })} text="adminPlace.update_btn" 
+          onClick={handleUpdate} disabled={!data.status}
         />
         <Button color="empty"
           className="mt-2 border-bg_E73F3F text-bg_E73F3F"
-          text="adminPlace.delete_btn"
-          onClick={handleDeleteModal}
+          text={data.status ? "adminPlace.delete_btn" : "adminPlace.display_btn"}
+          onClick={data.status ? handleDeleteModal : handleActiveModal}
         />
       </div>
     </div>

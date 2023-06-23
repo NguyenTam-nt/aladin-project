@@ -591,3 +591,11 @@ input[type="radio"]:checked::before {
   opacity: 1;
   transition: all 0.3s linear;
 }
+
+.list-category-item-child{
+  display: none;
+}
+
+.list-category-item:hover .list-category-item-child {
+  display: block;
+}

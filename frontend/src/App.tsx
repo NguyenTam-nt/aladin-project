@@ -12,22 +12,22 @@ function App() {
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
 
-    if(location.pathname.includes(prefixRootRoute.admin)) {
-      document.body.style.overflowX = 'auto';
-    }else {
-      document.body.style.overflowX = 'hidden';
+    if (location.pathname.includes(prefixRootRoute.admin)) {
+      document.body.style.overflowX = "auto";
+    } else {
+      document.body.style.overflowX = "hidden";
     }
   }, [location.pathname, location.search]);
   return (
-    <ModalProvider>
-      <AuthProvider>
-      <OrderProvider>
-        <ContactProvider>
-          <RouterRoot />
-        </ContactProvider>
-      </OrderProvider>
-      </AuthProvider>
-    </ModalProvider>
+    <AuthProvider>
+      <ModalProvider>
+        <OrderProvider>
+          <ContactProvider>
+            <RouterRoot />
+          </ContactProvider>
+        </OrderProvider>
+      </ModalProvider>
+    </AuthProvider>
   );
 }
 

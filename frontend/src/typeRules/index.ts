@@ -27,7 +27,7 @@ export interface IParams {
   page?: string | number;
   size?: number;
   sort?: string;
-  [key: string]: any;
+  [key: string]: any | undefined;
 }
 
 export interface IReview {

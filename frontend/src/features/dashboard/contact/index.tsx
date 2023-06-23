@@ -21,6 +21,7 @@ import type { IContact } from '@typeRules/contact'
 import { DiglogComfirmDelete } from '../components/DiglogComfirmDelete'
 import { useHandleLoading } from '../components/Loading'
 import { useShowMessage } from '../components/DiglogMessage'
+import MagnifyingGlass from '@assets/icons/MagnifyingGlass'
 
 function ContactAdmin() {
   const { t } = useTranslation();
@@ -31,7 +32,8 @@ function ContactAdmin() {
   const { showError, showSuccess, showWarning } = useShowMessage();
 
   const [descId, setDescId] = useState<boolean>(true)
-  
+  const [keyword, setKeyword] = useState("")
+
   const [contacts, setContacts] = useState<IResponseData<IContact>>();
   const { refCheckboxAll, refCheckboxList, handleCheckAll, handleCheckedItem, listChecked, setListChecked } = useHandleCheckbox(contacts?.list.map(e => e.id as number) || []);
 
@@ -90,41 +92,54 @@ function ContactAdmin() {
 
   return (
     <div>
-      <div className="flex items-center justify-between">
-        <div className="-mb-[32px]">
+      <div className="">
+        <div className="-mb-[12px]">
           <TitleTopic name="adminContact.title" isRequired={false} />
         </div>
-        <div className="flex justify-center items-center gap-4">
-          <Button
-            onClick={handleShowModalDeleteAll} text="common.delete"
-            className="max-w-[177px] whitespace-nowrap text-text_EA222A border-text_EA222A"
-            imageLeft={
-              <span className="mr-2">
-                <ICDeleteTrashLight />
-              </span>
-            }
-            color={"empty"}
-          />
-          <Button
-            onClick={() => setDescId(true)} text="common.desc"
-            className="max-w-[177px] whitespace-nowrap"
-            imageLeft={
-              <span className="mr-2">
-                <ICDesc />
-              </span>
-            }
-            color={"empty"}
-          />
-          <Button
-            onClick={() => setDescId(false)} text="common.asc"
-            className="max-w-[177px] whitespace-nowrap"
-            imageLeft={
-              <span className="mr-2">
-                <ICAsc/>
-              </span>
-            }
-            color={"empty"}
-          />
+        <div className="flex items-center justify-between gap-6 pb-4">
+          <div className="flex-1 relative">
+              <input
+                type="text"
+                value={keyword} onChange={e => setKeyword(e.target.value)}
+                className="w-full border border-[#CFCFCF] bg-transparent py-3 pl-12  font-normal text-sm leading-22"
+                placeholder={t("adminContact.search_placehoder") as string}
+              />
+              <div className="absolute left-5 top-2/4 -translate-y-2/4">
+                <MagnifyingGlass color="#A1A0A3" />
+              </div>
+            </div>
+          <div className="flex justify-center items-center gap-4">
+            <Button
+              onClick={handleShowModalDeleteAll} text="common.delete"
+              className="max-w-[177px] whitespace-nowrap text-text_EA222A border-text_EA222A"
+              imageLeft={
+                <span className="mr-2">
+                  <ICDeleteTrashLight />
+                </span>
+              }
+              color={"empty"}
+            />
+            <Button
+              onClick={() => setDescId(true)} text="common.desc"
+              className="max-w-[177px] whitespace-nowrap"
+              imageLeft={
+                <span className="mr-2">
+                  <ICDesc />
+                </span>
+              }
+              color={"empty"}
+            />
+            <Button
+              onClick={() => setDescId(false)} text="common.asc"
+              className="max-w-[177px] whitespace-nowrap"
+              imageLeft={
+                <span className="mr-2">
+                  <ICAsc/>
+                </span>
+              }
+              color={"empty"}
+            />
+          </div>
         </div>
       </div>
       <div className="mt-4">

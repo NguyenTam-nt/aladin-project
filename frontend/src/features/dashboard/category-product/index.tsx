@@ -1,21 +1,71 @@
-import React from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { TitleTopic } from "../home/components/TitleTopic";
 import { Button } from "../components/Button";
 import { ICAdd } from "@assets/icons/ICAdd";
-import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router-dom";
-import { prefixRootRoute } from "@constants/index";
-import { pathsAdmin } from "@constants/routerManager";
+import { SIZE_DATA } from "@constants/index";
 import { ListCategory } from "./components/ListCategory";
 import { useModalContext } from "@contexts/hooks/modal";
 import { CategoryProductHandler } from "./components/CategoryProductHandler";
+import type { ICategory } from "@typeRules/category";
+import { categoryService } from "@services/category";
+import { useShowMessage } from "../components/DiglogMessage";
+import { useGetCategory } from "./useGetCategory";
 
 export const CategoryProduct = () => {
-    const { t } = useTranslation();
     const {setElementModal} = useModalContext()
     const handleNavigation = () => {
-      setElementModal(<CategoryProductHandler />)
+      setElementModal(<CategoryProductHandler onSubmit={handleSubmit} />)
     };
+
+    const { showSuccess, showError } = useShowMessage()
+
+
+  const {loading, categories, fechData, setCategories, totalPages} = useGetCategory()
+  
+
+    const handleSubmit = (data: ICategory) => {
+      categoryService
+        .post(data)
+        .then((data) => {
+          setCategories([data, ...categories]);
+          showSuccess("message.actions.success.update");
+        })
+        .catch(() => {
+          showError("message.error._error");
+        })
+    };
+  
+    const handleSubmitEdit = (data: ICategory) => {
+      categoryService
+        .update(data)
+        .then((data) => {
+          const newCategory = [...categories];
+          const index = newCategory.findIndex((item) => item.id === data.id);
+          newCategory.splice(index, 1, data);
+          setCategories([...newCategory]);
+          showSuccess("message.actions.success.update");
+        })
+        .catch(() => {
+          showError("message.error._error");
+        })
+    };
+  
+    const handleDelete = (id: number) => {
+      categoryService
+        .delete(id)
+        .then(() => {
+          const index = categories.findIndex((item) => item.id === id);
+          const newlist = [...categories];
+          newlist.splice(index, 1);
+          setCategories([...newlist]);
+          showSuccess("category.message_delete_success");
+        })
+        .catch((error) => {
+          console.log({error})
+          showError(error?.response?.data?.message || "category.message_delete_error");
+        });
+    };
+  
   return (
     <>
       <div className="flex items-baseline justify-between">
@@ -34,7 +84,7 @@ export const CategoryProduct = () => {
           color={"empty"}
         />
       </div>
-      <ListCategory />
+      <ListCategory onEdit={handleSubmitEdit} data={categories} loading={loading} onDelete={handleDelete} total={totalPages} fechData={fechData} />
     </>
   );
 };

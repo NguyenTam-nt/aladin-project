@@ -1,39 +1,36 @@
 import { ICClear } from "@assets/icons/ICClear";
 import { ICDeleteTrashLight } from "@assets/icons/ICDeleteTrashLight";
+import { ICRequest } from "@assets/icons/ICRequest";
 import { useModalContext } from "@contexts/hooks/modal";
+import { Button } from "@features/dashboard/components/Button";
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { Button } from "./Button";
 
-export const DiglogComfirmDelete = ({
-  message,
-  onClick,
-  onClear,
+export const ModalConfirm = ({
+  onClick
 }: {
-  message: string;
-  onClick?: () => void,
-  onClear?: () => void
+  onClick?: () => void
 }) => {
   const { t } = useTranslation();
   const { hideModal } = useModalContext();
   return (
     <div className="flex items-center flex-col py-[53px] px-[157px] bg-white justify-center w-[800px] h-auto relative">
-      <button onClick={onClear ? onClear : hideModal} className="text-text_7E8B99 absolute top-[24px] text-_16 right-[24px]">
+      <button onClick={hideModal} className="text-text_7E8B99 absolute top-[24px] text-_16 right-[24px]">
        <ICClear />
       </button>
       <div>
-        <ICDeleteTrashLight width={120} height={120} />
+        <ICRequest />
       </div>
-      <span className="mt-[34px] mb-[40px] text-GreyPrimary text-center text-_20 font-bold">{t(message)}</span>
+      <span className="mt-[34px] mb-[40px] text-GreyPrimary text-center text-_20 "> <span className=" font-bold">{t("adminPlace.notification.active")}</span></span>
       <div className="flex  justify-center gap-x-[24px]">
       <Button
        type="button"
-        onClick={onClear ? onClear : hideModal}
+        onClick={hideModal}
         text="button._cancel"
         color="empty"
-        className="!w-[120px] text-bg_E73F3F border border-bg_E73F3F"
+        className="!w-[120px]"
       />
-      <Button type="submit" onClick={() => onClick?.()}  text={"button.confirm"} color="primary" className="!w-[120px] bg-bg_E73F3F" />
+      <Button type="submit" onClick={() => onClick?.()}  text={"button.confirm"} color="primary" className="!w-[120px]" />
       </div>
     </div>
   );

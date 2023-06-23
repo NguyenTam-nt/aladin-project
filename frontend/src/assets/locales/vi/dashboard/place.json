@@ -4,6 +4,7 @@
       "add_btn": "Thêm cơ sở",
       "update_btn": "Sửa cơ sở",
       "delete_btn": "Ẩn thông tin cơ sở",
+      "display_btn": "Hiện thông tin cơ sở",
       "add": {
         "title": "Thêm thông tin cơ sở"
       },
@@ -24,7 +25,10 @@
       "notification": {
         "delete": "Bạn có chắc chắn xóa cơ sở này khỏi hệ thống?",
         "deleteSuccess": "Xóa thành công",
-        "deleteError": "Xóa thất bại"
+        "deleteError": "Xóa thất bại",
+        "active": "Bạn có chắc muốn hiện cơ sở này không?",
+        "activeSuccess": "Hiện cơ sở thành công",
+        "activeError": "Hiện cơ sở thất bại"
       }
   }
 }

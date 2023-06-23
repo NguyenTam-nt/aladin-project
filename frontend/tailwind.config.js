@@ -35,7 +35,8 @@ export default {
         gray_F5F5F5: "#F5F5F5",
         bg_fafafa: "#fafafa",
         waiting: "#FF5A1F",
-        text_7E8B99: "#7E8B99"
+        text_7E8B99: "#7E8B99",
+        bg_rgba_103_203_248_1: "rgba(209,239,252,1)"
       },
       backgroundImage: {
         banner_home: "linear-gradient(90deg, rgba(0, 0, 0, 0.5) -0.81%, rgba(0, 0, 0, 0) 100%)",

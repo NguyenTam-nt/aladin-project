@@ -40,17 +40,17 @@ export default function ModalProvider({ children }: Props) {
     setShowModal(false);
   };
 
-  useEffect(() => {
-    window.addEventListener("popstate", function () {
-      if (isShow) {
-        hideModal();
-      }
-    });
+  // useEffect(() => {
+  //   window.addEventListener("popstate", function () {
+  //     if (isShow) {
+  //       hideModal();
+  //     }
+  //   });
 
-    return () => {
-      window.removeEventListener("popstate", () => {});
-    };
-  }, [isShow]);
+  //   return () => {
+  //     window.removeEventListener("popstate", () => {});
+  //   };
+  // }, [isShow]);
 
   useLayoutEffect(() => {
     // if(isShow) {

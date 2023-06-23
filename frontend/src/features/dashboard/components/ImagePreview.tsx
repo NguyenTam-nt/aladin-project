@@ -43,7 +43,7 @@ export const ImagePreview = memo(
             onClick={onDelete}
             className="absolute top-[17px] right-[17px]"
           >
-            <ICDeleteTrashLight color={Colors.text_white} />
+            <ICDeleteTrashLight color={Colors.text_EA222A} />
           </button>
         ) : null}
       </div>

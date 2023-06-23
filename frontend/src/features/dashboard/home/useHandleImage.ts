@@ -47,6 +47,7 @@ export const useHandleImage = (
     setCurrentFile(file);
     if(!onChange) {
       const link = URL.createObjectURL(file);
+      console.log({link})
       setPreViewImage(link);
     }
     onChange?.(file);
