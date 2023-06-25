@@ -106,7 +106,7 @@ export const BannerHomeItem = memo(({ data, onSubmit, onDelete }: Props) => {
         <div className="grid grid-cols-[288px_1fr] relative gap-x-[24px]">
           <div className="flex flex-col">
             <TitleInput
-              isRequired={false}
+              isRequired={true}
               forId=""
               name="button._upload_image"
             />

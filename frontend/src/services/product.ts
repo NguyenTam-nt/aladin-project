@@ -2,13 +2,16 @@ import HttpService from "@configs/api"
 import { getMicroService, getMicroServiceAdmin, microServices } from "./getMicroService"
 import { apis } from "../constants/list-api"
 import type { IParams, IResponseData } from "@typeRules/index"
-import type { IProduct } from "@typeRules/product"
+import type { IProduct, IProductHome } from "@typeRules/product"
 
 const api = getMicroService(`${apis.product}`, microServices.restaurant)
 const apiAdmin = getMicroServiceAdmin(`${apis.product}`, microServices.restaurant)
 export const productService = {
     get: (params:IParams):Promise<IResponseData<IProduct>> => {
         return HttpService.axiosClient.get(`${api}`, {params: {...params, page: Number(params.page) - 1}}) 
+    },
+    getHome: ():Promise<IProductHome[]> => {
+        return HttpService.axiosClient.get(`${api}/home`) 
     },
     getById: (id:number):Promise<IProduct> => {
         return HttpService.axiosClient.get(`${api}/${id}`) 

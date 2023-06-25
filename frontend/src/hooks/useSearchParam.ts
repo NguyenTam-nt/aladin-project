@@ -12,7 +12,7 @@ export const useSearchParamHook = () => {
       }
     });
     searchParams.set(keyO, value);
-
+    searchParams.sort()
     setSearchParam(searchParams);
   };
 

@@ -8,7 +8,7 @@ export const TopicMenuList = memo(() => {
   return (
     <div
       ref={ref}
-      className="grid grid-cols-2 lg:grid-cols-4 gap-[16px] lg:gap-[24px] mt-[48px]"
+      className="grid grid-cols-2 xl:grid-cols-4 gap-[16px] lg:gap-[24px] mt-[48px]"
     >
       {[1, 2, 3, 4].map((_, index) => {
         return (

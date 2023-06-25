@@ -36,7 +36,7 @@ const TopicPostContent = memo(() => {
   const { listBanner } = useGetTopic(HomeTopicType.post);
 
   return listBanner?.listBanner?.length ? (
-    <div className="w-rp relative mb-[70px] lg:mb-0">
+    <div className="w-rp relative z-[4] mb-[70px] lg:mb-0">
       <SwiperComponent
         onActiveIndexChange={onActiveIndexChange}
         navigationNextRef={navigationNextRef}

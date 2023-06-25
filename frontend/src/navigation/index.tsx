@@ -2,7 +2,7 @@ import { prefixRootRoute } from "@constants/index";
 import { RouterManage } from "@constants/routerManager";
 import { routersPublic } from "@constants/routerPublic";
 import { Suspense, lazy } from "react";
-import { Link, Route, Routes } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 
 const PublicLayout = lazy(() =>
   import("../layouts/public").then((modaule) => ({

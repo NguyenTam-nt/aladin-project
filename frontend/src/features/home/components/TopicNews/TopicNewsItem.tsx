@@ -1,23 +1,30 @@
 import React, { memo } from "react";
+import type { newItem_type } from "@typeRules/new";
+import { Link } from "react-router-dom";
+import { pathsAdmin } from "@constants/routerManager";
 
-export const TopicNewsItem = memo(() => {
+type Props = {
+  data: newItem_type
+}
+
+export const TopicNewsItem = memo(({data}:Props) => {
   return (
-    <div className="radius-tl-br overflow-hidden bg-white">
-      <div>
+    <Link to={`${pathsAdmin.news.prefix}/${data.id}`} className="radius-tl-br h-[302px] flex flex-col overflow-hidden bg-white">
+      <div className="h-[176px]">
         <img
-          className=""
+          className="w-full h-full object-cover"
           alt=""
-          src="https://s3-alpha-sig.figma.com/img/b2fb/aa5a/22df85e7704e2bc690aafd7d3f824f88?Expires=1687132800&Signature=Wyct8BxDsTm3Gu~308PUtKM67dghUOBZAVcX-notcvM~vJYq9Zxu2WDiG6~miqFzZ2j9xpFce44KJYKLO4dOoYazO53OuiQYKhsQeVxGH~fFjS3NiLhrkIE1XBFUgq92ZVmy1OdAiJ7DoYPahUWFOJXft1wvAhePgTIGoyvhVHGINzW0Vgw3c948iptjeORjK8GdFrnw4xslYSnN3NbVUbNOjd0uJFjUygwaatgtICogISL0vS3-aOpSRmjwQPVhBNY~pe7e0tCKgAApvPOsdBaWha0Q0tX2pGPmYPNLBR-4L6NSC8197~4XnRPsgCPxeU6SRJsmgWh-1RWGNgPl6g__&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4"
+          src={data?.linkMedia}
         />
       </div>
-      <div className="px-[16px] py-[24px]">
+      <div className="px-[16px] flex-1 py-[24px]">
         <p className="text-_16 font-semibold text-GreyPrimary line-clamp-2">
-          Combo 2 Người lớn ăn thả ga không lo hết món
+          {data?.title}
         </p>
         <p className="text-_14 mt-1 font-normal text-text_secondary">
-          25/12/2023
+          {new Date(data?.createdDate ?? "").toLocaleDateString()}
         </p>
       </div>
-    </div>
+    </Link>
   );
 })

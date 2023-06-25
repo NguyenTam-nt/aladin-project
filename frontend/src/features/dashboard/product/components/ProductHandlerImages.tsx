@@ -9,6 +9,7 @@ import { SwiperSlide } from "swiper/react";
 import { useSwiperNavigationRef } from "@hooks/useSwiperNavigationRef";
 import { ICArowDown } from "@assets/icons/ICArowDown";
 import { Colors } from "@constants/color";
+import { windownSizeWidth, withResponsive } from "@constants/index";
 
 type Props = {
   listImage: {
@@ -34,7 +35,13 @@ export const ProductHandlerImages = memo(({ listImage }: Props) => {
     onActiveIndexChange,
   } = useSwiperNavigationRef();
   const width = useMemo(() => {
-    return 1224 - 288 - 24;
+    return windownSizeWidth > withResponsive._1280
+      ? windownSizeWidth -
+          300 -
+          (windownSizeWidth > withResponsive._1536 ? 96 : 70 * 2) -
+          288 -
+          40
+      : 1280 - 300 - 70 * 2 - 228 - 40;
   }, []);
 
   return (
@@ -67,18 +74,20 @@ export const ProductHandlerImages = memo(({ listImage }: Props) => {
               style={{ width }}
               slidesPerView={3}
             >
-              {listImage.preViewImage.filter(i => i.previewImage).map((item, index) => {
-                return (
-                  <SwiperSlide key={index}>
-                    <div className="h-[190px]">
-                      <ImagePreview
-                        url={item.previewImage}
-                        onDelete={() => listImage.handleDelete(item?.id)}
-                      />
-                    </div>
-                  </SwiperSlide>
-                );
-              })}
+              {listImage.preViewImage
+                .filter((i) => i.previewImage)
+                .map((item, index) => {
+                  return (
+                    <SwiperSlide key={index}>
+                      <div className="h-[190px]">
+                        <ImagePreview
+                          url={item.previewImage}
+                          onDelete={() => listImage.handleDelete(item?.id)}
+                        />
+                      </div>
+                    </SwiperSlide>
+                  );
+                })}
             </SwiperComponent>
             {listImage.preViewImage.length > 3 ? (
               <>

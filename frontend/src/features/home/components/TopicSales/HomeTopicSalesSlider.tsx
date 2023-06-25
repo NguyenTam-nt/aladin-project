@@ -45,7 +45,7 @@ export const HomeTopicSalesSlider = memo(() => {
                   <div className="grid grid-cols-3 items-center gap-x-[24px]">
                     {data.slice(indexP * 3, indexP * 3 + 3).map((_, index) => {
                       return (
-                        <div className={clsx({
+                        <div key={index} className={clsx({
                           "animate__animated animate__fadeInRight": isInView
                         })}
                         style={{

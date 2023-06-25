@@ -35,7 +35,7 @@ const Header = () => {
   }, [pathname]);
 
   return (
-    <div className="h-spc120  pl-[96px] min-w-[calc(1920px_-_300px)]  w-full bg-text_white shadow-md flex sticky left-0 right-0 top-0 z-10 ">
+    <div className="h-spc120 px-[70px] 2xl:pl-[96px] min-w-full bg-text_white shadow-md flex sticky left-0 right-0 top-0 z-10 ">
       <div className="flex items-center w-[1224px] justify-between">
         <p className="title-18 text-text_EA222A">
           {nameHeader && t(nameHeader)}

@@ -9,10 +9,10 @@ export const HomeTopicDevice = memo(() => {
     <div className="relative h-auto py-[40px] lg:py-[110px] ">
       {windownSizeWidth > withResponsive._1024 ? (
         <>
-          <div className="absolute left-0 top-0">
+          <div className="absolute left-0 top-0 select-none  pointer-events-none">
             <ICHomeTopicDeviceLeft />
           </div>
-          <div className="absolute right-0 top-0">
+          <div className="absolute right-0 top-0 select-none  pointer-events-none">
             <ICHomeTopicDeviceRight />
           </div>
         </>

@@ -58,7 +58,7 @@ export const HomeVideo = () => {
     <div className="mt-[40px]">
       <TitleTopic name="adminHome.video.title" />
       <div>
-        <TitleInput isRequired={false} name="adminHome.video.form.upload" />
+        <TitleInput isRequired={true} name="adminHome.video.form.upload" />
         <div className="flex gap-x-[24px]  h-[168px]">
           <div className="w-[648px]">
             <InputUploadFile onPaseLink={handlePaste} onChange={handleChange} />
