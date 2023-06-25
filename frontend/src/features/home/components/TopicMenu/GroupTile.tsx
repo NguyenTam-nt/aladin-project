@@ -17,7 +17,7 @@ type Props = {
   listItem: ICategoryItem[];
 };
 
-export const GroupTile = ({ title, listItem }: Props) => {
+export const GroupTile = ({ title, listItem = [] }: Props) => {
   const { t } = useTranslation();
   return (
     <div className="flex flex-col md:flex-row justify-between md:items-center pb-[12px] md:pb-[16px] border-b border-text_A1A0A3">

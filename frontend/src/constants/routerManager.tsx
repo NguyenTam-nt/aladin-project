@@ -93,7 +93,8 @@ function ManageHome() {
   return <div className="h-[2000px]">quản lý trang chủ</div>;
 }
 const ManageNews = lazy(() => import("@features/dashboard/news/index"));
-const CreateNew = lazy(() => import("@features/dashboard/news/CreateNew"));
+const AddNew = lazy(() => import("@features/dashboard/news/AddNew"));
+const EditNew = lazy(() => import("@features/dashboard/news/EditNew"));
 const RecuitmentManage = lazy(
   () => import("@features/dashboard/recruit/index")
 );
@@ -265,14 +266,14 @@ export const RouterManage: routeMntype[] = [
   },
   {
     path: `${pathsAdmin.news.prefix}/${pathsAdmin.news.add}`,
-    element: CreateNew,
+    element: AddNew,
     isHidden: true,
     name: "navigation.navleft.news",
     icon: LinkNewIcon,
   },
   {
     path: `${pathsAdmin.news.prefix}/${pathsAdmin.news.update}`,
-    element: CreateNew,
+    element: EditNew,
     isHidden: true,
     name: "navigation.navleft.news",
     icon: LinkNewIcon,

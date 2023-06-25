@@ -28,10 +28,10 @@ export const TopicMenu = () => {
     <div className="relative">
       {windownSizeWidth > withResponsive._1024 ? (
         <>
-          <div className="absolute left-0 bottom-0">
+          <div className="absolute left-0 bottom-0 select-none  pointer-events-none">
             <ICHomeTopicMenuLeft />
           </div>
-          <div className="absolute right-0 top-0">
+          <div className="absolute right-0 top-0 select-none  pointer-events-none">
             <ICHomeTopicMenuRight />
           </div>
         </>

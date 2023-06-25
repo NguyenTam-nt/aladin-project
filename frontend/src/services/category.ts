@@ -27,7 +27,7 @@ export const categoryService = {
     patch: (id:number):Promise<ICategory> => {
         return HttpService.axiosClient.patch(`${apiAdmin}/${id}`)
     },
-    getAll: ():Promise<IResponseData<ICategory>> => {
+    getAll: ():Promise<ICategory[]> => {
         return HttpService.axiosClient.get(`${apiAdmin}/select`)
     },
     getAllPlace: ():Promise<PlaceType[]> => {

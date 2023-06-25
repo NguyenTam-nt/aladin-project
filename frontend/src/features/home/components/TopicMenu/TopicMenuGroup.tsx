@@ -10,7 +10,7 @@ type Props = {
 export const TopicMenuGroup = memo(({ data }: Props) => {
   return (
     <div>
-      <GroupTile title={data.category.name ?? ""} listItem={data.category?.listCategoryChild ?? []} />
+      <GroupTile title={data?.category.name ?? ""} listItem={data?.category?.listCategoryChild ?? []} />
       <TopicMenuList />
     </div>
   );

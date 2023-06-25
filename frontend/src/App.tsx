@@ -3,9 +3,9 @@ import { RouterRoot } from "navigation";
 import { useEffect } from "react";
 import { prefixRootRoute } from "./constants";
 import { useLocation } from "react-router-dom";
-import { ContactProvider } from "@contexts/ContactContext";
 import { OrderProvider } from "@contexts/OrderContext";
 import AuthProvider from "@contexts/AuthContext";
+import { MenuSideRight } from "@components/MenuSideRight";
 
 function App() {
   const location = useLocation();
@@ -22,9 +22,8 @@ function App() {
     <AuthProvider>
       <ModalProvider>
         <OrderProvider>
-          <ContactProvider>
-            <RouterRoot />
-          </ContactProvider>
+          <RouterRoot />
+          <MenuSideRight />
         </OrderProvider>
       </ModalProvider>
     </AuthProvider>

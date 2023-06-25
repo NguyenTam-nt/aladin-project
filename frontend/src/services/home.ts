@@ -1,8 +1,7 @@
 import HttpService from "@configs/api"
-import type { IUser } from "@typeRules/user"
 import { getMicroService, microServices } from "./getMicroService"
 import { apis } from "../constants/list-api"
-import type { HomeTopicType, ITopicHome, ITopicType } from "@typeRules/home"
+import type { HomeTopicType, ITopicType } from "@typeRules/home"
 
 const api = getMicroService(`${apis.banner}`, microServices.home)
 export const homeService = {

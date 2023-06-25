@@ -31,3 +31,26 @@ export const fileBytes = {
 export const SIZE_DATA = 12
 
 export const VOUCHER_DATE_FORMAT = "hh:mm DD-MM--YYYY"
+
+export const dataSortProduct = [
+    {
+        name: "Mới nhất",
+        slug: "moi-nhat",
+        action: "id,desc"
+    },
+    {
+        name: "Cũ nhất",
+        slug: "cu-nhat",
+        action: "id,asc"
+    },
+    {
+        name: "Từ cao đến thấp",
+        slug: "tu-cao-den-thap",
+        action: "price,desc"
+    },
+    {
+        name: "Từ thấp đến cao",
+        slug: "tu-thap-den-cao",
+        action: "price,asc"
+    }
+  ];

@@ -10,103 +10,28 @@ import { TitleTopic } from "@features/dashboard/home/components/TitleTopic";
 import { useClickOutItem } from "@hooks/useClickOutItem";
 import clsx from "clsx";
 import React, { memo, useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
-import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import InfiniteScroll from "react-infinite-scroll-component";
+import { useSearchParamHook } from "@hooks/useSearchParam";
+import { useCategoryFilter } from "./useCategoryFilter";
 
 type Props = {
   onChange: (id: number) => void;
-  idCategory?: number;
 };
 
-export const Header = memo(({ onChange, idCategory }: Props) => {
-  const { t } = useTranslation();
-  const [indexParent, setIndexParent] = useState(-1);
-  const [indexChild, setIndexChild] = useState(-1);
-  const params = useLocation();
-  // const newQueryParameters: URLSearchParams =  new URLSearchParams(params.search);
-  const [searchParams, setSearchParam] = useSearchParams(params.search);
+export const Header = memo(({ onChange }: Props) => {
+  const {
+    indexChild,
+    indexParent,
+    handleChangeCategoryParent,
+    handleSelectCategorySub,
+    categories,
+    fechData,
+  } = useCategoryFilter({ onChange });
 
-  const { categories, fechData } = useGetCategory();
   const { ref, isShow, handleToggleItem, handleShow } = useClickOutItem();
   const childRef = useClickOutItem();
   const navigation = useNavigate();
-
-  useEffect(() => {
-    if (categories.length) {
-      const categoryChild = searchParams.get("categoryChild");
-      const categoryParent = searchParams.get("categoryParent");
-      if (categoryChild || categoryParent) {
-        let indexP = -1;
-        if (categoryParent) {
-          if (typeof Number(categoryParent) === "number") {
-            indexP = categories.findIndex(
-              (i) => i.id === Number(categoryParent)
-            );
-            const id = document.getElementById(`category-${indexP}`);
-            if (id) {
-              id.scrollIntoView({
-                behavior: "smooth",
-              });
-            }
-            setIndexParent(indexP);
-          }
-        }
-
-        if (categoryChild) {
-          if (typeof Number(categoryChild) === "number") {
-            if (indexP !== -1) {
-              const indexC =
-                categories[indexP].listCategoryChild?.findIndex(
-                  (i) => i.id === Number(categoryChild)
-                ) || -1;
-
-              const idChild = document.getElementById(
-                `category-child-${indexC}`
-              );
-              if (idChild) {
-                idChild.scrollIntoView({
-                  behavior: "smooth",
-                });
-              }
-
-              setIndexChild(indexC);
-            }
-          }
-        }
-      }
-    }
-  }, [searchParams, categories]);
-
-  const handleChangeCategoryParent = (id: number) => {
-    const index = categories.findIndex((i) => i.id === id);
-    if (indexParent !== index) {
-      setIndexParent(index);
-      setIndexChild(-1);
-      onChange(id);
-      if (searchParams.has("page")) {
-        searchParams.set("page", searchParams.get("page") + "");
-      }
-      searchParams.set("categoryParent", id + "");
-      searchParams.sort();
-      setSearchParam(searchParams);
-    }
-  };
-
-  const handleSelectCategorySub = (index: number) => {
-    setIndexChild(index);
-    const id = categories?.[indexParent]?.listCategoryChild?.[index]?.id;
-    onChange(Number(id));
-    // newQueryParameters.set("categoryParent", categories?.[indexParent].id + "");
-    if (searchParams.has("categoryChild")) {
-      searchParams.delete("categoryChild");
-    }
-    searchParams.append("categoryChild", id + "");
-    searchParams.sort();
-
-    setSearchParam(searchParams);
-  };
-
   const handleNavigate = () => {
     navigation(
       `${prefixRootRoute.admin}/${pathsAdmin.product.prefix}/${pathsAdmin.product.add}`
@@ -204,7 +129,8 @@ export const Header = memo(({ onChange, idCategory }: Props) => {
                 }
               )}
               style={{
-                ["--footer-size" as string]:  categories[indexParent]?.listCategoryChild?.length,
+                ["--footer-size" as string]:
+                  categories[indexParent]?.listCategoryChild?.length,
                 ["--height-li" as string]: "38px",
               }}
             >
@@ -215,6 +141,7 @@ export const Header = memo(({ onChange, idCategory }: Props) => {
                     <li
                       onClick={() => {
                         handleShow();
+                        childRef.handleShow();
                         handleSelectCategorySub(index);
                       }}
                       key={item.id}

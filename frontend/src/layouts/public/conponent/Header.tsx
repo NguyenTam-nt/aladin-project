@@ -11,18 +11,16 @@ import { SidebarNavigation } from "./SidebarNavigation";
 import { useAuthContext } from "@contexts/hooks/auth";
 
 export const Header = () => {
-  const { t } = useTranslation();
-    const {doLogin} = useAuthContext()
   useEffect(() => {
     let lastIndex = 0;
     window.addEventListener("scroll", () => {
       const header = document.getElementById("header");
-      if(header) {
+      if (header) {
         const headerbreak = windownSizeWidth > withResponsive._1024 ? 120 : 56;
-  
+
         if (lastIndex < document.documentElement.scrollTop - headerbreak) {
           header!.style.transform = `translateY(${-headerbreak}px)`;
-  
+
           lastIndex = document.documentElement.scrollTop - headerbreak;
         } else {
           header!.style.transform = `translateY(${0}px)`;
@@ -59,16 +57,22 @@ export const Header = () => {
 
 const HeaderPC = ({ headerData }: { headerData: IRouter[] }) => {
   const { t } = useTranslation();
+  const handleScrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
   return (
     <div className="w-rp h-full flex items-center text-_18 uppercase justify-between text-white">
       {headerData.slice(0, 3).map((item, index) => {
         return (
-          <Link to={item.path} key={index}>
+          <Link onClick={handleScrollToTop} to={item.path} key={index}>
             {t(item.name)}
           </Link>
         );
       })}
-      <Link className="flex items-center relative justify-center" to="">
+      <Link onClick={handleScrollToTop} className="flex items-center relative justify-center" to="">
         <div className="rotate-logo ">
           <ICLogoFrame />
         </div>
@@ -80,7 +84,7 @@ const HeaderPC = ({ headerData }: { headerData: IRouter[] }) => {
       </Link>
       {headerData.slice(3).map((item, index) => {
         return (
-          <Link to={item.path} key={index}>
+          <Link onClick={handleScrollToTop} to={item.path} key={index}>
             {t(item.name)}
           </Link>
         );
@@ -116,4 +120,4 @@ const HeaderMobile = memo(() => {
       ) : null}
     </>
   );
-})
+});

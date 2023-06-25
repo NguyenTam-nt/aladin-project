@@ -1,21 +1,31 @@
 import { ICArowDown } from "@assets/icons/ICArowDown";
 import { Button } from "@components/Button";
 import { Colors } from "@constants/color";
+import { dataSortProduct } from "@constants/index";
 import { useClickOutItem } from "@hooks/useClickOutItem";
+import { useSearchParamHook } from "@hooks/useSearchParam";
 import clsx from "clsx";
-import React from "react";
+import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 
-const dataFilter = [
-  "Mới nhất",
-  "Cũ nhất",
-  "Từ cao đến thấp",
-  "Từ thấp đến cao",
-];
+type Props = {
+  onChangeSort: (sort: string) => void;
+  sort?: string;
+};
 
-export const MenuBofyFilterBySort = () => {
+export const MenuBofyFilterBySort = ({ onChangeSort, sort }: Props) => {
   const { t } = useTranslation();
+  const [sortId, setSortId] = useState<string | undefined>(sort);
   const { ref, isShow, handleToggleItem } = useClickOutItem();
+  const { setQueries } = useSearchParamHook();
+
+  const handleSort = (sortAction: string) => {
+    const slug =
+      dataSortProduct.find((data) => data.action === sortAction)?.slug || "";
+    setQueries("sort", slug);
+    onChangeSort(sortAction);
+    setSortId(sortAction);
+  };
 
   return (
     <div className="flex justify-between items-center">
@@ -34,7 +44,7 @@ export const MenuBofyFilterBySort = () => {
                 <ICArowDown color={Colors.primary} />
               </span>
             }
-            text="Mới nhất"
+            text={dataSortProduct.find((i) => i.action === sortId)?.name || ""}
             color="empty"
             className={clsx(
               "w-full justify-between bg-transparent h-[48px] border border-text_A1A0A3 px-[16px] text-_14 font-bold",
@@ -44,7 +54,6 @@ export const MenuBofyFilterBySort = () => {
             )}
           />
           <ul
-          
             className={clsx(
               " absolute left-0 z-[1] top-[100%] bg-white  px-[16px] w-full text-_14 overflow-hidden h-0 ease-in duration-300",
               {
@@ -54,19 +63,23 @@ export const MenuBofyFilterBySort = () => {
               }
             )}
             style={{
-              ["--footer-size" as string]: dataFilter.length,
+              ["--footer-size" as string]: dataSortProduct.length,
               ["--height-li" as string]: "38px",
             }}
           >
-            {!!dataFilter &&
-              dataFilter.map((item: any, index: number) => {
+            {!!dataSortProduct &&
+              dataSortProduct.map((item, index) => {
                 return (
-                  <li key={index} className="h-[38px] items-center">
+                  <li
+                    onClick={() => handleSort(item?.action || "")}
+                    key={index}
+                    className="h-[38px] items-center"
+                  >
                     <button
                       // to={`${paths.news.prefix}?type=${item?.path}`}
                       className="h-full w-full flex items-center text-[14px] hover:text-primary duration-300"
                     >
-                      {item}
+                      {item.name}
                     </button>
                   </li>
                 );

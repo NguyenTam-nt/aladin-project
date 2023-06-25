@@ -108,7 +108,7 @@ export const TopicByType = memo(({ type, data, onSubmit, onDelete }: Props) => {
         {type !== HomeTopicType.sales ? (
           <div className="flex flex-col">
             <TitleInput
-              isRequired={false}
+              isRequired={true}
               forId=""
               name="button._upload_image"
             />

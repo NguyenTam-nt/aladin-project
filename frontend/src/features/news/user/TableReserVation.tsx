@@ -8,12 +8,7 @@ import { HomeTopicType } from "@typeRules/home";
 const TableReserVation = () => {
   return (
     <div>
-      {/* <Banner
-        dataBanner={{
-          name: "navigation.header.order",
-          listNavigate: [{ name: "navigation.header.order", path: "/dat-ban" }],
-        }}
-      /> */}
+      {/* <Banner type={HomeTopicType.book} /> */}
       <Banner type={HomeTopicType.menu} />
       <WapperContent>
         <TableReserVationForm />

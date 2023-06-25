@@ -61,7 +61,7 @@ export const BannerItem = memo(({ type, name }: Props) => {
       <div className="flex gap-x-[24px]">
         <div className=" w-[288px]">
           <TitleInput
-            isRequired={false}
+            isRequired={true}
             name="adminBanner.upload_image_home"
           />
           <div className="h-[190px]">

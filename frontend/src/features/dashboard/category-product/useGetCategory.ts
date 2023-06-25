@@ -19,8 +19,7 @@ export const useGetCategory = (isAll = false) => {
       setLoading(true);
       if(isAll) {
         categoryService.getAll().then((data) => {
-          setCategories(data.list);
-          setTotalPage(data.totalElementPage);
+          setCategories(data);
         })
       }else{
         categoryService

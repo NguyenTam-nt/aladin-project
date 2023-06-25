@@ -61,7 +61,6 @@ export const CategoryProduct = () => {
           showSuccess("category.message_delete_success");
         })
         .catch((error) => {
-          console.log({error})
           showError(error?.response?.data?.message || "category.message_delete_error");
         });
     };

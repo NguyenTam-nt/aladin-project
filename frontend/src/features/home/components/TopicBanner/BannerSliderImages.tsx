@@ -49,7 +49,7 @@ export const BannerSliderImages = () => {
         </>
       </SwiperComponent>
       <div className=" max-w-fit absolute z-[3] bottom-[24px] lg:bottom-[64px] left-[50%] translate-x-[-50%]">
-        <SliderIndicator dataLength={3}  setThumbActive={setThumbActive} />
+        <SliderIndicator dataLength={listBanner?.listBanner.length}  setThumbActive={setThumbActive} />
       </div>
       
     </div>

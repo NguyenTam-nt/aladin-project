@@ -8,9 +8,12 @@ export const apis = {
     contact: "contacts",
     infrastructures: "infrastructures",
     thanksCustomer: "reviews",
+    recruit: "recruits",
+    new:'news',
+    searchNew: "_search/news",
+    books: "books",
     category: "categories",
     product: "products",
     vouchers: "vouchers",
-    recruit: "recruits",
     comment: "comments",
 }

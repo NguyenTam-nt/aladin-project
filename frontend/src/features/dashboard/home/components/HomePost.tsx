@@ -1,16 +1,6 @@
-import React, { memo } from "react";
+import React from "react";
 import { TitleTopic } from "./TitleTopic";
-import TitleInput from "@components/TitleInput";
-import { InputUploadFile } from "@features/dashboard/components/InputUploadFIle";
-import { useHandleImage } from "../useHandleImage";
-import { GroupInputContent } from "@features/dashboard/components/GroupInputContent";
-import clsx from "clsx";
-import { ImagePreview } from "@features/dashboard/components/ImagePreview";
-import { GroupButtonAdmin } from "@features/dashboard/components/GroupButtonAdmin";
 import { useTranslation } from "react-i18next";
-import { ICDeleteTrashLight } from "@assets/icons/ICDeleteTrashLight";
-import { useModalContext } from "@contexts/hooks/modal";
-import { DiglogMessage } from "@features/dashboard/components/DiglogMessage";
 import { TopicByType } from "./TopicByType";
 import { HomeTopicType, ITopicHome, ITopicType } from "@typeRules/home";
 import { useGetTopic } from "./useGetTopic";
@@ -21,48 +11,54 @@ import { homeService } from "@services/home";
 export const HomePost = () => {
   const { listBanner, setListBanner } = useGetTopic(HomeTopicType.post);
   const { t } = useTranslation();
-  const {showLoading} = useHandleLoading()
+  const { showLoading } = useHandleLoading();
 
-  const {showError, showSuccess, showWarning} = useShowMessage()
+  const { showError, showSuccess, showWarning } = useShowMessage();
 
-  const handleSubmit = (data:ITopicHome) => {
-    showLoading()
-    const newList = listBanner?.listBanner ?? []
-    const index = newList.findIndex(item => item?.id === data?.id)
+  const handleSubmit = (data: ITopicHome) => {
+    showLoading();
+    const newList = listBanner?.listBanner ?? [];
+    const index = newList.findIndex((item) => item?.id === data?.id);
 
-    index >= 0 ? newList.splice(index, 1, data) : newList.unshift(data)
+    index >= 0 ? newList.splice(index, 1, data) : newList.unshift(data);
 
-    homeService.updateHomeTopic({
-      type: HomeTopicType.post,
-      listBanner: [...newList]
-    }).then((data:ITopicType) => {
-      setListBanner(data)
-      showSuccess("message.actions.success.post")
-    }).catch(() => {
-      showError("message.actions.error.post")
-    })
-  }
+    homeService
+      .updateHomeTopic({
+        type: HomeTopicType.post,
+        listBanner: [...newList],
+      })
+      .then((data: ITopicType) => {
+        setListBanner(data);
+        showSuccess("message.actions.success.post");
+      })
+      .catch(() => {
+        showError("message.actions.error.post");
+      });
+  };
 
-  const handleDelete = (id:number) => {
-    if(listBanner?.listBanner && listBanner?.listBanner.length > 1) {
-      homeService.deleteHomeTopic(id).then(() => {
-        const newList = listBanner?.listBanner ?? []
-        const index = newList.findIndex(item => item?.id === id)
-          if(index >= 0) {
-            newList.splice(index, 1)
+  const handleDelete = (id: number) => {
+    if (listBanner?.listBanner && listBanner?.listBanner.length > 1) {
+      homeService
+        .deleteHomeTopic(id)
+        .then(() => {
+          const newList = listBanner?.listBanner ?? [];
+          const index = newList.findIndex((item) => item?.id === id);
+          if (index >= 0) {
+            newList.splice(index, 1);
             setListBanner({
               type: HomeTopicType.post,
-              listBanner: [...newList]
-            })
-            showSuccess("message.actions.success.delete")
+              listBanner: [...newList],
+            });
+            showSuccess("message.actions.success.delete");
           }
-      }).catch(() => {
-        showError("message.actions.error.delete")
-      })
-    }else {
-      showWarning("message.actions.warning.min_post")
+        })
+        .catch(() => {
+          showError("message.actions.error.delete");
+        });
+    } else {
+      showWarning("message.actions.warning.min_post");
     }
-  }
+  };
 
   return (
     <div className="mt-[40px]">
@@ -74,12 +70,18 @@ export const HomePost = () => {
       </div>
       {listBanner?.listBanner.map((data, index) => {
         return (
-          <TopicByType onDelete={handleDelete} onSubmit={handleSubmit} data={data} key={index} type={HomeTopicType.post} />
+          <TopicByType
+            onDelete={handleDelete}
+            onSubmit={handleSubmit}
+            data={data}
+            key={index}
+            type={HomeTopicType.post}
+          />
         );
       })}
       {listBanner?.listBanner.length &&
       listBanner?.listBanner.length >= 3 ? null : (
-        <TopicByType  onSubmit={handleSubmit} type={HomeTopicType.post} />
+        <TopicByType onSubmit={handleSubmit} type={HomeTopicType.post} />
       )}
     </div>
   );

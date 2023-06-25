@@ -4,37 +4,56 @@ import { pathsAdmin } from "@constants/routerManager";
 import { useModalContext } from "@contexts/hooks/modal";
 import { Button } from "@features/dashboard/components/Button";
 import { DiglogComfirmDelete } from "@features/dashboard/components/DiglogComfirmDelete";
+import { useShowMessage } from "@features/dashboard/components/DiglogMessage";
+import { newService } from "@services/newService";
+import type { newItem_type } from "@typeRules/new";
 import React, { memo } from "react";
 import { useNavigate } from "react-router-dom";
 
 interface Props {
-  id: number | string;
+  itemNew: newItem_type;
+  handleDelete: () => void;
 }
-const NewItem = memo((props: Props) => {
+const NewItem = memo(({ itemNew, handleDelete }: Props) => {
   const navigation = useNavigate();
   const { setElementModal } = useModalContext();
+  const { showError, showSuccess } = useShowMessage();
   const handleNavigation = () => {
     navigation(
-      `${prefixRootRoute.admin}/${pathsAdmin.news.prefix}/${props.id}`
+      `${prefixRootRoute.admin}/${pathsAdmin.news.prefix}/${itemNew.id}`
     );
   };
 
-  const handleDeleteModal = () => {
-    setElementModal(<DiglogComfirmDelete message="news.message_delete" />);
+  const handleDeleteModal = async (id: number) => {
+    const handleClickDeleted = async () => {
+      try {
+        await newService.deleteNewId(id);
+        handleDelete();
+        showSuccess("message.actions.success.delete_banner");
+      } catch (error) {
+        showError("message.actions.error.delete");
+      }
+    };
+    setElementModal(
+      <DiglogComfirmDelete
+        message="news.message_delete"
+        onClick={handleClickDeleted}
+      />
+    );
   };
   return (
-    <div className="bg-white h-[434px] flex flex-col">
+    <div className="bg-white min-h-[434px] flex flex-col">
       <img
         alt=""
         className="w-full object-cover h-[288px]"
-        src="https://s3-alpha-sig.figma.com/img/b4d9/67c3/24f9f156f94a39819b1596db70ac6c6f?Expires=1687737600&Signature=Hqb8Tm2FI0xNkntGDKF3BrdINLVfZBBmujSp00YJVMVNHl2MArc5YEU5QukOH3KSCZdifWBWtpex3LU-jjG9di7gFeYUSRJqQ42gp2WMmbSQNmpj~qFbZjD8U5ws5trNFhwAijBunIVt347pFIa7Cg2jC46u5pf9JXCkc0HKVyMch8HhOcKdoN6LpDEidwMMR-LMVrGKGPkdfuWTwNbuUHuBIsZztFwLBYEFGoywc0gi2kodkUWkalG1t~QSWIiyqepjtH8JwUKE9kvVcax1kjzOQGa45Kzvwd~IJm9bXbLeDSGqUdo2d9obLeW9az-qGH6VieM-81vMPx2o45DuWA__&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4"
+        src={itemNew.linkMedia || ""}
       />
       <div className="p-4 flex-1 flex flex-col">
         <p className=" line-clamp-2 text-_16 font-semibold text-text_black">
-          Pretium nec senectus ut urna. Eleifend in interdum nisi vivamus.
+          {itemNew.title}
         </p>
         <p className="mb-6 text-sm leading-22 font-normal text-text_secondary">
-          25/12/2023
+          {itemNew.description}
         </p>
         <div className="mt-auto">
           <Button
@@ -44,7 +63,7 @@ const NewItem = memo((props: Props) => {
             text="news.update"
           />
           <Button
-            onClick={handleDeleteModal}
+            onClick={() => handleDeleteModal(itemNew.id!)}
             color="empty"
             className="mt-2 border-bg_E73F3F text-bg_E73F3F"
             text="news.delete"

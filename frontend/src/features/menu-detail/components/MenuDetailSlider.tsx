@@ -6,8 +6,10 @@ import { Video } from "@components/Video";
 import { Colors } from "@constants/color";
 import useInView from "@hooks/useInView";
 import { useSwiperNavigationRef } from "@hooks/useSwiperNavigationRef";
+import type { IListMedia } from "@typeRules/product";
+import { MediaType } from "@typeRules/product";
 import clsx from "clsx";
-import React, { memo } from "react";
+import React, { memo, useMemo } from "react";
 import { SwiperSlide } from "swiper/react";
 const listImage = [
   {
@@ -48,7 +50,11 @@ const listImage = [
   },
 ];
 
-export const MenuDetailSlider = () => {
+type PropsDetail = {
+  data: IListMedia[];
+};
+
+export const MenuDetailSlider = ({ data }: PropsDetail) => {
   const {
     navigationNextRef,
     navigationPrevRef,
@@ -67,6 +73,7 @@ export const MenuDetailSlider = () => {
         navigationPrevRef={navigationPrevRef}
         onActiveIndexChange={onActiveIndexChange}
         activeThumb={activeThumb}
+        data={data}
       />
       {NavigationElement}
       <MenuDetailSliderSlide
@@ -74,6 +81,7 @@ export const MenuDetailSlider = () => {
         handlePre={handlePre}
         currentIndex={currentIndex}
         setThumbActive={setThumbActive}
+        data={data}
       />
     </div>
   );
@@ -84,6 +92,7 @@ type Props = {
   navigationNextRef?: React.RefObject<HTMLDivElement>;
   onActiveIndexChange: (event: any) => void;
   activeThumb: any;
+  data: IListMedia[];
 };
 
 const MenuDetailSliderMain = memo(
@@ -92,12 +101,17 @@ const MenuDetailSliderMain = memo(
     navigationPrevRef,
     onActiveIndexChange,
     activeThumb,
+    data,
   }: Props) => {
     const { ref, isInView } = useInView<HTMLDivElement>();
+    const initSlide = useMemo(() => {
+      const index = data.findIndex((i) => i.type === MediaType.video);
+      return index >= 0 ? index : 0;
+    }, [data]);
     return (
       <div ref={ref}>
         <SwiperComponent
-          initialSlide={1}
+          initialSlide={initSlide}
           navigationNextRef={navigationNextRef}
           navigationPrevRef={navigationPrevRef}
           onActiveIndexChange={onActiveIndexChange}
@@ -107,20 +121,25 @@ const MenuDetailSliderMain = memo(
             swiper: activeThumb && !activeThumb.destroyed ? activeThumb : null,
           }}
         >
-          {listImage.map((item, index) => {
+          {data.map((item) => {
             return (
-              <SwiperSlide key={index}>
-                <div className={clsx("w-full h-[100vw] lg:h-[424px] rounded-[32px_0_32px_0] !overflow-hidden opacity-0 duration-700 ease-linear", {
-                  "opacity-100": isInView
-                })}>
-                  {item.type === "image" ? (
+              <SwiperSlide key={item.id}>
+                <div
+                  className={clsx(
+                    "w-full h-[100vw] lg:h-[424px] rounded-[32px_0_32px_0] !overflow-hidden opacity-0 duration-700 ease-linear",
+                    {
+                      "opacity-100": isInView,
+                    }
+                  )}
+                >
+                  {item.type === MediaType.image ? (
                     <img
                       className="w-full h-full object-cover"
-                      src={item.link}
+                      src={item?.linkMedia}
                       alt=""
                     />
                   ) : (
-                    <Video src={item.link} controls />
+                    <Video src={item?.linkMedia} controls />
                   )}
                 </div>
               </SwiperSlide>
@@ -137,6 +156,7 @@ type PropsMenuDetailSliderSlide = {
   handlePre: () => void;
   handleNext: () => void;
   currentIndex: number;
+  data: IListMedia[];
 };
 
 const MenuDetailSliderSlide = memo(
@@ -145,6 +165,7 @@ const MenuDetailSliderSlide = memo(
     handleNext,
     handlePre,
     currentIndex,
+    data,
   }: PropsMenuDetailSliderSlide) => {
     const { ref, isInView } = useInView<HTMLDivElement>();
     return (
@@ -155,10 +176,10 @@ const MenuDetailSliderSlide = memo(
           spaceBetween={24}
           className="swiper-item-thumb"
         >
-          {listImage.map((item, index) => {
+          {data.map((item, index) => {
             return (
               <SwiperSlide
-                key={index}
+                key={item.id}
                 className={clsx(
                   "w-full h-[calc(calc(100vw_-_104px)_/_4)] lg:h-[88px] rounded-[16px_0_16px_0] !overflow-hidden",
                   {
@@ -170,15 +191,15 @@ const MenuDetailSliderSlide = memo(
                 }}
               >
                 <div className="w-full rounded-[16px_0_16px_0] h-[calc(calc(100vw_-_104px)_/_4)] !overflow-hidden duration-300 ease-in relative lg:h-[88px]">
-                  {item.type === "image" ? (
+                  {item.type === MediaType.image ? (
                     <img
                       className="w-full h-full object-cover"
-                      src={item.link}
+                      src={item?.linkMedia}
                       alt=""
                     />
                   ) : (
                     <>
-                      <Video src={item.link} />
+                      <Video src={item?.linkMedia} />
                       <div className="w-[20px] flex items-center justify-center h-[20px] rounded-[50%] backdrop-blur-[2px] absolute bg-bg_255_255_255_03 top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%]">
                         <ICPlay />
                       </div>

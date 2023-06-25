@@ -1,14 +1,17 @@
-import { TopicMenuItem } from '@features/home/components/TopicMenu/TopicMenuItem'
-import React from 'react'
+import { TopicMenuItem } from "@features/home/components/TopicMenu/TopicMenuItem";
+import type { IProduct } from "@typeRules/product";
+import React, { memo } from "react";
 
-export const MenuListData = () => {
+type Props = {
+  data: IProduct[];
+};
+
+export const MenuListData = memo(({ data }: Props) => {
   return (
-    <div className='mt-[32px] grid grid-cols-2 xl:grid-cols-3 gap-[24px]'>
-        {
-            [1, 2, 3, 4, 5, 6, 7, 8, 9].map((_, index) => {
-                return <TopicMenuItem key={index} />
-            })
-        }
+    <div className="mt-[32px] grid grid-cols-2 xl:grid-cols-3 gap-[24px]">
+      {data.map((item) => {
+        return <TopicMenuItem data={item} key={item.id} />;
+      })}
     </div>
-  )
-}
+  );
+});

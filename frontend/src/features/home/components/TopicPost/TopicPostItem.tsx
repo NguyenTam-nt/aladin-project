@@ -15,11 +15,11 @@ export const TopicPostItem = memo(({data}:Props) => {
           alt=""
         />
       </div>
-      <div className="mt-[24px] lg:pt-[12px]">
+      <div className="mt-[24px] h-[188px]  lg:h-[80%] flex flex-col lg:pt-[12px]">
         <h4 className="title-32">{data?.title}</h4>
-        <p className="text-_14 lg:text-_24 font-normal mt-[16px] lg:mt-[30px] text-GreyPrimary line-clamp-3">
+        <div className="text-_14 flex-1 overflow-y-auto lg:text-_24 font-normal mt-[16px] lg:mt-[30px] text-GreyPrimary list-facilities">
           {data?.content}
-        </p>
+        </div>
       </div>
     </div>
   );
