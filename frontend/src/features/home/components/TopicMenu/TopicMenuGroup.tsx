@@ -1,16 +1,16 @@
 import React, { memo } from "react";
 import { GroupTile } from "./GroupTile";
 import { TopicMenuList } from "./TopicMenuList";
+import type { IProductHome } from "@typeRules/product";
 
 type Props = {
-  title: string;
-  listItem: string[];
+  data: IProductHome
 };
 
-export const TopicMenuGroup = memo(({ title, listItem }: Props) => {
+export const TopicMenuGroup = memo(({ data }: Props) => {
   return (
     <div>
-      <GroupTile title={title} listItem={listItem} />
+      <GroupTile title={data.category.name ?? ""} listItem={data.category?.listCategoryChild ?? []} />
       <TopicMenuList />
     </div>
   );

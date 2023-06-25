@@ -58,11 +58,11 @@ export const TopicMenuItem = memo(() => {
                 +
               </button>
             </div>
-            <div className="w-full lg:w-[167px]">
+            <div className="w-full lg:max-w-[120px] 2xl:w-[167px]">
               <Button
                 text="Thêm vào giỏ"
                 classNameParent="min-w-full lg:w-none"
-                className="min-w-full lg:min-w-[167px] !h-[40px] lg:!h-[48px] !text-_14 font-bold"
+                className="min-w-full lg:max-w-[120px] 2xl:max-w-full !h-[40px] lg:!h-[48px] !text-_14 font-bold"
                 color="primary"
               />
             </div>

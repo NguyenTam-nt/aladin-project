@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { TopicMenuGroup } from "./TopicMenuGroup";
 import { ICHomeTopicMenuLeft } from "@assets/icons/ICHomeTopicMenuLeft";
 import { ICHomeTopicMenuRight } from "@assets/icons/ICHomeTopicMenuRight";
 import { windownSizeWidth, withResponsive } from "@constants/index";
+import type { IProduct, IProductHome } from "@typeRules/product";
+import { productService } from "@services/product";
 
 const data = [
   {
@@ -16,7 +18,13 @@ const data = [
 ];
 
 export const TopicMenu = () => {
-  return (
+  const [products, setProducts] = useState<IProductHome[]>([]);
+  useEffect(() => {
+    productService.getHome().then((data) => {
+      setProducts(data);
+    });
+  }, []);
+  return products.length ? (
     <div className="relative">
       {windownSizeWidth > withResponsive._1024 ? (
         <>
@@ -31,17 +39,11 @@ export const TopicMenu = () => {
 
       <div className="w-rp py-[40px] lg:py-[120px]">
         <div className="grid grid-cols-1 gap-y-[40px] lg:gap-y-[80px]">
-          {data.map((item, index) => {
-            return (
-              <TopicMenuGroup
-                key={index}
-                title={item.title}
-                listItem={item.listItem}
-              />
-            );
+          {products.map((item, index) => {
+            return <TopicMenuGroup key={index} data={item} />;
           })}
         </div>
       </div>
     </div>
-  );
+  ) : null;
 };

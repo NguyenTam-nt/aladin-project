@@ -5,7 +5,6 @@ import { ICLogin } from "@assets/icons/ICLogin";
 import { ICPhone } from "@assets/icons/ICPhone";
 import { ICYoutubeContact } from "@assets/icons/ICYoutubeContact";
 import { ICZalo } from "@assets/icons/ICZalo";
-import { GotoTop } from "@components/GotoTop";
 import { MenusRight } from "@components/MenusRight";
 import { Colors } from "@constants/color";
 import {
@@ -13,14 +12,12 @@ import {
   windownSizeWidth,
   withResponsive,
 } from "@constants/index";
-import { TopicPlaceItemBase } from "@features/home/components/TopicPlace/TopicPlaceItem";
 import clsx from "clsx";
 import React, { ReactNode, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useAuthContext } from "./hooks/auth";
 import { pathsAdmin } from "@constants/routerManager";
-import { Loading } from "@features/dashboard/components/Loading";
 
 const data = [
   {
@@ -80,7 +77,7 @@ export const ContactProvider = ({ children }: Props) => {
         className={clsx(
           "fixed bottom-[calc(20%_+_56px)] 2xl:bottom-[calc(20%_+_78px)] [&>button]:rounded-[8px_0_8px_0]  2xl:[&>button]:rounded-[16px_0_16px_0] [&>button]:w-[40px] [&>button]:h-[40px] 2xl:[&>button]:w-[54px] 2xl:[&>button]:h-[54px] z-[11] gap-y-[16px] 2xl:gap-y-[24px] group-contact right-0 flex flex-col",
           {
-            " opacity-0 z-[-2]": isAdmin,
+            " opacity-0 hidden": isAdmin,
           }
         )}
       >

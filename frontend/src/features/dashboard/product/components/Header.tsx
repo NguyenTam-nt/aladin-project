@@ -139,14 +139,14 @@ export const Header = memo(({ onChange, idCategory }: Props) => {
               className={clsx(
                 " absolute left-0 z-[1] top-[100%] bg-white  overflow-y-auto list-facilities w-full text-_14 overflow-hidden h-0 ease-in duration-300",
                 {
-                  // "footer-animation-list": isShow,
-                  " border h-[250px] border-text_A1A0A3 border-t-0": isShow,
+                  "footer-animation-list": isShow,
+                  " border max-h-[250px] border-text_A1A0A3 border-t-0": isShow,
                 }
               )}
-              // style={{
-              //   ["--footer-size" as string]: categories.length,
-              //   ["--height-li" as string]: "38px",
-              // }}
+              style={{
+                ["--footer-size" as string]: categories.length,
+                ["--height-li" as string]: "38px",
+              }}
               id="category-filter"
             >
               <InfiniteScroll
@@ -162,14 +162,14 @@ export const Header = memo(({ onChange, idCategory }: Props) => {
                     return (
                       <li
                         id={`category-${index}`}
-                        key={index}
+                        key={item.id}
                         onClick={() => {
                           childRef.handleShow();
                           handleChangeCategoryParent(Number(item.id));
                         }}
                         className={clsx(
-                          "h-[38px] relative list-category-item hover:bg-bg_rgba_103_203_248_1 px-[16px] flex justify-between items-center",
-                          { "bg-bg_rgba_103_203_248_1": active }
+                          "h-[38px] relative list-category-item hover:bg-slate-200 px-[16px] flex justify-between items-center",
+                          { "bg-slate-200": active }
                         )}
                       >
                         <button
@@ -198,10 +198,15 @@ export const Header = memo(({ onChange, idCategory }: Props) => {
               className={clsx(
                 " absolute left-[100%] z-[1] top-[100%] bg-white  overflow-y-auto list-facilities  w-0 text-_14 overflow-hidden h-0 ease-in duration-300",
                 {
-                  " border h-[250px] w-[301px] border-text_A1A0A3":
+                  "footer-animation-list": isShow,
+                  " border max-h-[250px] w-[301px] border-text_A1A0A3":
                     childRef.isShow && isShow,
                 }
               )}
+              style={{
+                ["--footer-size" as string]:  categories[indexParent]?.listCategoryChild?.length,
+                ["--height-li" as string]: "38px",
+              }}
             >
               {categories[indexParent]?.listCategoryChild?.map(
                 (item, index: number) => {
@@ -212,9 +217,9 @@ export const Header = memo(({ onChange, idCategory }: Props) => {
                         handleShow();
                         handleSelectCategorySub(index);
                       }}
-                      key={index}
+                      key={item.id}
                       className={clsx(
-                        "h-[38px] relative list-category-item px-[16px] hover:bg-bg_rgba_103_203_248_1 flex justify-between items-center",
+                        "h-[38px] relative list-category-item px-[16px] hover:bg-slate-200 flex justify-between items-center",
                         { "bg-bg_rgba_103_203_248_1": active }
                       )}
                       id={`category-child-${index}`}

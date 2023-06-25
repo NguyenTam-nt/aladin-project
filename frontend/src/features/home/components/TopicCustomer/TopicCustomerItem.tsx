@@ -19,16 +19,16 @@ export const TopicCustomerItem = memo(({ data }: Props) => {
       <div className="my-[16px]">
         <ICQuotation />
       </div>
-      <p className="text-_14 font-normal text-GreyPrimary line-clamp-5 leading-[22px]">
+      <div className="text-_14 overflow-y-auto list-facilities font-normal text-GreyPrimary line-clamp-5 leading-[22px]">
         {data?.comment}
-      </p>
+      </div>
       <div className="mt-auto flex items-center gap-x-2">
         <Avatar size={48} url={data?.linkGuest} name={data?.fullname} />
-        <div>
-          <p className="text-_16 font-semibold text-GreyPrimary">
+        <div className="flex-1">
+          <p className="text-_16 line-clamp-1 font-semibold text-GreyPrimary">
             {data?.fullname}
           </p>
-          <p className="text-_12 mt-1 font-normal text-text_secondary">
+          <p className="text-_12 mt-1 line-clamp-1 font-normal text-text_secondary">
             {data?.career}
           </p>
         </div>

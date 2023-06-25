@@ -7,7 +7,7 @@ import type { IResponseData } from "@typeRules/index";
 import type { IProduct } from "@typeRules/product";
 import { productService } from "@services/product";
 import { SIZE_DATA } from "@constants/index";
-import { useHandleLoading } from "../components/Loading";
+import { Loading, useHandleLoading } from "../components/Loading";
 import { useSearchParams } from "react-router-dom";
 import { useShowMessage } from "../components/DiglogMessage";
 
@@ -15,21 +15,22 @@ export const ProductAdmin = () => {
   const { currentPage, setCurrentPage } = usePagination();
   const [products, setProducts] = useState<IResponseData<IProduct>>();
   const { showLoading } = useHandleLoading();
+  const [loading, setLoading] = useState(false)
   const [searchParams, setSearchParam] = useSearchParams();
   const { showError, showSuccess } = useShowMessage();
   const [filterId, setFilterId] = useState<number | undefined>(() => {
-    const categoryChild = searchParams.get("categoryChild")
-    const categoryParent = searchParams.get("categoryParent")
-    if(categoryChild || categoryParent) {
-      if(categoryChild) {
-        if(typeof Number(categoryChild) === "number")
-          return Number(categoryChild)
-      }else {
-        if(typeof Number(categoryParent) === "number")
-         return Number(categoryParent)
+    const categoryChild = searchParams.get("categoryChild");
+    const categoryParent = searchParams.get("categoryParent");
+    if (categoryChild || categoryParent) {
+      if (categoryChild) {
+        if (typeof Number(categoryChild) === "number")
+          return Number(categoryChild);
+      } else {
+        if (typeof Number(categoryParent) === "number")
+          return Number(categoryParent);
       }
-    } 
-    return  undefined
+    }
+    return undefined;
   });
 
   const handleChangeCategory = (id: number) => {
@@ -41,9 +42,12 @@ export const ProductAdmin = () => {
   }, [currentPage, filterId]);
 
   const getProducts = (page: number, id?: number) => {
+    setLoading(true)
     productService.get({ page, size: SIZE_DATA, id }).then((data) => {
       setProducts(data);
-    });
+    }).finally(() => {
+      setLoading(false)
+    })
   };
 
   const totalPages = useMemo(() => {
@@ -88,9 +92,9 @@ export const ProductAdmin = () => {
   return (
     <>
       <Header idCategory={filterId} onChange={handleChangeCategory} />
+        {products?.list.length ?
       <div className="grid grid-cols-4 gap-[24px]">
-        {products?.list.length
-          ? products.list.map((item) => {
+          { products.list.map((item) => {
               return (
                 <ProductItem
                   onUpdate={handleUpdateData}
@@ -100,15 +104,18 @@ export const ProductAdmin = () => {
                 />
               );
             })
-          : null}
+          }
       </div>
-      <div className="flex justify-end">
-        <Pagination
-          currentPage={currentPage}
-          setCurrentPage={setCurrentPage}
-          totalPages={totalPages}
-        />
-      </div>
+          : (
+            loading ? <div className="flex items-center justify-center"><Loading /></div> : null
+          )}
+        <div className="flex justify-end">
+          <Pagination
+            currentPage={currentPage}
+            setCurrentPage={setCurrentPage}
+            totalPages={totalPages}
+          />
+        </div>
     </>
   );
 };

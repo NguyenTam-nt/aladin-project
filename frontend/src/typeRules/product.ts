@@ -21,7 +21,7 @@
 //     ]
 //   }
 
-import type { ICategoryItem } from "./category";
+import type { ICategory, ICategoryItem } from "./category";
 
 export interface CheckType {
   status: number;
@@ -59,4 +59,10 @@ export interface IProduct {
   linkMedia?: string;
   priority?: boolean;
   show?: boolean;
+}
+
+
+export interface IProductHome {
+  category: ICategory,
+  listProduct: IProduct[]
 }

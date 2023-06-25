@@ -66,11 +66,11 @@ export const ThanksCustomerItem = memo(
           </p>
           <div className="mt-[16px] flex items-center gap-x-2">
             <Avatar url={data?.linkGuest} size={48} name={data?.fullname} />
-            <div>
-              <p className="text-_16 font-semibold text-GreyPrimary">
+            <div className="flex-1">
+              <p className="text-_16 line-clamp-1 font-semibold text-GreyPrimary">
                 {data?.fullname}
               </p>
-              <p className="text-_12 mt-1 font-normal text-text_secondary">
+              <p className="text-_12 mt-1 line-clamp-1 font-normal text-text_secondary">
                 {data.career}
               </p>
             </div>
