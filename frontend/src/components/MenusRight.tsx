@@ -50,9 +50,13 @@ export const MenusRight = () => {
     >
       <button
         onClick={handleToggleItem}
-        className="h-[40px] 2xl:h-[54px] w-[223px] absolute  origin-[top_right] right-[calc(100%_+_40px)]  2xl:right-[calc(100%_+_54px)] gap-x-2 rotate-[-90deg] text-_18 text-text_white flex font-iCielBC_Cubano items-center justify-center px-[24px] rounded-[0_16px_0_0] bg-secondary"
+        className={
+          "h-[40px] 2xl:h-[54px] w-[223px] absolute  origin-[top_right] right-[calc(100%_+_40px)]  2xl:right-[calc(100%_+_54px)] gap-x-2 rotate-[-90deg] text-_18 text-text_white flex font-iCielBC_Cubano items-center justify-center px-[24px] rounded-[0_16px_0_0] bg-secondary"
+        }
       >
-        <ICArowDown color={Colors.text_white} />
+        <span className={clsx("rotate-[180deg]", {"rotate-[0deg]": isShow})}>
+          <ICArowDown color={Colors.text_white} />
+        </span>
         {t("common.choosed_menu")}
       </button>
       <div className=" w-[calc(100vw_-_40px)] _420:w-[356px] flex flex-col py-[24px] h-[450px] md:h-[500px] 3xl:h-[644px] bg-primary">

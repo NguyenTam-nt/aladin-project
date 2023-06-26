@@ -58,7 +58,7 @@ export const GroupStar = memo(() => {
     }
   }, [totalPage, currentPage, comment]);
 
-  return comment ? (
+  return comment && comment?.listComment?.list.length ? (
     <>
       <MenuDetailStar idParent={Number(params?.id)} data={comment} />
       <MenuDetailComment commnets={comment?.listComment?.list || []} />
