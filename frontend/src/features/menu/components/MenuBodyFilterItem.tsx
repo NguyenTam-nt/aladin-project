@@ -7,13 +7,17 @@ import React, { useState } from "react";
 type Props = {
   data: ICategory;
   onChangeParent: (id: number) => void;
-  onChangeChild: (id: number) => void;
+  onChangeChild: (id: number, idParent: number) => void;
+  indexChild: number;
+  isActive: boolean;
 };
 
 export const MenuBodyFilterItem = ({
   data,
   onChangeChild,
   onChangeParent,
+  indexChild,
+  isActive,
 }: Props) => {
   const [isShow, setIsShow] = useState(false);
 
@@ -25,7 +29,12 @@ export const MenuBodyFilterItem = ({
             setIsShow(!isShow);
             onChangeParent(Number(data.id));
           }}
-          className="text-_14 flex-1 flex justify-start  lg:text-_16 font-semibold"
+          className={clsx(
+            "text-_14 flex-1 flex justify-start  lg:text-_16 font-semibold",
+            {
+              " text-primary": isActive,
+            }
+          )}
         >
           {data?.name}
         </button>
@@ -62,13 +71,21 @@ export const MenuBodyFilterItem = ({
       >
         {!!data?.listCategoryChild &&
           data?.listCategoryChild.map((item, index) => {
+            const active = index === indexChild;
             return (
               <li
                 key={index}
-                onClick={() => onChangeChild(index)}
+                onClick={() => onChangeChild(index, Number(data.id))}
                 className="h-[32px] items-center"
               >
-                <button className="h-[24px] flex items-center text-[14px] hover:text-primary duration-300">
+                <button
+                  className={clsx(
+                    "h-[24px] flex items-center text-[14px] hover:text-primary duration-300",
+                    {
+                      "text-primary": active,
+                    }
+                  )}
+                >
                   {item.name}
                 </button>
               </li>

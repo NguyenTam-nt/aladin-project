@@ -4,7 +4,6 @@ import { MenuBodyFilterByCategory } from "./MenuBodyFilterByCategory";
 import { MenuBofyFilterBySort } from "./MenuBofyFilterBySort";
 import { MenuListData } from "./MenuListData";
 import { Pagination } from "@components/Paginnation";
-import { usePagination } from "@hooks/usePagination";
 import { windownSizeWidth, withResponsive } from "@constants/index";
 import { MenuBodyFilterMobile } from "./MenuBodyFilterMobile";
 import { useGetProduct } from "@features/dashboard/product/components/useGetProduct";
@@ -19,9 +18,8 @@ export const MenuBody = () => {
     currentPage,
     setCurrentPage,
     handleChangeSort,
-    sortId
+    sortId,
   } = useGetProduct();
-
 
   return (
     <div className="w-rp py-[40px] lg:py-[120px]">
@@ -33,19 +31,24 @@ export const MenuBody = () => {
         ) : null}
         <div className="flex-1">
           {windownSizeWidth > withResponsive._1024 ? (
-            <MenuBofyFilterBySort sort={sortId} onChangeSort={handleChangeSort} />
+            <MenuBofyFilterBySort
+              sort={sortId}
+              onChangeSort={handleChangeSort}
+            />
           ) : (
-            <MenuBodyFilterMobile />
+            <MenuBodyFilterMobile onChangeCategory={handleChangeCategory} />
           )}
           <MenuListData data={products?.list || []} />
-          <div className="flex lg:justify-end">
-            <Pagination
-              currentPage={currentPage}
-              totalPages={totalPages}
-              setCurrentPage={setCurrentPage}
-              limit={windownSizeWidth > withResponsive._1024 ? 5 : 4}
-            />
-          </div>
+          {totalPages > 1 ? (
+            <div className="flex lg:justify-end">
+              <Pagination
+                currentPage={currentPage}
+                totalPages={totalPages}
+                setCurrentPage={setCurrentPage}
+                limit={windownSizeWidth > withResponsive._1024 ? 5 : 4}
+              />
+            </div>
+          ) : null}
         </div>
       </div>
     </div>

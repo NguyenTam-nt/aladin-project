@@ -2,11 +2,10 @@ import React, { useEffect, useState } from "react";
 import { MenuDetailSlider } from "./MenuDetailSlider";
 import { MenuDetailInfo } from "./MenuDetailInfo";
 import { MenuDetailStar } from "./MenuDetailStar";
-import { MenuDetailComment } from "./MenuDetailComment";
 import type { IProduct } from "@typeRules/product";
 import { useParams } from "react-router-dom";
 import { productService } from "@services/product";
-
+import { GroupStar } from "./GroupStar";
 export const MenuDetailBody = () => {
   const [product, setProduct] = useState<IProduct>();
   const params = useParams();
@@ -31,8 +30,7 @@ export const MenuDetailBody = () => {
           percent={Number(product?.percent ?? 0)}
         />
       </div>
-      <MenuDetailStar />
-      <MenuDetailComment />
+      <GroupStar />
     </div>
   ) : null;
 };

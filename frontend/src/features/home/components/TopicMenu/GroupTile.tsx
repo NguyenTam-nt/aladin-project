@@ -15,9 +15,10 @@ import type { ICategoryItem } from "@typeRules/category";
 type Props = {
   title: string;
   listItem: ICategoryItem[];
+  idParent: number
 };
 
-export const GroupTile = ({ title, listItem = [] }: Props) => {
+export const GroupTile = ({ title, listItem = [], idParent }: Props) => {
   const { t } = useTranslation();
   return (
     <div className="flex flex-col md:flex-row justify-between md:items-center pb-[12px] md:pb-[16px] border-b border-text_A1A0A3">
@@ -25,10 +26,10 @@ export const GroupTile = ({ title, listItem = [] }: Props) => {
       {windownSizeWidth > withResponsive._768 ? (
         <div className="flex text-_16 mt-[16px] md:mt-0 font-semibold lg:text-_20 lg:font-bold gap-x-[32px] uppercase text-text_secondary">
           {listItem.map((item, index) => {
-            return <p key={index}>{item.name}</p>;
+            return <Link to={`${paths.memu.prefix}?category=${idParent}-${item?.id}`} key={index}>{item.name}</Link>;
           })}
           <Link
-            to={`${prefixRootRoute.public}/${paths.memu.prefix}`}
+            to={`${paths.memu.prefix}?category=${idParent}`}
             className="text-primary uppercase"
           >
             {t("button.see_all")}

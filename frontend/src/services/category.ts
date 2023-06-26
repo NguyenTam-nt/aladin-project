@@ -28,7 +28,7 @@ export const categoryService = {
         return HttpService.axiosClient.patch(`${apiAdmin}/${id}`)
     },
     getAll: ():Promise<ICategory[]> => {
-        return HttpService.axiosClient.get(`${apiAdmin}/select`)
+        return HttpService.axiosClient.get(`${api}/select`)
     },
     getAllPlace: ():Promise<PlaceType[]> => {
         const apiAdmin = getMicroService(`${apis.infrastructures}`, microServices.restaurant)

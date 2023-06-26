@@ -67,13 +67,16 @@ export const useCategoryFilter = ({ onChange, isAll = false }: Props) => {
     }
   };
 
-  const handleSelectCategorySub = (index: number) => {
+  const handleSelectCategorySub = (index: number, idParent:Number) => {
     setIndexChild(index);
-    const id = categories?.[indexParent]?.listCategoryChild?.[index]?.id;
-    onChange(Number(id));
-    setQueries("category", `${categories?.[indexParent].id}-${id}`);
-
-    setSearchParam(searchParams);
+    const parent = categories?.find(i => i.id === idParent)
+    if(parent) {
+      const id = parent?.listCategoryChild?.[index]?.id;
+      onChange(Number(id));
+      setQueries("category", `${parent.id}-${id}`);
+  
+      setSearchParam(searchParams);
+    }
   };
 
   return {

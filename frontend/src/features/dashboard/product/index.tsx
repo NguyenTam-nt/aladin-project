@@ -38,13 +38,15 @@ export const ProductAdmin = () => {
           <Loading />
         </div>
       ) : null}
-      <div className="flex justify-end">
-        <Pagination
-          currentPage={currentPage}
-          setCurrentPage={setCurrentPage}
-          totalPages={totalPages}
-        />
-      </div>
+      {totalPages > 1 ? (
+        <div className="flex justify-end">
+          <Pagination
+            currentPage={currentPage}
+            setCurrentPage={setCurrentPage}
+            totalPages={totalPages}
+          />
+        </div>
+      ) : null}
     </>
   );
 };
