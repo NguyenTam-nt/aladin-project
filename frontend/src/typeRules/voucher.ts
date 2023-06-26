@@ -45,3 +45,8 @@ export type IVoucherGet = {
   voucherState: string
 }
 
+
+export type VoucherCheckPriceDTO = {
+  code: string
+  price: number
+}

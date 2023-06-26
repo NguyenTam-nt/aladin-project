@@ -16,6 +16,7 @@
             "phone-length": "Số điện thoại phải đủ 10 số",
             "email": "Email không đúng định dạng",
             "enddateGreaterThanStartdate": "Thời gian kết thúc phải lớn hơn thời gian bắt đầu",
+            "greaterNow": "Thời gian phải bắt đầu từ bây giờ",
             "max": "Vui lòng nhập tối đa {{max}}} ký tự."
         },
         "actions": {

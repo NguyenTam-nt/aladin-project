@@ -13,6 +13,12 @@ function UploadInput({id, link, setFiles}: any) {
       setFiles(file)
     }
   }, [file])
+
+  useEffect(() => {
+    if(!preViewImage || preViewImage.length == 0) {
+      setFiles(null)
+    }
+  }, [preViewImage])
   
 
   return (

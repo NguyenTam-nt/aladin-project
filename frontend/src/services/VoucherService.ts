@@ -2,7 +2,7 @@ import HttpService from "@configs/api";
 import { getMicroService, getMicroServiceAdmin, microServices } from "./getMicroService";
 import type { IParams, IResponseData } from "@typeRules/index";
 import { apis } from "@constants/list-api";
-import type { IVoucher, IVoucherGet } from "@typeRules/voucher";
+import type { IVoucher, IVoucherGet, VoucherCheckPriceDTO } from "@typeRules/voucher";
 
 const api = getMicroService(`${apis.vouchers}`, microServices.restaurant)
 const apiAdmin = getMicroServiceAdmin(`${apis.vouchers}`, microServices.restaurant)
@@ -35,6 +35,14 @@ const VoucherService = {
     get_home: (params:IParams):Promise<IResponseData<IVoucher>> => {
 
         return HttpService.axiosClient.get(`${api}/home`, {params: {...params, page: Number(params.page) - 1}}) 
+    },
+    checkPrice: (request: VoucherCheckPriceDTO ):Promise<VoucherCheckPriceDTO> => {
+
+        return HttpService.axiosClient.patch(`${api}/check/home`, request) 
+    },
+    checkExist: (code: string ):Promise<any> => {
+
+        return HttpService.axiosClient.get(`${api}/check/${code}`) 
     }
 }
 

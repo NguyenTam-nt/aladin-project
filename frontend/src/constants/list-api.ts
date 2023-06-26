@@ -6,6 +6,7 @@ export const apis = {
     file: "upload-file",
     policy: "policy",
     contact: "contacts",
+    searchContact: "admin/_search/contacts",
     infrastructures: "infrastructures",
     thanksCustomer: "reviews",
     recruit: "recruits",
@@ -15,5 +16,6 @@ export const apis = {
     category: "categories",
     product: "products",
     vouchers: "vouchers",
+    bills: "bills",
     comment: "comments",
 }
