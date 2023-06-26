@@ -75,19 +75,29 @@ function PlaceAdminAdd() {
     validationSchema: Yup.object({
       name: Yup.string().required("message.form.required"),
       address: Yup.string().required("message.form.required"),
-      phone: Yup.string().required("message.form.required"),
+      phone:  Yup.string()
+      .trim()
+      .required("message.form.required")
+      .matches(
+        /^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/g,
+        "message.form.phone"
+      )
+      .length(10, "message.form.phone-length"),
       zalo: Yup.string().required("message.form.required"),
       linkMap: Yup.string().required("message.form.required"),
     }),
     onSubmit: async (data) => {
       try {
 
-        let isDes = placeItems[0].description == "" && placeItems[0].linkMediaFirst == "" 
-                  && placeItems[0].linkMediaSecond == "" && placeItems[0].linkMediaThird == "" 
-                  && placeItems[0].linkMediaFour == "" && placeItems[1].description == "" 
-                  && placeItems[1].linkMediaFirst == "" && placeItems[1].linkMediaSecond == "" 
-                  && placeItems[1].linkMediaThird == "" && placeItems[1].linkMediaFour == ""
-
+        let isDes = false
+        for(let i = 0; i < 2; i++) {
+          isDes = (!placeItems[i].description || placeItems[i].description == "") || 
+            (!placeItems[i].linkMediaFirst || placeItems[i].linkMediaFirst == "" ) ||
+            (!placeItems[i].linkMediaSecond || placeItems[i].linkMediaSecond == "" ) ||
+            (!placeItems[i].linkMediaThird || placeItems[i].linkMediaThird == "" ) ||
+            (!placeItems[i].linkMediaFour || placeItems[i].linkMediaFour == "" ) 
+          
+        }
         setIsDes(isDes)
         if(isDes) {
           return
@@ -113,23 +123,23 @@ function PlaceAdminAdd() {
           PlaceService
             .post(request)
             .then(() => {
-              showSuccess("customer.message_post_success");
-              // goBack();
+              showSuccess("adminPlace.notification.addSuccess");
+              goBack();
               formik.resetForm();
               setPlaceItems([defaultPlaceItem1, defaultPlaceItem2])
             })
             .catch(() => {
-              showError("message.actions.error.delete_banner");
+              showError("adminPlace.notification.addError");
             });
         } else {
           PlaceService
             .update(request)
             .then(() => {
-              showSuccess("customer.message_update_success");
+              showSuccess("adminPlace.notification.updateSuccess");
               goBack();
             })
             .catch(() => {
-              showError("message.actions.error.delete_banner");
+              showError("adminPlace.notification.updateError");
             });
         }
       } catch (error) {}
@@ -144,38 +154,40 @@ function PlaceAdminAdd() {
     setPlaceItems(placeItems.map((item, i) => {
       if(item.id == id) return {
         ...item,
-        description: value
+        description: value ? value : ""
       }
       return item
     }))
   }
 
   const handleSetFile = async (id: any, col: number, file: any) => {
-    
+    let link = ""
     if (file) {
       const formData = new FormData();
       formData.append("file", file);
       const images = await uploadService.postImage(formData);
-      let link = images.list?.[0].linkMedia || "";
+      link = images.list?.[0].linkMedia || "";
+      
+    } 
 
-      setPlaceItems(placeItems.map((item, i) => {
+    setPlaceItems(placeItems.map((item, i) => {
         
-        if(item.id == id) {
-          if(col == 0) {
-            item.linkMediaFirst = link
-          } else if(col == 1) {
-            item.linkMediaSecond = link
-          } else if(col == 2) {
-            item.linkMediaThird = link
-          } else if(col == 3) {
-            item.linkMediaFour = link
-          }
+      if(item.id == id) {
+        if(col == 0) {
+          item.linkMediaFirst = link
+        } else if(col == 1) {
+          item.linkMediaSecond = link
+        } else if(col == 2) {
+          item.linkMediaThird = link
+        } else if(col == 3) {
+          item.linkMediaFour = link
         }
-        return item
-      }))
-    }
+      }
+      return item
+    }))
   }
 
+  // console.log(placeItems);
   
 
   return (

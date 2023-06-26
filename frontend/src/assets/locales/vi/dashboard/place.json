@@ -23,11 +23,15 @@
         "input_describe": "Nhập mô tả"
       },
       "notification": {
-        "delete": "Bạn có chắc chắn xóa cơ sở này khỏi hệ thống?",
-        "deleteSuccess": "Xóa thành công",
-        "deleteError": "Xóa thất bại",
+        "addSuccess": "Thêm thông tin cơ sở thành công!",
+        "addError": "Thêm thông tin cơ sở thất bại!",
+        "updateSuccess": "Cập nhật thông tin cơ sở thành công!",
+        "updateError": "Cập nhật thông tin cơ sở thất bại!",
+        "delete": "Bạn có chắc chắn ẩn cơ sở này khỏi hệ thống?",
+        "deleteSuccess": "Cập nhật thành công!",
+        "deleteError": "Ẩn cơ sở thất bại",
         "active": "Bạn có chắc muốn hiện cơ sở này không?",
-        "activeSuccess": "Hiện cơ sở thành công",
+        "activeSuccess": "Cập nhật thành công!",
         "activeError": "Hiện cơ sở thất bại"
       }
   }

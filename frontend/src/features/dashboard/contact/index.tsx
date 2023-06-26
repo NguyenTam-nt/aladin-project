@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { TitleTopic } from '../home/components/TitleTopic'
 import { Button } from '../components/Button'
 import { ICAdd } from '@assets/icons/ICAdd'
@@ -16,14 +16,16 @@ import ModalResponseContact from './components/ModalResponseContact'
 import clsx from 'clsx'
 import ContactService from '@services/ContactService'
 import { SIZE_DATA } from '@constants/index'
-import type { IResponseData } from '@typeRules/index'
+import type { IParams, IResponseData } from '@typeRules/index'
 import type { IContact } from '@typeRules/contact'
 import { DiglogComfirmDelete } from '../components/DiglogComfirmDelete'
 import { useHandleLoading } from '../components/Loading'
 import { useShowMessage } from '../components/DiglogMessage'
 import MagnifyingGlass from '@assets/icons/MagnifyingGlass'
+import { debounce } from "lodash";
 
 function ContactAdmin() {
+  
   const { t } = useTranslation();
   const {setElementModal} = useModalContext()
   const [openFilterStatus, setOpenFilterStatus] = useState(false)
@@ -41,9 +43,34 @@ function ContactAdmin() {
     getContactData(Number(1))
   }, [])
 
+
+  const debounceDropDown = useCallback(
+    debounce((params: any) => searchListNew(params), 700),
+    []
+  );
+
   useEffect(() => {
+    if (keyword != "") {
+      const searchParams = {
+        query: "*" + keyword + "*",
+        page: 0,
+        size: SIZE_DATA,
+      };
+      debounceDropDown(searchParams);
+      return;
+    }
+    debounceDropDown.cancel();
     getContactData(Number(1))
-  }, [descId, filterStatus])
+  }, [descId, filterStatus, keyword])
+
+  const searchListNew = async (params: IParams) => {
+    try {
+      const response =
+        await ContactService.search(params);
+        setContacts(response);
+    } catch (error) {
+    }
+  };
 
   const getContactData = async (page:number) => {
     try {
@@ -100,7 +127,7 @@ function ContactAdmin() {
           <div className="flex-1 relative">
               <input
                 type="text"
-                value={keyword} onChange={e => setKeyword(e.target.value)}
+                value={keyword} onChange={e => setKeyword(e.target.value)} 
                 className="w-full border border-[#CFCFCF] bg-transparent py-3 pl-12  font-normal text-sm leading-22"
                 placeholder={t("adminContact.search_placehoder") as string}
               />

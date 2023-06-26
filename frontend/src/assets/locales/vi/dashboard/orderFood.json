@@ -1,6 +1,7 @@
 {
   "adminOrderFood": {
     "title": "Quản lý đơn đặt món",
+    "searchPlaceholder": "Tìm kiếm theo Mã đơn hàng  \\ Họ và tên \\ Số điện thoại",
     "table": {
       "code": "Mã đơn hàng",
       "fullname": "Họ và tên",
@@ -9,7 +10,8 @@
       "hour": "Giờ",
       "status": "Trạng thái",
       "cancel": "Đã hủy",
-      "done": "Hoàn thành"
+      "done": "Hoàn thành",
+      "wait": "Chờ xác nhận"
     },
     "detail": {
       "title": "Đơn đặt món: ",

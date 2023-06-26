@@ -25,6 +25,7 @@
     "add": {
       "title": "Thông tin cơ bản",
       "secondTitle": "Thiết lập mã giảm giá",
+      "errorCode": "Mã voucher không trùng nhau",
       "form": {
         "name": "Tên chương trình giảm giá",
         "inputName": "Tên voucher chỉ hiển thị trong màn quản lý",
@@ -51,6 +52,10 @@
       }
     },
     "notification": {
+      "addSuccess": "Thêm voucher thành công!",
+      "addError": "Thêm voucher thất bại!",
+      "updateSuccess": "Cập nhật voucher thành công!",
+      "updateError": "Cập nhật voucher thất bại!",
       "delete": "Bạn có chắc chắn xóa voucher này khỏi hệ thống?",
       "stop": "Bạn có chắc chắn muốn kết thúc chương trình này không?",
       "deleteSuccess": "Xóa thành công",

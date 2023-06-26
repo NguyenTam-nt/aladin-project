@@ -1,15 +1,13 @@
 import { prefixRootRoute } from "@constants/index";
 import { pathsAdmin } from "@constants/routerManager";
 import { useModalContext } from "@contexts/hooks/modal";
+import { ModalConfirm } from "@features/dashboard/place/components/ModalConfirm";
 import { Button } from "@features/dashboard/components/Button";
 import { DiglogComfirmDelete } from "@features/dashboard/components/DiglogComfirmDelete";
-import { useShowMessage } from "@features/dashboard/components/DiglogMessage";
-import { useHandleLoading } from "@features/dashboard/components/Loading";
 import type { PlaceType } from "@typeRules/place";
 import clsx from "clsx";
 import React from "react";
 import { useNavigate } from "react-router";
-import { ModalConfirm } from "./ModalConfirm";
 
 type Props = {
   data: PlaceType
@@ -51,19 +49,21 @@ export const PlaceItem = ({data, onDelete, onActive}: Props) => {
   };
 
   return (
-    <div className={clsx("h-auto flex flex-col p-4 bg-white", {
+    <div className={clsx("h-auto flex flex-col justify-between p-4 bg-white", {
       " ": !data.status
     })}>
-      <p className={clsx(" text-_16 font-semibold text-text_black line-clamp-2", {
-      "opacity-30": !data.status
-    })}>
-        {data.name}
-      </p>
-      <p className={clsx(" line-clamp-1 mt-1 text-_14 mr-4 text-text_secondary", {
+      <div className="">
+        <p className={clsx(" text-_16 font-semibold text-text_black line-clamp-2", {
         "opacity-30": !data.status
       })}>
-        {data.phone}
-      </p>
+          {data.name}
+        </p>
+        <p className={clsx(" line-clamp-1 mt-1 text-_14 mr-4 text-text_secondary", {
+          "opacity-30": !data.status
+        })}>
+          {data.phone}
+        </p>
+      </div>
       <div className="mt-4">
         <Button color="empty" className={clsx("", {
             "opacity-30 hover:opacity-30": !data.status

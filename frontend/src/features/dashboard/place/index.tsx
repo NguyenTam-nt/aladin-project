@@ -59,17 +59,7 @@ export const PlaceAdmin = () => {
     PlaceService
       .delete(id)
       .then(() => {
-        const data = [...placeResponse!.list];
-        const index = data.findIndex((item) => item.id == id);
-        data.splice(index, 1);
-          if(Number(currentPage) >= totalPage && data.length <= 0) {
-            let page = currentPage
-            page = page - 1
-            setSearchParam({page: `${page}`})
-            setCurrentPage(page)
-          }else {
-            getPlaceData(Number(currentPage))
-          }
+          getPlaceData(Number(currentPage))
          showSuccess("adminPlace.notification.deleteSuccess");
       })
       .catch(() => {
@@ -82,17 +72,7 @@ export const PlaceAdmin = () => {
     PlaceService
       .delete(id)
       .then(() => {
-        const data = [...placeResponse!.list];
-        const index = data.findIndex((item) => item.id == id);
-        data.splice(index, 1);
-          if(Number(currentPage) >= totalPage && data.length <= 0) {
-            let page = currentPage
-            page = page - 1
-            setSearchParam({page: `${page}`})
-            setCurrentPage(page)
-          }else {
-            getPlaceData(Number(currentPage))
-          }
+          getPlaceData(Number(currentPage))
          showSuccess("adminPlace.notification.activeSuccess");
       })
       .catch(() => {
