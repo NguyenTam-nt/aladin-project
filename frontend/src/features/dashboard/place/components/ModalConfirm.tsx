@@ -1,5 +1,4 @@
 import { ICClear } from "@assets/icons/ICClear";
-import { ICDeleteTrashLight } from "@assets/icons/ICDeleteTrashLight";
 import { ICRequest } from "@assets/icons/ICRequest";
 import { useModalContext } from "@contexts/hooks/modal";
 import { Button } from "@features/dashboard/components/Button";

@@ -29,13 +29,14 @@ function VoucherAdd() {
   const [isLimit, setIsLimit] = useState(true)
 
   const [voucher, setVoucher] = useState<IVoucher>();
+  const [isVoucherExisted, setIsVoucherExisted] = useState<boolean>(false);
 
   const isAdd = useMemo(() => {
     return !params.id;
   }, []);
   
   const isView = useMemo(() => {
-    return !!searchParams.get('view');
+    return searchParams.get('view') == "true";
   }, []);
 
   useEffect(() => {
@@ -105,32 +106,45 @@ function VoucherAdd() {
         // console.log(request);
       
         if (isAdd) {
+
           VoucherService
-            .post(request)
-            .then(() => {
-              showSuccess("customer.message_post_success");
-              // goBack();
-              formik.resetForm();
-            })
-            .catch(() => {
-              showError("message.actions.error.delete_banner");
-            });
+          .checkExist(data.code)
+          .then(() => {
+            callApiAddVoucher(request)
+            
+          })
+          .catch((error) => {
+            setIsVoucherExisted(true)
+          });
+
+          
         } else {
           VoucherService
             .update(request)
             .then(() => {
-              showSuccess("customer.message_update_success");
+              showSuccess("adminVoucher.notification.updateSuccess");
               goBack();
             })
             .catch(() => {
-              showError("message.actions.error.delete_banner");
+              showError("adminVoucher.notification.updateError");
             });
         }
       } catch (error) {}
     },
   });
 
-  console.log(formik.values);
+  const callApiAddVoucher = (request: IVoucher) => {
+    VoucherService
+      .post(request)
+      .then(() => {
+        showSuccess("adminVoucher.notification.addSuccess");
+        goBack();
+        formik.resetForm();
+      })
+      .catch((error) => {
+        showError("adminVoucher.notification.addError");
+      });
+  }
   
 
   const goBack = () => {
@@ -164,9 +178,10 @@ function VoucherAdd() {
              onBlur={formik.handleBlur}
              disabled={isView}
           />
-          {formik.errors.code && formik.touched.code && (
+          {formik.errors.code && formik.touched.code &&  (
             <TextError message={formik.errors.code} />
           )}
+          {isVoucherExisted && <TextError message={"adminVoucher.add.errorCode"} />}
         </div>
         <div className="col-span-1">
           <TitleInput isRequired={true} name={"adminVoucher.add.form.time"} />

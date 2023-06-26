@@ -1,15 +1,40 @@
 import { ICDeleteTrash } from '@assets/icons/ICDeleteTrash'
+import { ICDeleteVoucher } from '@assets/icons/ICDeleteVoucher'
 import { ICTicketDiscount } from '@assets/icons/ICTicketDiscount'
+import { formatNumberDotWithVND } from '@commons/formatMoney'
 import TitleOfContent from '@components/TitleOfContent'
 import { paths } from '@constants/routerPublic'
 import { Banner } from '@features/contact/components/Banner'
-import React from 'react'
+import VoucherService from '@services/VoucherService'
+import type { VoucherCheckPriceDTO } from '@typeRules/voucher'
+import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 
 function index() {
   const { t } = useTranslation();
   const navigate = useNavigate()
+
+  const [voucher, setVoucher] = useState("")
+  const [validVoucher, setValidVoucher] = useState<VoucherCheckPriceDTO>()
+
+  const checkVoucher = () => {
+
+    let request: VoucherCheckPriceDTO = {
+      code: voucher,
+      price: 1000000000
+    }
+
+    VoucherService
+      .checkPrice(request)
+      .then((res) => {
+        setValidVoucher(res)
+      })
+      .catch((error) => {
+        console.log(error);
+        
+      });
+  }
 
   return (
     <div>
@@ -21,12 +46,12 @@ function index() {
           <div className="mt-4 lg:mt-10 hidden lg:block">
             <table className='w-full '>
               <tr className='py-4'>
-                <th className='py-4 text-left pr-6'>STT</th>
-                <th className='py-4 text-left pr-6'>Sản phẩm</th>
-                <th className='py-4 text-left pr-6 whitespace-nowrap'>Số lượng</th>
-                <th className='py-4 text-left pr-6 whitespace-nowrap'>Đơn giá (VNĐ)</th>
-                <th className='py-4 text-left pr-6 whitespace-nowrap'>Tổng giá</th>
-                <th className='py-4 text-left'>Xóa</th>
+                <th className='py-4 text-left pr-6'>{t("order_food.table.stt")}</th>
+                <th className='py-4 text-left pr-6'>{t("order_food.table.product")}</th>
+                <th className='py-4 text-left pr-6 whitespace-nowrap'>{t("order_food.table.amount")}</th>
+                <th className='py-4 text-left pr-6 whitespace-nowrap'>{t("order_food.table.unit")}</th>
+                <th className='py-4 text-left pr-6 whitespace-nowrap'>{t("order_food.table.total")}</th>
+                <th className='py-4 text-left'>{t("order_food.table.delete")}</th>
               </tr>
               {
                 [1,2,3].map((item: any, idx: any) => {
@@ -136,13 +161,15 @@ function index() {
                 </div>
                 <div className="">
                   <input
-                    type="text"
+                    type="text" value={voucher} onChange={e => setVoucher(e.target.value)}
                     className="h-[26px] w-full placeholder:text-sm outline-none !border-text_A1A0A3 text-text_primary placeholder:text-text_A1A0A3 bg-transparent"
                     placeholder={t("order_food.input_placeholder") as string}
                   />
                 </div>
               </div>
-              <div className="font-bold text-sm text-secondary cursor-pointer">
+              <div className="font-bold text-sm text-secondary cursor-pointer select-none"
+                onClick={checkVoucher}
+              >
                 {t("order_food.input_btn") as string}
               </div>
             </div>
@@ -150,28 +177,30 @@ function index() {
               <h4 className='text-base '>Tạm tính</h4>
               <span className='text-base font-semibold text-secondary'>165.000 VNĐ</span>
             </div>
+            {
+              validVoucher && 
+              <div className="py-6 border-b border-b-br_CBCBCB flex items-center justify-between">
+                <div className="flex items-center ">
+                  <ICDeleteVoucher />
+                  <h4 className='text-base ml-3'>{t("order_food.voucher")}: {validVoucher.code}</h4>  
+                </div>
+                <span className='text-base font-semibold text-secondary'>{formatNumberDotWithVND(0 - validVoucher.price)}</span>
+              </div>
+            }
             <div className="py-6 border-b border-b-br_CBCBCB flex items-center justify-between">
-              <h4 className='text-base '>Mã giảm giá: SALEOFF35</h4>
-              <span className='text-base font-semibold text-secondary'>-25.000 VNĐ</span>
-            </div>
-            <div className="py-6 border-b border-b-br_CBCBCB flex items-center justify-between">
-              <h4 className='text-base '>Mã giảm giá: GIAMGIA55</h4>
-              <span className='text-base font-semibold text-secondary'>-25.000 VNĐ</span>
-            </div>
-            <div className="py-6 border-b border-b-br_CBCBCB flex items-center justify-between">
-              <h4 className='text-base '>Tổng cộng (Chưa có VAT)</h4>
+              <h4 className='text-base '>{t("order_food.total")}</h4>
               <span className='text-base font-semibold text-red_error'>140.000 VNĐ</span>
             </div>
             <div className="flex flex-wrap lg:flex-nowrap items-center justify-center gap-6 mt-6 lg:mt-10">
               <button className="w-full lg:w-spc167 lg:flex-1 radius-tl-br16  py-3 text-center text-sm leading-5 font-bold border border-primary text-primary"
                 onClick={() => navigate(paths.memu.prefix)}
               >
-               Tiếp tục mua hàng
+                {t("order_food.continue_choose")}
               </button>
               <button className="w-full lg:w-spc167 lg:flex-1 radius-tl-br16 py-3 text-center text-sm leading-5 font-bold bg-primary text-white"
                 onClick={() => navigate(paths.orderFood.info)}
               >
-                Thanh toán
+                 {t("order_food.payment_title")}
               </button>
             </div>
           </div>

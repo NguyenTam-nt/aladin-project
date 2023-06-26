@@ -26,6 +26,7 @@ function AboutUsItem({item, idx}: Props) {
     
   }, [collapseMenuRef, collapseMenuRef.current])
 
+  console.log(maxHeight);
 
 
   return (
@@ -56,23 +57,23 @@ function AboutUsItem({item, idx}: Props) {
               return <div className="" key={item.id}>
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 py-6">
                   <img 
-                    className="w-full  h-full object-cover rounded-tl-r32 rounded-br-r32"
+                    className="w-full  h-[392px] object-cover rounded-tl-r32 rounded-br-r32"
                     src={item.linkMediaFirst}
                     alt="infrastructure"
                   />
                   <img 
-                    className="w-full  h-full object-cover rounded-tl-r32 rounded-br-r32"
-                    src={item.linkMediaFirst}
+                    className="w-full  h-[392px] object-cover rounded-tl-r32 rounded-br-r32"
+                    src={item.linkMediaSecond}
                     alt="infrastructure"
                   />
                   <img 
-                    className="w-full  h-full object-cover rounded-tl-r32 rounded-br-r32"
-                    src={item.linkMediaFirst}
+                    className="w-full  h-[392px] object-cover rounded-tl-r32 rounded-br-r32"
+                    src={item.linkMediaThird}
                     alt="infrastructure"
                   />
                   <img 
-                    className="w-full  h-full object-cover rounded-tl-r32 rounded-br-r32"
-                    src={item.linkMediaFirst}
+                    className="w-full  h-[392px] object-cover rounded-tl-r32 rounded-br-r32"
+                    src={item.linkMediaFour}
                     alt="infrastructure"
                   />
 

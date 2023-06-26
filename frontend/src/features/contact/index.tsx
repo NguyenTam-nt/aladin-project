@@ -7,6 +7,7 @@ import bgContact from "@assets/images/contact/bg-contact.jpg";
 import AddressContactSession from "./components/AddressContactSession";
 import { TopicPlace } from "@features/home/components/TopicPlace";
 import { paths } from "@constants/routerPublic";
+import { TitleTopic } from "@features/home/components/TitleTopic";
 
 const ContactPage = () => {
   return (
@@ -15,7 +16,7 @@ const ContactPage = () => {
       <div className="w-full h-full">
         <div className=" pt-10 lg:pt-[138px] h-full pb-[112px]">
           <div className="w-rp">
-            <TitleOfContent name="contact.title" />
+            <TitleTopic title="contact.title" />
             <ContactForm />
           </div>
 

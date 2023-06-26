@@ -3,7 +3,19 @@
       "title": "Đơn hàng",
       "payment_title": "Thanh toán",
       "input_placeholder": "Nhập mã giảm giá",
-      "input_btn": "Áp dụng"
+      "input_btn": "Áp dụng",
+      "voucher": "Mã giảm giá",
+      "total": "Tổng cộng (Chưa có VAT)",
+      "continue_choose": "Tiếp tục mua hàng",
+      "order": "Gửi đơn hàng",
+      "table": {
+        "stt": "STT",
+        "product": "Sản phẩm",
+        "amount": "Số lượng",
+        "unit": "Đơn giá (VNĐ)",
+        "total": "Tổng giá",
+        "delete": "Xóa"
+      }
   },
   "order_food_info": {
     "title": "Thông tin Đơn đặt hàng",

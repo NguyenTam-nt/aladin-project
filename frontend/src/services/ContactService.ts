@@ -5,6 +5,7 @@ import { apis } from "@constants/list-api";
 import type { IContact } from "@typeRules/contact";
 
 const api = getMicroService(`${apis.contact}`, microServices.feedback)
+const pathSearch = getMicroService(`${apis.searchContact}`, microServices.feedback)
 const apiAdmin = getMicroServiceAdmin(`${apis.contact}`, microServices.feedback)
 const ContactService = {
     get: (params:any):Promise<IResponseData<IContact>> => {
@@ -22,7 +23,10 @@ const ContactService = {
     },
     deleteAll: (ids: any[]) => {
       return HttpService.axiosClient.delete(`${apiAdmin}`, { data: ids})
-  },
+    },
+    search: async(params: IParams): Promise<IResponseData<IContact>> => {
+        return await HttpService.axiosClient.get(pathSearch, {params});
+    },
 }
 
 export default ContactService;

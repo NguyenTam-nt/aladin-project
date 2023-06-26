@@ -1,23 +1,43 @@
+import { ICClear } from '@assets/icons/ICClear';
+import { formatNumberDotWithVND } from '@commons/formatMoney';
 import TitleInput from '@components/TitleInput';
+import { FomatDateYY_MM_DD } from '@constants/formatDateY_M_D';
+import { fornatDateHour } from '@constants/fornatDateHour';
+import { useModalContext } from '@contexts/hooks/modal';
 import { Button } from '@features/dashboard/components/Button';
 import { Input } from '@features/dashboard/components/Input';
 import { Textarea } from '@features/dashboard/components/Textarea';
-import React from 'react'
+import BillService from '@services/BillService';
+import { BillTypeContants, IBillProduct, type IBill, type IBillDetail } from '@typeRules/bill';
+import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next';
 
 type Props = {
-  data: any
+  idBill: number
 }
 
-function ModalOrderFoodDetail({data}: Props) {
+function ModalOrderFoodDetail({idBill}: Props) {
   const { t } = useTranslation();
+  const { hideModal } = useModalContext();
+  const [bill, setBill] = useState<IBillDetail>()
+
+  useEffect(() => {
+    BillService.getById(idBill)
+    .then(res => {
+      setBill(res)
+    })
+  }, [idBill])
+  
 
   return (
     <div className="w-[1144px] h-auto bg-white py-10 px-6">
+      <button onClick={hideModal} className="text-text_7E8B99 absolute top-[24px] text-_16 right-[24px]">
+       <ICClear />
+      </button>
       <div className="text-center mb-10 flex justify-center items-center gap-2">
         <h2 className='text-_32 font-bold text-text_primary'>{t("adminOrderFood.detail.title") } </h2>
-        <span className='text-_32 text-text_primary '>Giangmy123 </span>
-        <span className='text-text_A1A0A3'>20/03/2023</span>
+        <span className='text-_32 text-text_primary '>{bill && bill.id} </span>
+        <span className='text-text_A1A0A3'>{bill && FomatDateYY_MM_DD(bill.createdDate)}</span>
       </div>
       <div className="mt-10">
         <h2 className='text-_20 font-bold text-text_primary'>{t("adminOrderFood.detail.titleInfo") } </h2>
@@ -25,37 +45,41 @@ function ModalOrderFoodDetail({data}: Props) {
           <div className="">
             <div className="py-2 text-text_primary">
               <span className='text-_14 font-bold mr-1'>{t("form.name")}:</span>
-              <span className='text-_14'>Cuongnm</span>
+              <span className='text-_14'>{bill && bill.fullname}</span>
             </div>
             <div className="py-2 text-text_primary">
               <span className='text-_14 font-bold mr-1'>{t("form.email")}:</span>
-              <span className='text-_14'>cuongnm@aladintech.co</span>
+              <span className='text-_14'>{bill && bill.email}</span>
             </div>
             <div className="py-2 text-text_primary">
               <span className='text-_14 font-bold mr-1'>{t("form.day")}:</span>
-              <span className='text-_14'>20/06/2023</span>
+              <span className='text-_14'>{bill && FomatDateYY_MM_DD(bill.chooseDate)}</span>
             </div>
             <div className="py-2 text-text_primary">
               <span className='text-_14 font-bold mr-1'>{t("form.place")}:</span>
-              <span className='text-_14'>Cơ sở 1, số 75, Hồ Tùng Mậu, Mai Dịch</span>
+              <span className='text-_14'>{bill && bill?.infrastructure}</span>
             </div>
             <div className="py-2 text-text_primary">
               <span className='text-_14 font-bold mr-1'>{t("form.note")}:</span>
-              <span className='text-_14'>Bạn xếp mình vị trí thoáng nhé</span>
+              <span className='text-_14'>{bill && bill?.note}</span>
             </div>
           </div>
           <div className="">
             <div className="py-2 text-text_primary">
               <span className='text-_14 font-bold mr-1'>{t("form.phoneNumber")}:</span>
-              <span className='text-_14'>09123456789</span>
+              <span className='text-_14'>{bill && bill?.phone}</span>
             </div>
             <div className="py-2 text-text_primary">
               <span className='text-_14 font-bold mr-1'>{t("form.method")}:</span>
-              <span className='text-_14'>Đóng gói mang về</span>
+              <span className='text-_14'>
+                {
+                  bill && BillTypeContants.pack == bill.type ? t("form.method2")  : t("form.method1")
+                }
+              </span>
             </div>
             <div className="py-2 text-text_primary">
               <span className='text-_14 font-bold mr-1'>{t("form.hour")}:</span>
-              <span className='text-_14'>10:20 AM</span>
+              <span className='text-_14'>{bill && fornatDateHour(bill.chooseDate)}</span>
             </div>
           </div>
         </div>
@@ -66,15 +90,15 @@ function ModalOrderFoodDetail({data}: Props) {
 
         <table className='w-fit '>
           <tr className='py-4'>
-            <th className='py-4 text-left pr-6'>STT</th>
-            <th className='py-4 text-left pr-6'>Sản phẩm</th>
-            <th className='py-4 text-left pr-6 whitespace-nowrap'>Số lượng</th>
-            <th className='py-4 text-left pr-6 whitespace-nowrap'>Đơn giá (VNĐ)</th>
-            <th className='py-4 text-left pr-6 whitespace-nowrap'>Tổng giá</th>
+            <th className='py-4 text-left pr-6'>{t("order_food.table.stt")}</th>
+            <th className='py-4 text-left pr-6'>{t("order_food.table.product")}</th>
+            <th className='py-4 text-left pr-6 whitespace-nowrap'>{t("order_food.table.amount")}</th>
+            <th className='py-4 text-left pr-6 whitespace-nowrap'>{t("order_food.table.unit")}</th>
+            <th className='py-4 text-left pr-6 whitespace-nowrap'>{t("order_food.table.total")}</th>
           </tr>
           {
-            [1,2,3].map((item: any, idx: any) => {
-              return <tr className='border-t border-t-br_CBCBCB items-center' key={idx}>
+            bill && bill.listProduct.map((item: IBillProduct, idx: any) => {
+              return <tr className='border-t border-t-br_CBCBCB items-center' key={item.id}>
               <td className='py-4  pr-6'>{idx + 1}</td>
               <td className='py-4  pr-6 flex items-center justify-start gap-4'>
                 <div className="w-10 h-10 flex-shrink-0">
@@ -84,12 +108,12 @@ function ModalOrderFoodDetail({data}: Props) {
                     alt="iamge order food"
                   />
                 </div>
-                <span className='line-clamp-1'>Combo 2 Người lớn ăn thả Combo 2 Người lớn ăn thả Combo 2 Người lớn ăn thả</span>
+                <span className='line-clamp-1'>{item.name}</span>
               </td>
               <td className='py-4  pr-6'>
                 <div className="flex items-center justify-start gap-4">
                   <div className="text-[13px] font-bold">
-                    x1
+                    x{item.num}
                   </div>
                 </div>
               </td>
@@ -101,7 +125,7 @@ function ModalOrderFoodDetail({data}: Props) {
                 </div>
               </td>
               <td className='py-4  pr-6'>
-                <div className='text-sm text-secondary'>600.000</div>
+                <div className='text-sm text-secondary'>{item.price}</div>
               </td>
             </tr>
             })
@@ -121,18 +145,13 @@ function ModalOrderFoodDetail({data}: Props) {
 
           <div className="flex ">
             <span className='text-_14 text-text_primary font-bold mr-1 text-left'>{t("adminOrderFood.detail.payment.codeDiscount")}</span>
-            <span className='text-_14 text-primary font-bold uppercase'>GIANGMY123</span>
+            <span className='text-_14 text-primary font-bold uppercase'>{bill && bill.voucher.code}</span>
           </div>
-          <span className='text-_14  text-right'>-25.000 VNĐ</span>
-
-          <div className="flex ">
-            <span className='text-_14 text-text_primary font-bold mr-1 text-left'>{t("adminOrderFood.detail.payment.codeDiscount")}</span>
-            <span className='text-_14 text-primary font-bold uppercase'>GIANGMY123</span>
-          </div>
-          <span className='text-_14  text-right'>-25.000 VNĐ</span>
+          <span className='text-_14  text-right'>{bill && formatNumberDotWithVND(0 - bill.voucher.price)}</span>
+          
           
           <span className='text-_14 text-text_primary font-bold mr-1 text-left'>{t("adminOrderFood.detail.payment.totalOrder")}</span>
-          <span className='text-_14 font-bold text-text_red text-right'>140.000 VNĐ</span>
+          <span className='text-_14 font-bold text-text_red text-right'>{bill&& formatNumberDotWithVND(bill.priceAll)}</span>
         </div>
       </div>
     </div>

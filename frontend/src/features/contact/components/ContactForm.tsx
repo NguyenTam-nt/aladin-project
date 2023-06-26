@@ -151,7 +151,7 @@ function ContactForm() {
       </div>
       <div className="flex items-center justify-start mt-9">
         <button type="submit" className="radius-tl-br16 w-spc167 py-3.5 text-center text-sm leading-5 font-bold bg-primary text-white">
-          {t("contact.title")}
+          {t("contact.contactBtn")}
         </button>
       </div>
     </form>
