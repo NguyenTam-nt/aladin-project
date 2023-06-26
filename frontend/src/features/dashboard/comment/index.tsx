@@ -11,7 +11,7 @@ import { CommentItem } from "./components/CommentItem";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { useClickOutItem } from "@hooks/useClickOutItem";
 import { useSearchParamHook } from "@hooks/useSearchParam";
-import type { IComment } from "@typeRules/comment";
+import type { IComment, ICommentChild } from "@typeRules/comment";
 import { commentService } from "@services/comment";
 import { SIZE_DATA } from "@constants/index";
 import { Loading } from "../components/Loading";
@@ -131,11 +131,13 @@ export const CommentAdmin = () => {
   };
 
   const handleEdit = useCallback(
-    (data: IComment) => {
+    (data: ICommentChild) => {
       const newData = [...comments];
-      const index = newData.findIndex((item) => item.id === data.id);
-      newData.splice(index, 1, data);
-      setComments([...newData]);
+      const index = newData.findIndex((item) => item.id === data.idParent);
+      if (index !== -1) {
+        newData[index].commentAdmin = data;
+        setComments([...newData]);
+      }
     },
     [comments]
   );
@@ -144,8 +146,10 @@ export const CommentAdmin = () => {
     (id: number) => {
       const newData = [...comments];
       const index = newData.findIndex((item) => item.id === id);
-      newData.splice(index, 1);
-      setComments([...newData]);
+      if(index !== -1) {
+        newData.splice(index, 1);
+        setComments([...newData]);
+      }
     },
     [comments]
   );

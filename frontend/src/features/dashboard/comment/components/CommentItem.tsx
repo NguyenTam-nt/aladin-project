@@ -15,14 +15,14 @@ import { ReplyModal } from "./ReplyModal";
 import { DiglogComfirmDelete } from "@features/dashboard/components/DiglogComfirmDelete";
 import { ICRequest } from "@assets/icons/ICRequest";
 import { ModalConfirm } from "./ModalConfirm";
-import type { IComment } from "@typeRules/comment";
+import type { IComment, ICommentChild } from "@typeRules/comment";
 import { useShowMessage } from "@features/dashboard/components/DiglogMessage";
 import { useHandleLoading } from "@features/dashboard/components/Loading";
 import { commentService } from "@services/comment";
 
 type Props = {
   data: IComment;
-  onEdit: (data:IComment) => void
+  onEdit: (data:ICommentChild) => void
   onDelete: (id:number) => void
 };
 
@@ -33,7 +33,7 @@ export const CommentItem = memo(({ data, onDelete, onEdit }: Props) => {
   const {showLoading} = useHandleLoading()
 
   const handleShowModal = () => {
-    setElementModal(<ReplyModal onUpdate={handleSubmitEdit} data={data}  />);
+    setElementModal(<ReplyModal onUpdate={onEdit} data={data}  />);
   };
   const handleShowModalDelete = () => {
     setElementModal(
@@ -47,18 +47,18 @@ export const CommentItem = memo(({ data, onDelete, onEdit }: Props) => {
     setElementModal(<ModalConfirm onClick={handleSubmitPD} />);
   };
 
-  const handleSubmitEdit = () => {
-    showLoading()
-    commentService
-      .update(data)
-      .then((data) => {
-        onEdit(data)
-        showSuccess("message.actions.success.update");
-      })
-      .catch(() => {
-        showError("message.error._error");
-      })
-  };
+  // const handleSubmitEdit = () => {
+  //   showLoading()
+  //   commentService
+  //     .update(data)
+  //     .then((data) => {
+  //       onEdit(data)
+  //       showSuccess("message.actions.success.update");
+  //     })
+  //     .catch(() => {
+  //       showError("message.error._error");
+  //     })
+  // };
 
   const handleSubmitPD = () => {
     showLoading()

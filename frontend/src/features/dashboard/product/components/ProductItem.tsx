@@ -94,9 +94,9 @@ export const ProductItem = memo(({ data, onDelete, onUpdate }: Props) => {
   return (
     <div className=" bg-white flex flex-col h-[524px]">
       <div className="relative h-[288px]">
-        {data?.percent ? (
+        {Number(data?.percent) > 0 ? (
           <DiscountItem
-            discount={Number(Number(data?.percent).toFixed(1) || 0)}
+            discount={Math.ceil(data?.percent || 0)}
           />
         ) : null}
         <div className="flex absolute top-[20px] right-[20px] z-[1]  items-center gap-x-[18px]">

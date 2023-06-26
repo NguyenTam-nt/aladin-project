@@ -15,6 +15,8 @@ export const MenuBodyFilterByCategory = memo(
       handleChangeCategoryParent,
       handleSelectCategorySub,
       categories,
+      indexChild,
+      indexParent,
     } = useCategoryFilter({ onChange: onChangeCategory, isAll: true });
 
     return (
@@ -36,6 +38,8 @@ export const MenuBodyFilterByCategory = memo(
               onChangeParent={handleChangeCategoryParent}
               key={item.id}
               data={item}
+              isActive={index === indexParent}
+              indexChild={indexChild}
             />
           );
         })}

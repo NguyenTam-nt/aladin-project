@@ -6,7 +6,7 @@ import {
 } from "./getMicroService";
 import { apis } from "../constants/list-api";
 import type { IParams, IResponseData } from "@typeRules/index";
-import type { IComment, ICommentChild } from "@typeRules/comment";
+import type { IComment, ICommentChild, ICommentDetail } from "@typeRules/comment";
 
 const api = getMicroService(`${apis.comment}`, microServices.restaurant);
 const apiAdmin = getMicroServiceAdmin(
@@ -19,16 +19,16 @@ export const commentService = {
       params: { ...params, page: Number(params.page) },
     });
   },
-  getById: (id: number): Promise<IComment> => {
-    return HttpService.axiosClient.get(`${api}/${id}`);
+  getById: (params:IParams, id:number): Promise<ICommentDetail> => {
+    return HttpService.axiosClient.get(`${api}/${id}`, {params});
   },
   update: (data: ICommentChild): Promise<IComment> => {
     return HttpService.axiosClient.put(`${apiAdmin}/${data.id}`, data);
   },
-  postUser: (data: IComment): Promise<IComment> => {
+  postUser: (data: ICommentChild): Promise<IComment> => {
     return HttpService.axiosClient.post(api, data);
   },
-  post: (data: IComment): Promise<IComment> => {
+  post: (data: ICommentChild): Promise<IComment> => {
     return HttpService.axiosClient.post(apiAdmin, data);
   },
   delete: (id: number) => {

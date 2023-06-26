@@ -59,6 +59,7 @@ export interface IProduct {
   linkMedia?: string;
   priority?: boolean;
   show?: boolean;
+  quantity?: number;
 }
 
 

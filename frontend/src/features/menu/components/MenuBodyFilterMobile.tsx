@@ -5,7 +5,11 @@ import { MenuBodyFilterByCategory } from "./MenuBodyFilterByCategory";
 import clsx from "clsx";
 import { useClickOutItem } from "@hooks/useClickOutItem";
 
-export const MenuBodyFilterMobile = () => {
+type Props = {
+  onChangeCategory: (id:number) => void
+}
+
+export const MenuBodyFilterMobile = ({onChangeCategory}:Props) => {
   const { ref, isShow, handleToggleItem } = useClickOutItem();
   return (
     <div className="flex justify-between ">
@@ -16,13 +20,13 @@ export const MenuBodyFilterMobile = () => {
         </button>
         <div
           className={clsx(
-            "absolute w-[350px] p-[16px] top-[calc(100%_+_15px)] right-[8px] bg-white z-[5] menu-body-category",
+            "absolute w-[350px] p-[16px] top-[calc(100%_+_15px)] right-[8px] bg-white z-[8] menu-body-category",
             {
               "scale-menu": isShow,
             }
           )}
         >
-          <MenuBodyFilterByCategory onHidden={handleToggleItem} />
+          <MenuBodyFilterByCategory onChangeCategory={onChangeCategory} onHidden={handleToggleItem} />
         </div>
       </div>
     </div>

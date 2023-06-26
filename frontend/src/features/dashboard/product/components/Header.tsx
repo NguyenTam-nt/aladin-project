@@ -142,7 +142,7 @@ export const Header = memo(({ onChange }: Props) => {
                       onClick={() => {
                         handleShow();
                         childRef.handleShow();
-                        handleSelectCategorySub(index);
+                        handleSelectCategorySub(index, Number(categories[index].id));
                       }}
                       key={item.id}
                       className={clsx(

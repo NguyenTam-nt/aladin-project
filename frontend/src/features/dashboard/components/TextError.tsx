@@ -10,6 +10,6 @@ export const TextError = ({message, option}: {message: string, option?:{[key: st
       }
     }, [])
   return (
-    <span ref={ref} className=' text-_12 text-red_error absolute bottom-[-20px]'>{t(message, {...option})}</span>
+    <span ref={ref} className=' text-_12 left-0 text-red_error absolute bottom-[-20px]'>{t(message, {...option})}</span>
   )
 }
