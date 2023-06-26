@@ -6,6 +6,7 @@ import { Button } from "@components/Button";
 import { Link } from "react-router-dom";
 import { paths } from "@constants/routerPublic";
 import type { IProduct } from "@typeRules/product";
+import { useCartContext } from "@contexts/hooks/order";
 // import { AnimatedSmoke } from "@components/AnimatedSmoke";
 
 type Props = {
@@ -13,11 +14,20 @@ type Props = {
 };
 
 export const TopicMenuItem = memo(({ data }: Props) => {
+
+  const {handlePlusCart} = useCartContext()
+
   const [count, setCount] = useState(1);
   const handleMinusCount = () => {
     if (count <= 1) return;
     setCount((count) => count - 1);
+    
   };
+
+  const handlePushCart = () => {
+    handlePlusCart(data, count)
+    setCount(1)
+  }
 
   const handlePlusCount = () => {
     // if(count <= 1) return
@@ -33,7 +43,7 @@ export const TopicMenuItem = memo(({ data }: Props) => {
           to={`${paths.memu.prefix}/${data?.id}`}
           className="h-[160px] lg:h-[312px] w-full relative"
         >
-          <img className="w-full h-full" src={data?.linkMedia} alt="" />
+          <img className="w-full h-full object-cover" src={data?.linkMedia} alt="" />
         </Link>
         <div className="p-[16px] flex-1 flex flex-col">
           <p className="text-GreyPrimary text-_14 lg:text-_16 font-semibold line-clamp-3 lg:line-clamp-2">
@@ -61,6 +71,7 @@ export const TopicMenuItem = memo(({ data }: Props) => {
             </div>
             <div className="w-full lg:max-w-[120px] 2xl:w-[167px]">
               <Button
+               onClick={handlePushCart}
                 text="Thêm vào giỏ"
                 classNameParent="min-w-full lg:w-none"
                 className="min-w-full lg:max-w-[120px] 2xl:max-w-full !h-[40px] lg:!h-[48px] !text-_14 font-bold"

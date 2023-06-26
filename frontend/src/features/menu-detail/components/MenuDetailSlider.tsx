@@ -54,7 +54,7 @@ type PropsDetail = {
   data: IListMedia[];
 };
 
-export const MenuDetailSlider = ({ data }: PropsDetail) => {
+export const MenuDetailSlider = memo(({ data }: PropsDetail) => {
   const {
     navigationNextRef,
     navigationPrevRef,
@@ -85,7 +85,7 @@ export const MenuDetailSlider = ({ data }: PropsDetail) => {
       />
     </div>
   );
-};
+})
 
 type Props = {
   navigationPrevRef?: React.RefObject<HTMLDivElement>;

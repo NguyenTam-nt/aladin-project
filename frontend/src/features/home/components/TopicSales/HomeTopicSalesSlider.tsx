@@ -1,15 +1,26 @@
 import { SwiperComponent } from "@components/SwiperComponent";
 import { windownSizeWidth, withResponsive } from "@constants/index";
-import React, { memo, useMemo, useState } from "react";
+import React, { memo, useLayoutEffect, useMemo, useState } from "react";
 import { SwiperSlide } from "swiper/react";
 import { SliderIndicator } from "@components/SliderIndicator";
 import { HomeTopicSalesItem } from "./HomeTopicSalesItem";
 import useInView from "@hooks/useInView";
 import clsx from "clsx";
+import { productService } from "@services/product";
+import type { IProduct } from "@typeRules/product";
 
 const data = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
 export const HomeTopicSalesSlider = memo(() => {
+
+  const [listProducts, setListProducts] = useState<IProduct[]>([])
+
+  useLayoutEffect(() => {
+    productService.getPromotion().then((data) => {
+      setListProducts(data)
+    })
+  }, [])
+
   const [activeThumb, setThumbActive] = useState<any>(null);
   const width = useMemo(() => {
     return windownSizeWidth > withResponsive._1690
@@ -20,7 +31,7 @@ export const HomeTopicSalesSlider = memo(() => {
   }, []);
   const dataRender = Array.from({
     length: Math.ceil(
-      data.length / (windownSizeWidth > withResponsive._1024 ? 3 : 1)
+      listProducts.length / (windownSizeWidth > withResponsive._1024 ? 3 : 1)
     ),
   });
 
@@ -43,7 +54,7 @@ export const HomeTopicSalesSlider = memo(() => {
               return (
                 <SwiperSlide key={indexP}>
                   <div className="grid grid-cols-3 items-center gap-x-[24px]">
-                    {data.slice(indexP * 3, indexP * 3 + 3).map((_, index) => {
+                    {listProducts.slice(indexP * 3, indexP * 3 + 3).map((item, index) => {
                       return (
                         <div key={index} className={clsx({
                           "animate__animated animate__fadeInRight": isInView
@@ -54,6 +65,7 @@ export const HomeTopicSalesSlider = memo(() => {
                         >
                           <HomeTopicSalesItem
                             key={index}
+                            data={item}
                             index={indexP * 3 + index + 1}
                           />
                         </div>
@@ -63,10 +75,10 @@ export const HomeTopicSalesSlider = memo(() => {
                 </SwiperSlide>
               );
             })
-          : data.map((_, index) => {
+          : listProducts.map((item, index) => {
               return (
                 <SwiperSlide key={index} className="max-w-[70%]">
-                  <HomeTopicSalesItem index={index + 1} />
+                  <HomeTopicSalesItem data={item} index={index + 1} />
                 </SwiperSlide>
               );
             })}

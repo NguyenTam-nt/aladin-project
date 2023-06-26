@@ -51,7 +51,7 @@ const TableReserVationForm = memo(() => {
         .min(1, "Tối thiểu 1 khách hàng.")
         .required("Không được để trống khách hàng."),
       chooseDate: Yup.date()
-        .min(new Date().toLocaleDateString(), "Ngày phải tối thiểu từ hôm nay.")
+        .min(new Date(new Date(new Date()).setDate(new Date().getDate() - 1)), "Ngày phải tối thiểu từ hôm nay.")
         .required("Phải chọn ngày đặt bàn."),
       hour: Yup.string().trim().required("Phải chọn khung giờ đặt bàn."),
       chooseIdInfrastructure: Yup.number()

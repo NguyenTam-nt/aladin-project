@@ -51,8 +51,8 @@ export const ThanksCustomerHandler = () => {
     },
     validationSchema: Yup.object({
       comment: Yup.string().required("message.form.required"),
-      fullname: Yup.string().required("message.form.required"),
-      career: Yup.string().required("message.form.required"),
+      fullname: Yup.string().required("message.form.required").max(50, "Họ và tên tối đa 50 ký tự."),
+      career: Yup.string().required("message.form.required").max(50, "Tên dung mục tối đa 50 ký tự."),
     }),
     onSubmit: async (data) => {
       try {

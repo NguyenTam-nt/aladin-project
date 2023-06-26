@@ -2,18 +2,23 @@ import React, { memo } from "react";
 import { TopicMenuItem } from "./TopicMenuItem";
 import useInView from "@hooks/useInView";
 import clsx from "clsx";
+import type { IProduct } from "@typeRules/product";
 
-export const TopicMenuList = memo(() => {
+type Props = {
+  products: IProduct[];
+};
+
+export const TopicMenuList = memo(({ products }: Props) => {
   const { ref, isInView } = useInView<HTMLDivElement>();
   return (
     <div
       ref={ref}
       className="grid grid-cols-2 xl:grid-cols-4 gap-[16px] lg:gap-[24px] mt-[48px]"
     >
-      {[1, 2, 3, 4].map((_, index) => {
+      {products.map((item, index) => {
         return (
           <div
-          key={index}
+            key={index}
             className={clsx({
               "animate__animated animate__fadeInUp": isInView,
             })}
@@ -21,7 +26,7 @@ export const TopicMenuList = memo(() => {
               ["--animate-count" as string]: index,
             }}
           >
-            <TopicMenuItem key={index} />
+            <TopicMenuItem key={index} data={item} />
           </div>
         );
       })}

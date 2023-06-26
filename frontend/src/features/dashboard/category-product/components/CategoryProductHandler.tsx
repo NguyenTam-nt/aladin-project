@@ -7,6 +7,7 @@ import TitleInput from "@components/TitleInput";
 import { Colors } from "@constants/color";
 import { useModalContext } from "@contexts/hooks/modal";
 import { DiglogComfirmDelete } from "@features/dashboard/components/DiglogComfirmDelete";
+import { DiglogMessage } from "@features/dashboard/components/DiglogMessage";
 import { useShowMessage } from "@features/dashboard/components/DiglogMessage";
 import { GroupButtonAdmin } from "@features/dashboard/components/GroupButtonAdmin";
 import { Input } from "@features/dashboard/components/Input";
@@ -61,7 +62,7 @@ export const CategoryProductHandler = ({
       // idParent: CategoryType.parent,
     },
     validationSchema: Yup.object({
-      name: Yup.string().required("message.form.required"),
+      name: Yup.string().required("message.form.required").max(255, "Tên dung mục tối đa 255 ký tự."),
       isHome: Yup.string().required("message.form.required"),
       isMenu: Yup.string().required("message.form.required"),
     }),
@@ -142,7 +143,7 @@ export const CategoryProductHandler = ({
     if (name === "id") return;
     const newChilds = [...listCategoryChild];
     //@ts-ignore
-     newChilds![index][name] = value;
+    newChilds![index][name] = value;
     if (file) {
       newChilds![index].file = file;
     }
@@ -306,6 +307,7 @@ const CategoryItemChild = memo(
   ({ index, data, onChange, onDelete }: PropsCategoryItemChild) => {
     const { t } = useTranslation();
     const [isShowModal, setShowModal] = useState(false);
+    const [element, setElement] = useState(<></>);
 
     // const handleDeleteModal = () => {
     //   setElementModal(<DiglogComfirmDelete onClick={handleDelete} message="category.message_delete" />);
@@ -325,9 +327,16 @@ const CategoryItemChild = memo(
           .delete(Number(data.id))
           .then(() => {
             onDelete(index - 1);
-          })
-          .finally(() => {
             setShowModal(false);
+          })
+          .catch((error) => {
+            setElement(
+              <DiglogMessage
+                type="ERROR"
+                onHide={() => setShowModal(false)}
+                message={error?.response?.data?.message || ""}
+              />
+            );
           });
         return;
       }
@@ -340,12 +349,19 @@ const CategoryItemChild = memo(
     };
 
     const handleConfirmDelete = () => {
-      if(data.id) {
-        setShowModal(true)
-        return
+      if (data.id) {
+        setShowModal(true);
+        setElement(
+          <DiglogComfirmDelete
+            onClear={() => setShowModal(false)}
+            message="Bạn có chắc chắn xóa danh mục con này khỏi hệ thống?"
+            onClick={handleDelete}
+          />
+        );
+        return;
       }
       onDelete(index - 1);
-    }
+    };
 
     return (
       <div className="flex gap-[16px]">
@@ -401,11 +417,7 @@ const CategoryItemChild = memo(
         </button>
         {isShowModal ? (
           <div className=" fixed  flex items-center justify-center z-40 inset-0 bg-header_bg">
-            <DiglogComfirmDelete
-              onClear={() => setShowModal(false)}
-              message="Bạn có chắc chắn xóa danh mục con này khỏi hệ thống?"
-              onClick={handleDelete}
-            />
+            {element}
           </div>
         ) : null}
       </div>

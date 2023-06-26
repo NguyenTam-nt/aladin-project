@@ -10,7 +10,7 @@ export const useGetDetailProduct = (id?: number) => {
     if (id) {
       setLoading(true);
       productService
-        .getById(id)
+        .getAdminById(id)
         .then((data) => {
           setProduct(data);
         })

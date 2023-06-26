@@ -19,12 +19,14 @@ export const useGetProduct = () => {
     const categoryParent = searchParams.get("category");
     if (categoryParent) {
       const listCategory = categoryParent.split("-");
-      if (typeof Number(listCategory[0]) === "number")
-        return Number(listCategory[0]);
       if (listCategory.length >= 2) {
         if (typeof Number(listCategory[1]) === "number")
           return Number(listCategory[1]);
       }
+      
+      if (typeof Number(listCategory[0]) === "number")
+        return Number(listCategory[0]);
+     
     }
     return undefined;
   });

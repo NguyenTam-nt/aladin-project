@@ -323,13 +323,13 @@ select:focus {
   position: absolute;
   content: "";
   right: 100%;
-  top: 27px;
-  transform: translateY(-50%);
+  top: 328px;
+  transform: translateY(-27px);
   display: block;
- width: 15px;
- height: 15px;
- background-color: var(--text-white);
- clip-path: polygon(0 0, 0 100%, 100% 50%);
+  width: 15px;
+  height: 15px;
+  background-color: var(--text-white);
+  clip-path: polygon(0 0, 0 100%, 100% 50%);
 
 }
 
@@ -337,11 +337,12 @@ select:focus {
   position: absolute;
   content: "";
   right: 100%;
-  top: 0;
+  top: 328px;
+  transform: translateY(calc(-100%));
   display: block;
- width: 15px;
- height: 54px;
- background-color: transparent;
+  width: 15px;
+  height: 54px;
+  background-color: transparent;
 
 }
 

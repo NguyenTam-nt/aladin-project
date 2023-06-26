@@ -1,7 +1,7 @@
 import { formatNumberDot } from "@commons/formatMoney";
 import { DiscountItem } from "@features/home/components/DiscountItem";
 import { MoneyLineThrough } from "@features/home/components/MoneyLineThrough";
-import React from "react";
+import React, { memo } from "react";
 import { useTranslation } from "react-i18next";
 
 type Props = {
@@ -12,7 +12,7 @@ type Props = {
   percent: number;
 };
 
-export const MenuDetailInfo = ({
+export const MenuDetailInfo = memo(({
   title,
   des,
   percent,
@@ -35,7 +35,7 @@ export const MenuDetailInfo = ({
         {percent > 0 ? (
           <DiscountItem
             className=" bg-text_EA222A !static hidden lg:flex"
-            discount={percent}
+            discount={Math.ceil(percent)}
           />
         ) : null}
       </div>
@@ -53,4 +53,4 @@ export const MenuDetailInfo = ({
       </div>
     </div>
   );
-};
+})

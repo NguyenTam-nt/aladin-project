@@ -19,7 +19,7 @@ export const TopicPlaceItem = () => {
   return (
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-[24px] mt-[48px] ">
       <div className="bg-white radius-tl-br py-[24px] flex flex-col h-[490px]">
-        <div className="px-[24px]">
+        {/* <div className="px-[24px]">
           <label
             className="text-_14 font-semibold text-text_black mb-2 block"
             htmlFor="home.place.city_name"
@@ -36,7 +36,7 @@ export const TopicPlaceItem = () => {
               <option value="Tp Hồ Chí Minh">Tp Hồ Chí Minh</option>
             </>
           </SelectInput>
-        </div>
+        </div> */}
         <p className="text-_16 px-[24px] font-semibold mt-[16px]">
           {t("home.place.list_base")}
         </p>

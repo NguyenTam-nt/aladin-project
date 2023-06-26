@@ -13,8 +13,14 @@ export const productService = {
     getHome: ():Promise<IProductHome[]> => {
         return HttpService.axiosClient.get(`${api}/home`) 
     },
+    getPromotion: ():Promise<IProduct[]> => {
+        return HttpService.axiosClient.get(`${api}/promotion`) 
+    },
     getById: (id:number):Promise<IProduct> => {
         return HttpService.axiosClient.get(`${api}/${id}`) 
+    },
+    getAdminById: (id:number):Promise<IProduct> => {
+        return HttpService.axiosClient.get(`${apiAdmin}/${id}`) 
     },
     update: (data:IProduct):Promise<IProduct> => {
         return HttpService.axiosClient.put(apiAdmin, data)

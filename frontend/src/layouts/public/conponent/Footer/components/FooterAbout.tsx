@@ -12,6 +12,7 @@ import type { INews } from "@typeRules/index";
 import { policyService } from "@services/policy";
 import { ICPolicyNoticeFooter } from "@assets/icons/ICPolicyNoticeFooter";
 
+
 export const FooterAbout = () => {
   const { t } = useTranslation();
   return (
@@ -33,7 +34,7 @@ export const FooterAbout = () => {
             <p>{t("home.footer.sub_title")}</p>
           </div>
           <div className="flex items-center gap-x-[16px] mt-[16px] mb-0 m992:mb-[24px] xl:mb-0">
-           <ICPolicyNoticeFooter />
+            <ICPolicyNoticeFooter />
           </div>
         </div>
         <div className="col-span-1">
@@ -134,7 +135,7 @@ const FooterAboutGroupPolicy = () => {
           return (
             <li key={index} className="h-[32px] items-center">
               <Link
-                to={`${paths.news}/${item.id}`}
+                to={`/policy/${item.id}`}
                 className="h-[24px] flex items-center line-clamp-1 text-text_white text-_14 hover:text-primary duration-300"
               >
                 {t(item.title)}
@@ -144,31 +145,30 @@ const FooterAboutGroupPolicy = () => {
         })}
 
         <li className="h-[32px] items-center">
-          <a
-            target="blank"
-            href="tel:1900636465"
+          <p
+            // target="blank"
+            // href="tel:1900636465"
             className="h-[24px] flex items-center text-text_white text-_14 hover:text-primary duration-300"
           >
             CSKH: 1900636465
-          </a>
+          </p>
         </li>
         <li className="h-[32px] items-center">
-          <a
-            target="blank"
-            href="tel:1900636465"
+          <p
+            // target="blank"
+            // href="tel:1900636465"
             className="h-[24px] flex items-center text-text_white text-_14 hover:text-primary duration-300"
           >
             Hỗ trợ dịch vụ: 1900636465
-          </a>
+          </p>
         </li>
         <li className="h-[32px] items-center">
-          <a
-            target="blank"
-            href="mailto:giangmyhotpot@gmail.com"
+          <p
+            // href="mailto:giangmyhotpot@gmail.com"
             className="h-[24px] flex items-center text-text_white text-_14 hover:text-primary duration-300"
           >
             Email: giangmyhotpot@gmail.com
-          </a>
+          </p>
         </li>
       </ul>
     </>

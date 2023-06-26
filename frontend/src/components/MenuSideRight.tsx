@@ -41,7 +41,7 @@ export const MenuSideRight = () => {
     <div
       ref={refScroll}
       className={clsx(
-        "fixed bottom-[calc(10%_+_56px)] opacity-0 duration-300 ease-linear 2xl:bottom-[calc(20%_+_78px)] [&>button]:rounded-[8px_0_8px_0]  2xl:[&>button]:rounded-[16px_0_16px_0] [&>button]:w-[40px] [&>button]:h-[40px] 2xl:[&>button]:w-[54px] 2xl:[&>button]:h-[54px] z-[11] gap-y-[16px] 2xl:gap-y-[24px] group-contact right-0 flex flex-col",
+        "fixed bottom-[calc(7%_+_56px)] opacity-0 duration-300 ease-linear 3xl:bottom-[calc(10%_+_78px)] [&>button]:rounded-[8px_0_8px_0]  2xl:[&>button]:rounded-[16px_0_16px_0] [&>button]:w-[40px] [&>button]:h-[40px] 2xl:[&>button]:w-[54px] 2xl:[&>button]:h-[54px] z-[11] gap-y-[16px] 2xl:gap-y-[24px] group-contact right-0 flex flex-col",
         {
           " opacity-0 hidden": isAdmin,
         }

@@ -142,7 +142,7 @@ export const pathsAdmin = {
     update: ":id",
   },
   category: {
-    prefix: "danh-muc-san-pham",
+    prefix: "danh-muc",
   },
   product: {
     prefix: "san-pham",
