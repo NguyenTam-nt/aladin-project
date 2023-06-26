@@ -126,7 +126,7 @@ export const PolicyHandle = () => {
           )}
         </div>
         <div className="flex justify-end">
-          <GroupButtonAdmin onCancel={goBack} onSubmit={formik.handleSubmit} />
+          <GroupButtonAdmin isAdd={isAdd} onCancel={goBack} onSubmit={formik.handleSubmit} />
         </div>
       </div>
     </div>

@@ -42,7 +42,7 @@ export const Header = memo(({ onChange }: Props) => {
       <TitleTopic name="adminProduct.title" isRequired={false} />
 
       <div className="flex items-center flex-1 justify-end gap-x-[24px]">
-        <div ref={childRef.ref} className="relative">
+        <div ref={childRef.ref} className="relative z-[3]">
           <div ref={ref} className="relative">
             <Button
               onClick={handleToggleItem}
@@ -107,9 +107,11 @@ export const Header = memo(({ onChange }: Props) => {
                         >
                           {item.name}
                         </button>
-                        <span className=" rotate-[-90deg]">
-                          <ICArowDown color={Colors.text_black} />
-                        </span>
+                        {item.listCategoryChild?.length ? (
+                          <span className=" rotate-[-90deg]">
+                            <ICArowDown color={Colors.text_black} />
+                          </span>
+                        ) : null}
                       </li>
                     );
                   })}
@@ -142,7 +144,10 @@ export const Header = memo(({ onChange }: Props) => {
                       onClick={() => {
                         handleShow();
                         childRef.handleShow();
-                        handleSelectCategorySub(index, Number(categories[index].id));
+                        handleSelectCategorySub(
+                          index,
+                          Number(categories[indexParent].id)
+                        );
                       }}
                       key={item.id}
                       className={clsx(

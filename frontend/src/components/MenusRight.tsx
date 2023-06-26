@@ -133,7 +133,7 @@ const MenuItem = ({ data }: Props) => {
           </span>
           <MoneyLineThrough
             money={Number(data.price)}
-            className="text-_12 text-text_white"
+            className="!text-_12 text-text_white"
           />
         </div>
         <div className="flex items-center self-center flex-1 gap-x-[16px] text-text_white text-_13 font-semibold">

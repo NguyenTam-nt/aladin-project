@@ -20,7 +20,7 @@ export const Body = () => {
   }, [currentPage])
 
   const handleGetData = (page:number) => {
-    reviewService.get({page: page, size: SIZE_DATA, sort: "show,desc"}).then((data) => {
+    reviewService.get({page: page, size: SIZE_DATA, sort: "id,desc"}).then((data) => {
       setReviews(data)
     })
   }

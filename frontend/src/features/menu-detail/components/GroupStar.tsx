@@ -67,7 +67,7 @@ export const GroupStar = memo(() => {
         <Button
           onClick={handleNextPage}
           withAnimation={false}
-          className="max-w-[173px] h-[26px] bg-transparent hover:shadow-sm"
+          className="max-w-[173px] h-[26px] bg-transparent hover:underline"
           color="empty"
           text="menu.see_all_comment"
           image={
