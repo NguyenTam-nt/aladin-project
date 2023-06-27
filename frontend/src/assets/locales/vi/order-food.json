@@ -15,6 +15,10 @@
         "unit": "Đơn giá (VNĐ)",
         "total": "Tổng giá",
         "delete": "Xóa"
+      },
+      "calc": {
+        "sub_total": "Tạm tính",
+        "total": "Tổng cộng"
       }
   },
   "order_food_info": {

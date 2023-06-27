@@ -1,13 +1,15 @@
 import { ICDeleteTrash } from '@assets/icons/ICDeleteTrash'
 import { ICDeleteVoucher } from '@assets/icons/ICDeleteVoucher'
 import { ICTicketDiscount } from '@assets/icons/ICTicketDiscount'
-import { formatNumberDotWithVND } from '@commons/formatMoney'
+import { formatNumberDot, formatNumberDotWithVND } from '@commons/formatMoney'
 import TitleOfContent from '@components/TitleOfContent'
 import { paths } from '@constants/routerPublic'
+import { useCartContext } from '@contexts/hooks/order'
 import { Banner } from '@features/contact/components/Banner'
 import VoucherService from '@services/VoucherService'
+import type { IProduct } from '@typeRules/product'
 import type { VoucherCheckPriceDTO } from '@typeRules/voucher'
-import React, { useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 
@@ -15,14 +17,25 @@ function index() {
   const { t } = useTranslation();
   const navigate = useNavigate()
 
+  const  { listOrder, handleDeleteCart, handleMinusCart, handlePlusCart } = useCartContext()
   const [voucher, setVoucher] = useState("")
   const [validVoucher, setValidVoucher] = useState<VoucherCheckPriceDTO>()
+
+  const totalPrice = useMemo(() => {
+    return listOrder.reduce((currentValue, data) => {
+      return (
+        currentValue +
+        Number(data?.pricePromotion ?? 0) * Number(data.quantity ?? 0)
+      );
+    }, 0);
+  }, [listOrder]);
+
 
   const checkVoucher = () => {
 
     let request: VoucherCheckPriceDTO = {
       code: voucher,
-      price: 1000000000
+      price: totalPrice
     }
 
     VoucherService
@@ -34,6 +47,14 @@ function index() {
         console.log(error);
         
       });
+  }
+
+  const handleClickPayment = () => {
+    navigate(paths.orderFood.info, {
+      state: {
+        voucher: validVoucher
+      }
+    })
   }
 
   return (
@@ -54,44 +75,50 @@ function index() {
                 <th className='py-4 text-left'>{t("order_food.table.delete")}</th>
               </tr>
               {
-                [1,2,3].map((item: any, idx: any) => {
-                  return <tr className='border-t border-t-br_CBCBCB items-center' key={idx}>
+                listOrder.map((item: IProduct, idx: any) => {
+                  return <tr className='border-t border-t-br_CBCBCB items-center' key={item.id}>
                   <td className='py-4  pr-6'>{idx + 1}</td>
                   <td className='py-4  pr-6 flex items-center justify-start gap-4'>
                     <div className="w-10 h-10 flex-shrink-0">
                       <img
                         className="w-full h-full object-cover"
-                        src={"https://images.unsplash.com/photo-1513104890138-7c749659a591?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxleHBsb3JlLWZlZWR8MXx8fGVufDB8fHx8fA%3D%3D&w=1000&q=80"}
+                        src={item.linkMedia}
                         alt="iamge order food"
                       />
                     </div>
-                    <span className='line-clamp-1 text-sm'>Combo 2 Người lớn ăn thả Combo 2 Người lớn ăn thả Combo 2 Người lớn ăn thả</span>
+                    <span className='line-clamp-1 text-sm'>{item.name}</span>
                   </td>
                   <td className='py-4  pr-6'>
                     <div className="flex items-center justify-center gap-4">
-                      <span className='text-_18 lg:text-_24 mb-1 cursor-pointer'>
+                      <span className='text-_18 lg:text-_24 mb-1 cursor-pointer'
+                        onClick={() => item.id && handleMinusCart(item.id, 1)}
+                      >
                         −
                       </span>
                       <div className="text-[13px] font-bold">
-                        1
+                        {item.quantity}
                       </div>
-                      <span className='text-2xl mb-1 cursor-pointer'>
+                      <span className='text-2xl mb-1 cursor-pointer'
+                        onClick={() => handlePlusCart(item, 1)}
+                      >
                         +
                       </span>
                     </div>
                   </td>
                   <td className='py-4  pr-6 '>
                     <div className="flex items-center justify-between gap-2">
-                      <div className='text-sm text-secondary'>600.000</div>
+                      <div className='text-sm text-secondary'>{formatNumberDot(item.pricePromotion)}</div>
                       <div className='text-xs text-text_A1A0A3'>/</div>
-                      <div className='text-xs text-text_A1A0A3 line-through'>800.000</div>
+                      <div className='text-xs text-text_A1A0A3 line-through'>{formatNumberDot(item.price)}</div>
                     </div>
                   </td>
                   <td className='py-4  pr-6'>
-                    <div className='text-sm text-secondary'>600.000</div>
+                    <div className='text-sm text-secondary'>{formatNumberDot(Number(item.pricePromotion) * Number(item.quantity))}</div>
                   </td>
                   <td className='py-4 cursor-pointer'>
-                    <div className=" flex justify-end items-center">
+                    <div className=" flex justify-end items-center"
+                      onClick={() => item.id && handleDeleteCart(item.id)}
+                    >
                       <ICDeleteTrash />
                     </div>
                   </td>
@@ -104,46 +131,52 @@ function index() {
 
           <div className="mt-4 lg:mt-10 block lg:hidden">
             {
-              [1,2,3].map((item: any, idx: any) => {
-                return <div className='py-4  border-t border-t-br_CBCBCB first:border-t-0 items-center' key={idx}>
+              listOrder.map((item: IProduct, idx: any) => {
+                return <div className='py-4  border-t border-t-br_CBCBCB first:border-t-0 items-center' key={item.id}>
                 <div className='flex items-center justify-start gap-4'>
                   <div className="w-10 h-10 flex-shrink-0">
                     <img
                       className="w-full h-full object-cover"
-                      src={"https://images.unsplash.com/photo-1513104890138-7c749659a591?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxleHBsb3JlLWZlZWR8MXx8fGVufDB8fHx8fA%3D%3D&w=1000&q=80"}
+                      src={item.linkMedia}
                       alt="iamge order food"
                     />
                   </div>
-                  <div className="flex items-center justify-between gap-6">
-                    <div className="">
-                      <span className='line-clamp-1 text-sm'>Combo 2 Người lớn ăn thả Combo 2 Người lớn ăn thả Combo 2 Người lớn ăn thả</span>
+                  <div className="flex items-center justify-between gap-6 w-full">
+                    <div className="flex-1">
+                      <span className='line-clamp-1 text-sm'>{item.name}</span>
                       <div className="flex items-center gap-2">
-                        <div className='text-sm text-secondary'>600.000</div>
+                        <div className='text-sm text-secondary'>{formatNumberDot(item.pricePromotion)}</div>
                         <div className='text-xs text-text_A1A0A3'>/</div>
-                        <div className='text-xs text-text_A1A0A3 line-through'>800.000</div>
+                        <div className='text-xs text-text_A1A0A3 line-through'>{formatNumberDot(item.price)}</div>
                       </div>
                     </div>
-                    <div className=" flex justify-end items-center">
+                    <div className=" flex justify-end items-center"
+                      onClick={() => item.id && handleDeleteCart(item.id)}
+                    >
                       <ICDeleteTrash />
                     </div>
                   </div>
                   
                 </div>
                 <div className="flex items-center justify-start gap-4">
-                  <span className='text-_18 lg:text-_24 mb-1 cursor-pointer'>
+                  <span className='text-_18 lg:text-_24 mb-1 cursor-pointer'
+                    onClick={() => item.id && handleMinusCart(item.id, 1)}
+                  >
                     −
                   </span>
                   <div className="text-[13px] font-bold">
-                    1
+                    {item.quantity}
                   </div>
-                  <span className='text-2xl mb-1 cursor-pointer'>
+                  <span className='text-2xl mb-1 cursor-pointer'
+                    onClick={() => handlePlusCart(item, 1)}
+                  >
                     +
                   </span>
                 </div>
                 
                 <div className='flex justify-start items-center gap-2 py-2'>
-                  <span className='text-sm text-GreyPrimary'>Tổng cộng: </span>
-                  <span className='text-sm text-secondary'>600.000</span>
+                  <span className='text-sm text-GreyPrimary'>{t("order_food.calc.total")}: </span>
+                  <span className='text-sm text-secondary'>{formatNumberDot(Number(item.pricePromotion) * Number(item.quantity))}</span>
                 </div>
               </div>
               })
@@ -174,8 +207,8 @@ function index() {
               </div>
             </div>
             <div className="py-6 border-b border-b-br_CBCBCB flex items-center justify-between">
-              <h4 className='text-base '>Tạm tính</h4>
-              <span className='text-base font-semibold text-secondary'>165.000 VNĐ</span>
+              <h4 className='text-base '>{t("order_food.calc.sub_total")}</h4>
+              <span className='text-base font-semibold text-secondary'>{formatNumberDotWithVND(totalPrice)}</span>
             </div>
             {
               validVoucher && 
@@ -189,7 +222,7 @@ function index() {
             }
             <div className="py-6 border-b border-b-br_CBCBCB flex items-center justify-between">
               <h4 className='text-base '>{t("order_food.total")}</h4>
-              <span className='text-base font-semibold text-red_error'>140.000 VNĐ</span>
+              <span className='text-base font-semibold text-red_error'>{formatNumberDotWithVND(totalPrice - (validVoucher ? validVoucher.price  : 0))}</span>
             </div>
             <div className="flex flex-wrap lg:flex-nowrap items-center justify-center gap-6 mt-6 lg:mt-10">
               <button className="w-full lg:w-spc167 lg:flex-1 radius-tl-br16  py-3 text-center text-sm leading-5 font-bold border border-primary text-primary"
@@ -198,7 +231,7 @@ function index() {
                 {t("order_food.continue_choose")}
               </button>
               <button className="w-full lg:w-spc167 lg:flex-1 radius-tl-br16 py-3 text-center text-sm leading-5 font-bold bg-primary text-white"
-                onClick={() => navigate(paths.orderFood.info)}
+                onClick={() => handleClickPayment()}
               >
                  {t("order_food.payment_title")}
               </button>
