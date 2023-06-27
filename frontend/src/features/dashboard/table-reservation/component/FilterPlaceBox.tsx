@@ -3,7 +3,9 @@ import { Colors } from "@constants/color";
 import { Button } from "@features/dashboard/components/Button";
 import { Checkbox } from "@features/dashboard/components/Checkbox";
 import { useClickOutItem } from "@hooks/useClickOutItem";
-import React, { memo } from "react";
+import PlaceService from "@services/PlaceService";
+import type { PlaceType } from "@typeRules/place";
+import React, { memo, useState, UIEvent, useEffect } from "react";
 const dataCategory = [
   "Cơ sở 1  Cơ sở 1 - Nguyễn Trí Thanh",
   "Cơ sở 2 Cơ sở 1 - Nguyễn Trí Thanh",
@@ -19,11 +21,36 @@ const dataCategory = [
 ];
 
 interface Props {
-  handleChosePlace: (value: string | null) => void;
-  place: null | string;
+  handleChosePlace: (value: number | null) => void;
+  place: null | number;
 }
 const FilterPlaceBox = memo(({ handleChosePlace, place }: Props) => {
   const { ref, isShow, handleToggleItem } = useClickOutItem();
+  const [listPlaces, setListPlace] = useState<PlaceType[]>([]);
+  const [currenPage, setCurrenPage] = useState<number>(1);
+  const [totaPage, setTotaPages] = useState<number>(1);
+  const getListPlace = async (currenPage: number) => {
+    try {
+      const { list, totalElement, totalElementPage } = await PlaceService.get({
+        page: currenPage,
+        size: 20,
+        sort: "id,desc",
+      });
+      setListPlace([...listPlaces, ...list]);
+      setTotaPages(Math.ceil(totalElementPage / 20));
+    } catch (error) {}
+  };
+  const handleScroolGetPlace = (e: UIEvent<HTMLDivElement>) => {
+    const scroolTop = e.currentTarget.scrollTop;
+    const clientHeight = e.currentTarget.clientHeight;
+    const scrollHeight = e.currentTarget.scrollHeight;
+    if (scroolTop + clientHeight >= scrollHeight && totaPage < totaPage) {
+      setCurrenPage((preState) => preState + 1);
+    }
+  };
+  useEffect(() => {
+    getListPlace(currenPage);
+  }, [currenPage]);
   return (
     <div ref={ref} className="relative">
       <Button
@@ -39,6 +66,7 @@ const FilterPlaceBox = memo(({ handleChosePlace, place }: Props) => {
       />
 
       <div
+        onScroll={handleScroolGetPlace}
         className={
           "absolute top-[105%] right-0 min-w-[300%] bg-white overflow-y-auto list-facilities shadow-sm px-5 z-[9] " +
           (isShow ? "h-[200px]" : "h-0")
@@ -56,23 +84,23 @@ const FilterPlaceBox = memo(({ handleChosePlace, place }: Props) => {
             Chọn tất cả
           </span>
         </div>
-        {dataCategory.map((item, index) => {
+        {listPlaces.map((item, index) => {
           {
             return (
               <div
-                onClick={() => handleChosePlace(item)}
+                onClick={() => handleChosePlace(item.id!)}
                 key={index}
-                className="flex h-[48px] items-center cursor-pointer"
+                className="flex min-h-[48px] gap-1 items-center cursor-pointer"
               >
                 <div
                   className={
                     "w-3 h-3 rounded-[50%] " +
-                    (place === item ? "bg-bg_01A63E" : "")
+                    (place === item.id! ? "bg-bg_01A63E" : "")
                   }
                 ></div>
-                <span className="text-_14 text-GreyPrimary ml-[6px]">
-                  {item}
-                </span>
+                <div className="text-_14 max-w-[80%] text-GreyPrimary ml-[6px] ">
+                  {item.name + "-" + item.address}
+                </div>
               </div>
             );
           }

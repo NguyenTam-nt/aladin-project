@@ -54,7 +54,7 @@ const ManageNews = () => {
         params
       );
       setListNews(list);
-      setTotalPages(Math.ceil(totalElement / 12));
+      setTotalPages(Math.ceil(totalElementPage / 12));
     } catch (error) {
       console.log("Không thể lấy dánh sách tin tức");
     }
@@ -64,7 +64,7 @@ const ManageNews = () => {
       const { list, totalElement, totalElementPage } =
         await newService.searchNews(params);
       setListNews(list);
-      setTotalPages(Math.ceil(totalElement / 12));
+      setTotalPages(Math.ceil(totalElementPage / 12));
     } catch (error) {
       console.log("Không thể tìm thấy danh sách tin tức.");
     }

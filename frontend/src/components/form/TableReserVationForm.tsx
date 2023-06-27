@@ -124,7 +124,7 @@ const TableReserVationForm = memo(() => {
         sort: "id,desc",
       });
       setListPlace([...listPlaces, ...list]);
-      setTotaPages(Math.ceil(totalElement / 20));
+      setTotaPages(Math.ceil(totalElementPage / 20));
     } catch (error) {}
   };
   const handleScroolGetPlace = (e: UIEvent<HTMLDivElement>) => {
@@ -142,7 +142,6 @@ const TableReserVationForm = memo(() => {
   useEffect(() => {
     getListPlace(currenPage);
   }, [currenPage]);
-  console.log(values);
   return (
     <form onSubmit={handleSubmit}>
       <div className="pb-36 lg:px-0 sm:px-5">

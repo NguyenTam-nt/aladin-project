@@ -3,14 +3,16 @@ import { Button } from "@features/dashboard/components/Button";
 import { Input } from "@features/dashboard/components/Input";
 import { Radio } from "@features/dashboard/components/Radio";
 import { Textarea } from "@features/dashboard/components/Textarea";
+import type { book_table } from "@typeRules/tableReservation";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 
 interface Props {
-  data: any;
+  data: book_table;
 }
 const ModalFeedbackReservation = ({ data }: Props) => {
   const { t } = useTranslation();
+  console.log(data, "data");
   return (
     <div className="w-[1144px] h-auto bg-white py-10 px-6">
       <h2 className="text-_32 font-bold text-text_primary uppercase text-center mb-10">

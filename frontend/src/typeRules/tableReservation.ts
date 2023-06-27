@@ -7,5 +7,19 @@ export interface book_table {
     chooseDate: string,
     chooseIdInfrastructure: number,
     chooseInfrastructure: string,
-    note: string
+    note: string,
+    record?: null,
+    feedback?: null,
+    status?: boolean
   }
+  // export interface book_table_admin extends book_table {
+  //   record:string | null,
+  //   feedback: string|null,
+  //   status: boolean
+  // }
+
+  export interface Data_ReserTable {
+    list: book_table[];
+    totalElement: number;
+    totalElementPage: number;
+}
