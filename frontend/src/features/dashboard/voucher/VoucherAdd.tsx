@@ -71,8 +71,8 @@ function VoucherAdd() {
       amount: "",
     },
     validationSchema: Yup.object({
-      name: Yup.string().required("message.form.required"),
-      code: Yup.string().required("message.form.required"),
+      name: Yup.string().trim().required("message.form.required"),
+      code: Yup.string().trim().required("message.form.required"),
       start: Yup.date().required("message.form.required"),
       endDate: Yup.date().required("message.form.required").test(
         "endDate",

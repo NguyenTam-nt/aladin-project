@@ -11,17 +11,18 @@ import { BillTypeContants, IBillVoucher, type IBill } from '@typeRules/bill';
 import { TextError } from '@features/dashboard/components/TextError';
 import { SIZE_DATA } from '@constants/index';
 import type { IResponseData } from '@typeRules/index';
-import type { PlaceType } from '@typeRules/place';
+import type { PlaceSelectType, PlaceType } from '@typeRules/place';
 import PlaceService from '@services/PlaceService';
 import { useCartContext } from '@contexts/hooks/order';
 import { useLocation } from 'react-router-dom';
+import moment from 'moment';
 
 function OrderFoodInfoForm() {
   const { t } = useTranslation();
   const { setElementModal, hideModal } = useModalContext();
-  const  { listOrder, handleDeleteCart, handleMinusCart, handlePlusCart } = useCartContext()
+  const  { listOrder, handleDeleteCart, handleMinusCart, handleDeleteAll } = useCartContext()
   const { state } = useLocation();
-  console.log(state);
+  // console.log(state);
   
   const totalPrice = useMemo(() => {
     return listOrder.reduce((currentValue, data) => {
@@ -37,18 +38,18 @@ function OrderFoodInfoForm() {
   };
 
   const [isValidDate, setIsValidDate] = useState(true)
-  const [place, setPlace] = useState<IResponseData<PlaceType>>();
+  const [place, setPlace] = useState<PlaceSelectType[]>();
 
 
   useEffect(() => {
-    getPlaceData(1)
+    getPlaceData()
   }, [])
   
 
 
-  const getPlaceData = async (page:number) => {
+  const getPlaceData = async () => {
     try {
-      PlaceService.get({page: page, size: 100000, sort: "id,desc"})
+      PlaceService.get_select()
         .then(response => {
           setPlace(response)
         })
@@ -70,8 +71,8 @@ function OrderFoodInfoForm() {
       note: "",
     },
     validationSchema: Yup.object({
-      fullName: Yup.string().required("message.form.required"),
-      phoneNumber: Yup.string()
+      fullName: Yup.string().trim().required("message.form.required"),
+      phoneNumber: Yup.string().trim()
       .trim()
       .required("message.form.required")
       .matches(
@@ -91,11 +92,16 @@ function OrderFoodInfoForm() {
       place: Yup.number().required("message.form.required"),
       note: Yup.string()
         .trim()
-        .required("message.form.required")
     }),
     onSubmit: (values) => {
       if(!listOrder || listOrder.length == 0) return
       let voucher: IBillVoucher = state.voucher
+
+      let orderDate = new Date(values.day + " " + values.hour)
+      if(moment(orderDate).isBefore(new Date)) {
+        setIsValidDate(false)
+        return 
+      }
 
       let resquest: IBill = {
         id: null,
@@ -103,7 +109,7 @@ function OrderFoodInfoForm() {
         phone: values.phoneNumber,
         email: values.email,
         type: values.method,
-        chooseDate: new Date(values.day + " " + values.hour).toISOString(),
+        chooseDate: orderDate.toISOString(),
         note: values.note,
         idInfrastructure: +values.place,
         price: totalPrice - (voucher ? voucher.price : 0),
@@ -126,23 +132,30 @@ function OrderFoodInfoForm() {
         .then(res => {
           handleShowModal()
           formik.resetForm()
-          clearCart()
+          setIsValidDate(true)
+          handleDeleteAll()
         })
 
     },
   });
   const { values, errors, touched, handleChange, handleSubmit, handleBlur } = formik;
 
-  const clearCart = () => {
-    if(listOrder && listOrder.length > 0) {
-      listOrder.forEach(o => {
-        handleDeleteCart(Number(o.id))
-      })
+
+  useEffect(() => {
+    if(values.day && values.hour) {
+      let orderDate = new Date(values.day + " " + values.hour)
+      if(moment(orderDate).isBefore(new Date)) {
+        setIsValidDate(false)
+        return 
+      }else {
+        setIsValidDate(true)
+      }
     }
-  }
+  }, [values.day, values.hour])
+// console.log(place);
 
   return (
-    <form onSubmit={handleSubmit} className="">
+    <form onSubmit={handleSubmit} className="" autoComplete='off'>
       <div className="grid grid-cols-2 gap-x-5 gap-y-5">
         <div className="col-span-2 lg:col-span-1 flex flex-col">
           <TitleInput isRequired name="form.name" />
@@ -250,7 +263,7 @@ function OrderFoodInfoForm() {
               {t("form.chosePlace")}
             </option>
             {
-              place && place.list.map(p => {
+              place && place.map(p => {
                 return <option value={p.id} key={p.id}>{p.name}</option>
               })
             }
@@ -291,7 +304,7 @@ function OrderFoodInfoForm() {
           </div>
         </div>
         <div className="col-span-2 flex flex-col">
-          <TitleInput isRequired name="form.note" />
+          <TitleInput isRequired={false} name="form.note" />
           <textarea
             rows={6}
             name="note"

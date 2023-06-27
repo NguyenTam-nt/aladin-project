@@ -36,19 +36,24 @@ function OrderFoodAdmin() {
 
   
   const [keySearch, setKeySearch] = useState<string>("");
-  const [place, setPlace] = useState<string | null>(null);
+  const [timeFilter, setTimeFilter] = useState()
+  const [place, setPlace] = useState<number>();
   const [bills, setBills] = useState<IResponseData<IBillGet>>()
   const { refCheckboxAll, refCheckboxList, handleCheckAll, handleCheckedItem, listChecked, setListChecked } = useHandleCheckbox(
     bills?.list.map(e => e.id as number) || []
   );
-
+  
   useEffect(() => {
     getBillsData(1)
   }, [])
+
+  useEffect(() => {
+    getBillsData(1)
+  }, [place, timeFilter])
   
 
   const getBillsData = (page: number) => {
-    BillService.get({page: page, size: SIZE_DATA, sort: "id,desc"})
+    BillService.get({page: page, size: 100000, sort: "id,desc", id: place, date: timeFilter})
       .then(res => {
         setBills(res)
       })
@@ -92,7 +97,7 @@ function OrderFoodAdmin() {
   }
 
   const handleChangeStatus = (id: number, status: BillStatus) => {
-    console.log(id, status);
+    // console.log(id, status);
 
     BillService
     .changeStatus(id, status)
@@ -133,7 +138,7 @@ function OrderFoodAdmin() {
             color={"empty"}
           />
           <div className="flex gap-6 justify-between">
-            <FilterByTime />
+            <FilterByTime setTimeFilter={setTimeFilter}/>
             <FilterPlaceBox place={place} handleChosePlace={setPlace} />
           </div>
         </div>
@@ -182,7 +187,7 @@ function OrderFoodAdmin() {
                   <select
                     value={item.status}
                     name="place"
-                    onChange={() => {}}
+                    onChange={(e) => handleChangeStatus(item.id, e.target.value as BillStatus)}
                     className={
                       "text-_14 text-text_red bg-transparent "
                     }
@@ -197,9 +202,9 @@ function OrderFoodAdmin() {
                   <select
                     value={item.status}
                     name="place"
-                    onChange={() => {}}
+                    onChange={(e) => handleChangeStatus(item.id, e.target.value as BillStatus)}
                     className={
-                      "text-_14 text-text_red bg-transparent "
+                      "text-_14 text-bg_01A63E bg-transparent "
                     }
                   > 
                     <option value={ BillStatusContants.wait} className='text-text_primary'>{t("adminOrderFood.table.wait")}</option>

@@ -18,3 +18,10 @@ export type PlaceType = {
   infrastructureList: PlaceItemType[]
 }
 
+export type PlaceSelectType = {
+  id: number
+  name: string
+}
+
+
+

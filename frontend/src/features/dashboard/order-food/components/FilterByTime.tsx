@@ -3,10 +3,11 @@ import { Button } from "@features/dashboard/components/Button";
 import { useClickOutItem } from "@hooks/useClickOutItem";
 import React, { ChangeEvent, memo, useEffect, useRef } from "react";
 
-const FilterByTime = memo(() => {
+const FilterByTime = memo(({setTimeFilter}: any) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const handleChangeTime = (e: ChangeEvent<HTMLInputElement>) => {
     console.log(e.target.value, "filer by time");
+    setTimeFilter(e.target.value)
   };
   const handleClick = () => {
     inputRef?.current?.showPicker();
