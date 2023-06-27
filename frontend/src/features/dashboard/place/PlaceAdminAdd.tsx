@@ -83,7 +83,14 @@ function PlaceAdminAdd() {
         "message.form.phone"
       )
       .length(10, "message.form.phone-length"),
-      zalo: Yup.string().required("message.form.required"),
+      zalo: Yup.string()
+      .trim()
+      .required("message.form.required")
+      .matches(
+        /^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/g,
+        "message.form.zalo"
+      )
+      .length(10, "message.form.zalo-length"),
       linkMap: Yup.string().required("message.form.required"),
     }),
     onSubmit: async (data) => {

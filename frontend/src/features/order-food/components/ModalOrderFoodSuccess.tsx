@@ -9,10 +9,14 @@ import React, { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
 
 import tickSuccessPNG from "@assets/images/tick-success.png"
+import { useNavigate } from "react-router-dom";
 
 export const ModalOrderFoodSuccess = () => {
   const { t } = useTranslation();
   const { hideModal } = useModalContext();
+  const navigate = useNavigate()
+
+  
 
   return (
     <div className="wrp lg:w-[872px]  ">
@@ -31,7 +35,9 @@ export const ModalOrderFoodSuccess = () => {
           <div className="flex items-center justify-center mt-6 lg:mt-10">
             <button 
               type="submit"
-              className="radius-tl-br16 h-12 w-[200px] py-3 text-center text-sm leading-5 font-bold bg-primary text-white">
+              className="radius-tl-br16 h-12 w-[200px] py-3 text-center text-sm leading-5 font-bold bg-primary text-white"
+                onClick={() => {navigate("/"); hideModal()}}
+              >
               Quay về trang chủ
             </button>
           </div>
