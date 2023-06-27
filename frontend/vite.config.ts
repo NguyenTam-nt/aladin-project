@@ -9,7 +9,7 @@ export default defineConfig({
     port: 3000,
     proxy: {
       "/services": {
-        target: "http://101.99.6.31:3304",
+        target: "http://192.168.1.24:8090",
         changeOrigin: true,
       },
     }

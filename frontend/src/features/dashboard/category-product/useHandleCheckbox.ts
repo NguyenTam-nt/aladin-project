@@ -5,12 +5,11 @@ export const useHandleCheckbox = (listId: number[]) => {
   const refCheckboxList = useRef<HTMLInputElement[]>([]);
   const [listChecked, setListChecked] = useState<number[]>([]); 
 
-
   useEffect(() => {
     if (listId?.length > 0 && listChecked?.length === listId?.length) {
       refCheckboxAll.current!.checked = true;
     }else {
-        refCheckboxAll.current!.checked = false;
+        refCheckboxAll!.current!.checked = false;
     }
   }, [listChecked, listId]);
 

@@ -1,6 +1,8 @@
 import Editor from "@components/Editor";
 import TitleInput from "@components/TitleInput";
 import TitleOfContentManage from "@components/TitleOfContentManage";
+import { prefixRootRoute } from "@constants/index";
+import { pathsAdmin } from "@constants/routerManager";
 import { useModalContext } from "@contexts/hooks/modal";
 import { DiglogComfirmDelete } from "@features/dashboard/components/DiglogComfirmDelete";
 import { useShowMessage } from "@features/dashboard/components/DiglogMessage";
@@ -42,8 +44,6 @@ const NewForm = memo(({ newItemProps }: Props) => {
         .required("Không được để trống mô tả tin tức."),
       content: Yup.string().trim().required("Không được để trống nội dung."),
     }),
-    // validateOnChange: false,
-    // validateOnBlur: false,
     onSubmit: async (values, { setSubmitting }) => {
       try {
         let pathImage = "";
@@ -103,6 +103,7 @@ const NewForm = memo(({ newItemProps }: Props) => {
       );
     } else {
       handleDelete();
+      setFieldValue("linkMedia", "");
     }
   };
   const handleResetDefault = () => {
@@ -120,7 +121,6 @@ const NewForm = memo(({ newItemProps }: Props) => {
       setValues(newItemProps);
     }
   }, [newItemProps]);
-  console.log(values, "preview");
   return (
     <div>
       <TitleOfContentManage
@@ -218,7 +218,9 @@ const NewForm = memo(({ newItemProps }: Props) => {
 
           <div className=" col-span-2 flex justify-end">
             <GroupButtonAdmin
-              onCancel={() => navigate(-1)}
+              onCancel={() =>
+                navigate(`${prefixRootRoute.admin}/${pathsAdmin.news.prefix}`)
+              }
               onSubmit={handleSubmit}
               isAdd={newItemProps?.id ? false : undefined}
             />
