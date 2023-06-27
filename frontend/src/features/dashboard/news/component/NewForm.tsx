@@ -103,6 +103,7 @@ const NewForm = memo(({ newItemProps }: Props) => {
       );
     } else {
       handleDelete();
+      setFieldValue("linkMedia", "");
     }
   };
   const handleResetDefault = () => {
@@ -120,7 +121,6 @@ const NewForm = memo(({ newItemProps }: Props) => {
       setValues(newItemProps);
     }
   }, [newItemProps]);
-  console.log(values, "preview");
   return (
     <div>
       <TitleOfContentManage

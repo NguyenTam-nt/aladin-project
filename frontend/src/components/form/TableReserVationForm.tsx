@@ -1,20 +1,27 @@
+import { ICArowDown } from "@assets/icons/ICArowDown";
 import { Button } from "@components/Button";
 import TitleInput from "@components/TitleInput";
 import TitleOfContent from "@components/TitleOfContent";
+import { Colors } from "@constants/color";
 import { FomatDateYY_MM_DD } from "@constants/formatDateY_M_D";
 import { useShowMessage } from "@features/dashboard/components/DiglogMessage";
+import { useClickOutItem } from "@hooks/useClickOutItem";
 import PlaceService from "@services/PlaceService";
 import { reservationTableSvice } from "@services/reservationTableSevice";
 import type { PlaceType } from "@typeRules/place";
 import { useFormik } from "formik";
-import { memo, useEffect, useState } from "react";
+import { memo, useEffect, useRef, useState, UIEvent } from "react";
 import { useTranslation } from "react-i18next";
 import * as Yup from "yup";
 
 const TableReserVationForm = memo(() => {
   const { t } = useTranslation();
   const { showError, showSuccess } = useShowMessage();
+  const { ref, isShow, handleToggleItem } = useClickOutItem();
   const [listPlaces, setListPlace] = useState<PlaceType[]>([]);
+  const [currenPage, setCurrenPage] = useState<number>(1);
+  const [totaPage, setTotaPages] = useState<number>(1);
+  const scroolRef = useRef<HTMLDivElement>(null);
   const formik = useFormik({
     initialValues: {
       name: "",
@@ -51,7 +58,10 @@ const TableReserVationForm = memo(() => {
         .min(1, "Tối thiểu 1 khách hàng.")
         .required("Không được để trống khách hàng."),
       chooseDate: Yup.date()
-        .min(new Date(new Date(new Date()).setDate(new Date().getDate() - 1)), "Ngày phải tối thiểu từ hôm nay.")
+        .min(
+          new Date(new Date(new Date()).setDate(new Date().getDate() - 1)),
+          "Ngày phải tối thiểu từ hôm nay."
+        )
         .required("Phải chọn ngày đặt bàn."),
       hour: Yup.string().trim().required("Phải chọn khung giờ đặt bàn."),
       chooseIdInfrastructure: Yup.number()
@@ -79,8 +89,7 @@ const TableReserVationForm = memo(() => {
           name: values.name,
           phone: values.phone,
           email: values.email,
-          numGuest: 0,
-          // numGuest: values.numGuest,
+          numGuest: values.numGuest,
           chooseDate: dateIso,
           chooseIdInfrastructure: values.chooseIdInfrastructure,
           chooseInfrastructure: values.chooseInfrastructure,
@@ -91,6 +100,7 @@ const TableReserVationForm = memo(() => {
         showSuccess("tableReservation.status.success");
       } catch (error) {
         showError("message.actions.error.delete_banner");
+        handleResetForm();
         setSubmitting(false);
       }
     },
@@ -106,23 +116,33 @@ const TableReserVationForm = memo(() => {
     handleSubmit,
   } = formik;
 
-  const getListPlace = async () => {
+  const getListPlace = async (currenPage: number) => {
     try {
       const { list, totalElement, totalElementPage } = await PlaceService.get({
-        page: 0,
+        page: currenPage,
         size: 20,
         sort: "id,desc",
       });
-      setListPlace(list);
+      setListPlace([...listPlaces, ...list]);
+      setTotaPages(Math.ceil(totalElement / 20));
     } catch (error) {}
+  };
+  const handleScroolGetPlace = (e: UIEvent<HTMLDivElement>) => {
+    const scroolTop = e.currentTarget.scrollTop;
+    const clientHeight = e.currentTarget.clientHeight;
+    const scrollHeight = e.currentTarget.scrollHeight;
+    if (scroolTop + clientHeight >= scrollHeight && totaPage < totaPage) {
+      setCurrenPage((preState) => preState + 1);
+    }
   };
   const handleResetForm = () => {
     resetForm();
   };
 
   useEffect(() => {
-    getListPlace();
-  }, []);
+    getListPlace(currenPage);
+  }, [currenPage]);
+  console.log(values);
   return (
     <form onSubmit={handleSubmit}>
       <div className="pb-36 lg:px-0 sm:px-5">
@@ -202,7 +222,7 @@ const TableReserVationForm = memo(() => {
                   className="w-full px-3 py-2 radius-tl-br16  text-sm leading-22 placeholder:text-sm outline-none border "
                   placeholder={t("form.choseDayOder") as string}
                 />
-                {errors.chooseDate && (
+                {errors.chooseDate && touched.chooseDate && (
                   <small className="text-red_error">{errors.chooseDate}</small>
                 )}
               </div>
@@ -216,41 +236,63 @@ const TableReserVationForm = memo(() => {
                   className="w-full px-3 py-2 radius-tl-br16  text-sm leading-22 placeholder:text-sm outline-none border "
                   placeholder={t("form.choseHourOder") as string}
                 />
-                {errors.hour && (
+                {errors.hour && touched.hour && (
                   <small className="text-red_error">{errors.hour}</small>
                 )}
               </div>
-              <div className="col-span-2">
+              <div
+                ref={ref}
+                onClick={handleToggleItem}
+                className="col-span-2 relative"
+              >
                 <TitleInput isRequired name="form.place" />
-                <select
-                  value={+values.chooseIdInfrastructure}
-                  name="chooseIdInfrastructure"
-                  onChange={(e) => {
-                    setFieldValue(
-                      "chooseIdInfrastructure",
-                      Number(e.target.value)
-                    );
-                    setFieldValue(
-                      "chooseInfrastructure",
-                      listPlaces.find(
-                        (item) => item.id === Number(e.target.value)
-                      )?.name
-                    );
-                  }}
-                  className="w-full px-3 py-2 radius-tl-br16  text-sm leading-22 placeholder:text-sm outline-none border "
-                >
-                  <option value="" disabled>
-                    {t("form.chosePlace")}
-                  </option>
-                  {listPlaces.length > 0 &&
-                    listPlaces.map((itemPlace, indexPlace) => {
-                      return (
-                        <option key={indexPlace} value={itemPlace.id}>
-                          {itemPlace.name}
-                        </option>
-                      );
+                <div className=" px-3 py-2 radius-tl-br16  text-sm leading-22 placeholder:text-sm outline-none border">
+                  {
+                    <div className="flex justify-between items-center">
+                      {values.chooseInfrastructure == "" ? (
+                        <p>{t("form.chosePlace")}</p>
+                      ) : (
+                        <p>{values.chooseInfrastructure}</p>
+                      )}
+
+                      <ICArowDown color={Colors.Grey_Primary} />
+                    </div>
+                  }
+                </div>
+                {isShow && (
+                  <div
+                    ref={scroolRef}
+                    onScroll={handleScroolGetPlace}
+                    className="w-full absolute top-[105%] left-0 bg-white shadow-md px-5 z-[9] max-h-[200px] overflow-y-scroll"
+                  >
+                    {listPlaces.map((item, index) => {
+                      {
+                        return (
+                          <div
+                            onClick={() => {
+                              setFieldValue("chooseIdInfrastructure", item.id);
+                              setFieldValue("chooseInfrastructure", item.name);
+                            }}
+                            key={index}
+                            className="flex h-[48px] items-center cursor-pointer"
+                          >
+                            <div
+                              className={
+                                "w-3 h-3 rounded-[50%] " +
+                                (values.chooseIdInfrastructure === item.id
+                                  ? "bg-bg_01A63E"
+                                  : "")
+                              }
+                            ></div>
+                            <span className="text-_14 text-GreyPrimary ml-[6px]">
+                              {item.name + " -" + item.address}
+                            </span>
+                          </div>
+                        );
+                      }
                     })}
-                </select>
+                  </div>
+                )}
                 {errors.chooseIdInfrastructure &&
                   touched.chooseIdInfrastructure && (
                     <small className="text-red_error">
@@ -258,7 +300,8 @@ const TableReserVationForm = memo(() => {
                     </small>
                   )}
               </div>
-              <div className="col-span-2">
+
+              <div className="col-span-2 ">
                 <TitleInput isRequired name="form.note" />
                 <textarea
                   rows={6}
