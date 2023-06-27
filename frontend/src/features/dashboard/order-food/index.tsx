@@ -16,11 +16,14 @@ import { useNavigate } from 'react-router-dom'
 import FilterByTime from './components/FilterByTime'
 import FilterPlaceBox from './components/FilterPlaceBox'
 import type { IResponseData } from '@typeRules/index'
-import { BillStatusContants, type IBill, type IBillGet } from '@typeRules/bill'
+import { BillStatus, BillStatusContants, type IBill, type IBillGet } from '@typeRules/bill'
 import BillService from '@services/BillService'
 import { SIZE_DATA } from '@constants/index'
 import { FomatDateYY_MM_DD } from '@constants/formatDateY_M_D'
 import { fornatDateHour } from '@constants/fornatDateHour'
+import { DiglogComfirmDelete } from '../components/DiglogComfirmDelete'
+import { useHandleLoading } from '../components/Loading'
+import { useShowMessage } from '../components/DiglogMessage'
 
 function OrderFoodAdmin() {
   const { t } = useTranslation();
@@ -28,11 +31,16 @@ function OrderFoodAdmin() {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [totalPages, setTotalPages] = useState<number>(1);
   const {setElementModal} = useModalContext()
-  const { refCheckboxAll, refCheckboxList, handleCheckAll, handleCheckedItem } = useHandleCheckbox([1, 2, 3, 4, 5, 6]);
+  const { showLoading } = useHandleLoading();
+  const { showError, showSuccess, showWarning } = useShowMessage();
 
+  
   const [keySearch, setKeySearch] = useState<string>("");
   const [place, setPlace] = useState<string | null>(null);
   const [bills, setBills] = useState<IResponseData<IBillGet>>()
+  const { refCheckboxAll, refCheckboxList, handleCheckAll, handleCheckedItem, listChecked, setListChecked } = useHandleCheckbox(
+    bills?.list.map(e => e.id as number) || []
+  );
 
   useEffect(() => {
     getBillsData(1)
@@ -57,6 +65,44 @@ function OrderFoodAdmin() {
     setCurrentPage(1);
   };
 
+  const handleShowModalDeleteAll = () => {
+    if(listChecked.length > 0) {
+      setElementModal(
+        <DiglogComfirmDelete
+          onClick={handleDeleteAll}
+          message="adminOrderFood.notification.delete"
+        />
+      );
+    }
+  }
+
+  
+  const handleDeleteAll = () => {
+    showLoading();
+    BillService
+      .deleteAll(listChecked.map(id => {return {id: id}}))
+      .then(() => {
+        getBillsData(1)
+        setListChecked([])
+        showSuccess("adminOrderFood.notification.deleteSuccess");
+      })
+      .catch(() => {
+        showError("adminOrderFood.notification.deleteError");
+      });
+  }
+
+  const handleChangeStatus = (id: number, status: BillStatus) => {
+    console.log(id, status);
+
+    BillService
+    .changeStatus(id, status)
+    .then(() => {
+      getBillsData(1)
+    })
+    .catch(() => {
+    });
+  }
+
   return (
     <div>
       <div className="flex flex-col gap-4">
@@ -77,7 +123,7 @@ function OrderFoodAdmin() {
             </div>
           </div>
           <Button
-            onClick={() => {}} text="common.delete"
+            onClick={() => handleShowModalDeleteAll()} text="common.delete"
             className="min-w-[92px] max-w-[92px]  whitespace-nowrap text-text_EA222A border-text_EA222A"
             imageLeft={
               <span className="mr-2">
@@ -130,23 +176,53 @@ function OrderFoodAdmin() {
             <p className='line-clamp-1 flex items-center'>{item.phone}</p>
             <p className='line-clamp-1 flex items-center'>{FomatDateYY_MM_DD(item.chooseDate)}</p>
             <p className='line-clamp-1 flex items-center'>{fornatDateHour(item.chooseDate)}</p>
-            <div className="flex justify-end gap-x-[16px]">
+            <div className="flex justify-end gap-x-[16px] w-full cursor-pointer">
               {
-               BillStatusContants.cancel == item.status ? <div className="flex items-center gap-2 cursor-pointer"
-                  onClick={() => {}}
-                >
-                  <span className='text-_14 text-text_red'>{t("adminOrderFood.table.cancel")}</span>
-                  <ICArowDown color={Colors.text_black} />
-                </div> :  BillStatusContants.complete == item.status ? <div className="flex items-center gap-2 relative"
-                   onClick={() => null}
-                >
-                  <span className='text-_14 text-bg_01A63E -mt-1'>{t("adminOrderFood.table.done")}</span>
-                  <ICArowDown color={Colors.text_black}/>
-                </div> : <div className="flex items-center gap-2 relative"
-                   onClick={() => null}
-                >
-                  <span className='text-_14 text-waiting -mt-1 whitespace-nowrap'>{t("adminOrderFood.table.wait")}</span>
-                  <ICArowDown color={Colors.text_black}/>
+               BillStatusContants.cancel == item.status ? <div className="flex items-center justify-end gap-2 cursor-pointer">
+                  <select
+                    value={item.status}
+                    name="place"
+                    onChange={() => {}}
+                    className={
+                      "text-_14 text-text_red bg-transparent "
+                    }
+                  > 
+                    <option value={ BillStatusContants.wait} className='text-text_primary'>{t("adminOrderFood.table.wait")}</option>
+                    <option value={ BillStatusContants.complete} className='text-text_primary'>{t("adminOrderFood.table.done")}</option>
+                    <option value={ BillStatusContants.cancel} className='text-text_primary'>{t("adminOrderFood.table.cancel")}</option>
+                  </select>
+                  {/* <span className='text-_14 text-text_red'>{t("adminOrderFood.table.cancel")}</span>
+                  <ICArowDown color={Colors.text_black} /> */}
+                </div> :  BillStatusContants.complete == item.status ? <div className="flex items-center justify-end w-fit gap-2 relative">
+                  <select
+                    value={item.status}
+                    name="place"
+                    onChange={() => {}}
+                    className={
+                      "text-_14 text-text_red bg-transparent "
+                    }
+                  > 
+                    <option value={ BillStatusContants.wait} className='text-text_primary'>{t("adminOrderFood.table.wait")}</option>
+                    <option value={ BillStatusContants.complete} className='text-text_primary'>{t("adminOrderFood.table.done")}</option>
+                    <option value={ BillStatusContants.cancel} className='text-text_primary'>{t("adminOrderFood.table.cancel")}</option>
+                  </select>
+                  {/* <span className='text-_14 text-bg_01A63E -mt-1'>{t("adminOrderFood.table.done")}</span>
+                  <ICArowDown color={Colors.text_black}/> */}
+                </div> : <div className="flex items-center justify-end w-fit gap-2 relative">
+                  <select
+                    value={item.status}
+                    name="place"
+                    onChange={(e) => handleChangeStatus(item.id, e.target.value as BillStatus)}
+                    className={
+                      "text-_14 text-waiting  w-fit bg-transparent"
+                    }
+                  > 
+                    <option value={ BillStatusContants.wait} className='text-text_primary'>{t("adminOrderFood.table.wait")}</option>
+                    <option value={ BillStatusContants.complete} className='text-text_primary'>{t("adminOrderFood.table.done")}</option>
+                    <option value={ BillStatusContants.cancel} className='text-text_primary'>{t("adminOrderFood.table.cancel")}</option>
+                  </select>
+                  {/* <span className='text-_14 text-waiting -mt-1 whitespace-nowrap'>{t("adminOrderFood.table.wait")}</span>
+                  <ICArowDown color={Colors.text_black}/> */}
                 </div>
               }
             </div>

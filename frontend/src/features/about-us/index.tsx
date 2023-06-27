@@ -20,7 +20,7 @@ function AboutUsPage() {
 
   const getPlaceData = async (page:number) => {
     try {
-      PlaceService.get_home({page: page, size: SIZE_DATA, sort: "id,desc"})
+      PlaceService.get_home({page: page, size: SIZE_DATA, sort: "id,asc"})
         .then(response => {
           setPlaceResponse(response)
         })

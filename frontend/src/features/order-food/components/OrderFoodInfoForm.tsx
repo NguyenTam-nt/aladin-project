@@ -2,7 +2,7 @@ import TitleInput from '@components/TitleInput';
 import TitleOfContent from '@components/TitleOfContent';
 import { useFormik } from 'formik';
 import * as Yup from "yup";
-import React, {useEffect, useState} from 'react'
+import React, {useEffect, useMemo, useState} from 'react'
 import { useTranslation } from 'react-i18next';
 import { useModalContext } from '@contexts/hooks/modal';
 import { ModalOrderFoodSuccess } from './ModalOrderFoodSuccess';
@@ -13,10 +13,25 @@ import { SIZE_DATA } from '@constants/index';
 import type { IResponseData } from '@typeRules/index';
 import type { PlaceType } from '@typeRules/place';
 import PlaceService from '@services/PlaceService';
+import { useCartContext } from '@contexts/hooks/order';
+import { useLocation } from 'react-router-dom';
 
 function OrderFoodInfoForm() {
   const { t } = useTranslation();
   const { setElementModal, hideModal } = useModalContext();
+  const  { listOrder, handleDeleteCart, handleMinusCart, handlePlusCart } = useCartContext()
+  const { state } = useLocation();
+  console.log(state);
+  
+  const totalPrice = useMemo(() => {
+    return listOrder.reduce((currentValue, data) => {
+      return (
+        currentValue +
+        Number(data?.pricePromotion ?? 0) * Number(data.quantity ?? 0)
+      );
+    }, 0);
+  }, [listOrder]);
+
   const handleShowModal = () => {
     setElementModal(<ModalOrderFoodSuccess />);
   };
@@ -50,7 +65,7 @@ function OrderFoodInfoForm() {
       email: "",
       day: "",
       hour: "",
-      place: -1,
+      place: "",
       method: BillTypeContants.restaurant,
       note: "",
     },
@@ -79,36 +94,52 @@ function OrderFoodInfoForm() {
         .required("message.form.required")
     }),
     onSubmit: (values) => {
-      console.log(values, "formik");
-
-      let voucher: IBillVoucher = {
-        code: "",
-        price: 0
-      }
+      if(!listOrder || listOrder.length == 0) return
+      let voucher: IBillVoucher = state.voucher
 
       let resquest: IBill = {
+        id: null,
         fullname: values.fullName,
         phone: values.phoneNumber,
         email: values.email,
         type: values.method,
         chooseDate: new Date(values.day + " " + values.hour).toISOString(),
         note: values.note,
-        idInfrastructure: values.place,
-        price: 0,
-        listProduct: [],
-        voucher: voucher
+        idInfrastructure: +values.place,
+        price: totalPrice - (voucher ? voucher.price : 0),
+        listProduct: listOrder.map(p => {
+          return {
+            id: Number(p.id),
+            name: p.name,
+            num: Number(p.quantity),
+            price: Number(p.price),
+            pricePromotion: Number(p.pricePromotion),
+            linkMedia: p.linkMedia || ""
+          }
+        }),
+        voucher: voucher ? voucher : null
       }
 
       // console.log(resquest);
       
-      // BillService.post(resquest)
-      //   .then(res => {
-
-      //   })
+      BillService.post(resquest)
+        .then(res => {
+          handleShowModal()
+          formik.resetForm()
+          clearCart()
+        })
 
     },
   });
   const { values, errors, touched, handleChange, handleSubmit, handleBlur } = formik;
+
+  const clearCart = () => {
+    if(listOrder && listOrder.length > 0) {
+      listOrder.forEach(o => {
+        handleDeleteCart(Number(o.id))
+      })
+    }
+  }
 
   return (
     <form onSubmit={handleSubmit} className="">
