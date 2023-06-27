@@ -1,6 +1,6 @@
 {
   "adminOrderFood": {
-    "title": "Quản lý đơn đặt món",
+    "title": "Quản lý đơn đặt hàng",
     "searchPlaceholder": "Tìm kiếm theo Mã đơn hàng  \\ Họ và tên \\ Số điện thoại",
     "table": {
       "code": "Mã đơn hàng",
@@ -14,7 +14,7 @@
       "wait": "Chờ xác nhận"
     },
     "detail": {
-      "title": "Đơn đặt món: ",
+      "title": "Đơn hàng: ",
       "titleInfo": "Thông tin khách hàng",
       "titleFood": "Món đã đặt",
       "payment": {

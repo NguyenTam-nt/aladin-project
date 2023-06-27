@@ -15,13 +15,14 @@ import type { PlaceType } from '@typeRules/place';
 import PlaceService from '@services/PlaceService';
 import { useCartContext } from '@contexts/hooks/order';
 import { useLocation } from 'react-router-dom';
+import moment from 'moment';
 
 function OrderFoodInfoForm() {
   const { t } = useTranslation();
   const { setElementModal, hideModal } = useModalContext();
   const  { listOrder, handleDeleteCart, handleMinusCart, handlePlusCart } = useCartContext()
   const { state } = useLocation();
-  console.log(state);
+  // console.log(state);
   
   const totalPrice = useMemo(() => {
     return listOrder.reduce((currentValue, data) => {
@@ -97,13 +98,19 @@ function OrderFoodInfoForm() {
       if(!listOrder || listOrder.length == 0) return
       let voucher: IBillVoucher = state.voucher
 
+      let orderDate = new Date(values.day + " " + values.hour)
+      if(moment(orderDate).isBefore(new Date)) {
+        setIsValidDate(false)
+        return 
+      }
+
       let resquest: IBill = {
         id: null,
         fullname: values.fullName,
         phone: values.phoneNumber,
         email: values.email,
         type: values.method,
-        chooseDate: new Date(values.day + " " + values.hour).toISOString(),
+        chooseDate: orderDate.toISOString(),
         note: values.note,
         idInfrastructure: +values.place,
         price: totalPrice - (voucher ? voucher.price : 0),
@@ -126,6 +133,7 @@ function OrderFoodInfoForm() {
         .then(res => {
           handleShowModal()
           formik.resetForm()
+          setIsValidDate(true)
           clearCart()
         })
 
@@ -141,8 +149,20 @@ function OrderFoodInfoForm() {
     }
   }
 
+  useEffect(() => {
+    if(values.day && values.hour) {
+      let orderDate = new Date(values.day + " " + values.hour)
+      if(moment(orderDate).isBefore(new Date)) {
+        setIsValidDate(false)
+        return 
+      }else {
+        setIsValidDate(true)
+      }
+    }
+  }, [values.day, values.hour])
+
   return (
-    <form onSubmit={handleSubmit} className="">
+    <form onSubmit={handleSubmit} className="" autoComplete='off'>
       <div className="grid grid-cols-2 gap-x-5 gap-y-5">
         <div className="col-span-2 lg:col-span-1 flex flex-col">
           <TitleInput isRequired name="form.name" />

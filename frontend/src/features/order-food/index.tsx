@@ -50,11 +50,13 @@ function index() {
   }
 
   const handleClickPayment = () => {
-    navigate(paths.orderFood.info, {
-      state: {
-        voucher: validVoucher
-      }
-    })
+    if(listOrder && listOrder.length > 0) {
+      navigate(paths.orderFood.info, {
+        state: {
+          voucher: validVoucher
+        }
+      })
+    }
   }
 
   return (
@@ -213,7 +215,9 @@ function index() {
             {
               validVoucher && 
               <div className="py-6 border-b border-b-br_CBCBCB flex items-center justify-between">
-                <div className="flex items-center ">
+                <div className="flex items-center cursor-pointer"
+                  onClick={() => setValidVoucher(undefined)}
+                >
                   <ICDeleteVoucher />
                   <h4 className='text-base ml-3'>{t("order_food.voucher")}: {validVoucher.code}</h4>  
                 </div>
