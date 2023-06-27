@@ -6,10 +6,11 @@ import TitleOfContent from '@components/TitleOfContent'
 import { paths } from '@constants/routerPublic'
 import { useCartContext } from '@contexts/hooks/order'
 import { Banner } from '@features/contact/components/Banner'
+import { TextError } from '@features/dashboard/components/TextError'
 import VoucherService from '@services/VoucherService'
 import type { IProduct } from '@typeRules/product'
 import type { VoucherCheckPriceDTO } from '@typeRules/voucher'
-import React, { useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 
@@ -20,6 +21,7 @@ function index() {
   const  { listOrder, handleDeleteCart, handleMinusCart, handlePlusCart } = useCartContext()
   const [voucher, setVoucher] = useState("")
   const [validVoucher, setValidVoucher] = useState<VoucherCheckPriceDTO>()
+  const [isValidVoucher, setIsValidVoucher] = useState(true)
 
   const totalPrice = useMemo(() => {
     return listOrder.reduce((currentValue, data) => {
@@ -29,6 +31,12 @@ function index() {
       );
     }, 0);
   }, [listOrder]);
+
+  useEffect(() => {
+    setValidVoucher(undefined)
+    setVoucher("")
+    setIsValidVoucher(true)
+  }, [totalPrice])
 
 
   const checkVoucher = () => {
@@ -42,9 +50,11 @@ function index() {
       .checkPrice(request)
       .then((res) => {
         setValidVoucher(res)
+        setIsValidVoucher(true)
       })
       .catch((error) => {
         console.log(error);
+        setIsValidVoucher(false)
         
       });
   }
@@ -189,24 +199,27 @@ function index() {
           <TitleOfContent name="order_food.payment_title" />
 
           <div className="mt-6 lg:mt-10">
-            <div className="flex items-center justify-between gap-2 radius-tl-br24 border border-primary py-2.5 px-4 ">
-              <div className="flex-1 flex items-center gap-2">
-                <div className=" ">
-                  <ICTicketDiscount />
+            <div className="">
+              <div className="flex items-center justify-between gap-2 radius-tl-br24 border border-primary py-2.5 px-4 ">
+                <div className="flex-1 flex items-center gap-2">
+                  <div className=" ">
+                    <ICTicketDiscount />
+                  </div>
+                  <div className="">
+                    <input
+                      type="text" value={voucher} onChange={e => setVoucher(e.target.value)}
+                      className="h-[26px] w-full placeholder:text-sm outline-none !border-text_A1A0A3 text-text_primary placeholder:text-text_A1A0A3 bg-transparent"
+                      placeholder={t("order_food.input_placeholder") as string}
+                    />
+                  </div>
                 </div>
-                <div className="">
-                  <input
-                    type="text" value={voucher} onChange={e => setVoucher(e.target.value)}
-                    className="h-[26px] w-full placeholder:text-sm outline-none !border-text_A1A0A3 text-text_primary placeholder:text-text_A1A0A3 bg-transparent"
-                    placeholder={t("order_food.input_placeholder") as string}
-                  />
+                <div className="font-bold text-sm text-secondary cursor-pointer select-none"
+                  onClick={checkVoucher}
+                >
+                  {t("order_food.input_btn") as string}
                 </div>
               </div>
-              <div className="font-bold text-sm text-secondary cursor-pointer select-none"
-                onClick={checkVoucher}
-              >
-                {t("order_food.input_btn") as string}
-              </div>
+              {!isValidVoucher && <TextError message='order_food.voucher-error'/> }
             </div>
             <div className="py-6 border-b border-b-br_CBCBCB flex items-center justify-between">
               <h4 className='text-base '>{t("order_food.calc.sub_total")}</h4>

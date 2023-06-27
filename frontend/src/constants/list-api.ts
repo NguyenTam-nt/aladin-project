@@ -16,6 +16,7 @@ export const apis = {
     category: "categories",
     product: "products",
     vouchers: "vouchers",
+    searchVouchers: "admin/_search/vouchers",
     bills: "bills",
     comment: "comments",
 }

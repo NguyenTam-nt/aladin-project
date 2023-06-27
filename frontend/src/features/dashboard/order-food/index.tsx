@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useEffect, useState } from 'react'
+import React, { ChangeEvent, useCallback, useEffect, useState } from 'react'
 import { TitleTopic } from '../home/components/TitleTopic'
 import { Button } from '../components/Button'
 import { ICDesc } from '@assets/icons/ICDesc'
@@ -15,7 +15,7 @@ import MagnifyingGlass from '@assets/icons/MagnifyingGlass'
 import { useNavigate } from 'react-router-dom'
 import FilterByTime from './components/FilterByTime'
 import FilterPlaceBox from './components/FilterPlaceBox'
-import type { IResponseData } from '@typeRules/index'
+import type { IParams, IResponseData } from '@typeRules/index'
 import { BillStatus, BillStatusContants, type IBill, type IBillGet } from '@typeRules/bill'
 import BillService from '@services/BillService'
 import { SIZE_DATA } from '@constants/index'
@@ -24,6 +24,7 @@ import { fornatDateHour } from '@constants/fornatDateHour'
 import { DiglogComfirmDelete } from '../components/DiglogComfirmDelete'
 import { useHandleLoading } from '../components/Loading'
 import { useShowMessage } from '../components/DiglogMessage'
+import { debounce } from 'lodash'
 
 function OrderFoodAdmin() {
   const { t } = useTranslation();
@@ -58,6 +59,33 @@ function OrderFoodAdmin() {
         setBills(res)
       })
   }
+  // const debounceDropDown = useCallback(
+  //   debounce((params: any) => searchListNew(params), 700),
+  //   []
+  // );
+
+  // useEffect(() => {
+  //   if (keySearch != "") {
+  //     const searchParams = {
+  //       query: "*" + keySearch + "*",
+  //       page: 0,
+  //       size: 100000,
+  //     };
+  //     debounceDropDown(searchParams);
+  //     return;
+  //   }
+  //   debounceDropDown.cancel();
+  //   getBillsData(Number(1))
+  // }, [place, timeFilter, keySearch])
+
+  // const searchListNew = async (params: IParams) => {
+  //   try {
+  //     const response =
+  //       await BillService.search(params);
+  //       setContacts(response);
+  //   } catch (error) {
+  //   }
+  // };
 
 
   const handleClickDetail = (id: number) => {
