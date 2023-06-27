@@ -20,7 +20,7 @@ import moment from 'moment';
 function OrderFoodInfoForm() {
   const { t } = useTranslation();
   const { setElementModal, hideModal } = useModalContext();
-  const  { listOrder, handleDeleteCart, handleMinusCart, handlePlusCart } = useCartContext()
+  const  { listOrder, handleDeleteCart, handleMinusCart, handleDeleteAll } = useCartContext()
   const { state } = useLocation();
   // console.log(state);
   
@@ -133,20 +133,13 @@ function OrderFoodInfoForm() {
           handleShowModal()
           formik.resetForm()
           setIsValidDate(true)
-          clearCart()
+          handleDeleteAll()
         })
 
     },
   });
   const { values, errors, touched, handleChange, handleSubmit, handleBlur } = formik;
 
-  const clearCart = () => {
-    if(listOrder && listOrder.length > 0) {
-      listOrder.forEach(o => {
-        handleDeleteCart(Number(o.id))
-      })
-    }
-  }
 
   useEffect(() => {
     if(values.day && values.hour) {
@@ -159,7 +152,7 @@ function OrderFoodInfoForm() {
       }
     }
   }, [values.day, values.hour])
-console.log(place);
+// console.log(place);
 
   return (
     <form onSubmit={handleSubmit} className="" autoComplete='off'>

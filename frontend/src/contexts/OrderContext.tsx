@@ -8,6 +8,7 @@ interface IOrderState {
   handlePlusCart: (product: IProduct, count: number) => void;
   handleMinusCart: (id: number, count: number) => void;
   handleDeleteCart: (id: number) => void;
+  handleDeleteAll: () => void
 }
 
 export const OrderContext = createContext<IOrderState>({
@@ -15,6 +16,7 @@ export const OrderContext = createContext<IOrderState>({
   handlePlusCart: () => {},
   handleMinusCart: () => {},
   handleDeleteCart: () => {},
+  handleDeleteAll: () => {}
 });
 
 type Props = {
@@ -81,6 +83,11 @@ export const OrderProvider = ({ children }: Props) => {
     }
   };
 
+  const handleDeleteAll = () => {
+    setListOrder([])
+    sessionStorage.removeItem("cart")
+  };
+
   return (
     <OrderContext.Provider
       value={{
@@ -88,6 +95,7 @@ export const OrderProvider = ({ children }: Props) => {
         handleDeleteCart,
         handleMinusCart,
         handlePlusCart,
+        handleDeleteAll
       }}
     >
       {children}
