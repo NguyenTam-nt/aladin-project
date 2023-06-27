@@ -11,7 +11,7 @@ import { BillTypeContants, IBillVoucher, type IBill } from '@typeRules/bill';
 import { TextError } from '@features/dashboard/components/TextError';
 import { SIZE_DATA } from '@constants/index';
 import type { IResponseData } from '@typeRules/index';
-import type { PlaceType } from '@typeRules/place';
+import type { PlaceSelectType, PlaceType } from '@typeRules/place';
 import PlaceService from '@services/PlaceService';
 import { useCartContext } from '@contexts/hooks/order';
 import { useLocation } from 'react-router-dom';
@@ -38,18 +38,18 @@ function OrderFoodInfoForm() {
   };
 
   const [isValidDate, setIsValidDate] = useState(true)
-  const [place, setPlace] = useState<IResponseData<PlaceType>>();
+  const [place, setPlace] = useState<PlaceSelectType[]>();
 
 
   useEffect(() => {
-    getPlaceData(1)
+    getPlaceData()
   }, [])
   
 
 
-  const getPlaceData = async (page:number) => {
+  const getPlaceData = async () => {
     try {
-      PlaceService.get({page: page, size: 100000, sort: "id,desc"})
+      PlaceService.get_select()
         .then(response => {
           setPlace(response)
         })
@@ -159,6 +159,7 @@ function OrderFoodInfoForm() {
       }
     }
   }, [values.day, values.hour])
+console.log(place);
 
   return (
     <form onSubmit={handleSubmit} className="" autoComplete='off'>
@@ -269,7 +270,7 @@ function OrderFoodInfoForm() {
               {t("form.chosePlace")}
             </option>
             {
-              place && place.list.map(p => {
+              place && place.map(p => {
                 return <option value={p.id} key={p.id}>{p.name}</option>
               })
             }

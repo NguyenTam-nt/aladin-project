@@ -1,6 +1,6 @@
 import HttpService from "@configs/api";
 import { getMicroService, getMicroServiceAdmin, microServices } from "./getMicroService";
-import type { PlaceType } from "@typeRules/place";
+import type { PlaceSelectType, PlaceType } from "@typeRules/place";
 import type { IParams, IResponseData } from "@typeRules/index";
 import { apis } from "@constants/list-api";
 
@@ -31,6 +31,10 @@ const PlaceService = {
     get_home: (params:IParams):Promise<IResponseData<PlaceType>> => {
 
         return HttpService.axiosClient.get(`${api}/home`, {params: {...params, page: Number(params.page) - 1}}) 
+    },
+    get_select: ():Promise<PlaceSelectType[]> => {
+
+        return HttpService.axiosClient.get(`${api}/select`)
     }
 }
 

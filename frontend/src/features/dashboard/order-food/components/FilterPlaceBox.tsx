@@ -5,7 +5,7 @@ import { Checkbox } from "@features/dashboard/components/Checkbox";
 import { useClickOutItem } from "@hooks/useClickOutItem";
 import PlaceService from "@services/PlaceService";
 import type { IResponseData } from "@typeRules/index";
-import type { PlaceType } from "@typeRules/place";
+import type { PlaceSelectType, PlaceType } from "@typeRules/place";
 import React, { memo, useEffect, useState } from "react";
 
 interface Props {
@@ -15,19 +15,20 @@ interface Props {
 const FilterPlaceBox = memo(({ handleChosePlace, place }: Props) => {
   const { ref, isShow, handleToggleItem } = useClickOutItem();
 
-  const [placeResponse, setPlaceResponse] = useState<IResponseData<PlaceType>>()
+  const [placeSelect, setPlaceSelect] = useState<PlaceSelectType[]>();
+
 
   useEffect(() => {
-    getPlaceData(0)
-  
+    getPlaceData()
   }, [])
   
 
-  const getPlaceData = async (page:number) => {
+
+  const getPlaceData = async () => {
     try {
-      PlaceService.get_home({page: page, size: 1000000, sort: "id,asc"})
+      PlaceService.get_select()
         .then(response => {
-          setPlaceResponse(response)
+          setPlaceSelect(response)
         })
         .catch(error => {
         })
@@ -67,7 +68,7 @@ const FilterPlaceBox = memo(({ handleChosePlace, place }: Props) => {
             Chọn tất cả
           </span>
         </div>
-        {placeResponse && placeResponse.list.map((item, index) => {
+        {placeSelect && placeSelect.map((item, index) => {
           {
             return (
               <div
@@ -82,7 +83,7 @@ const FilterPlaceBox = memo(({ handleChosePlace, place }: Props) => {
                   }
                 ></div>
                 <span className="text-_14 text-GreyPrimary ml-[6px]">
-                  {item.name + " - " + item.address}
+                  {item.name}
                 </span>
               </div>
             );
