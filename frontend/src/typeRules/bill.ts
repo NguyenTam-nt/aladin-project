@@ -13,7 +13,7 @@ export interface IBillGet {
 
 
 export interface IBill {
-  id?: number
+  id?: number | null
   fullname: string
   phone: string
   email: string
@@ -25,7 +25,7 @@ export interface IBill {
   idInfrastructure: number
   price: number
   listProduct: IBillProduct[]
-  voucher: IBillVoucher
+  voucher: IBillVoucher | null
 }
 
 export interface IBillProduct {
@@ -33,6 +33,8 @@ export interface IBillProduct {
   name: string
   num: number
   price: number
+  linkMedia: string
+  pricePromotion: number
 }
 
 export interface IBillVoucher {

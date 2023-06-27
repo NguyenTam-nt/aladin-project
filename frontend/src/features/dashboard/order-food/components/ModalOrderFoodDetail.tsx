@@ -1,5 +1,5 @@
 import { ICClear } from '@assets/icons/ICClear';
-import { formatNumberDotWithVND } from '@commons/formatMoney';
+import { formatNumberDot, formatNumberDotWithVND } from '@commons/formatMoney';
 import TitleInput from '@components/TitleInput';
 import { FomatDateYY_MM_DD } from '@constants/formatDateY_M_D';
 import { fornatDateHour } from '@constants/fornatDateHour';
@@ -27,6 +27,7 @@ function ModalOrderFoodDetail({idBill}: Props) {
       setBill(res)
     })
   }, [idBill])
+  console.log(bill);
   
 
   return (
@@ -104,7 +105,7 @@ function ModalOrderFoodDetail({idBill}: Props) {
                 <div className="w-10 h-10 flex-shrink-0">
                   <img
                     className="w-full h-full object-cover"
-                    src={"https://images.unsplash.com/photo-1513104890138-7c749659a591?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxleHBsb3JlLWZlZWR8MXx8fGVufDB8fHx8fA%3D%3D&w=1000&q=80"}
+                    src={item.linkMedia}
                     alt="iamge order food"
                   />
                 </div>
@@ -119,13 +120,13 @@ function ModalOrderFoodDetail({idBill}: Props) {
               </td>
               <td className='py-4  pr-6 '>
                 <div className="flex items-center justify-between gap-2">
-                  <div className='text-sm text-secondary'>600.000</div>
+                  <div className='text-sm text-secondary'>{formatNumberDot(item.pricePromotion)}</div>
                   <div className='text-xs text-text_A1A0A3'>/</div>
-                  <div className='text-xs text-text_A1A0A3 line-through'>800.000</div>
+                  <div className='text-xs text-text_A1A0A3 line-through'>{formatNumberDot(item.price)}</div>
                 </div>
               </td>
               <td className='py-4  pr-6'>
-                <div className='text-sm text-secondary'>{item.price}</div>
+                <div className='text-sm text-secondary'>{formatNumberDot(item.pricePromotion * item.num)}</div>
               </td>
             </tr>
             })
@@ -138,17 +139,19 @@ function ModalOrderFoodDetail({idBill}: Props) {
         <h2 className='text-_20 font-bold text-text_primary'>{t("adminOrderFood.detail.payment.title") } </h2>
         <div className=" grid grid-cols-2 w-fit gap-4 mt-4">
           <span className='text-_14 text-text_primary font-bold mr-1 text-left'>{t("adminOrderFood.detail.payment.total")}</span>
-          <span className='text-_14 font-bold text-secondary text-right'>165.000 VNĐ</span>
+          <span className='text-_14 font-bold text-secondary text-right'>{formatNumberDotWithVND(bill?.price)}</span>
 
           <span className='text-_14 text-text_primary font-bold mr-1 text-left'>{t("adminOrderFood.detail.payment.totalDiscount")}</span>
-          <span className='text-_14 font-bold text-secondary text-right'>-25.000 VNĐ</span>
+          <span className='text-_14 font-bold text-secondary text-right'>{bill && formatNumberDotWithVND(bill?.discount)}</span>
 
-          <div className="flex ">
-            <span className='text-_14 text-text_primary font-bold mr-1 text-left'>{t("adminOrderFood.detail.payment.codeDiscount")}</span>
-            <span className='text-_14 text-primary font-bold uppercase'>{bill && bill.voucher.code}</span>
-          </div>
-          <span className='text-_14  text-right'>{bill && formatNumberDotWithVND(0 - bill.voucher.price)}</span>
-          
+          {bill && bill.voucher && <>
+              <div className="flex ">
+                <span className='text-_14 text-text_primary font-bold mr-1 text-left'>{t("adminOrderFood.detail.payment.codeDiscount")}</span>
+                <span className='text-_14 text-primary font-bold uppercase'>{bill && bill.voucher.code}</span>
+              </div>
+              <span className='text-_14  text-right'>{bill && formatNumberDotWithVND(0 - bill.voucher.price)}</span>
+            </>
+          }
           
           <span className='text-_14 text-text_primary font-bold mr-1 text-left'>{t("adminOrderFood.detail.payment.totalOrder")}</span>
           <span className='text-_14 font-bold text-text_red text-right'>{bill&& formatNumberDotWithVND(bill.priceAll)}</span>

@@ -24,6 +24,11 @@
         "codeDiscount": "Mã giảm giá:",
         "totalOrder": "Tổng tiền thanh toán"
       }
+    },
+    "notification": {
+      "delete": "Bạn có chắc chắn xóa đơn đặt món này khỏi hệ thống?",
+      "deleteSuccess": "Xóa thành công",
+      "deleteError": "Xóa thất bại"
     }
   }
 }
