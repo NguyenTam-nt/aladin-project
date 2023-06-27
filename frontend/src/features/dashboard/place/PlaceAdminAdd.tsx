@@ -73,8 +73,8 @@ function PlaceAdminAdd() {
       linkMap: "",
     },
     validationSchema: Yup.object({
-      name: Yup.string().required("message.form.required"),
-      address: Yup.string().required("message.form.required"),
+      name: Yup.string().trim().required("message.form.required"),
+      address: Yup.string().trim().required("message.form.required"),
       phone:  Yup.string()
       .trim()
       .required("message.form.required")
@@ -91,7 +91,7 @@ function PlaceAdminAdd() {
         "message.form.zalo"
       )
       .length(10, "message.form.zalo-length"),
-      linkMap: Yup.string().required("message.form.required"),
+      linkMap: Yup.string().trim().required("message.form.required"),
     }),
     onSubmit: async (data) => {
       try {
