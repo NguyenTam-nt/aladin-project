@@ -71,8 +71,8 @@ function OrderFoodInfoForm() {
       note: "",
     },
     validationSchema: Yup.object({
-      fullName: Yup.string().required("message.form.required"),
-      phoneNumber: Yup.string()
+      fullName: Yup.string().trim().required("message.form.required"),
+      phoneNumber: Yup.string().trim()
       .trim()
       .required("message.form.required")
       .matches(
@@ -92,7 +92,6 @@ function OrderFoodInfoForm() {
       place: Yup.number().required("message.form.required"),
       note: Yup.string()
         .trim()
-        .required("message.form.required")
     }),
     onSubmit: (values) => {
       if(!listOrder || listOrder.length == 0) return
@@ -311,7 +310,7 @@ function OrderFoodInfoForm() {
           </div>
         </div>
         <div className="col-span-2 flex flex-col">
-          <TitleInput isRequired name="form.note" />
+          <TitleInput isRequired={false} name="form.note" />
           <textarea
             rows={6}
             name="note"
