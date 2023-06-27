@@ -4,6 +4,7 @@ import { ICTicketDiscount } from '@assets/icons/ICTicketDiscount'
 import { formatNumberDotWithVND } from '@commons/formatMoney'
 import TitleOfContent from '@components/TitleOfContent'
 import { paths } from '@constants/routerPublic'
+import { useCartContext } from '@contexts/hooks/order'
 import { Banner } from '@features/contact/components/Banner'
 import VoucherService from '@services/VoucherService'
 import type { VoucherCheckPriceDTO } from '@typeRules/voucher'
@@ -15,8 +16,11 @@ function index() {
   const { t } = useTranslation();
   const navigate = useNavigate()
 
+  const  { listOrder, handleDeleteCart, handleMinusCart, handlePlusCart } = useCartContext()
   const [voucher, setVoucher] = useState("")
   const [validVoucher, setValidVoucher] = useState<VoucherCheckPriceDTO>()
+console.log(listOrder);
+
 
   const checkVoucher = () => {
 
