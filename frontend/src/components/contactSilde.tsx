@@ -58,10 +58,10 @@ export const ContactSilde = memo(() => {
           <ICPhone width={widthBreak ? 20 : 15} height={widthBreak ? 20 : 15} />
         </span>
         {categories.length ? (
-          <div className="popup-with-arrow absolute top-[calc(-328px_+_54px)] right-[100%]">
+          <div className="popup-with-arrow rounded-[16px_0_16px_0] absolute top-0 right-[100%]">
             <div
               id="contact-context-id"
-              className="flex-1 shadow-lg overflow-x-hidden px-[16px] rounded-[16px_0_16px_0] absolute h-auto max-h-[328px] w-[220px] bg-white top-0 right-[15px] overflow-y-auto list-facilities"
+              className="flex-1 shadow-lg overflow-x-hidden px-[16px] rounded-[16px_0_16px_0]  absolute h-auto max-h-[328px] w-[220px] bg-white bottom-[-54px] right-[15px] overflow-y-auto list-facilities"
             >
               <InfiniteScroll
                 next={fechData}
@@ -76,7 +76,7 @@ export const ContactSilde = memo(() => {
                       key={index}
                       target="blank"
                       href={`tel:${item.phone}`}
-                      className="py-[16px] border-b border-br_E6E6E6"
+                      className="py-[16px] block border-b border-br_E6E6E6"
                     >
                       <p className="text-_14 text-left font-semibold text-GreyPrimary ">
                         {item.name}
@@ -103,10 +103,10 @@ export const ContactSilde = memo(() => {
           <ICZalo width={widthBreak ? 32 : 24} height={widthBreak ? 12 : 9} />
         </span>
         {categories.length ? (
-          <div className="popup-with-arrow absolute  top-[calc(-328px_+_54px)] right-[100%]">
+          <div className="popup-with-arrow  absolute  top-0 right-[100%]">
             <div
               id="contact-context-id"
-              className="flex-1 shadow-lg overflow-x-hidden px-[16px] rounded-[16px_0_16px_0] absolute h-auto max-h-[328px] w-[220px] bg-white top-0 right-[15px] overflow-y-auto list-facilities"
+              className="flex-1 shadow-lg overflow-x-hidden px-[16px] rounded-[16px_0_16px_0] absolute h-auto max-h-[328px] w-[220px] bg-white bottom-[-54px] right-[15px] overflow-y-auto list-facilities"
             >
               <InfiniteScroll
                 next={fechData}
@@ -121,7 +121,7 @@ export const ContactSilde = memo(() => {
                       key={index}
                       target="blank"
                       href={`https://zalo.me/${item.phone}`}
-                      className="py-[16px] border-b border-br_E6E6E6"
+                      className="py-[16px] block border-b border-br_E6E6E6"
                     >
                       <p className="text-_14 text-left font-semibold text-GreyPrimary ">
                         {item.name}

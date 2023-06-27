@@ -13,26 +13,33 @@ import type { IResponseData, IReview } from "@typeRules/index";
 import { reviewService } from "@services/thanksCustomer";
 import { policyService } from "@services/policy";
 import { useShowMessage } from "../components/DiglogMessage";
-import { useHandleLoading } from "../components/Loading";
+import { Loading, useHandleLoading } from "../components/Loading";
 
 export const ThanksCustomer = () => {
   const { t } = useTranslation();
-  const [reviews, setReviews] = useState<IResponseData<IReview>>()
+  const [reviews, setReviews] = useState<IResponseData<IReview>>();
 
   const { currentPage, setCurrentPage } = usePagination();
-  const [_, setSearchParam] = useSearchParams()
+  const [_, setSearchParam] = useSearchParams();
   const { showLoading } = useHandleLoading();
-  const { showError, showSuccess, showWarning } = useShowMessage();
+  const { showError, showSuccess } = useShowMessage();
+  const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
-    handleGetData(Number(currentPage))
-  }, [currentPage])
+    handleGetData(Number(currentPage));
+  }, [currentPage]);
 
-  const handleGetData = (page:number) => {
-    reviewService.get({page: page, size: SIZE_DATA, sort: "show,desc"}).then((data) => {
-      setReviews(data)
-    })
-  }
+  const handleGetData = (page: number) => {
+    setLoading(true);
+    reviewService
+      .get({ page: page, size: SIZE_DATA, sort: "show,desc" })
+      .then((data) => {
+        setReviews(data);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  };
 
   const navigation = useNavigate();
   const handleNavigation = () => {
@@ -42,9 +49,8 @@ export const ThanksCustomer = () => {
   };
 
   const totalPage = useMemo(() => {
-    return Math.ceil((reviews?.totalElementPage || 1) / SIZE_DATA)
-  }, [reviews?.totalElement])
-
+    return Math.ceil((reviews?.totalElementPage || 1) / SIZE_DATA);
+  }, [reviews?.totalElement]);
 
   const handleDelete = (id: number) => {
     showLoading();
@@ -54,26 +60,26 @@ export const ThanksCustomer = () => {
         const newReviews = [...reviews!.list];
         const index = newReviews.findIndex((item) => item.id === id);
         newReviews.splice(index, 1);
-          if(Number(currentPage) >= totalPage && newReviews.length <= 0) {
-            let page = currentPage
-            page = page - 1
-            setSearchParam({page: `${page}`})
-            setCurrentPage(page)
-          }else {
-            handleGetData(Number(currentPage))
-          }
-         showSuccess("customer.message_delete_success");
+        if (Number(currentPage) >= totalPage && newReviews.length <= 0) {
+          let page = currentPage;
+          page = page - 1;
+          setSearchParam({ page: `${page}` });
+          setCurrentPage(page);
+        } else {
+          handleGetData(Number(currentPage));
+        }
+        showSuccess("customer.message_delete_success");
       })
       .catch((error) => {
-        if(error?.response?.data?.message) {
-          showError(error?.response?.data?.message)
-        }else {
+        if (error?.response?.data?.message) {
+          showError(error?.response?.data?.message);
+        } else {
           showError("message.actions.error.delete_banner");
         }
       });
   };
 
-  const updateStar = (data:IReview) => {
+  const updateStar = (data: IReview) => {
     showLoading();
     reviewService
       .patch(Number(data.id))
@@ -81,21 +87,26 @@ export const ThanksCustomer = () => {
         const newReviews = [...reviews!.list];
         const index = newReviews.findIndex((item) => item.id === data.id);
         newReviews.splice(index, 1, data);
-         setReviews({totalElement: reviews?.totalElement || 0, totalElementPage: reviews?.totalElementPage || 0, list: [...newReviews]})
-         showSuccess("customer.message_update_success");
+        setReviews({
+          totalElement: reviews?.totalElement || 0,
+          totalElementPage: reviews?.totalElementPage || 0,
+          list: [...newReviews],
+        });
+        showSuccess("customer.message_update_success");
       })
       .catch((error) => {
-        showError(error.response?.data?.message || "message.actions.error.delete_banner");
+        showError(
+          error.response?.data?.message || "message.actions.error.delete_banner"
+        );
       });
   };
-
 
   return (
     <>
       <div className="flex items-baseline justify-between">
         <div className="flex items-baseline">
           <TitleTopic name="customer.title" isRequired={false} />
-          <span className="text-_14 ml-4 italic text-text_secondary">
+          <span className="text-_14 ml-2 3xl:ml-4 italic text-text_secondary">
             {t("customer.maxItem")} *
           </span>
         </div>
@@ -111,12 +122,22 @@ export const ThanksCustomer = () => {
           color={"empty"}
         />
       </div>
+      {loading && reviews ? (
+        <div className="flex items-center justify-center h-[200px]">
+          <Loading />
+        </div>
+      ) : null}
       <div className="grid grid-cols-4 gap-[24px]">
-        {
-          reviews?.list.map((item, index) => {
-            return  <ThanksCustomerItem onUpdate={updateStar} onDelete={handleDelete} key={index} data={item} />
-          })
-        }
+        {reviews?.list.map((item, index) => {
+          return (
+            <ThanksCustomerItem
+              onUpdate={updateStar}
+              onDelete={handleDelete}
+              key={index}
+              data={item}
+            />
+          );
+        })}
       </div>
       <div className="flex justify-end">
         <Pagination

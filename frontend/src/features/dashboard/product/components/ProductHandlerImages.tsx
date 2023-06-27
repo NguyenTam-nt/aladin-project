@@ -62,7 +62,7 @@ export const ProductHandlerImages = memo(({ listImage }: Props) => {
           />
         </div>
       </div>
-      {listImage.preViewImage ? (
+      {listImage.preViewImage.length ? (
         <div className="flex-1">
           <TitleInput name="common.image_uploaded" />{" "}
           <div className="flex-wrap w-full relative">

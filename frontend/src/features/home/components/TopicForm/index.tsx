@@ -25,7 +25,7 @@ export const TopicFormContent = memo(() => {
     <div ref={ref} className={clsx(" lg:w-rp mt-[40px] lg:mt-[120px] relative", {
       "animate__animated animate__zoomIn": isInView
     })}>
-      <TableReserVationForm />
+      {/* <TableReserVationForm /> */}
     </div>
   );
 });

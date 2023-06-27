@@ -8,8 +8,8 @@ export const FooterOver = () => {
 
 
   return (
-    <div className=" bg-secondary  text-[14px]">
-      <div className="py-[24px] gap-y-[16px]  w-rp flex flex-col lg:flex-col-reverse m992:flex-row justify-between lg:items-center xl:border-t-[1px] xl:border-text_white xl:border-solid ">
+    <div className="w-rp  text-[14px]">
+      <div className="py-[24px] gap-y-[16px]  flex flex-col lg:flex-col-reverse m992:flex-row justify-between lg:items-center border-t-[1px] border-text_white border-solid ">
         <span className="text-text_white lg:text-center m992:text-left mt-[24px] m992:mt-0">
            Giang Mỹ Hotpot, Copyright @2023 - Design by Aladin Technology Company
         </span>

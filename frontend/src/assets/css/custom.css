@@ -323,7 +323,7 @@ select:focus {
   position: absolute;
   content: "";
   right: 100%;
-  top: 328px;
+  top: 54px;
   transform: translateY(-27px);
   display: block;
   width: 15px;
@@ -337,7 +337,7 @@ select:focus {
   position: absolute;
   content: "";
   right: 100%;
-  top: 328px;
+  top: 54px;
   transform: translateY(calc(-100%));
   display: block;
   width: 15px;

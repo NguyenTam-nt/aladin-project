@@ -30,7 +30,7 @@
                 "post": "Cập nhật bài viết thất bại!",
                 "update": "Cập nhật thất bại!",
                 "delete": "Xóa bài viết thất bại!", 
-                "delete_banner": "Thất bại!"
+                "delete_banner": "Lỗi hệ thống."
             },
             "warning": {
                 "min_post": "Bài viết giới thiệu ngắn tối thiểu có một bài viết."

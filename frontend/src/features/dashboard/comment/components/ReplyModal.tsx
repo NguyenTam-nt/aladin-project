@@ -66,6 +66,7 @@ export const ReplyModal = ({ data, onUpdate }: Props) => {
             onBlur={formik.handleBlur}
             className="h-[192px]"
             placeholder="adminComment.modal.content_placeholder"
+            maxLength={2000}
           />
           {formik.errors.content && formik.touched.content && (
             <TextError message={formik.errors.content} />

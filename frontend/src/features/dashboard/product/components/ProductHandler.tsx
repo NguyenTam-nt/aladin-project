@@ -64,12 +64,10 @@ export const ProductHandler = () => {
     validationSchema: Yup.object({
       code: Yup.string().trim().required("message.form.required"),
       name: Yup.string().trim().required("message.form.required"),
-      price: Yup.string()
-        .required("message.form.required")
-        .matches(/^[-+]?[0-9]+$/, "Vui lòng nhập số."),
-      pricePromotion: Yup.string()
-        .required("message.form.required")
-        .matches(/^[-+]?[0-9]+$/, "Vui lòng nhập số."),
+      price: Yup.number()
+        .required("message.form.required"),
+      pricePromotion: Yup.number()
+        .required("message.form.required").lessThan(Yup.ref("price"), "Giá khuyến mại phải nhỏ hơn giá gốc."),
       description: Yup.string().trim().required("message.form.required"),
       category: Yup.object().required("message.form.required"),
       listInfrastructure: Yup.array<IListMedia>().required(
@@ -271,6 +269,7 @@ export const ProductHandler = () => {
             onChange={fomick.handleChange}
             onBlur={handleBluerCode}
             placeholder="adminProduct.form.code_placeholder"
+            maxLength={255}
           />
           {fomick.errors.code && fomick.touched.code && (
             <TextError message={fomick.errors.code} />
@@ -284,6 +283,7 @@ export const ProductHandler = () => {
             onChange={fomick.handleChange}
             onBlur={fomick.handleBlur}
             placeholder="adminProduct.form.name_placeholder"
+            maxLength={255}
           />
           {fomick.errors.name && fomick.touched.name && (
             <TextError message={fomick.errors.name} />

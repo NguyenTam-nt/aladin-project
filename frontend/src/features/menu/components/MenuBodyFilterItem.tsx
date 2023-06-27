@@ -38,7 +38,7 @@ export const MenuBodyFilterItem = ({
         >
           {data?.name}
         </button>
-        {!!data?.listCategoryChild ? (
+        {data?.listCategoryChild?.length ? (
           <button
             onClick={() => {
               setIsShow(!isShow);
@@ -57,41 +57,44 @@ export const MenuBodyFilterItem = ({
           </button>
         ) : null}
       </div>
-      <ul
-        className={clsx(
-          "mt-[16px]  text-_14 pl-[24px] overflow-hidden h-0 ease-in duration-300",
-          {
-            "footer-animation-list": isShow,
-          }
-        )}
-        style={{
-          ["--footer-size" as string]: 3,
-          ["--height-li" as string]: "32px",
-        }}
-      >
-        {!!data?.listCategoryChild &&
-          data?.listCategoryChild.map((item, index) => {
-            const active = index === indexChild;
-            return (
-              <li
-                key={index}
-                onClick={() => onChangeChild(index, Number(data.id))}
-                className="h-[32px] items-center"
-              >
-                <button
-                  className={clsx(
-                    "h-[24px] flex items-center text-[14px] hover:text-primary duration-300",
-                    {
-                      "text-primary": active,
-                    }
-                  )}
-                >
-                  {item.name}
-                </button>
-              </li>
-            );
-          })}
-      </ul>
+      {data?.listCategoryChild?.length ? (
+        <ul
+          className={clsx(
+            "mt-[16px]  text-_14 pl-[24px] overflow-hidden h-0 ease-in duration-300",
+            {
+              "footer-animation-list": isShow,
+            }
+          )}
+          style={{
+            ["--footer-size" as string]: 3,
+            ["--height-li" as string]: "32px",
+          }}
+        >
+          {data?.listCategoryChild?.length
+            ? data?.listCategoryChild.map((item, index) => {
+                const active = index === indexChild;
+                return (
+                  <li
+                    key={index}
+                    onClick={() => onChangeChild(index, Number(data.id))}
+                    className="h-[32px] items-center"
+                  >
+                    <button
+                      className={clsx(
+                        "h-[24px] flex items-center text-[14px] hover:text-primary duration-300",
+                        {
+                          "text-primary": active,
+                        }
+                      )}
+                    >
+                      {item.name}
+                    </button>
+                  </li>
+                );
+              })
+            : null}
+        </ul>
+      ) : null}
     </div>
   );
 };

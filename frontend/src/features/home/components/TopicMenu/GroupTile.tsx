@@ -26,7 +26,7 @@ export const GroupTile = ({ title, listItem = [], idParent }: Props) => {
       {windownSizeWidth > withResponsive._768 ? (
         <div className="flex text-_16 mt-[16px] md:mt-0 font-semibold lg:text-_20 lg:font-bold gap-x-[32px] uppercase text-text_secondary">
           {listItem.map((item, index) => {
-            return <Link to={`${paths.memu.prefix}?category=${idParent}-${item?.id}`} key={index}>{item.name}</Link>;
+            return <Link className="uppercase font-bold" to={`${paths.memu.prefix}?category=${idParent}-${item?.id}`} key={index}>{item.name}</Link>;
           })}
           <Link
             to={`${paths.memu.prefix}?category=${idParent}`}
@@ -36,18 +36,18 @@ export const GroupTile = ({ title, listItem = [], idParent }: Props) => {
           </Link>
         </div>
       ) : (
-        <GroupLinkMobile listItem={listItem} />
+        <GroupLinkMobile idParent={idParent} listItem={listItem} />
       )}
     </div>
   );
 };
 
-const GroupLinkMobile = memo(({ listItem }: { listItem: ICategoryItem[] }) => {
+const GroupLinkMobile = memo(({ listItem, idParent }: { listItem: ICategoryItem[], idParent: number }) => {
   const { t } = useTranslation();
   return (
     <SwiperComponent
       freeMode={true}
-      slidesPerView={5}
+      // slidesPerView={4}
       spaceBetween={12}
       style={{
         width: windownSizeWidth,
@@ -57,7 +57,7 @@ const GroupLinkMobile = memo(({ listItem }: { listItem: ICategoryItem[] }) => {
       {listItem.map((item, index) => {
         return (
           <SwiperSlide>
-            <p key={index}>{item.name}</p>
+           <Link className="uppercase font-semibold text-_16" to={`${paths.memu.prefix}?category=${idParent}-${item?.id}`} key={index}>{item.name}</Link>
           </SwiperSlide>
         );
       })}

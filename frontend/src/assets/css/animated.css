@@ -511,6 +511,16 @@
     }
   }
   
+  .rotate-logo-mb {
+    animation: rotateLogo 0.4s cubic-bezier(0, 0.2, 0.8, 1);
+  } 
+
+  .scale-logo-mb {
+    
+    animation: scaleLogo 0.3s cubic-bezier(0, 0.2, 0.8, 1) forwards;
+    animation-delay: 0.4s;
+    transform-origin: center center;
+  }
   
   .card-effect::before {
     content: "";

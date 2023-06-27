@@ -1,3 +1,4 @@
+import { ICBackgroundSideNavigation } from "@assets/icons/ICBackgroundSideNavigation";
 import { ICDeleteSibar } from "@assets/icons/ICDeleteSibar";
 import { routersPublic } from "@constants/routerPublic";
 import clsx from "clsx";
@@ -55,6 +56,7 @@ export const SidebarNavigation = ({ isShowSidebar, onShow }: propsNavigate) => {
             ) : null;
           })}
         </div>
+        <div className=" absolute bottom-0 right-0 pointer-events-none select-none" ><ICBackgroundSideNavigation /></div>
       </div>
     </>
   );

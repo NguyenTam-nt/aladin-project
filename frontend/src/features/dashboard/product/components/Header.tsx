@@ -119,7 +119,7 @@ export const Header = memo(({ onChange }: Props) => {
             </ul>
           </div>
           {!!categories &&
-          indexParent !== 1 &&
+          indexParent !== -1 &&
           categories[indexParent]?.listCategoryChild?.length ? (
             <ul
               className={clsx(

@@ -9,7 +9,7 @@ import { prefixRootRoute } from "@constants/index";
 import { pathsAdmin } from "@constants/routerManager";
 import { policyService } from "@services/policy";
 import type { INews } from "@typeRules/index";
-import { useHandleLoading } from "../components/Loading";
+import { Loading, useHandleLoading } from "../components/Loading";
 import { useShowMessage } from "../components/DiglogMessage";
 
 export const Policy = () => {
@@ -18,6 +18,7 @@ export const Policy = () => {
   const navigation = useNavigate();
   const { showLoading } = useHandleLoading();
   const { showError, showSuccess } = useShowMessage();
+  const [loading, setLoading] = useState(false)
   const handleNavigation = () => {
     navigation(
       `${prefixRootRoute.admin}/${pathsAdmin.policy.prefix}/${pathsAdmin.policy.add}`
@@ -25,11 +26,14 @@ export const Policy = () => {
   };
 
   useEffect(() => {
+    setLoading(true)
     policyService
       .getPolicy({ page: 0, size: 12, sort: "id,desc" })
       .then((data) => {
         setPolicies(data.list);
-      });
+      }).finally(() => {
+        setLoading(false)
+      })
   }, []);
 
   const handleDelete = (id: number) => {
@@ -72,11 +76,16 @@ export const Policy = () => {
           />
         ) : null}
       </div>
+      {
+        !loading && policies.length ? (
       <div className="grid grid-cols-4 gap-[24px]">
         {policies.map((item, index) => {
           return <PolicyItem onDelete={handleDelete} data={item} key={index} />;
         })}
       </div>
+
+        ) : <div className="flex items-center justify-center h-[200px]"> <Loading /></div>
+      }
     </>
   );
 };

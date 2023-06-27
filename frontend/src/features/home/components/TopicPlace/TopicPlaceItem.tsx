@@ -69,64 +69,63 @@ type PropsPlaceItemBase = {
   onChange: (index: number) => void;
 };
 
-export const TopicPlaceItemBase = memo(({
-  data,
-  onFetch,
-  onChange,
-  activeIndex,
-}: PropsPlaceItemBase) => {
-  return (
-    <div id="place-home" className="flex-1 overflow-y-auto list-facilities">
-      <InfiniteScroll
-        hasMore
-        loader={<></>}
-        next={onFetch}
-        dataLength={data.length}
-        scrollableTarget="place-home"
-      >
-        {data.map((item, index) => {
-          return (
-            <div
-              key={item.id}
-              onClick={() => onChange(index)}
-              className={clsx("flex items-center justify-between px-[24px]", {
-                "bg-bg_F1F1F1 border-none px-[24px] !mx-0":
-                  activeIndex === index,
-              })}
-            >
+export const TopicPlaceItemBase = memo(
+  ({ data, onFetch, onChange, activeIndex }: PropsPlaceItemBase) => {
+    return (
+      <div id="place-home" className="flex-1 overflow-y-auto list-facilities">
+        <InfiniteScroll
+          hasMore
+          loader={<></>}
+          next={onFetch}
+          dataLength={data.length}
+          scrollableTarget="place-home"
+        >
+          {data.map((item, index) => {
+            return (
               <div
-                className={clsx(
-                  "py-[16px] cursor-pointer border-b border-br_E6E6E6",
-                  {
-                    "border-none": activeIndex === index,
-                  }
-                )}
+                key={item.id}
+                onClick={() => onChange(index)}
+                className={clsx("flex items-center  px-[24px]", {
+                  "bg-bg_F1F1F1 border-none px-[24px] !mx-0":
+                    activeIndex === index,
+                })}
               >
-                <p className="text-_14 font-semibold text-GreyPrimary ">
-                  {item.name}
-                </p>
-                <p className="text-_14 font-semibold text-text_secondary my-2">
-                  {item.address}
-                </p>
-                <div className="flex items-center gap-x-[6px]">
-                  <div>
-                    <ICHotline />
+                <div
+                  className={clsx(
+                    "flex items-center w-full justify-between border-b border-br_E6E6E6",
+                    {
+                      "border-none": activeIndex === index,
+                    }
+                  )}
+                >
+                  <div className={clsx("py-[16px] cursor-pointer ")}>
+                    <p className="text-_14 font-semibold text-GreyPrimary ">
+                      {item.name}
+                    </p>
+                    <p className="text-_14 font-semibold text-text_secondary my-2">
+                      {item.address}
+                    </p>
+                    <div className="flex items-center gap-x-[6px]">
+                      <div>
+                        <ICHotline />
+                      </div>
+                      <p className="text-_14 font-semibold text-text_secondary ">
+                        {item.phone}
+                      </p>
+                    </div>
                   </div>
-                  <p className="text-_14 font-semibold text-text_secondary ">
-                    {item.phone}
-                  </p>
+
+                  {activeIndex === index ? (
+                    <span className="hidden lg:block">
+                      <ICArrowActive />
+                    </span>
+                  ) : null}
                 </div>
               </div>
-
-              {activeIndex === index ? (
-                <span className="hidden lg:block">
-                  <ICArrowActive />
-                </span>
-              ) : null}
-            </div>
-          );
-        })}
-      </InfiniteScroll>
-    </div>
-  );
-})
+            );
+          })}
+        </InfiniteScroll>
+      </div>
+    );
+  }
+);

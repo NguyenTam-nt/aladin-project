@@ -45,11 +45,14 @@
     src: url('../fonts/iCielBCCubano-Normal.otf') format('truetype');
     font-weight: 400;
   }
-
+html {
+  max-width: 100vw;
+  overflow-x: hidden;
+}
 
 body {
     font-family: "IBM Plex Sans";
-    scroll-behavior: smooth;
+    max-width: 100vw;
 }
 
 

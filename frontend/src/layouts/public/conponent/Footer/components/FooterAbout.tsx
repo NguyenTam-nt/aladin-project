@@ -11,6 +11,7 @@ import { windownSizeWidth, withResponsive } from "@constants/index";
 import type { INews } from "@typeRules/index";
 import { policyService } from "@services/policy";
 import { ICPolicyNoticeFooter } from "@assets/icons/ICPolicyNoticeFooter";
+import { ICPolicyNoticeFooterMobile } from "@assets/icons/ICPolicyNoticeFooterMobile";
 
 
 export const FooterAbout = () => {
@@ -34,7 +35,12 @@ export const FooterAbout = () => {
             <p>{t("home.footer.sub_title")}</p>
           </div>
           <div className="flex items-center gap-x-[16px] mt-[16px] mb-0 m992:mb-[24px] xl:mb-0">
-            <ICPolicyNoticeFooter />
+            {
+              windownSizeWidth > withResponsive._992 ? (
+                <ICPolicyNoticeFooter width={windownSizeWidth > withResponsive._992 ? 125 : 62} height={windownSizeWidth > withResponsive._992 ? 48 : 24} />
+              ) : <img src={footerImage} alt="" />
+            }
+           
           </div>
         </div>
         <div className="col-span-1">
@@ -136,7 +142,7 @@ const FooterAboutGroupPolicy = () => {
             <li key={index} className="h-[32px] items-center">
               <Link
                 to={`/policy/${item.id}`}
-                className="h-[24px] flex items-center line-clamp-1 text-text_white text-_14 hover:text-primary duration-300"
+                className="line-clamp-1 text-text_white text-_14 hover:text-primary duration-300"
               >
                 {t(item.title)}
               </Link>
