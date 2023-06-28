@@ -145,7 +145,7 @@ export const pathsAdmin = {
     prefix: "danh-muc",
   },
   product: {
-    prefix: "san-pham",
+    prefix: "mon-an",
     add: "them",
     update: ":id",
   },

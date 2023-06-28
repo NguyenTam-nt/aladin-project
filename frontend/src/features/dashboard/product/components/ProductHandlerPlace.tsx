@@ -53,7 +53,7 @@ export const ProductHandlerPlace = memo(
 
     return (
       <div className=" col-span-1">
-        <TitleInput name="adminProduct.form.category" />
+        <TitleInput name="adminProduct.form.choose_place" />
         <div ref={ref} className="relative w-full">
           <button
             onClick={handleToggleItem}

@@ -1,4 +1,10 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, {
+  ChangeEvent,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { TitleTopic } from "../home/components/TitleTopic";
 import { useTranslation } from "react-i18next";
 import { Button } from "../components/Button";
@@ -14,25 +20,58 @@ import { reviewService } from "@services/thanksCustomer";
 import { policyService } from "@services/policy";
 import { useShowMessage } from "../components/DiglogMessage";
 import { Loading, useHandleLoading } from "../components/Loading";
+import { debounce } from "lodash";
+import { Input } from "../components/Input";
+import MagnifyingGlass from "@assets/icons/MagnifyingGlass";
+import { Colors } from "@constants/color";
+import { useSearchParamHook } from "@hooks/useSearchParam";
 
 export const ThanksCustomer = () => {
   const { t } = useTranslation();
   const [reviews, setReviews] = useState<IResponseData<IReview>>();
-
+  const { setSearchParam, setQueries, searchParams } = useSearchParamHook();
   const { currentPage, setCurrentPage } = usePagination();
-  const [_, setSearchParam] = useSearchParams();
+  const [searchQuery, setSearchQuery] = useState<string | undefined>(() => {
+    const query = searchParams.get("query");
+    if (query) {
+      return query;
+    }
+    return undefined;
+  });
+
   const { showLoading } = useHandleLoading();
   const { showError, showSuccess } = useShowMessage();
   const [loading, setLoading] = useState<boolean>(false);
+  const debounceTime = useRef<ReturnType<typeof debounce>>();
 
   useEffect(() => {
-    handleGetData(Number(currentPage));
-  }, [currentPage]);
+    if (debounceTime.current) debounceTime.current.cancel();
+    if (searchQuery?.trim()) {
+      debounceTime.current = debounce(() => {
+        handleGetSearchData(Number(currentPage), searchQuery);
+      }, 300);
+      debounceTime.current();
+    } else {
+      handleGetData(Number(currentPage));
+    }
+  }, [currentPage, searchQuery]);
 
   const handleGetData = (page: number) => {
     setLoading(true);
     reviewService
       .get({ page: page, size: SIZE_DATA, sort: "show,desc" })
+      .then((data) => {
+        setReviews(data);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  };
+
+  const handleGetSearchData = (page: number, query: string) => {
+    setLoading(true);
+    reviewService
+      .getSearch({ page: page, size: SIZE_DATA, sort: "show,desc", query })
       .then((data) => {
         setReviews(data);
       })
@@ -101,28 +140,50 @@ export const ThanksCustomer = () => {
       });
   };
 
+  const handleChangeValue = (event: ChangeEvent<HTMLInputElement>) => {
+    const value = event.target.value;
+    setQueries("query", value.trim());
+    setQueries("page", "1");
+    setCurrentPage(1);
+    setSearchQuery(value);
+  };
+
   return (
     <>
-      <div className="flex items-baseline justify-between">
+      <div className="flex items-baseline flex-col justify-between">
         <div className="flex items-baseline">
           <TitleTopic name="customer.title" isRequired={false} />
           <span className="text-_14 ml-2 3xl:ml-4 italic text-text_secondary">
             {t("customer.maxItem")} *
           </span>
         </div>
-        <Button
-          onClick={handleNavigation}
-          className="max-w-[177px]"
-          text="customer.add"
-          imageLeft={
-            <span className="mr-2">
-              <ICAdd />
-            </span>
-          }
-          color={"empty"}
-        />
+        <div className="flex w-full mb-[32px] items-center gap-[24px]">
+          <Input
+            placeholder="Nhập từ khóa tìm kiếm"
+            value={searchQuery ?? ""}
+            onChange={handleChangeValue}
+            renderLeft={() => {
+              return (
+                <span className="mr-1">
+                  <MagnifyingGlass color={Colors.text_A1A0A3} />
+                </span>
+              );
+            }}
+          />
+          <Button
+            onClick={handleNavigation}
+            className="max-w-[177px]"
+            text="customer.add"
+            imageLeft={
+              <span className="mr-2">
+                <ICAdd />
+              </span>
+            }
+            color={"empty"}
+          />
+        </div>
       </div>
-      {loading && reviews ? (
+      {loading && !reviews ? (
         <div className="flex items-center justify-center h-[200px]">
           <Loading />
         </div>
@@ -139,13 +200,15 @@ export const ThanksCustomer = () => {
           );
         })}
       </div>
-      <div className="flex justify-end">
-        <Pagination
-          currentPage={currentPage}
-          setCurrentPage={setCurrentPage}
-          totalPages={totalPage}
-        />
-      </div>
+      {totalPage > 1 ? (
+        <div className="flex justify-end">
+          <Pagination
+            currentPage={currentPage}
+            setCurrentPage={setCurrentPage}
+            totalPages={totalPage}
+          />
+        </div>
+      ) : null}
     </>
   );
 };

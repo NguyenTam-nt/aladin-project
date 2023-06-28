@@ -64,10 +64,10 @@ export const ProductHandler = () => {
     validationSchema: Yup.object({
       code: Yup.string().trim().required("message.form.required"),
       name: Yup.string().trim().required("message.form.required"),
-      price: Yup.number()
+      price: Yup.number().moreThan(0, "Vui lòng nhập số lớn hơn 0").typeError("Vui lòng nhập số.")
         .required("message.form.required"),
-      pricePromotion: Yup.number()
-        .required("message.form.required").lessThan(Yup.ref("price"), "Giá khuyến mại phải nhỏ hơn giá gốc."),
+      pricePromotion: Yup.number().typeError("Vui lòng nhập số.").moreThan(0, "Vui lòng nhập số lớn hơn 0")
+        .required("message.form.required").max(Yup.ref("price"), "Giá khuyến mãi phải nhỏ hơn hoặc bằng giá gốc."),
       description: Yup.string().trim().required("message.form.required"),
       category: Yup.object().required("message.form.required"),
       listInfrastructure: Yup.array<IListMedia>().required(
@@ -76,13 +76,13 @@ export const ProductHandler = () => {
     }),
     onSubmit: async (values) => {
       try {
-        if (!listImage.preViewImage.length || !videoFile.preViewImage) {
+        if (!listImage.preViewImage.length) {
           if (!listImage.preViewImage.length) {
             listImage.handleMessageFile();
           }
-          if (!listImage.preViewImage) {
-            listImage.handleMessageFile();
-          }
+          // if (!listImage.preViewImage) {
+          //   listImage.handleMessageFile();
+          // }
           return;
         }
         showLoading();

@@ -38,21 +38,23 @@ export const ContactSilde = memo(() => {
   };
   return (
     <>
-      <button
-        onClick={handleLogin}
-        className=" text-_12 text-white flex items-center justify-center bg-primary"
-      >
-        {loading ? (
-          "..."
-        ) : (
-          <span>
-            <ICLogin
-              width={widthBreak ? 24 : 24}
-              height={widthBreak ? 24 : 24}
-            />
-          </span>
-        )}
-      </button>
+      {windownSizeWidth > withResponsive._1280 ? (
+        <button
+          onClick={handleLogin}
+          className=" text-_12 text-white flex items-center justify-center bg-primary"
+        >
+          {loading ? (
+            "..."
+          ) : (
+            <span>
+              <ICLogin
+                width={widthBreak ? 24 : 24}
+                height={widthBreak ? 24 : 24}
+              />
+            </span>
+          )}
+        </button>
+      ) : null}
       <button className="relative flex items-center justify-center  bg-bg_01A63E">
         <span>
           <ICPhone width={widthBreak ? 20 : 15} height={widthBreak ? 20 : 15} />

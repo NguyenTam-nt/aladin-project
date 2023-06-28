@@ -63,7 +63,7 @@ export const ProductHandlerCategory = memo(({ onChange, category }: Props) => {
   return (
     <div className=" col-span-1">
       <TitleInput name="adminProduct.form.category" />
-      <div ref={ref} className="relative w-full">
+      <div ref={ref} className="relative w-full  z-[5]">
         <button
           onClick={handleToggleItem}
           className={clsx(

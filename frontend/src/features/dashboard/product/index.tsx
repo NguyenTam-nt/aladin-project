@@ -1,9 +1,10 @@
-import React from "react";
+import React, { memo } from "react";
 import { Header } from "./components/Header";
 import { ProductItem } from "./components/ProductItem";
 import { Pagination } from "@components/Paginnation";
 import { Loading } from "../components/Loading";
 import { useGetProduct } from "./components/useGetProduct";
+import type { IProduct } from "@typeRules/product";
 
 export const ProductAdmin = () => {
   const {
@@ -15,11 +16,13 @@ export const ProductAdmin = () => {
     totalPages,
     currentPage,
     setCurrentPage,
+    querySearch,
+    handleSearch
   } = useGetProduct();
 
   return (
     <>
-      <Header onChange={handleChangeCategory} />
+      <Header query={querySearch} onSearch={handleSearch} onChange={handleChangeCategory} />
       {products?.list.length ? (
         <div className="grid grid-cols-4 gap-[24px]">
           {products.list.map((item) => {

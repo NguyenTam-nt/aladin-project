@@ -13,7 +13,6 @@ import { useNavigate } from "react-router-dom";
 import { paths } from "@constants/routerPublic";
 import { useCartContext } from "@contexts/hooks/order";
 import type { IProduct } from "@typeRules/product";
-
 export const MenusRight = () => {
   const { t } = useTranslation();
   // const [open, setOpen] = useState(false);
@@ -54,7 +53,7 @@ export const MenusRight = () => {
           "h-[40px] 2xl:h-[54px] w-[223px] absolute  origin-[top_right] right-[calc(100%_+_40px)]  2xl:right-[calc(100%_+_54px)] gap-x-2 rotate-[-90deg] text-_18 text-text_white flex font-iCielBC_Cubano items-center justify-center px-[24px] rounded-[0_16px_0_0] bg-secondary"
         }
       >
-        <span className={clsx("rotate-[180deg]", {"rotate-[0deg]": isShow})}>
+        <span className={clsx("rotate-[-180deg]", {"rotate-[0deg]": isShow})}>
           <ICArowDown color={Colors.text_white} />
         </span>
         {t("common.choosed_menu")}

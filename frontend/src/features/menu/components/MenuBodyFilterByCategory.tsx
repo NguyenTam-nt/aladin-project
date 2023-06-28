@@ -2,23 +2,20 @@ import React, { memo } from "react";
 import { MenuBodyFilterItem } from "./MenuBodyFilterItem";
 import { ICDeleteSibar } from "@assets/icons/ICDeleteSibar";
 import { windownSizeWidth, withResponsive } from "@constants/index";
-import { useCategoryFilter } from "@features/dashboard/product/components/useCategoryFilter";
+import type { ICategory } from "@typeRules/category";
 
 type Props = {
   onHidden?: () => void;
-  onChangeCategory: (id: number) => void;
+  categories: ICategory[]
+  handleChangeCategoryParent : (id:number) => void,
+  handleSelectCategorySub:  (id:number, idParent:number) => void,
+  indexChild: number,
+  indexParent: number,
+
 };
 
 export const MenuBodyFilterByCategory = memo(
-  ({ onHidden, onChangeCategory }: Props) => {
-    const {
-      handleChangeCategoryParent,
-      handleSelectCategorySub,
-      categories,
-      indexChild,
-      indexParent,
-    } = useCategoryFilter({ onChange: onChangeCategory, isAll: true });
-
+  ({ onHidden, categories, handleChangeCategoryParent, handleSelectCategorySub, indexChild, indexParent }: Props) => {
     return (
       <div className="w-full">
         <div className="flex items-center justify-between">
@@ -34,6 +31,7 @@ export const MenuBodyFilterByCategory = memo(
         {categories.map((item, index) => {
           return (
             <MenuBodyFilterItem
+             onClose={onHidden}
               onChangeChild={handleSelectCategorySub}
               onChangeParent={handleChangeCategoryParent}
               key={item.id}

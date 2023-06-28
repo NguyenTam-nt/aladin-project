@@ -35,13 +35,12 @@ export const ProductHandlerImages = memo(({ listImage }: Props) => {
     onActiveIndexChange,
   } = useSwiperNavigationRef();
   const width = useMemo(() => {
-    return windownSizeWidth > withResponsive._1280
+    return windownSizeWidth > withResponsive._1536
       ? windownSizeWidth -
-          300 -
+          300 * 2 -
           (windownSizeWidth > withResponsive._1536 ? 96 : 70 * 2) -
-          288 -
-          40
-      : 1280 - 300 - 70 * 2 - 228 - 40;
+          288
+      : windownSizeWidth - 300 - 70 - 70*2 - 228;
   }, []);
 
   return (

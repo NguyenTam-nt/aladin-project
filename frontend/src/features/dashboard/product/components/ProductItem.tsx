@@ -1,7 +1,7 @@
 import { ICEye } from "@assets/icons/ICEye";
 import { ICEyeOff } from "@assets/icons/ICEyeOff";
 import { ICStar } from "@assets/icons/ICStar";
-import { formatNumberDot } from "@commons/formatMoney";
+import { formatNumberDot, formatNumberDotSlice } from "@commons/formatMoney";
 import { Colors } from "@constants/color";
 import { prefixRootRoute } from "@constants/index";
 import { pathsAdmin } from "@constants/routerManager";
@@ -55,8 +55,12 @@ export const ProductItem = memo(({ data, onDelete, onUpdate }: Props) => {
         onUpdate(data);
         showSuccess("Cập nhật thành công.");
       })
-      .catch(() => {
-        showError("Cập nhật thất bại.");
+      .catch((error) => {
+        if (error?.response?.data.status !== 500) {
+          showError(error?.response?.data?.message || "Cập nhật thất bại.");
+        } else {
+          showError(error?.response?.data?.message || "Lỗi hệ thống.");
+        }
       });
   };
 
@@ -64,12 +68,12 @@ export const ProductItem = memo(({ data, onDelete, onUpdate }: Props) => {
     if (data.show) {
       if (data.priority) {
         setElementModal(
-          <DiglogMessage message="Bạn bắt buộc bỏ trạng thái nổi bật, mới có thể ẩn sản phẩm" />
+          <DiglogMessage message="Bạn bắt buộc bỏ trạng thái nổi bật, mới có thể ẩn món ăn" />
         );
       } else {
         setElementModal(
           <DiglogComfirm
-            message="Bạn có muốn ẩn (ngừng kinh doanh tạm thời) sản phẩm này không?"
+            message="Bạn có muốn ẩn (ngừng kinh doanh tạm thời) món ăn này không?"
             onClick={handleDisplay}
           />
         );
@@ -86,18 +90,20 @@ export const ProductItem = memo(({ data, onDelete, onUpdate }: Props) => {
         onUpdate(data);
         showSuccess("Cập nhật thành công.");
       })
-      .catch(() => {
-        showError("Cập nhật thất bại.");
+      .catch((error) => {
+        if (error?.response?.data.status !== 500) {
+          showError(error?.response?.data?.message || "Cập nhật thất bại.");
+        } else {
+          showError(error?.response?.data?.message || "Lỗi hệ thống.");
+        }
       });
   };
 
   return (
     <div className=" bg-white flex flex-col h-[524px]">
       <div className="relative h-[288px]">
-        {Number(data?.percent) > 0 ? (
-          <DiscountItem
-            discount={Math.ceil(data?.percent || 0)}
-          />
+        {Number(data?.percent) > 0 && data.price !== data.pricePromotion ? (
+          <DiscountItem discount={Math.ceil(data?.percent || 0)} />
         ) : null}
         <div className="flex absolute top-[20px] right-[20px] z-[1]  items-center gap-x-[18px]">
           <button onClick={handleShowHome}>
@@ -126,9 +132,9 @@ export const ProductItem = memo(({ data, onDelete, onUpdate }: Props) => {
         <p className="text-_16 line-clamp-2 font-semibold text-black">
           {data?.name}
         </p>
-        <div className="mt-2 flex items-center">
-          <span className=" text-_18 font-bold text-text_EA222A">
-            {formatNumberDot(Number(data.pricePromotion))}
+        <div className="mt-2 flex line-clamp-1 items-center">
+          <span className=" text-_18  font-bold text-text_EA222A">
+            {formatNumberDotSlice(Number(data?.pricePromotion))}
           </span>
           {data.price !== data.pricePromotion ? (
             <MoneyLineThrough money={Number(data.price)} />

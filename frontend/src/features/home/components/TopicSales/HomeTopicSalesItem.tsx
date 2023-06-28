@@ -1,7 +1,7 @@
 import React, { memo } from "react";
 import { DiscountItem } from "../DiscountItem";
 import { MoneyLineThrough } from "../MoneyLineThrough";
-import { formatNumberDot } from "@commons/formatMoney";
+import { formatNumberDot, formatNumberDotSlice } from "@commons/formatMoney";
 import type { IProduct } from "@typeRules/product";
 import { Link } from "react-router-dom";
 import { paths } from "@constants/routerPublic";
@@ -26,7 +26,7 @@ export const HomeTopicSalesItem = memo(({ index, data }: Props) => {
         <div className="flex w-full flex-col justify-center relative text-text_white z-[3] items-center">
           <div className="flex items-center">
             <span className="text-_16 font-semibold lg:text-_18 lg:font-bold">
-              {formatNumberDot(Number(data?.pricePromotion))}
+              {formatNumberDotSlice(Number(data?.pricePromotion))}
             </span>
             <MoneyLineThrough money={Number(data?.price)} />
           </div>

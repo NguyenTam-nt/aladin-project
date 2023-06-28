@@ -114,7 +114,7 @@ const FooterAboutGroupPolicy = () => {
 
   useEffect(() => {
     policyService
-      .getPolicy({ page: 0, size: 6, sort: "id,desc" })
+      .getPolicy({ page: 0, size: 12, sort: "id,desc" })
       .then((data) => {
         setPolicy(data.list);
       });

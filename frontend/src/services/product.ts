@@ -1,5 +1,5 @@
 import HttpService from "@configs/api"
-import { getMicroService, getMicroServiceAdmin, microServices } from "./getMicroService"
+import { getMicroService, getMicroServiceAdmin, microServices, getMicroServiceSearchAdmin } from "./getMicroService"
 import { apis } from "../constants/list-api"
 import type { IParams, IResponseData } from "@typeRules/index"
 import type { IProduct, IProductHome } from "@typeRules/product"
@@ -40,5 +40,9 @@ export const productService = {
     },
     checkCode: (code:string):Promise<IProduct> => {
         return HttpService.axiosClient.get(`${apiAdmin}/check/${code}`)
+    },
+    search: (params:IParams):Promise<IResponseData<IProduct>> => {
+        const apiAdmin = getMicroServiceSearchAdmin(apis.product,  microServices.restaurant)
+        return HttpService.axiosClient.get(`${apiAdmin}`, {params: {...params, page: Number(params.page) - 1, query: `*${params?.query}*`}})
     }
 }

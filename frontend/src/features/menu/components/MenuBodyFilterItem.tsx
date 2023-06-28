@@ -10,6 +10,7 @@ type Props = {
   onChangeChild: (id: number, idParent: number) => void;
   indexChild: number;
   isActive: boolean;
+  onClose?: () => void
 };
 
 export const MenuBodyFilterItem = ({
@@ -18,6 +19,7 @@ export const MenuBodyFilterItem = ({
   onChangeParent,
   indexChild,
   isActive,
+  onClose
 }: Props) => {
   const [isShow, setIsShow] = useState(false);
 
@@ -72,11 +74,14 @@ export const MenuBodyFilterItem = ({
         >
           {data?.listCategoryChild?.length
             ? data?.listCategoryChild.map((item, index) => {
-                const active = index === indexChild;
+                const active = index === indexChild && isActive;
                 return (
                   <li
                     key={index}
-                    onClick={() => onChangeChild(index, Number(data.id))}
+                    onClick={() => {
+                      onChangeChild(index, Number(data.id))
+                      onClose?.()
+                    }}
                     className="h-[32px] items-center"
                   >
                     <button

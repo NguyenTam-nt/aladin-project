@@ -85,7 +85,7 @@ export const CommentItem = memo(({ data, onDelete, onEdit }: Props) => {
         showSuccess("Xóa bình luận thành công");
       })
       .catch((error) => {
-        showError(error?.response?.data?.message || "category.message_delete_error");
+        showError( error?.response?.data?.message || "category.message_delete_error");
       });
   };
 
