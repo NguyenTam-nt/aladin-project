@@ -1,7 +1,7 @@
 import React, { memo } from "react";
 import { DiscountItem } from "../DiscountItem";
 import { MoneyLineThrough } from "../MoneyLineThrough";
-import { formatNumberDot, formatNumberDotSlice } from "@commons/formatMoney";
+import {formatNumberDotSlice } from "@commons/formatMoney";
 import type { IProduct } from "@typeRules/product";
 import { Link } from "react-router-dom";
 import { paths } from "@constants/routerPublic";
@@ -12,9 +12,12 @@ type Props = {
 };
 
 export const HomeTopicSalesItem = memo(({ index, data }: Props) => {
-  console.log({data})
+
   return (
-    <Link to={`${paths.memu.prefix}/${data.id}`} className="block overflow-hidden h-[330px] lg:h-[426px] relative rounded-[32px_0_32px_0]">
+    <Link
+      to={`${paths.memu.prefix}/${data.id}`}
+      className="block overflow-hidden h-[330px] lg:h-[426px] relative rounded-[32px_0_32px_0]"
+    >
       <div className="rounded-[32px_0_32px_0] z-[3] flex items-end absolute inset-[3px] overflow-hidden p-[24px]">
         <DiscountItem discount={Math.ceil(Number(data?.percent))} />
         <div className="absolute z-[1] bg-home_topic_sale_item inset-0" />
@@ -28,7 +31,10 @@ export const HomeTopicSalesItem = memo(({ index, data }: Props) => {
             <span className="text-_16 font-semibold lg:text-_18 lg:font-bold">
               {formatNumberDotSlice(Number(data?.pricePromotion))}
             </span>
-            <MoneyLineThrough money={Number(data?.price)} />
+            {(data?.pricePromotion !== data?.price &&
+            data?.pricePromotion.toString().length <= 8) ? (
+              <MoneyLineThrough money={Number(data?.price)} />
+            ) : null}
           </div>
           <h3 className="title-24 mt-2 line-clamp-1 text-text_white">
             {index}. {data?.name}
