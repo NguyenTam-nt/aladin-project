@@ -21,7 +21,7 @@ export const MenuBodyFilterMobile = ({categories, handleChangeCategoryParent, ha
   const { ref, isShow, handleToggleItem } = useClickOutItem();
   return (
     <div className="flex justify-between ">
-      <h3 onClick={handleClear} className="title-64 text-secondary w-fit cursor-pointer">{`${nameP} ${nameC}`}</h3>
+      <h3 onClick={handleClear} className="title-64 text-secondary w-fit cursor-pointer">{`${nameP} - ${nameC}`}</h3>
       <div ref={ref} className="relative flex items-center">
         <button onClick={handleToggleItem}>
           <ICMenuBar color={Colors.secondary} />

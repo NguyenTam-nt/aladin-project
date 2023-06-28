@@ -75,7 +75,7 @@ export const ProductHandler = () => {
           "noEOrSign", // type of the validator (should be unique)
           "Vui lòng nhập số nguyên", // error message
           (value) =>
-            typeof value === "number" && !/[eE+-]/.test(value.toString())
+            typeof value === "number" && !/[eE+-]/.test(`${value}`)
         ),
       pricePromotion: Yup.number()
         .typeError("Vui lòng nhập số.")
@@ -86,7 +86,7 @@ export const ProductHandler = () => {
           "noEOrSign", // type of the validator (should be unique)
           "Vui lòng nhập số nguyên", // error message
           (value) =>
-            typeof value === "number" && !/[eE+-]/.test(value.toString())
+          typeof value === "number" && !/[eE+-]/.test(`${value}`)
         ),
       description: Yup.string().trim().required("message.form.required"),
       category: Yup.object(),
@@ -266,6 +266,7 @@ export const ProductHandler = () => {
     (event: ChangeEvent<HTMLInputElement>) => {
       const { name, value } = event.currentTarget;
       fomick.setFieldValue(name, value.replaceAll(".", ""));
+      console.log({balue:value.replaceAll(".", "") })
     },
     []
   );

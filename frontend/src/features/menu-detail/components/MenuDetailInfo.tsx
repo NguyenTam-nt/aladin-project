@@ -41,8 +41,8 @@ export const MenuDetailInfo = memo(
             {t("common.info_product")}
           </p>
 
-          <div
-            className="text-_14 text-text_secondary"
+          <pre
+            className="text-_14 p-0 bg-transparent border-none !font-IBM_Plex_Sans text-text_secondary"
             dangerouslySetInnerHTML={{
               __html: des,
             }}

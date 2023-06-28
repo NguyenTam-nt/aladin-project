@@ -106,21 +106,17 @@ export const ProductItem = memo(({ data, onDelete, onUpdate }: Props) => {
           <DiscountItem discount={Math.ceil(data?.percent || 0)} />
         ) : null}
         <div className="flex absolute top-[20px] right-[20px] z-[1]  items-center gap-x-[18px]">
-          <button onClick={handleShowHome}>
-            <ICStar
-              width={19}
-              height={19}
-              color={data.priority ? Colors.bg_F4A118 : Colors.text_white}
-            />
-          </button>
+          {data?.isStar ? (
+            <button onClick={handleShowHome}>
+              <ICStar
+                width={19}
+                height={19}
+                color={data.priority ? Colors.bg_F4A118 : Colors.text_white}
+              />
+            </button>
+          ) : null}
           <button onClick={handleDisplayModal}>
-            {data?.isStar ? (
-              data.show ? (
-                <ICEye />
-              ) : (
-                <ICEyeOff color={Colors.text_white} />
-              )
-            ) : null}
+            {data.show ? <ICEye /> : <ICEyeOff color={Colors.text_white} />}
           </button>
         </div>
         <div className=" absolute inset-0 bg-header_bg" />

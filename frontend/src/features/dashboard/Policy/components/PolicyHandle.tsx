@@ -42,7 +42,7 @@ export const PolicyHandle = () => {
     },
     validationSchema: Yup.object({
       title: Yup.string().trim().required("message.form.required").max(255, "Tiêu đề tối đa 255 ký tự."),
-      content: Yup.string().trim().required("message.form.required"),
+      content: Yup.string().trim().required("message.form.required").max(2000, "Nội dung tối đa 2000 ký tự."),
       description: Yup.string().trim().required("message.form.required").max(2000, "Mô tả tối đa 2000 ký tự."),
     }),
     onSubmit: (data) => {

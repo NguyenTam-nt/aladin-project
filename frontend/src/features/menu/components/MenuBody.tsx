@@ -19,7 +19,7 @@ export const MenuBody = () => {
     setCurrentPage,
     handleChangeSort,
     sortId,
-  } = useGetProduct(9, "");
+  } = useGetProduct( windownSizeWidth > withResponsive._1280 ? 9 : 8, "");
 
   const {
     handleChangeCategoryParent,

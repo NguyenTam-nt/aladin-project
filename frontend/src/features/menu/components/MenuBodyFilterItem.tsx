@@ -30,6 +30,9 @@ export const MenuBodyFilterItem = ({
           onClick={() => {
             setIsShow(true);
             onChangeParent(Number(data.id));
+            if(!data?.listCategoryChild?.length) {
+              onClose?.()
+            }
           }}
           className={clsx(
             "text-_14 flex-1 flex justify-start  lg:text-_16 font-semibold",

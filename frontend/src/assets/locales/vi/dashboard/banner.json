@@ -34,7 +34,7 @@
         "message_delete_success": "Xóa cảm nhận khách hàng thành công!",
         "message_post_success": "Thêm cảm nhận khách hàng thành công!",
         "message_update_success": "Cập nhật cảm nhận khách hàng thành công!",
-        "maxItem": "Ghim tối thiểu 6 cảm nhận, tối đa 12 cảm nhận",
+        "maxItem": "Ghim tối thiểu 6 cảm nhận, hệ thống sẽ hiển thị cảm nhận mới nhất",
         "update": "Sửa bài viết",
         "delete": "Xóa bài viết",
         "add": "Thêm bài viết",

@@ -44,8 +44,10 @@ export const MenuBofyFilterBySort = ({
   return (
     <div className="flex justify-between gap-[24px] items-center">
       <h3 onClick={handleClear} className="title-32 text-secondary w-fit cursor-pointer line-clamp-2">
-        Danh sách {nameP}
-        {nameC ? ` ${nameC}` : ""}
+        Danh sách {nameC || nameP ? (
+          nameP + (nameC ? ` - ${nameC}` : "")
+        ): "món ăn"}
+       
       </h3>
       <div className="flex items-center gap-x-[16px]">
         <span className="text-_14 w-max text-text_black">
