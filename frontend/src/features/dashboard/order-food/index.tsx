@@ -64,7 +64,7 @@ function OrderFoodAdmin() {
   useEffect(() => {
     if (keySearch != "") {
       const searchParams = {
-        query: "*" + keySearch + "*",
+        query: "*" + keySearch.trim() + "*",
         page: 0,
         size: 100000,
         id: place, 
@@ -92,7 +92,7 @@ function OrderFoodAdmin() {
   }
 
   const handleInputSerch = (e: ChangeEvent<HTMLInputElement>) => {
-    setKeySearch(e.target.value);
+    setKeySearch(e.target.value );
     navigate("");
     setCurrentPage(1);
   };
