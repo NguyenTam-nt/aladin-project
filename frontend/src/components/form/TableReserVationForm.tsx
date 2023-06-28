@@ -10,6 +10,7 @@ import PlaceService from "@services/PlaceService";
 import { reservationTableSvice } from "@services/reservationTableSevice";
 import type { PlaceType } from "@typeRules/place";
 import { useFormik } from "formik";
+import { min } from "lodash";
 import { memo, useEffect, useRef, useState, UIEvent } from "react";
 import { useTranslation } from "react-i18next";
 import * as Yup from "yup";
@@ -35,10 +36,7 @@ const TableReserVationForm = memo(() => {
       note: "",
     },
     validationSchema: Yup.object({
-      name: Yup.string()
-        .trim()
-        .required("Không được để trống họ tên.")
-        .min(5, "Họ tên phải tối thiểu 5 kí tự."),
+      name: Yup.string().trim().required("Không được để trống họ tên."),
       phone: Yup.string()
         .trim()
         .required("Không được để trống số điện thoại")
@@ -63,15 +61,34 @@ const TableReserVationForm = memo(() => {
           "Ngày phải tối thiểu từ hôm nay."
         )
         .required("Phải chọn ngày đặt bàn."),
-      hour: Yup.string().trim().required("Phải chọn khung giờ đặt bàn."),
+      // hour: Yup.string().trim().required("Phải chọn khung giờ đặt bàn."),
+      hour: Yup.string().test(
+        "hour",
+        "Chưa chọn ngày hoặc thời gian đặt bàn tối thiểu phải lớn hơn hiện tại 10 phút.",
+        function (value, props) {
+          if (value && values.chooseDate) {
+            const dateString = values.chooseDate
+              .split("-")
+              .concat(values.hour.split(":"));
+            const dateIso = new Date(
+              +dateString[0],
+              +dateString[1] - 1,
+              +dateString[2],
+              +dateString[3],
+              +dateString[4]
+            ).getTime();
+            let nowDate = new Date();
+            if (dateIso - new Date(nowDate).getTime() > 600000) return true;
+            return false;
+          } else {
+            return false;
+          }
+        }
+      ),
       chooseIdInfrastructure: Yup.number()
         .min(1, "Phải chọn cơ sở")
         .required("Phải chọn cơ sở."),
       chooseInfrastructure: Yup.string().trim().required("Phải chọn cơ sở."),
-      note: Yup.string()
-        .trim()
-        .required("Không được để trống")
-        .min(20, "Ghi chú tối thiểu 20 kí tự."),
     }),
     onSubmit: async (values, { setSubmitting }) => {
       try {
@@ -112,6 +129,7 @@ const TableReserVationForm = memo(() => {
     touched,
     handleChange,
     setFieldValue,
+    setValues,
     resetForm,
     handleSubmit,
   } = formik;
@@ -138,7 +156,6 @@ const TableReserVationForm = memo(() => {
   const handleResetForm = () => {
     resetForm();
   };
-
   useEffect(() => {
     getListPlace(currenPage);
   }, [currenPage]);
@@ -162,7 +179,7 @@ const TableReserVationForm = memo(() => {
                   name="name"
                   value={values.name}
                   onChange={handleChange}
-                  className="w-full px-3 py-2 radius-tl-br16 text-sm leading-22  placeholder:text-sm outline-none border "
+                  className="w-full px-3 py-2 radius-tl-br16 text-sm leading-22  placeholder:text-sm placeholder:text-text_A1A0A3 outline-none border "
                   placeholder={t("form.inputName") as string}
                 />
                 {errors.name && touched.name && (
@@ -176,7 +193,7 @@ const TableReserVationForm = memo(() => {
                   name="phone"
                   value={values.phone}
                   onChange={handleChange}
-                  className="w-full px-3 py-2 radius-tl-br16  text-sm leading-22 placeholder:text-sm outline-none border  "
+                  className="w-full px-3 py-2 radius-tl-br16  text-sm leading-22 placeholder:text-sm placeholder:text-text_A1A0A3 outline-none border  "
                   placeholder={t("form.inputPhoneNumber") as string}
                 />
                 {errors.phone && touched.phone && (
@@ -190,7 +207,7 @@ const TableReserVationForm = memo(() => {
                   name="email"
                   value={values.email}
                   onChange={handleChange}
-                  className="w-full px-3 py-2  text-sm leading-22 placeholder:text-sm radius-tl-br16 outline-none border "
+                  className="w-full px-3 py-2  text-sm leading-22 placeholder:text-sm placeholder:text-text_A1A0A3 radius-tl-br16 outline-none border "
                   placeholder={t("form.inputEmail") as string}
                 />
                 {errors.email && touched.email && (
@@ -204,7 +221,7 @@ const TableReserVationForm = memo(() => {
                   name="numGuest"
                   value={values.numGuest}
                   onChange={handleChange}
-                  className="w-full px-3 py-2 radius-tl-br16  text-sm leading-22 placeholder:text-sm outline-none border "
+                  className="w-full px-3 py-2 radius-tl-br16  text-sm leading-22 placeholder:text-sm placeholder:text-text_A1A0A3 outline-none border "
                   placeholder={t("form.inputNumberCustomers") as string}
                 />
                 {errors.numGuest && touched.numGuest && (
@@ -218,7 +235,10 @@ const TableReserVationForm = memo(() => {
                   name="chooseDate"
                   value={FomatDateYY_MM_DD(values.chooseDate)}
                   onChange={handleChange}
-                  className="w-full px-3 py-2 radius-tl-br16  text-sm leading-22 placeholder:text-sm outline-none border "
+                  className={
+                    "w-full px-3 py-2 radius-tl-br16  text-sm leading-22 placeholder:text-sm   outline-none border " +
+                    (values.chooseDate == "" && "text-text_A1A0A3")
+                  }
                   placeholder={t("form.choseDayOder") as string}
                 />
                 {errors.chooseDate && touched.chooseDate && (
@@ -232,7 +252,10 @@ const TableReserVationForm = memo(() => {
                   name="hour"
                   value={values.hour}
                   onChange={handleChange}
-                  className="w-full px-3 py-2 radius-tl-br16  text-sm leading-22 placeholder:text-sm outline-none border "
+                  className={
+                    "w-full px-3 py-2 radius-tl-br16  text-sm leading-22 placeholder:text-sm outline-none border " +
+                    (values.hour == "" && "text-text_A1A0A3")
+                  }
                   placeholder={t("form.choseHourOder") as string}
                 />
                 {errors.hour && touched.hour && (
@@ -245,11 +268,13 @@ const TableReserVationForm = memo(() => {
                 className="col-span-2 relative"
               >
                 <TitleInput isRequired name="form.place" />
-                <div className=" px-3 py-2 radius-tl-br16  text-sm leading-22 placeholder:text-sm outline-none border">
+                <div className=" px-3 py-2 radius-tl-br16  text-sm leading-22 placeholder:text-sm placeholder:text-text_A1A0A3 outline-none border">
                   {
                     <div className="flex justify-between items-center">
                       {values.chooseInfrastructure == "" ? (
-                        <p>{t("form.chosePlace")}</p>
+                        <p className="text-text_A1A0A3">
+                          {t("form.chosePlace")}
+                        </p>
                       ) : (
                         <p>{values.chooseInfrastructure}</p>
                       )}
@@ -269,8 +294,13 @@ const TableReserVationForm = memo(() => {
                         return (
                           <div
                             onClick={() => {
-                              setFieldValue("chooseIdInfrastructure", item.id);
-                              setFieldValue("chooseInfrastructure", item.name);
+                              setValues({
+                                ...values,
+                                chooseIdInfrastructure: item.id!,
+                                chooseInfrastructure: item.name,
+                              });
+                              // setFieldValue("chooseIdInfrastructure", item.id);
+                              // setFieldValue("chooseInfrastructure", item.name);
                             }}
                             key={index}
                             className="flex h-[48px] items-center cursor-pointer"
@@ -301,18 +331,15 @@ const TableReserVationForm = memo(() => {
               </div>
 
               <div className="col-span-2 ">
-                <TitleInput isRequired name="form.note" />
+                <TitleInput isRequired={false} name="form.note" />
                 <textarea
                   rows={6}
                   name="note"
                   value={values.note}
                   onChange={handleChange}
-                  className="w-full px-3 py-2 radius-tl-br16 resize-none text-sm leading-22 placeholder:text-sm outline-none border "
+                  className="w-full px-3 py-2 radius-tl-br16 resize-none text-sm leading-22 placeholder:text-sm placeholder:text-text_A1A0A3 outline-none border "
                   placeholder={t("form.inputNote") as string}
                 />
-                {errors.note && touched.note && (
-                  <small className="text-red_error">{errors.note}</small>
-                )}
               </div>
             </div>
             <div className="flex items-center justify-center mt-9">
