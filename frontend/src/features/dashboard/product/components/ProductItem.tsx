@@ -59,7 +59,7 @@ export const ProductItem = memo(({ data, onDelete, onUpdate }: Props) => {
         if (error?.response?.data.status !== 500) {
           showError(error?.response?.data?.message || "Cập nhật thất bại.");
         } else {
-          showError(error?.response?.data?.message || "Lỗi hệ thống.");
+          showError("Lỗi hệ thống.");
         }
       });
   };
@@ -114,7 +114,13 @@ export const ProductItem = memo(({ data, onDelete, onUpdate }: Props) => {
             />
           </button>
           <button onClick={handleDisplayModal}>
-            {data.show ? <ICEye /> : <ICEyeOff color={Colors.text_white} />}
+            {data?.isStar ? (
+              data.show ? (
+                <ICEye />
+              ) : (
+                <ICEyeOff color={Colors.text_white} />
+              )
+            ) : null}
           </button>
         </div>
         <div className=" absolute inset-0 bg-header_bg" />
@@ -136,7 +142,8 @@ export const ProductItem = memo(({ data, onDelete, onUpdate }: Props) => {
           <span className=" text-_18  font-bold text-text_EA222A">
             {formatNumberDotSlice(Number(data?.pricePromotion))}
           </span>
-          {data.price !== data.pricePromotion ? (
+          {data.price !== data.pricePromotion &&
+          data?.pricePromotion.length <= 8 ? (
             <MoneyLineThrough money={Number(data.price)} />
           ) : null}
         </div>

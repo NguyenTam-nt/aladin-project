@@ -10,7 +10,7 @@ type Props = {
   onChangeChild: (id: number, idParent: number) => void;
   indexChild: number;
   isActive: boolean;
-  onClose?: () => void
+  onClose?: () => void;
 };
 
 export const MenuBodyFilterItem = ({
@@ -19,7 +19,7 @@ export const MenuBodyFilterItem = ({
   onChangeParent,
   indexChild,
   isActive,
-  onClose
+  onClose,
 }: Props) => {
   const [isShow, setIsShow] = useState(false);
 
@@ -28,7 +28,7 @@ export const MenuBodyFilterItem = ({
       <div className="flex cursor-pointer justify-between  py-[16px] border-b border-br_CBCBCB">
         <button
           onClick={() => {
-            setIsShow(!isShow);
+            setIsShow(true);
             onChangeParent(Number(data.id));
           }}
           className={clsx(
@@ -38,7 +38,9 @@ export const MenuBodyFilterItem = ({
             }
           )}
         >
-          {data?.name}
+          {data?.name && data?.name.length >= 22
+            ? data.name.slice(0, 22) + "..."
+            : data.name}
         </button>
         {data?.listCategoryChild?.length ? (
           <button
@@ -62,9 +64,9 @@ export const MenuBodyFilterItem = ({
       {data?.listCategoryChild?.length ? (
         <ul
           className={clsx(
-            "mt-[16px]  text-_14 pl-[24px] overflow-hidden h-0 ease-in duration-300",
+            "text-_14 pl-[24px] overflow-hidden h-0 ease-in duration-300",
             {
-              "footer-animation-list": isShow,
+              "footer-animation-list mt-[16px]": isShow,
             }
           )}
           style={{
@@ -79,8 +81,8 @@ export const MenuBodyFilterItem = ({
                   <li
                     key={index}
                     onClick={() => {
-                      onChangeChild(index, Number(data.id))
-                      onClose?.()
+                      onChangeChild(index, Number(data.id));
+                      onClose?.();
                     }}
                     className="h-[32px] items-center"
                   >
@@ -92,7 +94,9 @@ export const MenuBodyFilterItem = ({
                         }
                       )}
                     >
-                      {item.name}
+                      {item?.name && item?.name.length >= 22
+                        ? item.name.slice(0, 22) + "..."
+                        : item.name}
                     </button>
                   </li>
                 );

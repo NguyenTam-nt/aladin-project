@@ -96,10 +96,11 @@ export const ThanksCustomerHandler = () => {
             .post({ ...data, linkGuest: linkAvatar, linkProduct, id: null })
             .then(() => {
               showSuccess("customer.message_post_success");
-              // goBack();
+             
               formik.resetForm();
               imageProduct.resetImage();
               imageAvatar.resetImage();
+              goBack();
             })
             .catch(() => {
               showError("message.actions.error.delete_banner");
@@ -109,7 +110,7 @@ export const ThanksCustomerHandler = () => {
             .update({ ...review, linkGuest: linkAvatar, linkProduct, ...data })
             .then(() => {
               showSuccess("customer.message_update_success");
-              // goBack();
+              goBack();
             })
             .catch(() => {
               showError("message.actions.error.delete_banner");

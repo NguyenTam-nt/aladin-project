@@ -1,16 +1,16 @@
 import { useGetCategory } from "@features/dashboard/category-product/useGetCategory";
 import { useSearchParamHook } from "@hooks/useSearchParam";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 type Props = {
-  onChange: (id: number) => void
-  isAll?: boolean
+  onChange: (id: number | undefined) => void;
+  isAll?: boolean;
 };
 export const useCategoryFilter = ({ onChange, isAll = false }: Props) => {
   const [indexParent, setIndexParent] = useState(-1);
   const [indexChild, setIndexChild] = useState(-1);
 
-  const { searchParams, setSearchParam, setQueries } = useSearchParamHook();
+  const { searchParams, setSearchParam, setQueries, deleteParam } = useSearchParamHook();
 
   const { categories, fechData } = useGetCategory(isAll);
 
@@ -59,25 +59,35 @@ export const useCategoryFilter = ({ onChange, isAll = false }: Props) => {
 
   const handleChangeCategoryParent = (id: number) => {
     const index = categories.findIndex((i) => i.id === id);
-    if (indexParent !== index) {
+    setIndexChild(-1);
+    // if (indexParent !== index) {
       setIndexParent(index);
-      setIndexChild(-1);
       onChange(id);
       setQueries("category", id + "");
-    }
+    // } else {
+    //   setIndexChild(-1);
+    //   onChange(id);
+    // }
   };
 
-  const handleSelectCategorySub = (index: number, idParent:Number) => {
+  const handleSelectCategorySub = (index: number, idParent: Number) => {
     setIndexChild(index);
-    const parent = categories?.find(i => i.id === idParent)
-    if(parent) {
+    const parent = categories?.find((i) => i.id === idParent);
+    if (parent) {
       const id = parent?.listCategoryChild?.[index]?.id;
       onChange(Number(id));
       setQueries("category", `${parent.id}-${id}`);
-  
+
       setSearchParam(searchParams);
     }
   };
+
+  const handleClear = useCallback(() => {
+    setIndexParent(-1)
+    setIndexChild(-1);
+    onChange(undefined);
+    deleteParam("category");
+  }, [deleteParam, onChange]);
 
   return {
     indexChild,
@@ -85,6 +95,7 @@ export const useCategoryFilter = ({ onChange, isAll = false }: Props) => {
     handleChangeCategoryParent,
     handleSelectCategorySub,
     categories,
-    fechData
-  }
+    fechData,
+    handleClear
+  };
 };

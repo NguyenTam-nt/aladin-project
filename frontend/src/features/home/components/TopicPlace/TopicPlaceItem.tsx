@@ -17,8 +17,8 @@ export const TopicPlaceItem = () => {
     setActiveIndex(index);
   };
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-3 gap-[24px]">
-      <div className="bg-white radius-tl-br py-[24px] flex flex-col h-[490px]">
+    <div className="grid grid-cols-1 mt-[32px] xl:mt-[48px] lg:grid-cols-3 gap-[24px]">
+      <div className="bg-white radius-tl-br flex flex-col h-[490px]">
         {/* <div className="px-[24px]">
           <label
             className="text-_14 font-semibold text-text_black mb-2 block"
@@ -37,7 +37,7 @@ export const TopicPlaceItem = () => {
             </>
           </SelectInput>
         </div> */}
-        <p className="text-_16 h-[50px] block px-[24px] font-semibold flex items-center">
+        <p className="text-_16 h-[60px]  px-[24px] font-semibold flex items-center">
           {t("home.place.list_base")}
         </p>
         <TopicPlaceItemBase

@@ -21,7 +21,10 @@ export const MenuDetailBody = () => {
   return product ? (
     <div className="w-rp py-[24px] lg:py-[120px]">
       <div className="flex flex-col lg:flex-row gap-x-[24px]">
-        <MenuDetailSlider data={product?.listMedia ?? []} />
+        <div className=" w-full lg:w-[424px]">
+             <MenuDetailSlider data={product?.listMedia ?? []} />
+
+        </div>
         <MenuDetailInfo
           title={product?.name}
           des={product.description}

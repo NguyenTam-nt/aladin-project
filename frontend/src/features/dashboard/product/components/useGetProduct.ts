@@ -60,7 +60,7 @@ export const useGetProduct = (pageSize = SIZE_DATA, sort = "id,desc") => {
     if (debounceTime.current) debounceTime.current.cancel();
     if (querySearch?.trim()) {
       debounceTime.current = debounce(() => {
-        getProductsSearch(Number(currentPage), filterId, sortId, querySearch);
+        getProductsSearch(Number(currentPage), filterId, sortId, querySearch.trim());
       }, 300);
       debounceTime.current();
     } else {
@@ -136,7 +136,7 @@ export const useGetProduct = (pageSize = SIZE_DATA, sort = "id,desc") => {
     }
   };
 
-  const handleChangeCategory = useCallback((id: number) => {
+  const handleChangeCategory = useCallback((id: number | undefined) => {
     setFilterId(id);
   }, []);
 

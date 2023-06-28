@@ -131,6 +131,18 @@ export const CommentAdmin = () => {
   };
 
   const handleEdit = useCallback(
+    (data: IComment) => {
+      const newData = [...comments];
+      const index = newData.findIndex((item) => item.id === data.id);
+      if (index !== -1) {
+        newData.splice(index, 1, data)
+        setComments([...newData]);
+      }
+    },
+    [comments]
+  );
+
+  const handleEditAdmin = useCallback(
     (data: ICommentChild) => {
       const newData = [...comments];
       const index = newData.findIndex((item) => item.id === data.idParent);
@@ -248,6 +260,7 @@ export const CommentAdmin = () => {
                 <CommentItem
                   onDelete={handleDelete}
                   onEdit={handleEdit}
+                  onEditAdmin={handleEditAdmin}
                   data={item}
                   key={item.id}
                 />

@@ -22,18 +22,19 @@ import { commentService } from "@services/comment";
 
 type Props = {
   data: IComment;
-  onEdit: (data:ICommentChild) => void
+  onEdit: (data:IComment) => void
+  onEditAdmin: (data:ICommentChild) => void
   onDelete: (id:number) => void
 };
 
-export const CommentItem = memo(({ data, onDelete, onEdit }: Props) => {
+export const CommentItem = memo(({ data, onDelete, onEdit, onEditAdmin }: Props) => {
   const { setElementModal } = useModalContext();
 
   const {showSuccess, showError} = useShowMessage()
   const {showLoading} = useHandleLoading()
 
   const handleShowModal = () => {
-    setElementModal(<ReplyModal onUpdate={onEdit} data={data}  />);
+    setElementModal(<ReplyModal onUpdate={onEditAdmin} data={data}  />);
   };
   const handleShowModalDelete = () => {
     setElementModal(

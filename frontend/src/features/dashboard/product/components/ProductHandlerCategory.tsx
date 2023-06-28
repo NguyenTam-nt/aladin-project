@@ -2,6 +2,7 @@ import { ICArowDown } from "@assets/icons/ICArowDown";
 import TitleInput from "@components/TitleInput";
 import { Colors } from "@constants/color";
 import { useGetCategory } from "@features/dashboard/category-product/useGetCategory";
+import { TextError } from "@features/dashboard/components/TextError";
 import { useClickOutItem } from "@hooks/useClickOutItem";
 import { CategoryType, ICategoryItem } from "@typeRules/category";
 import clsx from "clsx";
@@ -9,11 +10,12 @@ import React, { memo, useEffect, useState } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 
 type Props = {
-  onChange: (data: { id: number; idParent: number }) => void;
+  onChange: (data: { id: number; idParent: number | undefined }) => void;
   category?: ICategoryItem;
+  message?: string
 };
 
-export const ProductHandlerCategory = memo(({ onChange, category }: Props) => {
+export const ProductHandlerCategory = memo(({ onChange, category, message }: Props) => {
   const { ref, isShow, handleToggleItem } = useClickOutItem();
   const { categories, fechData } = useGetCategory();
   const [indexActive, setIndex] = useState<number>(-1);
@@ -24,7 +26,7 @@ export const ProductHandlerCategory = memo(({ onChange, category }: Props) => {
       setSubIndex(-1);
       onChange({
         id: Number(categories[index].id),
-        idParent: Number(categories[index]?.idParent || 0),
+        idParent: categories[index].listCategoryChild?.length ? undefined :  Number(categories[index]?.idParent || 0),
       });
     }
   };
@@ -45,7 +47,6 @@ export const ProductHandlerCategory = memo(({ onChange, category }: Props) => {
           (i) => i.id === Number(category?.idParent)
         );
         setIndex(index);
-        console.log({ index });
         const indexSub =
           categories[index]?.listCategoryChild?.findIndex(
             (i) => i.id === category.id
@@ -87,6 +88,7 @@ export const ProductHandlerCategory = memo(({ onChange, category }: Props) => {
           <span>
             <ICArowDown color={Colors.text_A1A0A3} />
           </span>
+        {message && <TextError message={message} />}  
         </button>
         <div
           className={clsx(

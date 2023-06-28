@@ -48,7 +48,7 @@ export const ThanksCustomer = () => {
     if (debounceTime.current) debounceTime.current.cancel();
     if (searchQuery?.trim()) {
       debounceTime.current = debounce(() => {
-        handleGetSearchData(Number(currentPage), searchQuery);
+        handleGetSearchData(Number(currentPage), searchQuery.trim());
       }, 300);
       debounceTime.current();
     } else {
@@ -159,7 +159,7 @@ export const ThanksCustomer = () => {
         </div>
         <div className="flex w-full mb-[32px] items-center gap-[24px]">
           <Input
-            placeholder="Nhập từ khóa tìm kiếm"
+            placeholder="Tìm kiếm theo Họ và tên"
             value={searchQuery ?? ""}
             onChange={handleChangeValue}
             renderLeft={() => {

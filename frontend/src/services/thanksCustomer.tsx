@@ -26,7 +26,7 @@ export const reviewService = {
     patch: (id:number):Promise<IReview> => {
         return HttpService.axiosClient.patch(`${apiAdmin}/${id}`)
     },
-    get_home: (params:IParams):Promise<IReview[]> => {
+    get_home: (params:IParams):Promise<IResponseData<IReview>> => {
 
         return HttpService.axiosClient.get(`${api}/home`, {params: {...params, page: Number(params.page) - 1}}) 
     },

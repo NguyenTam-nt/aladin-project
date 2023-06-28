@@ -1,5 +1,6 @@
 import axios from "axios";
 import authService from "@services/keycloakService";
+import { prefixRootRoute } from "@constants/index";
 // import UserService from "../../services/UserService";
 
 const axiosClient = axios.create();
@@ -65,10 +66,10 @@ axiosClient.interceptors.response.use(
   },
   function (error) {
     const { status } = error.response;
-    if (window.document.location.pathname.includes("/quan-ly")) {
-      // if (status === 401 || status === 403) {
-      //   authService.doLogin();
-      // }
+    if (window.document.location.pathname.includes(prefixRootRoute.admin)) {
+      if (status === 401 || status === 403) {
+        authService.doLogin();
+      }
     }
     return Promise.reject(error);
   }

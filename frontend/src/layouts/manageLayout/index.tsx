@@ -13,7 +13,7 @@ const LayoutManager = () => {
         <div />
         <div className="relative min-w-[calc(1280px_-_300px)] bg-bg_fafafa min-h-[calc(100vh)]">
           <Header />
-          <div className=" px-[70px] 2xl:pl-[96px]  min-w-[calc(1280px_-_300px)]  w-full max-w-[calc(1920px_-_300px)]  py-[80px]">
+          <div className=" px-[70px] 3xl:pl-[96px] 3xl:pr-0  min-w-[calc(1280px_-_300px)] 3xl:pr-[300px]  w-full 3xl:max-w-[calc(1920px)]  py-[80px]">
             <div className="max-w-full">
               <Outlet />
             </div>
