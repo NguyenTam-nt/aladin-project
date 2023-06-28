@@ -34,7 +34,7 @@ const RecuitmentManage = () => {
           sort: "desc",
         });
       setListRecruit(list);
-      setTotalPages(Math.ceil(totalElement / 12));
+      setTotalPages(Math.ceil(totalElementPage / 12));
     } catch (error) {
       console.log("Không lấy được danh sách tuyển dụng");
     }

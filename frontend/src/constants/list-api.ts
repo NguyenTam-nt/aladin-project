@@ -13,6 +13,7 @@ export const apis = {
     new:'news',
     searchNew: "_search/news",
     books: "books",
+    searchBooks: "_search/books",
     category: "categories",
     product: "products",
     vouchers: "vouchers",

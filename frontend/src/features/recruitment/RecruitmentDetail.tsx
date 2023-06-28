@@ -1,14 +1,15 @@
 import { AddressWork } from "@assets/icons/AddressWork";
 import { CalendarIcon } from "@assets/icons/CalendarIcon";
 import { DolarIcon } from "@assets/icons/DolarIcon";
-import WapperContent from "@components/WapperContent";
-import Banner from "@features/news/user/Banner";
 import RecuireImage from "@assets/images/imageRecuire.png";
-import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import type { Recruit_type } from "@typeRules/recruit";
-import { recruitService } from "@services/recruitService";
+import { Banner } from "@components/Banner";
+import WapperContent from "@components/WapperContent";
 import { FomatDateYY_MM_DD } from "@constants/formatDateY_M_D";
+import { recruitService } from "@services/recruitService";
+import { HomeTopicType } from "@typeRules/home";
+import type { Recruit_type } from "@typeRules/recruit";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 
 const RecruitmentDetail = () => {
   const { id } = useParams();
@@ -30,18 +31,7 @@ const RecruitmentDetail = () => {
   }, [id]);
   return (
     <div>
-      <Banner
-        dataBanner={{
-          name: "navigation.header.ecruitment",
-          listNavigate: [
-            { name: "navigation.header.ecruitment", path: "/tuyen-dung" },
-            {
-              name: "navigation.header.recruimentDetail",
-              path: `/tuyen-dung/${id}`,
-            },
-          ],
-        }}
-      />
+      <Banner type={HomeTopicType.recruit} />
       {recruiItem && (
         <WapperContent>
           <div className="lg:pb-spc120 pb-20 px-5">

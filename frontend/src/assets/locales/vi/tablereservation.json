@@ -13,8 +13,10 @@
             "success": "Đặt bàn thành công.",
             "error": "Đặt bàn thất bại."
         },
+        "by": "Bởi",
         "noReply": "Chưa phản hồi",
         "reply": "Đã phản hồi",
+        "changeSuccess": "Cập nhật thành công.",
         "_message_delete_reservation": "Bạn có chắc chắn xóa yêu cầu này khỏi hệ thống?",
         "form": {
             "title": "PHẢN HỒI YÊU CẦU ĐẶT BÀN",
