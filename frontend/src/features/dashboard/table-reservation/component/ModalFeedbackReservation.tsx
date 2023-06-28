@@ -139,7 +139,7 @@ const ModalFeedbackReservation = ({ idItem, handleUpdate }: Props) => {
         </h3> */}
 
         <div className="">
-          <TitleInput isRequired={true} name={"form.note"} />
+          <TitleInput isRequired={false} name={"form.note"} />
           <Textarea value={values.note} readOnly />
         </div>
       </div>
