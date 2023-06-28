@@ -88,7 +88,7 @@ function VoucherAdmin() {
   useEffect(() => {
     if (keyword != "") {
       const searchParams = {
-        query: "*" + keyword + "*",
+        query: "*" + keyword.trim() + "*",
         page: 0,
         size: 100000,
         voucherState: filter != "" ? filter : filterStatus

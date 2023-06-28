@@ -1,5 +1,4 @@
 import { paths } from '@constants/routerPublic'
-import { Banner } from '@features/contact/components/Banner'
 import React, { useEffect, useState } from 'react'
 import bgContact from "@assets/images/contact/bg-contact.jpg";
 import AboutUsItem from './components/AboutUsItem';
@@ -7,6 +6,8 @@ import PlaceService from '@services/PlaceService';
 import { SIZE_DATA } from '@constants/index';
 import type { IResponseData } from '@typeRules/index';
 import type { PlaceType } from '@typeRules/place';
+import { HomeTopicType } from '@typeRules/home';
+import { Banner } from '@components/Banner';
 
 function AboutUsPage() {
 
@@ -31,8 +32,9 @@ function AboutUsPage() {
   }
   return (
     <div className='h-full'>
-      <Banner name="Giới thiệu" Link={paths.about.prefix} />
+      {/* <Banner name="Giới thiệu" Link={paths.about.prefix} /> */}
 
+      <Banner type={HomeTopicType.about} />
       <div className="w-full h-full py-10 lg:py-20"
          style={{
           backgroundImage: `url(${bgContact})`,
