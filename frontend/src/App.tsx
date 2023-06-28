@@ -6,8 +6,6 @@ import { useLocation } from "react-router-dom";
 import { OrderProvider } from "@contexts/OrderContext";
 import AuthProvider from "@contexts/AuthContext";
 import { MenuSideRight } from "@components/MenuSideRight";
-//@ts-ignore
-import DeviceOrientation, { Orientation } from "react-screen-orientation";
 
 function App() {
   const location = useLocation();
