@@ -21,7 +21,7 @@ type Props = {
 
 export const ModalEvaluation = ({ idProduct }: Props) => {
   const { t } = useTranslation();
-  const [stars, setStars] = useState(4);
+  const [stars, setStars] = useState(5);
   const { hideModal } = useModalContext();
   const { showError, showSuccess } = useShowMessage();
 

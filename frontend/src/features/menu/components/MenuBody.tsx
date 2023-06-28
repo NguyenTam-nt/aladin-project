@@ -7,9 +7,9 @@ import { Pagination } from "@components/Paginnation";
 import { windownSizeWidth, withResponsive } from "@constants/index";
 import { MenuBodyFilterMobile } from "./MenuBodyFilterMobile";
 import { useGetProduct } from "@features/dashboard/product/components/useGetProduct";
+import { useCategoryFilter } from "@features/dashboard/product/components/useCategoryFilter";
 
 export const MenuBody = () => {
-  const { t } = useTranslation();
   const {
     products,
     loading,
@@ -19,24 +19,70 @@ export const MenuBody = () => {
     setCurrentPage,
     handleChangeSort,
     sortId,
-  } = useGetProduct();
+  } = useGetProduct(9, "");
+
+  const {
+    handleChangeCategoryParent,
+    handleSelectCategorySub,
+    categories,
+    indexChild,
+    indexParent,
+  } = useCategoryFilter({ onChange: handleChangeCategory, isAll: true });
 
   return (
     <div className="w-rp py-[40px] lg:py-[120px]">
       <div className="flex gap-x-[78px]">
         {windownSizeWidth > withResponsive._1024 ? (
           <div className="w-[246px]">
-            <MenuBodyFilterByCategory onChangeCategory={handleChangeCategory} />
+            <MenuBodyFilterByCategory
+              categories={categories}
+              handleChangeCategoryParent={handleChangeCategoryParent}
+              handleSelectCategorySub={handleSelectCategorySub}
+              indexChild={indexChild}
+              indexParent={indexParent}
+            />
           </div>
         ) : null}
         <div className="flex-1">
           {windownSizeWidth > withResponsive._1024 ? (
             <MenuBofyFilterBySort
               sort={sortId}
+              nameP={
+                categories.length && indexParent !== -1
+                  ? categories[indexParent].name
+                  : ""
+              }
+              nameC={
+                categories.length && indexChild !== -1 && indexParent !== -1
+                  ? categories[indexParent]?.listCategoryChild?.length
+                    ? categories[indexParent].listCategoryChild?.[indexChild]
+                        .name
+                    : ""
+                  : ""
+              }
               onChangeSort={handleChangeSort}
             />
           ) : (
-            <MenuBodyFilterMobile onChangeCategory={handleChangeCategory} />
+            <MenuBodyFilterMobile
+              categories={categories}
+              handleChangeCategoryParent={handleChangeCategoryParent}
+              handleSelectCategorySub={handleSelectCategorySub}
+              indexChild={indexChild}
+              indexParent={indexParent}
+              nameP={
+                categories.length && indexParent !== -1
+                  ? categories[indexParent].name
+                  : ""
+              }
+              nameC={
+                categories.length && indexChild !== -1 && indexParent !== -1
+                  ? categories[indexParent]?.listCategoryChild?.length
+                    ? categories[indexParent].listCategoryChild?.[indexChild]
+                        .name
+                    : ""
+                  : ""
+              }
+            />
           )}
           <MenuListData data={products?.list || []} />
           {totalPages > 1 ? (

@@ -51,8 +51,12 @@ export const ThanksCustomerHandler = () => {
     },
     validationSchema: Yup.object({
       comment: Yup.string().required("message.form.required"),
-      fullname: Yup.string().required("message.form.required").max(50, "Họ và tên tối đa 50 ký tự."),
-      career: Yup.string().required("message.form.required").max(50, "Tên dung mục tối đa 50 ký tự."),
+      fullname: Yup.string()
+        .required("message.form.required")
+        .max(50, "Họ và tên tối đa 50 ký tự."),
+      career: Yup.string()
+        .required("message.form.required")
+        .max(50, "Tên dung mục tối đa 50 ký tự."),
     }),
     onSubmit: async (data) => {
       try {
@@ -159,6 +163,7 @@ export const ThanksCustomerHandler = () => {
         <div>
           <TitleInput name="customer.form.name" />
           <Input
+            maxLength={50}
             name="fullname"
             value={formik.values.fullname}
             onChange={formik.handleChange}
@@ -172,6 +177,7 @@ export const ThanksCustomerHandler = () => {
         <div>
           <TitleInput name="customer.form.job" />
           <Input
+            maxLength={50}
             name="career"
             value={formik.values.career}
             onChange={formik.handleChange}

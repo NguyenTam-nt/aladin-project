@@ -75,11 +75,11 @@
         }
     },
     "adminProduct": {
-        "title": "Món ăn",
+        "title": "Danh sách món ăn",
         "add": "Thêm món ăn",
         "update": "Sửa món ăn",
         "delete": "Xóa món ăn",
-        "filter": "Lọc món ăn theo nhóm hàng",
+        "filter": "Lọc món ăn theo danh mục",
         "message_delete": "Bạn có chắc chắn xóa sản phẩm này khỏi hệ thống?",
         "message_eye": "Bạn có muốn ẩn (ngừng kinh doanh tạm thời) sản phẩm này không?",
         "form": {

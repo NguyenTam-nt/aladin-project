@@ -36,7 +36,7 @@ export const TopicByType = memo(({ type, data, onSubmit, onDelete }: Props) => {
     }),
     onSubmit: async (dataValue) => {
       try {
-        if (!data?.linkMedia && !file) {
+        if (!preViewImage && !file) {
           handleMessageFile();
           return;
         }

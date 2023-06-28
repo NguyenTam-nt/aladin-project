@@ -75,8 +75,8 @@ export const ListCategory = memo(
                 >
                   <p>{item.name}</p>
                   <p>
-                    {item.listCategoryChild?.length &&
-                      item.listCategoryChild.map((i) => i.name).join(", ")}
+                    {item.listCategoryChild?.length ?
+                      item.listCategoryChild.map((i) => i.name).join(", ") : ""}
                   </p>
                   <div className="flex justify-end gap-x-[16px]">
                     <button onClick={() => handleShowModal(item)}>

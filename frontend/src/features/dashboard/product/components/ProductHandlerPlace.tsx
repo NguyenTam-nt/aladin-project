@@ -53,22 +53,27 @@ export const ProductHandlerPlace = memo(
 
     return (
       <div className=" col-span-1">
-        <TitleInput name="adminProduct.form.category" />
+        <TitleInput name="adminProduct.form.choose_place" />
         <div ref={ref} className="relative w-full">
           <button
             onClick={handleToggleItem}
             className={clsx(
-              "w-full  py-[13px] px-[16px] h-[48px] flex justify-between items-center border-[1px] border-solid border-text_A1A0A3",
+              "w-full  py-[13px] px-[16px]  h-[48px] flex justify-between items-center  border-[1px] border-solid border-text_A1A0A3",
               {
                 "!border-TrueBlue_500": isShow,
               }
             )}
           >
-            <span className="text-text_A1A0A3 gap-x-1 text-_14 line-clamp-1">
+            <div className="line-clamp-1 text-text_A1A0A3 text-_14">
               {listChecked.length
-                ? dataChecked.map((item) => item.name).join(", ")
+                ? dataChecked
+                    .map((item) => {
+                      return item.name;
+                    })
+                    .join(", ")
                 : "Chọn cơ sở"}
-            </span>
+            </div>
+
             <span>
               <ICArowDown color={Colors.text_A1A0A3} />
             </span>
@@ -87,12 +92,16 @@ export const ProductHandlerPlace = memo(
               next={fechData}
               dataLength={categories.length}
               scrollableTarget="place-product"
-              className="w-full"
+              className="w-[500px] overflow-x-hidden"
             >
-              <ul className="w-full [&>div]:!w-full px-[16px]">
+              <ul className="w-[500px]  [&>div]:!w-full px-[16px]">
                 <>
                   <li className="flex h-[48px] items-center">
-                    <Checkbox onChange={handleCheckAll} ref={refCheckboxAll} />{" "}
+                    <Checkbox
+                      className=" !border-TrueBlue_500"
+                      onChange={handleCheckAll}
+                      ref={refCheckboxAll}
+                    />{" "}
                     <span className="text-_14 text-GreyPrimary ml-[6px]">
                       Chọn tất cả
                     </span>
@@ -104,6 +113,7 @@ export const ProductHandlerPlace = memo(
                         className="flex w-max h-[48px] items-center"
                       >
                         <Checkbox
+                          className=" !border-TrueBlue_500"
                           onChange={(event) => {
                             handleCheckedItem(event, index);
                           }}

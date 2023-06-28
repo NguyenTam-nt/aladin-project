@@ -77,7 +77,7 @@ export const CommentAdmin = () => {
         .get({
           sort: filtersNew.find((i) => i.slug === sort)?.id,
           page,
-          size: 12,
+          size: SIZE_DATA,
           status: filters.find((i) => i.id === status)?.slug,
         })
         .then((data) => {
@@ -98,7 +98,7 @@ export const CommentAdmin = () => {
         .get({
           sort: filtersNew.find((i) => i.slug === sort)?.id,
           page,
-          size: 12,
+          size: SIZE_DATA,
           status: filters.find((i) => i.id === status)?.slug,
         })
         .then((data) => {
@@ -114,7 +114,7 @@ export const CommentAdmin = () => {
 
   const fechData = () => {
     // if(isAll) return
-    if (currentPage <= totalPages) {
+    if (currentPage < totalPages) {
       getCommentsMore(currentPage + 1, currentFilter, sort);
       setCurrentPage((page) => page + 1);
     }
@@ -240,10 +240,10 @@ export const CommentAdmin = () => {
           }
           next={fechData}
           dataLength={comments.length}
-          scrollableTarget="comment-admin-scroll"
+          // scrollableTarget="comment-admin-scroll"
         >
           <div>
-            {comments.map((item) => {
+            {comments.map((item, index) => {
               return (
                 <CommentItem
                   onDelete={handleDelete}
@@ -253,9 +253,6 @@ export const CommentAdmin = () => {
                 />
               );
             })}
-            {/* <CommentItem />
-            <CommentItem />
-            <CommentItem /> */}
           </div>
         </InfiniteScroll>
       </div>
