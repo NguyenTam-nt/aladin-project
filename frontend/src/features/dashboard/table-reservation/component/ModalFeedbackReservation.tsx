@@ -8,44 +8,40 @@ import { Radio } from "@features/dashboard/components/Radio";
 import { Textarea } from "@features/dashboard/components/Textarea";
 import { reservationTableSvice } from "@services/reservationTableSevice";
 import type { book_table } from "@typeRules/tableReservation";
+import { value } from "dom7";
 import { useFormik } from "formik";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import * as Yup from "yup";
 
 interface Props {
-  data: book_table;
+  idItem: number;
   handleUpdate: (data: book_table) => void;
 }
-const ModalFeedbackReservation = ({ data, handleUpdate }: Props) => {
+const ModalFeedbackReservation = ({ idItem, handleUpdate }: Props) => {
   const { t } = useTranslation();
   const { hideModal, setElementModal } = useModalContext();
   const { showError, showSuccess } = useShowMessage();
-  const [isFeetback, setFeetback] = useState<boolean>(
-    data.feedback ? false : true
-  );
+  const [isFeetback, setFeetback] = useState<boolean>(true);
   const formik = useFormik<book_table>({
     initialValues: {
-      name: data.name || "",
-      phone: data.phone || "",
-      email: data.email || "",
-      numGuest: data.numGuest || 0,
-      chooseDate: data.chooseDate || "",
-      chooseIdInfrastructure: data.chooseIdInfrastructure || 0,
-      chooseInfrastructure: data.chooseInfrastructure || "",
-      note: data.note || "",
-      record: data.record || null,
-      feedback: data.feedback || null,
-      status: data.status,
+      name: "",
+      phone: "",
+      email: "",
+      numGuest: 0,
+      chooseDate: "",
+      chooseIdInfrastructure: 0,
+      chooseInfrastructure: "",
+      note: "",
+      record: null,
+      feedback: null,
+      status: true,
     },
-    validationSchema: Yup.object({
-      // record: Yup.boolean("Không ")
-    }),
+    validationSchema: Yup.object({}),
     onSubmit: async (values, { setSubmitting }) => {
       try {
         const dataUpdate = {
           ...values,
-          id: data.id!,
           record: true,
           status: true,
         };
@@ -71,16 +67,20 @@ const ModalFeedbackReservation = ({ data, handleUpdate }: Props) => {
     handleSubmit,
   } = formik;
 
-  const handleChangeRadio = () => {
-    if (!data.status) {
-      setFeetback(true);
-      setFieldValue("feedback", null);
-      return;
+  const getDetailReverTable = async (id: number) => {
+    try {
+      const resultDetail = await reservationTableSvice.getReserTableById(id);
+      setValues(resultDetail);
+      setFeetback(resultDetail.feedback ? false : true);
+    } catch (error) {
+      console.log("Không thể lấy chi tiết yêu cầu đặt bàn.");
     }
-    return;
   };
 
-  console.log(values, "order");
+  useEffect(() => {
+    getDetailReverTable(idItem);
+  }, [idItem]);
+
   return (
     <div className="w-[1144px] h-auto bg-white py-10 px-6">
       <h2 className="text-_32 font-bold text-text_primary uppercase text-center mb-10">
@@ -114,7 +114,6 @@ const ModalFeedbackReservation = ({ data, handleUpdate }: Props) => {
               type="date"
               readOnly
               className="h-[48px] placeholder:text-text_A1A0A3 placeholder:text-_14 w-full flex items-center py-[13px] px-[16px] border-[1px] border-solid border-text_A1A0A3 focus-within:!border-TrueBlue_500 "
-              //   onChange={handleChangeTime}
             />
           </div>
           <div className="col-span-1">
@@ -124,7 +123,6 @@ const ModalFeedbackReservation = ({ data, handleUpdate }: Props) => {
               readOnly
               value={FomatDateYY_MM_DD(values.chooseDate, true)}
               className="h-[48px] placeholder:text-text_A1A0A3 placeholder:text-_14 w-full flex items-center py-[13px] px-[16px] border-[1px] border-solid border-text_A1A0A3 focus-within:!border-TrueBlue_500 "
-              //   onChange={handleChangeTime}
             />
           </div>
 
@@ -153,7 +151,10 @@ const ModalFeedbackReservation = ({ data, handleUpdate }: Props) => {
               <Radio
                 id="tableReservation.record_reques_order_table"
                 name="active-home"
-                onChange={() => handleChangeRadio}
+                onChange={() => {
+                  !values.status && setFeetback(true);
+                  !values.status && setFieldValue("feedback", null);
+                }}
                 checked={isFeetback}
               />
               <label
@@ -168,7 +169,7 @@ const ModalFeedbackReservation = ({ data, handleUpdate }: Props) => {
                 id="tableReservation.declinded_reques_order_table"
                 name="active-home"
                 onChange={() => {
-                  !data.status && setFeetback(false);
+                  !values.status && setFeetback(false);
                 }}
                 checked={!isFeetback}
               />
@@ -188,7 +189,7 @@ const ModalFeedbackReservation = ({ data, handleUpdate }: Props) => {
               name={"tableReservation.form.reason_for_refusa"}
             />
             <Input
-              readOnly={data.status}
+              readOnly={values.status}
               value={values.feedback || ""}
               name="feedback"
               onChange={handleChangeFomik}
@@ -196,7 +197,7 @@ const ModalFeedbackReservation = ({ data, handleUpdate }: Props) => {
           </div>
         )}
       </div>
-      {!data.status && (
+      {!values.status && (
         <div className="flex justify-center items-center mt-[24px]">
           <Button
             type="button"

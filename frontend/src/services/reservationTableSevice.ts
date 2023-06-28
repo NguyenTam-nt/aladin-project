@@ -17,6 +17,9 @@ export const reservationTableSvice = {
     getRequestReserTable: async(params: IParams):Promise<Data_ReserTable>=> {
         return await HttpService.axiosClient.get( `${pathAddmin}?page=${params.page}&size=${params.size}&id=${params.id}&date=${params.date}&sort=${params.sort}&sort=${params.sort1}`)
     },
+    getReserTableById: async(id:number) :Promise<book_table> => {
+        return  await HttpService.axiosClient.get(`${pathAddmin}/${id}`);
+    },
     deleteListReserTable: async(ids: {id:number}[]):Promise<any> => {
         return await HttpService.axiosClient.delete(pathAddmin, {data: ids})
     },
@@ -27,7 +30,6 @@ export const reservationTableSvice = {
         return await HttpService.axiosClient.put(pathAddmin, data)
     },
     searchReservationTable: async(params:IParams):Promise<Data_ReserTable>=> {
-        return await HttpService.axiosClient.get(`${pathSearch}?query=${params.query}&page=${params.page}&size=${params.size}&id=${params.id}&date=${params.date}&sort=${params.sort}&sort=${params.sort1}` )
-        
-    }
+        return await HttpService.axiosClient.get(`${pathSearch}?query=*${params.query}*&page=${params.page}&size=${params.size}&id=${params.id}&date=${params.date}&sort=${params.sort}&sort=${params.sort1}` )
+    },
 }

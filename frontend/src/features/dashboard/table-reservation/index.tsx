@@ -62,10 +62,10 @@ const ManageTableReserVation = () => {
       />
     );
   };
-  const handleFeadbackCustommer = (item: book_table) => {
+  const handleFeadbackCustommer = (id: number) => {
     setElementModal(
       <ModalFeedbackReservation
-        data={item}
+        idItem={id}
         handleUpdate={handleUpdateAfterChangeDate}
       />
     );
@@ -272,23 +272,26 @@ const ManageTableReserVation = () => {
                     }}
                   />
                 </div>
-                <div onClick={() => handleFeadbackCustommer(item)}>
+                <div onClick={() => handleFeadbackCustommer(item.id!)}>
                   {item.name}
                 </div>
-                <div onClick={() => handleFeadbackCustommer(item)}>
+                <div onClick={() => handleFeadbackCustommer(item.id!)}>
                   {item.phone}
                 </div>
-                <div onClick={() => handleFeadbackCustommer(item)} className="">
+                <div
+                  onClick={() => handleFeadbackCustommer(item.id!)}
+                  className=""
+                >
                   {FomatDateYY_MM_DD(item.chooseDate)}
                 </div>
                 <div
-                  onClick={() => handleFeadbackCustommer(item)}
+                  onClick={() => handleFeadbackCustommer(item.id!)}
                   className="text-center"
                 >
                   {FomatDateYY_MM_DD(item.chooseDate, true)}
                 </div>
                 <div
-                  onClick={() => handleFeadbackCustommer(item)}
+                  onClick={() => handleFeadbackCustommer(item.id!)}
                   className="text-center"
                 >
                   {item.chooseInfrastructure}
@@ -315,9 +318,9 @@ const ManageTableReserVation = () => {
                         {t("tableReservation.noReply")}
                       </p>
                     )}
-                    {item.feedback && (
+                    {item.createdBy && (
                       <p className="text-right text-_14 -translate-y-1.5 text-text_A1A0A3">
-                        Bởi ThuNganSang
+                        {t("tableReservation.by")} {item.createdBy}
                       </p>
                     )}
                   </div>

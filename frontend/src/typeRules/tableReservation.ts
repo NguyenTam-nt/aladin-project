@@ -10,7 +10,8 @@ export interface book_table {
     note: string,
     record?:boolean |null,
     feedback?:string| null,
-    status?: boolean
+    status?: boolean,
+    createdBy?:string | null
   }
   // export interface book_table_admin extends book_table {
   //   record:string | null,
