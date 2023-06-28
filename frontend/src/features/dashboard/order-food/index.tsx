@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useEffect, useState } from 'react'
+import React, { ChangeEvent, useCallback, useEffect, useState } from 'react'
 import { TitleTopic } from '../home/components/TitleTopic'
 import { Button } from '../components/Button'
 import { ICDesc } from '@assets/icons/ICDesc'
@@ -15,7 +15,7 @@ import MagnifyingGlass from '@assets/icons/MagnifyingGlass'
 import { useNavigate } from 'react-router-dom'
 import FilterByTime from './components/FilterByTime'
 import FilterPlaceBox from './components/FilterPlaceBox'
-import type { IResponseData } from '@typeRules/index'
+import type { IParams, IResponseData } from '@typeRules/index'
 import { BillStatus, BillStatusContants, type IBill, type IBillGet } from '@typeRules/bill'
 import BillService from '@services/BillService'
 import { SIZE_DATA } from '@constants/index'
@@ -24,6 +24,7 @@ import { fornatDateHour } from '@constants/fornatDateHour'
 import { DiglogComfirmDelete } from '../components/DiglogComfirmDelete'
 import { useHandleLoading } from '../components/Loading'
 import { useShowMessage } from '../components/DiglogMessage'
+import { debounce } from 'lodash'
 
 function OrderFoodAdmin() {
   const { t } = useTranslation();
@@ -36,23 +37,55 @@ function OrderFoodAdmin() {
 
   
   const [keySearch, setKeySearch] = useState<string>("");
-  const [place, setPlace] = useState<string | null>(null);
+  const [timeFilter, setTimeFilter] = useState()
+  const [place, setPlace] = useState<number>();
   const [bills, setBills] = useState<IResponseData<IBillGet>>()
   const { refCheckboxAll, refCheckboxList, handleCheckAll, handleCheckedItem, listChecked, setListChecked } = useHandleCheckbox(
     bills?.list.map(e => e.id as number) || []
   );
-
+  
   useEffect(() => {
     getBillsData(1)
   }, [])
+
+  useEffect(() => {
+    getBillsData(1)
+  }, [place, timeFilter])
   
 
   const getBillsData = (page: number) => {
-    BillService.get({page: page, size: SIZE_DATA, sort: "id,desc"})
+    BillService.get({page: page, size: 100000, sort: "id,desc", id: place, date: timeFilter})
       .then(res => {
         setBills(res)
       })
   }
+  // const debounceDropDown = useCallback(
+  //   debounce((params: any) => searchListNew(params), 700),
+  //   []
+  // );
+
+  // useEffect(() => {
+  //   if (keySearch != "") {
+  //     const searchParams = {
+  //       query: "*" + keySearch + "*",
+  //       page: 0,
+  //       size: 100000,
+  //     };
+  //     debounceDropDown(searchParams);
+  //     return;
+  //   }
+  //   debounceDropDown.cancel();
+  //   getBillsData(Number(1))
+  // }, [place, timeFilter, keySearch])
+
+  // const searchListNew = async (params: IParams) => {
+  //   try {
+  //     const response =
+  //       await BillService.search(params);
+  //       setContacts(response);
+  //   } catch (error) {
+  //   }
+  // };
 
 
   const handleClickDetail = (id: number) => {
@@ -92,7 +125,7 @@ function OrderFoodAdmin() {
   }
 
   const handleChangeStatus = (id: number, status: BillStatus) => {
-    console.log(id, status);
+    // console.log(id, status);
 
     BillService
     .changeStatus(id, status)
@@ -133,7 +166,7 @@ function OrderFoodAdmin() {
             color={"empty"}
           />
           <div className="flex gap-6 justify-between">
-            <FilterByTime />
+            <FilterByTime setTimeFilter={setTimeFilter}/>
             <FilterPlaceBox place={place} handleChosePlace={setPlace} />
           </div>
         </div>
@@ -182,7 +215,7 @@ function OrderFoodAdmin() {
                   <select
                     value={item.status}
                     name="place"
-                    onChange={() => {}}
+                    onChange={(e) => handleChangeStatus(item.id, e.target.value as BillStatus)}
                     className={
                       "text-_14 text-text_red bg-transparent "
                     }
@@ -197,9 +230,9 @@ function OrderFoodAdmin() {
                   <select
                     value={item.status}
                     name="place"
-                    onChange={() => {}}
+                    onChange={(e) => handleChangeStatus(item.id, e.target.value as BillStatus)}
                     className={
-                      "text-_14 text-text_red bg-transparent "
+                      "text-_14 text-bg_01A63E bg-transparent "
                     }
                   > 
                     <option value={ BillStatusContants.wait} className='text-text_primary'>{t("adminOrderFood.table.wait")}</option>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { TitleTopic } from '../home/components/TitleTopic'
 import { Button } from '../components/Button'
 import { ICAdd } from '@assets/icons/ICAdd'
@@ -14,7 +14,7 @@ import { SIZE_DATA, VOUCHER_DATE_FORMAT, prefixRootRoute } from '@constants/inde
 import { pathsAdmin } from '@constants/routerManager'
 import clsx from 'clsx'
 import VoucherService from '@services/VoucherService'
-import type { IResponseData } from '@typeRules/index'
+import type { IParams, IResponseData } from '@typeRules/index'
 import moment from 'moment'
 import { VOUCHER_STATE, type IVoucherGet } from '@typeRules/voucher'
 import { DiglogComfirmDelete } from '../components/DiglogComfirmDelete'
@@ -22,6 +22,7 @@ import { useHandleLoading } from '../components/Loading'
 import { useShowMessage } from '../components/DiglogMessage'
 import { ModalConfirm } from './components/ModalConfirm'
 import MagnifyingGlass from '@assets/icons/MagnifyingGlass'
+import { debounce } from 'lodash'
 
 const filters = [
   {
@@ -78,6 +79,35 @@ function VoucherAdmin() {
     } catch (error) {
     } 
   }
+
+  const debounceDropDown = useCallback(
+    debounce((params: any) => searchListNew(params), 700),
+    []
+  );
+
+  useEffect(() => {
+    if (keyword != "") {
+      const searchParams = {
+        query: "*" + keyword + "*",
+        page: 0,
+        size: 100000,
+        voucherState: filter != "" ? filter : filterStatus
+      };
+      debounceDropDown(searchParams);
+      return;
+    }
+    debounceDropDown.cancel();
+    getVoucherData(Number(1))
+  }, [filterStatus, filter, keyword])
+
+  const searchListNew = async (params: IParams) => {
+    try {
+      const response =
+        await VoucherService.search(params);
+        setVouchers(response)
+    } catch (error) {
+    }
+  };
 
   const handelClickAddVoucher = () => {
     navigate(

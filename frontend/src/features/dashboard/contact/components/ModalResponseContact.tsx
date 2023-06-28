@@ -34,7 +34,7 @@ function ModalResponseContact({data, loadData}: Props) {
       feedback: ""
     },
     validationSchema: Yup.object({
-      fullname: Yup.string().required("message.form.required"),
+      fullname: Yup.string().trim().required("message.form.required"),
       phone: Yup.string()
         .trim()
         .required("message.form.required")
@@ -50,9 +50,9 @@ function ModalResponseContact({data, loadData}: Props) {
           /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
           "message.form.email"
         ),
-      address: Yup.string(),
-      content: Yup.string().required("message.form.required"),
-      feedback: Yup.string().required("message.form.required")
+      address: Yup.string().trim(),
+      content: Yup.string().trim().required("message.form.required"),
+      feedback: Yup.string().trim().required("message.form.required")
     }),
     onSubmit: async (values) => {
       try {

@@ -3,27 +3,39 @@ import { Colors } from "@constants/color";
 import { Button } from "@features/dashboard/components/Button";
 import { Checkbox } from "@features/dashboard/components/Checkbox";
 import { useClickOutItem } from "@hooks/useClickOutItem";
-import React, { memo } from "react";
-const dataCategory = [
-  "Cơ sở 1  Cơ sở 1 - Nguyễn Trí Thanh",
-  "Cơ sở 2 Cơ sở 1 - Nguyễn Trí Thanh",
-  "Cơ sở 3 Cơ sở 1 - Nguyễn Trí Thanh",
-  "Cơ sở 4 Cơ sở 1 - Nguyễn Trí Thanh",
-  "Cơ sở 5 Cơ sở 1 - Nguyễn Trí Thanh",
-  "Cơ sở 6 Cơ sở 1 - Nguyễn Trí Thanh",
-  "Cơ sở 7 Cơ sở 1 - Nguyễn Trí Thanh",
-  "Cơ sở 8 Cơ sở 1 - Nguyễn Trí Thanh",
-  "Cơ sở 9 Cơ sở 1 - Nguyễn Trí Thanh",
-  "Cơ sở 9 Cơ sở 1 - Nguyễn Trí Thanh",
-  "Cơ sở 9 Cơ sở 1 - Nguyễn Trí Thanh",
-];
+import PlaceService from "@services/PlaceService";
+import type { IResponseData } from "@typeRules/index";
+import type { PlaceSelectType, PlaceType } from "@typeRules/place";
+import React, { memo, useEffect, useState } from "react";
 
 interface Props {
-  handleChosePlace: (value: string | null) => void;
-  place: null | string;
+  handleChosePlace: (value: number | undefined) => void;
+  place: undefined | number;
 }
 const FilterPlaceBox = memo(({ handleChosePlace, place }: Props) => {
   const { ref, isShow, handleToggleItem } = useClickOutItem();
+
+  const [placeSelect, setPlaceSelect] = useState<PlaceSelectType[]>();
+
+
+  useEffect(() => {
+    getPlaceData()
+  }, [])
+  
+
+
+  const getPlaceData = async () => {
+    try {
+      PlaceService.get_select()
+        .then(response => {
+          setPlaceSelect(response)
+        })
+        .catch(error => {
+        })
+    } catch (error) {
+    } 
+  }
+
   return (
     <div ref={ref} className="relative">
       <Button
@@ -50,28 +62,28 @@ const FilterPlaceBox = memo(({ handleChosePlace, place }: Props) => {
           ></div>
 
           <span
-            onClick={() => handleChosePlace(null)}
+            onClick={() => handleChosePlace(undefined)}
             className="text-_14 text-GreyPrimary ml-[6px] "
           >
             Chọn tất cả
           </span>
         </div>
-        {dataCategory.map((item, index) => {
+        {placeSelect && placeSelect.map((item, index) => {
           {
             return (
               <div
-                onClick={() => handleChosePlace(item)}
+                onClick={() => handleChosePlace(item.id)}
                 key={index}
                 className="flex h-[48px] items-center cursor-pointer"
               >
                 <div
                   className={
                     "w-3 h-3 rounded-[50%] " +
-                    (place === item ? "bg-bg_01A63E" : "")
+                    (place=== item.id ? "bg-bg_01A63E" : "")
                   }
                 ></div>
                 <span className="text-_14 text-GreyPrimary ml-[6px]">
-                  {item}
+                  {item.name}
                 </span>
               </div>
             );

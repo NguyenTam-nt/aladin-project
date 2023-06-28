@@ -6,6 +6,7 @@ import type { IVoucher, IVoucherGet, VoucherCheckPriceDTO } from "@typeRules/vou
 
 const api = getMicroService(`${apis.vouchers}`, microServices.restaurant)
 const apiAdmin = getMicroServiceAdmin(`${apis.vouchers}`, microServices.restaurant)
+const pathSearch = getMicroService(`${apis.searchVouchers}`, microServices.restaurant)
 const VoucherService = {
     get: (params:IParams):Promise<IResponseData<IVoucherGet>> => {
         return HttpService.axiosClient.get(`${apiAdmin}`, {params: {...params, page: Number(params.page) - 1}}) 
@@ -43,7 +44,10 @@ const VoucherService = {
     checkExist: (code: string ):Promise<any> => {
 
         return HttpService.axiosClient.get(`${api}/check/${code}`) 
-    }
+    },
+    search: async(params: IParams): Promise<IResponseData<IVoucherGet>> => {
+        return await HttpService.axiosClient.get(pathSearch, {params});
+    },
 }
 
 export default VoucherService;

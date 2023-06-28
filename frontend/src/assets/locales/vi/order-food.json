@@ -4,6 +4,7 @@
       "payment_title": "Thanh toán",
       "input_placeholder": "Nhập mã giảm giá",
       "input_btn": "Áp dụng",
+      "voucher-error": "Mã giảm giá không hợp lệ",
       "voucher": "Mã giảm giá",
       "total": "Tổng cộng (Chưa có VAT)",
       "continue_choose": "Tiếp tục mua hàng",

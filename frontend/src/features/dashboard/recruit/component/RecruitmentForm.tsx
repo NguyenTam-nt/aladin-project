@@ -109,17 +109,15 @@ const RecruitmentForm = ({ itemRecruit }: Props) => {
           message="recruit.message_delete"
           onClick={() => {
             handleDelete();
+            setFieldValue("linkMedia", "");
             hideModal();
           }}
         />
       );
     } else {
       handleDelete();
+      setFieldValue("linkMedia", "");
     }
-    setValues({
-      ...values,
-      linkMedia: "",
-    });
   };
   useEffect(() => {
     if (preViewImage != "") {
@@ -175,7 +173,7 @@ const RecruitmentForm = ({ itemRecruit }: Props) => {
               </div>
             ) : null}
           </div>
-          {errors.linkMedia && (
+          {errors.linkMedia && touched.linkMedia && (
             <small className="text-xs font-normal mt-1 text-text_EA222A">
               {errors.linkMedia}
             </small>
@@ -188,7 +186,6 @@ const RecruitmentForm = ({ itemRecruit }: Props) => {
               value={values.title}
               name="title"
               onChange={handleChangeFomik}
-              className={errors.title! && "border-text_EA222A"}
             />
             {errors.title && touched.title && (
               <small className="text-xs font-normal mt-1 text-text_EA222A">
@@ -204,7 +201,6 @@ const RecruitmentForm = ({ itemRecruit }: Props) => {
               placeholder="recruit.form.salary"
               value={values.salary}
               onChange={handleChangeFomik}
-              className={errors.salary! && "border-text_EA222A"}
             />
             {errors.salary && touched.salary && (
               <small className="text-xs font-normal mt-1 text-text_EA222A">
@@ -221,8 +217,7 @@ const RecruitmentForm = ({ itemRecruit }: Props) => {
               type="date"
               placeholder=""
               className={
-                "h-[48px] placeholder:text-text_A1A0A3 placeholder:text-_14 w-full flex items-center py-[13px] px-[16px] border-[1px] border-solid border-text_A1A0A3 focus-within:!border-TrueBlue_500 " +
-                (errors.expirationDate! && "border-text_EA222A")
+                "h-[48px] placeholder:text-text_A1A0A3 placeholder:text-_14 w-full flex items-center py-[13px] px-[16px] border-[1px] border-solid border-text_A1A0A3 focus-within:!border-TrueBlue_500 "
               }
             />
             {errors.expirationDate && touched.expirationDate && (
@@ -238,7 +233,6 @@ const RecruitmentForm = ({ itemRecruit }: Props) => {
               value={values.address}
               name="address"
               onChange={handleChangeFomik}
-              className={errors.address! && "border-text_EA222A"}
             />
             {errors.address && touched.address && (
               <small className="text-xs font-normal mt-1 text-text_EA222A">
@@ -249,7 +243,7 @@ const RecruitmentForm = ({ itemRecruit }: Props) => {
 
           <div className=" col-span-2">
             <TitleInput name="recruit.form.content" />
-            <div className={errors.content! && "border border-text_EA222A"}>
+            <div>
               <Editor
                 content={
                   values.content == ""
