@@ -19,6 +19,7 @@ import { newService } from "@services/newService";
 import type { newItem_type } from "@typeRules/new";
 import type { IParams } from "@typeRules/index";
 import { debounce } from "lodash";
+import { ICAdd } from "@assets/icons/ICAdd";
 type Props = {
   name: string;
   icon?: React.ReactNode;
@@ -118,7 +119,8 @@ const ManageNews = () => {
               className="max-w-[177px] whitespace-nowrap"
               imageLeft={
                 <span className="mr-2">
-                  <ICDesc />
+                  {/* <ICDesc /> */}
+                  <ICAdd />
                 </span>
               }
               color={"empty"}
