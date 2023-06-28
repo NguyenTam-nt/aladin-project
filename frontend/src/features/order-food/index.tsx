@@ -2,12 +2,14 @@ import { ICDeleteTrash } from '@assets/icons/ICDeleteTrash'
 import { ICDeleteVoucher } from '@assets/icons/ICDeleteVoucher'
 import { ICTicketDiscount } from '@assets/icons/ICTicketDiscount'
 import { formatNumberDot, formatNumberDotWithVND } from '@commons/formatMoney'
+import { Banner } from '@components/Banner'
 import TitleOfContent from '@components/TitleOfContent'
 import { paths } from '@constants/routerPublic'
 import { useCartContext } from '@contexts/hooks/order'
-import { Banner } from '@features/contact/components/Banner'
+// import { Banner } from '@features/contact/components/Banner'
 import { TextError } from '@features/dashboard/components/TextError'
 import VoucherService from '@services/VoucherService'
+import { HomeTopicType } from '@typeRules/home'
 import type { IProduct } from '@typeRules/product'
 import type { VoucherCheckPriceDTO } from '@typeRules/voucher'
 import React, { useEffect, useMemo, useState } from 'react'
@@ -71,7 +73,8 @@ function index() {
 
   return (
     <div>
-      <Banner name="Đặt hàng" Link={paths.orderFood.prefix} />
+      {/* <Banner name="Đặt hàng" Link={paths.orderFood.prefix} /> */}
+      <Banner type={HomeTopicType.banner_home} />
       <div className="w-rp mt-10 lg:mt-[120px] h-full flex flex-wrap lg:flex-nowrap gap-6">
         <div className="w-full lg:w-2/3">
           <TitleOfContent name="order_food.title" />
@@ -239,7 +242,9 @@ function index() {
             }
             <div className="py-6 border-b border-b-br_CBCBCB flex items-center justify-between">
               <h4 className='text-base '>{t("order_food.total")}</h4>
-              <span className='text-base font-semibold text-red_error'>{formatNumberDotWithVND(totalPrice - (validVoucher ? validVoucher.price  : 0))}</span>
+              <span className='text-base font-semibold text-red_error'>
+                {formatNumberDotWithVND((totalPrice - (validVoucher ? validVoucher.price  : 0)) < 0 ? 0 : (totalPrice - (validVoucher ? validVoucher.price  : 0))) }
+                </span>
             </div>
             <div className="flex flex-wrap lg:flex-nowrap items-center justify-center gap-6 mt-6 lg:mt-10">
               <button className="w-full lg:w-spc167 lg:flex-1 radius-tl-br16  py-3 text-center text-sm leading-5 font-bold border border-primary text-primary"

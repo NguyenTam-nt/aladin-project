@@ -1,7 +1,7 @@
 import { ICClear } from '@assets/icons/ICClear';
 import { formatNumberDot, formatNumberDotWithVND } from '@commons/formatMoney';
 import TitleInput from '@components/TitleInput';
-import { FomatDateYY_MM_DD } from '@constants/formatDateY_M_D';
+import { FomatDateDDMMYY, FomatDateYY_MM_DD } from '@constants/formatDateY_M_D';
 import { fornatDateHour } from '@constants/fornatDateHour';
 import { useModalContext } from '@contexts/hooks/modal';
 import { Button } from '@features/dashboard/components/Button';
@@ -38,7 +38,7 @@ function ModalOrderFoodDetail({idBill}: Props) {
       <div className="text-center mb-10 flex justify-center items-center gap-2">
         <h2 className='text-_32 font-bold text-text_primary'>{t("adminOrderFood.detail.title") } </h2>
         <span className='text-_32 text-text_primary '>{bill && bill.id} </span>
-        <span className='text-text_A1A0A3'>{bill && FomatDateYY_MM_DD(bill.createdDate)}</span>
+        <span className='text-text_A1A0A3 italic'>{bill && FomatDateDDMMYY(bill.createdDate)}</span>
       </div>
       <div className="mt-10">
         <h2 className='text-_20 font-bold text-text_primary'>{t("adminOrderFood.detail.titleInfo") } </h2>
@@ -54,7 +54,7 @@ function ModalOrderFoodDetail({idBill}: Props) {
             </div>
             <div className="py-2 text-text_primary">
               <span className='text-_14 font-bold mr-1'>{t("form.day")}:</span>
-              <span className='text-_14'>{bill && FomatDateYY_MM_DD(bill.chooseDate)}</span>
+              <span className='text-_14'>{bill && FomatDateDDMMYY(bill.chooseDate)}</span>
             </div>
             <div className="py-2 text-text_primary">
               <span className='text-_14 font-bold mr-1'>{t("form.place")}:</span>

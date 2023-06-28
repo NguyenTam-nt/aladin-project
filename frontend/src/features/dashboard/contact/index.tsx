@@ -52,7 +52,7 @@ function ContactAdmin() {
   useEffect(() => {
     if (keyword != "") {
       const searchParams = {
-        query: "*" + keyword + "*",
+        query: "*" + keyword.trim() + "*",
         page: 0,
         size: SIZE_DATA,
       };
@@ -127,7 +127,7 @@ function ContactAdmin() {
           <div className="flex-1 relative">
               <input
                 type="text"
-                value={keyword} onChange={e => setKeyword(e.target.value)} 
+                value={keyword} onChange={e => setKeyword(e.target.value )} 
                 className="w-full border border-[#CFCFCF] bg-transparent py-3 pl-12  font-normal text-sm leading-22"
                 placeholder={t("adminContact.search_placehoder") as string}
               />

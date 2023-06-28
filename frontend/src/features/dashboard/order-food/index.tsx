@@ -47,10 +47,6 @@ function OrderFoodAdmin() {
   useEffect(() => {
     getBillsData(1)
   }, [])
-
-  useEffect(() => {
-    getBillsData(1)
-  }, [place, timeFilter])
   
 
   const getBillsData = (page: number) => {
@@ -59,33 +55,36 @@ function OrderFoodAdmin() {
         setBills(res)
       })
   }
-  // const debounceDropDown = useCallback(
-  //   debounce((params: any) => searchListNew(params), 700),
-  //   []
-  // );
 
-  // useEffect(() => {
-  //   if (keySearch != "") {
-  //     const searchParams = {
-  //       query: "*" + keySearch + "*",
-  //       page: 0,
-  //       size: 100000,
-  //     };
-  //     debounceDropDown(searchParams);
-  //     return;
-  //   }
-  //   debounceDropDown.cancel();
-  //   getBillsData(Number(1))
-  // }, [place, timeFilter, keySearch])
+  const debounceDropDown = useCallback(
+    debounce((params: any) => searchListNew(params), 700),
+    []
+  );
 
-  // const searchListNew = async (params: IParams) => {
-  //   try {
-  //     const response =
-  //       await BillService.search(params);
-  //       setContacts(response);
-  //   } catch (error) {
-  //   }
-  // };
+  useEffect(() => {
+    if (keySearch != "") {
+      const searchParams = {
+        query: "*" + keySearch.trim() + "*",
+        page: 0,
+        size: 100000,
+        id: place, 
+        date: timeFilter
+      };
+      debounceDropDown(searchParams);
+      return;
+    }
+    debounceDropDown.cancel();
+    getBillsData(Number(1))
+  }, [place, timeFilter, keySearch])
+
+  const searchListNew = async (params: IParams) => {
+    try {
+      const response =
+        await BillService.search(params);
+        setBills(response);
+    } catch (error) {
+    }
+  };
 
 
   const handleClickDetail = (id: number) => {
@@ -93,7 +92,7 @@ function OrderFoodAdmin() {
   }
 
   const handleInputSerch = (e: ChangeEvent<HTMLInputElement>) => {
-    setKeySearch(e.target.value);
+    setKeySearch(e.target.value );
     navigate("");
     setCurrentPage(1);
   };
