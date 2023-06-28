@@ -232,7 +232,7 @@ function VoucherAdmin() {
         </div>
       </div>
       <div className="mt-4">
-        <div className="border-b border-br_E9ECEF pb-4 grid grid-cols-[25px_100px_218px_88px_118px_138px__1fr_128px] gap-x-4 [&>p]:text-_16  [&>p]:font-semibold [&>P]:text-text_primary ">
+        <div className="border-b border-br_E9ECEF pb-4 grid grid-cols-[25px_88px_128px_88px_118px_68px__1fr_68px] 2xl:grid-cols-[25px_100px_218px_88px_118px_138px__1fr_128px] gap-x-4 [&>p]:text-_16  [&>p]:font-semibold [&>P]:text-text_primary ">
           <div>
             <Checkbox onChange={handleCheckAll} ref={refCheckboxAll} />
           </div>
@@ -282,7 +282,7 @@ function VoucherAdmin() {
         return (
           <div
             key={item.id}
-            className=" border-b border-br_E9ECEF py-[16px] grid grid-cols-[25px_100px_218px_88px_118px_138px__1fr_128px] gap-x-[16px] [&>p]:text-_14 [&>P]:text-text_primary "
+            className=" border-b border-br_E9ECEF py-[16px] grid grid-cols-[25px_88px_128px_88px_118px_68px__1fr_68px] 2xl:grid-cols-[25px_100px_218px_88px_118px_138px__1fr_128px] gap-x-[16px] [&>p]:text-_14 [&>P]:text-text_primary "
           >
             <div className='flex items-center'>
               <Checkbox
@@ -320,7 +320,7 @@ function VoucherAdmin() {
 
             <div className="flex justify-end items-center gap-x-[16px]">
               {
-                item.voucherState == VOUCHER_STATE.running ? <div className="flex items-center gap-2 cursor-pointer"
+                item.voucherState == VOUCHER_STATE.running ? <div className="flex items-center gap-2 cursor-pointer flex-wrap 2xl:flex-nowrap"
                   onClick={() => {}}
                 >
                   <span className="text-_14 text-TrueBlue_500 cursor-pointer"
