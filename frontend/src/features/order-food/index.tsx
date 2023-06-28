@@ -242,7 +242,9 @@ function index() {
             }
             <div className="py-6 border-b border-b-br_CBCBCB flex items-center justify-between">
               <h4 className='text-base '>{t("order_food.total")}</h4>
-              <span className='text-base font-semibold text-red_error'>{formatNumberDotWithVND(totalPrice - (validVoucher ? validVoucher.price  : 0))}</span>
+              <span className='text-base font-semibold text-red_error'>
+                {formatNumberDotWithVND((totalPrice - (validVoucher ? validVoucher.price  : 0)) < 0 ? 0 : (totalPrice - (validVoucher ? validVoucher.price  : 0))) }
+                </span>
             </div>
             <div className="flex flex-wrap lg:flex-nowrap items-center justify-center gap-6 mt-6 lg:mt-10">
               <button className="w-full lg:w-spc167 lg:flex-1 radius-tl-br16  py-3 text-center text-sm leading-5 font-bold border border-primary text-primary"

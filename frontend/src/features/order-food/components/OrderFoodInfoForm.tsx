@@ -112,7 +112,7 @@ function OrderFoodInfoForm() {
         chooseDate: orderDate.toISOString(),
         note: values.note,
         idInfrastructure: +values.place,
-        price: totalPrice - (voucher ? voucher.price : 0),
+        price: (totalPrice - (voucher ? voucher.price : 0)) < 0 ? 0 : (totalPrice - (voucher ? voucher.price : 0)),
         listProduct: listOrder.map(p => {
           return {
             id: Number(p.id),
