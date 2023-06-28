@@ -54,8 +54,8 @@ export const TopicMenuItem = memo(({ data }: Props) => {
             {data?.name}
           </p>
           <p className="text-_16 lg:text-_18 line-clamp-1 font-bold mt-2 text-secondary">
-            {formatNumberDotSlice(data?.pricePromotion)}
-            {data?.pricePromotion !== data?.price ? (
+            {formatNumberDotSlice(Number(data?.pricePromotion))}
+            {(data?.pricePromotion !== data?.price && data?.pricePromotion.toString().length <= 8) ? (
               <MoneyLineThrough money={Number(data?.price)} />
             ) : null}
           </p>

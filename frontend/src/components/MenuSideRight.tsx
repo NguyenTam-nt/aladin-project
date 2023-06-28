@@ -4,8 +4,6 @@ import { ContactSilde } from "./contactSilde";
 import { prefixRootRoute, windownSizeHeight } from "@constants/index";
 import clsx from "clsx";
 import { useLocation } from "react-router-dom";
-//@ts-ignore
-import DeviceOrientation, { Orientation } from "react-screen-orientation";
 
 export const MenuSideRight = () => {
   const refScroll = useRef<HTMLDivElement>(null);
