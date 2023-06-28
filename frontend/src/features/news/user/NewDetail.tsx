@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import Banner from "./Banner";
 import WapperContent from "@components/WapperContent";
 import type { newItem_type } from "@typeRules/new";
 import { newService } from "@services/newService";
+import { Banner } from "@components/Banner";
+import { HomeTopicType } from "@typeRules/home";
 
 const NewDetail = () => {
   const { id } = useParams();
@@ -24,15 +25,7 @@ const NewDetail = () => {
   }, [id]);
   return (
     <div>
-      <Banner
-        dataBanner={{
-          name: "navigation.header.news",
-          listNavigate: [
-            { name: "navigation.header.news", path: "/tin-tuc" },
-            { name: "navigation.header.newDetail", path: `/tin-tuc/${id}` },
-          ],
-        }}
-      />
+      <Banner type={HomeTopicType.news} />
       {dataNew && (
         <WapperContent>
           <div className="pb-spc120 px-5">

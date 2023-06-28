@@ -13,10 +13,12 @@ export const apis = {
     new:'news',
     searchNew: "_search/news",
     books: "books",
+    searchBooks: "_search/books",
     category: "categories",
     product: "products",
     vouchers: "vouchers",
     searchVouchers: "admin/_search/vouchers",
     bills: "bills",
+    searchBills: "admin/_search/bills",
     comment: "comments",
 }

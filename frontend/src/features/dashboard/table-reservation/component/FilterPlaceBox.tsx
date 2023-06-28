@@ -6,23 +6,11 @@ import { useClickOutItem } from "@hooks/useClickOutItem";
 import PlaceService from "@services/PlaceService";
 import type { PlaceType } from "@typeRules/place";
 import React, { memo, useState, UIEvent, useEffect } from "react";
-const dataCategory = [
-  "Cơ sở 1  Cơ sở 1 - Nguyễn Trí Thanh",
-  "Cơ sở 2 Cơ sở 1 - Nguyễn Trí Thanh",
-  "Cơ sở 3 Cơ sở 1 - Nguyễn Trí Thanh",
-  "Cơ sở 4 Cơ sở 1 - Nguyễn Trí Thanh",
-  "Cơ sở 5 Cơ sở 1 - Nguyễn Trí Thanh",
-  "Cơ sở 6 Cơ sở 1 - Nguyễn Trí Thanh",
-  "Cơ sở 7 Cơ sở 1 - Nguyễn Trí Thanh",
-  "Cơ sở 8 Cơ sở 1 - Nguyễn Trí Thanh",
-  "Cơ sở 9 Cơ sở 1 - Nguyễn Trí Thanh",
-  "Cơ sở 9 Cơ sở 1 - Nguyễn Trí Thanh",
-  "Cơ sở 9 Cơ sở 1 - Nguyễn Trí Thanh",
-];
+type PropsItem = { id: number; name: string } | null;
 
 interface Props {
-  handleChosePlace: (value: number | null) => void;
-  place: null | number;
+  handleChosePlace: (value: PropsItem) => void;
+  place: PropsItem;
 }
 const FilterPlaceBox = memo(({ handleChosePlace, place }: Props) => {
   const { ref, isShow, handleToggleItem } = useClickOutItem();
@@ -88,14 +76,19 @@ const FilterPlaceBox = memo(({ handleChosePlace, place }: Props) => {
           {
             return (
               <div
-                onClick={() => handleChosePlace(item.id!)}
+                onClick={() =>
+                  handleChosePlace({
+                    id: item.id!,
+                    name: `${item.name}-${item.address}`,
+                  })
+                }
                 key={index}
                 className="flex min-h-[48px] gap-1 items-center cursor-pointer"
               >
                 <div
                   className={
                     "w-3 h-3 rounded-[50%] " +
-                    (place === item.id! ? "bg-bg_01A63E" : "")
+                    (place?.id === item.id! ? "bg-bg_01A63E" : "")
                   }
                 ></div>
                 <div className="text-_14 max-w-[80%] text-GreyPrimary ml-[6px] ">

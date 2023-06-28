@@ -65,7 +65,7 @@ export const paths = {
   },
   orderFood: {
     prefix: "/dat-hang",
-    info: "/dat-hang/info",
+    info: "/dat-hang-info",
   },
   memu: {
     prefix: "/thuc-don",
@@ -171,7 +171,7 @@ export const routersPublic: IRouter[] = [
   {
     path: paths.orderFood.info,
     element: OrderFoodInfoPage,
-    name: "",
+    name: "navigation.header.order_food_info",
     isHiden: true,
   },
 ];

@@ -6,6 +6,7 @@ import type { BillStatus, IBill, IBillDetail, IBillGet } from "@typeRules/bill";
 
 const api = getMicroService(`${apis.bills}`, microServices.restaurant)
 const apiAdmin = getMicroServiceAdmin(`${apis.bills}`, microServices.restaurant)
+const pathSearch = getMicroService(`${apis.searchBills}`, microServices.restaurant)
 const BillService = {
     get: (params:IParams):Promise<IResponseData<IBillGet>> => {
         return HttpService.axiosClient.get(`${apiAdmin}`, {params: {...params, page: Number(params.page) - 1}}) 
@@ -29,6 +30,9 @@ const BillService = {
     deleteAll: (ids: any[]) => {
         return HttpService.axiosClient.delete(`${apiAdmin}`, { data: ids})
     },
+    search: async(params: IParams): Promise<IResponseData<IBillGet>> => {
+        return await HttpService.axiosClient.get(pathSearch, {params});
+    }
 }
 
 export default BillService;

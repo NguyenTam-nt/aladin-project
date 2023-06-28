@@ -11,7 +11,7 @@ import { Checkbox } from "../components/Checkbox";
 import { ICFilterDropdown } from "@assets/icons/ICFilterDropdown";
 import FilterPlaceBox from "./component/FilterPlaceBox";
 import FilterByTime from "./component/FilterByTime";
-import { useEffect, useState } from "react";
+import { ChangeEvent, useCallback, useEffect, useState } from "react";
 import { useModalContext } from "@contexts/hooks/modal";
 import { DiglogComfirmDelete } from "../components/DiglogComfirmDelete";
 import ModalFeedbackReservation from "./component/ModalFeedbackReservation";
@@ -22,22 +22,29 @@ import { FomatDateYY_MM_DD } from "@constants/formatDateY_M_D";
 import { useHandleCheckbox } from "../category-product/useHandleCheckbox";
 import { useShowMessage } from "../components/DiglogMessage";
 import type { IParams } from "@typeRules/index";
+import { debounce } from "lodash";
 
 const ManageTableReserVation = () => {
   const { t } = useTranslation();
-  const { setElementModal } = useModalContext();
+  const { hideModal, setElementModal } = useModalContext();
   const [isReply, setReply] = useState<boolean | null>(null);
-  const [place, setPlace] = useState<number | null>(null);
-  const [filter, setFilter] = useState<{ time: string; status: string } | null>(
-    {
-      time: "",
-      status: "",
-    }
-  );
+  const [keySearch, setKeySearch] = useState<string>("");
+  const [place, setPlace] = useState<{ id: number; name: string } | null>(null);
+  const [filter, setFilter] = useState<{ time: string; status: string }>({
+    time: "",
+    status: "",
+  });
   const [listRequetTable, setListRequesTable] = useState<book_table[]>([]);
   const [currentPage, setcurrentPage] = useState<number>(1);
   const [totalPage, setTotalpage] = useState<number>(1);
-
+  const params = {
+    page: currentPage - 1,
+    size: 20,
+    date: filter.time,
+    id: place ? place.id : "",
+    sort: `id,desc`,
+    sort1: `status,${filter?.status}`,
+  };
   const {
     refCheckboxAll,
     refCheckboxList,
@@ -55,13 +62,45 @@ const ManageTableReserVation = () => {
       />
     );
   };
-  const handleFeadbackCustommer = (item: book_table) => {
-    setElementModal(<ModalFeedbackReservation data={item} />);
+  const handleFeadbackCustommer = (id: number) => {
+    setElementModal(
+      <ModalFeedbackReservation
+        idItem={id}
+        handleUpdate={handleUpdateAfterChangeDate}
+      />
+    );
   };
-  const handleShowModalConfirm = () => {
-    setElementModal(<ModalConfirm onClick={() => {}} />);
+  const handleShowModalConfirm = (item: book_table) => {
+    setElementModal(<ModalConfirm onClick={() => handleChangeStatus(item)} />);
   };
+  const handleUpdateAfterChangeDate = (result: book_table) => {
+    const newListTable = listRequetTable.map((item) => {
+      if (item.id === result.id) {
+        item = result;
+      }
+      return item;
+    });
+    setListRequesTable(newListTable);
+  };
+  const handleChangeStatus = async (item: book_table) => {
+    try {
+      const result = await reservationTableSvice.putReservationTable(
+        {
+          ...item,
+          status: true,
+        },
+        item.id!
+      );
 
+      if (result) {
+        handleUpdateAfterChangeDate(result);
+        hideModal();
+        showSuccess("tableReservation.changeSuccess");
+      }
+    } catch (error) {
+      showError("message.actions.error.delete_banner");
+    }
+  };
   const getListRequesResertable = async (params: IParams) => {
     try {
       const { list, totalElement, totalElementPage } =
@@ -82,12 +121,7 @@ const ManageTableReserVation = () => {
       await reservationTableSvice.deleteListReserTable(listDataDelete);
       showSuccess("adminOrderFood.notification.deleteSuccess");
       if (currentPage === 1) {
-        getListRequesResertable({
-          page: currentPage - 1,
-          size: 20,
-          date: "",
-          sort: "id,desc,status=desc",
-        });
+        getListRequesResertable(params);
       } else {
         setcurrentPage(1);
       }
@@ -97,31 +131,48 @@ const ManageTableReserVation = () => {
     }
   };
 
+  const handleChangeInput = (e: ChangeEvent<HTMLInputElement>) => {
+    setKeySearch(e.target.value);
+  };
+  const searchRequestTable = async (params: IParams) => {
+    try {
+      const { list, totalElement, totalElementPage } =
+        await reservationTableSvice.searchReservationTable(params);
+      setListRequesTable(list);
+      setTotalpage(Math.ceil(totalElementPage / 20));
+    } catch (error) {
+      console.log("Không lấy được danh sách yêu cầu đặt bàn.");
+    }
+  };
+  const debounceSearch = useCallback(
+    debounce((params) => searchRequestTable(params), 700),
+    []
+  );
   useEffect(() => {
-    const params = {
-      page: currentPage - 1,
-      size: 20,
-      date: filter?.time,
-      id: place,
-      sort: `status,${filter?.status}`,
-    };
-    getListRequesResertable(params);
-  }, [currentPage, filter]);
+    if (keySearch != "") {
+      debounceSearch({ ...params, query: keySearch.trim() });
+    } else {
+      debounceSearch.cancel();
+      getListRequesResertable(params);
+    }
+  }, [currentPage, filter, place, keySearch]);
 
   return (
     <div>
-      {/* {place ? (
-        <h3 className="title-24 font-bold font-IBM_Plex_Sans">{place}</h3>
-      ) : ( */}
-      <TitleOfContentManage name="tableReservation.nameTable" />
-      {/* )} */}
+      {place ? (
+        <h3 className="title-24 font-bold font-IBM_Plex_Sans">{place.name}</h3>
+      ) : (
+        <TitleOfContentManage name="tableReservation.nameTable" />
+      )}
       <div className="mt-10 pb-6">
         <div className="flex items-center gap-6 justify-between">
           <div className="w-[800px] relative">
             <input
               type="text"
+              value={keySearch}
               className="w-full border border-[#CFCFCF] bg-transparent py-3 pl-12  font-normal text-sm leading-22"
               placeholder={t("common.searchInput") as string}
+              onChange={handleChangeInput}
             />
             <div className="absolute left-5 top-2/4 -translate-y-2/4">
               <MagnifyingGlass color="#A1A0A3" />
@@ -140,7 +191,12 @@ const ManageTableReserVation = () => {
               color={"empty"}
             />
             <div className="flex gap-6 justify-between">
-              <FilterByTime />
+              <FilterByTime
+                time={filter.time}
+                handleFilterByTime={(value) => {
+                  setFilter({ ...filter, time: value });
+                }}
+              />
               <FilterPlaceBox place={place} handleChosePlace={setPlace} />
             </div>
           </div>
@@ -162,9 +218,17 @@ const ManageTableReserVation = () => {
               {t("tableReservation.tableHeader.place")}
             </div>
             <div className="relative group">
-              <div className="flex items-center gap-[10px] cursor-pointer justify-end">
+              <div className="flex items-center gap-[10px] justify-end">
                 {t("tableReservation.tableHeader.status")}
-                <ICFilterDropdown color={Colors.text_primary} />
+
+                <div
+                  className="cursor-pointer"
+                  onClick={() => {
+                    setFilter({ ...filter, status: "" });
+                  }}
+                >
+                  <ICFilterDropdown color={Colors.text_primary} />
+                </div>
               </div>
               <div className="absolute hidden h-0 ease-in duration-75 group-hover:block group-hover:h-[92px] shadow-sm z-20 top-full right-0 w-full bg-white">
                 <div
@@ -178,7 +242,7 @@ const ManageTableReserVation = () => {
                       : "text-text_primary bg-white")
                   }
                 >
-                  đã phản hồi
+                  {t("tableReservation.reply")}
                 </div>
                 <div
                   onClick={() => setFilter({ ...filter, status: "asc" } as any)}
@@ -189,7 +253,7 @@ const ManageTableReserVation = () => {
                       : "text-text_primary bg-white")
                   }
                 >
-                  chưa phản hồi
+                  {t("tableReservation.noReply")}
                 </div>
               </div>
             </div>
@@ -208,30 +272,35 @@ const ManageTableReserVation = () => {
                     }}
                   />
                 </div>
-                <div onClick={() => handleFeadbackCustommer(item)}>
+                <div onClick={() => handleFeadbackCustommer(item.id!)}>
                   {item.name}
                 </div>
-                <div onClick={() => handleFeadbackCustommer(item)}>
+                <div onClick={() => handleFeadbackCustommer(item.id!)}>
                   {item.phone}
                 </div>
-                <div onClick={() => handleFeadbackCustommer(item)} className="">
+                <div
+                  onClick={() => handleFeadbackCustommer(item.id!)}
+                  className=""
+                >
                   {FomatDateYY_MM_DD(item.chooseDate)}
                 </div>
                 <div
-                  onClick={() => handleFeadbackCustommer(item)}
+                  onClick={() => handleFeadbackCustommer(item.id!)}
                   className="text-center"
                 >
                   {FomatDateYY_MM_DD(item.chooseDate, true)}
                 </div>
                 <div
-                  onClick={() => handleFeadbackCustommer(item)}
+                  onClick={() => handleFeadbackCustommer(item.id!)}
                   className="text-center"
                 >
                   {item.chooseInfrastructure}
                 </div>
                 <div
                   className="flex items-center justify-end gap-1"
-                  onClick={handleShowModalConfirm}
+                  onClick={() => {
+                    !item.status && handleShowModalConfirm(item);
+                  }}
                 >
                   <div
                     className={
@@ -239,15 +308,22 @@ const ManageTableReserVation = () => {
                       (item.status ? "bg-bg_01A63E" : "bg-red_error")
                     }
                   ></div>
-                  {item.status ? (
-                    <p className="text-bg_01A63E cursor-pointer">
-                      {t("tableReservation.reply")}
-                    </p>
-                  ) : (
-                    <p className="text-red_error cursor-pointer">
-                      {t("tableReservation.noReply")}
-                    </p>
-                  )}
+                  <div>
+                    {item.status ? (
+                      <p className="text-bg_01A63E cursor-pointer">
+                        {t("tableReservation.reply")}
+                      </p>
+                    ) : (
+                      <p className="text-red_error cursor-pointer">
+                        {t("tableReservation.noReply")}
+                      </p>
+                    )}
+                    {item.createdBy && (
+                      <p className="text-right text-_14 -translate-y-1.5 text-text_A1A0A3">
+                        {t("tableReservation.by")} {item.createdBy}
+                      </p>
+                    )}
+                  </div>
                 </div>
               </div>
             );

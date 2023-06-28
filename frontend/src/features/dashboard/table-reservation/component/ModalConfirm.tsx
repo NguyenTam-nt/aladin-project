@@ -27,7 +27,7 @@ const ModalConfirm = (props: Props) => {
         <span className="ml-1 font-bold">{t("tableReservation.reply")}</span>
       </span>
       <span className="mt-4 mb-[40px] text-GreyPrimary text-center text-xs leading-22">
-        {t("tableReservation.message_confirm")}
+        {t("tableReservation.message_note")}
         <span className="mx-1 font-bold">{t("tableReservation.reply")}</span>
         <span className="mr-1">{t("tableReservation.next_to")}</span>
         <span className=" font-bold">{t("tableReservation.noReply")}</span>

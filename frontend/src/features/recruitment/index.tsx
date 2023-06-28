@@ -3,10 +3,12 @@ import WapperContent from "@components/WapperContent";
 import React, { useEffect, useState } from "react";
 import RecruitmentItem from "./RecruitmentItem";
 import rectangle from "@assets/images/recruitmentCardIcon.svg";
-import Banner from "@features/news/user/Banner";
+// import Banner from "@features/news/user/Banner";
 import { Pagination } from "@components/Paginnation";
 import type { Recruit_type } from "@typeRules/recruit";
 import { recruitService } from "@services/recruitService";
+import { Banner } from "@components/Banner";
+import { HomeTopicType } from "@typeRules/home";
 
 const Recruitment = () => {
   const [currentPage, setCurrentPage] = useState<number>(1);
@@ -22,7 +24,7 @@ const Recruitment = () => {
           sort: "desc",
         });
       setListRecruit(list);
-      setTotalPages(Math.ceil(totalElement / 6));
+      setTotalPages(Math.ceil(totalElementPage / 6));
     } catch (error) {
       console.log("Không lấy được danh sách tuyển dụng");
     }
@@ -32,14 +34,7 @@ const Recruitment = () => {
   }, [currentPage]);
   return (
     <div className="pb-spc120">
-      <Banner
-        dataBanner={{
-          name: "navigation.header.ecruitment",
-          listNavigate: [
-            { name: "navigation.header.ecruitment", path: "/tuyen-dung" },
-          ],
-        }}
-      />
+      <Banner type={HomeTopicType.recruit} />
       <WapperContent>
         <div className="lg:pb-spc120 pb-20 px-5">
           <TitleOfContent name="titleofcontent.recruitment" className="mb-6" />
