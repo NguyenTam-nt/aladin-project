@@ -129,6 +129,7 @@ const TableReserVationForm = memo(() => {
     touched,
     handleChange,
     setFieldValue,
+    setValues,
     resetForm,
     handleSubmit,
   } = formik;
@@ -154,11 +155,6 @@ const TableReserVationForm = memo(() => {
   };
   const handleResetForm = () => {
     resetForm();
-  };
-  const addMinutes = (minutes: number) => {
-    let a = new Date();
-    a.setMinutes(a.getMinutes() + minutes);
-    return a.getTime();
   };
   useEffect(() => {
     getListPlace(currenPage);
@@ -298,8 +294,13 @@ const TableReserVationForm = memo(() => {
                         return (
                           <div
                             onClick={() => {
-                              setFieldValue("chooseIdInfrastructure", item.id);
-                              setFieldValue("chooseInfrastructure", item.name);
+                              setValues({
+                                ...values,
+                                chooseIdInfrastructure: item.id!,
+                                chooseInfrastructure: item.name,
+                              });
+                              // setFieldValue("chooseIdInfrastructure", item.id);
+                              // setFieldValue("chooseInfrastructure", item.name);
                             }}
                             key={index}
                             className="flex h-[48px] items-center cursor-pointer"
