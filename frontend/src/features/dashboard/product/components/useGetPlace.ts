@@ -24,7 +24,7 @@ export const useGetPlace = (isAll = false) => {
         })
       }else {
         categoryService
-            .getAllPlaceHome({ sort: "id,desc", page, size: SIZE_DATA })
+            .getAllPlaceHome({ sort: "id,asc", page, size: SIZE_DATA })
             .then((data) => {
               setCategories([...categories, ...data.list]);
               setTotalPage(data.totalElementPage);

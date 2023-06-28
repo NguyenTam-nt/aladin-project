@@ -26,7 +26,7 @@ export const ProductHandlerVideo = memo(({videoFile}:Props) => {
     <div className="col-span-2 flex gap-[24px]">
       <div className="w-[288px]">
         <div className="flex items-baseline">
-          <TitleInput name="adminProduct.form.upload_video_product" />{" "}
+          <TitleInput isRequired={false} name="adminProduct.form.upload_video_product" />{" "}
           <span className="text-_12 italic ml-2">
             {t("adminProduct.form.maxVideo")}
           </span>

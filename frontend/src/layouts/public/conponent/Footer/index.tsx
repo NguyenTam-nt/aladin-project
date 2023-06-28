@@ -4,9 +4,9 @@ import { FooterOver } from "./components/FooterOver";
 
 export const Footer = () => {
   return (
-    <>
+    <div className=" bg-secondary">
       <FooterAbout />
       <FooterOver />
-    </>
+    </div>
   );
 };

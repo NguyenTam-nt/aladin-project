@@ -13,7 +13,6 @@ import { useNavigate } from "react-router-dom";
 import { paths } from "@constants/routerPublic";
 import { useCartContext } from "@contexts/hooks/order";
 import type { IProduct } from "@typeRules/product";
-
 export const MenusRight = () => {
   const { t } = useTranslation();
   // const [open, setOpen] = useState(false);
@@ -50,9 +49,13 @@ export const MenusRight = () => {
     >
       <button
         onClick={handleToggleItem}
-        className="h-[40px] 2xl:h-[54px] w-[223px] absolute  origin-[top_right] right-[calc(100%_+_40px)]  2xl:right-[calc(100%_+_54px)] gap-x-2 rotate-[-90deg] text-_18 text-text_white flex font-iCielBC_Cubano items-center justify-center px-[24px] rounded-[0_16px_0_0] bg-secondary"
+        className={
+          "h-[40px] 2xl:h-[54px] w-[223px] absolute  origin-[top_right] right-[calc(100%_+_40px)]  2xl:right-[calc(100%_+_54px)] gap-x-2 rotate-[-90deg] text-_18 text-text_white flex font-iCielBC_Cubano items-center justify-center px-[24px] rounded-[0_16px_0_0] bg-secondary"
+        }
       >
-        <ICArowDown color={Colors.text_white} />
+        <span className={clsx("rotate-[-180deg]", {"rotate-[0deg]": isShow})}>
+          <ICArowDown color={Colors.text_white} />
+        </span>
         {t("common.choosed_menu")}
       </button>
       <div className=" w-[calc(100vw_-_40px)] _420:w-[356px] flex flex-col py-[24px] h-[450px] md:h-[500px] 3xl:h-[644px] bg-primary">
@@ -133,7 +136,7 @@ const MenuItem = ({ data }: Props) => {
           </span>
           <MoneyLineThrough
             money={Number(data.price)}
-            className="text-_12 text-text_white"
+            className="!text-_12 text-text_white"
           />
         </div>
         <div className="flex items-center self-center flex-1 gap-x-[16px] text-text_white text-_13 font-semibold">

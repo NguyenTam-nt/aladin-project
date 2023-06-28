@@ -62,9 +62,9 @@ export const CategoryProductHandler = ({
       // idParent: CategoryType.parent,
     },
     validationSchema: Yup.object({
-      name: Yup.string().required("message.form.required").max(255, "Tên dung mục tối đa 255 ký tự."),
-      isHome: Yup.string().required("message.form.required"),
-      isMenu: Yup.string().required("message.form.required"),
+      name: Yup.string().trim().required("message.form.required").max(255, "Tên dung mục tối đa 255 ký tự."),
+      isHome: Yup.string().trim().required("message.form.required"),
+      isMenu: Yup.string().trim().required("message.form.required"),
     }),
     onSubmit: async (values) => {
       try {

@@ -18,3 +18,12 @@ export const getMicroService = (api:string, service = 'home') => {
 export const getMicroServiceAdmin = (api:string, service = 'home') => {
     return `/services/${service}/api/admin/${api}`;
 }
+
+export const getMicroServiceSearchAdmin = (api:string, service = 'home') => {
+    return `/services/${service}/api/admin/_search/${api}`;
+}
+
+
+export const getMicroSearchService = (api:string, service = 'home') => {
+    return `/services/${service}/api/_search/${api}`;
+}

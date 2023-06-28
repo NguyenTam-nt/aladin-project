@@ -28,17 +28,17 @@ export const BannerHomeItem = memo(({ data, onSubmit, onDelete }: Props) => {
       redirectUrl: "",
     },
     validationSchema: Yup.object({
-      title: Yup.string()
+      title: Yup.string().trim()
         .required("message.form.required")
         .max(40, "message.form.max"),
-      content: Yup.string()
+      content: Yup.string().trim()
         .required("message.form.required")
         .max(350, "message.form.max"),
       redirectUrl: Yup.string().required("message.form.required"),
     }),
     onSubmit: async (dataValue) => {
       try {
-        if (!data?.linkMedia && !file) {
+        if (!preViewImage && !file) {
           handleMessageFile();
           return;
         }

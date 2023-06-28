@@ -37,6 +37,7 @@ export const Input = memo(
               className
           )}
         >
+          {renderLeft ? renderLeft() : null}
           <input
             ref={ref}
             autoComplete="off"

@@ -41,9 +41,9 @@ export const PolicyHandle = () => {
       description: "",
     },
     validationSchema: Yup.object({
-      title: Yup.string().required("message.form.required").max(255, "Họ và tên tối đa 255 ký tự."),
-      content: Yup.string().required("message.form.required"),
-      description: Yup.string().required("message.form.required").max(2000, "Mô tả tối đa 2000 ký tự."),
+      title: Yup.string().trim().required("message.form.required").max(255, "Tiêu đề tối đa 255 ký tự."),
+      content: Yup.string().trim().required("message.form.required"),
+      description: Yup.string().trim().required("message.form.required").max(2000, "Mô tả tối đa 2000 ký tự."),
     }),
     onSubmit: (data) => {
       showLoading();
@@ -52,21 +52,21 @@ export const PolicyHandle = () => {
           .postPolicy({ ...data })
           .then(() => {
             showSuccess("adminPolicy.message_post");
-            // goBack();
+            goBack();
             formik.resetForm()
           })
-          .catch(() => {
-            showError("message.actions.error.delete_banner");
+          .catch((error) => {
+            showError(error.response.data.message || "message.actions.error.delete_banner");
           });
       } else {
         policyService
           .updatePolicy({ ...policy, ...data })
           .then(() => {
             showSuccess("adminPolicy.message_update");
-            // goBack();
+            goBack();
           })
-          .catch(() => {
-            showError("message.actions.error.delete_banner");
+          .catch((error) => {
+            showError(error.response.data.message || "message.actions.error.delete_banner");
           });
       }
     },
@@ -126,7 +126,7 @@ export const PolicyHandle = () => {
           )}
         </div>
         <div className="flex justify-end">
-          <GroupButtonAdmin onCancel={goBack} onSubmit={formik.handleSubmit} />
+          <GroupButtonAdmin isAdd={isAdd} onCancel={goBack} onSubmit={formik.handleSubmit} />
         </div>
       </div>
     </div>

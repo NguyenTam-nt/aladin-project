@@ -6,6 +6,7 @@ import "./assets/css/index.css";
 import { BrowserRouter } from "react-router-dom";
 import HttpService from "@configs/api";
 import keycloakService from "@services/keycloakService";
+import { Splash } from "@components/Splash";
 
 const App = lazy(() => import("./App"))
 
@@ -13,7 +14,7 @@ const render = () => {
   ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
     <I18nextProvider i18n={i18n}>
       <BrowserRouter>
-        <Suspense>
+        <Suspense fallback={<Splash />}>
           <App />
         </Suspense>
       </BrowserRouter>

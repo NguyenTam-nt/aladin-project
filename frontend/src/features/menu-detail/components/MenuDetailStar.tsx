@@ -82,7 +82,7 @@ export const MenuDetailStar = ({
       <div className="mt-[40px] flex flex-col lg:flex-row gap-[24px] items-center">
         <div className="w-full lg:w-[200px] bg-secondary text-text_white flex flex-col items-center justify-center h-[200px] rounded-[32px_0_32px_0]">
           <p className="text-_64 font-iCielBC_Cubano">
-            {data.numAverage.toFixed(1)}
+            { Number(data.numAverage).toFixed(1)}
           </p>
           <p className="text-_24 font-bold">trên 5</p>
         </div>

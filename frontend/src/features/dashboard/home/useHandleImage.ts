@@ -64,14 +64,17 @@ export const useHandleImage = (
   };
 
   const handlePaste = (link: string) => {
+
+
     if (link.includes("https://www.youtube.com/watch?v=")) {
-      const splitLink = link.split("v=")[1];
-      if (splitLink.trim()) {
-        setPreViewImage(splitLink);
-        setIsVideo(true);
-        handlePasteLink?.(splitLink)
-        return;
-      }
+      const splitLink = link.split("?")[1];
+      const linkI = new URLSearchParams(splitLink)
+     if(linkI.get("v")) {
+         setPreViewImage(linkI.get("v") ?? "");
+         setIsVideo(true);
+         handlePasteLink?.(linkI.get("v") ?? "")
+         return;
+     }
     }
     setIsVideo(false);
     setPreViewImage(link);

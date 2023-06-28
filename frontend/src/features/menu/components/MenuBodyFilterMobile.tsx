@@ -4,16 +4,23 @@ import React, { useState } from "react";
 import { MenuBodyFilterByCategory } from "./MenuBodyFilterByCategory";
 import clsx from "clsx";
 import { useClickOutItem } from "@hooks/useClickOutItem";
+import type { ICategory } from "@typeRules/category";
 
 type Props = {
-  onChangeCategory: (id:number) => void
+  categories: ICategory[]
+  handleChangeCategoryParent : (id:number) => void,
+  handleSelectCategorySub:  (id:number, idParent:number) => void,
+  indexChild: number,
+  indexParent: number,
+  nameP?: string,
+  nameC?: string
 }
 
-export const MenuBodyFilterMobile = ({onChangeCategory}:Props) => {
+export const MenuBodyFilterMobile = ({categories, handleChangeCategoryParent, handleSelectCategorySub, indexChild, indexParent, nameC, nameP}:Props) => {
   const { ref, isShow, handleToggleItem } = useClickOutItem();
   return (
     <div className="flex justify-between ">
-      <h3 className="title-64 text-secondary">Lẩu 2 ngăn</h3>
+      <h3 className="title-64 text-secondary">{`${nameP} ${nameC}`}</h3>
       <div ref={ref} className="relative flex items-center">
         <button onClick={handleToggleItem}>
           <ICMenuBar color={Colors.secondary} />
@@ -26,7 +33,7 @@ export const MenuBodyFilterMobile = ({onChangeCategory}:Props) => {
             }
           )}
         >
-          <MenuBodyFilterByCategory onChangeCategory={onChangeCategory} onHidden={handleToggleItem} />
+          <MenuBodyFilterByCategory categories={categories} handleChangeCategoryParent={handleChangeCategoryParent} handleSelectCategorySub={handleSelectCategorySub} indexChild={indexChild} indexParent={indexParent} onHidden={handleToggleItem} />
         </div>
       </div>
     </div>

@@ -5,16 +5,32 @@ import { usePagination } from "@hooks/usePagination";
 import { productService } from "@services/product";
 import type { IResponseData } from "@typeRules/index";
 import type { IProduct } from "@typeRules/product";
-import { useState, useEffect, useMemo, useCallback } from "react";
-import { useSearchParams } from "react-router-dom";
-
-export const useGetProduct = () => {
+import {
+  useState,
+  useEffect,
+  useMemo,
+  useCallback,
+  ChangeEvent,
+  useRef,
+} from "react";
+import { debounce } from "lodash";
+import { useSearchParamHook } from "@hooks/useSearchParam";
+export const useGetProduct = (pageSize = SIZE_DATA, sort = "id,desc") => {
   const { currentPage, setCurrentPage } = usePagination();
   const [products, setProducts] = useState<IResponseData<IProduct>>();
   const { showLoading } = useHandleLoading();
   const [loading, setLoading] = useState(false);
-  const [searchParams, setSearchParam] = useSearchParams();
+  const {searchParams, setSearchParam, setQueries} = useSearchParamHook()
   const { showError, showSuccess } = useShowMessage();
+  const [querySearch, setSearchQuery] = useState<string | undefined>(() => {
+    const query = searchParams.get("query");
+    if (query) {
+      return query
+    }
+    return undefined;
+  });
+  const debounceTime = useRef<ReturnType<typeof debounce>>();
+
   const [filterId, setFilterId] = useState<number | undefined>(() => {
     const categoryParent = searchParams.get("category");
     if (categoryParent) {
@@ -23,10 +39,9 @@ export const useGetProduct = () => {
         if (typeof Number(listCategory[1]) === "number")
           return Number(listCategory[1]);
       }
-      
+
       if (typeof Number(listCategory[0]) === "number")
         return Number(listCategory[0]);
-     
     }
     return undefined;
   });
@@ -34,19 +49,46 @@ export const useGetProduct = () => {
   const [sortId, setSortId] = useState<string | undefined>(() => {
     const sortId = searchParams.get("sort");
     if (sortId) {
-        return dataSortProduct.find(i => i.slug === sortId)?.action || "id,desc"
+      return (
+        dataSortProduct.find((i) => i.slug === sortId)?.action || sort
+      );
     }
-    return "id,desc";
+    return sort;
   });
 
   useEffect(() => {
-    getProducts(Number(currentPage), filterId, sortId);
-  }, [currentPage, filterId, sortId]);
+    if (debounceTime.current) debounceTime.current.cancel();
+    if (querySearch?.trim()) {
+      debounceTime.current = debounce(() => {
+        getProductsSearch(Number(currentPage), filterId, sortId, querySearch);
+      }, 300);
+      debounceTime.current();
+    } else {
+      getProducts(Number(currentPage), filterId, sortId);
+    }
+  }, [currentPage, filterId, sortId, querySearch]);
 
-  const getProducts = (page: number, id?: number, sort?:string) => {
+  const getProducts = (page: number, id?: number, sort?: string) => {
     setLoading(true);
     productService
-      .get({ page, size: SIZE_DATA, id, sort })
+      .get({ page, size: pageSize, id, sort })
+      .then((data) => {
+        setProducts(data);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  };
+
+  const getProductsSearch = (
+    page: number,
+    id?: number,
+    sort?: string,
+    query?: string
+  ) => {
+    setLoading(true);
+    productService
+      .search({ page, size: pageSize, id, sort, query })
       .then((data) => {
         setProducts(data);
       })
@@ -56,7 +98,7 @@ export const useGetProduct = () => {
   };
 
   const totalPages = useMemo(() => {
-    return Math.ceil(Number(products?.totalElementPage || 0) / SIZE_DATA);
+    return Math.ceil(Number(products?.totalElementPage || 0) / pageSize);
   }, [products?.totalElementPage]);
 
   const handleDelete = (id: number) => {
@@ -98,8 +140,16 @@ export const useGetProduct = () => {
     setFilterId(id);
   }, []);
 
-  const handleChangeSort = useCallback((sort:string) => {
+  const handleChangeSort = useCallback((sort: string) => {
     setSortId(sort);
+  }, []);
+
+  const handleSearch = useCallback((event: ChangeEvent<HTMLInputElement>) => {
+    const value = event.target.value;
+    setQueries("query", value.trim())
+    setQueries("page", "1")
+    setCurrentPage(1)
+    setSearchQuery(value);
   }, []);
 
   return {
@@ -112,6 +162,8 @@ export const useGetProduct = () => {
     currentPage,
     setCurrentPage,
     handleChangeSort,
-    sortId
+    sortId,
+    querySearch,
+    handleSearch,
   };
 };

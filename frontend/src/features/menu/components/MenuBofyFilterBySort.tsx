@@ -11,30 +11,45 @@ import { useTranslation } from "react-i18next";
 type Props = {
   onChangeSort: (sort: string) => void;
   sort?: string;
+  nameP: string | undefined;
+  nameC: string | undefined;
 };
 
-export const MenuBofyFilterBySort = ({ onChangeSort, sort }: Props) => {
+export const MenuBofyFilterBySort = ({
+  onChangeSort,
+  sort,
+  nameC,
+  nameP,
+}: Props) => {
   const { t } = useTranslation();
   const [sortId, setSortId] = useState<string | undefined>(sort);
   const { ref, isShow, handleToggleItem } = useClickOutItem();
-  const { setQueries } = useSearchParamHook();
+  const { setQueries, searchParams, setSearchParam } = useSearchParamHook();
 
   const handleSort = (sortAction: string) => {
     const slug =
       dataSortProduct.find((data) => data.action === sortAction)?.slug || "";
-    setQueries("sort", slug);
     onChangeSort(sortAction);
     setSortId(sortAction);
+    if (!sortAction) {
+      searchParams.delete("sort");
+      setSearchParam(searchParams);
+      return;
+    }
+    setQueries("sort", slug);
   };
 
   return (
     <div className="flex justify-between items-center">
-      <h3 className="title-32 text-secondary">Danh sách Lẩu</h3>
+      <h3 className="title-32 text-secondary line-clamp-2">
+        Danh sách {nameP}
+        {nameC ? ` ${nameC}` : ""}
+      </h3>
       <div className="flex items-center gap-x-[16px]">
         <span className="text-_14 text-text_black">
           {t("common.sort_by")}:{" "}
         </span>
-        <div ref={ref} className="w-[224px] relative">
+        <div ref={ref} className="w-[224px] relative z-[5]">
           <Button
             classNameParent="!w-full"
             onClick={handleToggleItem}
