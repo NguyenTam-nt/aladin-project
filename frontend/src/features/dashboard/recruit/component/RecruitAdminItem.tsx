@@ -44,7 +44,7 @@ const RecruitAdminItem = ({ itemRecrui, handleDelete }: Props) => {
 
   return (
     <div className="p-4 bg-white">
-      <p className=" line-clamp-2 text-_16 font-semibold text-text_black mb-2">
+      <p className=" line-clamp-2 text-_16 font-semibold min-h-[48px] text-text_black mb-2">
         {itemRecrui.title}
       </p>
       <div className="flex items-center gap-2 mb-[17px]">

@@ -8,8 +8,8 @@ export interface book_table {
     chooseIdInfrastructure: number,
     chooseInfrastructure: string,
     note: string,
-    record?: null,
-    feedback?: null,
+    record?:boolean |null,
+    feedback?:string| null,
     status?: boolean
   }
   // export interface book_table_admin extends book_table {

@@ -2,11 +2,14 @@ import CalendarIcont from "@assets/icons/CalendarIcont";
 import { Button } from "@features/dashboard/components/Button";
 import { useClickOutItem } from "@hooks/useClickOutItem";
 import React, { ChangeEvent, memo, useEffect, useRef } from "react";
-
-const FilterByTime = memo(() => {
+interface Props {
+  time: string;
+  handleFilterByTime: (value: string) => void;
+}
+const FilterByTime = memo(({ time, handleFilterByTime }: Props) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const handleChangeTime = (e: ChangeEvent<HTMLInputElement>) => {
-    console.log(e.target.value, "filer by time");
+    handleFilterByTime(e.target.value);
   };
   const handleClick = () => {
     inputRef?.current?.showPicker();
@@ -26,7 +29,7 @@ const FilterByTime = memo(() => {
       />
       <input
         ref={inputRef}
-        defaultValue={new Date().toLocaleString()}
+        defaultValue={time}
         type="date"
         className="absolute bottom-0 -z-10 bg-transparent"
         onChange={handleChangeTime}
