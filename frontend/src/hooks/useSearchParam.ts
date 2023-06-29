@@ -16,10 +16,22 @@ export const useSearchParamHook = () => {
     setSearchParam(searchParams);
   };
 
+  const deleteParam = (keyO:string) => {
+    searchParams.forEach((value, key) => {
+      searchParams.set(key, value);
+      if (key === keyO) {
+        searchParams.delete(keyO);
+      }
+    });
+    searchParams.sort()
+    setSearchParam(searchParams);
+  }
+
   return {
     searchParams,
     setSearchParam,
     setQueries,
+    deleteParam,
     ...params
   };
 };

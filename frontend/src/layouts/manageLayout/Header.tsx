@@ -16,8 +16,8 @@ const Header = () => {
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    doLogout();
     navigate(prefixRootRoute.public);
+    doLogout();
   };
 
   const { t } = useTranslation();

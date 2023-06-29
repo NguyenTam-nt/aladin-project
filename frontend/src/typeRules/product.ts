@@ -60,6 +60,7 @@ export interface IProduct {
   priority?: boolean;
   show?: boolean;
   quantity?: number;
+  isStar?: boolean
 }
 
 

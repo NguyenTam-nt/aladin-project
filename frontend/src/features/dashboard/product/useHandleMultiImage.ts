@@ -74,7 +74,7 @@ export const useHandleMultiImage = (
   };
 
   const handleMessageFile = () => {
-    setMessage("message.warn._required");
+    setMessage("message.form.required");
   };
 
   console.log({file})

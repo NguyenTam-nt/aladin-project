@@ -35,6 +35,9 @@ import { useGetDetailProduct } from "./useGetDetailProduct";
 import { useHandleLoading } from "@features/dashboard/components/Loading";
 import { uploadService } from "@services/upload";
 import { useShowMessage } from "@features/dashboard/components/DiglogMessage";
+import { paths } from "@constants/routerPublic";
+import { pathsAdmin } from "@constants/routerManager";
+import { prefixRootRoute } from "@constants/index";
 
 export const ProductHandler = () => {
   //   const [value, setValue] = useState("");
@@ -64,12 +67,29 @@ export const ProductHandler = () => {
     validationSchema: Yup.object({
       code: Yup.string().trim().required("message.form.required"),
       name: Yup.string().trim().required("message.form.required"),
-      price: Yup.number().moreThan(0, "Vui lòng nhập số lớn hơn 0").typeError("Vui lòng nhập số.")
-        .required("message.form.required"),
-      pricePromotion: Yup.number().typeError("Vui lòng nhập số.").moreThan(0, "Vui lòng nhập số lớn hơn 0")
-        .required("message.form.required").max(Yup.ref("price"), "Giá khuyến mãi phải nhỏ hơn hoặc bằng giá gốc."),
+      price: Yup.number()
+        .moreThan(-1, "Vui lòng nhập số tiền lớn hơn hoặc bằng 0 ")
+        .typeError("Vui lòng nhập số.")
+        .required("message.form.required")
+        .test(
+          "noEOrSign", // type of the validator (should be unique)
+          "Vui lòng nhập số nguyên", // error message
+          (value) =>
+            typeof value === "number" && !/[eE+-]/.test(`${value}`)
+        ),
+      pricePromotion: Yup.number()
+        .typeError("Vui lòng nhập số.")
+        .moreThan(-1, "Vui lòng nhập số tiền lớn hơn hoặc bằng 0 ")
+        .required("message.form.required")
+        .max(Yup.ref("price"), "Giá khuyến mãi phải nhỏ hơn hoặc bằng giá gốc.")
+        .test(
+          "noEOrSign", // type of the validator (should be unique)
+          "Vui lòng nhập số nguyên", // error message
+          (value) =>
+          typeof value === "number" && !/[eE+-]/.test(`${value}`)
+        ),
       description: Yup.string().trim().required("message.form.required"),
-      category: Yup.object().required("message.form.required"),
+      category: Yup.object(),
       listInfrastructure: Yup.array<IListMedia>().required(
         "message.form.required"
       ),
@@ -80,11 +100,27 @@ export const ProductHandler = () => {
           if (!listImage.preViewImage.length) {
             listImage.handleMessageFile();
           }
-          // if (!listImage.preViewImage) {
-          //   listImage.handleMessageFile();
-          // }
           return;
         }
+
+        if (!values.category) {
+          fomick.setFieldError("category", "message.form.required");
+          return;
+        } else {
+          if (values.category.idParent === undefined) {
+            fomick.setFieldError(
+              "category",
+              "Bặt buộc phải chọn danh mục nhỏ."
+            );
+            return;
+          }
+        }
+
+        if (!values.listInfrastructure?.length) {
+          fomick.setFieldError("listInfrastructure", "message.form.required");
+          return;
+        }
+
         showLoading();
         let images: IListMedia[] = imagesState.current;
         let videos: IListMedia[] = [];
@@ -128,28 +164,35 @@ export const ProductHandler = () => {
         const finalData: IProduct = {
           id: isAdd ? null : product?.id || null,
           ...values,
-          listMedia: [...videos, ...images]
+          listMedia: [...videos, ...images],
         };
 
         if (isAdd) {
           productService
             .post(finalData)
             .then(() => {
-              showSuccess("Thêm sản phẩm thành công.");
+              showSuccess("adminProduct.message_add_success");
               navigation(-1);
             })
-            .catch(() => {
-              showError("Thêm sản phẩm thất bại.");
+            .catch((error) => {
+              if (error?.response?.data?.status !== 500) {
+                showError(
+                  error?.response?.data.error ||
+                    "adminProduct.message_add_error"
+                );
+              } else {
+                showError("Lỗi hệ thống.");
+              }
             });
         } else {
           productService
             .update(finalData)
             .then(() => {
-              showSuccess("Thêm sản phẩm thành công.");
+              showSuccess("message.actions.success.update");
               navigation(-1);
             })
             .catch(() => {
-              showError("Thêm sản phẩm thất bại.");
+              showError("message.actions.success.error");
             });
         }
       } catch (error) {}
@@ -168,7 +211,8 @@ export const ProductHandler = () => {
       listImage.setPreViewImage(
         product?.listMedia
           ?.filter((i) => i.type === MediaType.image)
-          .map((i) => ({ id: i?.id + "", previewImage: i?.linkMedia || "" })) || []
+          .map((i) => ({ id: i?.id + "", previewImage: i?.linkMedia || "" })) ||
+          []
       );
       imagesState.current =
         product?.listMedia?.filter((i) => i.type === MediaType.image) || [];
@@ -185,14 +229,11 @@ export const ProductHandler = () => {
     product?.listMedia?.filter((i) => i.type === MediaType.video)?.[0]
   );
 
-
-
-
   const handleDeleteImage = useCallback(
     (id: number | string) => {
       if (!isAdd) {
-        const index = imagesState.current.findIndex(i => i.id == id)
-        if(index !== -1) {
+        const index = imagesState.current.findIndex((i) => i.id == id);
+        if (index !== -1) {
           imagesState.current.splice(index, 1);
         }
       }
@@ -200,14 +241,11 @@ export const ProductHandler = () => {
     [imagesState, isAdd]
   );
 
-  const handleDeleteVideo = useCallback(
-    () => {
-      if (!isAdd) {
-        videoState.current = undefined
-      }
-    },
-    [imagesState, isAdd]
-  );
+  const handleDeleteVideo = useCallback(() => {
+    if (!isAdd) {
+      videoState.current = undefined;
+    }
+  }, [imagesState, isAdd]);
 
   const listImage = useHandleMultiImage(
     product?.listMedia
@@ -218,7 +256,8 @@ export const ProductHandler = () => {
   );
 
   const videoFile = useHandleImage(
-    product?.listMedia?.filter((i) => i.type === MediaType.video)?.[0]?.linkMedia,
+    product?.listMedia?.filter((i) => i.type === MediaType.video)?.[0]
+      ?.linkMedia,
     undefined,
     handleDeleteVideo
   );
@@ -227,6 +266,7 @@ export const ProductHandler = () => {
     (event: ChangeEvent<HTMLInputElement>) => {
       const { name, value } = event.currentTarget;
       fomick.setFieldValue(name, value.replaceAll(".", ""));
+      console.log({balue:value.replaceAll(".", "") })
     },
     []
   );
@@ -234,7 +274,7 @@ export const ProductHandler = () => {
   const handleBluerCode = useCallback(
     (event: ChangeEvent<HTMLInputElement>) => {
       const { value } = event.currentTarget;
-      if(product && product.code === value.trim()) return 
+      if (product && product.code === value.trim()) return;
       productService.checkCode(value).catch((error) => {
         const status = error?.response?.data?.status;
         if (status === 400) {
@@ -247,7 +287,7 @@ export const ProductHandler = () => {
   );
 
   const handleChangeCategory = useCallback(
-    (data: { id: number; idParent: number }) => {
+    (data: { id: number; idParent: number | undefined }) => {
       fomick.setFieldValue("category", data);
     },
     []
@@ -257,9 +297,20 @@ export const ProductHandler = () => {
     fomick.setFieldValue("listInfrastructure", data);
   }, []);
 
+  const handleNavigate = useCallback(() => {
+    navigation(`${prefixRootRoute.admin}/${pathsAdmin.product.prefix}`);
+  }, []);
+
+  console.log({ fomick: fomick.values.category });
+
   return (
     <div>
-      <TitleTopic isRequired={false} name={isAdd ? "adminProduct.form.title_add"  :"adminProduct.form.title_edit" }/>
+      <TitleTopic
+        isRequired={false}
+        name={
+          isAdd ? "adminProduct.form.title_add" : "adminProduct.form.title_edit"
+        }
+      />
       <div className="grid grid-cols-2 gap-[24px]">
         <div className=" col-span-1">
           <TitleInput name="adminProduct.form.code" />
@@ -320,10 +371,12 @@ export const ProductHandler = () => {
         <ProductHandlerCategory
           category={product?.category}
           onChange={handleChangeCategory}
+          message={fomick.errors?.category ?? ""}
         />
         <ProductHandlerPlace
           listValue={product?.listInfrastructure}
           onChange={handleChangePlace}
+          message={fomick.errors?.listInfrastructure ?? ""}
         />
         <div className=" col-span-2">
           <TitleInput name="adminProduct.form.info" />
@@ -340,7 +393,11 @@ export const ProductHandler = () => {
           )}
         </div>
         <div className="col-span-2 flex justify-end">
-          <GroupButtonAdmin isAdd={isAdd} onSubmit={fomick.handleSubmit} />
+          <GroupButtonAdmin
+            onCancel={handleNavigate}
+            isAdd={isAdd}
+            onSubmit={fomick.handleSubmit}
+          />
         </div>
       </div>
     </div>

@@ -26,7 +26,7 @@ export interface INews {
 export interface IParams {
   page?: string | number;
   size?: number;
-  sort?: string;
+  sort?: string | string[];
   [key: string]: any | undefined;
 }
 

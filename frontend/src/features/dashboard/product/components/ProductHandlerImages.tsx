@@ -10,6 +10,7 @@ import { useSwiperNavigationRef } from "@hooks/useSwiperNavigationRef";
 import { ICArowDown } from "@assets/icons/ICArowDown";
 import { Colors } from "@constants/color";
 import { windownSizeWidth, withResponsive } from "@constants/index";
+import { TextError } from "@features/dashboard/components/TextError";
 
 type Props = {
   listImage: {
@@ -35,13 +36,16 @@ export const ProductHandlerImages = memo(({ listImage }: Props) => {
     onActiveIndexChange,
   } = useSwiperNavigationRef();
   const width = useMemo(() => {
-    return windownSizeWidth > withResponsive._1536
+    console.log({windownSizeWidth})
+    return windownSizeWidth > withResponsive._1690
       ? windownSizeWidth -
-          300 * 2 -
-          (windownSizeWidth > withResponsive._1536 ? 96 : 70 * 2) -
+          300*2 -
+           96 - 24 - 
           288
-      : windownSizeWidth - 300 - 70 - 70*2 - 228;
+      : windownSizeWidth - 300 - 70*2 - 288 - 24 - 12;
   }, []);
+
+  console.log({width})
 
   return (
     <div className="col-span-2 flex gap-[24px]">
@@ -59,6 +63,7 @@ export const ProductHandlerImages = memo(({ listImage }: Props) => {
             multiple
             onChange={listImage.handleChange}
           />
+          {listImage.message && <TextError message={listImage.message} />}
         </div>
       </div>
       {listImage.preViewImage.length ? (
@@ -98,7 +103,7 @@ export const ProductHandlerImages = memo(({ listImage }: Props) => {
                     <ICArowDown color={Colors.text_black} />
                   </button>
                 ) : null}
-                {currentIndex < 1 ? (
+                {currentIndex <= 1 ? (
                   <button
                     onClick={handleNext}
                     className="absolute top-[50%] translate-y-[-50%] right-[-24px] rotate-[-90deg]"

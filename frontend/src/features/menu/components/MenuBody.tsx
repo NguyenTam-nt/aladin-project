@@ -19,7 +19,7 @@ export const MenuBody = () => {
     setCurrentPage,
     handleChangeSort,
     sortId,
-  } = useGetProduct(9, "");
+  } = useGetProduct( windownSizeWidth > withResponsive._1280 ? 9 : 8, "");
 
   const {
     handleChangeCategoryParent,
@@ -27,6 +27,7 @@ export const MenuBody = () => {
     categories,
     indexChild,
     indexParent,
+    handleClear
   } = useCategoryFilter({ onChange: handleChangeCategory, isAll: true });
 
   return (
@@ -40,12 +41,14 @@ export const MenuBody = () => {
               handleSelectCategorySub={handleSelectCategorySub}
               indexChild={indexChild}
               indexParent={indexParent}
+              handleClear={handleClear}
             />
           </div>
         ) : null}
         <div className="flex-1">
           {windownSizeWidth > withResponsive._1024 ? (
             <MenuBofyFilterBySort
+            handleClear={handleClear}
               sort={sortId}
               nameP={
                 categories.length && indexParent !== -1
@@ -69,6 +72,7 @@ export const MenuBody = () => {
               handleSelectCategorySub={handleSelectCategorySub}
               indexChild={indexChild}
               indexParent={indexParent}
+              handleClear={handleClear}
               nameP={
                 categories.length && indexParent !== -1
                   ? categories[indexParent].name

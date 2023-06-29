@@ -13,6 +13,7 @@ type Props = {
   sort?: string;
   nameP: string | undefined;
   nameC: string | undefined;
+  handleClear: () => void;
 };
 
 export const MenuBofyFilterBySort = ({
@@ -20,6 +21,7 @@ export const MenuBofyFilterBySort = ({
   sort,
   nameC,
   nameP,
+  handleClear
 }: Props) => {
   const { t } = useTranslation();
   const [sortId, setSortId] = useState<string | undefined>(sort);
@@ -40,13 +42,15 @@ export const MenuBofyFilterBySort = ({
   };
 
   return (
-    <div className="flex justify-between items-center">
-      <h3 className="title-32 text-secondary line-clamp-2">
-        Danh sách {nameP}
-        {nameC ? ` ${nameC}` : ""}
+    <div className="flex justify-between gap-[24px] items-center">
+      <h3 onClick={handleClear} className="title-32 text-secondary w-fit cursor-pointer line-clamp-2">
+        Danh sách {nameC || nameP ? (
+          nameP + (nameC ? ` - ${nameC}` : "")
+        ): "món ăn"}
+       
       </h3>
       <div className="flex items-center gap-x-[16px]">
-        <span className="text-_14 text-text_black">
+        <span className="text-_14 w-max text-text_black">
           {t("common.sort_by")}:{" "}
         </span>
         <div ref={ref} className="w-[224px] relative z-[5]">

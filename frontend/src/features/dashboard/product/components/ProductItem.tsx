@@ -59,7 +59,7 @@ export const ProductItem = memo(({ data, onDelete, onUpdate }: Props) => {
         if (error?.response?.data.status !== 500) {
           showError(error?.response?.data?.message || "Cập nhật thất bại.");
         } else {
-          showError(error?.response?.data?.message || "Lỗi hệ thống.");
+          showError("Lỗi hệ thống.");
         }
       });
   };
@@ -106,13 +106,15 @@ export const ProductItem = memo(({ data, onDelete, onUpdate }: Props) => {
           <DiscountItem discount={Math.ceil(data?.percent || 0)} />
         ) : null}
         <div className="flex absolute top-[20px] right-[20px] z-[1]  items-center gap-x-[18px]">
-          <button onClick={handleShowHome}>
-            <ICStar
-              width={19}
-              height={19}
-              color={data.priority ? Colors.bg_F4A118 : Colors.text_white}
-            />
-          </button>
+          {data?.isStar ? (
+            <button onClick={handleShowHome}>
+              <ICStar
+                width={19}
+                height={19}
+                color={data.priority ? Colors.bg_F4A118 : Colors.text_white}
+              />
+            </button>
+          ) : null}
           <button onClick={handleDisplayModal}>
             {data.show ? <ICEye /> : <ICEyeOff color={Colors.text_white} />}
           </button>
@@ -136,7 +138,8 @@ export const ProductItem = memo(({ data, onDelete, onUpdate }: Props) => {
           <span className=" text-_18  font-bold text-text_EA222A">
             {formatNumberDotSlice(Number(data?.pricePromotion))}
           </span>
-          {data.price !== data.pricePromotion ? (
+          {(data.price !== data.pricePromotion &&
+          data?.pricePromotion.toString().length <= 8) ? (
             <MoneyLineThrough money={Number(data.price)} />
           ) : null}
         </div>

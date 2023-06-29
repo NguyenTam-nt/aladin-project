@@ -112,7 +112,9 @@ body {
 ::-webkit-scrollbar-thumb:horizontal:hover {
   background: #555;
 }
-
+.hidde-scroll::-webkit-scrollbar:horizontal{
+  display: none;
+}
 
 
 /* autofill */

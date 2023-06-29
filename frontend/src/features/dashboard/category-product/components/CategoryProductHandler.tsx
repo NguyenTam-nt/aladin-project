@@ -173,6 +173,7 @@ export const CategoryProductHandler = ({
             onChange={fomick.handleChange}
             onBlur={fomick.handleBlur}
             placeholder="category.form.name_parent_placeholder"
+            maxLength={255}
           />
           {fomick.errors.name && fomick.touched.name && (
             <TextError message={fomick.errors.name} />
@@ -407,6 +408,7 @@ const CategoryItemChild = memo(
             onChange={handleChangeItem}
             name="name"
             placeholder="category.form.name_child_item_placeholder"
+            maxLength={255}
           />
         </div>
         <button

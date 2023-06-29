@@ -11,44 +11,6 @@ import { MediaType } from "@typeRules/product";
 import clsx from "clsx";
 import React, { memo, useMemo } from "react";
 import { SwiperSlide } from "swiper/react";
-const listImage = [
-  {
-    link: "https://s3-alpha-sig.figma.com/img/2b9e/ebcf/86b3f5e4648acf128a1b7eeed51edea0?Expires=1687132800&Signature=masaB0H414GflGEwv2-rabfdmtDJn6~Dq9BdM7hbAOVP8I4pdUyjzJDHgtnuneWcSotBcZWhJBu-goyKHV4R48n0B6CiLsGYag2UX~ZCXjCGPeyZ155xGWq2hiZ~MXfuazvBtbI3xaCKlCu~8f6gXoO6HtVNwDMwedjZsRg7KxXFm6s8J7TeLIBUmoYScvQuKYQ4oYI~MVOdTmQXbkk6NCwcYeXmsGcqKXm~ZuhzjKEmnnYUxc-4EeAbaHoDhxks6weZOgGA9dkIVwF1rde7A6S-vxjA1Kqm4kC3LKAbK4OVc4F7bxoIU9TKyPb6P1sWh1oy6HyEOfHYNYejB~SptA__&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4",
-    type: "image",
-  },
-  {
-    link: "https://www.w3schools.com/html/mov_bbb.mp4",
-    type: "video",
-  },
-  {
-    link: "https://s3-alpha-sig.figma.com/img/2b9e/ebcf/86b3f5e4648acf128a1b7eeed51edea0?Expires=1687132800&Signature=masaB0H414GflGEwv2-rabfdmtDJn6~Dq9BdM7hbAOVP8I4pdUyjzJDHgtnuneWcSotBcZWhJBu-goyKHV4R48n0B6CiLsGYag2UX~ZCXjCGPeyZ155xGWq2hiZ~MXfuazvBtbI3xaCKlCu~8f6gXoO6HtVNwDMwedjZsRg7KxXFm6s8J7TeLIBUmoYScvQuKYQ4oYI~MVOdTmQXbkk6NCwcYeXmsGcqKXm~ZuhzjKEmnnYUxc-4EeAbaHoDhxks6weZOgGA9dkIVwF1rde7A6S-vxjA1Kqm4kC3LKAbK4OVc4F7bxoIU9TKyPb6P1sWh1oy6HyEOfHYNYejB~SptA__&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4",
-    type: "image",
-  },
-  {
-    link: "https://s3-alpha-sig.figma.com/img/2b9e/ebcf/86b3f5e4648acf128a1b7eeed51edea0?Expires=1687132800&Signature=masaB0H414GflGEwv2-rabfdmtDJn6~Dq9BdM7hbAOVP8I4pdUyjzJDHgtnuneWcSotBcZWhJBu-goyKHV4R48n0B6CiLsGYag2UX~ZCXjCGPeyZ155xGWq2hiZ~MXfuazvBtbI3xaCKlCu~8f6gXoO6HtVNwDMwedjZsRg7KxXFm6s8J7TeLIBUmoYScvQuKYQ4oYI~MVOdTmQXbkk6NCwcYeXmsGcqKXm~ZuhzjKEmnnYUxc-4EeAbaHoDhxks6weZOgGA9dkIVwF1rde7A6S-vxjA1Kqm4kC3LKAbK4OVc4F7bxoIU9TKyPb6P1sWh1oy6HyEOfHYNYejB~SptA__&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4",
-    type: "image",
-  },
-  {
-    link: "https://s3-alpha-sig.figma.com/img/2b9e/ebcf/86b3f5e4648acf128a1b7eeed51edea0?Expires=1687132800&Signature=masaB0H414GflGEwv2-rabfdmtDJn6~Dq9BdM7hbAOVP8I4pdUyjzJDHgtnuneWcSotBcZWhJBu-goyKHV4R48n0B6CiLsGYag2UX~ZCXjCGPeyZ155xGWq2hiZ~MXfuazvBtbI3xaCKlCu~8f6gXoO6HtVNwDMwedjZsRg7KxXFm6s8J7TeLIBUmoYScvQuKYQ4oYI~MVOdTmQXbkk6NCwcYeXmsGcqKXm~ZuhzjKEmnnYUxc-4EeAbaHoDhxks6weZOgGA9dkIVwF1rde7A6S-vxjA1Kqm4kC3LKAbK4OVc4F7bxoIU9TKyPb6P1sWh1oy6HyEOfHYNYejB~SptA__&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4",
-    type: "image",
-  },
-  {
-    link: "https://s3-alpha-sig.figma.com/img/2b9e/ebcf/86b3f5e4648acf128a1b7eeed51edea0?Expires=1687132800&Signature=masaB0H414GflGEwv2-rabfdmtDJn6~Dq9BdM7hbAOVP8I4pdUyjzJDHgtnuneWcSotBcZWhJBu-goyKHV4R48n0B6CiLsGYag2UX~ZCXjCGPeyZ155xGWq2hiZ~MXfuazvBtbI3xaCKlCu~8f6gXoO6HtVNwDMwedjZsRg7KxXFm6s8J7TeLIBUmoYScvQuKYQ4oYI~MVOdTmQXbkk6NCwcYeXmsGcqKXm~ZuhzjKEmnnYUxc-4EeAbaHoDhxks6weZOgGA9dkIVwF1rde7A6S-vxjA1Kqm4kC3LKAbK4OVc4F7bxoIU9TKyPb6P1sWh1oy6HyEOfHYNYejB~SptA__&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4",
-    type: "image",
-  },
-  {
-    link: "https://s3-alpha-sig.figma.com/img/2b9e/ebcf/86b3f5e4648acf128a1b7eeed51edea0?Expires=1687132800&Signature=masaB0H414GflGEwv2-rabfdmtDJn6~Dq9BdM7hbAOVP8I4pdUyjzJDHgtnuneWcSotBcZWhJBu-goyKHV4R48n0B6CiLsGYag2UX~ZCXjCGPeyZ155xGWq2hiZ~MXfuazvBtbI3xaCKlCu~8f6gXoO6HtVNwDMwedjZsRg7KxXFm6s8J7TeLIBUmoYScvQuKYQ4oYI~MVOdTmQXbkk6NCwcYeXmsGcqKXm~ZuhzjKEmnnYUxc-4EeAbaHoDhxks6weZOgGA9dkIVwF1rde7A6S-vxjA1Kqm4kC3LKAbK4OVc4F7bxoIU9TKyPb6P1sWh1oy6HyEOfHYNYejB~SptA__&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4",
-    type: "image",
-  },
-  {
-    link: "https://s3-alpha-sig.figma.com/img/2b9e/ebcf/86b3f5e4648acf128a1b7eeed51edea0?Expires=1687132800&Signature=masaB0H414GflGEwv2-rabfdmtDJn6~Dq9BdM7hbAOVP8I4pdUyjzJDHgtnuneWcSotBcZWhJBu-goyKHV4R48n0B6CiLsGYag2UX~ZCXjCGPeyZ155xGWq2hiZ~MXfuazvBtbI3xaCKlCu~8f6gXoO6HtVNwDMwedjZsRg7KxXFm6s8J7TeLIBUmoYScvQuKYQ4oYI~MVOdTmQXbkk6NCwcYeXmsGcqKXm~ZuhzjKEmnnYUxc-4EeAbaHoDhxks6weZOgGA9dkIVwF1rde7A6S-vxjA1Kqm4kC3LKAbK4OVc4F7bxoIU9TKyPb6P1sWh1oy6HyEOfHYNYejB~SptA__&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4",
-    type: "image",
-  },
-  {
-    link: "https://s3-alpha-sig.figma.com/img/2b9e/ebcf/86b3f5e4648acf128a1b7eeed51edea0?Expires=1687132800&Signature=masaB0H414GflGEwv2-rabfdmtDJn6~Dq9BdM7hbAOVP8I4pdUyjzJDHgtnuneWcSotBcZWhJBu-goyKHV4R48n0B6CiLsGYag2UX~ZCXjCGPeyZ155xGWq2hiZ~MXfuazvBtbI3xaCKlCu~8f6gXoO6HtVNwDMwedjZsRg7KxXFm6s8J7TeLIBUmoYScvQuKYQ4oYI~MVOdTmQXbkk6NCwcYeXmsGcqKXm~ZuhzjKEmnnYUxc-4EeAbaHoDhxks6weZOgGA9dkIVwF1rde7A6S-vxjA1Kqm4kC3LKAbK4OVc4F7bxoIU9TKyPb6P1sWh1oy6HyEOfHYNYejB~SptA__&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4",
-    type: "image",
-  },
-];
 
 type PropsDetail = {
   data: IListMedia[];
@@ -67,7 +29,7 @@ export const MenuDetailSlider = memo(({ data }: PropsDetail) => {
     activeThumb,
   } = useSwiperNavigationRef();
   return (
-    <div className=" w-full lg:w-[424px] gap-x-[24px]">
+    <div className=" w-full lg:w-[424px]">
       <MenuDetailSliderMain
         navigationNextRef={navigationNextRef}
         navigationPrevRef={navigationPrevRef}
@@ -85,7 +47,7 @@ export const MenuDetailSlider = memo(({ data }: PropsDetail) => {
       />
     </div>
   );
-})
+});
 
 type Props = {
   navigationPrevRef?: React.RefObject<HTMLDivElement>;
@@ -210,26 +172,32 @@ const MenuDetailSliderSlide = memo(
             );
           })}
         </SwiperComponent>
-        <button
-          onClick={handlePre}
-          className=" z-[2] flex items-center justify-center backdrop-blur-[2px] absolute bg-bg_255_255_255_08 w-[24px] h-[24px] rounded-[5px_0_5px_0] left-0 top-[50%] translate-x-[-50%] translate-y-[-50%]"
-        >
-          <ICArrowPre
-            color={currentIndex <= 0 ? Colors.text_A1A0A3 : Colors.secondary}
-          />
-        </button>
-        <button
-          onClick={handleNext}
-          className=" z-[2] flex items-center justify-center backdrop-blur-[2px] absolute bg-bg_255_255_255_08 w-[24px] h-[24px] rounded-[5px_0_5px_0] right-0 top-[50%] translate-x-[50%] translate-y-[-50%]"
-        >
-          <ICArrowNext
-            color={
-              currentIndex >= listImage.length - 1
-                ? Colors.text_A1A0A3
-                : Colors.secondary
-            }
-          />
-        </button>
+        {data.length > 4 ? (
+          <>
+            <button
+              onClick={handlePre}
+              className=" z-[2] flex items-center justify-center backdrop-blur-[2px] absolute bg-bg_255_255_255_08 w-[24px] h-[24px] rounded-[5px_0_5px_0] left-0 top-[50%] translate-x-[-50%] translate-y-[-50%]"
+            >
+              <ICArrowPre
+                color={
+                  currentIndex <= 0 ? Colors.text_A1A0A3 : Colors.secondary
+                }
+              />
+            </button>
+            <button
+              onClick={handleNext}
+              className=" z-[2] flex items-center justify-center backdrop-blur-[2px] absolute bg-bg_255_255_255_08 w-[24px] h-[24px] rounded-[5px_0_5px_0] right-0 top-[50%] translate-x-[50%] translate-y-[-50%]"
+            >
+              <ICArrowNext
+                color={
+                  currentIndex >= data.length - 1
+                    ? Colors.text_A1A0A3
+                    : Colors.secondary
+                }
+              />
+            </button>
+          </>
+        ) : null}
       </div>
     );
   }
