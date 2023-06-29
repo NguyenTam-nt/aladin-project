@@ -397,22 +397,28 @@ input[type=number] {
   transform-origin: 350px top;
 }
 
-.menu-body-category::after {
-  position: absolute;
-  content: "";
-  right: 0px;
-  top: -14px;
-  /* transform: translateY(-50%); */
-  display: block;
- width: 15px;
- height: 15px;
- background-color: var(--text-white);
- clip-path: polygon(100% 0, 0% 100%, 100% 100%);
+.menu-body-sort {
+  transition: all 0.3s ease;
+  transform: scale(0);
+  transform-origin: 286px top;
 }
 
-.scale-menu {
+.menu-body-sort::after {
+  position: absolute;
+  content: "";
+  right: 37px;
+  top: -35px;
+  display: block;
+  border-width: 25px 25px;
+  border-color: transparent transparent #fff transparent;
+  /* background-color: var(--text-white); */
+  /* clip-path: polygon(50% 0%, 0% 100%, 100% 100%); */
+}
+
+
+.scale-menu-sort {
   transform: scale(1);
-  transform-origin: 350px top;
+  transform-origin: 286px top;
   transition: all 0.3s ease;
 }
 

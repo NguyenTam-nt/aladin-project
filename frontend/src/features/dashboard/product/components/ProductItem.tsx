@@ -1,7 +1,7 @@
 import { ICEye } from "@assets/icons/ICEye";
 import { ICEyeOff } from "@assets/icons/ICEyeOff";
 import { ICStar } from "@assets/icons/ICStar";
-import { formatNumberDot, formatNumberDotSlice } from "@commons/formatMoney";
+import { formatNumberDotSlice } from "@commons/formatMoney";
 import { Colors } from "@constants/color";
 import { prefixRootRoute } from "@constants/index";
 import { pathsAdmin } from "@constants/routerManager";

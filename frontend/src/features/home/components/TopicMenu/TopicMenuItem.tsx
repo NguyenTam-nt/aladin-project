@@ -1,4 +1,4 @@
-import React, { memo, useState } from "react";
+import React, { memo, useState, MouseEvent } from "react";
 import { DiscountItem } from "../DiscountItem";
 import { formatNumberDot, formatNumberDotSlice } from "@commons/formatMoney";
 import { MoneyLineThrough } from "../MoneyLineThrough";
@@ -22,8 +22,10 @@ export const TopicMenuItem = memo(({ data }: Props) => {
     setCount((count) => count - 1);
   };
 
-  const handlePushCart = () => {
-    handlePlusCart(data, count);
+  const handlePushCart = (e:MouseEvent<HTMLButtonElement>) => {
+    const {top, left} = e.currentTarget.getBoundingClientRect()
+    console.log({top, left});
+    handlePlusCart(data, count, {top, left});
     setCount(1);
   };
 
