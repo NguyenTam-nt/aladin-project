@@ -138,8 +138,8 @@ export const ProductItem = memo(({ data, onDelete, onUpdate }: Props) => {
           <span className=" text-_18  font-bold text-text_EA222A">
             {formatNumberDotSlice(Number(data?.pricePromotion))}
           </span>
-          {data.price !== data.pricePromotion &&
-          data?.pricePromotion.length <= 8 ? (
+          {(data.price !== data.pricePromotion &&
+          data?.pricePromotion.toString().length <= 8) ? (
             <MoneyLineThrough money={Number(data.price)} />
           ) : null}
         </div>

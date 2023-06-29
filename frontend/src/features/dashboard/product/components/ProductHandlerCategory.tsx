@@ -74,7 +74,7 @@ export const ProductHandlerCategory = memo(({ onChange, category, message }: Pro
             }
           )}
         >
-          <span className="text-text_A1A0A3 text-_14">
+          <span className="text-text_A1A0A3 line-clamp-1 text-_14">
             {indexActive !== -1
               ? `${categories[indexActive].name} ${
                   categories[indexActive]?.listCategoryChild?.[subIndex]?.name
@@ -122,7 +122,7 @@ export const ProductHandlerCategory = memo(({ onChange, category, message }: Pro
                       }
                     )}
                   >
-                    <span>{item.name}</span>{" "}
+                    <div className=" line-clamp-1">{item.name}</div>{" "}
                     {item.listCategoryChild?.length ? (
                       <span className=" rotate-[-90deg]">
                         <ICArowDown
@@ -149,18 +149,13 @@ export const ProductHandlerCategory = memo(({ onChange, category, message }: Pro
                           onClick={() => handleSelectCategorySub(index)}
                           key={index}
                           className={clsx(
-                            "w-full flex justify-between items-center h-[48px] py-[13px] px-[16px]",
+                            "w-full flex justify-start items-center h-[48px] py-[13px] px-[16px]",
                             {
                               "bg-TrueBlue_500 text-text_white": isActive,
                             }
                           )}
                         >
-                          <span>{item.name}</span>{" "}
-                          {/* <span className=" rotate-[-90deg]">
-                      <ICArowDown
-                        color={isActive ? Colors.text_white : Colors.text_black}
-                      />
-                    </span> */}
+                          <div className=" text-left line-clamp-1">{item.name}</div>{" "}
                         </button>
                       );
                     }
