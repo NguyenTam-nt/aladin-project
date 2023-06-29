@@ -1,6 +1,6 @@
 import { paths } from '@constants/routerPublic'
 import React, { useEffect, useState } from 'react'
-import bgContact from "@assets/images/contact/bg-contact.jpg";
+import bgContact from "@assets/images/contact/bg-contact.webp";
 import AboutUsItem from './components/AboutUsItem';
 import PlaceService from '@services/PlaceService';
 import { SIZE_DATA } from '@constants/index';
