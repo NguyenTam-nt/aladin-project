@@ -19,7 +19,7 @@ interface IOrderState {
   handlePlusCart: (
     product: IProduct,
     count: number,
-    animate: { top: number; left: number }
+    animate?: { top: number; left: number }
   ) => void;
   handleMinusCart: (id: number, count: number) => void;
   handleDeleteCart: (id: number) => void;
@@ -61,21 +61,23 @@ export const OrderProvider = ({ children }: Props) => {
   const handlePlusCart =  useCallback((
     product: IProduct,
     count: number,
-    animate: { top: number; left: number }
+    animate?: { top: number; left: number }
   ) => {
     const now = Date.now();
     const delay = 300;
     if (timeDelay.current !== undefined && (now - timeDelay.current) > delay) {
       timeDelay.current = now;
-      setListAnimated((animated) => [
-        ...animated,
-        {
-          id: uuidv4() + now,
-          image: product.linkMedia + "",
-          xStart: animate.left,
-          yStart: animate.top,
-        },
-      ]);
+      if(animate) {
+        setListAnimated((animated) => [
+          ...animated,
+          {
+            id: uuidv4() + now,
+            image: product.linkMedia + "",
+            xStart: animate.left,
+            yStart: animate.top,
+          },
+        ]);
+      }
       const newProducts = [...listOrder];
       const index = newProducts.findIndex((item) => item.id === product.id);
       if (index !== -1) {
