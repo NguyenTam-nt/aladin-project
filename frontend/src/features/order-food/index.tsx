@@ -87,7 +87,7 @@ function index() {
                 <th className='py-4 text-left pr-6 whitespace-nowrap'>{t("order_food.table.amount")}</th>
                 <th className='py-4 text-left pr-6 whitespace-nowrap'>{t("order_food.table.unit")}</th>
                 <th className='py-4 text-left pr-6 whitespace-nowrap'>{t("order_food.table.total")}</th>
-                <th className='py-4 text-left'>{t("order_food.table.delete")}</th>
+                <th className='py-4 text-right'>{t("order_food.table.delete")}</th>
               </tr>
               {
                 listOrder.map((item: IProduct, idx: any) => {
@@ -121,7 +121,7 @@ function index() {
                     </div>
                   </td>
                   <td className='py-4  pr-6 '>
-                    <div className="flex items-center justify-between gap-2">
+                    <div className="flex items-center justify-start gap-2">
                       <div className='text-sm text-secondary'>{formatNumberDot(item.pricePromotion)}</div>
                       <div className='text-xs text-text_A1A0A3'>/</div>
                       <div className='text-xs text-text_A1A0A3 line-through'>{formatNumberDot(item.price)}</div>
@@ -159,7 +159,7 @@ function index() {
                   <div className="flex items-center justify-between gap-6 w-full">
                     <div className="flex-1">
                       <span className='line-clamp-1 text-sm'>{item.name}</span>
-                      <div className="flex items-center gap-2">
+                      <div className="flex items-center justify-start gap-2">
                         <div className='text-sm text-secondary'>{formatNumberDot(item.pricePromotion)}</div>
                         <div className='text-xs text-text_A1A0A3'>/</div>
                         <div className='text-xs text-text_A1A0A3 line-through'>{formatNumberDot(item.price)}</div>

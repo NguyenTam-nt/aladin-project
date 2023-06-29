@@ -16,9 +16,11 @@ import PlaceService from '@services/PlaceService';
 import { useCartContext } from '@contexts/hooks/order';
 import { useLocation } from 'react-router-dom';
 import moment from 'moment';
+import { useShowMessage } from '@features/dashboard/components/DiglogMessage';
 
 function OrderFoodInfoForm() {
   const { t } = useTranslation();
+  const { showError, showSuccess } = useShowMessage();
   const { setElementModal, hideModal } = useModalContext();
   const  { listOrder, handleDeleteCart, handleMinusCart, handleDeleteAll } = useCartContext()
   const { state } = useLocation();
@@ -134,6 +136,9 @@ function OrderFoodInfoForm() {
           formik.resetForm()
           setIsValidDate(true)
           handleDeleteAll()
+        })
+        .catch(() => {
+          showError("order_food.error");
         })
 
     },

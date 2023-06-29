@@ -20,7 +20,8 @@
       "calc": {
         "sub_total": "Tạm tính",
         "total": "Tổng cộng"
-      }
+      },
+      "error": "Có lỗi xảy ra"
   },
   "order_food_info": {
     "title": "Thông tin Đơn đặt hàng",

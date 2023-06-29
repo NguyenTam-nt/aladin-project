@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { TitleTopic } from '../home/components/TitleTopic'
 import TitleInput from '@components/TitleInput'
 import { Input } from '../components/Input'
@@ -17,6 +17,7 @@ import VoucherService from '@services/VoucherService';
 import { useShowMessage } from '../components/DiglogMessage';
 import moment from 'moment';
 import { useSearchParams } from 'react-router-dom';
+import { debounce } from 'lodash';
 
 function VoucherAdd() {
   const { t } = useTranslation();
@@ -30,6 +31,7 @@ function VoucherAdd() {
 
   const [voucher, setVoucher] = useState<IVoucher>();
   const [isVoucherExisted, setIsVoucherExisted] = useState<boolean>(false);
+  const [greater100, setGreater100] = useState(false)
 
   const isAdd = useMemo(() => {
     return !params.id;
@@ -58,6 +60,8 @@ function VoucherAdd() {
     }
   }, [isAdd]);
 
+  
+
 
   const formik = useFormik({
     initialValues: {
@@ -82,7 +86,7 @@ function VoucherAdd() {
           return !moment(value).isBefore(moment(start).add(1, "minutes"));
         }
       ),
-      valueDiscount: Yup.number().required("message.form.required").typeError('message.form.number'),
+      valueDiscount: Yup.number().required("message.form.required").typeError('message.form.number').min(1, "message.form.minNum"),
       minPriceOrder: Yup.number().required("message.form.required").typeError('message.form.number'),
       maxPriceLimit: Yup.number().typeError('message.form.number'),
       amount: Yup.number().required("message.form.required").typeError('message.form.number'),
@@ -104,19 +108,11 @@ function VoucherAdd() {
           minPrice: type == VOUCHER_TYPE.percent && isLimit ? + data.maxPriceLimit : 0
         }
         // console.log(request);
+        if(isVoucherExisted || greater100) return
       
         if (isAdd) {
 
-          VoucherService
-          .checkExist(data.code)
-          .then(() => {
-            callApiAddVoucher(request)
-            
-          })
-          .catch((error) => {
-            setIsVoucherExisted(true)
-          });
-
+          callApiAddVoucher(request)
           
         } else {
           VoucherService
@@ -146,10 +142,45 @@ function VoucherAdd() {
       });
   }
   
+  
+  const debounceDropDownVoucher = useCallback(
+    debounce((code: any) => callCheckVoucher(code), 300),
+    []
+  );
+
+  const callCheckVoucher = (code: any) => {
+    VoucherService
+      .checkExist(code)
+      .then(() => {
+        setIsVoucherExisted(false)
+      })
+      .catch((error) => {
+        setIsVoucherExisted(true)
+      });
+  }
+
+  useEffect(() => {
+    if(!isView && isAdd) {
+      if(formik.values.code.length > 0) {
+       debounceDropDownVoucher(formik.values.code)
+      } else  {
+       setIsVoucherExisted(false)
+      }
+    }
+
+  }, [formik.values.code])
 
   const goBack = () => {
     navigation(-1);
   };
+
+  useEffect(() => {
+    if(type == VOUCHER_TYPE.percent) {
+      setGreater100(Number(formik.values.valueDiscount) > 100)
+    }
+
+  }, [formik.values.valueDiscount, type])
+
 
   return (
     <div>
@@ -176,7 +207,7 @@ function VoucherAdd() {
              value={formik.values.code}
              onChange={formik.handleChange}
              onBlur={formik.handleBlur}
-             disabled={isView}
+             disabled={isView || !isAdd}
           />
           {formik.errors.code && formik.touched.code &&  (
             <TextError message={formik.errors.code} />
@@ -251,8 +282,11 @@ function VoucherAdd() {
               />
           }
           {formik.errors.valueDiscount && formik.touched.valueDiscount && (
-            <TextError message={formik.errors.valueDiscount} />
+            <TextError message={formik.errors.valueDiscount} option={{min: 0}} />
           )}
+          {
+            type == VOUCHER_TYPE.percent && greater100 && <TextError message={"message.form.maxEqualNum"} option={{max: 100}} />
+          }
           
         </div>
       </div>
