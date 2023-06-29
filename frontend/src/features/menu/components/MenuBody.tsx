@@ -48,7 +48,7 @@ export const MenuBody = () => {
         <div className="flex-1">
           {windownSizeWidth > withResponsive._1024 ? (
             <MenuBofyFilterBySort
-            handleClear={handleClear}
+              handleClear={handleClear}
               sort={sortId}
               nameP={
                 categories.length && indexParent !== -1
@@ -86,6 +86,8 @@ export const MenuBody = () => {
                     : ""
                   : ""
               }
+              // sortId={sortId}
+              onChangeSort={handleChangeSort}
             />
           )}
           <MenuListData data={products?.list || []} />

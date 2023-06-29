@@ -566,3 +566,32 @@
       opacity: 1;
     }
   }
+
+
+
+  .animation_product {
+    width: 60px;
+    height: 60px;
+    display: flex;
+    animation: animatedTranslation ease-in-out 1s forwards;
+  }
+
+  @keyframes animatedTranslation {
+    0% {
+     top: var(--y);
+     left: var(--x);
+     transform: scale(0);
+     padding: 0;
+    }
+  
+    50% {
+      top: calc(var(--yF) + 100px);
+      transform: scale(1);
+    }
+    100% {
+      top: var(--yF);
+      left: var(--xF);
+      transform: scale(0);
+     
+    }
+  }

@@ -93,6 +93,7 @@ export const PolicyHandle = () => {
           <TitleInput forId="title" name="adminPolicy.form.name" />
           <Input
             id="title"
+            maxLength={255}
             value={formik.values.title}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
@@ -106,6 +107,7 @@ export const PolicyHandle = () => {
           <TitleInput forId="description" name="adminPolicy.form.des" />
           <Input
             id="description"
+            maxLength={255}
             value={formik.values.description}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
