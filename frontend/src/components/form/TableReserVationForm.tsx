@@ -9,13 +9,14 @@ import { useClickOutItem } from "@hooks/useClickOutItem";
 import PlaceService from "@services/PlaceService";
 import { reservationTableSvice } from "@services/reservationTableSevice";
 import type { PlaceType } from "@typeRules/place";
+import clsx from "clsx";
 import { useFormik } from "formik";
 import { min } from "lodash";
 import { memo, useEffect, useRef, useState, UIEvent } from "react";
 import { useTranslation } from "react-i18next";
 import * as Yup from "yup";
 
-const TableReserVationForm = memo(() => {
+const TableReserVationForm = memo(({isPaddingBottom = true}:{isPaddingBottom?: boolean}) => {
   const { t } = useTranslation();
   const { showError, showSuccess } = useShowMessage();
   const { ref, isShow, handleToggleItem } = useClickOutItem();
@@ -162,7 +163,9 @@ const TableReserVationForm = memo(() => {
   }, [currenPage]);
   return (
     <form onSubmit={handleSubmit}>
-      <div className="pb-36 lg:px-0 sm:px-5">
+      <div className={clsx("lg:px-0 sm:px-5", {
+        "pb-36": isPaddingBottom
+      })}>
         <div className="h-auto md:radius-tl-br bg-text_white py-16 2xl:px-28 lg:px-24 px-5">
           <TitleOfContent
             name="titleofcontent.tableReserVationForm"
