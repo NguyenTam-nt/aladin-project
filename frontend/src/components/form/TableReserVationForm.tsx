@@ -61,7 +61,6 @@ const TableReserVationForm = memo(() => {
           "Ngày phải tối thiểu từ hôm nay."
         )
         .required("Phải chọn ngày đặt bàn."),
-      // hour: Yup.string().trim().required("Phải chọn khung giờ đặt bàn."),
       hour: Yup.string()
         .required("Phải chọn giờ đặt bàn.")
         .test(
