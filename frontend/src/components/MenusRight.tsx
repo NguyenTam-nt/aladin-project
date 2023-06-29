@@ -105,9 +105,9 @@ export const MenusRight = () => {
               })}
             </div>
             <div className="px-[16px] flex flex-col gap-y-[16px]">
-              <div className="flex items-center justify-between mt-[16px]">
-                <span className="text-_14 text-text_white">Tổng giá trị</span>
-                <span className="text-_16 font-semibold text-secondary">
+              <div className="flex items-baseline gap-[12px] justify-between mt-[16px]">
+                <span className="text-_14 w-max text-text_white">Tổng giá trị</span>
+                <span className="text-_16 text-right flex-1 font-semibold text-secondary">
                   {formatNumberDotWithVND(totalPrice)}
                 </span>
               </div>
