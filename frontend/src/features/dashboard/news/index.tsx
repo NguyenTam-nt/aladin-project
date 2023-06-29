@@ -1,8 +1,15 @@
+import { ICAdd } from "@assets/icons/ICAdd";
 import { ICAsc } from "@assets/icons/ICAsc";
 import { ICDesc } from "@assets/icons/ICDesc";
 import MagnifyingGlass from "@assets/icons/MagnifyingGlass";
+import { Pagination } from "@components/Paginnation";
 import TitleOfContentManage from "@components/TitleOfContentManage";
+import { pathsAdmin } from "@constants/routerManager";
 import { Button } from "@features/dashboard/components/Button";
+import { newService } from "@services/newService";
+import type { IParams } from "@typeRules/index";
+import type { newItem_type } from "@typeRules/new";
+import { debounce } from "lodash";
 import React, {
   ButtonHTMLAttributes,
   ChangeEvent,
@@ -10,16 +17,9 @@ import React, {
   useEffect,
   useState,
 } from "react";
-import NewItem from "./component/NewItem";
-import { Pagination } from "@components/Paginnation";
-import { useNavigate } from "react-router-dom";
-import { pathsAdmin } from "@constants/routerManager";
 import { useTranslation } from "react-i18next";
-import { newService } from "@services/newService";
-import type { newItem_type } from "@typeRules/new";
-import type { IParams } from "@typeRules/index";
-import { debounce } from "lodash";
-import { ICAdd } from "@assets/icons/ICAdd";
+import { useNavigate } from "react-router-dom";
+import NewItem from "./component/NewItem";
 type Props = {
   name: string;
   icon?: React.ReactNode;
@@ -119,7 +119,6 @@ const ManageNews = () => {
               className="max-w-[177px] whitespace-nowrap"
               imageLeft={
                 <span className="mr-2">
-                  {/* <ICDesc /> */}
                   <ICAdd />
                 </span>
               }

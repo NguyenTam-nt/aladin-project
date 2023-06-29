@@ -62,29 +62,31 @@ const TableReserVationForm = memo(() => {
         )
         .required("Phải chọn ngày đặt bàn."),
       // hour: Yup.string().trim().required("Phải chọn khung giờ đặt bàn."),
-      hour: Yup.string().test(
-        "hour",
-        "Chưa chọn ngày hoặc thời gian đặt bàn tối thiểu phải lớn hơn hiện tại 10 phút.",
-        function (value, props) {
-          if (value && values.chooseDate) {
-            const dateString = values.chooseDate
-              .split("-")
-              .concat(values.hour.split(":"));
-            const dateIso = new Date(
-              +dateString[0],
-              +dateString[1] - 1,
-              +dateString[2],
-              +dateString[3],
-              +dateString[4]
-            ).getTime();
-            let nowDate = new Date();
-            if (dateIso - new Date(nowDate).getTime() > 600000) return true;
-            return false;
-          } else {
-            return false;
+      hour: Yup.string()
+        .required("Phải chọn giờ đặt bàn.")
+        .test(
+          "hour",
+          "Chưa chọn ngày hoặc thời gian đặt bàn tối thiểu phải lớn hơn hiện tại 10 phút.",
+          function (value, props) {
+            if (value && values.chooseDate) {
+              const dateString = values.chooseDate
+                .split("-")
+                .concat(values.hour.split(":"));
+              const dateIso = new Date(
+                +dateString[0],
+                +dateString[1] - 1,
+                +dateString[2],
+                +dateString[3],
+                +dateString[4]
+              ).getTime();
+              let nowDate = new Date();
+              if (dateIso - new Date(nowDate).getTime() > 600000) return true;
+              return false;
+            } else {
+              return false;
+            }
           }
-        }
-      ),
+        ),
       chooseIdInfrastructure: Yup.number()
         .min(1, "Phải chọn cơ sở")
         .required("Phải chọn cơ sở."),
