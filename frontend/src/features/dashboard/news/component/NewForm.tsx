@@ -70,6 +70,7 @@ const NewForm = memo(({ newItemProps }: Props) => {
         if (!newItemProps?.id) {
           handleResetDefault();
         }
+        navigate(-1);
       } catch (error) {
         showError("message.actions.error.delete_banner");
         setSubmitting(false);

@@ -47,10 +47,16 @@ const RecruitmentForm = ({ itemRecruit }: Props) => {
       salary: Yup.string()
         .trim()
         .required("Không được để trống tiêu đề.")
-        .matches(/^[1-9]\d*$/, "Không khớp với định dạng."),
-      expirationDate: Yup.string()
-        .trim()
-        .required("Không được để trống thời gian kết thúc tuyển dụng."),
+        .matches(/^[1-9]\d*$/, "Không khớp với định dạng lương."),
+      expirationDate: Yup.date()
+        .required("Không được để trống thời gian kết thúc tuyển dụng.")
+        .min(
+          new Date(new Date(new Date()).setDate(new Date().getDate() - 1)),
+          "Ngày không thể là thời gian trước đó."
+        ),
+      // Yup.string()
+      //   .trim()
+      //   .required("Không được để trống thời gian kết thúc tuyển dụng."),
       address: Yup.string().trim().required("Không được để trống địa chỉ."),
       content: Yup.string().trim().required("Không được để trống nội dung."),
     }),
@@ -80,9 +86,8 @@ const RecruitmentForm = ({ itemRecruit }: Props) => {
         );
         if (itemRecruit?.id || id) {
           showSuccess("message.actions.success.update");
-        } else {
-          navigate(-1);
         }
+        navigate(-1);
         setSubmitting(false);
       } catch (error) {
         showError("message.actions.error.delete_banner");
