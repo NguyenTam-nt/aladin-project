@@ -1,4 +1,4 @@
-import { ICDesc } from "@assets/icons/ICDesc";
+import { ICAdd } from "@assets/icons/ICAdd";
 import { Pagination } from "@components/Paginnation";
 import TitleOfContentManage from "@components/TitleOfContentManage";
 import { pathsAdmin } from "@constants/routerManager";
@@ -48,11 +48,11 @@ const RecuitmentManage = () => {
         <TitleOfContentManage name="recruit.listRecruit" />
         <Button
           onClick={handleAddRecruit}
-          text="news.add"
-          className="max-w-[177px] whitespace-nowrap"
+          text="recruit.add"
+          className="max-w-[190px] whitespace-nowrap"
           imageLeft={
             <span className="mr-2">
-              <ICDesc />
+              <ICAdd />
             </span>
           }
           color={"empty"}
