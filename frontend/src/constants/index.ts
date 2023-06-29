@@ -30,7 +30,7 @@ export const fileBytes = {
 
 export const SIZE_DATA = 8
 
-export const VOUCHER_DATE_FORMAT = "hh:mm DD-MM--YYYY"
+export const VOUCHER_DATE_FORMAT = "hh:mm DD-MM-YYYY"
 
 export const dataSortProduct = [
     {

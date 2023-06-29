@@ -12,6 +12,9 @@
         "form": {
             "required": "Bắt buộc",
             "number": "Phải là số",
+            "minNum": "Phải lớn hơn {{min}}",
+            "maxNum": "Phải nhỏ hơn {{max}}",
+            "maxEqualNum": "Phải nhỏ hơn hoặc bằng {{max}}",
             "phone": "Số điện thoại không phù hợp",
             "phone-length": "Số điện thoại phải đủ 10 số",
             "zalo": "Số zalo không phù hợp",
@@ -19,7 +22,7 @@
             "email": "Email không đúng định dạng",
             "enddateGreaterThanStartdate": "Thời gian kết thúc phải lớn hơn thời gian bắt đầu",
             "greaterNow": "Thời gian phải bắt đầu từ bây giờ",
-            "max": "Vui lòng nhập tối đa {{max}}} ký tự."
+            "max": "Vui lòng nhập tối đa {{max}} ký tự."
         },
         "actions": {
             "success": {
