@@ -25,7 +25,7 @@ export const TopicFormContent = memo(() => {
     <div ref={ref} className={clsx(" lg:w-rp my-[40px]  lg:my-[120px] relative", {
       "animate__animated animate__zoomIn": isInView
     })}>
-      <TableReserVationForm isPaddingBotton={false} />
+      <TableReserVationForm isPaddingBottom={false} />
     </div>
   );
 });
