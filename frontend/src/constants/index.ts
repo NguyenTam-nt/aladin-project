@@ -30,7 +30,7 @@ export const fileBytes = {
 
 export const SIZE_DATA = 8
 
-export const VOUCHER_DATE_FORMAT = "hh:mm DD-MM--YYYY"
+export const VOUCHER_DATE_FORMAT = "hh:mm DD-MM-YYYY"
 
 export const dataSortProduct = [
     {
@@ -50,12 +50,12 @@ export const dataSortProduct = [
     },
     {
         name: "Giá bán từ cao đến thấp",
-        slug: "tu-cao-den-thap",
-        action: "price,desc"
+        slug: "gia-ban-tu-cao-den-thap",
+        action: "pricePromotion,desc"
     },
     {
         name: "Giá bán từ thấp đến cao",
-        slug: "tu-thap-den-cao",
-        action: "price,asc"
+        slug: "gia-ban-tu-thap-den-cao",
+        action: "pricePromotion,asc"
     }
   ];

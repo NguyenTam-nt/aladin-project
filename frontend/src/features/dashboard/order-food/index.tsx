@@ -171,7 +171,7 @@ function OrderFoodAdmin() {
         </div>
       </div>
       <div className="mt-4">
-        <div className="border-b border-br_E9ECEF pb-4 grid grid-cols-[25px_188px_212px_128px_128px__88px_1fr] gap-x-4 [&>p]:text-_16  [&>p]:font-semibold [&>P]:text-text_primary ">
+        <div className="border-b border-br_E9ECEF pb-4 grid grid-cols-[25px_100px_122px_108px_126px__66px_1fr] 2xl:grid-cols-[25px_188px_212px_128px_128px__88px_1fr] gap-x-4 [&>p]:text-_16  [&>p]:font-semibold [&>P]:text-text_primary ">
           <div>
             <Checkbox onChange={handleCheckAll} ref={refCheckboxAll} />
           </div>
@@ -188,7 +188,7 @@ function OrderFoodAdmin() {
         return (
           <div
             key={idx}
-            className="border-b border-br_E9ECEF py-[16px] grid grid-cols-[25px_188px_212px_128px_128px__88px_1fr] gap-x-[16px] [&>p]:text-_14 [&>P]:text-text_primary "
+            className="border-b border-br_E9ECEF py-[16px] grid grid-cols-[25px_100px_122px_108px_126px__66px_1fr] 2xl:grid-cols-[25px_188px_212px_128px_128px__88px_1fr] gap-x-[16px] [&>p]:text-_14 [&>P]:text-text_primary "
           >
             <div className='flex items-center'>
               <Checkbox

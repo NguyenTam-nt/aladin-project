@@ -22,10 +22,10 @@ export const TopicForm = () => {
 export const TopicFormContent = memo(() => {
   const {ref, isInView} = useInView<HTMLDivElement>()
   return (
-    <div ref={ref} className={clsx(" lg:w-rp mt-[40px] lg:mt-[120px] relative", {
+    <div ref={ref} className={clsx(" lg:w-rp my-[40px]  lg:my-[120px] relative", {
       "animate__animated animate__zoomIn": isInView
     })}>
-      <TableReserVationForm />
+      <TableReserVationForm isPaddingBotton={false} />
     </div>
   );
 });

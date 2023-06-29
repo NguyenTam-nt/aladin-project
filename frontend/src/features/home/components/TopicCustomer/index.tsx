@@ -17,9 +17,9 @@ export const TopicCustomer = () => {
 
   useEffect(() => {
     reviewService
-      .get_home({ page: 1, size: 6, sort: "show,desc" })
+      .get_home({ page: 1, size: 6, sort: "lastModifiedDate,desc"})
       .then((data) => {
-        setReviews(data);
+        setReviews(data.list);
       });
   }, []);
 

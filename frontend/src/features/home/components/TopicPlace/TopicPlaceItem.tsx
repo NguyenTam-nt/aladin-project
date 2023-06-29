@@ -17,8 +17,8 @@ export const TopicPlaceItem = () => {
     setActiveIndex(index);
   };
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-3 gap-[24px]">
-      <div className="bg-white radius-tl-br py-[24px] flex flex-col h-[490px]">
+    <div className="grid grid-cols-1 mt-[32px] xl:mt-[48px] lg:grid-cols-3 gap-[24px]">
+      <div className="bg-white radius-tl-br flex flex-col h-[490px]">
         {/* <div className="px-[24px]">
           <label
             className="text-_14 font-semibold text-text_black mb-2 block"
@@ -37,7 +37,7 @@ export const TopicPlaceItem = () => {
             </>
           </SelectInput>
         </div> */}
-        <p className="text-_16 h-[50px] block px-[24px] font-semibold flex items-center">
+        <p className="text-_16 h-[60px]  px-[24px] font-semibold flex items-center">
           {t("home.place.list_base")}
         </p>
         <TopicPlaceItemBase
@@ -48,15 +48,12 @@ export const TopicPlaceItem = () => {
         />
       </div>
       {categories.length ? (
-        <div className=" lg:col-span-2 h-[490px] radius-tl-br overflow-hidden">
-          <iframe
-            src={categories[activeIndex].linkMap}
-            className="w-full h-full"
-            allowFullScreen
-            loading="lazy"
-            referrerPolicy="no-referrer-when-downgrade"
-          ></iframe>
-        </div>
+        <div
+          className=" lg:col-span-2 [&>iframe]:w-full [&>iframe]:h-full  h-[490px] radius-tl-br overflow-hidden"
+          dangerouslySetInnerHTML={{
+            __html: categories[activeIndex].linkMap,
+          }}
+        />
       ) : null}
     </div>
   );

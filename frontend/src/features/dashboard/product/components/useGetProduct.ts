@@ -20,12 +20,12 @@ export const useGetProduct = (pageSize = SIZE_DATA, sort = "id,desc") => {
   const [products, setProducts] = useState<IResponseData<IProduct>>();
   const { showLoading } = useHandleLoading();
   const [loading, setLoading] = useState(false);
-  const {searchParams, setSearchParam, setQueries} = useSearchParamHook()
+  const { searchParams, setSearchParam, setQueries } = useSearchParamHook();
   const { showError, showSuccess } = useShowMessage();
   const [querySearch, setSearchQuery] = useState<string | undefined>(() => {
     const query = searchParams.get("query");
     if (query) {
-      return query
+      return query;
     }
     return undefined;
   });
@@ -49,9 +49,7 @@ export const useGetProduct = (pageSize = SIZE_DATA, sort = "id,desc") => {
   const [sortId, setSortId] = useState<string | undefined>(() => {
     const sortId = searchParams.get("sort");
     if (sortId) {
-      return (
-        dataSortProduct.find((i) => i.slug === sortId)?.action || sort
-      );
+      return dataSortProduct.find((i) => i.slug === sortId)?.action || sort;
     }
     return sort;
   });
@@ -60,7 +58,12 @@ export const useGetProduct = (pageSize = SIZE_DATA, sort = "id,desc") => {
     if (debounceTime.current) debounceTime.current.cancel();
     if (querySearch?.trim()) {
       debounceTime.current = debounce(() => {
-        getProductsSearch(Number(currentPage), filterId, sortId, querySearch);
+        getProductsSearch(
+          Number(currentPage),
+          filterId,
+          sortId,
+          querySearch.trim()
+        );
       }, 300);
       debounceTime.current();
     } else {
@@ -136,19 +139,27 @@ export const useGetProduct = (pageSize = SIZE_DATA, sort = "id,desc") => {
     }
   };
 
-  const handleChangeCategory = useCallback((id: number) => {
+  const handleChangeCategory = useCallback((id: number | undefined) => {
     setFilterId(id);
   }, []);
 
   const handleChangeSort = useCallback((sort: string) => {
+    const slug =
+      dataSortProduct.find((data) => data.action === sort)?.slug || "";
     setSortId(sort);
+    if (!sort) {
+      searchParams.delete("sort");
+      setSearchParam(searchParams);
+      return;
+    }
+    setQueries("sort", slug);
   }, []);
 
   const handleSearch = useCallback((event: ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
-    setQueries("query", value.trim())
-    setQueries("page", "1")
-    setCurrentPage(1)
+    setQueries("query", value.trim());
+    setQueries("page", "1");
+    setCurrentPage(1);
     setSearchQuery(value);
   }, []);
 

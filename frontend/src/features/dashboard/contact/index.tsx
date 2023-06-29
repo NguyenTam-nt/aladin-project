@@ -170,7 +170,7 @@ function ContactAdmin() {
         </div>
       </div>
       <div className="mt-4">
-        <div className="border-b border-br_E9ECEF pb-4 grid grid-cols-[25px_148px_148px_212px_258px__1fr_122px] gap-x-4 [&>p]:text-_16  [&>p]:font-semibold [&>P]:text-text_primary ">
+        <div className="border-b border-br_E9ECEF pb-4 grid grid-cols-[25px_108px_108px_212px_128px__1fr_122px] 2xl:grid-cols-[25px_148px_148px_212px_258px__1fr_122px] gap-x-4 [&>p]:text-_16  [&>p]:font-semibold [&>P]:text-text_primary ">
           <div>
             <Checkbox onChange={handleCheckAll} ref={refCheckboxAll} />
           </div>
@@ -212,7 +212,7 @@ function ContactAdmin() {
         return (
           <div
             key={item.id}
-            className="cursor-pointer border-b border-br_E9ECEF py-[16px] grid grid-cols-[25px_148px_148px_212px_258px__1fr_122px] gap-x-[16px] [&>p]:text-_14 [&>P]:text-text_primary "
+            className="cursor-pointer border-b border-br_E9ECEF py-[16px] grid grid-cols-[25px_108px_108px_212px_128px__1fr_122px] 2xl:grid-cols-[25px_148px_148px_212px_258px__1fr_122px] gap-x-[16px] [&>p]:text-_14 [&>P]:text-text_primary "
             onClick={() => handleClickResponse(item)}
           >
             <div onClick={(event) => {event.stopPropagation()}}>

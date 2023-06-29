@@ -4,23 +4,21 @@ import { ICFilter } from "@assets/icons/ICFilter";
 import { Colors } from "@constants/color";
 import { prefixRootRoute } from "@constants/index";
 import { pathsAdmin } from "@constants/routerManager";
-import { useGetCategory } from "@features/dashboard/category-product/useGetCategory";
 import { Button } from "@features/dashboard/components/Button";
 import { TitleTopic } from "@features/dashboard/home/components/TitleTopic";
 import { useClickOutItem } from "@hooks/useClickOutItem";
 import clsx from "clsx";
-import React, { ChangeEvent, memo, useEffect, useState } from "react";
+import React, { ChangeEvent, memo } from "react";
 import { useNavigate } from "react-router-dom";
 import InfiniteScroll from "react-infinite-scroll-component";
-import { useSearchParamHook } from "@hooks/useSearchParam";
 import { useCategoryFilter } from "./useCategoryFilter";
 import { Input } from "@features/dashboard/components/Input";
 import MagnifyingGlass from "@assets/icons/MagnifyingGlass";
 
 type Props = {
-  onChange: (id: number) => void;
-  query?: string
-  onSearch: (event:ChangeEvent<HTMLInputElement>) => void
+  onChange: (id: number | undefined) => void;
+  query?: string;
+  onSearch: (event: ChangeEvent<HTMLInputElement>) => void;
 };
 
 export const Header = memo(({ onChange, onSearch, query }: Props) => {
@@ -116,13 +114,15 @@ export const Header = memo(({ onChange, onSearch, query }: Props) => {
                         >
                           <button
                             className={clsx(
-                              "h-full w-full font-semibold flex items-center text-_16 hover:text-TrueBlue_500 duration-300",
+                              "h-full w-full font-semibold flex line-clamp-1 items-center text-_16 hover:text-TrueBlue_500 duration-300",
                               {
                                 " hover:text-black": active,
                               }
                             )}
                           >
-                            {item.name}
+                            {item.name && item.name.length >= 25
+                              ? item.name.slice(0, 23) + "..."
+                              : item.name}
                           </button>
                           {item.listCategoryChild?.length ? (
                             <span className=" rotate-[-90deg]">
@@ -175,13 +175,15 @@ export const Header = memo(({ onChange, onSearch, query }: Props) => {
                       >
                         <button
                           className={clsx(
-                            "h-full w-full font-semibold flex items-center text-_16 hover:text-TrueBlue_500 duration-300",
+                            "h-full w-full font-semibold line-clamp-1 flex items-center text-_16 hover:text-TrueBlue_500 duration-300",
                             {
                               " hover:text-black": active,
                             }
                           )}
                         >
-                          {item.name}
+                          {item.name.length >= 25
+                            ? item.name.slice(0, 23) + "..."
+                            : item.name}
                         </button>
                       </li>
                     );

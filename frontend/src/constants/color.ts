@@ -43,9 +43,9 @@ export const Colors = {
 
 
 export const listStarColor = [
-    Colors.bg_E73F3F,
-    Colors.bg_F4A118,
-    "#415A77",
+    Colors.bg_01A63E,
     "#1EC3D0",
-    Colors.bg_01A63E
+    "#415A77",
+    Colors.bg_F4A118,
+    Colors.bg_E73F3F,
 ]

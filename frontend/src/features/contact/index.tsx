@@ -2,7 +2,6 @@ import React from "react";
 import TitleOfContent from "@components/TitleOfContent";
 import ContactForm from "./components/ContactForm";
 import { Banner } from '@components/Banner'
-import bgContact from "@assets/images/contact/bg-contact.jpg";
 import AddressContactSession from "./components/AddressContactSession";
 import { TopicPlace } from "@features/home/components/TopicPlace";
 import { paths } from "@constants/routerPublic";

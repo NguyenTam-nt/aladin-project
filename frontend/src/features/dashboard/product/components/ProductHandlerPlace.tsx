@@ -10,14 +10,16 @@ import { useGetPlace } from "./useGetPlace";
 import InfiniteScroll from "react-infinite-scroll-component";
 import type { PlaceType } from "@typeRules/place";
 import type { IListInfrastructure } from "@typeRules/product";
+import { TextError } from "@features/dashboard/components/TextError";
 
 type Props = {
   onChange: (data: IListInfrastructure[]) => void;
   listValue?: IListInfrastructure[];
+  message?: string;
 };
 
 export const ProductHandlerPlace = memo(
-  ({ onChange, listValue = [] }: Props) => {
+  ({ onChange, listValue = [], message }: Props) => {
     const { ref, isShow, handleToggleItem } = useClickOutItem();
     const { categories, fechData } = useGetPlace(true);
     const {
@@ -77,6 +79,7 @@ export const ProductHandlerPlace = memo(
             <span>
               <ICArowDown color={Colors.text_A1A0A3} />
             </span>
+            {message && <TextError message={message} />}
           </button>
           <div
             className={clsx(

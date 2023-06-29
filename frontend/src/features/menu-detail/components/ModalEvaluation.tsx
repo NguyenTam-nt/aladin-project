@@ -37,11 +37,12 @@ export const ModalEvaluation = ({ idProduct }: Props) => {
       fullname: Yup.string()
         .trim()
         .required("message.form.required")
-        .max(255, "Họ và tên tối đa 255 ký tự."),
+        .max(50, "Họ và tên tối đa 50 ký tự."),
       email: Yup.string()
         .trim()
         .required("message.form.required")
-        .email("Email không đúng định dạng."),
+        .email("Email không đúng định dạng.")
+        .max(256, "Họ và tên tối đa 255 ký tự."),
       content: Yup.string()
         .trim()
         .required("message.form.required")
