@@ -1,9 +1,16 @@
-import React from "react";
+import React, { useLayoutEffect } from "react";
 import { Outlet } from "react-router-dom";
 import Header from "./Header";
 import Navleft from "./Navleft";
+import { useAuthContext } from "@contexts/hooks/auth";
 
 const LayoutManager = () => {
+  const { isLogin, doLogin } = useAuthContext();
+
+    if (!isLogin) {
+      doLogin();
+      return
+    }
   return (
     <div className="bg-bg_fafafa min-w-[1280px] relative">
       <div className="fixed w-[300px] z-[12] overflow-y-auto bg-white top-0 bottom-0 left-0 shadow-sm">
@@ -13,7 +20,7 @@ const LayoutManager = () => {
         <div />
         <div className="relative min-w-[calc(1280px_-_300px)] bg-bg_fafafa min-h-[calc(100vh)]">
           <Header />
-          <div className=" px-[70px] 3xl:pl-[96px] 3xl:pr-0  min-w-[calc(1280px_-_300px)] 3xl:pr-[300px]  w-full 3xl:max-w-[calc(1920px)]  py-[80px]">
+          <div className=" px-[70px] 3xl:pl-[96px] min-w-[calc(1280px_-_300px)] 3xl:pr-[300px]  w-full 3xl:max-w-[calc(1920px)]  py-[80px]">
             <div className="max-w-full">
               <Outlet />
             </div>

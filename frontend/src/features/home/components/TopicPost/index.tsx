@@ -13,14 +13,16 @@ import useInView from "@hooks/useInView";
 import clsx from "clsx";
 
 export const TopicPost = () => {
-  const {ref, isInView} = useInView<HTMLDivElement>()
+  const { ref, isInView } = useInView<HTMLDivElement>();
   return (
-    <div ref={ref} className={clsx({"animate__animated animate__zoomIn": isInView})}>
+    <div
+      ref={ref}
+      className={clsx({ "animate__animated animate__zoomIn": isInView })}
+    >
       <TopicPostContent />
     </div>
-  )
+  );
 };
-
 
 const TopicPostContent = memo(() => {
   const {
@@ -52,27 +54,29 @@ const TopicPostContent = memo(() => {
         })}
       </SwiperComponent>
       {NavigationElement}
-      <div className=" absolute flex gap-x-[34px] ml-[20px] lg:ml-[13px] left-0 bottom-[-40px] lg:left-[50%] z-[1] lg:bottom-0">
-        <button onClick={handlePre}>
-          <ICArowLeft
-            width={windownSizeWidth > withResponsive._1024 ? 36 : 24}
-            height={windownSizeWidth > withResponsive._1024 ? 24 : 15}
-            color={currentIndex > 0 ? Colors.primary : Colors.text_5A5C60}
-          />
-        </button>
+      {listBanner?.listBanner.length >= 2 ? (
+        <div className=" absolute flex gap-x-[34px] ml-[20px] lg:ml-[13px] left-0 bottom-[-40px] lg:left-[50%] z-[1] lg:bottom-0">
+          <button onClick={handlePre}>
+            <ICArowLeft
+              width={windownSizeWidth > withResponsive._1024 ? 36 : 24}
+              height={windownSizeWidth > withResponsive._1024 ? 24 : 15}
+              color={currentIndex > 0 ? Colors.primary : Colors.text_5A5C60}
+            />
+          </button>
 
-        <button onClick={handleNext}>
-          <ICArrowRightNext
-            width={windownSizeWidth > withResponsive._1024 ? 36 : 24}
-            height={windownSizeWidth > withResponsive._1024 ? 24 : 15}
-            color={
-              currentIndex < listBanner?.listBanner.length - 1
-                ? Colors.primary
-                : Colors.text_5A5C60
-            }
-          />
-        </button>
-      </div>
+          <button onClick={handleNext}>
+            <ICArrowRightNext
+              width={windownSizeWidth > withResponsive._1024 ? 36 : 24}
+              height={windownSizeWidth > withResponsive._1024 ? 24 : 15}
+              color={
+                currentIndex < listBanner?.listBanner.length - 1
+                  ? Colors.primary
+                  : Colors.text_5A5C60
+              }
+            />
+          </button>
+        </div>
+      ) : null}
     </div>
   ) : null;
-})
+});
