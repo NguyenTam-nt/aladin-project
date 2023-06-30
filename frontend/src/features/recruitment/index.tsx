@@ -38,7 +38,7 @@ const Recruitment = () => {
       <WapperContent>
         <div className="lg:pb-spc120 pb-20 px-5">
           <TitleOfContent name="titleofcontent.recruitment" className="mb-6" />
-          <div className="grid 2xl:grid-cols-2 xl:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 2xl:gap-x-spc26 2xl:gap-y-10 gap-6">
+          <div className="grid 2xl:grid-cols-2 xl:grid-cols-2 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 2xl:gap-x-spc26 2xl:gap-y-10 gap-6">
             {listRecruit.length > 0 &&
               listRecruit.map((itemRecrui, indexRecui) => {
                 return (
