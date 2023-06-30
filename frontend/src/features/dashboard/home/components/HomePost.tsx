@@ -74,7 +74,7 @@ export const HomePost = () => {
             onDelete={handleDelete}
             onSubmit={handleSubmit}
             data={data}
-            key={index}
+            key={data.id}
             type={HomeTopicType.post}
           />
         );

@@ -79,7 +79,7 @@ export const MenusRight = () => {
         {
           "right-[calc(-100vw_+_40px)] _420:right-[-356px]": !isShow,
           "right-0": isShow,
-          "hidden": isHidden
+          " opacity-0 z-[-1]": isHidden
         }
       )}
     >
