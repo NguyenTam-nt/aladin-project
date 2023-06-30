@@ -98,7 +98,7 @@ function OrderFoodInfoForm() {
       day: Yup.date().required("message.form.required"),
       hour: Yup.string().trim().required("message.form.required"),
       place: Yup.number().required("message.form.required"),
-      placeName: Yup.string().required("message.form.required"),
+      placeName: Yup.string(),
       note: Yup.string()
         .trim()
     }),
@@ -165,7 +165,7 @@ function OrderFoodInfoForm() {
     }
   }, [values.day, values.hour])
 // console.log(place);
-console.log(values);
+// console.log(values);
 
   return (
     <form onSubmit={handleSubmit} className="" autoComplete='off'>
