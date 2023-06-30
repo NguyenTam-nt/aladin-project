@@ -336,6 +336,7 @@ export const ProductHandler = () => {
             onChange={hanleChangeData}
             onBlur={fomick.handleBlur}
             placeholder="adminProduct.form.cost_placeholder"
+            maxLength={27}
           />
           {fomick.errors.price && fomick.touched.price && (
             <TextError message={fomick.errors.price} />
@@ -349,6 +350,7 @@ export const ProductHandler = () => {
             onChange={hanleChangeData}
             onBlur={fomick.handleBlur}
             placeholder="adminProduct.form.discount_placeholder"
+            maxLength={27}
           />
           {fomick.errors.pricePromotion && fomick.touched.pricePromotion && (
             <TextError message={fomick.errors.pricePromotion} />
