@@ -2,7 +2,7 @@ import TitleInput from '@components/TitleInput';
 import TitleOfContent from '@components/TitleOfContent';
 import { useFormik } from 'formik';
 import * as Yup from "yup";
-import React, {useEffect, useMemo, useState} from 'react'
+import React, {UIEvent, useEffect, useMemo, useRef, useState} from 'react'
 import { useTranslation } from 'react-i18next';
 import { useModalContext } from '@contexts/hooks/modal';
 import { ModalOrderFoodSuccess } from './ModalOrderFoodSuccess';
@@ -17,10 +17,14 @@ import { useCartContext } from '@contexts/hooks/order';
 import { useLocation } from 'react-router-dom';
 import moment from 'moment';
 import { useShowMessage } from '@features/dashboard/components/DiglogMessage';
+import { useClickOutItem } from '@hooks/useClickOutItem';
+import { ICArowDown } from '@assets/icons/ICArowDown';
+import { Colors } from '@constants/color';
 
 function OrderFoodInfoForm() {
   const { t } = useTranslation();
   const { showError, showSuccess } = useShowMessage();
+  const { ref, isShow, handleToggleItem } = useClickOutItem();
   const { setElementModal, hideModal } = useModalContext();
   const  { listOrder, handleDeleteCart, handleMinusCart, handleDeleteAll } = useCartContext()
   const { state } = useLocation();
@@ -68,7 +72,8 @@ function OrderFoodInfoForm() {
       email: "",
       day: "",
       hour: "",
-      place: "",
+      place: -1,
+      placeName: "",
       method: BillTypeContants.restaurant,
       note: "",
     },
@@ -93,6 +98,7 @@ function OrderFoodInfoForm() {
       day: Yup.date().required("message.form.required"),
       hour: Yup.string().trim().required("message.form.required"),
       place: Yup.number().required("message.form.required"),
+      placeName: Yup.string().required("message.form.required"),
       note: Yup.string()
         .trim()
     }),
@@ -159,6 +165,7 @@ function OrderFoodInfoForm() {
     }
   }, [values.day, values.hour])
 // console.log(place);
+console.log(values);
 
   return (
     <form onSubmit={handleSubmit} className="" autoComplete='off'>
@@ -224,8 +231,9 @@ function OrderFoodInfoForm() {
               onChange={handleChange}
               onBlur={handleBlur}
               className={
-                "h-12 w-full px-3 py-2 radius-tl-br16  placeholder:text-sm radius-tl-br16 outline-none border !border-text_A1A0A3 text-text_primary placeholder:text-text_A1A0A3 bg-transparent " +
-                (errors.day && touched.day  ? "!border-red_error" : "border-text_A1A0A3")
+                "h-12 w-full px-3 py-2 radius-tl-br16  placeholder:text-sm radius-tl-br16 outline-none border !border-text_A1A0A3  bg-transparent " +
+                (errors.day && touched.day  ? " !border-red_error " : " border-text_A1A0A3 ") + 
+                (values.day && values.day.length > 0 ? " text-text_primary " : " text-text_A1A0A3 ")
               }
               placeholder={t("form.choseDayOder") as string}
             />
@@ -243,8 +251,9 @@ function OrderFoodInfoForm() {
               onChange={handleChange}
               onBlur={handleBlur}
               className={
-                "h-12 w-full px-3 py-2 radius-tl-br16  placeholder:text-sm radius-tl-br16 outline-none border !border-text_A1A0A3 text-text_primary placeholder:text-text_A1A0A3 bg-transparent  " +
-                (errors.hour && touched.hour ? "!border-red_error" : "border-text_A1A0A3")
+                "h-12 w-full px-3 py-2 radius-tl-br16  placeholder:text-sm radius-tl-br16 outline-none border !border-text_A1A0A3  bg-transparent  " +
+                (errors.hour && touched.hour ? " !border-red_error " : " border-text_A1A0A3 ") + 
+                (values.hour && values.hour.length > 0 ? " text-text_primary " : " text-text_A1A0A3 ")
               }
               placeholder={t("form.choseHourOder") as string}
             />
@@ -253,27 +262,67 @@ function OrderFoodInfoForm() {
             )}
           </div>
         </div>
-        <div className="col-span-2 flex flex-col">
+        <div
+          ref={ref}
+          onClick={handleToggleItem}
+          className="col-span-2 w-full relative"
+        >
           <TitleInput isRequired name="form.place" />
-          <select
-            value={values.place}
-            name="place"
-            onChange={handleChange}
-            onBlur={handleBlur}
-            className={
-              "h-12 w-full px-3 py-2 radius-tl-br16  placeholder:text-sm radius-tl-br16 outline-none border !border-text_A1A0A3 text-text_primary placeholder:text-text_A1A0A3 bg-transparent  " +
+          <div className={
+              "flex items-center   h-12 w-full px-3 py-2 radius-tl-br16  placeholder:text-sm radius-tl-br16 outline-none border !border-text_A1A0A3 text-text_primary placeholder:text-text_A1A0A3 bg-transparent  " +
               (errors.place && touched.place ? "!border-red_error" : "border-br_E6E6E6")
-            }
-          >
-            <option value="" disabled>
-              {t("form.chosePlace")}
-            </option>
+            }>
             {
-              place && place.map(p => {
-                return <option value={p.id} key={p.id}>{p.name}</option>
-              })
+              <div className="flex-1 flex justify-between items-center">
+                {values.placeName == "" ? (
+                  <p className="text-text_A1A0A3">
+                    {t("form.chosePlace")}
+                  </p>
+                ) : (
+                  <p>{values.placeName}</p>
+                )}
+
+                <ICArowDown color={Colors.Grey_Primary} />
+              </div>
             }
-          </select>
+          </div>
+          {isShow && (
+            <div
+              className="w-full absolute top-[105%] left-0 bg-white shadow-md px-5 z-[9] max-h-[200px] overflow-y-scroll"
+            >
+              {place && place.map((item, index) => {
+                {
+                  return (
+                    <div
+                      onClick={() => {
+                        formik.setValues({
+                          ...values,
+                          place: item.id!,
+                          placeName: item.name,
+                        });
+                        // setFieldValue("chooseIdInfrastructure", item.id);
+                        // setFieldValue("chooseInfrastructure", item.name);
+                      }}
+                      key={index}
+                      className="flex h-[48px] items-center cursor-pointer"
+                    >
+                      <div
+                        className={
+                          "w-3 h-3 rounded-[50%] " +
+                          (values.place === item.id
+                            ? "bg-bg_01A63E"
+                            : "")
+                        }
+                      ></div>
+                      <span className="text-_14 text-GreyPrimary ml-[6px]">
+                        {item.name}
+                      </span>
+                    </div>
+                  );
+                }
+              })}
+            </div>
+          )}
           {errors.place && touched.place && (
             <TextError message={errors.place} />
           )}
