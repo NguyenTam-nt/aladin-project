@@ -6,6 +6,7 @@
         "update": "Sửa bài viết",
         "delete": "Xóa bài viết",
         "salary": "Lương",
+        "end_time": "Hết hạn",
         "timeEndRecruit": "Hạn tuyển dụng",
         "form": {
             "title": "Nhập tiêu đề",

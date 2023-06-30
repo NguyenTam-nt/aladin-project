@@ -9,10 +9,12 @@ import { recruitService } from "@services/recruitService";
 import { HomeTopicType } from "@typeRules/home";
 import type { Recruit_type } from "@typeRules/recruit";
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
 
 const RecruitmentDetail = () => {
   const { id } = useParams();
+  const { t } = useTranslation();
   const [recruiItem, setRecruiItem] = useState<Recruit_type | undefined>(
     undefined
   );
@@ -40,20 +42,21 @@ const RecruitmentDetail = () => {
             </h3>
             <div className="flex lg:flex-row lg:gap-5 flex-col">
               <div className="flex gap-2 2xl:mb-0 mb-[18px]">
-                <DolarIcon width={20} height={20} />
-                <p className="text-lg text-secondary leading-22 font-semibold">
+                <DolarIcon width={24} height={24} />
+                <p className="text-sm text-secondary leading-22 font-semibold">
                   {recruiItem?.salary}
                 </p>
               </div>
               <div className="flex gap-2 2xl:mb-0 mb-[18px]">
-                <CalendarIcon width={20} height={20} />
-                <p className="text-lg leading-22 font-normal">
-                  Hết hạn: {FomatDateYY_MM_DD(recruiItem?.expirationDate!)}
+                <CalendarIcon width={24} height={24} />
+                <p className="text-sm leading-22 font-normal">
+                  {t("recruit.end_time")}:
+                  {FomatDateYY_MM_DD(recruiItem?.expirationDate!)}
                 </p>
               </div>
               <div className="flex gap-2">
-                <AddressWork width={20} height={20} />
-                <p className="text-lg leading-22 font-normal">
+                <AddressWork width={24} height={24} />
+                <p className="text-sm leading-22 font-normal">
                   {recruiItem?.address}
                 </p>
               </div>
