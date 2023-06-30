@@ -83,7 +83,7 @@ export const ProductHandlerPlace = memo(
           </button>
           <div
             className={clsx(
-              "w-full h-0 ease-linear overflow-y-auto list-facilities duration-200 shadow-sm bg-white absolute top-[48px] left-0 grid grid-cols-2  ",
+              "w-full h-0 ease-linear overflow-y-auto z-[4] list-facilities duration-200 shadow-sm bg-white absolute top-[48px] left-0 grid grid-cols-2  ",
               {
                 "h-[144px]": isShow,
               }

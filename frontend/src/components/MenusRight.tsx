@@ -13,7 +13,7 @@ import { Button } from "./Button";
 import { MoneyLineThrough } from "@features/home/components/MoneyLineThrough";
 import { ICDeleteTrash } from "@assets/icons/ICDeleteTrash";
 import { useClickOutItem } from "@hooks/useClickOutItem";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { paths } from "@constants/routerPublic";
 import { useCartContext } from "@contexts/hooks/order";
 import type { IProduct } from "@typeRules/product";
@@ -29,7 +29,7 @@ export const MenusRight = () => {
   // const [open, setOpen] = useState(false);
   const { listOrder } = useCartContext();
   const { ref, handleToggleItem, isShow, handleShow } = useClickOutItem();
-  const isFirstRender = useRef(true)
+  const isFirstRender = useRef(0)
   const {pathname} = useLocation()
 
   useEffect(() => {
@@ -48,14 +48,14 @@ export const MenusRight = () => {
   };
 
   useEffect(() => {
-    if (listOrder.length && !isFirstRender.current) {
+    if (listOrder.length && isFirstRender.current > 1) {
       if (debouceTime.current) debouceTime.current.cancel();
       debouceTime.current = debounce(() => {
         handleShow();
       }, 1000);
       debouceTime.current();
     }
-    isFirstRender.current = false;
+    isFirstRender.current +=1;
   }, [listOrder]);
 
   const totalPrice = useMemo(() => {
@@ -148,29 +148,25 @@ const MenuItem = ({ data }: Props) => {
   };
 
   const handlePlusCount = () => {
-    handlePlusCart(data, 1, { top: 0, left: 0 });
+    handlePlusCart(data, 1);
   };
 
   const handleDelete = () => {
     handleDeleteCart(Number(data.id));
   };
 
-  // {formatNumberDotSlice(Number(data?.pricePromotion))}
-  // {(data?.pricePromotion !== data?.price && data?.pricePromotion.toString().length <= 8) ? (
-  //   <MoneyLineThrough money={Number(data?.price)} />
-  // ) : null}
 
   return (
     <div className="flex items-center gap-x-[16px] py-[16px]">
-      <div>
+      <Link to={`${paths.memu.prefix}/${data.id}`}>
         <img
           className="min-w-[80px] object-cover w-[80px] min-h-[80px] max-h-[80px] h-[80px] rounded-[16px_0_16px_0]"
           alt=""
           src={data.linkMedia}
         />
-      </div>
+      </Link>
       <div className="flex-1">
-        <p className=" line-clamp-1">{data.name}</p>
+        <Link to={`${paths.memu.prefix}/${data.id}`} className=" line-clamp-1">{data.name}</Link>
         <div className="flex items-center">
           <span className="text-_14 font-semibold text-secondary">
             {formatNumberDotSlice(Number(data.pricePromotion))}

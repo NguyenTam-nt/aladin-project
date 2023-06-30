@@ -10,9 +10,9 @@ export const FooterOver = () => {
   return (
     <div className="w-rp  text-[14px]">
       <div className="py-[24px] gap-y-[16px]  flex flex-col lg:flex-col-reverse m992:flex-row justify-between lg:items-center border-t-[1px] border-text_white border-solid ">
-        <span className="text-text_white lg:text-center m992:text-left mt-[24px] m992:mt-0">
+        <a href="https://smestore.vn/thiet-ke-web" target="blank" className="text-text_white lg:text-center m992:text-left mt-[24px] m992:mt-0">
            Giang Mỹ Hotpot, Copyright @2023 - Design by Aladin Technology Company
-        </span>
+        </a>
         <div className="flex lg:items-center gap-x-[16px]"> 
           <div className="w-[24px] flex items-center justify-center h-[24px] rounded-[50%] bg-white">
             <ICFacebook />
