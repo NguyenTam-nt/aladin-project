@@ -22,9 +22,9 @@ export const TopicMenuItem = memo(({ data }: Props) => {
     setCount((count) => count - 1);
   };
 
-  const handlePushCart = (e:MouseEvent<HTMLButtonElement>) => {
-    const {top, left} = e.currentTarget.getBoundingClientRect()
-    handlePlusCart(data, count, {top, left});
+  const handlePushCart = (e: MouseEvent<HTMLButtonElement>) => {
+    const { top, left } = e.currentTarget.getBoundingClientRect();
+    handlePlusCart(data, count, { top, left });
     setCount(1);
   };
 
@@ -51,12 +51,16 @@ export const TopicMenuItem = memo(({ data }: Props) => {
           />
         </Link>
         <div className="p-[16px] flex-1 flex flex-col">
-          <p className="text-GreyPrimary text-_14 lg:text-_16 font-semibold line-clamp-3 lg:line-clamp-2">
+          <Link
+            to={`${paths.memu.prefix}/${data?.id}`}
+            className="text-GreyPrimary text-_14 lg:text-_16 font-semibold line-clamp-3 lg:line-clamp-2"
+          >
             {data?.name}
-          </p>
+          </Link>
           <p className="text-_16 lg:text-_18 line-clamp-1 font-bold mt-2 text-secondary">
             {formatNumberDotSlice(Number(data?.pricePromotion))}
-            {(data?.pricePromotion !== data?.price && data?.pricePromotion.toString().length <= 8) ? (
+            {data?.pricePromotion !== data?.price &&
+            data?.pricePromotion.toString().length <= 8 ? (
               <MoneyLineThrough money={Number(data?.price)} />
             ) : null}
           </p>
