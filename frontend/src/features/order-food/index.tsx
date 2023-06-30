@@ -1,10 +1,10 @@
 import { ICDeleteTrash } from '@assets/icons/ICDeleteTrash'
 import { ICDeleteVoucher } from '@assets/icons/ICDeleteVoucher'
 import { ICTicketDiscount } from '@assets/icons/ICTicketDiscount'
-import { formatNumberDot, formatNumberDotWithVND } from '@commons/formatMoney'
+import { formatNumberDot, formatNumberDotSlice, formatNumberDotWithVND } from '@commons/formatMoney'
 import { Banner } from '@components/Banner'
 import TitleOfContent from '@components/TitleOfContent'
-import { paths } from '@constants/routerPublic'
+import { paths, routersPublic } from '@constants/routerPublic'
 import { useCartContext } from '@contexts/hooks/order'
 // import { Banner } from '@features/contact/components/Banner'
 import { TextError } from '@features/dashboard/components/TextError'
@@ -35,30 +35,40 @@ function index() {
   }, [listOrder]);
 
   useEffect(() => {
-    setValidVoucher(undefined)
-    setVoucher("")
-    setIsValidVoucher(true)
+    if(validVoucher) {
+      VoucherService
+          .checkPrice({code: validVoucher.code, price: totalPrice})
+          .then((res) => {
+            setIsValidVoucher(true)
+          })
+          .catch((error) => {
+            console.log(error);
+            setValidVoucher(undefined)
+          });
+    }
   }, [totalPrice])
 
 
   const checkVoucher = () => {
 
-    let request: VoucherCheckPriceDTO = {
-      code: voucher,
-      price: totalPrice
+    if(voucher.trim().length > 0) {
+      let request: VoucherCheckPriceDTO = {
+        code: voucher.trim(),
+        price: totalPrice
+      }
+      
+      VoucherService
+        .checkPrice(request)
+        .then((res) => {
+          setValidVoucher(res)
+          setIsValidVoucher(true)
+        })
+        .catch((error) => {
+          console.log(error);
+          setIsValidVoucher(false)
+          
+        });
     }
-
-    VoucherService
-      .checkPrice(request)
-      .then((res) => {
-        setValidVoucher(res)
-        setIsValidVoucher(true)
-      })
-      .catch((error) => {
-        console.log(error);
-        setIsValidVoucher(false)
-        
-      });
   }
 
   const handleClickPayment = () => {
@@ -94,14 +104,18 @@ function index() {
                   return <tr className='border-t border-t-br_CBCBCB items-center' key={item.id}>
                   <td className='py-4  pr-6'>{idx + 1}</td>
                   <td className='py-4  pr-6 flex items-center justify-start gap-4'>
-                    <div className="w-10 h-10 flex-shrink-0">
+                    <div className="w-10 h-10 flex-shrink-0 cursor-pointer"
+                      onClick={() => navigate(`${paths.memu.prefix}/${item.id}`)}
+                    >
                       <img
                         className="w-full h-full object-cover"
                         src={item.linkMedia}
                         alt="iamge order food"
                       />
                     </div>
-                    <span className='line-clamp-1 text-sm'>{item.name}</span>
+                    <span className='line-clamp-1 text-sm hover:cursor-pointer'
+                      onClick={() => navigate(`${paths.memu.prefix}/${item.id}`)}
+                    >{item.name}</span>
                   </td>
                   <td className='py-4  pr-6'>
                     <div className="flex items-center justify-center gap-4">
@@ -122,13 +136,13 @@ function index() {
                   </td>
                   <td className='py-4  pr-6 '>
                     <div className="flex items-center justify-start gap-2">
-                      <div className='text-sm text-secondary'>{formatNumberDot(item.pricePromotion)}</div>
+                      <div className='text-sm text-secondary'>{formatNumberDotSlice(+item.pricePromotion)}</div>
                       <div className='text-xs text-text_A1A0A3'>/</div>
-                      <div className='text-xs text-text_A1A0A3 line-through'>{formatNumberDot(item.price)}</div>
+                      <div className='text-xs text-text_A1A0A3 line-through'>{formatNumberDotSlice(+item.price)}</div>
                     </div>
                   </td>
                   <td className='py-4  pr-6'>
-                    <div className='text-sm text-secondary'>{formatNumberDot(Number(item.pricePromotion) * Number(item.quantity))}</div>
+                    <div className='text-sm text-secondary'>{formatNumberDotSlice(Number(item.pricePromotion) * Number(item.quantity))}</div>
                   </td>
                   <td className='py-4 cursor-pointer'>
                     <div className=" flex justify-end items-center"
@@ -149,7 +163,9 @@ function index() {
               listOrder.map((item: IProduct, idx: any) => {
                 return <div className='py-4  border-t border-t-br_CBCBCB first:border-t-0 items-center' key={item.id}>
                 <div className='flex items-center justify-start gap-4'>
-                  <div className="w-10 h-10 flex-shrink-0">
+                  <div className="w-10 h-10 flex-shrink-0 cursor-pointer"
+                    onClick={() => navigate(`${paths.memu.prefix}/${item.id}`)}
+                  >
                     <img
                       className="w-full h-full object-cover"
                       src={item.linkMedia}
@@ -158,11 +174,13 @@ function index() {
                   </div>
                   <div className="flex items-center justify-between gap-6 w-full">
                     <div className="flex-1">
-                      <span className='line-clamp-1 text-sm'>{item.name}</span>
+                      <span className='line-clamp-1 text-sm hover:cursor-pointer '
+                        onClick={() => navigate(`${paths.memu.prefix}/${item.id}`)}
+                      >{item.name}</span>
                       <div className="flex items-center justify-start gap-2">
-                        <div className='text-sm text-secondary'>{formatNumberDot(item.pricePromotion)}</div>
+                        <div className='text-sm text-secondary'>{formatNumberDotSlice(+item.pricePromotion)}</div>
                         <div className='text-xs text-text_A1A0A3'>/</div>
-                        <div className='text-xs text-text_A1A0A3 line-through'>{formatNumberDot(item.price)}</div>
+                        <div className='text-xs text-text_A1A0A3 line-through'>{formatNumberDotSlice(+item.price)}</div>
                       </div>
                     </div>
                     <div className=" flex justify-end items-center"
@@ -191,7 +209,7 @@ function index() {
                 
                 <div className='flex justify-start items-center gap-2 py-2'>
                   <span className='text-sm text-GreyPrimary'>{t("order_food.calc.total")}: </span>
-                  <span className='text-sm text-secondary'>{formatNumberDot(Number(item.pricePromotion) * Number(item.quantity))}</span>
+                  <span className='text-sm text-secondary'>{formatNumberDotSlice(Number(item.pricePromotion) * Number(item.quantity))}</span>
                 </div>
               </div>
               })
@@ -217,7 +235,7 @@ function index() {
                   </div>
                 </div>
                 <div className="font-bold text-sm text-secondary cursor-pointer select-none"
-                  onClick={checkVoucher}
+                  onClick={() => voucher.trim().length > 0 && checkVoucher()}
                 >
                   {t("order_food.input_btn") as string}
                 </div>
@@ -226,7 +244,7 @@ function index() {
             </div>
             <div className="py-6 border-b border-b-br_CBCBCB flex items-center justify-between">
               <h4 className='text-base '>{t("order_food.calc.sub_total")}</h4>
-              <span className='text-base font-semibold text-secondary'>{formatNumberDotWithVND(totalPrice)}</span>
+              <span className='text-base font-semibold text-secondary'>{formatNumberDotSlice(totalPrice) + " VND"}</span>
             </div>
             {
               validVoucher && 
@@ -243,7 +261,7 @@ function index() {
             <div className="py-6 border-b border-b-br_CBCBCB flex items-center justify-between">
               <h4 className='text-base '>{t("order_food.total")}</h4>
               <span className='text-base font-semibold text-red_error'>
-                {formatNumberDotWithVND((totalPrice - (validVoucher ? validVoucher.price  : 0)) < 0 ? 0 : (totalPrice - (validVoucher ? validVoucher.price  : 0))) }
+                {formatNumberDotSlice((totalPrice - (validVoucher ? validVoucher.price  : 0)) < 0 ? 0 : (totalPrice - (validVoucher ? validVoucher.price  : 0)))  + " VND"}
                 </span>
             </div>
             <div className="flex flex-wrap lg:flex-nowrap items-center justify-center gap-6 mt-6 lg:mt-10">

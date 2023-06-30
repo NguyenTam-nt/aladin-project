@@ -22,10 +22,10 @@ const NewItem = ({ itemNew }: Props) => {
       <img
         src={itemNew.linkMedia || ""}
         alt="card"
-        className="w-full max-h-[176px]"
+        className="w-full h-[176px]"
       />
       <div className="py-6 px-4 min-h-[126px]">
-        <p className="text-base font-semibold mb-1 text-GreyPrimary line-clamp-2">
+        <p className="text-base font-semibold mb-1 text-GreyPrimary line-clamp-2 sm:h-12">
           {itemNew.description}
         </p>
         <p className="text-sm leading-5 font-normal text-text_secondary">
