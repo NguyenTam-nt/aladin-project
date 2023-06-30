@@ -262,11 +262,11 @@ export const ProductHandler = () => {
   const handleBluerCode = useCallback(
     (event: ChangeEvent<HTMLInputElement>) => {
       const { value } = event.currentTarget;
-      if (product && product.code === value.trim()) return;
+      if (product && product.code === value.trim() && value.trim()) return;
       productService.checkCode(value).catch((error) => {
         const status = error?.response?.data?.status;
         if (status === 400) {
-          fomick.setFieldError("code", "adminProduc.form.has_code");
+          fomick.setFieldError("code", "adminProduct.form.has_code");
         }
       });
       fomick.handleBlur(event);
