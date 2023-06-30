@@ -106,7 +106,7 @@ export const CommentItem = memo(
                 <ICDate />
               </span>{" "}
               <span className="text-_14 text-text_primary">
-                {formatDateComment(data?.commentGuest?.createdDate || "")}
+                {formatDateComment(data?.commentGuest?.createdDate ?? "")}
               </span>
             </div>
           </div>
@@ -172,22 +172,26 @@ export const CommentItem = memo(
             <div className="flex items-center gap-x-4">
               {renderStar(Number(data?.commentGuest?.rate), 24)}
             </div>
-            <p className="text-_14 mt-2 break-words text-text_secondary">
-              {data?.commentGuest?.content}
-            </p>
+            <pre dangerouslySetInnerHTML={{
+              __html: data?.commentGuest?.content ?? ""
+            }} className="text-_14 mt-2 break-words text-text_secondary">
+            </pre>
           </div>
           <div>
             {data.commentAdmin ? (
               <div className="">
                 <div className="flex items-center gap-x-1">
-                  <Avatar name={data?.commentAdmin?.fullname || ""} />
+                  <Avatar name={"Admin"} />
                   <span className="text-_14 font-semibold text-text_primary">
                     {data?.commentAdmin?.fullname}
                   </span>
                 </div>
-                <p className=" line-clamp-3 mt-2 text-text_secondary">
-                  {data?.commentAdmin?.content}
-                </p>
+                <pre
+                  dangerouslySetInnerHTML={{
+                    __html: data?.commentAdmin?.content ?? "",
+                  }}
+                  className=" line-clamp-3 mt-2 text-text_secondary"
+                ></pre>
               </div>
             ) : data.status ? (
               <div className="w-full flex items-center justify-center h-full">

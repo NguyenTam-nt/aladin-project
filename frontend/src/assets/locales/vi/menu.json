@@ -7,6 +7,8 @@
         "list": "Danh sách",
         "footer": "món ăn",
         "sort": "Sắp xếp theo",
+        "message_success": "Gửi đánh giá thành công.",
+        "message_error": "Gửi đánh giá thất bại.",
         "modal": {
             "title": "Hãy để lại đánh giá cho chúng tôi",
             "name": "Họ và tên",
@@ -14,7 +16,10 @@
             "evaluate": "Đánh giá",
             "name_placeholder": "Nhập họ và tên",
             "email_placeholder": "Nhập email",
-            "evaluate_placeholder": "Nhập đánh giá của bạn"
+            "evaluate_placeholder": "Nhập đánh giá của bạn",
+            "name_max": "Họ và tên tối đa 50 ký tự.",
+            "emai_max": "Email tối đa 256 ký tự.",
+            "content_max": "Nội dung trả lời tối đa 2000 ký tự."
         }
     }
 }

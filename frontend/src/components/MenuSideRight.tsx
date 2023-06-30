@@ -11,6 +11,7 @@ export const MenuSideRight = () => {
   const isAdmin = useMemo(() => {
     return pathname.includes(prefixRootRoute.admin);
   }, [pathname]);
+  
   useEffect(() => {
     window.addEventListener("scroll", () => {
       if (refScroll.current) {
@@ -40,15 +41,19 @@ export const MenuSideRight = () => {
   return (
     <div
       ref={refScroll}
-      className={clsx(
-        "fixed bottom-[calc(7%_+_56px)] opacity-0 duration-300 ease-linear 3xl:bottom-[calc(10%_+_78px)] [&>button]:rounded-[8px_0_8px_0]  2xl:[&>button]:rounded-[16px_0_16px_0] [&>button]:w-[40px] [&>button]:h-[40px] 2xl:[&>button]:w-[54px] 2xl:[&>button]:h-[54px] z-[11] gap-y-[16px] 2xl:gap-y-[24px] group-contact right-0 flex flex-col",
-        {
-          " opacity-0 z-[-2]": isAdmin,
-        }
-      )}
+      className={clsx(" opacity-0 duration-300 ease-linear ")}
     >
-      <MenusRight />
-      <ContactSilde />
+      <div
+        className={clsx(
+          "[&>button]:rounded-[8px_0_8px_0] fixed bottom-[calc(7%_+_56px)] 3xl:bottom-[calc(10%_+_78px)]  z-[11]  group-contact right-0   2xl:[&>button]:rounded-[16px_0_16px_0] [&>button]:w-[40px] gap-y-[16px] 2xl:gap-y-[24px] flex flex-col [&>button]:h-[40px] 2xl:[&>button]:w-[54px] 2xl:[&>button]:h-[54px]",
+          {
+            "opacity-0 z-[-2]": isAdmin,
+          }
+        )}
+      >
+        <MenusRight />
+        <ContactSilde />
+      </div>
     </div>
   );
 };

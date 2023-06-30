@@ -37,16 +37,16 @@ export const ModalEvaluation = ({ idProduct }: Props) => {
       fullname: Yup.string()
         .trim()
         .required("message.form.required")
-        .max(50, "Họ và tên tối đa 50 ký tự."),
+        .max(50, "menu.modal.name_max"),
       email: Yup.string()
         .trim()
         .required("message.form.required")
         .email("Email không đúng định dạng.")
-        .max(256, "Họ và tên tối đa 255 ký tự."),
+        .max(256, "menu.modal.email_max"),
       content: Yup.string()
         .trim()
         .required("message.form.required")
-        .max(2000, "Nội dung trả lời tối đa 2000 ký tự."),
+        .max(2000, "menu.modal.content_max"),
     }),
     onSubmit: (values) => {
       commentService
@@ -55,12 +55,16 @@ export const ModalEvaluation = ({ idProduct }: Props) => {
           ...values,
           rate: stars,
         })
-        .then((data) => {
-          // onUpdate(data);
-          showSuccess("Gửi đánh giá thành công.");
+        .then(() => {
+          showSuccess("menu.message_success");
         })
-        .catch(() => {
-          showError("Gửi đánh giá thất bại.");
+        .catch((error) => {
+          if (error?.response?.data?.status !== 500) {
+            showError("menu.message_error");
+          }
+          {
+            showError("message.actions.error.delete_banner");
+          }
         });
     },
   });
@@ -83,7 +87,11 @@ export const ModalEvaluation = ({ idProduct }: Props) => {
     for (let i = 1; i <= 5; i++) {
       const isActive = stars !== 0 && stars >= i;
       xhtml.push(
-        <button type="button" key={i} onClick={() => (isActive ? popStar(i) : pushStar(i))}>
+        <button
+          type="button"
+          key={i}
+          onClick={() => (isActive ? popStar(i) : pushStar(i))}
+        >
           <ICStar
             width={windownSizeWidth > withResponsive._1024 ? 40 : 27}
             height={windownSizeWidth > withResponsive._1024 ? 38 : 25}
@@ -116,6 +124,7 @@ export const ModalEvaluation = ({ idProduct }: Props) => {
             onBlur={formik.handleBlur}
             id="menu.modal.name"
             placeholder="menu.modal.name_placeholder"
+            maxLength={50}
           />
           {formik.errors.fullname && formik.touched.fullname && (
             <TextError message={formik.errors.fullname} />
@@ -129,6 +138,7 @@ export const ModalEvaluation = ({ idProduct }: Props) => {
             onBlur={formik.handleBlur}
             id="menu.modal.email"
             placeholder="menu.modal.email_placeholder"
+            maxLength={256}
           />
           {formik.errors.email && formik.touched.email && (
             <TextError message={formik.errors.email} />
@@ -141,7 +151,9 @@ export const ModalEvaluation = ({ idProduct }: Props) => {
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             id="menu.modal.evaluate"
+            value={formik.values.content}
             placeholder="menu.modal.evaluate_placeholder"
+            maxLength={20000}
           />
           {formik.errors.content && formik.touched.content && (
             <TextError message={formik.errors.content} />
