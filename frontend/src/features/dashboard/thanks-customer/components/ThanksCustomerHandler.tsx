@@ -53,10 +53,10 @@ export const ThanksCustomerHandler = () => {
       comment: Yup.string().required("message.form.required"),
       fullname: Yup.string()
         .required("message.form.required")
-        .max(50, "Họ và tên tối đa 50 ký tự."),
+        .max(50, "customer.form.name_max"),
       career: Yup.string()
         .required("message.form.required")
-        .max(50, "Tên dung mục tối đa 50 ký tự."),
+        .max(50, "customer.form.job_max"),
     }),
     onSubmit: async (data) => {
       try {

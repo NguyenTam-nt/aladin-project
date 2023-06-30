@@ -1,10 +1,9 @@
-import React, { memo } from "react";
+import React from "react";
 import { Header } from "./components/Header";
 import { ProductItem } from "./components/ProductItem";
 import { Pagination } from "@components/Paginnation";
 import { Loading } from "../components/Loading";
 import { useGetProduct } from "./components/useGetProduct";
-import type { IProduct } from "@typeRules/product";
 
 export const ProductAdmin = () => {
   const {

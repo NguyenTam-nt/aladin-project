@@ -29,7 +29,7 @@ export const ReplyModal = ({ data, onUpdate }: Props) => {
       idParent: Number(data.id),
     },
     validationSchema: Yup.object({
-      content: Yup.string().trim().required("message.form.required").max(2000, "Nội dung trả lời tối đa 2000 ký tự."),
+      content: Yup.string().trim().required("message.form.required").max(2000, "adminComment.modal.content_max"),
     }),
     onSubmit: (values) => {
       commentService
@@ -39,7 +39,6 @@ export const ReplyModal = ({ data, onUpdate }: Props) => {
           showSuccess("message.actions.success.update");
         })
         .catch((error) => {
-          console.log({error})
           showError("message.actions.error.delete_banner");
         });
     },

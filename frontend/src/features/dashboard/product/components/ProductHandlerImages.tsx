@@ -36,7 +36,6 @@ export const ProductHandlerImages = memo(({ listImage }: Props) => {
     onActiveIndexChange,
   } = useSwiperNavigationRef();
   const width = useMemo(() => {
-    console.log({windownSizeWidth})
     return windownSizeWidth > withResponsive._1690
       ? windownSizeWidth -
           300*2 -
@@ -44,9 +43,7 @@ export const ProductHandlerImages = memo(({ listImage }: Props) => {
           288
       : windownSizeWidth - 300 - 70*2 - 288 - 24 - 12;
   }, []);
-
-  console.log({width})
-
+  
   return (
     <div className="col-span-2 flex gap-[24px]">
       <div className="w-[288px]">

@@ -52,7 +52,7 @@ export const ThanksCustomerItem = memo(
           <ICStar
             width={24}
             height={24}
-            color={data?.show ? "#FFC564" : Colors.text_white}
+            color={data?.show ? Colors.bg_FFC564 : Colors.text_white}
           />
         </button>
         <img

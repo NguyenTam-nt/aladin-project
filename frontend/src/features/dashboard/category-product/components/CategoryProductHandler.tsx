@@ -62,7 +62,7 @@ export const CategoryProductHandler = ({
       // idParent: CategoryType.parent,
     },
     validationSchema: Yup.object({
-      name: Yup.string().trim().required("message.form.required").max(255, "Tên dung mục tối đa 255 ký tự."),
+      name: Yup.string().trim().required("message.form.required").max(255, "category.form.name_max"),
       isHome: Yup.string().trim().required("message.form.required"),
       isMenu: Yup.string().trim().required("message.form.required"),
     }),
@@ -83,7 +83,6 @@ export const CategoryProductHandler = ({
 
           const listImage = await Promise.all(listRequest);
           listFile.forEach((item, index) => {
-            console.log({ item });
             item.linkMedia = listImage?.[index].list?.[0].linkMedia || "";
           });
           let i = 0;
@@ -106,7 +105,6 @@ export const CategoryProductHandler = ({
           }),
         });
       } catch (error) {
-        console.log({ error });
       }
     },
   });
