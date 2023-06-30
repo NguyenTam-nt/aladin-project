@@ -11,6 +11,7 @@ import { reservationTableSvice } from "@services/reservationTableSevice";
 import type { PlaceType } from "@typeRules/place";
 import clsx from "clsx";
 import { useFormik } from "formik";
+import moment from "moment";
 import { memo, useEffect, useRef, useState, UIEvent } from "react";
 import { useTranslation } from "react-i18next";
 import * as Yup from "yup";
@@ -69,19 +70,25 @@ const TableReserVationForm = memo(
             "Chưa chọn ngày hoặc thời gian đặt bàn tối thiểu phải lớn hơn hiện tại 10 phút.",
             function (value, props) {
               if (value && values.chooseDate) {
-                const dateString = values.chooseDate
-                  .split("-")
-                  .concat(values.hour.split(":"));
-                const dateIso = new Date(
-                  +dateString[0],
-                  +dateString[1] - 1,
-                  +dateString[2],
-                  +dateString[3],
-                  +dateString[4]
-                ).getTime();
-                let nowDate = new Date();
-                if (dateIso - new Date(nowDate).getTime() > 600000) return true;
+                const truThy: boolean = moment(
+                  values.chooseDate + " " + value
+                ).isSameOrAfter(moment(new Date()).add(10, "minutes"));
+
+                if (truThy) return true;
                 return false;
+                // const dateString = values.chooseDate
+                //   .split("-")
+                //   .concat(values.hour.split(":"));
+                // const dateIso = new Date(
+                //   +dateString[0],
+                //   +dateString[1] - 1,
+                //   +dateString[2],
+                //   +dateString[3],
+                //   +dateString[4]
+                // ).getTime();
+                // let nowDate = new Date();
+                // if (dateIso - new Date(nowDate).getTime() > 600000) return true;
+                // return false;
               } else {
                 return false;
               }
