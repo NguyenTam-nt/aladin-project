@@ -23,7 +23,9 @@ export const TopicCustomerItem = memo(({ data }: Props) => {
         {data?.comment}
       </div>
       <div className="mt-auto flex items-center gap-x-2">
-        <Avatar size={48} url={data?.linkGuest} name={data?.fullname} />
+        <div className="w-[48px] h-[48px]">
+          <Avatar size={48} url={data?.linkGuest} name={data?.fullname} />
+        </div>
         <div className="flex-1">
           <p className="text-_16 line-clamp-1 font-semibold text-GreyPrimary">
             {data?.fullname}
