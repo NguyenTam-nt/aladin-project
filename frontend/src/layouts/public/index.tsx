@@ -7,6 +7,7 @@ import bgContact from "@assets/images/contact/bg-contact.webp";
 import { GotoTop } from "@components/GotoTop";
 
 export const PublicLayout = () => {
+
   return (
     <>
       <Header />

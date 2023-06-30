@@ -9,13 +9,14 @@ import { useClickOutItem } from "@hooks/useClickOutItem";
 import PlaceService from "@services/PlaceService";
 import { reservationTableSvice } from "@services/reservationTableSevice";
 import type { PlaceType } from "@typeRules/place";
+import clsx from "clsx";
 import { useFormik } from "formik";
 import { min } from "lodash";
 import { memo, useEffect, useRef, useState, UIEvent } from "react";
 import { useTranslation } from "react-i18next";
 import * as Yup from "yup";
 
-const TableReserVationForm = memo(() => {
+const TableReserVationForm = memo(({isPaddingBottom = true}:{isPaddingBottom?: boolean}) => {
   const { t } = useTranslation();
   const { showError, showSuccess } = useShowMessage();
   const { ref, isShow, handleToggleItem } = useClickOutItem();
@@ -61,30 +62,31 @@ const TableReserVationForm = memo(() => {
           "Ngày phải tối thiểu từ hôm nay."
         )
         .required("Phải chọn ngày đặt bàn."),
-      // hour: Yup.string().trim().required("Phải chọn khung giờ đặt bàn."),
-      hour: Yup.string().test(
-        "hour",
-        "Chưa chọn ngày hoặc thời gian đặt bàn tối thiểu phải lớn hơn hiện tại 10 phút.",
-        function (value, props) {
-          if (value && values.chooseDate) {
-            const dateString = values.chooseDate
-              .split("-")
-              .concat(values.hour.split(":"));
-            const dateIso = new Date(
-              +dateString[0],
-              +dateString[1] - 1,
-              +dateString[2],
-              +dateString[3],
-              +dateString[4]
-            ).getTime();
-            let nowDate = new Date();
-            if (dateIso - new Date(nowDate).getTime() > 600000) return true;
-            return false;
-          } else {
-            return false;
+      hour: Yup.string()
+        .required("Phải chọn giờ đặt bàn.")
+        .test(
+          "hour",
+          "Chưa chọn ngày hoặc thời gian đặt bàn tối thiểu phải lớn hơn hiện tại 10 phút.",
+          function (value, props) {
+            if (value && values.chooseDate) {
+              const dateString = values.chooseDate
+                .split("-")
+                .concat(values.hour.split(":"));
+              const dateIso = new Date(
+                +dateString[0],
+                +dateString[1] - 1,
+                +dateString[2],
+                +dateString[3],
+                +dateString[4]
+              ).getTime();
+              let nowDate = new Date();
+              if (dateIso - new Date(nowDate).getTime() > 600000) return true;
+              return false;
+            } else {
+              return false;
+            }
           }
-        }
-      ),
+        ),
       chooseIdInfrastructure: Yup.number()
         .min(1, "Phải chọn cơ sở")
         .required("Phải chọn cơ sở."),
@@ -161,7 +163,9 @@ const TableReserVationForm = memo(() => {
   }, [currenPage]);
   return (
     <form onSubmit={handleSubmit}>
-      <div className="pb-36 lg:px-0 sm:px-5">
+      <div className={clsx("lg:px-0 sm:px-5", {
+        "pb-36": isPaddingBottom
+      })}>
         <div className="h-auto md:radius-tl-br bg-text_white py-16 2xl:px-28 lg:px-24 px-5">
           <TitleOfContent
             name="titleofcontent.tableReserVationForm"

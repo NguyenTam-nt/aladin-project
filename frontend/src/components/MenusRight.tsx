@@ -1,9 +1,13 @@
 import { ICArowDown } from "@assets/icons/ICArowDown";
 import { ICDeleteX } from "@assets/icons/ICDeleteX";
-import { formatNumberDot, formatNumberDotWithVND } from "@commons/formatMoney";
+import {
+  formatNumberDot,
+  formatNumberDotSlice,
+  formatNumberDotWithVND,
+} from "@commons/formatMoney";
 import { Colors } from "@constants/color";
 import clsx from "clsx";
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Button } from "./Button";
 import { MoneyLineThrough } from "@features/home/components/MoneyLineThrough";
@@ -13,19 +17,45 @@ import { useNavigate } from "react-router-dom";
 import { paths } from "@constants/routerPublic";
 import { useCartContext } from "@contexts/hooks/order";
 import type { IProduct } from "@typeRules/product";
+import { debounce } from "lodash";
+
+export const positionCart = {
+  positionX: 0,
+  positionY: 0,
+};
+
 export const MenusRight = () => {
   const { t } = useTranslation();
   // const [open, setOpen] = useState(false);
   const { listOrder } = useCartContext();
-  const { ref, handleToggleItem, isShow } = useClickOutItem();
-  // const handleOpen = () => {
-  //   setOpen(!open);
-  // };
+  const { ref, handleToggleItem, isShow, handleShow } = useClickOutItem();
+  const isFirstRender = useRef(true)
+
+  useEffect(() => {
+    if (ref.current) {
+      positionCart.positionX = ref.current.getBoundingClientRect().left;
+      positionCart.positionY = ref.current.getBoundingClientRect().top;
+    }
+  }, [ref]);
+
+  const debouceTime = useRef<ReturnType<typeof debounce>>();
+
   const navigate = useNavigate();
 
   const handleNavigate = () => {
     navigate(paths.orderFood.prefix);
   };
+
+  useEffect(() => {
+    if (listOrder.length && !isFirstRender.current) {
+      if (debouceTime.current) debouceTime.current.cancel();
+      debouceTime.current = debounce(() => {
+        handleShow();
+      }, 1000);
+      debouceTime.current();
+    }
+    isFirstRender.current = false;
+  }, [listOrder]);
 
   const totalPrice = useMemo(() => {
     return listOrder.reduce((currentValue, data) => {
@@ -53,7 +83,7 @@ export const MenusRight = () => {
           "h-[40px] 2xl:h-[54px] w-[223px] absolute  origin-[top_right] right-[calc(100%_+_40px)]  2xl:right-[calc(100%_+_54px)] gap-x-2 rotate-[-90deg] text-_18 text-text_white flex font-iCielBC_Cubano items-center justify-center px-[24px] rounded-[0_16px_0_0] bg-secondary"
         }
       >
-        <span className={clsx("rotate-[-180deg]", {"rotate-[0deg]": isShow})}>
+        <span className={clsx("rotate-[-180deg]", { "rotate-[0deg]": isShow })}>
           <ICArowDown color={Colors.text_white} />
         </span>
         {t("common.choosed_menu")}
@@ -75,9 +105,9 @@ export const MenusRight = () => {
               })}
             </div>
             <div className="px-[16px] flex flex-col gap-y-[16px]">
-              <div className="flex items-center justify-between mt-[16px]">
-                <span className="text-_14 text-text_white">Tổng giá trị</span>
-                <span className="text-_16 font-semibold text-secondary">
+              <div className="flex items-baseline gap-[12px] justify-between mt-[16px]">
+                <span className="text-_14 w-max text-text_white">Tổng giá trị</span>
+                <span className="text-_16 text-right flex-1 font-semibold text-secondary">
                   {formatNumberDotWithVND(totalPrice)}
                 </span>
               </div>
@@ -112,12 +142,17 @@ const MenuItem = ({ data }: Props) => {
   };
 
   const handlePlusCount = () => {
-    handlePlusCart(data, 1);
+    handlePlusCart(data, 1, { top: 0, left: 0 });
   };
 
   const handleDelete = () => {
     handleDeleteCart(Number(data.id));
   };
+
+  // {formatNumberDotSlice(Number(data?.pricePromotion))}
+  // {(data?.pricePromotion !== data?.price && data?.pricePromotion.toString().length <= 8) ? (
+  //   <MoneyLineThrough money={Number(data?.price)} />
+  // ) : null}
 
   return (
     <div className="flex items-center gap-x-[16px] py-[16px]">
@@ -132,12 +167,15 @@ const MenuItem = ({ data }: Props) => {
         <p className=" line-clamp-1">{data.name}</p>
         <div className="flex items-center">
           <span className="text-_14 font-semibold text-secondary">
-            {formatNumberDot(Number(data.pricePromotion))}
+            {formatNumberDotSlice(Number(data.pricePromotion))}
           </span>
-          <MoneyLineThrough
-            money={Number(data.price)}
-            className="!text-_12 text-text_white"
-          />
+          {data?.pricePromotion !== data?.price &&
+          data?.pricePromotion.toString().length <= 8 ? (
+            <MoneyLineThrough
+              money={Number(data.price)}
+              className="!text-_12 text-text_white"
+            />
+          ) : null}
         </div>
         <div className="flex items-center self-center flex-1 gap-x-[16px] text-text_white text-_13 font-semibold">
           <button

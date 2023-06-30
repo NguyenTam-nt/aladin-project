@@ -39,6 +39,7 @@ export const Colors = {
     Grey_Primary: "#222124",
     TrueBlue500:"#0073E5",
     bg_FFC344: "#FFC344",
+    bg_FFC564: "#FFC564"
 }
 
 

@@ -48,15 +48,12 @@ export const TopicPlaceItem = () => {
         />
       </div>
       {categories.length ? (
-        <div className=" lg:col-span-2 h-[490px] radius-tl-br overflow-hidden">
-          <iframe
-            src={categories[activeIndex].linkMap}
-            className="w-full h-full"
-            allowFullScreen
-            loading="lazy"
-            referrerPolicy="no-referrer-when-downgrade"
-          ></iframe>
-        </div>
+        <div
+          className=" lg:col-span-2 [&>iframe]:w-full [&>iframe]:h-full  h-[490px] radius-tl-br overflow-hidden"
+          dangerouslySetInnerHTML={{
+            __html: categories[activeIndex].linkMap,
+          }}
+        />
       ) : null}
     </div>
   );

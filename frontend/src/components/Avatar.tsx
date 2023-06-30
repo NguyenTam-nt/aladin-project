@@ -36,7 +36,7 @@ export const Avatar = ({ url, name, size = 40 }: Props) => {
         />
       ) : (
         <span
-          className=" font-bold text-_18 text-text_white uppercase"
+          className="font-bold text-_18 text-text_white uppercase"
           style={{
             fontSize: `${size > 60 ? 32 : 20}px`,
           }}

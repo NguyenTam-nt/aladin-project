@@ -57,9 +57,13 @@ export default function ModalProvider({ children }: Props) {
     // }else {
     // document.body
     // }
-    isShow
-      ? (document.body.style.overflowY = "hidden")
-      : (document.body.style.overflowY = "auto");
+    if (isShow) {
+      document.body.classList.add("modal-open");
+    } else {
+      if (document.body.classList.contains("modal-open")) {
+        document.body.classList.remove("modal-open");
+      }
+    }
   }, [isShow]);
 
   const isAdmin = useMemo(() => {

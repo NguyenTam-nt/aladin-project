@@ -41,9 +41,9 @@ export const PolicyHandle = () => {
       description: "",
     },
     validationSchema: Yup.object({
-      title: Yup.string().trim().required("message.form.required").max(255, "Tiêu đề tối đa 255 ký tự."),
-      content: Yup.string().trim().required("message.form.required").max(2000, "Nội dung tối đa 2000 ký tự."),
-      description: Yup.string().trim().required("message.form.required").max(2000, "Mô tả tối đa 2000 ký tự."),
+      title: Yup.string().trim().required("message.form.required").max(255, "adminPolicy.form.title_max"),
+      content: Yup.string().trim().required("message.form.required").max(2000, "adminPolicy.form.content_max"),
+      description: Yup.string().trim().required("message.form.required").max(2000, "adminPolicy.form.description_max"),
     }),
     onSubmit: (data) => {
       showLoading();
@@ -93,6 +93,7 @@ export const PolicyHandle = () => {
           <TitleInput forId="title" name="adminPolicy.form.name" />
           <Input
             id="title"
+            maxLength={255}
             value={formik.values.title}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
@@ -106,6 +107,7 @@ export const PolicyHandle = () => {
           <TitleInput forId="description" name="adminPolicy.form.des" />
           <Input
             id="description"
+            maxLength={255}
             value={formik.values.description}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
