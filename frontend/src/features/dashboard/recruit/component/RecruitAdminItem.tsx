@@ -49,7 +49,7 @@ const RecruitAdminItem = ({ itemRecrui, handleDelete }: Props) => {
       </p>
       <div className="flex items-center gap-2 mb-[17px]">
         <div className="w-6">
-          <DolarIcon width={20} height={20} />
+          <DolarIcon width={24} height={24} />
         </div>
         <p className="text-sm text-secondary leading-22 font-semibold">
           {itemRecrui.salary}
@@ -57,7 +57,7 @@ const RecruitAdminItem = ({ itemRecrui, handleDelete }: Props) => {
       </div>
       <div className="flex items-center gap-2 mb-[18px]">
         <div className="w-6">
-          <CalendarIcon width={18} height={18} />
+          <CalendarIcon width={24} height={24} />
         </div>
         <p className="text-sm leading-22 font-normal">
           Hết hạn:{FomatDateYY_MM_DD(itemRecrui.expirationDate)}
