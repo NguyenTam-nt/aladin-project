@@ -35,30 +35,40 @@ function index() {
   }, [listOrder]);
 
   useEffect(() => {
-    setValidVoucher(undefined)
-    setVoucher("")
-    setIsValidVoucher(true)
+    if(validVoucher) {
+      VoucherService
+          .checkPrice({code: validVoucher.code, price: totalPrice})
+          .then((res) => {
+            setIsValidVoucher(true)
+          })
+          .catch((error) => {
+            console.log(error);
+            setValidVoucher(undefined)
+          });
+    }
   }, [totalPrice])
 
 
   const checkVoucher = () => {
 
-    let request: VoucherCheckPriceDTO = {
-      code: voucher,
-      price: totalPrice
+    if(voucher.trim().length > 0) {
+      let request: VoucherCheckPriceDTO = {
+        code: voucher.trim(),
+        price: totalPrice
+      }
+      
+      VoucherService
+        .checkPrice(request)
+        .then((res) => {
+          setValidVoucher(res)
+          setIsValidVoucher(true)
+        })
+        .catch((error) => {
+          console.log(error);
+          setIsValidVoucher(false)
+          
+        });
     }
-
-    VoucherService
-      .checkPrice(request)
-      .then((res) => {
-        setValidVoucher(res)
-        setIsValidVoucher(true)
-      })
-      .catch((error) => {
-        console.log(error);
-        setIsValidVoucher(false)
-        
-      });
   }
 
   const handleClickPayment = () => {
@@ -225,7 +235,7 @@ function index() {
                   </div>
                 </div>
                 <div className="font-bold text-sm text-secondary cursor-pointer select-none"
-                  onClick={checkVoucher}
+                  onClick={() => voucher.trim().length > 0 && checkVoucher()}
                 >
                   {t("order_food.input_btn") as string}
                 </div>
