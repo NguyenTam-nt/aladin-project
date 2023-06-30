@@ -34,7 +34,7 @@ export const HomeSales = () => {
             id: listBanner?.listBanner?.[0].id
           }]
         }).then(() => {
-          showSuccess("Cập nhật thành công!")
+          showSuccess("message.actions.success.update")
         }).catch(() => {
           showError("message.actions.error.post")
         }).finally(() => {

@@ -50,19 +50,6 @@ export const CommentItem = memo(
       setElementModal(<ModalConfirm onClick={handleSubmitPD} />);
     };
 
-    // const handleSubmitEdit = () => {
-    //   showLoading()
-    //   commentService
-    //     .update(data)
-    //     .then((data) => {
-    //       onEdit(data)
-    //       showSuccess("message.actions.success.update");
-    //     })
-    //     .catch(() => {
-    //       showError("message.error._error");
-    //     })
-    // };
-
     const handleSubmitPD = () => {
       showLoading();
       commentService
@@ -75,7 +62,7 @@ export const CommentItem = memo(
           showSuccess("message.actions.success.update");
         })
         .catch(() => {
-          showError("Thất bại");
+          showError("message.actions.error.delete_banner");
         });
     };
 
@@ -85,7 +72,7 @@ export const CommentItem = memo(
         .delete(Number(data.id))
         .then(() => {
           onDelete(Number(data.id));
-          showSuccess("Xóa bình luận thành công");
+          showSuccess("adminComment.message_delete_success");
         })
         .catch((error) => {
           showError(

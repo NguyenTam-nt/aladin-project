@@ -6,6 +6,7 @@ import {
 } from "@constants/index";
 import clsx from "clsx";
 import React, { memo } from "react";
+import { useTranslation } from "react-i18next";
 
 type Props = {
   onChange: (id: string) => void;
@@ -13,6 +14,7 @@ type Props = {
 };
 
 export const MenuBodySortMobile = memo(({ onChange, onClose }: Props) => {
+  const {t} = useTranslation()
   return (
     <div className="w-full">
       <div className="flex items-center justify-between">
@@ -20,7 +22,7 @@ export const MenuBodySortMobile = memo(({ onChange, onClose }: Props) => {
           className="text-_16 font-semibold lg:font-normal lg:title-32 text-secondary w-fit lg:mb-[32px] cursor-pointer"
           //   onClick={handleClear}
         >
-          Sắp xếp theo
+         {t("menu.sort")}
         </h3>
         {windownSizeWidth <= withResponsive._1024 ? (
           <button onClick={onClose}>
