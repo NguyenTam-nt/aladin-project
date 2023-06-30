@@ -45,7 +45,7 @@ export const Header = memo(({ onChange, onSearch, query }: Props) => {
       <div className="flex items-baseline mb-[32px] justify-between">
         <div className="flex items-center flex-1 justify-end gap-x-[24px]">
           <Input
-            placeholder="Tìm kiếm theo mã món ăn/tên món ăn"
+            placeholder="adminProduct.search_placeholder"
             value={query ?? ""}
             onChange={onSearch}
             renderLeft={() => {

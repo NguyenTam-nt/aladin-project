@@ -24,7 +24,6 @@ export const TopicMenuItem = memo(({ data }: Props) => {
 
   const handlePushCart = (e:MouseEvent<HTMLButtonElement>) => {
     const {top, left} = e.currentTarget.getBoundingClientRect()
-    console.log({top, left});
     handlePlusCart(data, count, {top, left});
     setCount(1);
   };

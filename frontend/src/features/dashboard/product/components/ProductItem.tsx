@@ -53,13 +53,13 @@ export const ProductItem = memo(({ data, onDelete, onUpdate }: Props) => {
       .patchHome(Number(data.id))
       .then((data) => {
         onUpdate(data);
-        showSuccess("Cập nhật thành công.");
+        showSuccess("message.actions.success.update");
       })
       .catch((error) => {
         if (error?.response?.data.status !== 500) {
-          showError(error?.response?.data?.message || "Cập nhật thất bại.");
+          showError(error?.response?.data?.message || "message.actions.error.delete_banner");
         } else {
-          showError("Lỗi hệ thống.");
+          showError("message.actions.error.delete_banner");
         }
       });
   };
@@ -68,12 +68,12 @@ export const ProductItem = memo(({ data, onDelete, onUpdate }: Props) => {
     if (data.show) {
       if (data.priority) {
         setElementModal(
-          <DiglogMessage message="Bạn bắt buộc bỏ trạng thái nổi bật, mới có thể ẩn món ăn" />
+          <DiglogMessage message="adminProduct.messsge_confirm_hide" />
         );
       } else {
         setElementModal(
           <DiglogComfirm
-            message="Bạn có muốn ẩn (ngừng kinh doanh tạm thời) món ăn này không?"
+            message="adminProduct.message_eye"
             onClick={handleDisplay}
           />
         );
@@ -92,9 +92,9 @@ export const ProductItem = memo(({ data, onDelete, onUpdate }: Props) => {
       })
       .catch((error) => {
         if (error?.response?.data.status !== 500) {
-          showError(error?.response?.data?.message || "Cập nhật thất bại.");
+          showError(error?.response?.data?.message || "message.actions.error.delete_banner");
         } else {
-          showError(error?.response?.data?.message || "Lỗi hệ thống.");
+          showError("message.actions.error.delete_banner");
         }
       });
   };

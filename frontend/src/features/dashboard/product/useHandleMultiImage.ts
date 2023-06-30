@@ -57,7 +57,6 @@ export const useHandleMultiImage = (
     handleDeleteLogin?.(id);
     const newListImage = [...preViewImage]
     const index = newListImage.findIndex(i => i.id == id)
-    console.log({index, id, newListImage})
     if(index !== -1) {
       newListImage.splice(index, 1)
     }

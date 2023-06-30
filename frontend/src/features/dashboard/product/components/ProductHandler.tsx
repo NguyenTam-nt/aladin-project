@@ -7,13 +7,10 @@ import React, {
   useEffect,
   useMemo,
   useRef,
-  useState,
 } from "react";
 import { ProductHandlerImages } from "./ProductHandlerImages";
 import { ProductHandlerVideo } from "./ProductHandlerVideo";
 import { formatNumberDot } from "@commons/formatMoney";
-import { ICArowDown } from "@assets/icons/ICArowDown";
-import { Colors } from "@constants/color";
 import { ProductHandlerCategory } from "./ProductHandlerCategory";
 import { ProductHandlerPlace } from "./ProductHandlerPlace";
 import { Textarea } from "@features/dashboard/components/Textarea";
@@ -35,21 +32,15 @@ import { useGetDetailProduct } from "./useGetDetailProduct";
 import { useHandleLoading } from "@features/dashboard/components/Loading";
 import { uploadService } from "@services/upload";
 import { useShowMessage } from "@features/dashboard/components/DiglogMessage";
-import { paths } from "@constants/routerPublic";
 import { pathsAdmin } from "@constants/routerManager";
 import { prefixRootRoute } from "@constants/index";
 
 export const ProductHandler = () => {
-  //   const [value, setValue] = useState("");
-  //   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-  //     setValue(event.currentTarget.value.replaceAll(".", ""));
-  //   };
-
   const params = useParams();
   const isAdd = useMemo(() => {
     return !params.id;
   }, []);
-  const { product, loading } = useGetDetailProduct(Number(params?.id));
+  const { product } = useGetDetailProduct(Number(params?.id));
   const { showLoading } = useHandleLoading();
   const { showSuccess, showError } = useShowMessage();
   const navigation = useNavigate();
@@ -68,25 +59,23 @@ export const ProductHandler = () => {
       code: Yup.string().trim().required("message.form.required"),
       name: Yup.string().trim().required("message.form.required"),
       price: Yup.number()
-        .moreThan(-1, "Vui lòng nhập số tiền lớn hơn hoặc bằng 0 ")
-        .typeError("Vui lòng nhập số.")
+        .moreThan(-1, "adminProduct.form.money_limit")
+        .typeError("adminProduct.form.number_required")
         .required("message.form.required")
         .test(
           "noEOrSign", // type of the validator (should be unique)
-          "Vui lòng nhập số nguyên", // error message
-          (value) =>
-            typeof value === "number" && !/[eE+-]/.test(`${value}`)
+          "adminProduct.form.integer_required", // error message
+          (value) => typeof value === "number" && !/[eE+-]/.test(`${value}`)
         ),
       pricePromotion: Yup.number()
-        .typeError("Vui lòng nhập số.")
-        .moreThan(-1, "Vui lòng nhập số tiền lớn hơn hoặc bằng 0 ")
+        .typeError("adminProduct.form.number_required")
+        .moreThan(-1, "adminProduct.form.money_limit")
         .required("message.form.required")
-        .max(Yup.ref("price"), "Giá khuyến mãi phải nhỏ hơn hoặc bằng giá gốc.")
+        .max(Yup.ref("price"), "adminProduct.form.price_promotion_required")
         .test(
           "noEOrSign", // type of the validator (should be unique)
-          "Vui lòng nhập số nguyên", // error message
-          (value) =>
-          typeof value === "number" && !/[eE+-]/.test(`${value}`)
+          "adminProduct.form.integer_required", // error message
+          (value) => typeof value === "number" && !/[eE+-]/.test(`${value}`)
         ),
       description: Yup.string().trim().required("message.form.required"),
       category: Yup.object(),
@@ -110,7 +99,7 @@ export const ProductHandler = () => {
           if (values.category.idParent === undefined) {
             fomick.setFieldError(
               "category",
-              "Bặt buộc phải chọn danh mục nhỏ."
+              "adminProduct.form.category_required"
             );
             return;
           }
@@ -181,7 +170,7 @@ export const ProductHandler = () => {
                     "adminProduct.message_add_error"
                 );
               } else {
-                showError("Lỗi hệ thống.");
+                showError("message.actions.error.delete_banner");
               }
             });
         } else {
@@ -266,7 +255,6 @@ export const ProductHandler = () => {
     (event: ChangeEvent<HTMLInputElement>) => {
       const { name, value } = event.currentTarget;
       fomick.setFieldValue(name, value.replaceAll(".", ""));
-      console.log({balue:value.replaceAll(".", "") })
     },
     []
   );
@@ -278,7 +266,7 @@ export const ProductHandler = () => {
       productService.checkCode(value).catch((error) => {
         const status = error?.response?.data?.status;
         if (status === 400) {
-          fomick.setFieldError("code", "Mã món ăn đã tồn tại.");
+          fomick.setFieldError("code", "adminProduc.form.has_code");
         }
       });
       fomick.handleBlur(event);
@@ -300,8 +288,6 @@ export const ProductHandler = () => {
   const handleNavigate = useCallback(() => {
     navigation(`${prefixRootRoute.admin}/${pathsAdmin.product.prefix}`);
   }, []);
-
-  console.log({ fomick: fomick.values.category });
 
   return (
     <div>

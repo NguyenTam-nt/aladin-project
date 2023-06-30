@@ -159,7 +159,7 @@ export const ThanksCustomer = () => {
         </div>
         <div className="flex w-full mb-[32px] items-center gap-[24px]">
           <Input
-            placeholder="Tìm kiếm theo Họ và tên"
+            placeholder="customer.search_placeholder"
             value={searchQuery ?? ""}
             onChange={handleChangeValue}
             renderLeft={() => {

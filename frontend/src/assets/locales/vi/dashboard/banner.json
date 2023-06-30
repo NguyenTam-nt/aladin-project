@@ -25,7 +25,10 @@
             "des": "Mô tả",
             "des_placeholder": "Nhập mô tả",
             "content": "Nội dung",
-            "content_placeholder": "Nhập nội dung"
+            "content_placeholder": "Nhập nội dung",
+            "title_max": "Tiêu đề tối đa 255 ký tự.",
+            "content_max": "Nội dung tối đa 2000 ký tự.",
+            "description_max": "Mô tả tối đa 2000 ký tự."
         }
     },
     "customer": {
@@ -38,6 +41,7 @@
         "update": "Sửa bài viết",
         "delete": "Xóa bài viết",
         "add": "Thêm bài viết",
+        "search_placeholder": "Tìm kiếm theo Họ và tên",
         "form": {
             "title_add": "Tạo mới cảm nhận khách hàng",
             "title_edit": "Chỉnh sửa cảm nhận khách hàng",
@@ -48,7 +52,9 @@
             "comment":  "Lời nhận xét",
             "comment_placeholder": "Nhập lời nhận xét",
             "upload_image_product": "Tải ảnh món ăn",
-            "upload_avatar": "Tải ảnh đại diện"
+            "upload_avatar": "Tải ảnh đại diện",
+            "name_max": "Họ và tên tối đa 50 ký tự.",
+            "job_max": "Họ và tên tối đa 50 ký tự."
         }
     },
     "category": {
@@ -70,7 +76,8 @@
             "type_child": "Phân loại nhỏ ",
             "image_child": "Hình ảnh danh mục con {{index}}",
             "name_child_item": "Danh mục con {{index}}",
-            "name_child_item_placeholder": "Nhập tên danh mục con"
+            "name_child_item_placeholder": "Nhập tên danh mục con",
+            "name_max": "Tên danh mục tối đa 255 ký tự."
 
         }
     },
@@ -84,6 +91,8 @@
         "message_add_success": "Thêm mớn ăn thành công",
         "message_add_error": "Thêm mớn ăn thất bại",
         "message_eye": "Bạn có muốn ẩn (ngừng kinh doanh tạm thời) sản phẩm này không?",
+        "messsge_confirm_hide": "Bạn bắt buộc bỏ trạng thái nổi bật, mới có thể ẩn món ăn",
+        "search_placeholder": "Tìm kiếm theo mã món ăn/tên món ăn",
         "form": {
             "title_add": "Tạo mới món ăn",       
             "title_edit": "Chỉnh sửa món ăn",
@@ -102,7 +111,13 @@
             "category": "Danh mục",
             "choose_place": "Chọn cơ sở bán",
             "info": "Thông tin món ăn",
-            "info_placeholder": "Nhập thông tin món ăn"
+            "info_placeholder": "Nhập thông tin món ăn",
+            "money_limit": "Vui lòng nhập số tiền lớn hơn hoặc bằng 0.",
+            "number_required": "Vui lòng nhập số.",
+            "integer_required": "Vui lòng nhập số nguyên.",
+            "price_promotion_required": "Giá khuyến mãi phải nhỏ hơn hoặc bằng giá gốc.",
+            "category_required": "Bặt buộc phải chọn danh mục nhỏ.",
+            "has_code": "Mã món ăn đã tồn tại."
         }
 
     },
@@ -111,11 +126,13 @@
         "message_delete": "Bạn có chắc chắn xóa bình luận này khỏi hệ thống?",
         "message_confirm": "Bạn có chắc chắn phê duyệt",
         "this_comment": "bình luận này?",
+        "message_delete_success": "Xóa bình luận thành công.",
         "modal": {
             "title": "Bạn có muốn trả lời bình luận ngay bây giờ không ?",
             "position": "Chức vụ",
             "content": "Nội dung",
-            "content_placeholder": "Nhập nội dung"
+            "content_placeholder": "Nhập nội dung",
+            "content_max": "Nội dung trả lời tối đa 2000 ký tự."
         }
     }
 }
