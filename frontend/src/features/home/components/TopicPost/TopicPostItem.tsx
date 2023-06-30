@@ -17,9 +17,12 @@ export const TopicPostItem = memo(({data}:Props) => {
       </div>
       <div className="mt-[24px] h-[188px]  lg:h-[80%] flex flex-col lg:pt-[12px]">
         <h4 className="title-32">{data?.title}</h4>
-        <div className="text-_14 flex-1 overflow-y-auto lg:text-_20 font-normal mt-[16px] lg:mt-[30px] text-GreyPrimary list-facilities">
-          {data?.content}
-        </div>
+        <pre className="text-_14 flex-1 overflow-y-auto lg:text-_18 font-normal mt-[16px] lg:mt-[30px] text-GreyPrimary list-facilities"
+          dangerouslySetInnerHTML={{
+            __html: data?.content ?? ""
+          }}
+        >
+        </pre>
       </div>
     </div>
   );
