@@ -29,12 +29,12 @@ export const GroupInputContent = memo(({title, content, contentError, onChange, 
         <div>
           <TitleInput isRequired={true} name={"adminHome.form.title"} />
           <Input value={title} name="title" onChange={onChange} onBlur={onBlur} placeholder="adminHome.form.title_placeholder" maxLength={40} />
-          {<TextError message={titleError || ""} option={{max: 40}} />}
+          {<TextError message={titleError ?? ""} option={{max: 40}} />}
         </div>
         <div>
           <TitleInput isRequired={true} name={"adminHome.form.content"} />
           <Textarea name="content" value={content} onChange={onChange} onBlur={onBlur} placeholder="adminHome.form.content_placeholder" maxLength={350} />
-        <TextError message={contentError || ""} option={{max: 350}} />
+        <TextError message={contentError ?? ""} option={{max: 350}} />
         </div>
       </div>
     </>

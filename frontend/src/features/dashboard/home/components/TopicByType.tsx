@@ -134,8 +134,8 @@ export const TopicByType = memo(({ type, data, onSubmit, onDelete }: Props) => {
         ) : null}
         <div className="flex-1">
           <GroupInputContent
-            title={formik.values.title || ""}
-            content={formik.values.content || ""}
+            title={formik.values.title ?? ""}
+            content={formik.values.content ?? ""}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             titleError={formik.touched.title && formik.errors.title ? formik.errors.title : ""}

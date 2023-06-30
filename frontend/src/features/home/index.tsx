@@ -1,4 +1,4 @@
-import React, { lazy } from "react";
+import React, { Suspense, lazy } from "react";
 
 const Banner = lazy(() =>
   import("./components/TopicBanner/Banner").then((module) => ({
@@ -54,18 +54,38 @@ const TopicPlace = lazy(() =>
 export const HomePage = () => {
   return (
     <>
-      <Banner />
+      <Suspense>
+        <Banner />
+      </Suspense>
       <div className="home-body">
-        <HomeTopicDevice />
-        <HomeTopicSales />
-        <TopicMenu />
-        <TopicVideo />
+        <Suspense>
+          <HomeTopicDevice />
+        </Suspense>
+        <Suspense>
+          <HomeTopicSales />
+        </Suspense>
+        <Suspense>
+          <TopicMenu />
+        </Suspense>
+        <Suspense>
+          <TopicVideo />
+        </Suspense>
         <div className="pt-[80px] pb-[24px] lg:pb-[100px]">
-          <TopicPost />
-          <TopicCustomer />
-          <TopicNews />
-          <TopicForm />
-          <TopicPlace />
+          <Suspense>
+            <TopicPost />
+          </Suspense>
+          <Suspense>
+            <TopicCustomer />
+          </Suspense>
+          <Suspense>
+            <TopicNews />
+          </Suspense>
+          <Suspense>
+            <TopicForm />
+          </Suspense>
+          <Suspense>
+            <TopicPlace />
+          </Suspense>
         </div>
       </div>
     </>
