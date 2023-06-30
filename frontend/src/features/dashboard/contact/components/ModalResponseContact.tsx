@@ -142,7 +142,14 @@ function ModalResponseContact({data, loadData}: Props) {
             </div>
             <div className="col-span-2">
               <TitleInput isRequired={true} name={"form.content"} />
-              <Input name="content"
+              {/* <Input name="content"
+                value={formik.values.content}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                disabled
+              /> */}
+              <Textarea 
+                name="content"
                 value={formik.values.content}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}

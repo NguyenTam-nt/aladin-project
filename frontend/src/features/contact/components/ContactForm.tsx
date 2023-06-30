@@ -25,7 +25,7 @@ function ContactForm() {
     },
     validationSchema: Yup.object({
       fullname: Yup.string().trim().required("message.form.required")
-        .max(255, "message.form.max"),
+        .max(70, "message.form.max"),
       phone: Yup.string()
         .trim()
         .required("message.form.required")
@@ -41,7 +41,7 @@ function ContactForm() {
           /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
           "message.form.email"
         ),
-      address: Yup.string().trim().max(500, "message.form.max"),
+      address: Yup.string().trim().max(256, "message.form.max"),
       content: Yup.string().trim().required("message.form.required").max(2000, "message.form.max"),
     }),
     onSubmit: async (data) => {
@@ -86,7 +86,7 @@ function ContactForm() {
             onBlur={formik.handleBlur}
           />
           {formik.errors.fullname && formik.touched.fullname && (
-            <TextError message={formik.errors.fullname} option={{max: 255}}/>
+            <TextError message={formik.errors.fullname} option={{max: 70}}/>
           )}
         </div>
         <div className="col-span-2 lg:col-span-1  flex flex-col">
@@ -131,7 +131,7 @@ function ContactForm() {
             onBlur={formik.handleBlur}
           />
           {formik.errors.address && formik.touched.address && (
-            <TextError message={formik.errors.address} option={{max: 500}} />
+            <TextError message={formik.errors.address} option={{max: 256}} />
           )}
         </div>
         <div className="col-span-2  flex flex-col">

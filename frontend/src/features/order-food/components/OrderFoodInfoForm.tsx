@@ -73,7 +73,8 @@ function OrderFoodInfoForm() {
       note: "",
     },
     validationSchema: Yup.object({
-      fullName: Yup.string().trim().required("message.form.required"),
+      fullName: Yup.string().trim().required("message.form.required")
+        .max(70, "message.form.max"),
       phoneNumber: Yup.string().trim()
       .trim()
       .required("message.form.required")
@@ -176,7 +177,7 @@ function OrderFoodInfoForm() {
             placeholder={t("form.inputName") as string} 
           />
           {errors.fullName && touched.fullName && (
-            <TextError message={errors.fullName} />
+            <TextError message={errors.fullName} option={{max: 70}} />
           )}
         </div>
         <div className="col-span-2 lg:col-span-1 flex flex-col">
