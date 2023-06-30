@@ -9,12 +9,9 @@ type Props = {
 
 export const Avatar = ({ url, name, size = 40 }: Props) => {
   const avatartext = useMemo(() => {
-    var format = /^[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]*$/;
     const listText = name.split(" ");
     const finalText = listText?.[listText.length - 1];
-    return finalText?.charAt(0).match(format)
-      ? finalText?.charAt(1)
-      : finalText.charAt(0);
+    return finalText.charAt(0) || "G"
   }, [name]);
   return (
     <div
