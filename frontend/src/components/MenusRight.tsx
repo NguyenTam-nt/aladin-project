@@ -13,7 +13,7 @@ import { Button } from "./Button";
 import { MoneyLineThrough } from "@features/home/components/MoneyLineThrough";
 import { ICDeleteTrash } from "@assets/icons/ICDeleteTrash";
 import { useClickOutItem } from "@hooks/useClickOutItem";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { paths } from "@constants/routerPublic";
 import { useCartContext } from "@contexts/hooks/order";
 import type { IProduct } from "@typeRules/product";
@@ -30,6 +30,7 @@ export const MenusRight = () => {
   const { listOrder } = useCartContext();
   const { ref, handleToggleItem, isShow, handleShow } = useClickOutItem();
   const isFirstRender = useRef(true)
+  const {pathname} = useLocation()
 
   useEffect(() => {
     if (ref.current) {
@@ -66,6 +67,10 @@ export const MenusRight = () => {
     }, 0);
   }, [listOrder]);
 
+  const isHidden = useMemo(() => {
+    return pathname === paths.orderFood.prefix
+  }, [pathname])
+
   return (
     <div
       ref={ref}
@@ -74,6 +79,7 @@ export const MenusRight = () => {
         {
           "right-[calc(-100vw_+_40px)] _420:right-[-356px]": !isShow,
           "right-0": isShow,
+          "hidden": isHidden
         }
       )}
     >
