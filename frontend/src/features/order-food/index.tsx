@@ -85,11 +85,11 @@ function index() {
     <div>
       {/* <Banner name="Đặt hàng" Link={paths.orderFood.prefix} /> */}
       <Banner type={HomeTopicType.banner_home} />
-      <div className="w-rp mt-10 lg:mt-[120px] h-full flex flex-wrap lg:flex-nowrap gap-6">
-        <div className="w-full lg:w-2/3">
+      <div className="w-rp mt-10 lg:mt-[120px] h-full flex flex-wrap xl:flex-nowrap gap-6">
+        <div className="w-full xl:w-2/3">
           <TitleOfContent name="order_food.title" />
 
-          <div className="mt-4 lg:mt-10 hidden lg:block">
+          <div className="mt-4 xl:mt-10 hidden lg:block">
             <table className='w-full '>
               <tr className='py-4'>
                 <th className='py-4 text-left pr-6'>{t("order_food.table.stt")}</th>
@@ -216,10 +216,10 @@ function index() {
             }
           </div>
         </div>
-        <div className="w-full lg:w-1/3 mb-20 lg:mb-0">
+        <div className="w-full xl:w-1/3 mb-20 xl:mb-0">
           <TitleOfContent name="order_food.payment_title" />
 
-          <div className="mt-6 lg:mt-10">
+          <div className="mt-6 xl:mt-10">
             <div className="">
               <div className="flex items-center justify-between gap-2 radius-tl-br24 border border-primary py-2.5 px-4 ">
                 <div className="flex-1 flex items-center gap-2">

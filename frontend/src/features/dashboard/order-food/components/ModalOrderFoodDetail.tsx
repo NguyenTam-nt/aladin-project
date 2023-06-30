@@ -147,7 +147,7 @@ function ModalOrderFoodDetail({idBill}: Props) {
           {bill && bill.voucher && <>
               <div className="flex ">
                 <span className='text-_14 text-text_primary font-bold mr-1 text-left'>{t("adminOrderFood.detail.payment.codeDiscount")}</span>
-                <span className='text-_14 text-primary font-bold uppercase'>{bill && bill.voucher.code}</span>
+                <span className='text-_14 text-primary font-bold '>{bill && bill.voucher.code}</span>
               </div>
               <span className='text-_14  text-right'>{bill && formatNumberDotSlice(0 - bill.voucher.price) + " VNĐ"}</span>
             </>
