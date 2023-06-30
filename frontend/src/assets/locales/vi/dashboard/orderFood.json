@@ -26,7 +26,7 @@
       }
     },
     "notification": {
-      "delete": "Bạn có chắc chắn xóa đơn đặt món này khỏi hệ thống?",
+      "delete": "Bạn có chắc chắn xóa đơn hàng này khỏi hệ thống?",
       "deleteSuccess": "Xóa thành công",
       "deleteError": "Xóa thất bại"
     }

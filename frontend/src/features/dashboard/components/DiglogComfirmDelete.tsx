@@ -17,7 +17,7 @@ export const DiglogComfirmDelete = ({
   const { t } = useTranslation();
   const { hideModal } = useModalContext();
   return (
-    <div className="flex items-center flex-col py-[53px] px-[157px] bg-white justify-center w-[800px] h-auto relative">
+    <div className="flex items-center flex-col py-[32px] lg:py-[53px] px-[32px] md:px-[50px] lg:px-[100px] 3xl:px-[157px] bg-white justify-center w-[90vw] md:w-[600px] lg:w-[800px] h-auto relative">
       <button onClick={onClear ? onClear : hideModal} className="text-text_7E8B99 absolute top-[24px] text-_16 right-[24px]">
        <ICClear />
       </button>

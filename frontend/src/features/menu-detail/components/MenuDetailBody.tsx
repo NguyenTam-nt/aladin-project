@@ -22,16 +22,9 @@ export const MenuDetailBody = () => {
     <div className="w-rp py-[24px] lg:py-[120px]">
       <div className="flex flex-col lg:flex-row gap-x-[24px]">
         <div className=" w-full lg:w-[424px]">
-             <MenuDetailSlider data={product?.listMedia ?? []} />
-
+          <MenuDetailSlider data={product?.listMedia ?? []} />
         </div>
-        <MenuDetailInfo
-          title={product?.name}
-          des={product.description}
-          price={Number(product.price)}
-          pricePromotion={Number(product.pricePromotion)}
-          percent={Number(product?.percent ?? 0)}
-        />
+        <MenuDetailInfo data={product} />
       </div>
       <GroupStar />
     </div>

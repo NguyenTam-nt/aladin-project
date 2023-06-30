@@ -13,7 +13,7 @@ export const SliderIndicator = ({
   return (
     <SwiperComponent
       slidesPerView={dataLength}
-      initialSlide={1}
+      // initialSlide={1}
       freeMode={true}
       // spaceBetween={14}
       onSwiper={setThumbActive}

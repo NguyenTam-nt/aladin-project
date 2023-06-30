@@ -9,8 +9,6 @@ import clsx from "clsx";
 import { productService } from "@services/product";
 import type { IProduct } from "@typeRules/product";
 
-const data = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-
 export const HomeTopicSalesSlider = memo(() => {
 
   const [listProducts, setListProducts] = useState<IProduct[]>([])
@@ -48,6 +46,7 @@ export const HomeTopicSalesSlider = memo(() => {
         style={{
           width,
         }}
+        initialSlide={0}
       >
         {windownSizeWidth > withResponsive._1024
           ? dataRender.map((_, indexP) => {
