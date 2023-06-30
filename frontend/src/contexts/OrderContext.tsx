@@ -13,6 +13,7 @@ import { DiglogComfirmDelete } from "@features/dashboard/components/DiglogComfir
 import { positionCart } from "@components/MenusRight";
 import clsx from "clsx";
 import { v4 as uuidv4 } from "uuid";
+import { productService } from "@services/product";
 
 interface IOrderState {
   listOrder: IProduct[];
@@ -58,77 +59,107 @@ export const OrderProvider = ({ children }: Props) => {
     }
   });
 
-  const handlePlusCart =  useCallback((
-    product: IProduct,
-    count: number,
-    animate?: { top: number; left: number }
-  ) => {
-    const now = Date.now();
-    const delay = 300;
-    if (timeDelay.current !== undefined && (now - timeDelay.current) > delay) {
-      timeDelay.current = now;
-      if(animate) {
-        setListAnimated((animated) => [
-          ...animated,
-          {
-            id: uuidv4() + now,
-            image: product.linkMedia + "",
-            xStart: animate.left,
-            yStart: animate.top,
-          },
-        ]);
+  useEffect(() => {
+    (async () => {
+      const listOrders: IProduct[] =
+        JSON.parse(sessionStorage.getItem("cart") || "") || [];
+      if (listOrders.length) {
+        const listMap = listOrders.map((item) => {
+          return productService.getById(Number(item.id));
+        });
+        Promise.all(listMap).then((data: IProduct[]) => {
+       
+          const newData: IProduct[] | any[] = listOrders.map((item, index) => {
+            const product = data.find((_item) => _item.id === item.id);
+            return product ? { ...product, quantity: listOrders[index].quantity } : undefined
+          });
+         
+          const finalData = newData.filter(item => !!item)
+
+         setListOrder(finalData)
+         sessionStorage.setItem("cart", JSON.stringify(finalData));
+        });
       }
+    })();
+  }, []);
+
+  const handlePlusCart = useCallback(
+    (
+      product: IProduct,
+      count: number,
+      animate?: { top: number; left: number }
+    ) => {
+      const now = Date.now();
+      const delay = 300;
+      if (timeDelay.current !== undefined && now - timeDelay.current > delay) {
+        timeDelay.current = now;
+        if (animate) {
+          setListAnimated((animated) => [
+            ...animated,
+            {
+              id: uuidv4() + now,
+              image: product.linkMedia + "",
+              xStart: animate.left,
+              yStart: animate.top,
+            },
+          ]);
+        }
+        const newProducts = [...listOrder];
+        const index = newProducts.findIndex((item) => item.id === product.id);
+        if (index !== -1) {
+          newProducts[index].quantity =
+            Number(newProducts[index].quantity || 0) + count;
+          setListOrder([...newProducts]);
+          sessionStorage.setItem("cart", JSON.stringify(newProducts));
+          return;
+        }
+        newProducts.unshift({ ...product, quantity: count });
+        setListOrder([...newProducts]);
+        sessionStorage.setItem("cart", JSON.stringify(newProducts));
+      }
+    },
+    [listOrder]
+  );
+
+  const handleDeleteCart = useCallback(
+    (id: number) => {
       const newProducts = [...listOrder];
-      const index = newProducts.findIndex((item) => item.id === product.id);
+      const index = newProducts.findIndex((item) => item.id === id);
       if (index !== -1) {
-        newProducts[index].quantity =
-          Number(newProducts[index].quantity || 0) + count;
+        newProducts.splice(index, 1);
         setListOrder([...newProducts]);
         sessionStorage.setItem("cart", JSON.stringify(newProducts));
-        return;
       }
-      newProducts.unshift({ ...product, quantity: count });
-      setListOrder([...newProducts]);
-      sessionStorage.setItem("cart", JSON.stringify(newProducts));
-    }
-   
-  }, [listOrder])
+    },
+    [listOrder]
+  );
 
-  const handleDeleteCart = useCallback((id: number) => {
-    const newProducts = [...listOrder];
-    const index = newProducts.findIndex((item) => item.id === id);
-    if (index !== -1) {
-      newProducts.splice(index, 1);
-      setListOrder([...newProducts]);
-      sessionStorage.setItem("cart", JSON.stringify(newProducts));
-    }
-  }, [listOrder])
-
-  const handleMinusCart = useCallback((id: number, count: number) => {
-    const newProducts = [...listOrder];
-    const index = newProducts.findIndex((item) => item.id === id);
-    if (index !== -1) {
-      const quantity = Number(newProducts[index].quantity || 0) - count;
-      if (quantity > 0) {
-        newProducts[index].quantity =
-          Number(newProducts[index].quantity || 0) - count;
-        setListOrder([...newProducts]);
-        sessionStorage.setItem("cart", JSON.stringify(newProducts));
-      } else {
-        setElementModal(
-          <DiglogComfirmDelete
-            message="Bạn chắc chắn muốn xóa món ăn này khỏi giỏ hàng?"
-            onClick={() => {
-              handleDeleteCart(id);
-              hideModal();
-            }}
-          />
-        );
+  const handleMinusCart = useCallback(
+    (id: number, count: number) => {
+      const newProducts = [...listOrder];
+      const index = newProducts.findIndex((item) => item.id === id);
+      if (index !== -1) {
+        const quantity = Number(newProducts[index].quantity || 0) - count;
+        if (quantity > 0) {
+          newProducts[index].quantity =
+            Number(newProducts[index].quantity || 0) - count;
+          setListOrder([...newProducts]);
+          sessionStorage.setItem("cart", JSON.stringify(newProducts));
+        } else {
+          setElementModal(
+            <DiglogComfirmDelete
+              message="Bạn chắc chắn muốn xóa món ăn này khỏi giỏ hàng?"
+              onClick={() => {
+                handleDeleteCart(id);
+                hideModal();
+              }}
+            />
+          );
+        }
       }
-    }
-  }, [listOrder, handleDeleteCart])
-
-
+    },
+    [listOrder, handleDeleteCart]
+  );
 
   const handleDeleteAll = () => {
     setListOrder([]);
@@ -171,7 +202,7 @@ const ProductAnimated = memo(
     data: ProductAnimated;
     onDelete: (id: string) => void;
   }) => {
-    const refProductAnimted = useRef<HTMLDivElement>(null)
+    const refProductAnimted = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
       if (refProductAnimted.current) {

@@ -47,7 +47,7 @@ export default function AuthProvider({children}: Props) {
   }
 
   useEffect(() => {
-    setIsLogin(false)
+    // setIsLogin(false)
     setLoading(true)
     userService.getInfo()
       .then((user) => {

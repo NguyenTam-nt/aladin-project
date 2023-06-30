@@ -411,7 +411,7 @@ const CategoryItemChild = memo(
         </div>
         <button
           onClick={handleConfirmDelete}
-          className="w-[48px] h-[48px] bg-bg_F1F1F1 hover:bg-bg_fafafa flex items-center justify-center"
+          className="w-[48px] h-[48px] self-end bg-bg_F1F1F1 hover:bg-bg_fafafa flex items-center justify-center"
         >
           <ICDeleteTrashLight />
         </button>

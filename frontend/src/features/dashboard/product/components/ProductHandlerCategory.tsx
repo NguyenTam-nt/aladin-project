@@ -92,7 +92,7 @@ export const ProductHandlerCategory = memo(({ onChange, category, message }: Pro
         </button>
         <div
           className={clsx(
-            "w-full h-0 ease-linear duration-200 shadow-sm bg-white absolute top-[48px] left-0 grid grid-cols-2  ",
+            "w-full h-0 ease-linear duration-200 z-[5] shadow-sm bg-white absolute top-[48px] left-0 grid grid-cols-2  ",
             {
               "h-[144px]": isShow,
             }
