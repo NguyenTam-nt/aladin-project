@@ -89,7 +89,7 @@ function VoucherAdd() {
       valueDiscount: Yup.number().required("message.form.required").typeError('message.form.number').min(1, "message.form.minNum"),
       minPriceOrder: Yup.number().required("message.form.required").typeError('message.form.number'),
       maxPriceLimit: Yup.number().typeError('message.form.number'),
-      amount: Yup.number().required("message.form.required").typeError('message.form.number').min(voucher?.used ? voucher.used  : 1, "message.form.minNum"),
+      amount: Yup.number().required("message.form.required").typeError('message.form.number').min(voucher?.used ? voucher.used  : 1, "message.form.minNumEqual"),
     }),
     onSubmit: async (data) => {
       try {
