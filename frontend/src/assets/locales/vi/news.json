@@ -7,6 +7,8 @@
         "delete": "Xóa tin tức",
         "uploadImage": "Tải hình ảnh lên ",
         "search_placehoder": "Nhập từ khóa tìm kiếm",
+        "add_success": "Thêm tin tức thành công.",
+        "update_success":"Sửa tin tức thành công.",
         "form": {
             "title": "Tiêu đề",
             "des": "Mô tả",
