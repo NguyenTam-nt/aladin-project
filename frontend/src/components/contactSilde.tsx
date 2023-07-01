@@ -16,7 +16,6 @@ import { useGetPlace } from "@features/dashboard/product/components/useGetPlace"
 import React, { memo, useMemo } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { useNavigate } from "react-router-dom";
-import { GotoTop } from "./GotoTop";
 
 export const ContactSilde = memo(() => {
   const { categories, fechData } = useGetPlace();
@@ -48,8 +47,8 @@ export const ContactSilde = memo(() => {
           ) : (
             <span>
               <ICLogin
-                width={widthBreak ? 24 : 24}
-                height={widthBreak ? 24 : 24}
+                width={24}
+                height={24}
               />
             </span>
           )}
@@ -60,10 +59,10 @@ export const ContactSilde = memo(() => {
           <ICPhone width={widthBreak ? 20 : 15} height={widthBreak ? 20 : 15} />
         </span>
         {categories.length ? (
-          <div className="popup-with-arrow rounded-[16px_0_16px_0] absolute top-0 right-[100%]">
+          <div className="popup-with-arrow rounded-[16px_0_0_0] absolute top-0 right-[100%]">
             <div
               id="contact-context-id"
-              className="flex-1 shadow-lg overflow-x-hidden px-[16px] rounded-[16px_0_16px_0]  absolute h-auto max-h-[328px] w-[220px] bg-white bottom-[-54px] right-[15px] overflow-y-auto list-facilities"
+              className="flex-1 shadow-lg overflow-x-hidden px-[16px] rounded-[16px_0_0_0]  absolute h-auto max-h-[328px] w-[220px] bg-white bottom-[-54px] right-[15px] overflow-y-auto list-facilities"
             >
               <InfiniteScroll
                 next={fechData}
@@ -75,7 +74,7 @@ export const ContactSilde = memo(() => {
                 {categories.map((item, index) => {
                   return (
                     <a
-                      key={index}
+                      key={item.id}
                       target="blank"
                       href={`tel:${item.phone}`}
                       className="py-[16px] block border-b border-br_E6E6E6"
@@ -108,7 +107,7 @@ export const ContactSilde = memo(() => {
           <div className="popup-with-arrow  absolute  top-0 right-[100%]">
             <div
               id="contact-context-id"
-              className="flex-1 shadow-lg overflow-x-hidden px-[16px] rounded-[16px_0_16px_0] absolute h-auto max-h-[328px] w-[220px] bg-white bottom-[-54px] right-[15px] overflow-y-auto list-facilities"
+              className="flex-1 shadow-lg overflow-x-hidden px-[16px] rounded-[16px_0_0_0] absolute h-auto max-h-[328px] w-[220px] bg-white bottom-[-54px] right-[15px] overflow-y-auto list-facilities"
             >
               <InfiniteScroll
                 next={fechData}
@@ -117,10 +116,10 @@ export const ContactSilde = memo(() => {
                 loader={<></>}
                 scrollableTarget="contact-context-id"
               >
-                {categories.map((item, index) => {
+                {categories.map((item) => {
                   return (
                     <a
-                      key={index}
+                      key={item.id}
                       target="blank"
                       href={`https://zalo.me/${item.phone}`}
                       className="py-[16px] block border-b border-br_E6E6E6"

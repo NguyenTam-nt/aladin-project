@@ -97,7 +97,7 @@ export const CommentItem = memo(
               <span>
                 <ICMail />
               </span>{" "}
-              <span className="text-_14 text-text_primary">
+              <span className="text-_14 break-words line-clamp-1 max-w-[200px] text-text_primary">
                 {data?.commentGuest?.email}
               </span>
             </div>

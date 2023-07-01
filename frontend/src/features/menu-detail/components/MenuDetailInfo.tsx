@@ -76,9 +76,9 @@ export const InforOrder = ({ data }: Props) => {
   };
 
   return (
-    <div className="flex items-center gap-[24px] mt-[24px]">
+    <div className="flex items-center w-full flex-wrap gap-[12px] sm:gap-[24px] mt-[24px]">
       <span className="text-black text-_14 font-semibold">Số lượng</span>
-      <div className="w-[153px] h-[48px] border border-primary rounded-[16px_0_16px_0] justify-center flex items-center  gap-x-[16px] text-black text-_14 font-semibold">
+      <div className=" w-[80px] _420:w-[100px] sm:w-[153px] h-[48px] border border-primary rounded-[16px_0_16px_0] justify-center flex items-center  gap-x-[16px] text-black text-_14 font-semibold">
         <button
           onClick={handleMinusCount}
           className="text-_24 w-[30px] h-[30px]  flex items-center justify-center hover:shadow-sm rounded"
@@ -95,7 +95,7 @@ export const InforOrder = ({ data }: Props) => {
       </div>
       <Button
         onClick={handlePush}
-        className="min-w-[167px] h-[48px]"
+        className=" min-w-[70px] _420:min-w-[120px] sm:min-w-[167px] h-[48px]"
         text="Đặt món"
         color={"primary"}
       />
