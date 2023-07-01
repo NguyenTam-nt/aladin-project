@@ -87,8 +87,8 @@ function VoucherAdd() {
         }
       ),
       valueDiscount: Yup.number().required("message.form.required").typeError('message.form.number').min(1, "message.form.minNum"),
-      minPriceOrder: Yup.number().required("message.form.required").typeError('message.form.number'),
-      maxPriceLimit: Yup.number().typeError('message.form.number'),
+      minPriceOrder: Yup.number().required("message.form.required").typeError('message.form.number').min(1, "message.form.minNum"),
+      maxPriceLimit: Yup.number().typeError('message.form.number').min(1, "message.form.minNum"),
       amount: Yup.number().required("message.form.required").typeError('message.form.number').min(voucher?.used ? voucher.used  : 1, "message.form.minNumEqual"),
     }),
     onSubmit: async (data) => {
@@ -321,7 +321,7 @@ function VoucherAdd() {
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur} disabled={isView}/>}
             {formik.errors.maxPriceLimit && formik.touched.maxPriceLimit && (
-              <TextError message={formik.errors.maxPriceLimit} />
+              <TextError message={formik.errors.maxPriceLimit} option={{min: 1}} />
             )}
           </div>
         </div> 
@@ -335,7 +335,7 @@ function VoucherAdd() {
             onChange={formik.handleChange}
             onBlur={formik.handleBlur} disabled={isView} />
           {formik.errors.minPriceOrder && formik.touched.minPriceOrder && (
-            <TextError message={formik.errors.minPriceOrder} />
+            <TextError message={formik.errors.minPriceOrder} option={{min: 1}} />
           )}
         </div>
         <div className="col-span-1">
