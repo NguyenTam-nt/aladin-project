@@ -193,7 +193,7 @@ function ContactAdmin() {
         </div>
       </div>
       <div className="mt-4">
-        <div className="border-b border-br_E9ECEF pb-4 grid grid-cols-[25px_108px_108px_212px_128px__1fr_122px] 2xl:grid-cols-[25px_148px_148px_212px_258px__1fr_122px] gap-x-4 [&>p]:text-_16  [&>p]:font-semibold [&>P]:text-text_primary ">
+        <div className="border-b border-br_E9ECEF pb-4 grid grid-cols-[25px_108px_108px_212px_128px__1fr_122px] 2xl:grid-cols-[25px_148px_148px_212px_258px__1fr_142px] gap-x-4 [&>p]:text-_16  [&>p]:font-semibold [&>P]:text-text_primary ">
           <div>
             <Checkbox onChange={handleCheckAll} ref={refCheckboxAll} />
           </div>
@@ -244,7 +244,7 @@ function ContactAdmin() {
         return (
           <div
             key={item.id}
-            className="cursor-pointer border-b border-br_E9ECEF py-[16px] grid grid-cols-[25px_108px_108px_212px_128px__1fr_122px] 2xl:grid-cols-[25px_148px_148px_212px_258px__1fr_122px] gap-x-[16px] [&>p]:text-_14 [&>P]:text-text_primary "
+            className="cursor-pointer border-b border-br_E9ECEF py-[16px] grid grid-cols-[25px_108px_108px_212px_128px__1fr_122px] 2xl:grid-cols-[25px_148px_148px_212px_258px__1fr_142px] gap-x-[16px] [&>p]:text-_14 [&>P]:text-text_primary "
             onClick={() => handleClickResponse(item)}
           >
             <div onClick={(event) => {event.stopPropagation()}}>
@@ -268,11 +268,11 @@ function ContactAdmin() {
                 >
                   <span className="w-3 h-3 rounded-full bg-text_red"></span>
                   <span className='text-_14 text-text_red underline'>{t("adminContact.table.not_response")}</span>
-                </div> : <div className="flex items-start gap-2 relative"
+                </div> : <div className="flex items-start justify-end w-full gap-2 relative"
                 >
                   <span className="w-3 h-3 rounded-full bg-bg_01A63E"></span>
                   <span className='text-_14 text-bg_01A63E underline -mt-1'>{t("adminContact.table.responsed")}</span>
-                  <span className=' absolute top-full right-0 text-_14 -translate-y-1.5 text-text_A1A0A3 line-clamp-1'>Bởi {item.content}</span>
+                  <span className=' absolute top-full text-end w-full right-0 text-_14 -translate-y-1.5 text-text_A1A0A3 line-clamp-1'>Bởi {item.createdBy}</span>
                 </div>
               }
             </div>
