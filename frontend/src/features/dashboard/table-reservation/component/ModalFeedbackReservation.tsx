@@ -34,7 +34,7 @@ const ModalFeedbackReservation = ({ idItem, handleUpdate }: Props) => {
       chooseInfrastructure: "",
       note: "",
       record: null,
-      feedback: null,
+      feedback: "",
       status: true,
     },
     validationSchema: Yup.object({}),
@@ -42,7 +42,6 @@ const ModalFeedbackReservation = ({ idItem, handleUpdate }: Props) => {
       try {
         const dataUpdate = {
           ...values,
-          record: true,
           status: true,
         };
         const resultUpdate = await reservationTableSvice.putReservationTable(
@@ -70,8 +69,12 @@ const ModalFeedbackReservation = ({ idItem, handleUpdate }: Props) => {
   const getDetailReverTable = async (id: number) => {
     try {
       const resultDetail = await reservationTableSvice.getReserTableById(id);
-      setValues(resultDetail);
-      setFeetback(resultDetail.feedback ? false : true);
+      setValues({
+        ...resultDetail,
+      });
+      const recordStatus = resultDetail.record === false ? false : true;
+      // setFeetback(resultDetail.feedback ? false : true);
+      setFeetback(recordStatus);
     } catch (error) {
       console.log("Không thể lấy chi tiết yêu cầu đặt bàn.");
     }
@@ -81,6 +84,7 @@ const ModalFeedbackReservation = ({ idItem, handleUpdate }: Props) => {
     getDetailReverTable(idItem);
   }, [idItem]);
 
+  console.log(values, isFeetback, "jdsakjlf");
   return (
     <div className="w-[1144px] h-auto bg-white py-10 px-6">
       <h2 className="text-_32 font-bold text-text_primary uppercase text-center mb-10">
@@ -150,9 +154,10 @@ const ModalFeedbackReservation = ({ idItem, handleUpdate }: Props) => {
             <div className="flex items-center">
               <Radio
                 id="tableReservation.record_reques_order_table"
-                name="active-home"
+                name="record"
                 onChange={() => {
                   !values.status && setFeetback(true);
+                  !values.status && setFieldValue("record", true);
                   !values.status && setFieldValue("feedback", null);
                 }}
                 checked={isFeetback}
@@ -167,9 +172,10 @@ const ModalFeedbackReservation = ({ idItem, handleUpdate }: Props) => {
             <div className="flex items-center">
               <Radio
                 id="tableReservation.declinded_reques_order_table"
-                name="active-home"
+                name="record"
                 onChange={() => {
                   !values.status && setFeetback(false);
+                  !values.status && setFieldValue("record", false);
                 }}
                 checked={!isFeetback}
               />
@@ -189,11 +195,17 @@ const ModalFeedbackReservation = ({ idItem, handleUpdate }: Props) => {
               name={"tableReservation.form.reason_for_refusa"}
             />
             <Input
+              maxLength={255}
               readOnly={values.status}
               value={values.feedback || ""}
               name="feedback"
               onChange={handleChangeFomik}
             />
+            {errors.feedback && touched.feedback && (
+              <small className="text-xs font-normal mt-1 text-text_EA222A">
+                {errors.feedback}
+              </small>
+            )}
           </div>
         )}
       </div>

@@ -38,7 +38,10 @@ const TableReserVationForm = memo(
         note: "",
       },
       validationSchema: Yup.object({
-        name: Yup.string().trim().required("Không được để trống họ tên."),
+        name: Yup.string()
+          .trim()
+          .required("Không được để trống họ tên.")
+          .max(255, "Không được quá 255 kí tự"),
         phone: Yup.string()
           .trim()
           .required("Không được để trống số điện thoại")
@@ -46,17 +49,20 @@ const TableReserVationForm = memo(
             /^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/g,
             "Số điện thoại không phù hợp"
           )
-          .length(10, "Số điện thoại phải đủ 10 số."),
+          .length(10, "Số điện thoại phải đủ 10 số.")
+          .max(255, "Không được quá 255 kí tự"),
         email: Yup.string()
           .trim()
           .required("Không được để trống email.")
           .matches(
             /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
             "Email không đúng định dạng."
-          ),
+          )
+          .max(255, "Không được quá 255 kí tự"),
         numGuest: Yup.number()
           .min(1, "Tối thiểu 1 khách hàng.")
-          .required("Không được để trống khách hàng."),
+          .required("Không được để trống khách hàng.")
+          .max(255, "Không được quá 255 kí tự"),
         chooseDate: Yup.date()
           .min(
             new Date(new Date(new Date()).setDate(new Date().getDate() - 1)),
