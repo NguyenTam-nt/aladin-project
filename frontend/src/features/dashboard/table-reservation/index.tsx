@@ -318,7 +318,7 @@ const ManageTableReserVation = () => {
                         {t("tableReservation.noReply")}
                       </p>
                     )}
-                    {item.createdBy && (
+                    {item.createdBy && item.status && (
                       <p className="text-right text-_14 -translate-y-1.5 text-text_A1A0A3">
                         {t("tableReservation.by")} {item.createdBy}
                       </p>

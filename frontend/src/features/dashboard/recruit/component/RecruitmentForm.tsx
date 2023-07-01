@@ -48,7 +48,6 @@ const RecruitmentForm = ({ itemRecruit }: Props) => {
       salary: Yup.string()
         .trim()
         .required("Không được để trống tiêu đề.")
-        .matches(/^[1-9]\d*$/, "Không khớp với định dạng lương.")
         .max(255, "Không được quá 255 kí tự."),
       expirationDate: Yup.date()
         .required("Không được để trống thời gian kết thúc tuyển dụng.")
@@ -56,9 +55,6 @@ const RecruitmentForm = ({ itemRecruit }: Props) => {
           new Date(new Date(new Date()).setDate(new Date().getDate() - 1)),
           "Ngày không thể là thời gian trước đó."
         ),
-      // Yup.string()
-      //   .trim()
-      //   .required("Không được để trống thời gian kết thúc tuyển dụng."),
       address: Yup.string()
         .trim()
         .required("Không được để trống địa chỉ.")
@@ -92,9 +88,9 @@ const RecruitmentForm = ({ itemRecruit }: Props) => {
           upData,
           itemRecruit?.id
         );
-        if (itemRecruit?.id || id) {
-          showSuccess("message.actions.success.update");
-        }
+        showSuccess(
+          itemRecruit?.id ? "recruit.update_success" : "recruit.add_success"
+        );
         navigate(-1);
         setSubmitting(false);
       } catch (error) {
@@ -198,6 +194,7 @@ const RecruitmentForm = ({ itemRecruit }: Props) => {
               placeholder="recruit.form.title"
               value={values.title}
               name="title"
+              maxLength={255}
               onChange={handleChangeFomik}
             />
             {errors.title && touched.title && (
@@ -213,6 +210,7 @@ const RecruitmentForm = ({ itemRecruit }: Props) => {
               name="salary"
               placeholder="recruit.form.salary"
               value={values.salary}
+              maxLength={255}
               onChange={handleChangeFomik}
             />
             {errors.salary && touched.salary && (
@@ -244,6 +242,7 @@ const RecruitmentForm = ({ itemRecruit }: Props) => {
             <Input
               placeholder="recruit.form.address"
               value={values.address}
+              maxLength={255}
               name="address"
               onChange={handleChangeFomik}
             />

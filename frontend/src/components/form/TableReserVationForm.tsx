@@ -58,11 +58,11 @@ const TableReserVationForm = memo(
             /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
             "Email không đúng định dạng."
           )
-          .max(255, "Không được quá 255 kí tự"),
+          .max(255, "Không được quá 255"),
         numGuest: Yup.number()
+          .required("Không được để trống hoặc nhập số đặc biệt.")
           .min(1, "Tối thiểu 1 khách hàng.")
-          .required("Không được để trống khách hàng.")
-          .max(255, "Không được quá 255 kí tự"),
+          .max(255, "Số lượng không được quá 255"),
         chooseDate: Yup.date()
           .min(
             new Date(new Date(new Date()).setDate(new Date().getDate() - 1)),
@@ -301,7 +301,14 @@ const TableReserVationForm = memo(
                             {t("form.chosePlace")}
                           </p>
                         ) : (
-                          <p>{values.chooseInfrastructure}</p>
+                          <p>
+                            {values.chooseInfrastructure +
+                              ("-" +
+                                listPlaces.find(
+                                  (item) =>
+                                    item.id === values.chooseIdInfrastructure
+                                )?.address || "")}
+                          </p>
                         )}
 
                         <ICArowDown color={Colors.Grey_Primary} />
@@ -338,7 +345,7 @@ const TableReserVationForm = memo(
                                     : "")
                                 }
                               ></div>
-                              <span className="text-_14 text-GreyPrimary ml-[6px]">
+                              <span className="text-_14 text-GreyPrimary ml-[6px] line-clamp-2 max-w-[90%]">
                                 {item.name + " -" + item.address}
                               </span>
                             </div>

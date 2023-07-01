@@ -75,7 +75,9 @@ const NewForm = memo(({ newItemProps }: Props) => {
           dataUpload,
           newItemProps?.id
         );
-        showSuccess("message.actions.success.update");
+        showSuccess(
+          newItemProps?.id ? "news.update_success" : "news.add_success"
+        );
         setSubmitting(false);
         if (!newItemProps?.id) {
           handleResetDefault();
