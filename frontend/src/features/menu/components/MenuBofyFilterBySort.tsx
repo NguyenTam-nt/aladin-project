@@ -38,7 +38,7 @@ export const MenuBofyFilterBySort = ({
         onClick={handleClear}
         className="title-32 text-secondary w-fit cursor-pointer line-clamp-2"
       >
-       {t("menu.list")}
+       {t("menu.list") + " "} 
         {nameC || nameP ? nameP + (nameC ? ` - ${nameC}` : "") : ` ${t("menu.footer")}` }
       </h3>
       <div className="flex items-center gap-x-[16px]">

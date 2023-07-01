@@ -190,11 +190,11 @@ export const ProductHandler = () => {
 
   useEffect(() => {
     if (!isAdd) {
-      fomick.setFieldValue("code", product?.code || "");
-      fomick.setFieldValue("name", product?.name || "");
-      fomick.setFieldValue("price", product?.price || "");
-      fomick.setFieldValue("description", product?.description || "");
-      fomick.setFieldValue("pricePromotion", product?.pricePromotion || "");
+      fomick.setFieldValue("code", product?.code ?? "");
+      fomick.setFieldValue("name", product?.name ?? "");
+      fomick.setFieldValue("price", product?.price ?? "");
+      fomick.setFieldValue("description", product?.description ?? "");
+      fomick.setFieldValue("pricePromotion", product?.pricePromotion ?? "");
       fomick.setFieldValue("category", product?.category);
       fomick.setFieldValue("listInfrastructure", product?.listInfrastructure);
       listImage.setPreViewImage(
