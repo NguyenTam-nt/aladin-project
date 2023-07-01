@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { TitleTopic } from '../home/components/TitleTopic'
 import { Button } from '../components/Button'
 import { ICAdd } from '@assets/icons/ICAdd'
@@ -15,7 +15,6 @@ import { useModalContext } from '@contexts/hooks/modal'
 import ModalResponseContact from './components/ModalResponseContact'
 import clsx from 'clsx'
 import ContactService from '@services/ContactService'
-import { SIZE_DATA } from '@constants/index'
 import type { IParams, IResponseData } from '@typeRules/index'
 import type { IContact } from '@typeRules/contact'
 import { DiglogComfirmDelete } from '../components/DiglogComfirmDelete'
@@ -23,6 +22,8 @@ import { useHandleLoading } from '../components/Loading'
 import { useShowMessage } from '../components/DiglogMessage'
 import MagnifyingGlass from '@assets/icons/MagnifyingGlass'
 import { debounce } from "lodash";
+import { Pagination } from '@components/Paginnation'
+import { usePagination } from '@hooks/usePagination'
 
 function ContactAdmin() {
   
@@ -33,6 +34,7 @@ function ContactAdmin() {
   const { showLoading } = useHandleLoading();
   const { showError, showSuccess, showWarning } = useShowMessage();
 
+
   const [descId, setDescId] = useState<boolean>(true)
   const [keyword, setKeyword] = useState("")
 
@@ -42,8 +44,6 @@ function ContactAdmin() {
   useEffect(() => {
     getContactData(Number(1))
   }, [])
-
-
   const debounceDropDown = useCallback(
     debounce((params: any) => searchListNew(params), 700),
     []
@@ -54,14 +54,30 @@ function ContactAdmin() {
       const searchParams = {
         query: "*" + keyword.trim() + "*",
         page: 0,
-        size: SIZE_DATA,
+        size: 90000000,
       };
       debounceDropDown(searchParams);
       return;
     }
     debounceDropDown.cancel();
-    getContactData(Number(1))
-  }, [descId, filterStatus, keyword])
+    getContactData(1)
+  }, [descId, filterStatus])
+
+  useEffect(() => {
+    if (keyword != "") {
+      const searchParams = {
+        query: "*" + keyword.trim() + "*",
+        page: 0,
+        size: 90000000,
+      };
+      setFilterStatus(undefined)
+      setDescId(true)
+      debounceDropDown(searchParams);
+      return;
+    }
+    debounceDropDown.cancel();
+    getContactData(1)
+  }, [keyword])
 
   const searchListNew = async (params: IParams) => {
     try {
@@ -74,7 +90,14 @@ function ContactAdmin() {
 
   const getContactData = async (page:number) => {
     try {
-      ContactService.get({page: page, size: SIZE_DATA, sort2: `id,${descId ? 'desc' : 'asc'}`, sort1: `status,${filterStatus ? 'desc' : 'asc'}`})
+      let request: IParams = {page: page, size: 90000000, sort2: `id,${descId ? 'desc' : 'asc'}`}
+      if(filterStatus != undefined) {
+        request = {
+          ...request,
+          sort1: `status,${filterStatus ? 'desc' : 'asc'}`
+        }
+      }
+      ContactService.get(request)
         .then(response => {
           setContacts(response)
         })
@@ -179,8 +202,10 @@ function ContactAdmin() {
           <p>{t("adminContact.table.email")}</p>
           <p>{t("adminContact.table.address")}</p>
           <p>{t("adminContact.table.content")}</p>
-          <div className="  cursor-pointer relative"
-             onClick={() => setOpenFilterStatus(!openFilterStatus)}
+          <div className={clsx("  cursor-pointer relative", {
+            "!cursor-default": keyword.length > 0
+          })}
+             onClick={() => keyword.length == 0 && setOpenFilterStatus(!openFilterStatus)}
           >
             <p className='flex justify-start gap-3'
              
@@ -190,6 +215,13 @@ function ContactAdmin() {
             </p>
             {
               openFilterStatus && <div className="shadow-md absolute top-full left-0 translate-y-4 bg-white z-10">
+                <div className={clsx("py-3 min-w-[122px] text-_14  hover:bg-TrueBlue_500 hover:text-white text-GreyPrimary px-4", {
+                  "!bg-TrueBlue_500 !text-white": filterStatus == undefined
+                })}
+                  onClick={() => setFilterStatus(undefined)}
+                >
+                  Tất cả
+                </div>
                 <div className={clsx("py-3 min-w-[122px] text-_14  hover:bg-TrueBlue_500 hover:text-white text-GreyPrimary px-4", {
                   "!bg-TrueBlue_500 !text-white": filterStatus
                 })}
@@ -240,7 +272,7 @@ function ContactAdmin() {
                 >
                   <span className="w-3 h-3 rounded-full bg-bg_01A63E"></span>
                   <span className='text-_14 text-bg_01A63E underline -mt-1'>{t("adminContact.table.responsed")}</span>
-                  <span className=' absolute top-full right-0 text-_14 -translate-y-1.5 text-text_A1A0A3'>Bởi CuongNM</span>
+                  <span className=' absolute top-full right-0 text-_14 -translate-y-1.5 text-text_A1A0A3 line-clamp-1'>Bởi {item.content}</span>
                 </div>
               }
             </div>

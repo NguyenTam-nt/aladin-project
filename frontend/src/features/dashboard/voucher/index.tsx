@@ -90,7 +90,7 @@ function VoucherAdmin() {
       const searchParams = {
         query: "*" + keyword.trim() + "*",
         page: 0,
-        size: 100000,
+        size: 90000000,
         voucherState: filter != "" ? filter : filterStatus
       };
       debounceDropDown(searchParams);

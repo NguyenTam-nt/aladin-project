@@ -11,6 +11,7 @@ import { reservationTableSvice } from "@services/reservationTableSevice";
 import type { PlaceType } from "@typeRules/place";
 import clsx from "clsx";
 import { useFormik } from "formik";
+import moment from "moment";
 import { memo, useEffect, useRef, useState, UIEvent } from "react";
 import { useTranslation } from "react-i18next";
 import * as Yup from "yup";
@@ -37,7 +38,10 @@ const TableReserVationForm = memo(
         note: "",
       },
       validationSchema: Yup.object({
-        name: Yup.string().trim().required("Không được để trống họ tên."),
+        name: Yup.string()
+          .trim()
+          .required("Không được để trống họ tên.")
+          .max(255, "Không được quá 255 kí tự"),
         phone: Yup.string()
           .trim()
           .required("Không được để trống số điện thoại")
@@ -45,17 +49,20 @@ const TableReserVationForm = memo(
             /^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/g,
             "Số điện thoại không phù hợp"
           )
-          .length(10, "Số điện thoại phải đủ 10 số."),
+          .length(10, "Số điện thoại phải đủ 10 số.")
+          .max(255, "Không được quá 255 kí tự"),
         email: Yup.string()
           .trim()
           .required("Không được để trống email.")
           .matches(
             /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
             "Email không đúng định dạng."
-          ),
+          )
+          .max(255, "Không được quá 255 kí tự"),
         numGuest: Yup.number()
           .min(1, "Tối thiểu 1 khách hàng.")
-          .required("Không được để trống khách hàng."),
+          .required("Không được để trống khách hàng.")
+          .max(255, "Không được quá 255 kí tự"),
         chooseDate: Yup.date()
           .min(
             new Date(new Date(new Date()).setDate(new Date().getDate() - 1)),
@@ -69,19 +76,25 @@ const TableReserVationForm = memo(
             "Chưa chọn ngày hoặc thời gian đặt bàn tối thiểu phải lớn hơn hiện tại 10 phút.",
             function (value, props) {
               if (value && values.chooseDate) {
-                const dateString = values.chooseDate
-                  .split("-")
-                  .concat(values.hour.split(":"));
-                const dateIso = new Date(
-                  +dateString[0],
-                  +dateString[1] - 1,
-                  +dateString[2],
-                  +dateString[3],
-                  +dateString[4]
-                ).getTime();
-                let nowDate = new Date();
-                if (dateIso - new Date(nowDate).getTime() > 600000) return true;
+                const truThy: boolean = moment(
+                  values.chooseDate + " " + value
+                ).isSameOrAfter(moment(new Date()).add(10, "minutes"));
+
+                if (truThy) return true;
                 return false;
+                // const dateString = values.chooseDate
+                //   .split("-")
+                //   .concat(values.hour.split(":"));
+                // const dateIso = new Date(
+                //   +dateString[0],
+                //   +dateString[1] - 1,
+                //   +dateString[2],
+                //   +dateString[3],
+                //   +dateString[4]
+                // ).getTime();
+                // let nowDate = new Date();
+                // if (dateIso - new Date(nowDate).getTime() > 600000) return true;
+                // return false;
               } else {
                 return false;
               }
