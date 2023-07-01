@@ -34,7 +34,9 @@ function AboutUsItem({item, idx}: Props) {
       <div className="bg-white py-3 lg:py-6 px-4 pr-6 lg:pr-4 flex gap-4 justify-between items-center radius-tl-br16 lg:radius-tl-br24 "
         onClick={() => {setOpen(!open)}}
       >
-        <h4 className='flex justify-center items-center h-6 lg:h-auto text-secondary text-_14 lg:text-_18 uppercase font-bold line-clamp-2 lg:line-clamp-1'>{item.name} - {item.address}</h4>
+        <h4 className=' lg:h-6 h-auto leading-[22px] lg:leading-8 text-secondary text-_14 lg:text-_18 uppercase font-bold line-clamp-2 lg:line-clamp-1'>
+          {item.name} - {item.address}
+        </h4>
         <div className="">
           <ICArowDown color='black' className={`transition duration-300 ${open && "rotate-180 "}`}  />
         </div>
