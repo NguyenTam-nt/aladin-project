@@ -264,7 +264,7 @@ function index() {
                 {formatNumberDotSlice((totalPrice - (validVoucher ? validVoucher.price  : 0)) < 0 ? 0 : (totalPrice - (validVoucher ? validVoucher.price  : 0)))  + " VND"}
                 </span>
             </div>
-            <div className="flex flex-wrap lg:flex-nowrap items-center justify-center gap-6 mt-6 lg:mt-10">
+            <div className="flex flex-col-reverse lg:flex-row flex-wrap lg:flex-nowrap items-center justify-center gap-6 mt-6 lg:mt-10">
               <button className="w-full lg:w-spc167 lg:flex-1 radius-tl-br16  py-3 text-center text-sm leading-5 font-bold border border-primary text-primary"
                 onClick={() => navigate(paths.memu.prefix)}
               >
