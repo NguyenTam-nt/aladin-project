@@ -178,6 +178,10 @@ const TableReserVationForm = memo(
     useEffect(() => {
       getListPlace(currenPage);
     }, [currenPage]);
+    console.log(values, errors, "error");
+    useEffect(() => {
+      setFieldValue("hour", values.hour);
+    }, [values.hour]);
     return (
       <form onSubmit={handleSubmit}>
         <div
@@ -244,7 +248,7 @@ const TableReserVationForm = memo(
                     name="numGuest"
                     value={values.numGuest}
                     onChange={handleChange}
-                    className="w-full px-3 py-2 radius-tl-br16  text-sm leading-22 placeholder:text-sm placeholder:text-text_A1A0A3 outline-none border "
+                    className="w-full px-3 py-2 radius-tl-br16 text-sm leading-22 placeholder:text-sm placeholder:text-text_A1A0A3 outline-none border "
                     placeholder={t("form.inputNumberCustomers") as string}
                   />
                   {errors.numGuest && touched.numGuest && (
@@ -259,7 +263,7 @@ const TableReserVationForm = memo(
                     value={FomatDateYY_MM_DD(values.chooseDate)}
                     onChange={handleChange}
                     className={
-                      "w-full px-3 py-2 radius-tl-br16  text-sm leading-22 placeholder:text-sm   outline-none border " +
+                      "w-full px-3 py-2 radius-tl-br16 bg-transparent text-sm leading-22 placeholder:text-sm  outline-none border " +
                       (values.chooseDate == "" && "text-text_A1A0A3")
                     }
                     placeholder={t("form.choseDayOder") as string}
@@ -278,7 +282,7 @@ const TableReserVationForm = memo(
                     value={values.hour}
                     onChange={handleChange}
                     className={
-                      "w-full px-3 py-2 radius-tl-br16  text-sm leading-22 placeholder:text-sm outline-none border " +
+                      "w-full px-3 py-2 radius-tl-br16 bg-transparent text-sm leading-22 placeholder:text-sm outline-none border " +
                       (values.hour == "" && "text-text_A1A0A3")
                     }
                     placeholder={t("form.choseHourOder") as string}
