@@ -20,7 +20,7 @@ export const MenuDetailInfo = memo(({ data }: Props) => {
       <h3 className="text-_24 font-iCielBC_Cubano lg:title-32 text-secondary">
         {data.name}
       </h3>
-      <div className="flex mt-2  items-center gap-x-[24px]">
+      <div className="flex mt-2 w-full  items-center gap-x-[24px]">
         <div className="flex items-center">
           <span className="text-_16 lg:text-_24 font-bold">
             {formatNumberDot(Number(data?.pricePromotion))}
@@ -39,13 +39,13 @@ export const MenuDetailInfo = memo(({ data }: Props) => {
           />
         ) : null}
       </div>
-      <div className="mt-[16px] lg:mt-[24px]">
+      <div className="mt-[16px]  max-w-full lg:mt-[24px]">
         <p className="hidden lg:block text-_16 font-semibold text-GreyPrimary">
           {t("common.info_product")}
         </p>
 
         <pre
-          className="text-_14 p-0 bg-transparent border-none !font-IBM_Plex_Sans text-text_secondary"
+          className="text-_14  p-0 bg-transparent !max-w-full break-words border-none !font-IBM_Plex_Sans text-text_secondary"
           dangerouslySetInnerHTML={{
             __html: data.description,
           }}
@@ -78,7 +78,7 @@ export const InforOrder = ({ data }: Props) => {
   return (
     <div className="flex items-center w-full flex-wrap gap-[12px] sm:gap-[24px] mt-[24px]">
       <span className="text-black text-_14 font-semibold">Số lượng</span>
-      <div className=" w-[80px] _420:w-[100px] sm:w-[153px] h-[48px] borders sm:border-primary rounded-[16px_0_16px_0] justify-center flex items-center  gap-x-[16px] text-black text-_14 font-semibold">
+      <div className=" w-[80px] _420:w-[100px] sm:w-[153px] h-[48px] border sm:!border-primary rounded-[16px_0_16px_0] justify-center flex items-center  gap-x-[16px] text-black text-_14 font-semibold">
         <button
           onClick={handleMinusCount}
           className="text-_24 w-[30px] h-[30px]  flex items-center justify-center hover:shadow-sm rounded"

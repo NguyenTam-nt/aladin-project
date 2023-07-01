@@ -10,16 +10,19 @@ import { Loading } from "@features/dashboard/components/Loading";
 export const MenuDetailBody = () => {
   const [product, setProduct] = useState<IProduct>();
   const params = useParams();
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (params?.id) {
-      setLoading(true)
-      productService.getById(Number(params?.id)).then((data) => {
-        setProduct(data);
-      }).finally(() => {
-        setLoading(false)
-      })
+      setLoading(true);
+      productService
+        .getById(Number(params?.id))
+        .then((data) => {
+          setProduct(data);
+        })
+        .finally(() => {
+          setLoading(false);
+        });
     }
   }, [params?.id]);
 
@@ -29,13 +32,16 @@ export const MenuDetailBody = () => {
         <div className=" w-full lg:w-[424px]">
           <MenuDetailSlider data={product?.listMedia ?? []} />
         </div>
-        <MenuDetailInfo data={product} />
+        <div className=" lg:w-[calc(100%_-_424px)]">
+          <MenuDetailInfo data={product} />
+        </div>
       </div>
       <GroupStar />
     </div>
-  ) : (
-    loading ? (
-     <div className="flex justify-center items-center"> <Loading /></div>
-    ) : null
-  );
+  ) : loading ? (
+    <div className="flex justify-center items-center">
+      {" "}
+      <Loading />
+    </div>
+  ) : null;
 };
