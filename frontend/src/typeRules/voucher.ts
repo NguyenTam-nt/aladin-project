@@ -31,6 +31,7 @@ export type IVoucher = {
   minBill: number
   numBill: number
   minPrice: number
+  used?: number
 }
 
 export type IVoucherGet = {
