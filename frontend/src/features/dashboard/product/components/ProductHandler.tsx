@@ -254,6 +254,8 @@ export const ProductHandler = () => {
   const hanleChangeData = useCallback(
     (event: ChangeEvent<HTMLInputElement>) => {
       const { name, value } = event.currentTarget;
+      const regex = /[a-zA-Z]+/
+      if (regex.test(value)) return;
       fomick.setFieldValue(name, value.replaceAll(".", ""));
     },
     []
@@ -262,14 +264,15 @@ export const ProductHandler = () => {
   const handleBluerCode = useCallback(
     (event: ChangeEvent<HTMLInputElement>) => {
       const { value } = event.currentTarget;
-      if (product && product.code === value.trim() && value.trim()) return;
+      fomick.handleBlur(event);
+      if (!value.trim()) return;
+      if (product && product.code === value.trim()) return;
       productService.checkCode(value).catch((error) => {
         const status = error?.response?.data?.status;
         if (status === 400) {
           fomick.setFieldError("code", "adminProduct.form.has_code");
         }
       });
-      fomick.handleBlur(event);
     },
     [product]
   );
