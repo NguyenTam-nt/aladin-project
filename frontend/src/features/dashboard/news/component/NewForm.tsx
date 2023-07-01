@@ -37,12 +37,22 @@ const NewForm = memo(({ newItemProps }: Props) => {
       description: newItemProps?.description || "",
     },
     validationSchema: Yup.object({
-      linkMedia: Yup.string().trim().required("Không được để trống ảnh."),
-      title: Yup.string().trim().required("Không được để trống tiêu đề."),
+      linkMedia: Yup.string()
+        .trim()
+        .required("Không được để trống ảnh.")
+        .max(255, "Không được quá 255 kí tự."),
+      title: Yup.string()
+        .trim()
+        .required("Không được để trống tiêu đề.")
+        .max(255, "Không được quá 255 kí tự."),
       description: Yup.string()
         .trim()
-        .required("Không được để trống mô tả tin tức."),
-      content: Yup.string().trim().required("Không được để trống nội dung."),
+        .required("Không được để trống mô tả tin tức.")
+        .max(255, "Không được quá 255 kí tự."),
+      content: Yup.string()
+        .trim()
+        .required("Không được để trống nội dung.")
+        .max(2000, "adminPolicy.form.content_max"),
     }),
     onSubmit: async (values, { setSubmitting }) => {
       try {
@@ -166,6 +176,7 @@ const NewForm = memo(({ newItemProps }: Props) => {
               <Input
                 placeholder="news.form.inputTitle"
                 name="title"
+                maxLength={255}
                 value={values.title}
                 onChange={handleChangeFomik}
               />
@@ -180,6 +191,7 @@ const NewForm = memo(({ newItemProps }: Props) => {
               <Input
                 placeholder="news.form.inputDes"
                 name="description"
+                maxLength={255}
                 value={values.description}
                 onChange={handleChangeFomik}
               />

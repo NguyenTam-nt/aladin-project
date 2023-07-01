@@ -42,12 +42,14 @@ const RecruitmentForm = ({ itemRecruit }: Props) => {
     validationSchema: Yup.object({
       linkMedia: Yup.string()
         .trim()
-        .required("Không được để trống ảnh tuyển dụng."),
+        .required("Không được để trống ảnh tuyển dụng.")
+        .max(255, "Không được quá 255 kí tự."),
       title: Yup.string().trim().required("Không được để trống tiền lương."),
       salary: Yup.string()
         .trim()
         .required("Không được để trống tiêu đề.")
-        .matches(/^[1-9]\d*$/, "Không khớp với định dạng lương."),
+        .matches(/^[1-9]\d*$/, "Không khớp với định dạng lương.")
+        .max(255, "Không được quá 255 kí tự."),
       expirationDate: Yup.date()
         .required("Không được để trống thời gian kết thúc tuyển dụng.")
         .min(
@@ -57,8 +59,14 @@ const RecruitmentForm = ({ itemRecruit }: Props) => {
       // Yup.string()
       //   .trim()
       //   .required("Không được để trống thời gian kết thúc tuyển dụng."),
-      address: Yup.string().trim().required("Không được để trống địa chỉ."),
-      content: Yup.string().trim().required("Không được để trống nội dung."),
+      address: Yup.string()
+        .trim()
+        .required("Không được để trống địa chỉ.")
+        .max(255, "Không được quá 255 kí tự."),
+      content: Yup.string()
+        .trim()
+        .required("Không được để trống nội dung.")
+        .max(2000, "adminPolicy.form.content_max"),
     }),
     onSubmit: async (values, { setSubmitting }) => {
       try {
