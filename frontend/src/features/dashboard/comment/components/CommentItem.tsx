@@ -194,7 +194,7 @@ export const CommentItem = memo(
                 ></pre>
               </div>
             ) : data.status ? (
-              <div className="w-full flex items-center justify-center h-full">
+              <div className="w-full flex justify-center">
                 <button
                   onClick={handleShowModal}
                   className="text-_14 p-2 hover:shadow-md font-bold flex items-center text-TrueBlue_500"

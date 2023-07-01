@@ -69,7 +69,7 @@ axiosClient.interceptors.response.use(
     if (window.document.location.pathname.includes(prefixRootRoute.admin)) {
       if (status === 401 || status === 403) {
         window.location.href = "/"
-        authService.doLogin();
+        // authService.doLogin();
       }
     }
     return Promise.reject(error);
