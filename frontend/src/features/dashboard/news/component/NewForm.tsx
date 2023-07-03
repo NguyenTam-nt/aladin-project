@@ -49,10 +49,7 @@ const NewForm = memo(({ newItemProps }: Props) => {
         .trim()
         .required("Không được để trống mô tả tin tức.")
         .max(255, "Không được quá 255 kí tự."),
-      content: Yup.string()
-        .trim()
-        .required("Không được để trống nội dung.")
-        .max(2000, "adminPolicy.form.content_max"),
+      content: Yup.string().trim().required("Không được để trống nội dung."),
     }),
     onSubmit: async (values, { setSubmitting }) => {
       try {
@@ -75,7 +72,9 @@ const NewForm = memo(({ newItemProps }: Props) => {
           dataUpload,
           newItemProps?.id
         );
-        showSuccess("message.actions.success.update");
+        showSuccess(
+          newItemProps?.id ? "news.update_success" : "news.add_success"
+        );
         setSubmitting(false);
         if (!newItemProps?.id) {
           handleResetDefault();

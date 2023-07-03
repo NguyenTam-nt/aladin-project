@@ -1,6 +1,6 @@
 {
   "adminOrderFood": {
-    "title": "Quản lý đơn đặt hàng",
+    "title": "Quản lý đơn hàng",
     "searchPlaceholder": "Tìm kiếm theo Mã đơn hàng  \\ Họ và tên \\ Số điện thoại",
     "table": {
       "code": "Mã đơn hàng",

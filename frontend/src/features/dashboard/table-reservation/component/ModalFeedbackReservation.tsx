@@ -42,6 +42,7 @@ const ModalFeedbackReservation = ({ idItem, handleUpdate }: Props) => {
       try {
         const dataUpdate = {
           ...values,
+          record: values.record !== null ? values.record : true,
           status: true,
         };
         const resultUpdate = await reservationTableSvice.putReservationTable(
@@ -65,6 +66,8 @@ const ModalFeedbackReservation = ({ idItem, handleUpdate }: Props) => {
     setFieldValue,
     handleSubmit,
   } = formik;
+
+  console.log(values.feedback);
 
   const getDetailReverTable = async (id: number) => {
     try {
