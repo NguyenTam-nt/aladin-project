@@ -40,6 +40,7 @@ function index() {
           .checkPrice({code: validVoucher.code, price: totalPrice})
           .then((res) => {
             setIsValidVoucher(true)
+            setValidVoucher(res)
           })
           .catch((error) => {
             console.log(error);
@@ -255,13 +256,13 @@ function index() {
                   <ICDeleteVoucher />
                   <h4 className='text-base ml-3'>{t("order_food.voucher")}: {validVoucher.code}</h4>  
                 </div>
-                <span className='text-base font-semibold text-secondary'>{formatNumberDotWithVND(0 - validVoucher.price)}</span>
+                <span className='text-base font-semibold text-secondary'>{formatNumberDotWithVND(Math.round(0 - validVoucher.price))}</span>
               </div>
             }
             <div className="py-6 border-b border-b-br_CBCBCB flex items-center justify-between">
               <h4 className='text-base '>{t("order_food.total")}</h4>
               <span className='text-base font-semibold text-red_error'>
-                {formatNumberDotSlice((totalPrice - (validVoucher ? validVoucher.price  : 0)) < 0 ? 0 : (totalPrice - (validVoucher ? validVoucher.price  : 0)))  + " VND"}
+                {formatNumberDotSlice(Math.round(totalPrice - (validVoucher ? validVoucher.price  : 0)) < 0 ? 0 : Math.round(totalPrice - (validVoucher ? validVoucher.price  : 0)))  + " VND"}
                 </span>
             </div>
             <div className="flex flex-col-reverse lg:flex-row flex-wrap lg:flex-nowrap items-center justify-center gap-6 mt-6 lg:mt-10">
