@@ -38,6 +38,7 @@ export const BannerSliderImages = () => {
                       className="w-full absolute inset-0 z-[-1]  h-full object-cover"
                       src={item?.linkMedia}
                       alt=""
+                      loading="lazy"
                     />
                     <BannerText title={item?.title} link={item.redirectUrl} content={item.content} />
                     <div className='absolute inset-0 bg-banner_home z-[2]' />
