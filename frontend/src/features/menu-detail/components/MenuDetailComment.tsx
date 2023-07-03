@@ -36,12 +36,12 @@ export const CommentItem = memo(({ data }: { data: IComment }) => {
             </div>
             <span className="text-_12">
               {new Date(
-                data?.commentGuest?.createdDate || ""
+                data?.commentGuest?.createdDate ?? ""
               ).toLocaleDateString()}
             </span>
           </div>
         </div>
-        <div
+        <pre
           className="mt-[19px] text-_14"
           dangerouslySetInnerHTML={{
             __html: data?.commentGuest?.content ?? "",
@@ -66,12 +66,12 @@ export const CommentItem = memo(({ data }: { data: IComment }) => {
               </div>
               <span className="text-_12">
                 {new Date(
-                  data?.commentAdmin?.createdDate || ""
+                  data?.commentAdmin?.createdDate ?? ""
                 ).toLocaleDateString()}
               </span>
             </div>
           </div>
-          <div
+          <pre
             className="mt-[19px] text-_14"
             dangerouslySetInnerHTML={{
               __html: data?.commentAdmin?.content ?? "",

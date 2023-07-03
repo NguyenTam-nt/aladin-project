@@ -190,11 +190,11 @@ export const ProductHandler = () => {
 
   useEffect(() => {
     if (!isAdd) {
-      fomick.setFieldValue("code", product?.code || "");
-      fomick.setFieldValue("name", product?.name || "");
-      fomick.setFieldValue("price", product?.price || "");
-      fomick.setFieldValue("description", product?.description || "");
-      fomick.setFieldValue("pricePromotion", product?.pricePromotion || "");
+      fomick.setFieldValue("code", product?.code ?? "");
+      fomick.setFieldValue("name", product?.name ?? "");
+      fomick.setFieldValue("price", product?.price ?? "");
+      fomick.setFieldValue("description", product?.description ?? "");
+      fomick.setFieldValue("pricePromotion", product?.pricePromotion ?? "");
       fomick.setFieldValue("category", product?.category);
       fomick.setFieldValue("listInfrastructure", product?.listInfrastructure);
       listImage.setPreViewImage(
@@ -254,6 +254,8 @@ export const ProductHandler = () => {
   const hanleChangeData = useCallback(
     (event: ChangeEvent<HTMLInputElement>) => {
       const { name, value } = event.currentTarget;
+      const regex = /[a-zA-Z]+/
+      if (regex.test(value)) return;
       fomick.setFieldValue(name, value.replaceAll(".", ""));
     },
     []
@@ -262,14 +264,15 @@ export const ProductHandler = () => {
   const handleBluerCode = useCallback(
     (event: ChangeEvent<HTMLInputElement>) => {
       const { value } = event.currentTarget;
+      fomick.handleBlur(event);
+      if (!value.trim()) return;
       if (product && product.code === value.trim()) return;
       productService.checkCode(value).catch((error) => {
         const status = error?.response?.data?.status;
         if (status === 400) {
-          fomick.setFieldError("code", "adminProduc.form.has_code");
+          fomick.setFieldError("code", "adminProduct.form.has_code");
         }
       });
-      fomick.handleBlur(event);
     },
     [product]
   );

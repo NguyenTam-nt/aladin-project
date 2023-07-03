@@ -76,8 +76,6 @@ export const useHandleMultiImage = (
     setMessage("message.form.required");
   };
 
-  console.log({file})
-
   return {
     preViewImage,
     handleChange,

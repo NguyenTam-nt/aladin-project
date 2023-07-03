@@ -40,12 +40,14 @@ export const TopicPlaceItem = () => {
         <p className="text-_16 h-[60px]  px-[24px] font-semibold flex items-center">
           {t("home.place.list_base")}
         </p>
-        <TopicPlaceItemBase
-          data={categories}
-          onChange={handleActiveIndex}
-          onFetch={fechData}
-          activeIndex={activeIndex}
-        />
+        <div className="flex-1 h-[430px] radius-tl-br overflow-hidden">
+          <TopicPlaceItemBase
+            data={categories}
+            onChange={handleActiveIndex}
+            onFetch={fechData}
+            activeIndex={activeIndex}
+          />
+        </div>
       </div>
       {categories.length ? (
         <div
@@ -69,7 +71,7 @@ type PropsPlaceItemBase = {
 export const TopicPlaceItemBase = memo(
   ({ data, onFetch, onChange, activeIndex }: PropsPlaceItemBase) => {
     return (
-      <div id="place-home" className="flex-1 overflow-y-auto list-facilities">
+      <div id="place-home" className="h-full overflow-y-auto list-facilities">
         <InfiniteScroll
           hasMore
           loader={<></>}

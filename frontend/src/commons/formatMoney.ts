@@ -1,7 +1,6 @@
-import { windownSizeWidth, withResponsive } from "@constants/index";
 
 export function formatNumberDot(num: number | string = 0) {
-  if (num) {
+  if (num !== undefined) {
     // const money = Math.round(Number(num))
     return `${num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.")}`;
   }
