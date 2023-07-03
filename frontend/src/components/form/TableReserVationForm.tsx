@@ -8,7 +8,7 @@ import { useShowMessage } from "@features/dashboard/components/DiglogMessage";
 import { useClickOutItem } from "@hooks/useClickOutItem";
 import PlaceService from "@services/PlaceService";
 import { reservationTableSvice } from "@services/reservationTableSevice";
-import type { PlaceType } from "@typeRules/place";
+import type { PlaceSelectType, PlaceType } from "@typeRules/place";
 import clsx from "clsx";
 import { useFormik } from "formik";
 import moment from "moment";
@@ -21,10 +21,10 @@ const TableReserVationForm = memo(
     const { t } = useTranslation();
     const { showError, showSuccess } = useShowMessage();
     const { ref, isShow, handleToggleItem } = useClickOutItem();
-    const [listPlaces, setListPlace] = useState<PlaceType[]>([]);
+    const [listPlaces, setListPlace] = useState<PlaceSelectType[]>([]);
     const [currenPage, setCurrenPage] = useState<number>(1);
-    const [totaPage, setTotaPages] = useState<number>(1);
-    const scroolRef = useRef<HTMLDivElement>(null);
+    // const [totaPage, setTotaPages] = useState<number>(1);
+    // const scroolRef = useRef<HTMLDivElement>(null);
     const dateRef = useRef<HTMLInputElement>(null);
     const hourRef = useRef<HTMLInputElement>(null);
     const formik = useFormik({
@@ -137,25 +137,18 @@ const TableReserVationForm = memo(
 
     const getListPlace = async (currenPage: number) => {
       try {
-        const { list, totalElement, totalElementPage } = await PlaceService.get(
-          {
-            page: currenPage,
-            size: 20,
-            sort: "id,desc",
-          }
-        );
-        setListPlace([...listPlaces, ...list]);
-        setTotaPages(Math.ceil(totalElementPage / 20));
+        const list = await PlaceService.get_select();
+        setListPlace(list);
       } catch (error) {}
     };
-    const handleScroolGetPlace = (e: UIEvent<HTMLDivElement>) => {
-      const scroolTop = e.currentTarget.scrollTop;
-      const clientHeight = e.currentTarget.clientHeight;
-      const scrollHeight = e.currentTarget.scrollHeight;
-      if (scroolTop + clientHeight >= scrollHeight && totaPage < totaPage) {
-        setCurrenPage((preState) => preState + 1);
-      }
-    };
+    // const handleScroolGetPlace = (e: UIEvent<HTMLDivElement>) => {
+    //   const scroolTop = e.currentTarget.scrollTop;
+    //   const clientHeight = e.currentTarget.clientHeight;
+    //   const scrollHeight = e.currentTarget.scrollHeight;
+    //   if (scroolTop + clientHeight >= scrollHeight && totaPage < totaPage) {
+    //     setCurrenPage((preState) => preState + 1);
+    //   }
+    // };
     const handleResetForm = () => {
       resetForm();
     };
@@ -309,12 +302,7 @@ const TableReserVationForm = memo(
                           </p>
                         ) : (
                           <p className="line-clamp-1">
-                            {values.chooseInfrastructure +
-                              ("-" +
-                                listPlaces.find(
-                                  (item) =>
-                                    item.id === values.chooseIdInfrastructure
-                                )?.address || "")}
+                            {values.chooseInfrastructure}
                           </p>
                         )}
 
@@ -324,8 +312,8 @@ const TableReserVationForm = memo(
                   </div>
                   {isShow && (
                     <div
-                      ref={scroolRef}
-                      onScroll={handleScroolGetPlace}
+                      // ref={scroolRef}
+                      // onScroll={handleScroolGetPlace}
                       className="w-full absolute top-[105%] left-0 bg-white shadow-md px-5 z-[9] max-h-[200px] overflow-y-scroll"
                     >
                       {listPlaces.map((item, index) => {
@@ -338,8 +326,6 @@ const TableReserVationForm = memo(
                                   chooseIdInfrastructure: item.id!,
                                   chooseInfrastructure: item.name,
                                 });
-                                // setFieldValue("chooseIdInfrastructure", item.id);
-                                // setFieldValue("chooseInfrastructure", item.name);
                               }}
                               key={index}
                               className="flex h-[48px] items-center cursor-pointer"
@@ -353,7 +339,7 @@ const TableReserVationForm = memo(
                                 }
                               ></div>
                               <span className="text-_14 text-GreyPrimary ml-[6px] line-clamp-2 max-w-[90%]">
-                                {item.name + " -" + item.address}
+                                {item.name}
                               </span>
                             </div>
                           );
