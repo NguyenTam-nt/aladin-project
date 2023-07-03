@@ -107,15 +107,15 @@ function OrderFoodInfoForm() {
         setIsValidDate(false)
         return 
       }
-
+      
       let resquest: IBill = {
         id: null,
-        fullname: values.fullName,
-        phone: values.phoneNumber,
-        email: values.email,
+        fullname: values.fullName.trim(),
+        phone: values.phoneNumber.trim(),
+        email: values.email.trim(),
         type: values.method,
         chooseDate: orderDate.toISOString(),
-        note: values.note,
+        note: values.note.trim(),
         idInfrastructure: +values.place,
         price: (totalPrice - (voucher ? voucher.price : 0)) < 0 ? 0 : (totalPrice - (voucher ? voucher.price : 0)),
         listProduct: listOrder.map(p => {
