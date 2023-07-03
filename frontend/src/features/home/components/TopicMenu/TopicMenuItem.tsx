@@ -48,6 +48,7 @@ export const TopicMenuItem = memo(({ data }: Props) => {
             className="w-full h-full object-cover"
             src={data?.linkMedia}
             alt=""
+            loading="lazy"
           />
         </Link>
         <div className="p-[16px] flex-1 flex flex-col">

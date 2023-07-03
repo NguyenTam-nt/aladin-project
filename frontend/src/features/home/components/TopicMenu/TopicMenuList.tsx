@@ -18,7 +18,7 @@ export const TopicMenuList = memo(({ products }: Props) => {
       {products.map((item, index) => {
         return (
           <div
-            key={index}
+            key={item.id}
             className={clsx({
               "animate__animated animate__fadeInUp": isInView,
             })}
@@ -26,7 +26,7 @@ export const TopicMenuList = memo(({ products }: Props) => {
               ["--animate-count" as string]: index,
             }}
           >
-            <TopicMenuItem key={index} data={item} />
+            <TopicMenuItem  data={item} />
           </div>
         );
       })}

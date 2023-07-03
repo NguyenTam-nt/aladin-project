@@ -61,25 +61,30 @@ export const OrderProvider = ({ children }: Props) => {
 
   useEffect(() => {
     (async () => {
-      const listOrders: IProduct[] =
-        JSON.parse(sessionStorage.getItem("cart") || "") || [];
-      if (listOrders.length) {
-        const listMap = listOrders.map((item) => {
-          return productService.getById(Number(item.id));
-        });
-        Promise.all(listMap).then((data: IProduct[]) => {
-       
-          const newData: IProduct[] | any[] = listOrders.map((item, index) => {
-            const product = data.find((_item) => _item.id === item.id);
-            return product ? { ...product, quantity: listOrders[index].quantity } : undefined
+      try {
+        const listOrders: IProduct[] =
+          JSON.parse(sessionStorage.getItem("cart") ?? "") || [];
+        if (listOrders.length) {
+          const listMap = listOrders.map((item) => {
+            return productService.getById(Number(item.id));
           });
-         
-          const finalData = newData.filter(item => !!item)
+          Promise.all(listMap).then((data: IProduct[]) => {
+            const newData: IProduct[] | any[] = listOrders.map(
+              (item, index) => {
+                const product = data.find((_item) => _item.id === item.id);
+                return product
+                  ? { ...product, quantity: listOrders[index].quantity }
+                  : undefined;
+              }
+            );
 
-         setListOrder(finalData)
-         sessionStorage.setItem("cart", JSON.stringify(finalData));
-        });
-      }
+            const finalData = newData.filter((item) => !!item);
+
+            setListOrder(finalData);
+            sessionStorage.setItem("cart", JSON.stringify(finalData));
+          });
+        }
+      } catch (error) {}
     })();
   }, []);
 
