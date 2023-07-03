@@ -241,56 +241,55 @@ const TableReserVationForm = memo(
                     <small className="text-red_error">{errors.numGuest}</small>
                   )}
                 </div>
-                <div
-                  onClick={() => showPicker(dateRef)}
-                  className="sm:col-span-1 col-span-2 relative"
-                >
+                <div className="sm:col-span-1 col-span-2 ">
                   <TitleInput isRequired name="form.day" />
-                  <input
-                    type="date"
-                    name="chooseDate"
-                    ref={dateRef}
-                    value={FomatDateYY_MM_DD(values.chooseDate)}
-                    onChange={handleChange}
-                    className={
-                      "w-full px-3 py-2 radius-tl-br16 bg-transparent text-sm leading-22 placeholder:text-sm  outline-none border " +
-                      (values.chooseDate == "" && "text-text_A1A0A3")
-                    }
-                    placeholder={t("form.choseDayOder") as string}
-                  />
-                  {values.chooseDate == "" && (
-                    <span className="absolute bg-white text-sm text-text_A1A0A3 top-[45%] left-2 px-3 py-2">
-                      {t("form.choseDayOder")}
-                    </span>
-                  )}
+                  <div onClick={() => showPicker(dateRef)} className="relative">
+                    <input
+                      type="date"
+                      name="chooseDate"
+                      ref={dateRef}
+                      value={FomatDateYY_MM_DD(values.chooseDate)}
+                      onChange={handleChange}
+                      className={
+                        "w-full px-3 py-2 radius-tl-br16 bg-transparent text-sm leading-22 placeholder:text-sm  outline-none border " +
+                        (values.chooseDate == "" && "text-text_A1A0A3")
+                      }
+                      placeholder={t("form.choseDayOder") as string}
+                    />
+                    {values.chooseDate == "" && (
+                      <span className="absolute bg-white text-sm text-text_A1A0A3 top-[8%] left-[1px] rounded-tl-[50%] px-3 py-2">
+                        {t("form.choseDayOder")}
+                      </span>
+                    )}
+                  </div>
                   {errors.chooseDate && touched.chooseDate && (
                     <small className="text-red_error">
                       {errors.chooseDate}
                     </small>
                   )}
                 </div>
-                <div
-                  onClick={() => showPicker(hourRef)}
-                  className="sm:col-span-1 col-span-2 relative"
-                >
+                <div className="sm:col-span-1 col-span-2 relative">
                   <TitleInput isRequired name="form.hour" />
-                  <input
-                    type="time"
-                    name="hour"
-                    ref={hourRef}
-                    value={values.hour}
-                    onChange={handleChange}
-                    className={
-                      "w-full px-3 py-2 radius-tl-br16 bg-transparent text-sm leading-22 placeholder:text-sm outline-none border " +
-                      (values.hour == "" && "text-text_A1A0A3")
-                    }
-                    placeholder={t("form.choseHourOder") as string}
-                  />
-                  {values.hour == "" && (
-                    <span className="absolute bg-white text-sm text-text_A1A0A3 top-[45%] left-2 px-3 py-2">
-                      {t("form.choseHourOder")}
-                    </span>
-                  )}
+                  <div onClick={() => showPicker(hourRef)} className="relative">
+                    <input
+                      type="time"
+                      name="hour"
+                      ref={hourRef}
+                      value={values.hour}
+                      onChange={handleChange}
+                      className={
+                        "w-full px-3 py-2 radius-tl-br16 bg-transparent text-sm leading-22 placeholder:text-sm outline-none border " +
+                        (values.hour == "" && "text-text_A1A0A3")
+                      }
+                      placeholder={t("form.choseHourOder") as string}
+                    />
+                    {values.hour == "" && (
+                      <span className="absolute bg-white text-sm text-text_A1A0A3 top-[8%] left-[1px] rounded-tl-[50%] px-3 py-2">
+                        {t("form.choseHourOder")}
+                      </span>
+                    )}
+                  </div>
+
                   {errors.hour && touched.hour && (
                     <small className="text-red_error">{errors.hour}</small>
                   )}
