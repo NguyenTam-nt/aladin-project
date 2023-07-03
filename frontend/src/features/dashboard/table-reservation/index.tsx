@@ -39,7 +39,7 @@ const ManageTableReserVation = () => {
   const [totalPage, setTotalpage] = useState<number>(1);
   const params = {
     page: currentPage - 1,
-    size: 20,
+    size: 1000,
     date: filter.time,
     id: place ? place.id : "",
     sort: `id,desc`,
