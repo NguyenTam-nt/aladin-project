@@ -19,13 +19,13 @@ const PromotionPage = () => {
         params
       );
       setListNews(list);
-      setTotalPages(Math.ceil(totalElementPage / 8));
+      setTotalPages(Math.ceil(totalElementPage / 12));
     } catch (error) {
       console.log("Không thể lấy dánh sách tin tức");
     }
   };
   useEffect(() => {
-    getListNew({ page: currentPage - 1, size: 8, sort: `id,desc` });
+    getListNew({ page: currentPage - 1, size: 12, sort: `id,desc` });
   }, [currentPage]);
   return (
     <div className="">
