@@ -130,6 +130,7 @@ const TableReserVationForm = memo(
       validateField,
       setFieldValue,
       setFieldTouched,
+      setStatus,
       setValues,
       resetForm,
       handleSubmit,
@@ -141,14 +142,6 @@ const TableReserVationForm = memo(
         setListPlace(list);
       } catch (error) {}
     };
-    // const handleScroolGetPlace = (e: UIEvent<HTMLDivElement>) => {
-    //   const scroolTop = e.currentTarget.scrollTop;
-    //   const clientHeight = e.currentTarget.clientHeight;
-    //   const scrollHeight = e.currentTarget.scrollHeight;
-    //   if (scroolTop + clientHeight >= scrollHeight && totaPage < totaPage) {
-    //     setCurrenPage((preState) => preState + 1);
-    //   }
-    // };
     const handleResetForm = () => {
       resetForm();
     };
@@ -158,9 +151,11 @@ const TableReserVationForm = memo(
     useEffect(() => {
       getListPlace(currenPage);
     }, [currenPage]);
+
     useEffect(() => {
       setFieldValue("hour", values.hour);
-    }, [values]);
+    }, [values.chooseDate]);
+
     return (
       <form onSubmit={handleSubmit}>
         <div
