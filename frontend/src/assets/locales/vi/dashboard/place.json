@@ -6,7 +6,8 @@
       "delete_btn": "Ẩn thông tin cơ sở",
       "display_btn": "Hiện thông tin cơ sở",
       "add": {
-        "title": "Thêm thông tin cơ sở"
+        "title": "Thêm thông tin cơ sở",
+        "titleUpdate": "Sửa thông tin cơ sở"
       },
       "form": {
         "name": "Tên cơ sở",

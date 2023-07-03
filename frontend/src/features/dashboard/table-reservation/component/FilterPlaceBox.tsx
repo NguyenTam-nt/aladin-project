@@ -1,11 +1,10 @@
 import { ICArowDown } from "@assets/icons/ICArowDown";
 import { Colors } from "@constants/color";
 import { Button } from "@features/dashboard/components/Button";
-import { Checkbox } from "@features/dashboard/components/Checkbox";
 import { useClickOutItem } from "@hooks/useClickOutItem";
 import PlaceService from "@services/PlaceService";
-import type { PlaceType } from "@typeRules/place";
-import React, { memo, useState, UIEvent, useEffect } from "react";
+import type { PlaceSelectType } from "@typeRules/place";
+import { memo, useEffect, useState } from "react";
 type PropsItem = { id: number; name: string } | null;
 
 interface Props {
@@ -14,31 +13,16 @@ interface Props {
 }
 const FilterPlaceBox = memo(({ handleChosePlace, place }: Props) => {
   const { ref, isShow, handleToggleItem } = useClickOutItem();
-  const [listPlaces, setListPlace] = useState<PlaceType[]>([]);
-  const [currenPage, setCurrenPage] = useState<number>(1);
-  const [totaPage, setTotaPages] = useState<number>(1);
-  const getListPlace = async (currenPage: number) => {
+  const [listPlaces, setListPlace] = useState<PlaceSelectType[]>([]);
+  const getListPlace = async () => {
     try {
-      const { list, totalElement, totalElementPage } = await PlaceService.get({
-        page: currenPage,
-        size: 20,
-        sort: "id,desc",
-      });
-      setListPlace([...listPlaces, ...list]);
-      setTotaPages(Math.ceil(totalElementPage / 20));
+      const list = await PlaceService.get_select();
+      setListPlace(list);
     } catch (error) {}
   };
-  const handleScroolGetPlace = (e: UIEvent<HTMLDivElement>) => {
-    const scroolTop = e.currentTarget.scrollTop;
-    const clientHeight = e.currentTarget.clientHeight;
-    const scrollHeight = e.currentTarget.scrollHeight;
-    if (scroolTop + clientHeight >= scrollHeight && totaPage < totaPage) {
-      setCurrenPage((preState) => preState + 1);
-    }
-  };
   useEffect(() => {
-    getListPlace(currenPage);
-  }, [currenPage]);
+    getListPlace();
+  }, []);
   return (
     <div ref={ref} className="relative">
       <Button
@@ -54,7 +38,6 @@ const FilterPlaceBox = memo(({ handleChosePlace, place }: Props) => {
       />
 
       <div
-        onScroll={handleScroolGetPlace}
         className={
           "absolute top-[105%] right-0 min-w-[300%] bg-white overflow-y-auto list-facilities shadow-sm px-5 z-[9] " +
           (isShow ? "h-[200px]" : "h-0")
@@ -79,7 +62,7 @@ const FilterPlaceBox = memo(({ handleChosePlace, place }: Props) => {
                 onClick={() =>
                   handleChosePlace({
                     id: item.id!,
-                    name: `${item.name}-${item.address}`,
+                    name: item.name,
                   })
                 }
                 key={index}
@@ -92,7 +75,7 @@ const FilterPlaceBox = memo(({ handleChosePlace, place }: Props) => {
                   }
                 ></div>
                 <div className="text-_14 max-w-[80%] text-GreyPrimary ml-[6px] line-clamp-2">
-                  {item.name + "-" + item.address}
+                  {item.name}
                 </div>
               </div>
             );

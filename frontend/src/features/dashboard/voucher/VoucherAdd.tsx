@@ -96,15 +96,15 @@ function VoucherAdd() {
 
         let request: IVoucher = {
           id: !isAdd ?  voucher?.id : undefined,
-          name: data.name,
-          code: data.code,
+          name: data.name.trim(),
+          code: data.code.trim(),
           startDate: new Date(data.start).toISOString(),
           endDate: new Date(data.endDate).toISOString(),
-          value: +data.valueDiscount,
+          value: +data.valueDiscount.trim(),
           typeVoucher: type,
           typePercent: type == VOUCHER_TYPE.money ? VOUCHER_PERCENT_TYPE.none : isLimit ? VOUCHER_PERCENT_TYPE.limit : VOUCHER_PERCENT_TYPE.unlimit,
-          minBill: +data.minPriceOrder,
-          numBill: +data.amount,
+          minBill: +data.minPriceOrder.trim(),
+          numBill: +data.amount.trim(),
           minPrice: type == VOUCHER_TYPE.percent && isLimit ? + data.maxPriceLimit : 0
         }
         // console.log(request);

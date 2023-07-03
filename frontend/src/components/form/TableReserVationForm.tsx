@@ -8,7 +8,7 @@ import { useShowMessage } from "@features/dashboard/components/DiglogMessage";
 import { useClickOutItem } from "@hooks/useClickOutItem";
 import PlaceService from "@services/PlaceService";
 import { reservationTableSvice } from "@services/reservationTableSevice";
-import type { PlaceType } from "@typeRules/place";
+import type { PlaceSelectType, PlaceType } from "@typeRules/place";
 import clsx from "clsx";
 import { useFormik } from "formik";
 import moment from "moment";
@@ -21,10 +21,10 @@ const TableReserVationForm = memo(
     const { t } = useTranslation();
     const { showError, showSuccess } = useShowMessage();
     const { ref, isShow, handleToggleItem } = useClickOutItem();
-    const [listPlaces, setListPlace] = useState<PlaceType[]>([]);
+    const [listPlaces, setListPlace] = useState<PlaceSelectType[]>([]);
     const [currenPage, setCurrenPage] = useState<number>(1);
-    const [totaPage, setTotaPages] = useState<number>(1);
-    const scroolRef = useRef<HTMLDivElement>(null);
+    // const [totaPage, setTotaPages] = useState<number>(1);
+    // const scroolRef = useRef<HTMLDivElement>(null);
     const dateRef = useRef<HTMLInputElement>(null);
     const hourRef = useRef<HTMLInputElement>(null);
     const formik = useFormik({
@@ -137,25 +137,18 @@ const TableReserVationForm = memo(
 
     const getListPlace = async (currenPage: number) => {
       try {
-        const { list, totalElement, totalElementPage } = await PlaceService.get(
-          {
-            page: currenPage,
-            size: 20,
-            sort: "id,desc",
-          }
-        );
-        setListPlace([...listPlaces, ...list]);
-        setTotaPages(Math.ceil(totalElementPage / 20));
+        const list = await PlaceService.get_select();
+        setListPlace(list);
       } catch (error) {}
     };
-    const handleScroolGetPlace = (e: UIEvent<HTMLDivElement>) => {
-      const scroolTop = e.currentTarget.scrollTop;
-      const clientHeight = e.currentTarget.clientHeight;
-      const scrollHeight = e.currentTarget.scrollHeight;
-      if (scroolTop + clientHeight >= scrollHeight && totaPage < totaPage) {
-        setCurrenPage((preState) => preState + 1);
-      }
-    };
+    // const handleScroolGetPlace = (e: UIEvent<HTMLDivElement>) => {
+    //   const scroolTop = e.currentTarget.scrollTop;
+    //   const clientHeight = e.currentTarget.clientHeight;
+    //   const scrollHeight = e.currentTarget.scrollHeight;
+    //   if (scroolTop + clientHeight >= scrollHeight && totaPage < totaPage) {
+    //     setCurrenPage((preState) => preState + 1);
+    //   }
+    // };
     const handleResetForm = () => {
       resetForm();
     };
@@ -241,56 +234,55 @@ const TableReserVationForm = memo(
                     <small className="text-red_error">{errors.numGuest}</small>
                   )}
                 </div>
-                <div
-                  onClick={() => showPicker(dateRef)}
-                  className="sm:col-span-1 col-span-2 relative"
-                >
+                <div className="sm:col-span-1 col-span-2 ">
                   <TitleInput isRequired name="form.day" />
-                  <input
-                    type="date"
-                    name="chooseDate"
-                    ref={dateRef}
-                    value={FomatDateYY_MM_DD(values.chooseDate)}
-                    onChange={handleChange}
-                    className={
-                      "w-full px-3 py-2 radius-tl-br16 bg-transparent text-sm leading-22 placeholder:text-sm  outline-none border " +
-                      (values.chooseDate == "" && "text-text_A1A0A3")
-                    }
-                    placeholder={t("form.choseDayOder") as string}
-                  />
-                  {values.chooseDate == "" && (
-                    <span className="absolute bg-white text-sm text-text_A1A0A3 top-[45%] left-2 px-3 py-2">
-                      {t("form.choseDayOder")}
-                    </span>
-                  )}
+                  <div onClick={() => showPicker(dateRef)} className="relative">
+                    <input
+                      type="date"
+                      name="chooseDate"
+                      ref={dateRef}
+                      value={FomatDateYY_MM_DD(values.chooseDate)}
+                      onChange={handleChange}
+                      className={
+                        "w-full px-3 py-2 radius-tl-br16 bg-transparent text-sm leading-22 placeholder:text-sm  outline-none border " +
+                        (values.chooseDate == "" && "text-text_A1A0A3")
+                      }
+                      placeholder={t("form.choseDayOder") as string}
+                    />
+                    {values.chooseDate == "" && (
+                      <span className="absolute bg-white text-sm text-text_A1A0A3 top-[8%] left-[1px] rounded-tl-[50%] px-3 py-2">
+                        {t("form.choseDayOder")}
+                      </span>
+                    )}
+                  </div>
                   {errors.chooseDate && touched.chooseDate && (
                     <small className="text-red_error">
                       {errors.chooseDate}
                     </small>
                   )}
                 </div>
-                <div
-                  onClick={() => showPicker(hourRef)}
-                  className="sm:col-span-1 col-span-2 relative"
-                >
+                <div className="sm:col-span-1 col-span-2 relative">
                   <TitleInput isRequired name="form.hour" />
-                  <input
-                    type="time"
-                    name="hour"
-                    ref={hourRef}
-                    value={values.hour}
-                    onChange={handleChange}
-                    className={
-                      "w-full px-3 py-2 radius-tl-br16 bg-transparent text-sm leading-22 placeholder:text-sm outline-none border " +
-                      (values.hour == "" && "text-text_A1A0A3")
-                    }
-                    placeholder={t("form.choseHourOder") as string}
-                  />
-                  {values.hour == "" && (
-                    <span className="absolute bg-white text-sm text-text_A1A0A3 top-[45%] left-2 px-3 py-2">
-                      {t("form.choseHourOder")}
-                    </span>
-                  )}
+                  <div onClick={() => showPicker(hourRef)} className="relative">
+                    <input
+                      type="time"
+                      name="hour"
+                      ref={hourRef}
+                      value={values.hour}
+                      onChange={handleChange}
+                      className={
+                        "w-full px-3 py-2 radius-tl-br16 bg-transparent text-sm leading-22 placeholder:text-sm outline-none border " +
+                        (values.hour == "" && "text-text_A1A0A3")
+                      }
+                      placeholder={t("form.choseHourOder") as string}
+                    />
+                    {values.hour == "" && (
+                      <span className="absolute bg-white text-sm text-text_A1A0A3 top-[8%] left-[1px] rounded-tl-[50%] px-3 py-2">
+                        {t("form.choseHourOder")}
+                      </span>
+                    )}
+                  </div>
+
                   {errors.hour && touched.hour && (
                     <small className="text-red_error">{errors.hour}</small>
                   )}
@@ -310,12 +302,7 @@ const TableReserVationForm = memo(
                           </p>
                         ) : (
                           <p className="line-clamp-1">
-                            {values.chooseInfrastructure +
-                              ("-" +
-                                listPlaces.find(
-                                  (item) =>
-                                    item.id === values.chooseIdInfrastructure
-                                )?.address || "")}
+                            {values.chooseInfrastructure}
                           </p>
                         )}
 
@@ -325,8 +312,8 @@ const TableReserVationForm = memo(
                   </div>
                   {isShow && (
                     <div
-                      ref={scroolRef}
-                      onScroll={handleScroolGetPlace}
+                      // ref={scroolRef}
+                      // onScroll={handleScroolGetPlace}
                       className="w-full absolute top-[105%] left-0 bg-white shadow-md px-5 z-[9] max-h-[200px] overflow-y-scroll"
                     >
                       {listPlaces.map((item, index) => {
@@ -339,8 +326,6 @@ const TableReserVationForm = memo(
                                   chooseIdInfrastructure: item.id!,
                                   chooseInfrastructure: item.name,
                                 });
-                                // setFieldValue("chooseIdInfrastructure", item.id);
-                                // setFieldValue("chooseInfrastructure", item.name);
                               }}
                               key={index}
                               className="flex h-[48px] items-center cursor-pointer"
@@ -354,7 +339,7 @@ const TableReserVationForm = memo(
                                 }
                               ></div>
                               <span className="text-_14 text-GreyPrimary ml-[6px] line-clamp-2 max-w-[90%]">
-                                {item.name + " -" + item.address}
+                                {item.name}
                               </span>
                             </div>
                           );
