@@ -187,7 +187,7 @@ function OrderFoodAdmin() {
         {bills && bills.list.map((item, idx) => {
         return (
           <div
-            key={idx}
+            key={item.id}
             className="border-b border-br_E9ECEF py-[16px] grid grid-cols-[25px_100px_122px_108px_126px__66px_1fr] 2xl:grid-cols-[25px_188px_212px_128px_128px__88px_1fr] gap-x-[16px] [&>p]:text-_14 [&>P]:text-text_primary "
           >
             <div className='flex items-center'>

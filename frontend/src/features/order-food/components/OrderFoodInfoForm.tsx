@@ -72,7 +72,7 @@ function OrderFoodInfoForm() {
       email: "",
       day: "",
       hour: "",
-      place: -1,
+      place: "",
       placeName: "",
       method: BillTypeContants.restaurant,
       note: "",
@@ -80,21 +80,17 @@ function OrderFoodInfoForm() {
     validationSchema: Yup.object({
       fullName: Yup.string().trim().required("message.form.required")
         .max(70, "message.form.max"),
-      phoneNumber: Yup.string().trim()
+      phoneNumber: Yup.string()
       .trim()
       .required("message.form.required")
       .matches(
-        /^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/g,
+        /([0-9]{10})\b/g,
         "message.form.phone"
       )
       .length(10, "message.form.phone-length"),
       email: Yup.string()
-        .trim()
-        .required("message.form.required")
-        .matches(
-          /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-          "message.form.email"
-        ),
+        .trim().email("message.form.email")
+        .required("message.form.required"),
       day: Yup.date().required("message.form.required"),
       hour: Yup.string().trim().required("message.form.required"),
       place: Yup.number().required("message.form.required"),
@@ -273,16 +269,16 @@ function OrderFoodInfoForm() {
               (errors.place && touched.place ? "!border-red_error" : "border-br_E6E6E6")
             }>
             {
-              <div className="flex-1 flex justify-between items-center">
+              <div className="flex-1 flex justify-between gap-4 items-center">
                 {values.placeName == "" ? (
                   <p className="text-text_A1A0A3">
                     {t("form.chosePlace")}
                   </p>
                 ) : (
-                  <p>{values.placeName}</p>
+                  <p className='line-clamp-1'>{values.placeName}</p>
                 )}
 
-                <ICArowDown color={Colors.Grey_Primary} />
+                <ICArowDown className='flex-shrink-0' color={Colors.Grey_Primary} />
               </div>
             }
           </div>
@@ -297,11 +293,9 @@ function OrderFoodInfoForm() {
                       onClick={() => {
                         formik.setValues({
                           ...values,
-                          place: item.id!,
+                          place: item.id + "",
                           placeName: item.name,
                         });
-                        // setFieldValue("chooseIdInfrastructure", item.id);
-                        // setFieldValue("chooseInfrastructure", item.name);
                       }}
                       key={index}
                       className="flex h-[48px] items-center cursor-pointer"
@@ -309,14 +303,14 @@ function OrderFoodInfoForm() {
                       <div
                         className={
                           "w-3 h-3 rounded-[50%] " +
-                          (values.place === item.id
+                          (values.place == (item.id + "")
                             ? "bg-bg_01A63E"
                             : "")
                         }
                       ></div>
-                      <span className="text-_14 text-GreyPrimary ml-[6px]">
-                        {item.name}
-                      </span>
+                        <span className="text-_14 text-GreyPrimary ml-[6px]">
+                          {item.name}
+                        </span>
                     </div>
                   );
                 }

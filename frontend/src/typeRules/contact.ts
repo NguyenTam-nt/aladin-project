@@ -8,5 +8,5 @@ export interface IContact {
   content: string
   feedback?: string
   status?: boolean
-  createdBy: string
+  createdBy?: string
 }
