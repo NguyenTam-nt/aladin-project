@@ -44,11 +44,11 @@ function ContactForm() {
       try {
         showLoading();
         let request: IContact = {
-          fullname: data.fullname,
-          phone: data.phone,
-          email: data.email,
-          address: data.address,
-          content: data.content
+          fullname: data.fullname.trim(),
+          phone: data.phone.trim(),
+          email: data.email.trim(),
+          address: data.address.trim(),
+          content: data.content.trim()
         }
       
           ContactService
