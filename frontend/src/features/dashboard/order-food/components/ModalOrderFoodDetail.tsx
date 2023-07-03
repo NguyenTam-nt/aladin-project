@@ -142,19 +142,19 @@ function ModalOrderFoodDetail({idBill}: Props) {
           <span className='text-_14 font-bold text-secondary text-right'>{formatNumberDotSlice(bill?.price || 0) + " VNĐ"}</span>
 
           <span className='text-_14 text-text_primary font-bold mr-1 text-left'>{t("adminOrderFood.detail.payment.totalDiscount")}</span>
-          <span className='text-_14 font-bold text-secondary text-right'>{bill && formatNumberDotSlice(bill?.discount) + " VNĐ"}</span>
+          <span className='text-_14 font-bold text-secondary text-right'>{bill && formatNumberDotSlice(Math.round(0 - bill?.discount)) + " VNĐ"}</span>
 
           {bill && bill.voucher && <>
               <div className="flex ">
                 <span className='text-_14 text-text_primary font-bold mr-1 text-left'>{t("adminOrderFood.detail.payment.codeDiscount")}</span>
                 <span className='text-_14 text-primary font-bold '>{bill && bill.voucher.code}</span>
               </div>
-              <span className='text-_14  text-right'>{bill && formatNumberDotSlice(0 - bill.voucher.price) + " VNĐ"}</span>
+              <span className='text-_14  text-right'>{bill && formatNumberDotSlice(Math.round(0 - bill.voucher.price)) + " VNĐ"}</span>
             </>
           }
           
           <span className='text-_14 text-text_primary font-bold mr-1 text-left'>{t("adminOrderFood.detail.payment.totalOrder")}</span>
-          <span className='text-_14 font-bold text-text_red text-right'>{bill&& formatNumberDotSlice(bill.priceAll) + " VNĐ"}</span>
+          <span className='text-_14 font-bold text-text_red text-right'>{bill&& formatNumberDotSlice(Math.round(bill.priceAll)) + " VNĐ"}</span>
         </div>
       </div>
     </div>
