@@ -91,7 +91,7 @@ const FilterPlaceBox = memo(({ handleChosePlace, place }: Props) => {
                     (place?.id === item.id! ? "bg-bg_01A63E" : "")
                   }
                 ></div>
-                <div className="text-_14 max-w-[80%] text-GreyPrimary ml-[6px] ">
+                <div className="text-_14 max-w-[80%] text-GreyPrimary ml-[6px] line-clamp-2">
                   {item.name + "-" + item.address}
                 </div>
               </div>

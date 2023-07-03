@@ -27,20 +27,16 @@ function ContactForm() {
       fullname: Yup.string().trim().required("message.form.required")
         .max(70, "message.form.max"),
       phone: Yup.string()
-        .trim()
-        .required("message.form.required")
-        .matches(
-          /^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/g,
-          "message.form.phone"
-        )
-        .length(10, "message.form.phone-length"),
+      .trim()
+      .required("message.form.required")
+      .matches(
+        /([0-9]{10})\b/g,
+        "message.form.phone"
+      )
+      .length(10, "message.form.phone-length"),
       email: Yup.string()
-        .trim()
-        .required("message.form.required")
-        .matches(
-          /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-          "message.form.email"
-        ),
+        .trim().email("message.form.email")
+        .required("message.form.required"),
       address: Yup.string().trim().max(256, "message.form.max"),
       content: Yup.string().trim().required("message.form.required").max(2000, "message.form.max"),
     }),

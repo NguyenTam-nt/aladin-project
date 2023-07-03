@@ -119,7 +119,7 @@ function ModalOrderFoodDetail({idBill}: Props) {
                 </div>
               </td>
               <td className='py-4  pr-6 '>
-                <div className="flex items-center justify-between gap-2">
+                <div className="flex items-center justify-start gap-2">
                   <div className='text-sm text-secondary'>{formatNumberDotSlice(item.pricePromotion)}</div>
                   <div className='text-xs text-text_A1A0A3'>/</div>
                   <div className='text-xs text-text_A1A0A3 line-through'>{formatNumberDotSlice(item.price)}</div>

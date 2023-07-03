@@ -42,6 +42,7 @@ const ModalFeedbackReservation = ({ idItem, handleUpdate }: Props) => {
       try {
         const dataUpdate = {
           ...values,
+          record: values.record !== null ? values.record : true,
           status: true,
         };
         const resultUpdate = await reservationTableSvice.putReservationTable(
