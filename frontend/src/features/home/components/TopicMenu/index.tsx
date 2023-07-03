@@ -3,19 +3,8 @@ import { TopicMenuGroup } from "./TopicMenuGroup";
 import { ICHomeTopicMenuLeft } from "@assets/icons/ICHomeTopicMenuLeft";
 import { ICHomeTopicMenuRight } from "@assets/icons/ICHomeTopicMenuRight";
 import { windownSizeWidth, withResponsive } from "@constants/index";
-import type { IProduct, IProductHome } from "@typeRules/product";
+import type { IProductHome } from "@typeRules/product";
 import { productService } from "@services/product";
-
-const data = [
-  {
-    title: "Nước lẩu",
-    listItem: ["Lẩu 1 ngăn", "Lẩu 2 ngăn", "Lẩu 4 ngăn"],
-  },
-  {
-    title: "MÓN LẺ",
-    listItem: ["TRÁNG MIỆNG", "NƯỚNG", "HẢI SẢN", "MÓN CHIÊN", "KEM"],
-  },
-];
 
 export const TopicMenu = () => {
   const [products, setProducts] = useState<IProductHome[]>([]);

@@ -36,7 +36,7 @@ export const TopicMenuItem = memo(({ data }: Props) => {
   return (
     <div className="relative parentSmoker">
       {/* <AnimatedSmoke /> */}
-      <div className="radius-tl-br hover:shadow-xl menu-item duration-200 ease-linear flex flex-col overflow-hidden relative h-[370px] lg:h-[492px] max-h-auto bg-white">
+      <div className="radius-tl-br hover:shadow-xl duration-200 ease-linear flex flex-col overflow-hidden relative h-[370px] lg:h-[492px] max-h-auto bg-white">
         {data?.pricePromotion !== data?.price ? (
           <DiscountItem discount={Math.ceil(Number(data?.percent))} />
         ) : null}
