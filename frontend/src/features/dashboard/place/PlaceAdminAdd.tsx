@@ -200,7 +200,7 @@ function PlaceAdminAdd() {
   return (
     <div>
       <div className="flex items-baseline">
-        <TitleTopic name="adminPlace.add.title" isRequired={false} />
+        <TitleTopic name={isAdd ? "adminPlace.add.title" : "adminPlace.add.titleUpdate" } isRequired={false} />
       </div>
       <div className="mt-6">
           <div className="grid grid-cols-2 gap-4">
