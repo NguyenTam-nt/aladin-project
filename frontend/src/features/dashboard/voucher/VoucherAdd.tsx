@@ -262,8 +262,10 @@ function VoucherAdd() {
       <div className="-mt-4">
         <TitleInput isRequired={true} name={"adminVoucher.add.form.type"} />
         <div className="flex">
-          <SelectInput className="h-[48px] !w-[172px] !border-text_A1A0A3 !border-r-0" value={type} disabled={isView}
-           onChange={(e) => setType(e.target.value as VoucherType)}>
+          <SelectInput className="h-[48px] !w-[172px] !border-text_A1A0A3 !border-r-0" value={type} 
+           onChange={(e) => setType(e.target.value as VoucherType)}
+           disabled={isView || !isAdd}
+           >
             <>
               <option value={VOUCHER_TYPE.money}>{t("adminVoucher.add.form.typeMoney")}</option>
               <option value={VOUCHER_TYPE.percent}>{t("adminVoucher.add.form.typePercent")}</option>
