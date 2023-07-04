@@ -25,7 +25,7 @@ export const TopicNews = () => {
     <div className=" relative">
       {windownSizeWidth > withResponsive._1024 ? (
         <div className="absolute right-0 top-[50px] select-none  pointer-events-none">
-          <img  src={Image2} alt="" />
+          <img className="w-full h-full"   src={Image2} alt="" />
         </div>
       ) : null}
 

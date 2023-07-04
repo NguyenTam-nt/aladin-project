@@ -10,7 +10,7 @@ export const TopicForm = () => {
     <div className="relative">
       {windownSizeWidth > withResponsive._1024 ? (
         <div className="absolute left-0 bottom-[-350px]">
-          <img src={Image1} alt="" />
+          <img className="w-full h-full" src={Image1} alt="" />
         </div>
       ) : null}
 

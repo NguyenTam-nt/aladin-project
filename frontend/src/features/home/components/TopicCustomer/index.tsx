@@ -28,10 +28,10 @@ export const TopicCustomer = () => {
       {windownSizeWidth > withResponsive._1024 ? (
         <>
           <div className="absolute right-0 top-[-350px] select-none  pointer-events-none">
-            <img src={Image2} alt="" />
+            <img className="w-full h-full" src={Image2} alt="" />
           </div>
           <div className="absolute  select-none  pointer-events-none  left-0 bottom-[-350px]">
-            <img src={Image1} alt="" />
+            <img className="w-full h-full" src={Image1} alt="" />
           </div>
         </>
       ) : null}
