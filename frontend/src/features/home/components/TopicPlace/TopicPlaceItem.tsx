@@ -40,7 +40,7 @@ export const TopicPlaceItem = () => {
         <p className="text-_16 h-[60px]  px-[24px] font-semibold flex items-center">
           {t("home.place.list_base")}
         </p>
-        <div className="flex-1 h-[430px] overflow-hidden">
+        <div className="flex-1 rounded-br-[32px] max-h-[430px] !overflow-hidden">
           <TopicPlaceItemBase
             data={categories}
             onChange={handleActiveIndex}

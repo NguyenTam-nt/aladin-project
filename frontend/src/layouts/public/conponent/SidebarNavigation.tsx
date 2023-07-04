@@ -1,10 +1,10 @@
-import { ICBackgroundSideNavigation } from "@assets/icons/ICBackgroundSideNavigation";
 import { ICDeleteSibar } from "@assets/icons/ICDeleteSibar";
 import { routersPublic } from "@constants/routerPublic";
 import clsx from "clsx";
 import React, { useLayoutEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
+import ImageNavigation from "@assets/images/bg_navigation_mobile.webp"
 
 type propsNavigate = {
   isShowSidebar: boolean;
@@ -56,7 +56,7 @@ export const SidebarNavigation = ({ isShowSidebar, onShow }: propsNavigate) => {
             ) : null;
           })}
         </div>
-        <div className=" absolute bottom-0 right-0 pointer-events-none select-none" ><ICBackgroundSideNavigation /></div>
+        <div className=" absolute bottom-0 right-0 pointer-events-none select-none" ><img src={ImageNavigation} alt="" /></div>
       </div>
     </>
   );
