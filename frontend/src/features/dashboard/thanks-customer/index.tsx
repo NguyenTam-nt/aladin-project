@@ -45,6 +45,12 @@ export const ThanksCustomer = () => {
   const debounceTime = useRef<ReturnType<typeof debounce>>();
 
   useEffect(() => {
+    if(!searchParams.get("query")) {
+      setSearchQuery(undefined)
+    }
+  }, [searchParams])
+
+  useEffect(() => {
     if (debounceTime.current) debounceTime.current.cancel();
     if (searchQuery?.trim()) {
       debounceTime.current = debounce(() => {
