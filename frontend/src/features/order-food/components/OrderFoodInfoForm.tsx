@@ -302,13 +302,13 @@ function OrderFoodInfoForm() {
                     >
                       <div
                         className={
-                          "w-3 h-3 rounded-[50%] " +
+                          "w-3 h-3 rounded-[50%] flex-shrink-0" +
                           (values.place == (item.id + "")
                             ? "bg-bg_01A63E"
                             : "")
                         }
                       ></div>
-                        <span className="text-_14 text-GreyPrimary ml-[6px]">
+                        <span className="text-_14 text-GreyPrimary ml-[6px] line-clamp-1">
                           {item.name}
                         </span>
                     </div>
