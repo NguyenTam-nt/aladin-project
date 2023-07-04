@@ -54,7 +54,7 @@ export const ThanksCustomer = () => {
     } else {
       handleGetData(Number(currentPage));
     }
-  }, [currentPage, searchQuery]);
+  }, [currentPage, searchQuery?.trim()]);
 
   const handleGetData = (page: number) => {
     setLoading(true);

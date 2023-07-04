@@ -80,7 +80,7 @@ export const useGetProduct = (pageSize = SIZE_DATA, sort = "id,desc") => {
     } else {
       getProducts(Number(currentPage), filterId, sortId);
     }
-  }, [currentPage, filterId, sortId, querySearch]);
+  }, [currentPage, filterId, sortId, querySearch?.trim()]);
 
   const getProducts = (page: number, id?: number, sort?: string) => {
     setLoading(true);
