@@ -20,7 +20,8 @@ export const useGetProduct = (pageSize = SIZE_DATA, sort = "id,desc") => {
   const [products, setProducts] = useState<IResponseData<IProduct>>();
   const { showLoading } = useHandleLoading();
   const [loading, setLoading] = useState(false);
-  const { searchParams, setSearchParam, setQueries } = useSearchParamHook();
+  const { searchParams, setSearchParam, setQueries } =
+    useSearchParamHook();
   const { showError, showSuccess } = useShowMessage();
   const [querySearch, setSearchQuery] = useState<string | undefined>(() => {
     const query = searchParams.get("query");
@@ -53,6 +54,16 @@ export const useGetProduct = (pageSize = SIZE_DATA, sort = "id,desc") => {
     }
     return sort;
   });
+
+  useEffect(() => {
+    if (!searchParams.get("sort")) {
+      setSortId(sort);
+    }
+
+    if (!searchParams.get("category")) {
+      setFilterId(undefined);
+    }
+  }, [searchParams]);
 
   useEffect(() => {
     if (debounceTime.current) debounceTime.current.cancel();
