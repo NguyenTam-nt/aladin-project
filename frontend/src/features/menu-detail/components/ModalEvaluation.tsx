@@ -41,7 +41,7 @@ export const ModalEvaluation = ({ idProduct }: Props) => {
       email: Yup.string()
         .trim()
         .required("message.form.required")
-        .email("Email không đúng định dạng.")
+        .email("message.form.email")
         .max(256, "menu.modal.email_max"),
       content: Yup.string()
         .trim()

@@ -153,7 +153,7 @@ export const OrderProvider = ({ children }: Props) => {
         } else {
           setElementModal(
             <DiglogComfirmDelete
-              message="Bạn chắc chắn muốn xóa món ăn này khỏi giỏ hàng?"
+              message="message.cart.delete_cart"
               onClick={() => {
                 handleDeleteCart(id);
                 hideModal();

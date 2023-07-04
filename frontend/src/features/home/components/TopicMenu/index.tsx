@@ -20,10 +20,10 @@ export const TopicMenu = () => {
       {windownSizeWidth > withResponsive._1024 ? (
         <>
           <div className="absolute left-0 bottom-0 select-none  pointer-events-none">
-           <img src={Image1} alt="" />
+           <img className="w-full h-full"  src={Image1} alt="" />
           </div>
           <div className="absolute right-0 top-0 select-none  pointer-events-none">
-          <img src={Image2} alt="" />
+          <img className="w-full h-full"  src={Image2} alt="" />
           </div>
         </>
       ) : null}
