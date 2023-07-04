@@ -30,6 +30,8 @@ export const Pagination = memo((props: IPagination) => {
     const page = searchParams.get("page");
     if(page) {
        setCurrentPage(Number(page))
+    }else {
+      setCurrentPage(1)
     }
 }, [searchParams])
 

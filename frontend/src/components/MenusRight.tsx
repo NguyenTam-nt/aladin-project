@@ -55,7 +55,11 @@ export const MenusRight = () => {
       }, 1000);
       debouceTime.current();
     }
-    isFirstRender.current += 1;
+    if (!listOrder.length) {
+      isFirstRender.current = 2;
+    } else {
+      isFirstRender.current += 1;
+    }
   }, [listOrder]);
 
   const totalPrice = useMemo(() => {

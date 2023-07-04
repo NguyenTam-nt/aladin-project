@@ -24,12 +24,10 @@ export const MenuBofyFilterBySort = ({
   handleClear,
 }: Props) => {
   const { t } = useTranslation();
-  const [sortId, setSortId] = useState<string | undefined>(sort);
   const { ref, isShow, handleToggleItem } = useClickOutItem();
 
   const handleSort = (sortAction: string) => {
     onChangeSort(sortAction);
-    setSortId(sortAction);
   };
 
   return (
@@ -55,7 +53,7 @@ export const MenuBofyFilterBySort = ({
                 <ICArowDown color={Colors.primary} />
               </span>
             }
-            text={dataSortProduct.find((i) => i.action === sortId)?.name || ""}
+            text={dataSortProduct.find((i) => i.action === sort)?.name || ""}
             color="empty"
             className={clsx(
               "w-full justify-between bg-transparent h-[48px] border border-text_A1A0A3 px-[16px] text-_14 font-bold",
