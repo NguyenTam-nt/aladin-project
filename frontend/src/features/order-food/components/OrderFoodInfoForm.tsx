@@ -287,8 +287,7 @@ function OrderFoodInfoForm() {
               className="w-full absolute top-[105%] left-0 bg-white shadow-md px-5 z-[9] max-h-[200px] overflow-y-scroll"
             >
               {place && place.map((item, index) => {
-                {console.log(item, values.place);
-                
+                {
                   return (
                     <div
                       onClick={() => {
