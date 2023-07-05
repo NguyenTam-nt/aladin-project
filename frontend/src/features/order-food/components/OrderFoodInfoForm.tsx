@@ -287,7 +287,8 @@ function OrderFoodInfoForm() {
               className="w-full absolute top-[105%] left-0 bg-white shadow-md px-5 z-[9] max-h-[200px] overflow-y-scroll"
             >
               {place && place.map((item, index) => {
-                {
+                {console.log(item, values.place);
+                
                   return (
                     <div
                       onClick={() => {
@@ -303,8 +304,8 @@ function OrderFoodInfoForm() {
                       <div
                         className={
                           "w-3 h-3 rounded-[50%] flex-shrink-0" +
-                          (values.place == (item.id + "")
-                            ? "bg-bg_01A63E"
+                          (+values.place == item.id
+                            ? " bg-bg_01A63E "
                             : "")
                         }
                       ></div>
