@@ -19,7 +19,7 @@ export const GotoTop = () => {
           refScroll.current!.style.display = "none"
         }
       }
-    });
+    }, {passive: true});
 
     return () => {
       window.removeEventListener("scroll", () => {

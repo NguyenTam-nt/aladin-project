@@ -7,8 +7,6 @@ import { SwiperComponent } from "@components/SwiperComponent";
 import { SwiperSlide } from "swiper/react";
 import type { IReview } from "@typeRules/index";
 import { reviewService } from "@services/thanksCustomer";
-import useInView from "@hooks/useInView";
-import clsx from "clsx";
 import Image1 from "@assets/images/home/bgcustomer/bg_customer1.webp";
 import Image2 from "@assets/images/home/bgcustomer/bg_customer2.webp";
 
@@ -72,88 +70,45 @@ type PropsPc = {
 };
 
 const TopicCustomerPC = memo(({ data }: PropsPc) => {
-  const { ref, isInView } = useInView<HTMLDivElement>();
   return (
     <div
-      ref={ref}
+      // ref={ref}
       className="grid grid-cols-4 gap-[24px] [&>div]:flex [&>div]:flex-col [&>div]:gap-y-[24px]"
     >
       <div className=" justify-center">
         {data?.[0] && (
-          <div
-            // className={clsx({
-            //   "animate__animated animate__customer": isInView,
-            // })}
-            // style={{
-            //   ["--animate-count" as string]: 4,
-            // }}
-          >
+          <div>
             <TopicCustomerItem data={data?.[0]} />{" "}
           </div>
         )}
       </div>
       <div className="mt-[100px]">
         {data?.[1] && (
-          <div
-            // className={clsx({
-            //   "animate__animated animate__customer": isInView,
-            // })}
-            // style={{
-            //   ["--animate-count" as string]: 2,
-            // }}
-          >
+          <div>
             <TopicCustomerItem data={data?.[1]} />{" "}
           </div>
         )}
         {data?.[2] && (
-          <div
-            // className={clsx({
-            //   "animate__animated animate__customer": isInView,
-            // })}
-            // style={{
-            //   ["--animate-count" as string]: 3,
-            // }}
-          >
+          <div>
             <TopicCustomerItem data={data?.[2]} />{" "}
           </div>
         )}
       </div>
       <div>
         {data?.[3] && (
-          <div
-            // className={clsx({
-            //   "animate__animated animate__customer": isInView,
-            // })}
-            // style={{
-            //   ["--animate-count" as string]: 1,
-            // }}
-          >
+          <div>
             <TopicCustomerItem data={data?.[3]} />{" "}
           </div>
         )}
         {data?.[4] && (
-          <div
-            // className={clsx({
-            //   "animate__animated animate__customer": isInView,
-            // })}
-            // style={{
-            //   ["--animate-count" as string]: 2,
-            // }}
-          >
+          <div>
             <TopicCustomerItem data={data?.[4]} />{" "}
           </div>
         )}
       </div>
       <div className=" justify-center">
         {data?.[5] && (
-          <div
-            // className={clsx({
-            //   "animate__animated animate__customer": isInView,
-            // })}
-            // style={{
-            //   ["--animate-count" as string]: 0,
-            // }}
-          >
+          <div>
             <TopicCustomerItem data={data?.[5]} />{" "}
           </div>
         )}
