@@ -95,14 +95,14 @@ const TopicGeneralItem = ({
     >
       <p
         id={id}
-        className="text-[48px] xl:text-[64px] font-bold text-secondary "
+        className="text-[32px] sm:text-[48px] xl:text-[64px] font-bold text-secondary "
         style={{
           ["--counter" as string]: total,
         }}
       >
         {total}
       </p>
-      <p className="text-_16 xl:text-_18 font-medium text-text_primary">
+      <p className=" text-_14 sm:text-_16 xl:text-_18 font-medium text-text_primary">
         {t(title)}
       </p>
     </div>
