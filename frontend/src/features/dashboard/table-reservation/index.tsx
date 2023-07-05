@@ -11,7 +11,7 @@ import { Checkbox } from "../components/Checkbox";
 import { ICFilterDropdown } from "@assets/icons/ICFilterDropdown";
 import FilterPlaceBox from "./component/FilterPlaceBox";
 import FilterByTime from "./component/FilterByTime";
-import { ChangeEvent, useCallback, useEffect, useState } from "react";
+import { ChangeEvent, UIEvent, useCallback, useEffect, useState } from "react";
 import { useModalContext } from "@contexts/hooks/modal";
 import { DiglogComfirmDelete } from "../components/DiglogComfirmDelete";
 import ModalFeedbackReservation from "./component/ModalFeedbackReservation";
@@ -39,7 +39,7 @@ const ManageTableReserVation = () => {
   const [totalPage, setTotalpage] = useState<number>(1);
   const params = {
     page: currentPage - 1,
-    size: 1000,
+    size: 20,
     date: filter.time,
     id: place ? place.id : "",
     sort: `id,desc`,
@@ -105,8 +105,8 @@ const ManageTableReserVation = () => {
     try {
       const { list, totalElement, totalElementPage } =
         await reservationTableSvice.getRequestReserTable(params);
-      setListRequesTable(list);
-      setTotalpage(Math.ceil(totalElementPage / 10));
+      setListRequesTable([...listRequetTable, ...list]);
+      setTotalpage(Math.ceil(totalElementPage / 20));
     } catch (error) {
       console.log("Không lấy được danh sách yêu cầu đặt bàn.");
     }
@@ -133,12 +133,14 @@ const ManageTableReserVation = () => {
 
   const handleChangeInput = (e: ChangeEvent<HTMLInputElement>) => {
     setKeySearch(e.target.value);
+    setcurrentPage(1);
+    setListRequesTable([]);
   };
   const searchRequestTable = async (params: IParams) => {
     try {
       const { list, totalElement, totalElementPage } =
         await reservationTableSvice.searchReservationTable(params);
-      setListRequesTable(list);
+      setListRequesTable([...listRequetTable, ...list]);
       setTotalpage(Math.ceil(totalElementPage / 20));
     } catch (error) {
       console.log("Không lấy được danh sách yêu cầu đặt bàn.");
@@ -148,6 +150,20 @@ const ManageTableReserVation = () => {
     debounce((params) => searchRequestTable(params), 700),
     []
   );
+  const handleScroll = (e: UIEvent<any>) => {
+    const scroolTop = e.currentTarget.scrollTop;
+    const clientHeight = e.currentTarget.clientHeight;
+    const scrollHeight = e.currentTarget.scrollHeight;
+    console.log(
+      "ádfsd",
+      scroolTop + clientHeight,
+      scrollHeight,
+      currentPage < totalPage
+    );
+    if (scroolTop + clientHeight >= scrollHeight && currentPage < totalPage) {
+      setcurrentPage((preState) => preState + 1);
+    }
+  };
   useEffect(() => {
     if (keySearch != "") {
       debounceSearch({ ...params, query: keySearch.trim() });
@@ -156,9 +172,11 @@ const ManageTableReserVation = () => {
       getListRequesResertable(params);
     }
   }, [currentPage, filter, place, keySearch]);
-
   return (
-    <div>
+    <div
+      onScroll={handleScroll}
+      className="h-screen overflow-y-scroll hidde-scroll_tb"
+    >
       {place ? (
         <h3 className="title-24 font-bold font-IBM_Plex_Sans">{place.name}</h3>
       ) : (

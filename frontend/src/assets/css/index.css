@@ -112,6 +112,9 @@ body {
 ::-webkit-scrollbar-thumb:horizontal:hover {
   background: #555;
 }
+.hidde-scroll_tb::-webkit-scrollbar{
+  display: none;
+}
 .hidde-scroll::-webkit-scrollbar:horizontal{
   display: none;
 }

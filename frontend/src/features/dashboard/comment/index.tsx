@@ -135,7 +135,7 @@ export const CommentAdmin = () => {
       const newData = [...comments];
       const index = newData.findIndex((item) => item.id === data.id);
       if (index !== -1) {
-        newData.splice(index, 1, data)
+        newData.splice(index, 1, data);
         setComments([...newData]);
       }
     },
@@ -158,7 +158,7 @@ export const CommentAdmin = () => {
     (id: number) => {
       const newData = [...comments];
       const index = newData.findIndex((item) => item.id === id);
-      if(index !== -1) {
+      if (index !== -1) {
         newData.splice(index, 1);
         setComments([...newData]);
       }
