@@ -1,6 +1,5 @@
 import TableReserVationForm from "@components/form/TableReserVationForm";
 import { windownSizeWidth, withResponsive } from "@constants/index";
-import useInView from "@hooks/useInView";
 import clsx from "clsx";
 import React, { memo } from "react";
 import Image1 from "@assets/images/home/bgnews/bg_news_1.webp";
@@ -20,13 +19,9 @@ export const TopicForm = () => {
 };
 
 export const TopicFormContent = memo(() => {
-  const { ref, isInView } = useInView<HTMLDivElement>();
   return (
     <div
-      ref={ref}
-      className={clsx(" lg:w-rp my-[40px]  lg:my-[120px] relative", {
-        "animate__animated animate__zoomIn": isInView,
-      })}
+      className={clsx(" lg:w-rp my-[40px]  lg:my-[120px] relative")}
     >
       <TableReserVationForm isPaddingBottom={false} />
     </div>

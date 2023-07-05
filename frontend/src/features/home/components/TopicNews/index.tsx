@@ -7,7 +7,6 @@ import { SwiperComponent } from "@components/SwiperComponent";
 import { SwiperSlide } from "swiper/react";
 import { newService } from "@services/newService";
 import type { newItem_type } from "@typeRules/new";
-import useInView from "@hooks/useInView";
 import clsx from "clsx";
 import Image2 from "@assets/images/home/bgnews/bg_news_2.webp"
 
@@ -19,7 +18,6 @@ export const TopicNews = () => {
       setNews(data?.list);
     });
   }, []);
-  const { ref, isInView } = useInView<HTMLDivElement>();
 
   return (
     <div className=" relative">
@@ -34,7 +32,7 @@ export const TopicNews = () => {
           title="home.news.title"
           pathNavigate={paths.news.prefix}
         />
-        <div className="mt-[48px]" ref={ref}>
+        <div className="mt-[48px]">
           <SwiperComponent
             spaceBetween={windownSizeWidth > withResponsive._1024 ? 24 : 16}
             slidesPerView={
@@ -48,13 +46,8 @@ export const TopicNews = () => {
             {news.map((item, index) => {
               return (
                 <SwiperSlide
-                  className={clsx("w-[70%] _420:w-full", {
-                    "animate__animated animate__fadeInUp": isInView,
-                  })}
+                  className={clsx("w-[70%] _420:w-full")}
                   key={item.id}
-                  style={{
-                    ["--animate-count" as string]: index,
-                  }}
                 >
                   <TopicNewsItem data={item} />
                 </SwiperSlide>
