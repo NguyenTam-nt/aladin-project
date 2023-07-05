@@ -1,8 +1,4 @@
 import BannerBg from "@assets/images/home_banner_bg.png";
-import { SwiperComponent } from "@components/SwiperComponent";
-import { SwiperSlide } from "swiper/react";
-import useWindowResize from "@hooks/useWindowResize";
-import { withResponsive } from "@constants/container";
 import useInView from "@hooks/useInView";
 import clsx from "clsx";
 import { useGetBanner } from "@features/abouts/components/useGetBanner";
@@ -34,7 +30,7 @@ export const HomeTopicPartner = () => {
           src={BannerBg}
           alt=""
         />
-        <div className={clsx("w-rp-l gap-x-[32px] flex-1 translate-y-[-50%] flex flex-wrap justify-center mt-[16px] xl:mt-[12px] gap-y-[24px]", {"animate__animated animate__fadeIn":isInView})}
+        <div className={clsx("w-rp-l gap-x-[32px] flex-1 mb-[24px] flex flex-wrap justify-center mt-[16px] xl:mt-[12px] gap-y-[24px]", {"animate__animated animate__fadeIn":isInView})}
           style={{
             ["--animate-count" as string]: 2
           }}
@@ -42,7 +38,7 @@ export const HomeTopicPartner = () => {
             {bannerHome.map((item, index) => {
               return (
                 <div key={index}>
-                  <img src={item?.link} className="w-full h-[48px]" alt="" />
+                  <img src={item?.link} className="h-[50px] w-[100px] md:w-[150px] object-cover md:h-[80px]" alt="" />
                 </div>
               );
             })}
