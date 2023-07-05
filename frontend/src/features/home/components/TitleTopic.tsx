@@ -12,6 +12,6 @@ export const TitleTopic = ({title, className}:Props) => {
     const {t} = useTranslation()
     const {ref, isInView} = useInView<HTMLHeadingElement>()
   return (
-    <h2 ref={ref} className={clsx(`title-48 text-secondary uppercase ${className}`, {"animate__animated animate__slideInLeft ": isInView})}>{t(title)}</h2>
+    <h2 ref={ref} className={clsx(`title-48 text-secondary uppercase ${className}`, {"animate__animated animate__fadeIn ": isInView})}>{t(title)}</h2>
   )
 }

@@ -14,25 +14,16 @@ export const HomePage = () => {
   return (
     <>
       <Banner />
-
       <div className="home-body">
         <HomeTopicDevice />
-
         <HomeTopicSales />
-
         <TopicMenu />
-
         <TopicVideo />
-
         <div className="pt-[80px] pb-[24px] lg:pb-[100px]">
           <TopicPost />
-
           <TopicCustomer />
-
           <TopicNews />
-
           <TopicForm />
-
           <TopicPlace />
         </div>
       </div>
