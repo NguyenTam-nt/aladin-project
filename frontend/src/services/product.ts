@@ -43,6 +43,6 @@ export const productService = {
     },
     search: (params:IParams):Promise<IResponseData<IProduct>> => {
         const apiAdmin = getMicroServiceSearchAdmin(apis.product,  microServices.restaurant)
-        return HttpService.axiosClient.get(`${apiAdmin}`, {params: {...params, page: Number(params.page) - 1, query: `*${params?.query}*`}})
+        return HttpService.axiosClient.get(`${apiAdmin}`, {params: {...params, page: Number(params.page) - 1, query: `"${params?.query}"`}})
     }
 }

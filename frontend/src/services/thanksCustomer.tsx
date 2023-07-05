@@ -32,6 +32,6 @@ export const reviewService = {
     },
     getSearch: (params:IParams):Promise<IResponseData<IReview>> => {
         const apiAdmin = getMicroServiceSearchAdmin(`${apis.thanksCustomer}`, microServices.feel)
-        return HttpService.axiosClient.get(`${apiAdmin}`, {params: {...params, page: Number(params.page) - 1, query: `*${params?.query}*`}}) 
+        return HttpService.axiosClient.get(`${apiAdmin}`, {params: {...params, page: Number(params.page) - 1, query: `"${params?.query}"`}}) 
     }
 }

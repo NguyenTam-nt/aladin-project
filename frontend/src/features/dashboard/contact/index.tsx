@@ -66,7 +66,7 @@ function ContactAdmin() {
   useEffect(() => {
     if (keyword != "") {
       const searchParams = {
-        query: "*" + keyword.trim() + "*",
+        query: '"' + keyword.trim() + '"',
         page: 0,
         size: 90000000,
       };
