@@ -44,7 +44,7 @@ const ManageNews = () => {
     sort: `id,${filter}`,
   };
   const searchParams = {
-    query: `*${keySearch}*`,
+    query: `"${keySearch}"`,
     page: currentPage - 1,
     size: 12,
     sort: `id,${filter}`,
