@@ -28,6 +28,8 @@ export const Header = () => {
             lastIndex = document.documentElement.scrollTop - headerbreak;
         }
       }
+    }, { 
+      passive: true 
     });
 
     return () => {

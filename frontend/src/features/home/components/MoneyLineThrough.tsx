@@ -1,4 +1,4 @@
-import { formatNumberDot, formatNumberDotSlice } from "@commons/formatMoney";
+import { formatNumberDotSlice } from "@commons/formatMoney";
 import clsx from "clsx";
 import React from "react";
 

@@ -1,6 +1,5 @@
 import { ICArrowActive } from "@assets/icons/ICArrowActive";
 import { ICHotline } from "@assets/icons/ICHotline";
-import { SelectInput } from "@components/SelectInput";
 import { useGetPlace } from "@features/dashboard/product/components/useGetPlace";
 import type { PlaceType } from "@typeRules/place";
 import clsx from "clsx";

@@ -8,6 +8,7 @@ type Props = {
 };
 
 export const TopicCustomerItem = memo(({ data }: Props) => {
+  console.log("rendering")
   return (
     <div className="p-[24px] flex flex-col h-[426px] bg-white radius-tl-br">
       <div className="w-full  h-[148px]">

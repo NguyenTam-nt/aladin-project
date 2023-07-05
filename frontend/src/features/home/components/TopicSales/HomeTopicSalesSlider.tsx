@@ -56,7 +56,7 @@ export const HomeTopicSalesSlider = memo(() => {
                     {listProducts.slice(indexP * 3, indexP * 3 + 3).map((item, index) => {
                       return (
                         <div key={index} className={clsx({
-                          "animate__animated animate__fadeInRight": isInView
+                          "animate__animated animate__fadeInRight": isInView && indexP === 0
                         })}
                         style={{
                           ["--animate-count" as string]: index

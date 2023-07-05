@@ -25,7 +25,7 @@ export const MenuSideRight = () => {
           refScroll.current!.style.opacity = "1";
         }
       }
-    });
+    }, {passive: true});
 
     if (pathname !== prefixRootRoute.public) {
       refScroll.current!.style.opacity = "1";

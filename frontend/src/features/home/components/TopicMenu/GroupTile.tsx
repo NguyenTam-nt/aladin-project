@@ -1,10 +1,7 @@
 import React, { memo } from "react";
 import { TitleTopic } from "../TitleTopic";
 import { useTranslation } from "react-i18next";
-import { SwiperComponent } from "@components/SwiperComponent";
-import { SwiperSlide } from "swiper/react";
 import {
-  prefixRootRoute,
   windownSizeWidth,
   withResponsive,
 } from "@constants/index";
