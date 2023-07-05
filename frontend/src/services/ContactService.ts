@@ -9,7 +9,7 @@ const pathSearch = getMicroService(`${apis.searchContact}`, microServices.feedba
 const apiAdmin = getMicroServiceAdmin(`${apis.contact}`, microServices.feedback)
 const ContactService = {
     get: (params:any):Promise<IResponseData<IContact>> => {
-        return HttpService.axiosClient.get(`${apiAdmin}?page=${Number(params.page) - 1}&size=${params.size}${params.sort1 != undefined ? '&sort=' + params.sort1 : ""}&sort=${params.sort2}`) 
+        return HttpService.axiosClient.get(`${apiAdmin}?page=${Number(params.page)}&size=${params.size}${params.sort1 != undefined ? '&sort=' + params.sort1 : ""}&sort=${params.sort2}`) 
     },
     getById: (id:number):Promise<IContact> => {
         return HttpService.axiosClient.get(`${apiAdmin}/${id}`) 
