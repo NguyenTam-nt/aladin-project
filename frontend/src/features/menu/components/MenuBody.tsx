@@ -90,7 +90,7 @@ export const MenuBody = () => {
               onChangeSort={handleChangeSort}
             />
           )}
-          <MenuListData data={products?.list || []} />
+          <MenuListData data={products?.list ?? []} />
           {totalPages > 1 ? (
             <div className="flex lg:justify-end">
               <Pagination

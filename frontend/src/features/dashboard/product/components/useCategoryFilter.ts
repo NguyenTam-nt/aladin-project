@@ -53,6 +53,9 @@ export const useCategoryFilter = ({ onChange, isAll = false }: Props) => {
             }
           }
         }
+      }else {
+        setIndexParent(-1)
+        setIndexChild(-1)
       }
     }
   }, [searchParams, categories]);

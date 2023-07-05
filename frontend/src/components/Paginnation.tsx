@@ -4,7 +4,6 @@ import { prefixRootRoute } from "@constants/index";
 import { useSearchParamHook } from "@hooks/useSearchParam";
 import clsx from "clsx";
 import React, { memo, useEffect, useMemo } from "react";
-import { useLocation, useSearchParams } from "react-router-dom";
 
 /**
  * 
@@ -21,7 +20,7 @@ type IPagination = {
 export const Pagination = memo((props: IPagination) => {
   const { currentPage, setCurrentPage, limit = 5 } = props;
   const totalPages = props.totalPages;
-  const {pathname, searchParams, setSearchParam, setQueries} = useSearchParamHook()
+  const {pathname, searchParams, setQueries} = useSearchParamHook()
 
   const isAdmin = useMemo(() => {
     return pathname.includes(prefixRootRoute.admin);
@@ -31,6 +30,8 @@ export const Pagination = memo((props: IPagination) => {
     const page = searchParams.get("page");
     if(page) {
        setCurrentPage(Number(page))
+    }else {
+      setCurrentPage(1)
     }
 }, [searchParams])
 

@@ -107,15 +107,15 @@ function OrderFoodInfoForm() {
         setIsValidDate(false)
         return 
       }
-
+      
       let resquest: IBill = {
         id: null,
-        fullname: values.fullName,
-        phone: values.phoneNumber,
-        email: values.email,
+        fullname: values.fullName.trim(),
+        phone: values.phoneNumber.trim(),
+        email: values.email.trim(),
         type: values.method,
         chooseDate: orderDate.toISOString(),
-        note: values.note,
+        note: values.note.trim(),
         idInfrastructure: +values.place,
         price: (totalPrice - (voucher ? voucher.price : 0)) < 0 ? 0 : (totalPrice - (voucher ? voucher.price : 0)),
         listProduct: listOrder.map(p => {
@@ -302,13 +302,13 @@ function OrderFoodInfoForm() {
                     >
                       <div
                         className={
-                          "w-3 h-3 rounded-[50%] " +
+                          "w-3 h-3 rounded-[50%] flex-shrink-0" +
                           (values.place == (item.id + "")
                             ? "bg-bg_01A63E"
                             : "")
                         }
                       ></div>
-                        <span className="text-_14 text-GreyPrimary ml-[6px]">
+                        <span className="text-_14 text-GreyPrimary ml-[6px] line-clamp-1">
                           {item.name}
                         </span>
                     </div>

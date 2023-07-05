@@ -64,7 +64,7 @@ function ModalResponseContact({data, loadData}: Props) {
           email: values.email,
           address: values.address,
           content: values.content,
-          feedback: values.feedback
+          feedback: values.feedback.trim()
         }
       
           ContactService

@@ -1,6 +1,5 @@
 import { ICArrowActive } from "@assets/icons/ICArrowActive";
 import { ICHotline } from "@assets/icons/ICHotline";
-import { SelectInput } from "@components/SelectInput";
 import { useGetPlace } from "@features/dashboard/product/components/useGetPlace";
 import type { PlaceType } from "@typeRules/place";
 import clsx from "clsx";
@@ -40,7 +39,7 @@ export const TopicPlaceItem = () => {
         <p className="text-_16 h-[60px]  px-[24px] font-semibold flex items-center">
           {t("home.place.list_base")}
         </p>
-        <div className="flex-1 h-[430px] radius-tl-br overflow-hidden">
+        <div className="flex-1 rounded-br-[32px] max-h-[430px] !overflow-hidden">
           <TopicPlaceItemBase
             data={categories}
             onChange={handleActiveIndex}

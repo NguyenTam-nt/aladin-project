@@ -1,21 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { TopicMenuGroup } from "./TopicMenuGroup";
-import { ICHomeTopicMenuLeft } from "@assets/icons/ICHomeTopicMenuLeft";
-import { ICHomeTopicMenuRight } from "@assets/icons/ICHomeTopicMenuRight";
-import { windownSizeWidth, withResponsive } from "@constants/index";
-import type { IProduct, IProductHome } from "@typeRules/product";
-import { productService } from "@services/product";
 
-const data = [
-  {
-    title: "Nước lẩu",
-    listItem: ["Lẩu 1 ngăn", "Lẩu 2 ngăn", "Lẩu 4 ngăn"],
-  },
-  {
-    title: "MÓN LẺ",
-    listItem: ["TRÁNG MIỆNG", "NƯỚNG", "HẢI SẢN", "MÓN CHIÊN", "KEM"],
-  },
-];
+import Image1 from "@assets/images/home/bgmenu/bg_menu1.webp"
+import Image2 from "@assets/images/home/bgmenu/bg_menu2.webp"
+
+import { windownSizeWidth, withResponsive } from "@constants/index";
+import type { IProductHome } from "@typeRules/product";
+import { productService } from "@services/product";
 
 export const TopicMenu = () => {
   const [products, setProducts] = useState<IProductHome[]>([]);
@@ -29,10 +20,10 @@ export const TopicMenu = () => {
       {windownSizeWidth > withResponsive._1024 ? (
         <>
           <div className="absolute left-0 bottom-0 select-none  pointer-events-none">
-            <ICHomeTopicMenuLeft />
+           <img className="w-full h-full"  src={Image1} alt="" />
           </div>
           <div className="absolute right-0 top-0 select-none  pointer-events-none">
-            <ICHomeTopicMenuRight />
+          <img className="w-full h-full"  src={Image2} alt="" />
           </div>
         </>
       ) : null}

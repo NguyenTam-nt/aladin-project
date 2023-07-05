@@ -48,6 +48,7 @@ export const TopicMenuItem = memo(({ data }: Props) => {
             className="w-full h-full object-cover"
             src={data?.linkMedia}
             alt=""
+            loading="lazy"
           />
         </Link>
         <div className="p-[16px] flex-1 flex flex-col">
@@ -57,7 +58,7 @@ export const TopicMenuItem = memo(({ data }: Props) => {
           >
             {data?.name}
           </Link>
-          <p className="text-_16 lg:text-_18 line-clamp-1 font-bold mt-2 text-secondary">
+          <p className="text-_16 lg:text-_18 break-words font-bold mt-2 text-secondary">
             {formatNumberDotSlice(Number(data?.pricePromotion))}
             {data?.pricePromotion !== data?.price &&
             data?.pricePromotion.toString().length <= 8 ? (

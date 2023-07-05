@@ -1,13 +1,12 @@
 import { ICArowDown } from "@assets/icons/ICArowDown";
 import { ICDeleteX } from "@assets/icons/ICDeleteX";
 import {
-  formatNumberDot,
   formatNumberDotSlice,
   formatNumberDotWithVND,
 } from "@commons/formatMoney";
 import { Colors } from "@constants/color";
 import clsx from "clsx";
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { Button } from "./Button";
 import { MoneyLineThrough } from "@features/home/components/MoneyLineThrough";
@@ -26,7 +25,6 @@ export const positionCart = {
 
 export const MenusRight = () => {
   const { t } = useTranslation();
-  // const [open, setOpen] = useState(false);
   const { listOrder } = useCartContext();
   const { ref, handleToggleItem, isShow, handleShow, handleHiden } =
     useClickOutItem();
@@ -57,7 +55,11 @@ export const MenusRight = () => {
       }, 1000);
       debouceTime.current();
     }
-    isFirstRender.current += 1;
+    if (!listOrder.length) {
+      isFirstRender.current = 2;
+    } else {
+      isFirstRender.current += 1;
+    }
   }, [listOrder]);
 
   const totalPrice = useMemo(() => {
@@ -116,7 +118,7 @@ export const MenusRight = () => {
           {listOrder.length ? (
             <>
               <div className="flex-1 w-full px-[16px] overflow-y-auto list-facilities">
-                {listOrder.map((data, index) => {
+                {listOrder.map((data) => {
                   return <MenuItem data={data} key={data.id} />;
                 })}
               </div>

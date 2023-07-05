@@ -52,7 +52,7 @@ const NewItem = memo(({ itemNew, handleDelete }: Props) => {
         <p className=" line-clamp-2 text-_16 font-semibold text-text_black">
           {itemNew.title}
         </p>
-        <p className="mb-6 text-sm leading-22 font-normal text-text_secondary">
+        <p className="mb-6 text-sm leading-22 font-normal line-clamp-3 text-text_secondary">
           {itemNew.description}
         </p>
         <div className="mt-auto">

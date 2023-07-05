@@ -41,6 +41,9 @@
             "warning": {
                 "min_post": "Bài viết giới thiệu ngắn tối thiểu có một bài viết."
             }
+        },
+        "cart": {
+            "delete_cart": "Bạn chắc chắn muốn xóa món ăn này khỏi giỏ hàng?"
         }
     }
 }

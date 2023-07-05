@@ -18,7 +18,7 @@ export function formatNumberDotWithO(num: number | string = 0) {
 
 export function formatNumberDotSlice(money: number) {
   if (money) {
-    return money.toString().length < 10 ? formatNumberDotWithO(Number(money)).toString().length > 10 ? formatNumberDotWithO(Number(money)).toString().slice(0, 7) + "..." : formatNumberDotWithO(Number(money)) : money.toExponential();
+    return money.toString().length < 10 ? formatNumberDotWithO(Number(money)) : money.toExponential();
   }
   return 0;
 }

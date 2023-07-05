@@ -1,8 +1,6 @@
 import React, { memo, useEffect, useState } from "react";
 import { TitleWithSeeAll } from "../TitleWithSeeAll";
 import { TopicCustomerItem } from "./TopicCustomerItem";
-import { ICHomeTopicCustomerRight } from "@assets/icons/ICHomeTopicCustomerRight";
-import { ICHomeTopicCustomerLeft } from "@assets/icons/ICHomeTopicCustomerLeft";
 import { paths } from "@constants/routerPublic";
 import { windownSizeWidth, withResponsive } from "@constants/index";
 import { SwiperComponent } from "@components/SwiperComponent";
@@ -11,13 +9,15 @@ import type { IReview } from "@typeRules/index";
 import { reviewService } from "@services/thanksCustomer";
 import useInView from "@hooks/useInView";
 import clsx from "clsx";
+import Image1 from "@assets/images/home/bgcustomer/bg_customer1.webp";
+import Image2 from "@assets/images/home/bgcustomer/bg_customer2.webp";
 
 export const TopicCustomer = () => {
   const [reviews, setReviews] = useState<IReview[]>([]);
 
   useEffect(() => {
     reviewService
-      .get_home({ page: 1, size: 6, sort: "lastModifiedDate,desc"})
+      .get_home({ page: 1, size: 6, sort: "lastModifiedDate,desc" })
       .then((data) => {
         setReviews(data.list);
       });
@@ -28,10 +28,10 @@ export const TopicCustomer = () => {
       {windownSizeWidth > withResponsive._1024 ? (
         <>
           <div className="absolute right-0 top-[-350px] select-none  pointer-events-none">
-            <ICHomeTopicCustomerRight />
+            <img className="w-full h-full" src={Image2} alt="" />
           </div>
           <div className="absolute  select-none  pointer-events-none  left-0 bottom-[-350px]">
-            <ICHomeTopicCustomerLeft />
+            <img className="w-full h-full" src={Image1} alt="" />
           </div>
         </>
       ) : null}
@@ -81,12 +81,12 @@ const TopicCustomerPC = memo(({ data }: PropsPc) => {
       <div className=" justify-center">
         {data?.[0] && (
           <div
-            className={clsx({
-              "animate__animated animate__customer": isInView,
-            })}
-            style={{
-              ["--animate-count" as string]: 4,
-            }}
+            // className={clsx({
+            //   "animate__animated animate__customer": isInView,
+            // })}
+            // style={{
+            //   ["--animate-count" as string]: 4,
+            // }}
           >
             <TopicCustomerItem data={data?.[0]} />{" "}
           </div>
@@ -95,24 +95,24 @@ const TopicCustomerPC = memo(({ data }: PropsPc) => {
       <div className="mt-[100px]">
         {data?.[1] && (
           <div
-            className={clsx({
-              "animate__animated animate__customer": isInView,
-            })}
-            style={{
-              ["--animate-count" as string]: 2,
-            }}
+            // className={clsx({
+            //   "animate__animated animate__customer": isInView,
+            // })}
+            // style={{
+            //   ["--animate-count" as string]: 2,
+            // }}
           >
             <TopicCustomerItem data={data?.[1]} />{" "}
           </div>
         )}
         {data?.[2] && (
           <div
-            className={clsx({
-              "animate__animated animate__customer": isInView,
-            })}
-            style={{
-              ["--animate-count" as string]: 3,
-            }}
+            // className={clsx({
+            //   "animate__animated animate__customer": isInView,
+            // })}
+            // style={{
+            //   ["--animate-count" as string]: 3,
+            // }}
           >
             <TopicCustomerItem data={data?.[2]} />{" "}
           </div>
@@ -121,24 +121,24 @@ const TopicCustomerPC = memo(({ data }: PropsPc) => {
       <div>
         {data?.[3] && (
           <div
-            className={clsx({
-              "animate__animated animate__customer": isInView,
-            })}
-            style={{
-              ["--animate-count" as string]: 1,
-            }}
+            // className={clsx({
+            //   "animate__animated animate__customer": isInView,
+            // })}
+            // style={{
+            //   ["--animate-count" as string]: 1,
+            // }}
           >
             <TopicCustomerItem data={data?.[3]} />{" "}
           </div>
         )}
         {data?.[4] && (
           <div
-            className={clsx({
-              "animate__animated animate__customer": isInView,
-            })}
-            style={{
-              ["--animate-count" as string]: 2,
-            }}
+            // className={clsx({
+            //   "animate__animated animate__customer": isInView,
+            // })}
+            // style={{
+            //   ["--animate-count" as string]: 2,
+            // }}
           >
             <TopicCustomerItem data={data?.[4]} />{" "}
           </div>
@@ -147,12 +147,12 @@ const TopicCustomerPC = memo(({ data }: PropsPc) => {
       <div className=" justify-center">
         {data?.[5] && (
           <div
-            className={clsx({
-              "animate__animated animate__customer": isInView,
-            })}
-            style={{
-              ["--animate-count" as string]: 0,
-            }}
+            // className={clsx({
+            //   "animate__animated animate__customer": isInView,
+            // })}
+            // style={{
+            //   ["--animate-count" as string]: 0,
+            // }}
           >
             <TopicCustomerItem data={data?.[5]} />{" "}
           </div>

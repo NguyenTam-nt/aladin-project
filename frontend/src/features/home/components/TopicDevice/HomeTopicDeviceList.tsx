@@ -28,19 +28,19 @@ const data = [
 ];
 
 export const HomeTopicDeviceList = memo(() => {
-  const {ref, isInView} = useInView<HTMLDivElement>()
+  // const {ref, isInView} = useInView<HTMLDivElement>()
   return (
     <div className="w-rp ">
     <div className="flex justify-center mb-[64px]">
       <TitleTopic title="home.device.title" />
     </div>
-    <div ref={ref} className="grid grid-cols-2  lg:grid-cols-3 xl:grid-cols-4 gap-[24px]">
+    <div  className="grid grid-cols-2  lg:grid-cols-3 xl:grid-cols-4 gap-[24px]">
       {data.map((item, index) => {
         return (
           <div
             key={index}
             className={clsx("flex flex-col gap-y-[24px] items-center justify-center", {
-              "animate__animated animate__fadeInUp": isInView
+              // "animate__animated animate__fadeInUp": isInView
             })}
             style={{
               ["--animate-count" as string]: index

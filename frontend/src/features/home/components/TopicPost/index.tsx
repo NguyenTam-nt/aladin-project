@@ -9,19 +9,9 @@ import { ICArrowRightNext } from "@assets/icons/ICArrowRightNext";
 import { windownSizeWidth, withResponsive } from "@constants/index";
 import { useGetTopic } from "@features/dashboard/home/components/useGetTopic";
 import { HomeTopicType } from "@typeRules/home";
-import useInView from "@hooks/useInView";
-import clsx from "clsx";
 
 export const TopicPost = () => {
-  const { ref, isInView } = useInView<HTMLDivElement>();
-  return (
-    <div
-      ref={ref}
-      className={clsx({ "animate__animated animate__zoomIn": isInView })}
-    >
-      <TopicPostContent />
-    </div>
-  );
+  return <TopicPostContent />;
 };
 
 const TopicPostContent = memo(() => {

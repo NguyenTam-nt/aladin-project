@@ -79,7 +79,7 @@ function PlaceAdminAdd() {
       .trim()
       .required("message.form.required")
       .matches(
-        /^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/g,
+        /([0-9]{10})\b/g,
         "message.form.phone"
       )
       .length(10, "message.form.phone-length"),
@@ -87,10 +87,10 @@ function PlaceAdminAdd() {
       .trim()
       .required("message.form.required")
       .matches(
-        /^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/g,
-        "message.form.zalo"
+        /([0-9]{10})\b/g,
+        "message.form.phone"
       )
-      .length(10, "message.form.zalo-length"),
+      .length(10, "message.form.phone-length"),
       linkMap: Yup.string().trim().required("message.form.required"),
     }),
     onSubmit: async (data) => {
@@ -114,11 +114,11 @@ function PlaceAdminAdd() {
 
         let request: PlaceType = {
           id: place?.id,
-          name: data.name,
-          address: data.address,
-          phone: data.phone,
-          zalo: data.zalo,
-          linkMap: data.linkMap,
+          name: data.name.trim(),
+          address: data.address.trim(),
+          phone: data.phone.trim(),
+          zalo: data.zalo.trim(),
+          linkMap: data.linkMap.trim(),
           status: place?.status,
           infrastructureList: placeItems.slice(0, 2).map(p => {
             if(isAdd) return {...p, id: null}
@@ -200,7 +200,7 @@ function PlaceAdminAdd() {
   return (
     <div>
       <div className="flex items-baseline">
-        <TitleTopic name="adminPlace.add.title" isRequired={false} />
+        <TitleTopic name={isAdd ? "adminPlace.add.title" : "adminPlace.add.titleUpdate" } isRequired={false} />
       </div>
       <div className="mt-6">
           <div className="grid grid-cols-2 gap-4">

@@ -55,6 +55,20 @@ export const useGetProduct = (pageSize = SIZE_DATA, sort = "id,desc") => {
   });
 
   useEffect(() => {
+    if (!searchParams.get("sort")) {
+      setSortId(sort);
+    }
+
+    if (!searchParams.get("category")) {
+      setFilterId(undefined);
+    }
+
+    if (!searchParams.get("query")) {
+      setSearchQuery(undefined);
+    }
+  }, [searchParams]);
+
+  useEffect(() => {
     if (debounceTime.current) debounceTime.current.cancel();
     if (querySearch?.trim()) {
       debounceTime.current = debounce(() => {
@@ -69,7 +83,7 @@ export const useGetProduct = (pageSize = SIZE_DATA, sort = "id,desc") => {
     } else {
       getProducts(Number(currentPage), filterId, sortId);
     }
-  }, [currentPage, filterId, sortId, querySearch]);
+  }, [currentPage, filterId, sortId, querySearch?.trim()]);
 
   const getProducts = (page: number, id?: number, sort?: string) => {
     setLoading(true);
