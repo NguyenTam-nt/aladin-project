@@ -26,7 +26,7 @@
   "order_food_info": {
     "title": "Thông tin Đơn hàng",
     "modal": {
-      "title": "Đăng ký đặt bàn thành công!",
+      "title": "Đăng ký đặt hàng thành công!",
       "sub_title": "Bạn vui lòng chờ <span class='font-bold'>nhân viên</span> của chúng tôi <span class='font-bold'>xác nhận đơn hàng</span> của bạn."
     }
 }
