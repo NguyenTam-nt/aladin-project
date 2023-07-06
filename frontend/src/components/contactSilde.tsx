@@ -13,9 +13,12 @@ import {
 import { pathsAdmin } from "@constants/routerManager";
 import { useAuthContext } from "@contexts/hooks/auth";
 import { useGetPlace } from "@features/dashboard/product/components/useGetPlace";
+import { useScreenOrientation } from "@hooks/useScreenOrientation";
 import React, { memo, useMemo } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { useNavigate } from "react-router-dom";
+import { GotoTop } from "./GotoTop";
+import clsx from "clsx";
 
 export const ContactSilde = memo(() => {
   const { categories, fechData } = useGetPlace();
@@ -35,9 +38,12 @@ export const ContactSilde = memo(() => {
       }
     }
   };
+
+  const { isFullScreen } = useScreenOrientation();
+
   return (
     <>
-      {windownSizeWidth > withResponsive._1280 ? (
+      {windownSizeWidth > withResponsive._1280 && !isFullScreen ? (
         <button
           onClick={handleLogin}
           className=" text-_12 text-white flex items-center justify-center bg-primary"
@@ -46,10 +52,7 @@ export const ContactSilde = memo(() => {
             "..."
           ) : (
             <span>
-              <ICLogin
-                width={24}
-                height={24}
-              />
+              <ICLogin width={24} height={24} />
             </span>
           )}
         </button>
@@ -62,7 +65,12 @@ export const ContactSilde = memo(() => {
           <div className="popup-with-arrow rounded-[16px_0_0_0] absolute top-0 right-[100%]">
             <div
               id="contact-context-id"
-              className="flex-1 shadow-lg overflow-x-hidden px-[16px] rounded-[16px_0_0_0]  absolute h-auto max-h-[328px] w-[220px] bg-white bottom-[-54px] right-[15px] overflow-y-auto list-facilities"
+              className={clsx(
+                "flex-1 shadow-lg overflow-x-hidden px-[16px] rounded-[16px_0_0_0]  absolute h-auto max-h-[328px] w-[220px] bg-white bottom-[-54px] right-[15px] overflow-y-auto list-facilities",
+                {
+                  "!max-h-[200px]": isFullScreen,
+                }
+              )}
             >
               <InfiniteScroll
                 next={fechData}
@@ -107,7 +115,12 @@ export const ContactSilde = memo(() => {
           <div className="popup-with-arrow  absolute  top-0 right-[100%]">
             <div
               id="contact-context-id"
-              className="flex-1 shadow-lg overflow-x-hidden px-[16px] rounded-[16px_0_0_0] absolute h-auto max-h-[328px] w-[220px] bg-white bottom-[-54px] right-[15px] overflow-y-auto list-facilities"
+              className={clsx(
+                "flex-1 shadow-lg overflow-x-hidden px-[16px] rounded-[16px_0_0_0] absolute h-auto max-h-[328px] w-[220px] bg-white bottom-[-54px] right-[15px] overflow-y-auto list-facilities",
+                {
+                  "!max-h-[200px]": isFullScreen,
+                }
+              )}
             >
               <InfiniteScroll
                 next={fechData}
@@ -143,6 +156,11 @@ export const ContactSilde = memo(() => {
           </div>
         ) : null}
       </button>
+      {!isFullScreen ? (
+        <button>
+          <GotoTop />
+        </button>
+      ) : null}
     </>
   );
 });
