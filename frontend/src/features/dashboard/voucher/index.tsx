@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { TitleTopic } from '../home/components/TitleTopic'
 import { Button } from '../components/Button'
 import { ICAdd } from '@assets/icons/ICAdd'
@@ -18,11 +18,12 @@ import type { IParams, IResponseData } from '@typeRules/index'
 import moment from 'moment'
 import { VOUCHER_STATE, type IVoucherGet } from '@typeRules/voucher'
 import { DiglogComfirmDelete } from '../components/DiglogComfirmDelete'
-import { useHandleLoading } from '../components/Loading'
+import { Loading, useHandleLoading } from '../components/Loading'
 import { useShowMessage } from '../components/DiglogMessage'
 import { ModalConfirm } from './components/ModalConfirm'
 import MagnifyingGlass from '@assets/icons/MagnifyingGlass'
 import { debounce } from 'lodash'
+import InfiniteScroll from 'react-infinite-scroll-component'
 
 const filters = [
   {
@@ -56,23 +57,70 @@ function VoucherAdmin() {
   const [openFilterStatus, setOpenFilterStatus] = useState(false)
   const [filterStatus, setFilterStatus] = useState("")
   
-  const [vouchers, setVouchers] = useState<IResponseData<IVoucherGet>>();
-  const { refCheckboxAll, refCheckboxList, handleCheckAll, handleCheckedItem, listChecked, setListChecked } = useHandleCheckbox(vouchers?.list.map(e => e.id as number) || []);
+  const [vouchers, setVouchers] = useState<IVoucherGet[]>([]);
+  const { refCheckboxAll, refCheckboxList, handleCheckAll, handleCheckedItem, listChecked, setListChecked } = useHandleCheckbox(vouchers?.map(e => e.id as number) || []);
   // console.log(vouchers);
+
+  const [loading, setLoading] = useState<boolean>(false);
+  const [total, setTotalPage] = useState<number>(0);
+  const [currentPage, setCurrentPage] = useState<number>(0);
+  const totalPages = useMemo(() => {
+    return Math.ceil(total / SIZE_DATA);
+  }, [total]);
   
   useEffect(() => {
-    getVoucherData(Number(1))
+    getVoucherData(0)
   }, [])
 
   useEffect(() => {
-    getVoucherData(Number(1))
+    getVoucherData(0)
+    setCurrentPage(0)
   }, [filterStatus, filter])
+
+  const fechData = () => {
+    // if(isAll) return
+    if (currentPage < totalPages) {
+      if (keyword != "") {
+        setCurrentPage(0)
+        const searchParams = {
+          query: '"' + keyword.trim() + '"',
+          page: currentPage + 1,
+          size: SIZE_DATA,
+          voucherState: filter != "" ? filter : filterStatus
+        };
+        searchListNewMore(searchParams)
+        setCurrentPage((page) => page + 1);
+      } else {
+
+        getVoucherDataMore(currentPage + 1);
+        setCurrentPage((page) => page + 1);
+      }
+    }
+  };
 
   const getVoucherData = async (page:number) => {
     try {
+      setLoading(true)
       VoucherService.get({page: page, size: SIZE_DATA, sort: "id,desc", voucherState: filter != "" ? filter : filterStatus, keyword: keyword})
         .then(response => {
-          setVouchers(response)
+          setVouchers(response.list)
+          setTotalPage(response.totalElementPage);
+        })
+        .catch(error => {
+        })
+        .finally(() => {
+          setLoading(false);
+        })
+    } catch (error) {
+    } 
+  }
+
+  const getVoucherDataMore = async (page:number) => {
+    try {
+      VoucherService.get({page: page, size: SIZE_DATA, sort: "id,desc", voucherState: filter != "" ? filter : filterStatus, keyword: keyword})
+        .then(response => {
+          setVouchers(pre => [...pre, ...response.list])
+          setTotalPage(response.totalElementPage);
         })
         .catch(error => {
         })
@@ -87,24 +135,35 @@ function VoucherAdmin() {
 
   useEffect(() => {
     if (keyword != "") {
+      setCurrentPage(0)
       const searchParams = {
-        query: "*" + keyword.trim() + "*",
+        query: '"' + keyword.trim() + '"',
         page: 0,
-        size: 90000000,
+        size: SIZE_DATA,
         voucherState: filter != "" ? filter : filterStatus
       };
       debounceDropDown(searchParams);
       return;
     }
     debounceDropDown.cancel();
-    getVoucherData(Number(1))
-  }, [filterStatus, filter, keyword])
+  }, [keyword])
 
   const searchListNew = async (params: IParams) => {
     try {
       const response =
         await VoucherService.search(params);
-        setVouchers(response)
+        setVouchers(response.list)
+        setTotalPage(response.totalElementPage);
+    } catch (error) {
+    }
+  };
+
+  const searchListNewMore = async (params: IParams) => {
+    try {
+      const response =
+        await VoucherService.search(params);
+        setVouchers(pre => [...pre, ...response.list])
+        setTotalPage(response.totalElementPage);
     } catch (error) {
     }
   };
@@ -278,71 +337,87 @@ function VoucherAdmin() {
           </div>
           <p className="flex justify-end gap-3">{t("adminVoucher.table.action")}</p>
         </div>
-        {vouchers && vouchers.list.map((item, idx) => {
-        return (
-          <div
-            key={item.id}
-            className=" border-b border-br_E9ECEF py-[16px] grid grid-cols-[25px_88px_128px_88px_118px_68px__1fr_68px] 2xl:grid-cols-[25px_100px_218px_88px_118px_138px__1fr_128px] gap-x-[16px] [&>p]:text-_14 [&>P]:text-text_primary "
-          >
-            <div className='flex items-center'>
-              <Checkbox
-                onChange={(event) => handleCheckedItem(event, idx)}
-                ref={(element: HTMLInputElement) => {
-                  refCheckboxList.current[idx] = element;
-                }}
-              />
-            </div>
-            <p className='line-clamp-1 flex items-center hover:cursor-pointer hover:font-bold' 
-              onClick={() => handleClickChange(item.id, true)}
-            >{item.code}</p>
-            <p className='line-clamp-1 flex items-center'>{item.name}</p>
-            <p className='line-clamp-1 flex items-center'>{item.value} 
-              {/* {item.typeVoucher == VOUCHER_TYPE.money ? "VNĐ" : "%"} */}
-              </p>
-            <p className='line-clamp-1 flex items-center'>{item.numBill}</p>
-            <p className='line-clamp-1 flex items-center'>{item.used}</p>
-            <div className="flex flex-col justify-start gap-2">
-              {
-                item.voucherState == VOUCHER_STATE.end ? <div className="flex items-center "
-                >
-                  <span className='text-_14 text-text_red underline'>{t("adminVoucher.status.end")}</span>
-                </div> : item.voucherState == VOUCHER_STATE.running ? <div className="flex items-start relative"
-                >
-                  <span className='text-_14 text-bg_01A63E underline -mt-1'>{t("adminVoucher.status.running")}</span>
-                </div> : <div className="flex items-start relative"
-                >
-                  <span className='text-_14 text-waiting underline -mt-1'>{t("adminVoucher.status.waiting")}</span>
+        <InfiniteScroll
+          hasMore
+          loader={
+            loading ? (
+              <div className="flex items-center justify-center">
+                <Loading />
+              </div>
+            ) : (
+              <></>
+            )
+          }
+          next={fechData}
+          dataLength={vouchers.length}
+          // scrollableTarget="comment-admin-scroll"
+        >
+          {vouchers && vouchers.map((item, idx) => {
+            return (
+              <div
+                key={item.id}
+                className=" border-b border-br_E9ECEF py-[16px] grid grid-cols-[25px_88px_128px_88px_118px_68px__1fr_68px] 2xl:grid-cols-[25px_100px_218px_88px_118px_138px__1fr_128px] gap-x-[16px] [&>p]:text-_14 [&>P]:text-text_primary "
+              >
+                <div className='flex items-center'>
+                  <Checkbox
+                    onChange={(event) => handleCheckedItem(event, idx)}
+                    ref={(element: HTMLInputElement) => {
+                      refCheckboxList.current[idx] = element;
+                    }}
+                  />
                 </div>
-              }
-              <span className='text-_14 -translate-y-1.5 text-text_primary'>{moment(item.startDate).format(VOUCHER_DATE_FORMAT)} - {moment(item.endDate).format(VOUCHER_DATE_FORMAT)}</span>
+                <p className='line-clamp-1 flex items-center hover:cursor-pointer hover:font-bold' 
+                  onClick={() => handleClickChange(item.id, true)}
+                >{item.code}</p>
+                <p className='line-clamp-1 flex items-center'>{item.name}</p>
+                <p className='line-clamp-1 flex items-center'>{item.value} 
+                  {/* {item.typeVoucher == VOUCHER_TYPE.money ? "VNĐ" : "%"} */}
+                  </p>
+                <p className='line-clamp-1 flex items-center'>{item.numBill}</p>
+                <p className='line-clamp-1 flex items-center'>{item.used}</p>
+                <div className="flex flex-col justify-start gap-2">
+                  {
+                    item.voucherState == VOUCHER_STATE.end ? <div className="flex items-center "
+                    >
+                      <span className='text-_14 text-text_red underline'>{t("adminVoucher.status.end")}</span>
+                    </div> : item.voucherState == VOUCHER_STATE.running ? <div className="flex items-start relative"
+                    >
+                      <span className='text-_14 text-bg_01A63E underline -mt-1'>{t("adminVoucher.status.running")}</span>
+                    </div> : <div className="flex items-start relative"
+                    >
+                      <span className='text-_14 text-waiting underline -mt-1'>{t("adminVoucher.status.waiting")}</span>
+                    </div>
+                  }
+                  <span className='text-_14 -translate-y-1.5 text-text_primary'>{moment(item.startDate).format(VOUCHER_DATE_FORMAT)} - {moment(item.endDate).format(VOUCHER_DATE_FORMAT)}</span>
 
-            </div>
-
-            <div className="flex justify-end items-center gap-x-[16px]">
-              {
-                item.voucherState == VOUCHER_STATE.running ? <div className="flex items-center gap-2 cursor-pointer flex-wrap 2xl:flex-nowrap"
-                  onClick={() => {}}
-                >
-                  <span className="text-_14 text-TrueBlue_500 cursor-pointer"
-                    onClick={() => handleClickChange(item.id, false)}
-                  >{t("adminVoucher.btnStatus.change")}</span>
-                  <span className='text-_14 text-text_red cursor-pointer'
-                     onClick={() => handleShowModalStop(item.id)}
-                  >{t("adminVoucher.btnStatus.stop")}</span>
-                </div> :  item.voucherState == VOUCHER_STATE.end ? <div className="flex justify-end relative"
-                >
-                  <span className='  text-_14  text-text_A1A0A3'>{t("adminVoucher.btnStatus.end")}</span>
-                </div> : <div className="flex justify-end relative"
-                >
-                   <span className="text-_14 text-TrueBlue_500 cursor-pointer"
-                    onClick={() => handleClickChange(item.id, false)}
-                   >{t("adminVoucher.btnStatus.change")}</span>
                 </div>
-              }
-            </div>
-          </div>
-        );
-      })}
+
+                <div className="flex justify-end items-center gap-x-[16px]">
+                  {
+                    item.voucherState == VOUCHER_STATE.running ? <div className="flex items-center gap-2 cursor-pointer flex-wrap 2xl:flex-nowrap"
+                      onClick={() => {}}
+                    >
+                      <span className="text-_14 text-TrueBlue_500 cursor-pointer"
+                        onClick={() => handleClickChange(item.id, false)}
+                      >{t("adminVoucher.btnStatus.change")}</span>
+                      <span className='text-_14 text-text_red cursor-pointer'
+                        onClick={() => handleShowModalStop(item.id)}
+                      >{t("adminVoucher.btnStatus.stop")}</span>
+                    </div> :  item.voucherState == VOUCHER_STATE.end ? <div className="flex justify-end relative"
+                    >
+                      <span className='  text-_14  text-text_A1A0A3'>{t("adminVoucher.btnStatus.end")}</span>
+                    </div> : <div className="flex justify-end relative"
+                    >
+                      <span className="text-_14 text-TrueBlue_500 cursor-pointer"
+                        onClick={() => handleClickChange(item.id, false)}
+                      >{t("adminVoucher.btnStatus.change")}</span>
+                    </div>
+                  }
+                </div>
+              </div>
+            );
+          })}
+        </InfiniteScroll>
       </div>
     </div>
   )

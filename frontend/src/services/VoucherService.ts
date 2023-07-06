@@ -9,7 +9,7 @@ const apiAdmin = getMicroServiceAdmin(`${apis.vouchers}`, microServices.restaura
 const pathSearch = getMicroService(`${apis.searchVouchers}`, microServices.restaurant)
 const VoucherService = {
     get: (params:IParams):Promise<IResponseData<IVoucherGet>> => {
-        return HttpService.axiosClient.get(`${apiAdmin}`, {params: {...params, page: Number(params.page) - 1}}) 
+        return HttpService.axiosClient.get(`${apiAdmin}`, {params: params}) 
     },
     getById: (id:number):Promise<IVoucher> => {
         return HttpService.axiosClient.get(`${apiAdmin}/${id}`) 

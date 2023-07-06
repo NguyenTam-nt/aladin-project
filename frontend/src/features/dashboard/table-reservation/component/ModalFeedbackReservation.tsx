@@ -67,8 +67,6 @@ const ModalFeedbackReservation = ({ idItem, handleUpdate }: Props) => {
     handleSubmit,
   } = formik;
 
-  console.log(values.feedback);
-
   const getDetailReverTable = async (id: number) => {
     try {
       const resultDetail = await reservationTableSvice.getReserTableById(id);
@@ -87,7 +85,6 @@ const ModalFeedbackReservation = ({ idItem, handleUpdate }: Props) => {
     getDetailReverTable(idItem);
   }, [idItem]);
 
-  console.log(values, isFeetback, "jdsakjlf");
   return (
     <div className="w-[1144px] h-auto bg-white py-10 px-6">
       <h2 className="text-_32 font-bold text-text_primary uppercase text-center mb-10">

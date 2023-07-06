@@ -64,7 +64,7 @@ function OrderFoodAdmin() {
   useEffect(() => {
     if (keySearch != "") {
       const searchParams = {
-        query: "*" + keySearch.trim() + "*",
+        query: '"' + keySearch.trim() + '"',
         page: 0,
         size: 100000,
         id: place, 

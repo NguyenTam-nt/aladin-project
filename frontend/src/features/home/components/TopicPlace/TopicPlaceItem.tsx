@@ -1,6 +1,7 @@
 import { ICArrowActive } from "@assets/icons/ICArrowActive";
 import { ICHotline } from "@assets/icons/ICHotline";
 import { useGetPlace } from "@features/dashboard/product/components/useGetPlace";
+import useInView from "@hooks/useInView";
 import type { PlaceType } from "@typeRules/place";
 import clsx from "clsx";
 import React, { memo, useState } from "react";
@@ -15,8 +16,12 @@ export const TopicPlaceItem = () => {
   const handleActiveIndex = (index: number) => {
     setActiveIndex(index);
   };
+  const { ref, isInView } = useInView<HTMLDivElement>();
   return (
-    <div className="grid grid-cols-1 mt-[32px] xl:mt-[48px] lg:grid-cols-3 gap-[24px]">
+    <div
+      ref={ref}
+      className="grid grid-cols-1 mt-[32px] xl:mt-[48px] lg:grid-cols-3 gap-[24px]"
+    >
       <div className="bg-white radius-tl-br flex flex-col h-[490px]">
         {/* <div className="px-[24px]">
           <label
@@ -48,13 +53,15 @@ export const TopicPlaceItem = () => {
           />
         </div>
       </div>
-      {categories.length ? (
-        <div
-          className=" lg:col-span-2 [&>iframe]:w-full [&>iframe]:h-full  h-[490px] radius-tl-br overflow-hidden"
-          dangerouslySetInnerHTML={{
-            __html: categories[activeIndex].linkMap,
-          }}
-        />
+      {isInView ? (
+        categories.length ? (
+          <div
+            className=" lg:col-span-2 [&>iframe]:w-full [&>iframe]:h-full  h-[490px] radius-tl-br overflow-hidden"
+            dangerouslySetInnerHTML={{
+              __html: categories[activeIndex].linkMap,
+            }}
+          />
+        ) : null
       ) : null}
     </div>
   );
