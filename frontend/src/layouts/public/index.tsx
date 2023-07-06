@@ -20,7 +20,7 @@ export const PublicLayout = () => {
         }}
       >
         <Outlet />
-        <GotoTop />
+     
       </div>
       <Footer />
     </>
