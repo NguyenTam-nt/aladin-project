@@ -6,7 +6,7 @@ import {
 } from "@commons/formatMoney";
 import { Colors } from "@constants/color";
 import clsx from "clsx";
-import React, { useEffect, useMemo, useRef } from "react";
+import React, { memo, useEffect, useMemo, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { Button } from "./Button";
 import { MoneyLineThrough } from "@features/home/components/MoneyLineThrough";
@@ -17,26 +17,31 @@ import { paths } from "@constants/routerPublic";
 import { useCartContext } from "@contexts/hooks/order";
 import type { IProduct } from "@typeRules/product";
 import { debounce } from "lodash";
+import { useScreenOrientation } from "@hooks/useScreenOrientation";
 
 export const positionCart = {
   positionX: 0,
   positionY: 0,
 };
 
-export const MenusRight = () => {
+export const MenusRight = memo(() => {
   const { t } = useTranslation();
   const { listOrder } = useCartContext();
   const { ref, handleToggleItem, isShow, handleShow, handleHiden } =
     useClickOutItem();
   const isFirstRender = useRef(0);
   const { pathname } = useLocation();
+  const { isFullScreen } = useScreenOrientation();
 
   useEffect(() => {
     if (ref.current) {
-      positionCart.positionX = ref.current.getBoundingClientRect().left;
-      positionCart.positionY = ref.current.getBoundingClientRect().top - 223;
+      setTimeout(() => {
+        positionCart.positionX = ref.current.getBoundingClientRect().left;
+        positionCart.positionY =
+        ref.current.getBoundingClientRect().top - 140;
+      }, 500)
     }
-  }, [ref]);
+  }, [ref, isFullScreen]);
 
   const debouceTime = useRef<ReturnType<typeof debounce>>();
 
@@ -82,22 +87,26 @@ export const MenusRight = () => {
   }, [isHidden]);
 
   return (
-    <div ref={ref}>
+    <div className="relative flex items-end h-auto" ref={ref}>
       <div
         className={clsx(
-          "flex  absolute z-[2] top-[-247px] ease-in-out duration-300",
+          "flex  absolute z-[2] top-[-223px] ease-in-out duration-300",
           {
             "right-[calc(-100vw_+_40px)] _420:right-[-356px]": !isShow,
             "right-0": isShow,
             " opacity-0 z-[-10] hidden": isHidden,
+            "!top-[-140px]": isFullScreen,
           }
         )}
       >
         <button
           onClick={handleToggleItem}
-          className={
-            "h-[40px] 2xl:h-[54px] w-[223px] absolute  origin-[top_right] right-[calc(100%_+_40px)]  2xl:right-[calc(100%_+_54px)] gap-x-2 rotate-[-90deg] text-_18 text-text_white flex font-iCielBC_Cubano items-center justify-center px-[24px] rounded-[0_16px_0_0] bg-secondary"
-          }
+          className={clsx(
+            "h-[40px] 2xl:h-[54px] w-[223px] absolute  origin-[top_right] right-[calc(100%_+_40px)]  2xl:right-[calc(100%_+_54px)] gap-x-2 rotate-[-90deg] text-_18 text-text_white flex font-iCielBC_Cubano items-center justify-center px-[24px] rounded-[0_16px_0_0] bg-secondary",
+            {
+              "!w-[140px] !text-_8 px-1": isFullScreen,
+            }
+          )}
         >
           <span
             className={clsx("rotate-[-180deg]", { "rotate-[0deg]": isShow })}
@@ -106,9 +115,25 @@ export const MenusRight = () => {
           </span>
           {t("common.choosed_menu")}
         </button>
-        <div className=" w-[calc(100vw_-_40px)] _420:w-[356px] flex flex-col py-[24px] h-[450px] md:h-[500px] 3xl:h-[644px] bg-primary">
-          <div className="mx-[16px] py-[16px] flex justify-between items-center border-b border-br_E6E6E6">
-            <span className="text-_18 font-iCielBC_Cubano text-secondary">
+        <div
+          className={clsx(
+            " w-[calc(100vw_-_40px)] _420:w-[356px] flex flex-col py-[24px] h-[450px] md:h-[500px] 3xl:h-[644px] bg-primary",
+            {
+              "!h-[250px] !py-2": isFullScreen
+            }
+          )}
+        >
+          <div
+            className={clsx(
+              "mx-[16px] py-[16px] flex justify-between items-center border-b border-br_E6E6E6",
+              {
+                "!py-2": isFullScreen,
+              }
+            )}
+          >
+            <span
+              className={clsx("text-_18 font-iCielBC_Cubano text-secondary")}
+            >
               {t("common.choosed_menu_title")}
             </span>
             <button onClick={handleToggleItem}>
@@ -123,18 +148,38 @@ export const MenusRight = () => {
                 })}
               </div>
               <div className="px-[16px] flex flex-col gap-y-[16px]">
-                <div className="flex flex-wrap items-baseline gap-[12px] justify-between mt-[16px]">
-                  <span className="text-_14 w-max text-text_white">
+                <div
+                  className={clsx(
+                    "flex flex-wrap items-baseline gap-[12px] justify-between mt-[16px]",
+                    {
+                      "mt-2": isFullScreen,
+                    }
+                  )}
+                >
+                  <span
+                    className={clsx("text-_14 w-max text-text_white", {
+                      "!text-_12": isFullScreen,
+                    })}
+                  >
                     Tổng giá trị
                   </span>
-                  <span className="text-_16 text-right flex-1 font-semibold text-secondary">
+                  <span
+                    className={clsx(
+                      "text-_16 text-right flex-1 font-semibold text-secondary",
+                      {
+                        "!text-_12": isFullScreen,
+                      }
+                    )}
+                  >
                     {formatNumberDotWithVND(totalPrice)}
                   </span>
                 </div>
                 <Button
                   onClick={handleNavigate}
                   classNameParent="!w-full"
-                  className="bg-secondary w-full"
+                  className={clsx("bg-secondary w-full", {
+                    " !h-[40px]": isFullScreen,
+                  })}
                   color="primary"
                   text="Đặt đơn hàng này"
                 />
@@ -149,7 +194,7 @@ export const MenusRight = () => {
       </div>
     </div>
   );
-};
+})
 
 type Props = {
   data: IProduct;

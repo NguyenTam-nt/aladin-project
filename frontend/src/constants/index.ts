@@ -9,6 +9,7 @@ export const windownSizeHeight = window.innerHeight
 
 export const withResponsive = {
     _320: 320,
+    _370: 370,
     _420: 420,
     _560: 560,
     _640: 640,

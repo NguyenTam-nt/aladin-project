@@ -9,7 +9,7 @@ export const GotoTop = () => {
       behavior: "smooth",
     });
   };
-  const refScroll = useRef<HTMLButtonElement>(null);
+  const refScroll = useRef<HTMLDivElement>(null);
   useEffect(() => {
     window.addEventListener("scroll", () => {
       if(refScroll.current) {
@@ -27,12 +27,12 @@ export const GotoTop = () => {
     };
   }, []);
   return (
-    <button
+    <div
       ref={refScroll}
       onClick={handleScrollToTop}
-      className="w-[40px] h-[40px] 2xl:w-[54px] fixed bottom-[7%] 3xl:bottom-[10%] z-[10] right-0 hidden items-center justify-center 2xl:h-[54px] rounded-[8px_0_8px_0px] 2xl:rounded-[16px_0_16px_0] bg-text_A1A0A3"
+      className="w-[40px] cursor-pointer h-[40px] 2xl:w-[54px] z-[10] right-0 hidden items-center justify-center 2xl:h-[54px] rounded-[8px_0_8px_0px] 2xl:rounded-[16px_0_16px_0] bg-text_A1A0A3"
     >
       <ICGotoTop width={windownSizeWidth > withResponsive._1024 ? 20 : 14} height={windownSizeWidth > withResponsive._1024 ? 20 : 14} />
-    </button>
+    </div>
   );
 };
