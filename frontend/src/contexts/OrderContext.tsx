@@ -14,6 +14,7 @@ import { positionCart } from "@components/MenusRight";
 import clsx from "clsx";
 import { v4 as uuidv4 } from "uuid";
 import { productService } from "@services/product";
+import { getLinkImageUrl } from "@commons/common";
 
 interface IOrderState {
   listOrder: IProduct[];
@@ -236,7 +237,7 @@ const ProductAnimated = memo(
         )}
       >
         <div className="w-full absolute inset-0 h-full">
-          <img className="w-full h-full object-cover" src={data.image} alt="" />
+          <img className="w-full h-full object-cover"  src={getLinkImageUrl(data?.image, 300, 300)} alt="" />
         </div>
       </div>
     );

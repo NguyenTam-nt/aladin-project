@@ -11,7 +11,6 @@ import { windownSizeWidth, withResponsive } from "@constants/index";
 import type { INews } from "@typeRules/index";
 import { policyService } from "@services/policy";
 import { ICPolicyNoticeFooter } from "@assets/icons/ICPolicyNoticeFooter";
-import { ICPolicyNoticeFooterMobile } from "@assets/icons/ICPolicyNoticeFooterMobile";
 
 
 export const FooterAbout = () => {
@@ -38,7 +37,7 @@ export const FooterAbout = () => {
             {
               windownSizeWidth > withResponsive._992 ? (
                 <ICPolicyNoticeFooter width={windownSizeWidth > withResponsive._992 ? 125 : 62} height={windownSizeWidth > withResponsive._992 ? 48 : 24} />
-              ) : <img src={footerImage} alt="" />
+              ) : <img className="w-[62px] h-[24px] object-cover" src={footerImage} alt="" />
             }
            
           </div>

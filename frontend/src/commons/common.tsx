@@ -46,7 +46,7 @@ export const validateVideo = async (file: File) => {
     return "message.video.size_20";
   }
   const duration = (await getVideoDuration(file)) as number;
-  if (duration < 10 || duration > 60) {
+  if (duration < 5 || duration > 60) {
     return "message.video.duration";
   }
 
@@ -124,3 +124,12 @@ export function iOS() {
     (navigator?.userAgent.includes("Mac") && "ontouchend" in document)
   );
 }
+
+export const getLinkImageUrl = (
+  url: string | undefined,
+  width: number,
+  height: number,
+  quanlity = 100
+) => {
+  return `${url}/${Math.floor(width)}/${Math.floor(height)}/${quanlity}`;
+};

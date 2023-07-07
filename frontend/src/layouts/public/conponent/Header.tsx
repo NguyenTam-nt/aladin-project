@@ -8,7 +8,6 @@ import React, { memo, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import { SidebarNavigation } from "./SidebarNavigation";
-import { useAuthContext } from "@contexts/hooks/auth";
 
 export const Header = () => {
   useEffect(() => {
@@ -103,7 +102,7 @@ const HeaderMobile = memo(() => {
   return (
     <>
       <div className="w-rp flex h-full justify-between items-center">
-        <Link className="flex items-center relative justify-center" to="">
+        <Link onClick={() => setShow(false)} className="flex items-center relative justify-center" to="/">
           <div className="rotate-logo ">
             <ICLogoFrame width={34} height={31} />
           </div>

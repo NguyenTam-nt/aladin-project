@@ -2,9 +2,10 @@ import React, { useMemo, Fragment } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { IRouter, routersPublic } from "@constants/routerPublic";
 import { useTranslation } from "react-i18next";
-import { prefixRootRoute } from "@constants/index";
+import { prefixRootRoute, windownSizeWidth, withResponsive } from "@constants/index";
 import type { HomeTopicType } from "@typeRules/home";
 import { useGetTopic } from "@features/dashboard/home/components/useGetTopic";
+import { getLinkImageUrl } from "@commons/common";
 
 type Props = {
   type: HomeTopicType
@@ -40,7 +41,7 @@ export const Banner = ({type}:Props) => {
       <img
         alt=""
         className=" absolute inset-0 h-full w-full object-cover"
-        src={listBanner?.listBanner?.[0].linkMedia}
+        src={getLinkImageUrl(listBanner?.listBanner?.[0].linkMedia, windownSizeWidth >= withResponsive._1024 ? withResponsive._1024 : windownSizeWidth, 488)}
       />
       <div className="bg-banner_home absolute inset-0 z-[1]" />
       <div className="w-rp hidden xl:block relative z-[2] mb-[140px] text-text_white">

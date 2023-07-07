@@ -18,6 +18,7 @@ import { useCartContext } from "@contexts/hooks/order";
 import type { IProduct } from "@typeRules/product";
 import { debounce } from "lodash";
 import { useScreenOrientation } from "@hooks/useScreenOrientation";
+import { getLinkImageUrl } from "@commons/common";
 
 export const positionCart = {
   positionX: 0,
@@ -221,7 +222,7 @@ const MenuItem = ({ data }: Props) => {
         <img
           className="min-w-[80px] object-cover w-[80px] min-h-[80px] max-h-[80px] h-[80px] rounded-[16px_0_16px_0]"
           alt=""
-          src={data.linkMedia}
+          src={getLinkImageUrl(data?.linkMedia, 80, 80)}
         />
       </Link>
       <div className="flex-1">

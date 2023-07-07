@@ -1,5 +1,6 @@
 import clsx from "clsx";
 import React, { useMemo } from "react";
+import { Image } from "./Image";
 
 type Props = {
   url?: string;
@@ -11,7 +12,7 @@ export const Avatar = ({ url, name, size = 40 }: Props) => {
   const avatartext = useMemo(() => {
     const listText = name.split(" ");
     const finalText = listText?.[listText.length - 1];
-    return finalText.charAt(0) || "G"
+    return finalText.charAt(0) || "G";
   }, [name]);
   return (
     <div
@@ -27,9 +28,10 @@ export const Avatar = ({ url, name, size = 40 }: Props) => {
       }}
     >
       {url ? (
-        <img
-          src={url}
+        <Image
+          alt={url}
           className="z-[1] absolute inset-0 w-full h-full object-cover"
+          loading="lazy"
         />
       ) : (
         <span
