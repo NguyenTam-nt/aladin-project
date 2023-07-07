@@ -23,8 +23,6 @@ const TableReserVationForm = memo(
     const { ref, isShow, handleToggleItem } = useClickOutItem();
     const [listPlaces, setListPlace] = useState<PlaceSelectType[]>([]);
     const [currenPage, setCurrenPage] = useState<number>(1);
-    // const [totaPage, setTotaPages] = useState<number>(1);
-    // const scroolRef = useRef<HTMLDivElement>(null);
     const dateRef = useRef<HTMLInputElement>(null);
     const hourRef = useRef<HTMLInputElement>(null);
     const formik = useFormik({
@@ -68,7 +66,7 @@ const TableReserVationForm = memo(
           .required("Phải chọn giờ đặt bàn.")
           .test(
             "hour",
-            "Chưa chọn ngày hoặc thời gian đặt bàn tối thiểu phải lớn hơn hiện tại 10 phút.",
+            "Vui lòng chọn giờ đặt bàn trước thời gian hiện tại ít nhất 10 phút.",
             function (value, props) {
               if (value && values.chooseDate) {
                 const truThy: boolean = moment(
@@ -112,8 +110,8 @@ const TableReserVationForm = memo(
           const resultOrder = await reservationTableSvice.reserTable(
             dataUpload
           );
+          showSuccess("form.request_success", values.email);
           handleResetForm();
-          showSuccess("tableReservation.status.success");
         } catch (error) {
           showError("message.actions.error.delete_banner");
           handleResetForm();
