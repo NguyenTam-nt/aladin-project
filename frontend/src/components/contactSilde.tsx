@@ -43,7 +43,7 @@ export const ContactSilde = memo(() => {
 
   return (
     <>
-      {windownSizeWidth > withResponsive._1280 && !isFullScreen ? (
+      {!isFullScreen ? (
         <button
           onClick={handleLogin}
           className=" text-_12 text-white flex items-center justify-center bg-primary"

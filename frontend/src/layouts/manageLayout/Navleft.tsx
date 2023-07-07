@@ -16,6 +16,7 @@ interface Props {
     element: any;
     icon?: any;
   };
+  onShow: () => void;
 }
 const RenderLink = (props: Props) => {
   const { t } = useTranslation();
@@ -28,6 +29,7 @@ const RenderLink = (props: Props) => {
   return (
     <NavLink
       to={props.item.path}
+      onClick={props.onShow}
       // end
       className={({ isActive }) => {
         return (
@@ -86,11 +88,11 @@ const Navleft = memo(({ isShown, onShow }: PropsNavleft) => {
             </div>
           </Link>
         </div>
-        <ul className="mt-[100px]">
+        <ul className="mt-[50px] xl:mt-[100px]">
           {RouterManage.map((item, index) => {
             return !item.isHidden ? (
               <li key={index}>
-                <RenderLink item={item} />
+                <RenderLink onShow={onShow} item={item} />
               </li>
             ) : null;
           })}

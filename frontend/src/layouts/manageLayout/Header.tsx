@@ -7,7 +7,7 @@ import { ICLogin } from "@assets/icons/ICLogin";
 import { useClickOutItem } from "@hooks/useClickOutItem";
 import clsx from "clsx";
 import { useLocation, useNavigate } from "react-router-dom";
-import { prefixRootRoute } from "@constants/index";
+import { prefixRootRoute, windownSizeWidth, withResponsive } from "@constants/index";
 import { RouterManage } from "@constants/routerManager";
 import { useTranslation } from "react-i18next";
 import { ICMenuBar } from "@assets/icons/ICMenuBar";
@@ -41,7 +41,7 @@ const Header = memo(({onShow}:PropsHeader) => {
   }, [pathname]);
 
   return (
-    <div className="h-spc120 px-[20px] xl:px-[70px] 2xl:pl-[96px] min-w-full bg-text_white shadow-md flex sticky left-0 right-0 top-0 z-10 ">
+    <div className="h-[60px] xl:h-spc120 px-[20px] xl:px-[70px] 2xl:pl-[96px] min-w-full bg-text_white shadow-md flex sticky left-0 right-0 top-0 z-10 ">
       <div className="flex items-center w-[1224px] justify-between">
         <button className=" xl:hidden rotate-[180deg]" onClick={onShow}>
           <ICMenuBar color={Colors.text_black} />
@@ -54,9 +54,9 @@ const Header = memo(({onShow}:PropsHeader) => {
             onClick={handleToggleItem}
             className="flex cursor-pointer items-center gap-2 relative"
           >
-            <div className="w-14 h-14 rounded-[50%] ">
+            <div className="w-[40px] xl:w-14 h-[40px] xl:h-14 rounded-[50%] ">
               <Avatar
-                size={56}
+                size={ windownSizeWidth > withResponsive._1280 ? 56 : 40}
                 url={user?.imageUrl}
                 name={user?.fullname + ""}
               />
@@ -71,7 +71,7 @@ const Header = memo(({onShow}:PropsHeader) => {
           <button
             onClick={handleLogout}
             className={clsx(
-              " absolute w-full opacity-0 flex items-center justify-center text-_16 font-semibold  h-[56px] bg-white top-[100%] left-0 shadow-lg",
+              " absolute min-w-[120px] w-full opacity-0 flex items-center justify-center text-_16 font-semibold  h-[56px] bg-white top-[100%] right-0 xl:right-[unset] xl:left-0 shadow-lg",
               {
                 "logout-box": isShow,
               }

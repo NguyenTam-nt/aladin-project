@@ -27,6 +27,9 @@
         },
         "filter_by_date": "Lọc theo ngày",
         "filter_by_place": "Lọc theo cơ sở",
-        "searchInput": "Tìm kiếm theo Họ và tên/ Số điện thoại"
+        "searchInput": "Tìm kiếm theo Họ và tên/ Số điện thoại",
+        "total_price": "Tổng giá trị",
+        "order_btn": "Đặt đơn hàng này",
+        "order_empty": "Giỏ hàng của bạn đang rỗng."
     }
 }

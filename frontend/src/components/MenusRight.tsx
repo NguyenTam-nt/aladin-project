@@ -164,7 +164,7 @@ export const MenusRight = memo(() => {
                       "!text-_12": isFullScreen,
                     })}
                   >
-                    Tổng giá trị
+                    {t("common.total_price")}
                   </span>
                   <span
                     className={clsx(
@@ -184,13 +184,13 @@ export const MenusRight = memo(() => {
                     " !h-[40px]": isFullScreen,
                   })}
                   color="primary"
-                  text="Đặt đơn hàng này"
+                  text="common.order_btn"
                 />
               </div>
             </>
           ) : (
             <div className="flex justify-center mt-5">
-              Giỏ hàng của bạn đang rỗng.
+              {t("common.order_empty")}
             </div>
           )}
         </div>

@@ -12,7 +12,7 @@ const ModalConfirm = (props: Props) => {
   const { t } = useTranslation();
   const { hideModal } = useModalContext();
   return (
-    <div className="flex items-center flex-col py-[53px] px-[157px] bg-white justify-center w-[800px] h-auto relative">
+    <div className="flex items-center flex-col py-[24px] xl:py-[53px] px-[24px] xl:px-[157px] bg-white justify-center w-[90vw] lg:w-[800px] h-auto relative">
       <button
         onClick={hideModal}
         className="text-text_7E8B99 absolute top-[24px] text-_16 right-[24px]"
@@ -38,7 +38,7 @@ const ModalConfirm = (props: Props) => {
           onClick={hideModal}
           text="button._cancel"
           color="empty"
-          className="!w-[120px]"
+          className="!w-[70px] sm:!w-[120px]"
         />
         <Button
           type="submit"
