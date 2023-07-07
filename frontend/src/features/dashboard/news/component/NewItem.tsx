@@ -1,4 +1,6 @@
+import { ICStar } from "@assets/icons/ICStar";
 import { Avatar } from "@components/Avatar";
+import { Colors } from "@constants/color";
 import { prefixRootRoute } from "@constants/index";
 import { pathsAdmin } from "@constants/routerManager";
 import { useModalContext } from "@contexts/hooks/modal";
@@ -42,7 +44,14 @@ const NewItem = memo(({ itemNew, handleDelete }: Props) => {
     );
   };
   return (
-    <div className="bg-white min-h-[434px] flex flex-col">
+    <div className="bg-white min-h-[434px] flex flex-col relative">
+      <button className=" absolute top-[24px] right-[24px]">
+        <ICStar
+          width={24}
+          height={24}
+          color={itemNew.priority ? Colors.bg_FFC564 : Colors.text_white}
+        />
+      </button>
       <img
         alt=""
         className="w-full object-cover h-[288px]"
