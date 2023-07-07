@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { memo, useEffect, useState } from "react";
 import { Colors } from "@constants/color";
 import { ICArowDown } from "@assets/icons/ICArowDown";
 import { useAuthContext } from "@contexts/hooks/auth";
@@ -10,7 +10,13 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { prefixRootRoute } from "@constants/index";
 import { RouterManage } from "@constants/routerManager";
 import { useTranslation } from "react-i18next";
-const Header = () => {
+import { ICMenuBar } from "@assets/icons/ICMenuBar";
+
+type PropsHeader = {
+  onShow: () => void
+}
+
+const Header = memo(({onShow}:PropsHeader) => {
   const { user, doLogout } = useAuthContext();
   const { ref, isShow, handleToggleItem } = useClickOutItem();
   const navigate = useNavigate();
@@ -35,9 +41,12 @@ const Header = () => {
   }, [pathname]);
 
   return (
-    <div className="h-spc120 px-[70px] 2xl:pl-[96px] min-w-full bg-text_white shadow-md flex sticky left-0 right-0 top-0 z-10 ">
+    <div className="h-spc120 px-[20px] xl:px-[70px] 2xl:pl-[96px] min-w-full bg-text_white shadow-md flex sticky left-0 right-0 top-0 z-10 ">
       <div className="flex items-center w-[1224px] justify-between">
-        <p className="title-18 text-text_EA222A">
+        <button className=" xl:hidden rotate-[180deg]" onClick={onShow}>
+          <ICMenuBar color={Colors.text_black} />
+        </button>
+        <p className="title-14 xl:title-18 text-text_EA222A">
           {nameHeader && t(nameHeader)}
         </p>
         <div ref={ref} className=" relative">
@@ -52,7 +61,7 @@ const Header = () => {
                 name={user?.fullname + ""}
               />
             </div>
-            <p className="text-base font-semibold ">
+            <p className="text-base hidden md:block font-semibold ">
               {user?.fullname}
               <button className="inline-block ml-3 cursor-pointer">
                 <ICArowDown color={Colors.Grey_Primary} />
@@ -77,6 +86,6 @@ const Header = () => {
       </div>
     </div>
   );
-};
+})
 
 export default Header;

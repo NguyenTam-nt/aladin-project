@@ -95,15 +95,15 @@ function ModalResponseContact({data, loadData}: Props) {
   
 
   return (
-    <form onSubmit={formik.handleSubmit} className="w-[1144px] h-auto bg-white py-10 px-6">
-      <h2 className="text-_32 font-bold text-text_primary uppercase text-center mb-10">
+    <form onSubmit={formik.handleSubmit} className=" w-[90vw] md:w-[600px] xl:w-[1144px] h-auto bg-white py-10 px-6">
+      <h2 className="text-_24 xl:text-_32 font-bold text-text_primary uppercase text-center mb-10">
         {t("adminContact.form.title") }
       </h2>
       <div className="">
-        <h3 className="text-_20 font-bold text-text_primary uppercase text-left mb-3">
+        <h3 className="text-_14 xl:text-_20 font-bold text-text_primary uppercase text-left mb-3">
           {t("adminContact.form.customer_title") }
         </h3>
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="col-span-1">
               <TitleInput isRequired={true} name={"form.name"} />
               <Input name="fullname"
@@ -140,7 +140,7 @@ function ModalResponseContact({data, loadData}: Props) {
                 disabled
               />
             </div>
-            <div className="col-span-2">
+            <div className="md:col-span-2">
               <TitleInput isRequired={true} name={"form.content"} />
               {/* <Input name="content"
                 value={formik.values.content}

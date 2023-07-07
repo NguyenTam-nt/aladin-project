@@ -19,9 +19,9 @@ const FilterByTime = memo(({ time, handleFilterByTime }: Props) => {
       <Button
         onClick={handleClick}
         text="common.filter_by_date"
-        className="max-w-[177px] whitespace-nowrap z-[9]"
+        className="max-w-[120px] !text-_12 xl:!text-_14 xl:max-w-[177px] whitespace-nowrap z-[9]"
         image={
-          <span className="ml-2">
+          <span className="ml-1 xl:ml-2">
             <CalendarIcont />
           </span>
         }

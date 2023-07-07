@@ -28,7 +28,7 @@ const FilterPlaceBox = memo(({ handleChosePlace, place }: Props) => {
       <Button
         onClick={handleToggleItem}
         text="common.filter_by_place"
-        className="max-w-[177px] whitespace-nowrap"
+        className="max-w-[100px] !text-_12 xl:!text-_14 xl:max-w-[177px] whitespace-nowrap"
         image={
           <span className="ml-2">
             <ICArowDown color={Colors.TrueBlue500} />

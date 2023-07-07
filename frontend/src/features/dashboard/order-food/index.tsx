@@ -141,7 +141,7 @@ function OrderFoodAdmin() {
         <div className="-mb-[32px]">
           <TitleTopic name="adminOrderFood.title" isRequired={false} />
         </div>
-        <div className="flex justify-center items-center gap-4 mb-1">
+        <div className="flex flex-wrap justify-center items-center gap-4 mb-1">
           <div className="flex-1 relative">
             <input
               type="text"

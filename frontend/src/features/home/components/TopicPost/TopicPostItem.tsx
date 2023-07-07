@@ -13,7 +13,7 @@ export const TopicPostItem = memo(({ data }: Props) => {
       <div className="radius-tl-br h-[188px] lg:h-full overflow-hidden">
         <Image
           className="w-full h-full object-cover"
-          alt={getLinkImageUrl(data?.linkMedia, 300, 300)}
+          alt={getLinkImageUrl(data?.linkMedia, 600, 300)}
           loading="lazy"
         />
       </div>

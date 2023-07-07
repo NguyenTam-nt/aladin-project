@@ -70,6 +70,11 @@
   .title-18 {
     @apply text-_18 font-normal leading-[28px] font-iCielBC_Cubano
   } 
+
+  .title-14 {
+    @apply text-_14 font-normal leading-[28px] font-iCielBC_Cubano
+  } 
+
   .radius-tl-br{
     @apply rounded-tl-r32 rounded-br-r32
   }
