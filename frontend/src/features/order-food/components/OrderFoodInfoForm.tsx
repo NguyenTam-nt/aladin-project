@@ -40,7 +40,7 @@ function OrderFoodInfoForm() {
   }, [listOrder]);
 
   const handleShowModal = () => {
-    setElementModal(<ModalOrderFoodSuccess />);
+    setElementModal(<ModalOrderFoodSuccess email={formik.values.email}/>);
   };
 
   const [isValidDate, setIsValidDate] = useState(true)

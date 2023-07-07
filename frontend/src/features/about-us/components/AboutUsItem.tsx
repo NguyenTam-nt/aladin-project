@@ -53,6 +53,8 @@ function AboutUsItem({item, idx}: Props) {
 
           <h5 className='text-_14 font-semibold text-black'>{t("place.address")}: {item.address}</h5>
           <h5 className='text-_14 font-semibold text-black mt-4'>{t("place.phone")}: {item.phone}</h5>
+          {item.numGuest ? <h5 className='text-_14 font-semibold text-black mt-4'>{t("place.numGuest")}: {item.numGuest}</h5> : <></>}
+          {item.acreage ? <h5 className='text-_14 font-semibold text-black mt-4'>{t("place.acreage")}: {item.acreage}</h5> : <></>}
 
           {
             item.infrastructureList.map(item => {
