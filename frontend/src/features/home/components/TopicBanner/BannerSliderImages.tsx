@@ -5,16 +5,19 @@ import { SwiperSlide } from "swiper/react";
 import { BannerText } from "./BannerText";
 import { useGetTopic } from "@features/dashboard/home/components/useGetTopic";
 import { HomeTopicType } from "@typeRules/home";
+import { getLinkImageUrl } from "@commons/common";
+import { windownSizeWidth, withResponsive } from "@constants/index";
+import { Image } from "@components/Image";
 
 export const BannerSliderImages = () => {
   const [activeThumb, setThumbActive] = useState<any>(null);
 
-  const {listBanner} = useGetTopic(HomeTopicType.banner_home)
+  const { listBanner } = useGetTopic(HomeTopicType.banner_home);
 
   return (
     <div className="w-full absolute inset-0 z-10 h-full">
       <SwiperComponent
-       effect={"fade"}
+        effect={"fade"}
         thumbs={{
           swiper: activeThumb && !activeThumb.destroyed ? activeThumb : null,
         }}
@@ -31,17 +34,26 @@ export const BannerSliderImages = () => {
         <>
           {listBanner?.listBanner.map((item, index) => {
             return (
-              <SwiperSlide key={index}>
+              <SwiperSlide key={item.id}>
                 <div>
                   <div className="absolute z-[4] inset-0">
-                    <img
+                    <Image
                       className="w-full absolute inset-0 z-[-1]  h-full object-cover"
-                      src={item?.linkMedia}
-                      alt=""
                       loading="lazy"
+                      alt={getLinkImageUrl(
+                        item?.linkMedia,
+                        windownSizeWidth >= withResponsive._1024
+                          ? 1024
+                          : windownSizeWidth,
+                        500
+                      )}
                     />
-                    <BannerText title={item?.title} link={item.redirectUrl} content={item.content} />
-                    <div className='absolute inset-0 bg-banner_home z-[2]' />
+                    <BannerText
+                      title={item?.title}
+                      link={item.redirectUrl}
+                      content={item.content}
+                    />
+                    <div className="absolute inset-0 bg-banner_home z-[2]" />
                   </div>
                 </div>
               </SwiperSlide>
@@ -50,9 +62,11 @@ export const BannerSliderImages = () => {
         </>
       </SwiperComponent>
       <div className=" max-w-fit absolute z-[3] bottom-[24px] lg:bottom-[64px] left-[50%] translate-x-[-50%]">
-        <SliderIndicator dataLength={listBanner?.listBanner.length}  setThumbActive={setThumbActive} />
+        <SliderIndicator
+          dataLength={listBanner?.listBanner.length}
+          setThumbActive={setThumbActive}
+        />
       </div>
-      
     </div>
   );
 };

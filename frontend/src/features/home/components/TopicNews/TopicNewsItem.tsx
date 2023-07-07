@@ -2,19 +2,24 @@ import React, { memo } from "react";
 import type { newItem_type } from "@typeRules/new";
 import { Link } from "react-router-dom";
 import { pathsAdmin } from "@constants/routerManager";
+import { getLinkImageUrl } from "@commons/common";
+import { Image } from "@components/Image";
 
 type Props = {
-  data: newItem_type
-}
+  data: newItem_type;
+};
 
-export const TopicNewsItem = memo(({data}:Props) => {
+export const TopicNewsItem = memo(({ data }: Props) => {
   return (
-    <Link to={`${pathsAdmin.news.prefix}/${data.id}`} className="radius-tl-br h-[302px] flex flex-col overflow-hidden bg-white">
+    <Link
+      to={`${pathsAdmin.news.prefix}/${data.id}`}
+      className="radius-tl-br h-[302px] flex flex-col overflow-hidden bg-white"
+    >
       <div className="h-[176px]">
-        <img
+        <Image
           className="w-full h-full object-cover"
-          alt=""
-          src={data?.linkMedia}
+          alt={getLinkImageUrl(data?.linkMedia, 300, 176)}
+          loading="lazy"
         />
       </div>
       <div className="px-[16px] flex-1 py-[24px]">
@@ -27,4 +32,4 @@ export const TopicNewsItem = memo(({data}:Props) => {
       </div>
     </Link>
   );
-})
+});

@@ -1,5 +1,7 @@
 import { ICQuotation } from "@assets/icons/ICQuotation";
+import { getLinkImageUrl } from "@commons/common";
 import { Avatar } from "@components/Avatar";
+import { Image } from "@components/Image";
 import type { IReview } from "@typeRules/index";
 import React, { memo } from "react";
 
@@ -11,9 +13,9 @@ export const TopicCustomerItem = memo(({ data }: Props) => {
   return (
     <div className="p-[24px] flex flex-col h-[426px] bg-white radius-tl-br">
       <div className="w-full  h-[148px]">
-        <img
+        <Image
           className="w-full h-full object-cover radius-tl-br"
-          src={data?.linkProduct}
+          alt={getLinkImageUrl(data?.linkProduct, 200, 148)}
         />
       </div>
       <div className="my-[16px]">
