@@ -11,7 +11,7 @@ import { useTranslation } from "react-i18next";
 import tickSuccessPNG from "@assets/images/tick-success.png"
 import { useNavigate } from "react-router-dom";
 
-export const ModalOrderFoodSuccess = () => {
+export const ModalOrderFoodSuccess = ({email}: any) => {
   const { t } = useTranslation();
   const { hideModal } = useModalContext();
   const navigate = useNavigate()
@@ -32,6 +32,9 @@ export const ModalOrderFoodSuccess = () => {
             <span className="text-center text-_14 lg:text-_16 text-GreyPrimary mt-4"
               dangerouslySetInnerHTML = {{__html: t("order_food_info.modal.sub_title") as string}}
             >
+            </span>
+            <span className="text-center text-_14 lg:text-_16 text-GreyPrimary mt-4">
+              Vui lòng truy cập <span className='font-bold'>{email}</span> để xác nhận lại thông tin đơn hàng
             </span>
             <div className="flex items-center justify-center mt-6 lg:mt-10">
               <button 

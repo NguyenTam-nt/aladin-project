@@ -9,11 +9,18 @@ import ContactService from '@services/ContactService';
 import { TextError } from '@features/dashboard/components/TextError';
 import { useHandleLoading } from '@features/dashboard/components/Loading';
 import { useShowMessage } from '@features/dashboard/components/DiglogMessage';
+import { useModalContext } from '@contexts/hooks/modal';
+import { DiglogMessageContact } from './DiglogMessageContact';
 
 function ContactForm() {
   const { t } = useTranslation();
   const { showLoading , hideLoading} = useHandleLoading();
   const { showError, showSuccess, showWarning } = useShowMessage();
+
+  const { setElementModal } = useModalContext();
+  const showSuccessContact = () => {
+    setElementModal(<DiglogMessageContact email={formik.values.email}/>);
+  };
 
   const formik = useFormik({
     initialValues: {
@@ -54,7 +61,7 @@ function ContactForm() {
           ContactService
             .post(request)
             .then(() => {
-              showSuccess("contact.send_success");
+              showSuccessContact();
               // goBack();
               formik.resetForm();
               // hideLoading()
