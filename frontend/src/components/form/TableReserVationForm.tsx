@@ -68,7 +68,7 @@ const TableReserVationForm = memo(
           .required("Phải chọn giờ đặt bàn.")
           .test(
             "hour",
-            "Chưa chọn ngày hoặc thời gian đặt bàn tối thiểu phải lớn hơn hiện tại 10 phút.",
+            "Vui lòng chọn giờ đặt bàn trước thời gian hiện tại ít nhất 10 phút.",
             function (value, props) {
               if (value && values.chooseDate) {
                 const truThy: boolean = moment(

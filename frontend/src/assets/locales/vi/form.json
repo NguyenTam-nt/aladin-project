@@ -1,7 +1,7 @@
 {
     "form": {
         "tableReser": "Đặt bàn",
-        "timeOrde": "Vui lòng đặt bàn trước giờ dùng bữa ít nhất 10 phút",
+        "timeOrde": "Vui lòng đặt bàn trước giờ dùng bữa ít nhất 60 phút",
         "name": "Họ và tên",
         "email": "Email",
         "phoneNumber": "Số điện thoại",
