@@ -2,6 +2,8 @@
   "place": {
     "place": "Cơ sở",
     "address": "Đia chỉ",
-    "phone": "Số điện thoại"
+    "phone": "Số điện thoại",
+    "numGuest": "Số lượng khách",
+    "acreage": "Diện tích"
   }
 }
