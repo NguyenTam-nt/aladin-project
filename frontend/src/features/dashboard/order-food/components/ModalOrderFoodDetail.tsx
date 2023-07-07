@@ -31,18 +31,18 @@ function ModalOrderFoodDetail({idBill}: Props) {
   
 
   return (
-    <div className="w-[1144px] h-auto bg-white py-10 px-6">
+    <div className="w-[90vw] md:w-[600px] lg:w-[1144px] h-auto bg-white py-10 px-6">
       <button onClick={hideModal} className="text-text_7E8B99 absolute top-[24px] text-_16 right-[24px]">
        <ICClear />
       </button>
-      <div className="text-center mb-10 flex justify-center items-center gap-2">
+      <div className="text-center mb-10 flex flex-col xl:flex-row justify-center items-center gap-2">
         <h2 className='text-_32 font-bold text-text_primary'>{t("adminOrderFood.detail.title") } </h2>
         <span className='text-_32 text-text_primary '>{bill && bill.id} </span>
         <span className='text-text_A1A0A3 italic'>{bill && FomatDateDDMMYY(bill.createdDate)}</span>
       </div>
       <div className="mt-10">
         <h2 className='text-_20 font-bold text-text_primary'>{t("adminOrderFood.detail.titleInfo") } </h2>
-        <div className="flex gap-20">
+        <div className="flex flex-col lg:flex-row gap-20">
           <div className="">
             <div className="py-2 text-text_primary">
               <span className='text-_14 font-bold mr-1'>{t("form.name")}:</span>
@@ -88,8 +88,8 @@ function ModalOrderFoodDetail({idBill}: Props) {
 
       <div className="mt-8">
         <h2 className='text-_20 font-bold text-text_primary'>{t("adminOrderFood.detail.titleFood") } </h2>
-
-        <table className='w-fit '>
+          <div className='w-full overflow-auto'>
+        <table className='w-full'>
           <tr className='py-4'>
             <th className='py-4 text-left pr-6'>{t("order_food.table.stt")}</th>
             <th className='py-4 text-left pr-6'>{t("order_food.table.product")}</th>
@@ -133,6 +133,8 @@ function ModalOrderFoodDetail({idBill}: Props) {
           }
           
             </table>
+
+          </div>
       </div>
 
       <div className="mt-8">
