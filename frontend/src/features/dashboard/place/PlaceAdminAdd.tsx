@@ -60,6 +60,8 @@ function PlaceAdminAdd() {
         formik.setFieldValue("phone", data.phone);
         formik.setFieldValue("zalo", data.zalo);
         formik.setFieldValue("linkMap", data.linkMap);
+        formik.setFieldValue("acreage", data.acreage);
+        formik.setFieldValue("numGuest", data.numGuest);
       });
     }
   }, [isAdd]);
@@ -70,6 +72,8 @@ function PlaceAdminAdd() {
       address: "",
       phone: "",
       zalo: "",
+      numGuest: "",
+      acreage: "",
       linkMap: "",
     },
     validationSchema: Yup.object({
@@ -91,6 +95,8 @@ function PlaceAdminAdd() {
         "message.form.phone"
       )
       .length(10, "message.form.phone-length"),
+      numGuest: Yup.number().required("message.form.required").typeError('message.form.number').min(1, "message.form.minNum"),
+      acreage: Yup.string().trim().required("message.form.required"),
       linkMap: Yup.string().trim().required("message.form.required"),
     }),
     onSubmit: async (data) => {
@@ -118,6 +124,8 @@ function PlaceAdminAdd() {
           address: data.address.trim(),
           phone: data.phone.trim(),
           zalo: data.zalo.trim(),
+          numGuest: +data.numGuest,
+          acreage: data.acreage.trim(),
           linkMap: data.linkMap.trim(),
           status: place?.status,
           infrastructureList: placeItems.slice(0, 2).map(p => {
@@ -250,6 +258,30 @@ function PlaceAdminAdd() {
               />
               {formik.errors.zalo && formik.touched.zalo && (
                 <TextError message={formik.errors.zalo} />
+              )}
+            </div>
+            <div className="col-span-1">
+              <TitleInput isRequired={true} name={"adminPlace.form.numGuest"} />
+              <Input placeholder="adminPlace.form.input_numGuest"
+                name="numGuest"
+                value={formik.values.numGuest}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+              />
+              {formik.errors.numGuest && formik.touched.numGuest && (
+                <TextError message={formik.errors.numGuest} option={{min: 1}} />
+              )}
+            </div>
+            <div className="col-span-1">
+              <TitleInput isRequired={true} name={"adminPlace.form.acreage"} />
+              <Input placeholder="adminPlace.form.input_acreage"
+                name="acreage"
+                value={formik.values.acreage}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+              />
+              {formik.errors.acreage && formik.touched.acreage && (
+                <TextError message={formik.errors.acreage} />
               )}
             </div>
             <div className="col-span-2">
