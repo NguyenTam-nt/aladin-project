@@ -40,23 +40,23 @@ const RecruitmentDetail = () => {
             <h3 className="lg:title-32 title-24 leading-[36px] text-secondary uppercase lg:mb-6 mb-4">
               {recruiItem?.title}
             </h3>
-            <div className="flex lg:flex-row flex-wrap lg:gap-5 flex-col">
-              <div className="flex flex-wrap gap-2 2xl:mb-0 mb-[18px]">
+            <div className="flex lg:flex-row flex-wrap lg:items-center lg:gap-5 flex-col">
+              <div className="flex flex-wrap items-center gap-2 lg:mb-0 mb-[18px]">
                 <DolarIcon width={24} height={24} />
                 <p className="text-sm text-secondary leading-22 font-semibold">
                   {recruiItem?.salary}
                 </p>
               </div>
-              <div className="flex gap-2 flex-wrap 2xl:mb-0 mb-[18px]">
+              <div className="flex gap-2 items-center flex-wrap lg:mb-0 mb-[18px]">
                 <CalendarIcon width={24} height={24} />
                 <p className="text-sm leading-22 font-normal">
                   {t("recruit.end_time")}:
                   {FomatDateYY_MM_DD(recruiItem?.expirationDate!)}
                 </p>
               </div>
-              <div className="flex gap-2 flex-wrap">
+              <div className="flex w-full gap-2 items-center flex-wrap">
                 <AddressWork width={24} height={24} />
-                <p className="text-sm leading-22 font-normal">
+                <p className="text-sm leading-22 font-normal max-w-[85%]">
                   {recruiItem?.address}
                 </p>
               </div>

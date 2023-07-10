@@ -19,6 +19,7 @@ import React, {
 } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
+import { useShowMessage } from "../components/DiglogMessage";
 import NewItem from "./component/NewItem";
 type Props = {
   name: string;
@@ -30,6 +31,7 @@ type Props = {
 const ManageNews = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const { showError, showSuccess } = useShowMessage();
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [totalPages, setTotalPages] = useState<number>(1);
   const [listNews, setListNews] = useState<newItem_type[]>([]);
@@ -77,6 +79,21 @@ const ManageNews = () => {
       setCurrentPage(1);
     }
     navigate("");
+  };
+  const handleStar = async (id: number) => {
+    try {
+      const resultPatch = await newService.patchPriorityNew(id);
+      const listNewsChange = listNews.map((item) => {
+        if (item.id === resultPatch.id) {
+          item = resultPatch;
+        }
+        return item;
+      });
+      setListNews(listNewsChange);
+      showSuccess("news.update_success");
+    } catch (error: any) {
+      showError(error?.response?.data?.message || "new.update_error");
+    }
   };
   const debounceDropDown = useCallback(
     debounce((params) => searchListNew(params), 700),
@@ -163,6 +180,7 @@ const ManageNews = () => {
                 itemNew={itemNew}
                 key={indexNew}
                 handleDelete={deleteItemNew}
+                handlePriority={handleStar}
               />
             );
           })}

@@ -23,6 +23,9 @@ export const newService = {
     deleteNewId: async(id:number): Promise<any>=> {
         return await HttpService.axiosClient.delete(`${pathAddmin}/${id}`)
     },
+    patchPriorityNew: async(id:number): Promise<newItem_type>=> {
+        return await HttpService.axiosClient.patch(`${pathAddmin}/${id}`)
+    },
     searchNews: async(params: IParams): Promise<Data_ListNew> => {
         return await HttpService.axiosClient.get(pathSearch, {params});
     },

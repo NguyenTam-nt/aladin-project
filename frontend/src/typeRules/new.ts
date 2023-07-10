@@ -5,7 +5,7 @@ export interface newItem_type {
        content:string,
        description:string,
        createdDate?: string
-       priority:boolean,
+       priority?:boolean,
 }
 
 export interface Data_ListNew {
