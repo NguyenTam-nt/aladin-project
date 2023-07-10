@@ -30,7 +30,7 @@ export const SidebarNavigation = ({ isShowSidebar, onShow }: propsNavigate) => {
     <>
       <div
         className={clsx(
-          "side-bar w-[100%] h-screen px-[24px] fixed top-[56px] bottom-0 left-0 right-0 bg-white z-[50] overflow-y-scroll",
+          "side-bar w-[100%] h-screen px-[24px] fixed top-[80px] bottom-0 left-0 right-0 bg-white z-[50] overflow-y-scroll",
           {
             "side-bar-show": isShowSidebar,
             "side-bar-hide": !isShowSidebar,

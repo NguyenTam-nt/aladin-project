@@ -19,6 +19,7 @@ import type { IProduct } from "@typeRules/product";
 import { debounce } from "lodash";
 import { useScreenOrientation } from "@hooks/useScreenOrientation";
 import { getLinkImageUrl } from "@commons/common";
+import { windownSizeWidth, withResponsive } from "@constants/index";
 
 export const positionCart = {
   positionX: 0,
@@ -38,9 +39,8 @@ export const MenusRight = memo(() => {
     if (ref.current) {
       setTimeout(() => {
         positionCart.positionX = ref.current.getBoundingClientRect().left;
-        positionCart.positionY =
-        ref.current.getBoundingClientRect().top - 140;
-      }, 500)
+        positionCart.positionY = ref.current.getBoundingClientRect().top - 140;
+      }, 500);
     }
   }, [ref, isFullScreen]);
 
@@ -54,17 +54,19 @@ export const MenusRight = memo(() => {
   };
 
   useEffect(() => {
-    if (listOrder.length && isFirstRender.current > 1) {
-      if (debouceTime.current) debouceTime.current.cancel();
-      debouceTime.current = debounce(() => {
-        handleShow();
-      }, 1000);
-      debouceTime.current();
-    }
-    if (!listOrder.length) {
-      isFirstRender.current = 2;
-    } else {
-      isFirstRender.current += 1;
+    if (windownSizeWidth >= withResponsive._1024) {
+      if (listOrder.length && isFirstRender.current > 1) {
+        if (debouceTime.current) debouceTime.current.cancel();
+        debouceTime.current = debounce(() => {
+          handleShow();
+        }, 1000);
+        debouceTime.current();
+      }
+      if (!listOrder.length) {
+        isFirstRender.current = 2;
+      } else {
+        isFirstRender.current += 1;
+      }
     }
   }, [listOrder]);
 
@@ -120,7 +122,7 @@ export const MenusRight = memo(() => {
           className={clsx(
             " w-[calc(100vw_-_40px)] _420:w-[356px] flex flex-col py-[24px] h-[450px] md:h-[500px] 3xl:h-[644px] bg-primary",
             {
-              "!h-[250px] !py-2": isFullScreen
+              "!h-[250px] !py-2": isFullScreen,
             }
           )}
         >
@@ -162,7 +164,7 @@ export const MenusRight = memo(() => {
                       "!text-_12": isFullScreen,
                     })}
                   >
-                    Tổng giá trị
+                    {t("common.total_price")}
                   </span>
                   <span
                     className={clsx(
@@ -182,20 +184,20 @@ export const MenusRight = memo(() => {
                     " !h-[40px]": isFullScreen,
                   })}
                   color="primary"
-                  text="Đặt đơn hàng này"
+                  text="common.order_btn"
                 />
               </div>
             </>
           ) : (
             <div className="flex justify-center mt-5">
-              Giỏ hàng của bạn đang rỗng.
+              {t("common.order_empty")}
             </div>
           )}
         </div>
       </div>
     </div>
   );
-})
+});
 
 type Props = {
   data: IProduct;

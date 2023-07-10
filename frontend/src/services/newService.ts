@@ -29,4 +29,8 @@ export const newService = {
     searchNews: async(params: IParams): Promise<Data_ListNew> => {
         return await HttpService.axiosClient.get(pathSearch, {params});
     },
+    home: async(): Promise<Data_ListNew> => {
+        const pathUser = getMicroService(`${apis.new}/priority`, microServices.infor)
+        return await HttpService.axiosClient.get(pathUser);
+    },
 }

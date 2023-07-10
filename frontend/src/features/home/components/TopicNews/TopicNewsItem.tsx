@@ -18,7 +18,7 @@ export const TopicNewsItem = memo(({ data }: Props) => {
       <div className="h-[176px]">
         <Image
           className="w-full h-full object-cover"
-          alt={getLinkImageUrl(data?.linkMedia, 300, 176)}
+          alt={getLinkImageUrl(data?.linkMedia, 350, 176)}
           loading="lazy"
         />
       </div>

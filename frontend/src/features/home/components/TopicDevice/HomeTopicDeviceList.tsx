@@ -40,7 +40,7 @@ export const HomeTopicDeviceList = memo(() => {
             <div
               key={index}
               className={clsx(
-                "flex flex-col gap-y-[24px] items-center justify-center",
+                "flex flex-col gap-y-[24px] items-center",
                 {
                   // "animate__animated animate__fadeInUp": isInView
                 }

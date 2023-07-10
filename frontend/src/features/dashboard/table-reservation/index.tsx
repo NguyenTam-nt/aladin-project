@@ -57,7 +57,7 @@ const ManageTableReserVation = () => {
   const handleDeleteModal = () => {
     setElementModal(
       <DiglogComfirmDelete
-        message="common._message_delete_reservation"
+        message="tableReservation._message_delete_reservation"
         onClick={handleDeleteListReserTable}
       />
     );
@@ -183,8 +183,8 @@ const ManageTableReserVation = () => {
         <TitleOfContentManage name="tableReservation.nameTable" />
       )}
       <div className="mt-10 pb-6">
-        <div className="flex items-center gap-6 justify-between">
-          <div className="w-[800px] relative">
+        <div className="flex flex-col lg:flex-row items-center gap-3 xl:gap-6 justify-between">
+          <div className="flex-1 w-full relative">
             <input
               type="text"
               value={keySearch}
@@ -196,19 +196,19 @@ const ManageTableReserVation = () => {
               <MagnifyingGlass color="#A1A0A3" />
             </div>
           </div>
-          <div className="flex items-center gap-6">
+          <div className="flex items-center gap-3 xl:gap-6">
             <Button
               onClick={handleDeleteModal}
               text="common.delete"
-              className="max-w-[177px] whitespace-nowrap text-text_EA222A border-text_EA222A"
+              className="max-w-[60px] !text-_12 xl:!text-_14 xl:max-w-[177px] whitespace-nowrap text-text_EA222A border-text_EA222A"
               imageLeft={
-                <span className="mr-2">
+                <span className="mr-1 lg:mr-2">
                   <ICDeleteTrashLight />
                 </span>
               }
               color={"empty"}
             />
-            <div className="flex gap-6 justify-between">
+            <div className="flex gap-3 xl:gap-6 justify-between">
               <FilterByTime
                 time={filter.time}
                 handleFilterByTime={(value) => {
@@ -220,9 +220,9 @@ const ManageTableReserVation = () => {
           </div>
         </div>
       </div>
-      <div>
-        <div className="w-full">
-          <div className="grid grid-cols-[5%_20%_15%_15%_10%_23%_12%] [&>div]:py-4 border-b text-_16 font-semibold">
+      <div className=" overflow-x-auto">
+        <div className="w-max xl:w-full">
+          <div className="grid grid-cols-[5%_20%_15%_15%_10%_23%_12%] [&>div]:py-2 lg:[&>div]:py-4 border-b text-_16 font-semibold">
             <div>
               <Checkbox onChange={handleCheckAll} ref={refCheckboxAll} />
             </div>
@@ -280,7 +280,7 @@ const ManageTableReserVation = () => {
             return (
               <div
                 key={index}
-                className="grid grid-cols-[5%_20%_15%_15%_10%_23%_12%] py-4 border-b text-sm leading-22 font-normal"
+                className="grid grid-cols-[5%_20%_15%_15%_10%_23%_12%] py-2 lg:py-4 border-b text-sm leading-22 font-normal"
               >
                 <div>
                   <Checkbox
