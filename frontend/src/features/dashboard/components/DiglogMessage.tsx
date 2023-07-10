@@ -36,7 +36,7 @@ export const DiglogMessage = ({
         )}
       </div>
       {nameEmail ? (
-        <span className="mt-[34px] text-center text-_14 lg:text-_16 text-red_error font-normal">
+        <span className="mt-[34px] text-center text-_14 lg:text-_16 text-GreyPrimary font-normal">
           {t(message)} &nbsp; {nameEmail}
         </span>
       ) : (
