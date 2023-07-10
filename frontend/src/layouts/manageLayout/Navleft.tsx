@@ -45,7 +45,7 @@ const RenderLink = (props: Props) => {
           color={match ? Colors.TrueBlue500 : Colors.Grey_Primary}
         />
       </div>
-      {t(props.item?.name || "")}
+      {t(props.item?.name ?? "")}
     </NavLink>
   );
 };

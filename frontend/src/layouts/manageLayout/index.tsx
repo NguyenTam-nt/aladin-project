@@ -13,7 +13,7 @@ const LayoutManager = () => {
   };
 
   const handleHiden = () => {
-    console.log('Hiden')
+    if(windownSizeWidth > withResponsive._1280) return
     setShow(false);
   };
 
