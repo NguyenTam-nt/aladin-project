@@ -31,7 +31,7 @@ export const DiglogMessageContact = ({
         {t("contact.send_success")}
       </span>
       <span className="text-center text-GreyPrimary text-_16 ">
-        Vui lòng chờ phẩn hồi qua <span className="font-bold">{email}</span>
+        Vui lòng chờ phản hồi qua <span className="font-bold">{email}</span>
       </span>
     </div>
   );
