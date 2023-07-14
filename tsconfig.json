@@ -8,7 +8,7 @@
     "esModuleInterop": true,
     // "importsNotUsedAsValues": "error",
     "forceConsistentCasingInFileNames": true,
-    "jsx": "preserve",
+    "jsx": "react",
     "lib": [
       "esnext",
       "dom",
@@ -35,6 +35,7 @@
       "@components":["./src/components"],
       "@configs":["./src/configs"],
       "@typeRules":["./src/typeRules"],
+      "@icons" : ["./src/assets/icons"],
     },
     "allowSyntheticDefaultImports": true,     /* Allow default imports from modules with no default export. This does not affect code emit, just typechecking. */
   },
@@ -50,14 +51,14 @@
     "ComponentStick.tsx",
     "customLog.ts"
   ],
-  // "include": [
-  //   "**/*.ts",
-  //   "**/*.tsx",
-  //   "**/*.json",
-  //   "index.d.ts",
-  //   "index.js",
-  //   "src/features/Introduction/Components/Swiper.js",
-  //   ".storybook/Storybook.tsx",
-  //   "./.storybook/preview.js",
-  // ],
+  "include": [
+    "**/*.ts",
+    "**/*.tsx",
+    "**/*.json",
+    "index.d.ts",
+    "index.js",
+    "src/features/Introduction/Components/Swiper.js",
+    ".storybook/Storybook.tsx",
+    "./.storybook/preview.js",
+  ],
 }

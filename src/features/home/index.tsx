@@ -1,12 +1,19 @@
-import {View, Text, TouchableOpacity} from 'react-native';
+import { Header } from '@components';
+import { createStackNavigator } from '@react-navigation/stack';
 import React from 'react';
+import HomeScreen from './HomeScreen';
+
+const HomeStack = createStackNavigator();
 
 export const Home = () => {
   return (
-    <View>
-      <TouchableOpacity>
-        <Text>index</Text>
-      </TouchableOpacity>
-    </View>
+    <>
+      <Header isCheckbox />
+      <HomeStack.Navigator
+        initialRouteName="homeScreen"
+        screenOptions={{headerShown: false}}>
+        <HomeStack.Screen name="homeScreen" component={HomeScreen} />
+      </HomeStack.Navigator>
+    </>
   );
-}
+};
