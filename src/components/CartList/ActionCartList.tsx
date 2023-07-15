@@ -1,11 +1,10 @@
-import { View, Text  ,StyleSheet} from 'react-native';
-import React from 'react';
 import { defaultColors, isTabletDevice } from '@configs';
-import { ICSentToKitchen } from '../../assets/icons/ICSentToKitchen';
+import React from 'react';
+import { StyleSheet, Text, View } from 'react-native';
 import { ICAdd } from '../../assets/icons/ICAdd';
-import { ICDelete } from '../../assets/icons/ICDelete';
 import { ICCompound } from '../../assets/icons/ICCompound';
-import { DIMENSION } from '@constants';
+import { ICDelete } from '../../assets/icons/ICDelete';
+import { ICSentToKitchen } from '../../assets/icons/ICSentToKitchen';
 
 const ActionCartList = () => {
   return (
@@ -36,6 +35,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     marginRight: 16,
     flexWrap : 'wrap',
+
   },
   buttonSent: {
     height: 40,

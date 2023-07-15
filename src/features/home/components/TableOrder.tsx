@@ -34,8 +34,8 @@ const TableOrder = (item: any) => {
         <Text style={styles.textFloor}> Phòng/bàn - Tầng {item.item.index}</Text>
       </View>
       <View style={styles.contentTextFloor}>
-        {item.item.table.map((item: any) => {
-          return <TableItem />;
+        {item.item.table.map((item: any , index : number) => {
+          return <TableItem key={index} />;
         })}
       </View>
     </View>

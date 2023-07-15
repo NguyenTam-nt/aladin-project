@@ -1,10 +1,86 @@
-import {defaultColors} from '@configs';
+import { defaultColors, isTabletDevice } from '@configs';
 import React from 'react';
-import {View, Text, StyleSheet} from 'react-native';
-import {Thumb} from '../Thumb/Thumb';
+import { FlatList, ListRenderItemInfo, StyleSheet, Text, View } from 'react-native';
 import { ICAddOrder } from '../../assets/icons/ICAddOrder';
+import { Thumb } from '../Thumb/Thumb';
+import ItemCardMobile from './ItemCardMobile';
 
-const TableCartItem = () => {
+
+export const StatusOrderItem = React.memo(({checkstatus} : {checkstatus : string}) => {
+  const {
+    colorBackground,
+    textStatus,
+    circleColor,
+  }: {colorBackground: string; textStatus: string; circleColor: string} =
+    (() => {
+      switch (checkstatus) {
+        case 'success':
+          return {
+            colorBackground: defaultColors._BAE5C8,
+            textStatus: 'Hoàn thành',
+            circleColor: defaultColors._01A63E,
+          };
+        case 'cancel':
+          return {
+            colorBackground: defaultColors._241_171_171_100,
+            textStatus: 'Đã huỷ',
+            circleColor: defaultColors._E73F3F,
+          };
+        case 'waitingSuccess':
+          return {
+            colorBackground: defaultColors._99C7F5,
+            textStatus: 'Chờ chế biến',
+            circleColor: defaultColors._0073E5,
+          };
+        case 'waitingCancel':
+          return {
+            colorBackground: defaultColors._FFDB9E,
+            textStatus: 'Chờ huỷ',
+            circleColor: defaultColors._F4A118,
+          };
+
+        default:
+          return {
+            colorBackground: defaultColors._99C7F5,
+            textStatus: 'Chờ chế biến',
+            circleColor: defaultColors._0073E5,
+          };
+      }
+    })();
+
+  return (
+    <View
+      style={{
+        width: 118,
+        height: 32,
+        backgroundColor: colorBackground,
+        borderRadius: 16,
+        alignItems: 'center',
+        justifyContent: 'center',
+        flexDirection: 'row',
+      }}>
+      <View
+        style={{
+          height: 12,
+          width: 12,
+          backgroundColor: circleColor,
+          borderRadius: 6,
+        }}
+      />
+      <Text
+        style={{
+          color: defaultColors.c_222124,
+          marginLeft: 8,
+          fontSize: 14,
+          lineHeight: 22,
+        }}>
+        {textStatus}
+      </Text>
+    </View>
+  );});
+
+const TableCartItem = ( {checkstatus} : {checkstatus : string}) => {
+
   return (
     <View>
       <View style={styles.itemContainer} />
@@ -22,11 +98,13 @@ const TableCartItem = () => {
             />
           </View>
           <View style={styles.textItemCol2}>
-            <Text>Combo 2 Người lớn ăn thả g...</Text>
-            <Text>600.000</Text>
+            <Text style={styles.textNameItem}>
+              Combo 2 Người lớn ăn thả g...
+            </Text>
+            <Text style={styles.textPriceItem}>600.000</Text>
             <View style={styles.textAddOrderItem}>
               <ICAddOrder />
-              <Text>Đặt cho tôi đơn hàng này</Text>
+              <Text style={styles.textNotiITem}>Đặt cho tôi đơn hàng này</Text>
             </View>
           </View>
         </View>
@@ -34,10 +112,10 @@ const TableCartItem = () => {
           <Text style={styles.textTable}>1</Text>
         </View>
         <View style={styles.col4}>
-          <Text style={styles.textTable}>Thành tiền</Text>
+          <Text style={styles.textTable}>600.000</Text>
         </View>
         <View style={styles.col5}>
-          <Text style={styles.textTable}>Trạng thái/Chức năng</Text>
+          <StatusOrderItem  checkstatus={checkstatus}  />
         </View>
       </View>
     </View>
@@ -45,27 +123,52 @@ const TableCartItem = () => {
 };
 
 const TableCartList = () => {
+  const data = [
+    'success',
+    'cancel',
+    'waitingSuccess',
+    'waitingCancel',
+    'success',
+    'success',
+    'success',
+  ];
+  const renderItem = (item: ListRenderItemInfo<any>) => {
+    return isTabletDevice ?  <TableCartItem checkstatus={item.item} /> : <ItemCardMobile checkstatus={item.item}  />;
+  };
+
   return (
     <View style={styles.container}>
-      <View style={styles.content}>
-        <View style={styles.col1}>
-          <Text style={styles.textTable}>STT</Text>
-        </View>
-        <View style={styles.col2}>
-          <Text style={styles.textTable}>Sản phẩm</Text>
-        </View>
-        <View style={styles.col3}>
-          <Text style={styles.textTable}>Số lượng</Text>
-        </View>
-        <View style={styles.col4}>
-          <Text style={styles.textTable}>Thành tiền</Text>
-        </View>
-        <View
-          style={styles.col5}>
-          <Text style={styles.textTable}>Trạng thái/Chức năng</Text>
-        </View>
-      </View>
-      <TableCartItem />
+      <FlatList
+        data={data}
+        showsVerticalScrollIndicator={false}
+        ListHeaderComponent={
+          isTabletDevice ? (
+            <View style={styles.content}>
+              <View style={styles.col1}>
+                <Text style={styles.textTable}>STT</Text>
+              </View>
+              <View style={styles.col2}>
+                <Text style={styles.textTable}>Sản phẩm</Text>
+              </View>
+              <View style={styles.col3}>
+                <Text style={styles.textTable}>Số lượng</Text>
+              </View>
+              <View style={styles.col4}>
+                <Text style={styles.textTable}>Thành tiền</Text>
+              </View>
+              <View style={styles.col5}>
+                <Text style={styles.textTable}>Trạng thái/Chức năng</Text>
+              </View>
+            </View>
+          ) : (
+            <></>
+          )
+        }
+        renderItem={renderItem}
+        ListFooterComponent={
+          <View style={{height: isTabletDevice ? 120 : 155}} />
+        }
+      />
     </View>
   );
 };
@@ -79,6 +182,8 @@ const styles = StyleSheet.create({
   container: {
     marginRight: 16,
     marginTop: 32,
+
+
   },
   content: {
     flexDirection: 'row',
@@ -87,40 +192,59 @@ const styles = StyleSheet.create({
   col1: {
     width: 73,
   },
-  col2 : {
-    width : 318,
+  col2: {
+    width: 318,
   },
-  col3 : {
-    width :104,
+  col3: {
+    width: 104,
   },
-  col4 : {
-    width : 118,
+  col4: {
+    width: 118,
   },
-  col5 : {
+  col5: {
     flex: 1,
     flexWrap: 'wrap-reverse',
   },
-  itemContainer : {
+  itemContainer: {
     height: 1,
     width: '100%',
     backgroundColor: defaultColors._404040,
   },
-  tableItemContainer : {
+  tableItemContainer: {
     flexDirection: 'row',
     paddingVertical: 16,
     alignItems: 'center',
   },
-  itemCol2 : {
-    width: 318, flexDirection: 'row',
+  itemCol2: {
+    width: 318,
+    flexDirection: 'row',
   },
-  imageItem : {
-    height: 70, width: 70, borderRadius: 8,
+  imageItem: {
+    height: 70,
+    width: 70,
+    borderRadius: 8,
   },
-  textItemCol2 : {
-    justifyContent: 'space-between', marginLeft: 16,
+  textItemCol2: {
+    justifyContent: 'space-between',
+    marginLeft: 16,
   },
-  textAddOrderItem : {
-    flexDirection: 'row', alignItems: 'center',
+  textAddOrderItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  textNameItem: {
+    color: defaultColors.c_fff,
+    fontSize: 14,
+  },
+  textPriceItem: {
+    color: defaultColors.c_fff,
+    fontSize: 14,
+    fontWeight: '600',
+  },
+  textNotiITem: {
+    color: defaultColors.c_fff,
+    fontSize: 12,
+    marginLeft: 4,
   },
 });
 
