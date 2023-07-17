@@ -1,17 +1,43 @@
-import {defaultColors, heightHeader, isTabletDevice} from '@configs';
-import {DIMENSION} from '@constants';
-import React, {useEffect, useState} from 'react';
-import {Platform, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import { defaultColors, heightHeader, isTabletDevice } from '@configs';
+import { DIMENSION } from '@constants';
+import React, { useEffect, useState } from 'react';
+import { Platform, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import Animated, {
   interpolate,
   useAnimatedStyle,
   useSharedValue,
   withTiming,
 } from 'react-native-reanimated';
-import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import {ICCart} from '../assets/icons/ICCart';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { ICCart } from '../assets/icons/ICCart';
 import { useIsShowDrawerFloor } from '../redux/infoDrawer/hooks';
 import CartList from './CartList/CartList';
+import ListOfFood from './ListOfFood/ListOfFood';
+
+
+// const TabViewCartItem = ({hiddenViewList}: {hiddenViewList: () => void}) => {
+//   const [index, setIndex] = React.useState(0);
+//   const [routes] = React.useState([
+//     {key: 'first', title: 'First'},
+//     {key: 'second', title: 'Second'},
+//   ]);
+
+//   const renderScene = SceneMap({
+//     first: () => <CartList hiddenViewList={hiddenViewList} />,
+//     second: () => <ListOfFood hiddenViewList={hiddenViewList} />,
+//   });
+
+//   return (
+//     <TabView
+//       navigationState={{index, routes}}
+//       renderScene={renderScene}
+//       onIndexChange={setIndex}
+//       initialLayout={{width: isTabletDevice ? 816 : DIMENSION.width}}
+//     />
+//   );
+// };
+
+
 
 const CartItem = React.memo(() => {
   const insets = useSafeAreaInsets();
@@ -35,6 +61,7 @@ const CartItem = React.memo(() => {
       opacity: interpolate(height.value, inputRange, outputRange),
       width: isTabletDevice ? 816 : DIMENSION.width,
       backgroundColor: defaultColors._26272C,
+      flex: 1,
     };
   });
 
@@ -72,7 +99,6 @@ const CartItem = React.memo(() => {
       bottom: isTabletDevice
         ? 0
         : interpolate(locationCart.value, inputRange, outputRange),
-
       right: 0,
       height: 64,
       width: isTabletDevice ? 408 : '100%',
@@ -112,19 +138,29 @@ const CartItem = React.memo(() => {
     }
   };
 
+  const hiddenViewList = (value ?: number) => {
+    setIsOpenCart(false);
+    setIsOpenList(false);
+    locationCart.value = 64;
+    height.value =  withTiming(0, {
+      duration: 300 ,
+    });
+  };
+
   useEffect(() => {
     if (isOpenDrawerFloor) {
-      setIsOpenCart(false);
-      setIsOpenList(false);
-      locationCart.value  = 64;
-      height.value = 0;
+      hiddenViewList(0);
     }
-  } , [isOpenDrawerFloor]);
+  }, [isOpenDrawerFloor]);
 
   return (
-    <View style={{flex: 1 , display : isOpenDrawerFloor ? 'none' : 'flex' }}>
-      <Animated.View style={styleView} >
-         <CartList />
+    <View style={{flex: 1, display: isOpenDrawerFloor ? 'none' : 'flex'}}>
+      <Animated.View style={styleView}>
+        {isOpenCart ? (
+          <CartList hiddenViewList={hiddenViewList} />
+        ) : (
+          <ListOfFood hiddenViewList={hiddenViewList} />
+        )}
       </Animated.View>
       <View style={styles.container}>
         {isOpenCart && <View style={styles.triangle} />}
@@ -270,7 +306,7 @@ const styles = StyleSheet.create({
     borderStyle: 'solid',
     borderTopWidth: 0,
     borderRightWidth: 30,
-    borderBottomWidth: 30,
+    borderBottomWidth: 12,
     borderLeftWidth: 30,
     borderTopColor: 'transparent',
     borderRightColor: 'transparent',
@@ -287,7 +323,7 @@ const styles = StyleSheet.create({
     borderStyle: 'solid',
     borderTopWidth: 0,
     borderRightWidth: 30,
-    borderBottomWidth: 30,
+    borderBottomWidth: 12,
     borderLeftWidth: 30,
     borderTopColor: 'transparent',
     borderRightColor: 'transparent',

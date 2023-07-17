@@ -44,7 +44,6 @@ const DrawerNavigation = () => {
           return (
             <Drawer.Screen
               name={'floor' + (index + 1)}
-
               initialParams={{id: item}}
               component={Home}
               options={{
