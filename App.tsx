@@ -1,20 +1,19 @@
-/* eslint-disable react/react-in-jsx-scope */
+
 /**
  * Sample React Native App
  * https://github.com/facebook/react-native
  *
  * @format
  */
-import {PersistGate} from 'redux-persist/integration/react';
-import {persistor} from './src/redux';
-import {SafeAreaProvider} from 'react-native-safe-area-context';
-import {MainStack} from './src/navigations/MainStack';
-import {enableScreens} from 'react-native-screens';
+import React from 'react';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { PersistGate } from 'redux-persist/integration/react';
+import { MainStack } from './src/navigations/MainStack';
+import { persistor } from './src/redux';
 
-function App(): JSX.Element {
-  enableScreens();
+function App() {
   return (
-    <PersistGate loading={null} persistor={persistor}>
+    <PersistGate  persistor={persistor}>
         <SafeAreaProvider>
           <MainStack />
         </SafeAreaProvider>
