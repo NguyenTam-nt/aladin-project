@@ -14,6 +14,8 @@ const TableItem = () => {
     styles.tableItem,
     {width: isTablet ? 180 : '45%', margin: isTablet ? 16 : 8},
   ];
+
+
   return (
     <TouchableOpacity style={stylesTablet} onPress={() => { navigation.navigate('orderTab' , { screen : 'hotpot'});}}>
       <View style={styles.contentTableItem}>
@@ -34,8 +36,8 @@ const TableOrder = (item: any) => {
         <Text style={styles.textFloor}> Phòng/bàn - Tầng {item.item.index}</Text>
       </View>
       <View style={styles.contentTextFloor}>
-        {item.item.table.map((item: any) => {
-          return <TableItem />;
+        {item.item.table.map((item: any , index : number) => {
+          return <TableItem key={index} />;
         })}
       </View>
     </View>
