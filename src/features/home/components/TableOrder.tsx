@@ -14,6 +14,8 @@ const TableItem = () => {
     styles.tableItem,
     {width: isTablet ? 180 : '45%', margin: isTablet ? 16 : 8},
   ];
+
+
   return (
     <TouchableOpacity style={stylesTablet} onPress={() => { navigation.navigate('orderTab' , { screen : 'hotpot'});}}>
       <View style={styles.contentTableItem}>

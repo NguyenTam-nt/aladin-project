@@ -20,7 +20,6 @@ const CartList = React.memo(({ hiddenViewList} : { hiddenViewList : () => void})
         </View>
         <ActionCartList />
         <TableCartList />
-
       </View>
   );
 });
