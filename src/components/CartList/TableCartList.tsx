@@ -56,8 +56,6 @@ export const StatusOrderItem = React.memo(({checkstatus} : {checkstatus : string
         backgroundColor: colorBackground,
         borderRadius: 16,
         alignItems: 'center',
-
-
         flexDirection: 'row',
       }}>
       <View
