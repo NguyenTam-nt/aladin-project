@@ -2,10 +2,12 @@ import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 
 interface IPopupState {
   showDrawerFloor: boolean
+  showAction : boolean
 }
 
 const initialState: IPopupState = {
   showDrawerFloor: false,
+  showAction : false,
 };
 
 export const infoDrawerSlice = createSlice({
@@ -17,7 +19,12 @@ export const infoDrawerSlice = createSlice({
       state.showDrawerFloor = action.payload;
         }
     },
+    setShowActionCart: (state, action: PayloadAction<boolean>) => {
+      if (state.showAction !== action.payload) {
+    state.showAction = action.payload;
+      }
+  },
   },
 });
-export const {setShowDrawerFloor} = infoDrawerSlice.actions;
+export const {setShowDrawerFloor ,setShowActionCart} = infoDrawerSlice.actions;
 export default infoDrawerSlice.reducer;

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import Svg, {Defs, G, Path, Rect} from 'react-native-svg';
+import Svg, {ClipPath, Defs, G, Path, Rect} from 'react-native-svg';
 import {defaultColors} from '@configs';
 import {IIcon} from '@typeRules';
 
@@ -17,9 +17,9 @@ export const ICDown = ({
         />
       </G>
       <Defs>
-        <clipPath id="clip0_2318_13926">
+        <ClipPath id="clip0_2318_13926">
           <Rect width="24" height="24" fill={color} />
-        </clipPath>
+        </ClipPath>
       </Defs>
     </Svg>
   );
