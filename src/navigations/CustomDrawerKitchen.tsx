@@ -4,12 +4,12 @@ import {
   DrawerContentScrollView,
 } from '@react-navigation/drawer';
 import {View, StyleSheet} from 'react-native';
-import {DrawerItemListCustom} from './DrawerItemListCustom';
 import {ICLogo} from '@icons';
 import {defaultColors} from '@configs';
 import {LogoutDrawer} from '../components/LogoutDrawer';
+import { DrawerItemListCustomKitchen } from './DrawerItemsListCustomKitchen'
 
-const CustomDrawer = (props: DrawerContentComponentProps) => {
+const CustomDrawerKitchen = (props: DrawerContentComponentProps) => {
   return (
     <View style={styles.container}>
       <DrawerContentScrollView
@@ -19,14 +19,14 @@ const CustomDrawer = (props: DrawerContentComponentProps) => {
           <View style={{alignItems: 'center'}}>
             <ICLogo color={defaultColors.c_fff} height={168} width={168} />
           </View>
-          <DrawerItemListCustom {...props} />
+          <DrawerItemListCustomKitchen {...props} />
         </View>
       </DrawerContentScrollView>
       <LogoutDrawer />
     </View>
   );
 };
-export default CustomDrawer;
+export default CustomDrawerKitchen;
 
 const styles = StyleSheet.create({
   container: {
