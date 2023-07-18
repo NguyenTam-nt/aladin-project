@@ -4,7 +4,6 @@ import {Header} from '@components';
 import HotPotScreen from './HotPotScreen';
 
 const FloorStack = createStackNavigator();
-
 export const HotpotOrder = () => {
   return (
     <>

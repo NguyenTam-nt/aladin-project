@@ -2,9 +2,9 @@ import {View, Text, StyleSheet} from 'react-native';
 import React from 'react';
 import {defaultColors} from '@configs';
 
-import {ICAddOrder} from '../../assets/icons/ICAddOrder';
-import {StatusOrderItem} from './TableCartList';
-import { Thumb } from '../Thumb/Thumb';
+import {ICAddOrder} from '../../../../assets/icons/ICAddOrder';
+
+import {Thumb} from '../../../Thumb/Thumb';
 
 const ItemCardMobile = ({checkstatus}: {checkstatus: string}) => {
   return (
@@ -18,7 +18,9 @@ const ItemCardMobile = ({checkstatus}: {checkstatus: string}) => {
           style={styles.image}
         />
         <View style={styles.rightContent}>
-          <Text style={styles.textTitle} numberOfLines={1}>Combo 2 Người lớn ăn thả gaaaaa sdahsdhs ahhshshshsh</Text>
+          <Text style={styles.textTitle} numberOfLines={1}>
+            Combo 2 Người lớn ăn thả gaaaaa sdahsdhs ahhshshshsh
+          </Text>
           <Text style={styles.textPrice}>600.000</Text>
           <View style={styles.viewNotiContent}>
             <ICAddOrder />
@@ -37,9 +39,7 @@ const ItemCardMobile = ({checkstatus}: {checkstatus: string}) => {
         </View>
       </View>
       <Text style={styles.textStatus}>Trạng thái/Chức năng</Text>
-      <View style={styles.viewStatus}>
-        <StatusOrderItem checkstatus={checkstatus} />
-      </View>
+      <View style={styles.viewStatus} />
       <View style={styles.devide} />
     </View>
   );
@@ -63,7 +63,7 @@ const styles = StyleSheet.create({
   rightContent: {
     marginLeft: 16,
     justifyContent: 'space-between',
-    flex : 1,
+    flex: 1,
   },
   textTitle: {
     color: defaultColors.c_fff,

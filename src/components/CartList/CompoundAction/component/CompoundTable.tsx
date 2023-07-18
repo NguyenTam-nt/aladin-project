@@ -1,85 +1,16 @@
 import { defaultColors, isTabletDevice } from '@configs';
 import React from 'react';
-import { FlatList, ListRenderItemInfo, StyleSheet, Text, View } from 'react-native';
-import { ICAddOrder } from '../../assets/icons/ICAddOrder';
-import { Thumb } from '../Thumb/Thumb';
-import ItemCardMobile from './ItemCardMobile';
+import { FlatList, ListRenderItemInfo, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { ICAddOrder } from '../../../../assets/icons/ICAddOrder';
+import { Thumb } from '../../../Thumb/Thumb';
+import ItemCardMobile from  './ItemCardMobile';
+import QuantityUpdate from '../../..//QuantityUpdate';
+import { ICCheck } from '../../../../assets/icons/ICCheck';
+import { ICDelete } from '../../../../assets/icons/ICDelete';
 
 
-export const StatusOrderItem = React.memo(({checkstatus} : {checkstatus : string}) => {
-  const {
-    colorBackground,
-    textStatus,
-    circleColor,
-  }: {colorBackground: string; textStatus: string; circleColor: string} =
-    (() => {
-      switch (checkstatus) {
-        case 'success':
-          return {
-            colorBackground: defaultColors._BAE5C8,
-            textStatus: 'Hoàn thành',
-            circleColor: defaultColors._01A63E,
-          };
-        case 'cancel':
-          return {
-            colorBackground: defaultColors._241_171_171_100,
-            textStatus: 'Đã huỷ',
-            circleColor: defaultColors._E73F3F,
-          };
-        case 'waitingSuccess':
-          return {
-            colorBackground: defaultColors._99C7F5,
-            textStatus: 'Chờ chế biến',
-            circleColor: defaultColors._0073E5,
-          };
-        case 'waitingCancel':
-          return {
-            colorBackground: defaultColors._FFDB9E,
-            textStatus: 'Chờ huỷ',
-            circleColor: defaultColors._F4A118,
-          };
 
-        default:
-          return {
-            colorBackground: defaultColors._99C7F5,
-            textStatus: 'Chờ chế biến',
-            circleColor: defaultColors._0073E5,
-          };
-      }
-    })();
-
-  return (
-    <View
-      style={{
-        width: 118,
-        height: 32,
-        backgroundColor: colorBackground,
-        borderRadius: 16,
-        alignItems: 'center',
-        flexDirection: 'row',
-      }}>
-      <View
-        style={{
-          height: 12,
-          width: 12,
-          backgroundColor: circleColor,
-          borderRadius: 6,
-          marginLeft : 8,
-        }}
-      />
-      <Text
-        style={{
-          color: defaultColors.c_222124,
-          marginLeft: 8,
-          fontSize: 14,
-          lineHeight: 22,
-        }}>
-        {textStatus}
-      </Text>
-    </View>
-  );});
-
-const TableCartItem = ( {checkstatus} : {checkstatus : string}) => {
+const TableCartItem = () => {
 
   return (
     <View>
@@ -99,7 +30,7 @@ const TableCartItem = ( {checkstatus} : {checkstatus : string}) => {
           </View>
           <View style={styles.textItemCol2}>
             <Text style={styles.textNameItem}>
-              Combo 2 Người lớn ăn thả g...
+              Combo 2 Người lớn ăn thả g... ssssss
             </Text>
             <Text style={styles.textPriceItem}>600.000</Text>
             <View style={styles.textAddOrderItem}>
@@ -111,18 +42,15 @@ const TableCartItem = ( {checkstatus} : {checkstatus : string}) => {
         <View style={styles.col3}>
           <Text style={styles.textTable}>1</Text>
         </View>
-        <View style={styles.col4}>
-          <Text style={styles.textTable}>600.000</Text>
-        </View>
-        <View style={styles.col5}>
-          <StatusOrderItem  checkstatus={checkstatus}  />
+        <View style={styles.col5} >
+            <QuantityUpdate />
         </View>
       </View>
     </View>
   );
 };
 
-const TableCartList = () => {
+const CompoundTable = React.memo(() => {
   const data = [
     'success',
     'cancel',
@@ -132,8 +60,13 @@ const TableCartList = () => {
     'success',
     'success',
   ];
+
   const renderItem = (item: ListRenderItemInfo<any>) => {
-    return isTabletDevice ?  <TableCartItem checkstatus={item.item} /> : <ItemCardMobile checkstatus={item.item}  />;
+    return isTabletDevice ? (
+      <TableCartItem />
+    ) : (
+      <ItemCardMobile checkstatus={item.item} />
+    );
   };
 
   return (
@@ -153,11 +86,8 @@ const TableCartList = () => {
               <View style={styles.col3}>
                 <Text style={styles.textTable}>Số lượng</Text>
               </View>
-              <View style={styles.col4}>
-                <Text style={styles.textTable}>Thành tiền</Text>
-              </View>
               <View style={styles.col5}>
-                <Text style={styles.textTable}>Trạng thái/Chức năng</Text>
+                <Text style={styles.textTable}>Số lượng ghép</Text>
               </View>
             </View>
           ) : (
@@ -166,14 +96,55 @@ const TableCartList = () => {
         }
         renderItem={renderItem}
         ListFooterComponent={
-          <View style={{height: isTabletDevice ? 120 : 155}} />
+          <View style={styles.buttonAction}>
+            <TouchableOpacity style={styles.buttonConfirm}>
+              <ICCheck />
+              <Text style={styles.textConfirm}>Thực hiện</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.buttonCancel}>
+              <ICDelete />
+              <Text style={styles.textConfirm}>Huỷ bỏ</Text>
+            </TouchableOpacity>
+          </View>
         }
       />
     </View>
   );
-};
+});
 
 const styles = StyleSheet.create({
+  buttonAction: {
+    flexDirection: 'row',
+    gap: 16,
+    marginBottom: 16,
+    marginLeft: 16,
+  },
+  buttonConfirm: {
+    height: 40,
+    width: 130,
+    backgroundColor: defaultColors._EA222A,
+    borderRadius: 8,
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexDirection: 'row',
+    gap: 10,
+  },
+  textConfirm: {
+    color: defaultColors.c_fff,
+    fontSize: 14,
+    fontWeight: 'bold',
+  },
+  buttonCancel: {
+    height: 40,
+    width: 130,
+    backgroundColor: defaultColors._33343B,
+    borderRadius: 8,
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexDirection: 'row',
+    gap: 10,
+  },
+
   textTable: {
     fontSize: 14,
     fontWeight: '600',
@@ -182,8 +153,7 @@ const styles = StyleSheet.create({
   container: {
     marginRight: 16,
     marginTop: 32,
-
-
+    flex: 1,
   },
   content: {
     flexDirection: 'row',
@@ -193,10 +163,11 @@ const styles = StyleSheet.create({
     width: 73,
   },
   col2: {
-    width: 318,
+    width: 388,
   },
   col3: {
-    width: 104,
+    width: 189,
+    alignItems: 'center',
   },
   col4: {
     width: 118,
@@ -216,7 +187,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   itemCol2: {
-    width: 318,
+    width: 388,
     flexDirection: 'row',
   },
   imageItem: {
@@ -248,4 +219,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default TableCartList;
+export default CompoundTable;
