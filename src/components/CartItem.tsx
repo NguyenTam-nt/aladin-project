@@ -1,7 +1,15 @@
 import { defaultColors, heightHeader, isTabletDevice } from '@configs';
 import { DIMENSION } from '@constants';
-import React, { useEffect, useState } from 'react';
-import { Platform, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import {
+  Platform,
+  StyleProp,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+  ViewStyle,
+} from 'react-native';
 import Animated, {
   interpolate,
   useAnimatedStyle,
@@ -10,33 +18,12 @@ import Animated, {
 } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { ICCart } from '../assets/icons/ICCart';
-import { useIsShowDrawerFloor } from '../redux/infoDrawer/hooks';
+import {
+  useIsShowActionCart,
+  useIsShowDrawerFloor,
+} from '../redux/infoDrawer/hooks';
 import CartList from './CartList/CartList';
 import ListOfFood from './ListOfFood/ListOfFood';
-
-
-// const TabViewCartItem = ({hiddenViewList}: {hiddenViewList: () => void}) => {
-//   const [index, setIndex] = React.useState(0);
-//   const [routes] = React.useState([
-//     {key: 'first', title: 'First'},
-//     {key: 'second', title: 'Second'},
-//   ]);
-
-//   const renderScene = SceneMap({
-//     first: () => <CartList hiddenViewList={hiddenViewList} />,
-//     second: () => <ListOfFood hiddenViewList={hiddenViewList} />,
-//   });
-
-//   return (
-//     <TabView
-//       navigationState={{index, routes}}
-//       renderScene={renderScene}
-//       onIndexChange={setIndex}
-//       initialLayout={{width: isTabletDevice ? 816 : DIMENSION.width}}
-//     />
-//   );
-// };
-
 
 
 const CartItem = React.memo(() => {
@@ -45,11 +32,15 @@ const CartItem = React.memo(() => {
   const [isOpenCart, setIsOpenCart] = useState(false);
   const [isOpenList, setIsOpenList] = useState(false);
   const isOpenDrawerFloor = useIsShowDrawerFloor();
+  const isOpenActionCart = useIsShowActionCart();
+  const heightButtonValue = isTabletDevice ? 64 : 128;
+
   const heightView =
     DIMENSION.height -
-    (isTabletDevice ? 64 : 64 * 2) -
+    heightButtonValue -
     heightHeader -
     (Platform.OS === 'ios' ? insets.top : DIMENSION.topPadding);
+
   const height = useSharedValue(0);
   const locationCart = useSharedValue(64);
 
@@ -62,6 +53,14 @@ const CartItem = React.memo(() => {
       width: isTabletDevice ? 816 : DIMENSION.width,
       backgroundColor: defaultColors._26272C,
       flex: 1,
+    };
+  });
+
+  const styleViewButton = useAnimatedStyle(() => {
+    let inputRange = [0, heightView, heightView + heightButtonValue];
+    let outputRange = [heightButtonValue, heightButtonValue, 0];
+    return {
+      height: interpolate(height.value, inputRange, outputRange),
     };
   });
 
@@ -105,7 +104,7 @@ const CartItem = React.memo(() => {
     };
   });
 
-  const toggleOpen = () => {
+  const toggleOpen = useCallback(() => {
     setIsOpenList(false);
     setIsOpenCart(value => !value);
     height.value = !isOpenCart
@@ -120,8 +119,9 @@ const CartItem = React.memo(() => {
         duration: 300,
       });
     }
-  };
-  const toggleOpenList = () => {
+  }, [isOpenCart]);
+
+  const toggleOpenList = useCallback(() => {
     setIsOpenCart(false);
     setIsOpenList(value => !value);
     height.value = !isOpenList
@@ -129,29 +129,44 @@ const CartItem = React.memo(() => {
           duration: 300,
         })
       : withTiming(0, {
-          duration: 300,
+          duration: 0,
         });
     if (!isTabletDevice) {
       locationCart.value = withTiming(0, {
         duration: 300,
       });
     }
-  };
+  }, [isOpenCart]);
 
-  const hiddenViewList = (value ?: number) => {
+  const hiddenViewList =  useCallback(() => {
     setIsOpenCart(false);
     setIsOpenList(false);
     locationCart.value = 64;
-    height.value =  withTiming(0, {
-      duration: 300 ,
+    height.value = withTiming(0, {
+      duration: 300,
     });
-  };
+  } , []);
 
   useEffect(() => {
     if (isOpenDrawerFloor) {
-      hiddenViewList(0);
+      hiddenViewList();
     }
   }, [isOpenDrawerFloor]);
+
+  useEffect(() => {
+    if (isOpenActionCart && isOpenCart) {
+      height.value = withTiming(heightView + heightButtonValue, {
+        duration: 300,
+      });
+    }
+  }, [isOpenActionCart]);
+
+  const hiddenViewOpen = useMemo<StyleProp<ViewStyle>>(() => {
+    return {
+      display: isOpenActionCart && isOpenCart ? 'none' : 'flex',
+      opacity: isOpenActionCart && isOpenCart ? 0 : 1,
+    };
+  }, [isOpenActionCart]);
 
   return (
     <View style={{flex: 1, display: isOpenDrawerFloor ? 'none' : 'flex'}}>
@@ -162,9 +177,9 @@ const CartItem = React.memo(() => {
           <ListOfFood hiddenViewList={hiddenViewList} />
         )}
       </Animated.View>
-      <View style={styles.container}>
-        {isOpenCart && <View style={styles.triangle} />}
-        {isOpenList && <View style={styles.triangleRight} />}
+      {isOpenCart && <View style={[styles.triangle, hiddenViewOpen]} />}
+      {isOpenList && <View style={[styles.triangleRight, hiddenViewOpen]} />}
+      <Animated.View style={[styles.container, styleViewButton]}>
         {isOpenCart ? (
           <Animated.View style={styleViewCart}>
             <View style={styles.containerConfrim}>
@@ -212,7 +227,7 @@ const CartItem = React.memo(() => {
             <Text style={styles.text}>Danh sách các món đã gọi</Text>
           </TouchableOpacity>
         </Animated.View>
-      </View>
+      </Animated.View>
     </View>
   );
 });
@@ -223,6 +238,7 @@ const styles = StyleSheet.create({
     flex: 1,
     height: isTabletDevice ? 64 : 128,
     backgroundColor: defaultColors.c_222124,
+    overflow: 'hidden',
   },
   cart: {
     position: 'absolute',

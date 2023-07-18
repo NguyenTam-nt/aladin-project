@@ -13,11 +13,9 @@ const QuantityUpdate = ({value}: {value?: number}) => {
       setNumber(+value);
     }
   }, [value]);
-
   const AddQuality = () => {
     setNumber(number + 1);
   };
-
 
   const Subtraction = () => {
     if (number > 0) {
@@ -53,16 +51,18 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent : 'flex-end',
+    justifyContent: 'flex-end',
   },
-  textNumber :{
-    color : defaultColors.c_fff,
-    paddingHorizontal : 16,
-    fontSize : 16 ,
-    fontWeight : '600',
+  textNumber: {
+    color: defaultColors.c_fff,
+    paddingHorizontal: 16,
+    fontSize: 16,
+    fontWeight: '600',
+    width: 70,
+    textAlign: 'center',
   },
-  button : {
-    padding : 5,
+  button: {
+    padding: 5,
   },
 });
 
