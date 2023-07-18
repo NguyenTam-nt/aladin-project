@@ -2,7 +2,6 @@ import {Platform, Text, TextProps} from 'react-native';
 import React from 'react';
 
 interface Props extends TextProps {
-  size: number
   lineHeight?: number
   weight?:
     | 'normal'
@@ -39,6 +38,8 @@ interface Props extends TextProps {
   backgroundColor?: string
   color?: string
   numberOfLines?: number
+  fontSize?: number
+  fontiCielBCCubanoNormal?: string
 }
 
 const getFont: (weight: Props['weight']) => string = weight => {
@@ -64,19 +65,20 @@ const getFont: (weight: Props['weight']) => string = weight => {
         return 'IBMPlexSans-Medium';
     }
   }
-  return 'IBMPlexSans';
+  return 'IBMPlexSans-Medium';
 };
 
 export const TextCustom = ({
   children,
   numberOfLines,
   weight,
+  fontiCielBCCubanoNormal,
   ...props
 }: Props) => {
   return (
     <Text
       numberOfLines={numberOfLines}
-      style={{...props, fontFamily: getFont(weight)}}>
+      style={{...props, fontFamily: !fontiCielBCCubanoNormal ? getFont(weight) : fontiCielBCCubanoNormal, fontWeight: weight}}>
       {children}
     </Text>
   );
