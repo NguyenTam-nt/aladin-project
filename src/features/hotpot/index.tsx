@@ -13,7 +13,6 @@ export const HotpotOrder = () => {
         screenOptions={{headerShown: false}}>
         <FloorStack.Screen name="hotpotScreen" component={HotPotScreen} />
       </FloorStack.Navigator>
-
     </>
   );
 };

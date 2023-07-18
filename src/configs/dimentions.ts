@@ -19,7 +19,7 @@ export const defaultColors = {
   _6D6F73: '#6D6F73',
   _119_173_255_01: 'rgba(119, 173, 255, 0.1)',
   _red: 'red',
-  _F1BA42 : '#F1BA42',
+  _F1BA42: '#F1BA42',
   bg_primary: '#141515',
   bg_header : '#1A1B1C',
   _01A63E : '#01A63E',
@@ -36,6 +36,15 @@ export const defaultColors = {
   _99C7F5 : '#99C7F5',
   _FFDB9E  : '#FFDB9E',
   _DBDBDB : '#DBDBDB',
+  bg_1F2021: '#1F2021',
+  bg_585C61: '#585C61',
+  bg_36383A: '#36383A',
+  bg_939393: '#939393',
+  rgba_225_225_225_064: 'rgba(255, 255, 255, 0.64)',
+  bg_FCEAEA: '#FCEAEA',
+  bg_2D2D2D: '#2D2D2D',
+  bg_5F5F61: '#5F5F61',
+  bg_EFEFEF: '#EFEFEF',
 };
 
 export const heightHeader = 56;

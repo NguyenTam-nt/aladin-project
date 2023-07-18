@@ -1,5 +1,5 @@
 import * as React from 'react';
-import Svg, {ClipPath, Defs, G, Path, Rect} from 'react-native-svg';
+import Svg, {Defs, G, Path, Rect, ClipPath} from 'react-native-svg';
 import {defaultColors} from '@configs';
 import {IIcon} from '@typeRules';
 
