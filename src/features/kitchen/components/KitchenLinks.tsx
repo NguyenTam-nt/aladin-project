@@ -7,7 +7,11 @@ import {TextCustom} from '@components';
 import {ICSort} from '../../../assets/icons/ICSort';
 import {ICDown} from '../../../assets/icons/ICDown';
 
-const KitchenLinks = memo(() => {
+type Props = {
+    renderRight?: JSX.Element
+}
+
+const KitchenLinks = memo(({renderRight}:Props) => {
   const navigation = useNavigation();
   const router = useRoute();
   const currentRoute = useMemo(() => {
@@ -51,17 +55,9 @@ const KitchenLinks = memo(() => {
       </View>
 
       <View style={{paddingBottom: 10}}>
-        <TouchableOpacity style={styles.styleBtnSort}>
-          <View>
-            <ICSort />
-          </View>
-          <TextCustom color={defaultColors.bg_A1A0A3}>
-            Sắp xếp theo bàn
-          </TextCustom>
-          <View>
-            <ICDown color={defaultColors.bg_A1A0A3} />
-          </View>
-        </TouchableOpacity>
+        {
+            renderRight ? renderRight : null
+        }
       </View>
     </View>
   );

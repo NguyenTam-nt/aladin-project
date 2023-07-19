@@ -2,10 +2,12 @@ import {View} from 'react-native';
 import React, {useMemo} from 'react';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import CustomDrawerKitchen from './CustomDrawerKitchen';
-import {WaitProcees} from '../features/kitchen/WaitProcess.tsx';
+import {WaitProcees} from '../features/kitchen/WaitProcess';
 import {Kitchen} from '../features/kitchen';
 import {History} from '../features/kitchen/History';
 import OrderTabView from '../features/orderTab/index';
+import { Report } from 'src/features/Report'
+import { globalStyles } from 'src/commons/globalStyles'
 
 export const routerPath = {
   order : 'Phần mềm order',
@@ -51,13 +53,13 @@ export const routerKitchens = [
   },
   {
     name: routerPath.report,
-    element: Kitchen,
+    element: Report,
     slug: 'report',
     childs: [
       {
         name: 'Báo cáo món ăn',
-        slug: 'report-product',
-        element: WaitProcees,
+        slug: 'general',
+        element: Report,
       },
     ],
   },
@@ -80,7 +82,7 @@ const DrawerKitchen = () => {
   );
 
   return (
-    <View style={{flex: 1}}>
+    <View style={globalStyles.fullFill}>
       <Drawer.Navigator
         drawerContent={props => <CustomDrawerKitchen {...props} />}
         screenOptions={screenOptions}>
