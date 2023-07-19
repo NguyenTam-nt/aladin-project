@@ -1,14 +1,13 @@
-import {View, StyleSheet, TouchableOpacity} from 'react-native';
-import React, {useMemo} from 'react';
-import {defaultColors} from '@configs';
-import {Notice} from './components/Notice';
-import {TextCustom} from '@components';
-import {useNavigation} from '@react-navigation/native';
-import {routerKitchens, routerPath} from '../../../navigations/DrawerKitchen';
-import KitchenLinks from '../components/KitchenLinks'
+import { defaultColors } from '@configs';
+import { useNavigation } from '@react-navigation/native';
+import React, { useMemo } from 'react';
+import { StyleSheet, TouchableOpacity, View } from 'react-native';
+import KitchenLinks from '../components/KitchenLinks';
+import { Notice } from './components/Notice';
 
 export const WaitProcees = () => {
   const navigation = useNavigation();
+
   const currentRoute = useMemo(() => {
     return navigation.getState().routeNames[navigation.getState().index];
   }, []);
@@ -16,6 +15,8 @@ export const WaitProcees = () => {
     <View style={styles.container}>
       <Notice />
       <KitchenLinks />
+
+
     </View>
   );
 };

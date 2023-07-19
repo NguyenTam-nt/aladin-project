@@ -56,6 +56,7 @@ const DropdownComponent: <T>(
       selectedTextProps = {},
       data = [],
       labelField,
+      isChildren,
       valueField,
       searchField,
       value,
@@ -181,7 +182,7 @@ const DropdownComponent: <T>(
           });
         });
       }
-    }, [H, W, orientation, mode]);
+    }, [H, W, orientation, mode ,isChildren]);
 
     const onKeyboardDidShow = useCallback(
       (e: KeyboardEvent) => {
