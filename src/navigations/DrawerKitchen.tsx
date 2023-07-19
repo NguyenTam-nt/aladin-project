@@ -6,6 +6,7 @@ import {WaitProcees} from '../features/kitchen/WaitProcess.tsx';
 import {Kitchen} from '../features/kitchen';
 import {History} from '../features/kitchen/History';
 import OrderTabView from '../features/orderTab/index';
+import CompoundTabKitChen from 'src/features/kitchen/Compound/CompoundTabKitChen';
 
 export const routerPath = {
   order : 'Phần mềm order',
@@ -45,7 +46,7 @@ export const routerKitchens = [
       {
         name: 'Tách/Ghép bàn',
         slug: 'split-table',
-        element: WaitProcees,
+        element: CompoundTabKitChen,
       },
     ],
   },
