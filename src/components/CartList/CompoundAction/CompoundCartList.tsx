@@ -4,7 +4,7 @@ import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 import DropdownComponent from '../../DropDownCustom/DropdownCustom';
 import CompoundTable from './component/CompoundTable';
-import { ICCheck } from '../../../assets/icons/ICCheck';
+import { RadioButtonSelect } from '../../../components/Checkbox/RadioButton';
 const dataItem = [
   {
     label: 'Tầng 1',
@@ -77,24 +77,12 @@ const dataItem = [
 
   }
 
-  interface IDataSelectionCustom  {
+ export interface IDataSelectionCustom  {
     label: string
     value: any
     children ? : IDataSelection[]
     parentId?: number
   }
-
-const RadioButtonSelect = ({active}: {active: boolean}) => {
-  return (
-    <View
-      style={[
-        styles.containerRadiobutton,
-        {borderColor: active ? defaultColors._EA222A : defaultColors.c_fff},
-      ]}>
-      {active && <View style={styles.circleDot} />}
-    </View>
-  );
-};
 
 const CompoundCartList = () => {
 
@@ -145,7 +133,6 @@ const CompoundCartList = () => {
         }}
       />
       <CompoundTable />
-
     </View>
   );
 };
@@ -173,21 +160,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     marginLeft: 8,
   },
-  containerRadiobutton: {
-    width: 20,
-    height: 20,
-    borderRadius: 10,
-    borderWidth: 2,
-    borderColor: defaultColors.c_fff,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  circleDot: {
-    height: 8,
-    width: 8,
-    backgroundColor: defaultColors._EA222A,
-    borderRadius: 4,
-  },
+
   dropdown: {
     height: 40,
     borderWidth: 1,

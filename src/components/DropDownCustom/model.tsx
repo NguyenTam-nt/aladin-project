@@ -36,6 +36,7 @@ import type {
     iconColor?: string
     activeColor?: string
     data: T[]
+    isChildren?: boolean
     value?: T | string | null | undefined
     placeholder?: string
     labelField: keyof T

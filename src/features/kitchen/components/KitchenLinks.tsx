@@ -1,13 +1,13 @@
-import {View, StyleSheet, TouchableOpacity} from 'react-native';
-import React, {memo, useCallback, useMemo} from 'react';
-import {routerKitchens, routerPath} from '../../../navigations/DrawerKitchen';
-import {useNavigation, useRoute} from '@react-navigation/native';
-import {defaultColors} from '@configs';
-import {TextCustom} from '@components';
+import { TextCustom } from '@components';
+import { defaultColors } from '@configs';
+import { useNavigation, useRoute } from '@react-navigation/native';
+import React, { memo, useCallback, useMemo } from 'react';
+import { StyleSheet, TouchableOpacity, View } from 'react-native';
+import { routerKitchens, routerPath } from '../../../navigations/DrawerKitchen';
 
 const KitchenLinks = memo(() => {
   const navigation = useNavigation();
-  const router = useRoute()
+  const router = useRoute();
   const currentRoute = useMemo(() => {
     return router.name;
   }, [router]);
@@ -43,6 +43,7 @@ const KitchenLinks = memo(() => {
             </TouchableOpacity>
           );
         })}
+
     </View>
   );
 });

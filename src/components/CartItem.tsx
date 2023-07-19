@@ -24,6 +24,7 @@ import {
 } from '../redux/infoDrawer/hooks';
 import CartList from './CartList/CartList';
 import ListOfFood from './ListOfFood/ListOfFood';
+import { getValueForDevice } from '../commons/formatMoney';
 
 
 const CartItem = React.memo(() => {
@@ -33,7 +34,7 @@ const CartItem = React.memo(() => {
   const [isOpenList, setIsOpenList] = useState(false);
   const isOpenDrawerFloor = useIsShowDrawerFloor();
   const isOpenActionCart = useIsShowActionCart();
-  const heightButtonValue = isTabletDevice ? 64 : 128;
+  const heightButtonValue = getValueForDevice(64, 128);
 
   const heightView =
     DIMENSION.height -
@@ -50,7 +51,7 @@ const CartItem = React.memo(() => {
     return {
       height: height.value,
       opacity: interpolate(height.value, inputRange, outputRange),
-      width: isTabletDevice ? 816 : DIMENSION.width,
+      width: isTabletDevice ? 816 : DIMENSION.width ,
       backgroundColor: defaultColors._26272C,
       flex: 1,
     };

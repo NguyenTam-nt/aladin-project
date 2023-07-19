@@ -1,10 +1,9 @@
-import React from 'react';
-import { Text, View ,StyleSheet } from 'react-native';
-import FastImage from 'react-native-fast-image';
-import  QuantityUpdate from '../../../components/QuantityUpdate';
-import { DIMENSION } from '@constants';
 import { defaultColors, isTabletDevice } from '@configs';
-import { isTablet } from 'react-native-device-info';
+import { DIMENSION } from '@constants';
+import React from 'react';
+import { StyleSheet, Text, View } from 'react-native';
+import FastImage from 'react-native-fast-image';
+import QuantityUpdate from '../../../components/QuantityUpdate';
 
 const DishItem = () => {
 
