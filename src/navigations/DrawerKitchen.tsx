@@ -4,6 +4,7 @@ import {createDrawerNavigator} from '@react-navigation/drawer';
 import CustomDrawerKitchen from './CustomDrawerKitchen';
 import {WaitProcees} from '../features/kitchen/WaitProcess.tsx';
 import {Kitchen} from '../features/kitchen';
+import {History} from '../features/kitchen/History';
 
 export const routerPath = {
   kitchen: 'Bếp/Bar',
@@ -24,7 +25,7 @@ export const routerKitchens = [
       {
         name: 'Lịch sử',
         slug: 'history',
-        element: WaitProcees,
+        element: History,
       },
       {
         name: 'Tách/Ghép bàn',

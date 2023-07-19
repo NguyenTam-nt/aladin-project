@@ -6,7 +6,7 @@ import {
   UIManager,
   LayoutAnimation,
 } from 'react-native';
-import React from 'react';
+import React, {useCallback} from 'react';
 import {defaultColors} from '@configs';
 import {TextCustom} from '@components';
 import {ICAddOrder} from '../../../../assets/icons/ICAddOrder';
@@ -15,6 +15,9 @@ import {ICCheckMulti} from '../../../../assets/icons/ICCheckMulti';
 import {ICDelete} from '../../../../assets/icons/ICDelete';
 import {ICDeleteMulti} from '../../../../assets/icons/ICDeleteMulti';
 import {ICDown} from '../../../../assets/icons/ICDown';
+import {TypeModalWaitProcess} from '../hooks/useWaitProcess';
+import { Button } from '../../../../components/Button'
+import { ICCheck } from '../../../../assets/icons/ICCheck'
 
 if (
   Platform.OS === 'android' &&
@@ -24,11 +27,11 @@ if (
 }
 
 type Props = {
-    onShowModal: () => void
-    onHideModal: () => void
-}
+  onShowModal: (type: TypeModalWaitProcess) => void
+  onHideModal: () => void
+};
 
-export const BillItem = ({onShowModal, onHideModal}:Props) => {
+export const BillItem = ({onShowModal, onHideModal}: Props) => {
   const [isOpen, setIsOpen] = React.useState(true);
   const toggleOpen = () => {
     // onPress?.()
@@ -58,11 +61,15 @@ export const BillItem = ({onShowModal, onHideModal}:Props) => {
           <ICDown color={defaultColors.c_222124} />
         </TouchableOpacity>
       </TouchableOpacity>
-      <View style={[{flex: 1}, !isOpen ? {height: 0, overflow:'hidden'} : undefined]}>
+      <View
+        style={[
+          {flex: 1},
+          !isOpen ? {height: 0, overflow: 'hidden'} : undefined,
+        ]}>
         <BillItemMenu onHideModal={onHideModal} onShowModal={onShowModal} />
         <BillItemMenu onHideModal={onHideModal} onShowModal={onShowModal} />
         <BillItemMenu onHideModal={onHideModal} onShowModal={onShowModal} />
-        <BillItemMenu onHideModal={onHideModal} onShowModal={onShowModal} />
+        <BillItemMenu isCancel onHideModal={onHideModal} onShowModal={onShowModal} />
         <BillItemMenu onHideModal={onHideModal} onShowModal={onShowModal} />
         <BillItemMenu onHideModal={onHideModal} onShowModal={onShowModal} />
       </View>
@@ -70,9 +77,28 @@ export const BillItem = ({onShowModal, onHideModal}:Props) => {
   );
 };
 
-export const BillItemMenu = ({onHideModal, onShowModal}:Props) => {
+type PropsBillItemMenu = {
+  onShowModal: (type: TypeModalWaitProcess) => void
+  onHideModal: () => void
+  isCancel?: boolean
+};
+
+export const BillItemMenu = ({
+  onHideModal,
+  onShowModal,
+  isCancel = false,
+}: PropsBillItemMenu) => {
+  const handleShowModalCancel = useCallback(() => {
+    onShowModal(TypeModalWaitProcess.cancelbill);
+  }, []);
+
+  const handleShowModalRefuse = useCallback(() => {
+    onShowModal(TypeModalWaitProcess.refusebill);
+  }, []);
   return (
-    <View style={styles.styleItemProduct}>
+    <View style={[styles.styleItemProduct, {
+        backgroundColor: isCancel ? defaultColors.bg_FCEAEA : 'transparent'
+    }]}>
       <View style={styles.styleViewItem}>
         <TextCustom
           lineHeight={22}
@@ -116,18 +142,48 @@ export const BillItemMenu = ({onHideModal, onShowModal}:Props) => {
         </TextCustom>
       </View>
       <View style={[styles.styleViewItem, styles.styleGroupBtn]}>
-        <TouchableOpacity onPress={onShowModal} style={[styles.styleBtn, styles.styleBtnGreen]}>
-          <ICCheckSingle />
-        </TouchableOpacity>
-        <TouchableOpacity style={[styles.styleBtn, styles.styleBtnGreen]}>
-          <ICCheckMulti />
-        </TouchableOpacity>
-        <TouchableOpacity style={[styles.styleBtn, styles.styleBtnRed]}>
-          <ICDelete />
-        </TouchableOpacity>
-        <TouchableOpacity  style={[styles.styleBtn, styles.styleBtnRed]}>
-          <ICDeleteMulti />
-        </TouchableOpacity>
+        {!isCancel ? (
+          <>
+            <TouchableOpacity style={[styles.styleBtn, styles.styleBtnGreen]}>
+              <ICCheckSingle />
+            </TouchableOpacity>
+            <TouchableOpacity style={[styles.styleBtn, styles.styleBtnGreen]}>
+              <ICCheckMulti />
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={handleShowModalCancel}
+              style={[styles.styleBtn, styles.styleBtnRed]}>
+              <ICDelete />
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={handleShowModalCancel}
+              style={[styles.styleBtn, styles.styleBtnRed]}>
+              <ICDeleteMulti />
+            </TouchableOpacity>
+          </>
+        ) : (
+          <>
+            <Button
+            style={styles.styleViewItem}
+              renderLeff={
+                <View>
+                  <ICCheck />
+                </View>
+              }
+              text="Thực hiện"
+            />
+            <Button
+              onPress={handleShowModalRefuse}
+              style={[styles.styleBtnCancel, styles.styleViewItem]}
+              renderLeff={
+                <View>
+                  <ICDelete />
+                </View>
+              }
+              text="Hủy bỏ"
+            />
+          </>
+        )}
       </View>
     </View>
   );
@@ -159,6 +215,7 @@ const styles = StyleSheet.create({
     height: 76,
     flexDirection: 'row',
     alignItems: 'center',
+    paddingHorizontal: 16,
   },
   styleBtn: {
     flex: 1,
@@ -176,5 +233,8 @@ const styles = StyleSheet.create({
   },
   styleBtnRed: {
     backgroundColor: defaultColors._EA222A,
+  },
+  styleBtnCancel: {
+    backgroundColor: defaultColors.c_222124,
   },
 });

@@ -102,7 +102,7 @@ const ModalCustom = forwardRef<ModalCustomMethod, ModalCustomProps>(
     // }
     return (
       <Modal
-        useNativeDriver
+        // useNativeDriver
         avoidKeyboard
         propagateSwipe
         style={styles.styleBackgroudOpacity}
@@ -128,6 +128,7 @@ const ModalCustom = forwardRef<ModalCustomMethod, ModalCustomProps>(
         // coverScreen={!isIOS || false}
         isVisible={isVisible}
         animationIn={animationIn}
+       animationOutTiming={200}
         animationOut={animationOut}
         // hasBackdrop={false}
         backdropOpacity={backdropOpacity}

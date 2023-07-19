@@ -1,56 +1,26 @@
-import {
-  View,
-  StyleSheet,
-  TouchableOpacity,
-  FlatList,
-  TextInput,
-} from 'react-native';
-import React, {useRef} from 'react';
+import {View, StyleSheet, FlatList} from 'react-native';
+import React, {useCallback} from 'react';
 import {defaultColors} from '@configs';
 import {Notice} from './components/Notice';
-import {TextCustom} from '@components';
 import KitchenLinks from '../components/KitchenLinks';
 import {BillItem} from './components/BillItem';
-import ModalCustom, {ModalCustomMethod} from '../../../components/ModalCustom';
-import {ICCloseModal} from '../../../assets/icons/ICCloseModal';
-
-// const data = [
-//   {
-//     name: 'Tầng 1/bàn 6',
-//     code: 'Mã hóa đơn 1253',
-//     childs: [
-//       {
-//         date: '25/05/2023 - 10:25',
-//         name: 'Lẩu riêu cua ',
-//         quanlity: 4,
-//         by: 'Order',
-//       },
-//       {
-//         date: '25/04/2023 - 10:25',
-//         name: 'Lẩu riêu cua ',
-//         quanlity: 3,
-//         by: 'Order',
-//       },
-//       {
-//         date: '25/03/2023 - 10:25',
-//         name: 'Lẩu riêu cua ',
-//         quanlity: 2,
-//         by: 'Order',
-//       },
-//     ],
-//   },
-// ];
+import ModalCustom from '../../../components/ModalCustom';
+import {ModalConfirmCancel} from './components/ModalConfirmCancel';
+import {HeaderListBill} from './components/HeaderListBill';
+import {useWaitProcess} from './hooks/useWaitProcess';
 
 export const WaitProcees = () => {
-  const refModalConfirmDelete = useRef<ModalCustomMethod>(null);
+  const {modalConfirmCancel, modalRefuse, handleShowModalAction} =
+    useWaitProcess();
 
-  const handleShowModalConfirm = () => {
-    refModalConfirmDelete.current?.show(false);
-  };
-
-  const handleHiddenModalConfirm = () => {
-    refModalConfirmDelete.current?.hide();
-  };
+  const renderItem = useCallback(() => {
+    return (
+      <BillItem
+        onShowModal={handleShowModalAction}
+        onHideModal={modalConfirmCancel.handleHidden}
+      />
+    );
+  }, [handleShowModalAction]);
 
   return (
     <>
@@ -58,97 +28,34 @@ export const WaitProcees = () => {
         <Notice />
         <KitchenLinks />
         <View style={styles.styleViewItem}>
-          <View style={styles.styleTable}>
-            <View style={styles.styleViewItem}>
-              <TextCustom
-                weight="600"
-                fontSize={16}
-                color={defaultColors.c_222124}>
-                Thời gian
-              </TextCustom>
-            </View>
-            <View style={styles.styleViewItem}>
-              <TextCustom
-                weight="600"
-                fontSize={16}
-                color={defaultColors.c_222124}>
-                Tên món
-              </TextCustom>
-            </View>
-            <View style={styles.styleViewItem}>
-              <TextCustom
-                weight="600"
-                fontSize={16}
-                color={defaultColors.c_222124}>
-                Số lượng
-              </TextCustom>
-            </View>
-            <View style={styles.styleViewItem}>
-              <TextCustom
-                weight="600"
-                fontSize={16}
-                color={defaultColors.c_222124}>
-                Trạng thái
-              </TextCustom>
-            </View>
-          </View>
+          <HeaderListBill />
           <FlatList
             showsVerticalScrollIndicator={false}
             data={[1, 2, 3, 4, 5]}
-            renderItem={() => {
-              return (
-                <BillItem
-                  onShowModal={handleShowModalConfirm}
-                  onHideModal={handleHiddenModalConfirm}
-                />
-              );
-            }}
+            renderItem={renderItem}
             keyExtractor={(_, index) => index.toString()}
           />
         </View>
       </View>
       <ModalCustom
-        onBackdropPress={handleHiddenModalConfirm}
-        ref={refModalConfirmDelete}>
-        <View style={styles.styleModalView}>
-          <View style={styles.styleModalHeader}>
-            <View style={{flex: 1}}>
-              <TextCustom
-                fontSize={24}
-                weight="700"
-                color={defaultColors.c_222124}
-                textAlign="center">
-                Hủy món [Tên món ăn]?
-              </TextCustom>
-            </View>
-            <TouchableOpacity style={{marginLeft: 'auto'}}>
-              <ICCloseModal color={defaultColors.bg_CBCBCB} />
-            </TouchableOpacity>
-          </View>
-          <View>
-            <TextCustom
-              fontSize={14}
-              weight="600"
-              color={defaultColors.c_222124}>
-              Lý do hủy món{' '}
-              <TextCustom color={defaultColors._EA222A}>*</TextCustom>
-            </TextCustom>
-            <TextInput
-              placeholderTextColor={defaultColors.c_222124}
-              placeholder="Hủy món từ thu ngân"
-              style={{
-                height: 120,
-                borderWidth: 1,
-                borderColor: defaultColors.bg_EFEFEF,
-                paddingHorizontal: 16,
-                paddingVertical: 8,
-                color: defaultColors.c_222124,
-              }}
-              textAlignVertical="top"
-              multiline
-            />
-          </View>
-        </View>
+        onBackdropPress={modalConfirmCancel.handleHidden}
+        ref={modalConfirmCancel.refModal}>
+        <ModalConfirmCancel
+          titleInput="Lý do hủy món"
+          placeholder="Hủy món từ thu ngân"
+          message="Hủy món [Tên món ăn]?"
+          onCancel={modalConfirmCancel.handleHidden}
+        />
+      </ModalCustom>
+      <ModalCustom
+        onBackdropPress={modalRefuse.handleHidden}
+        ref={modalRefuse.refModal}>
+        <ModalConfirmCancel
+          titleInput="Lý do từ chối"
+          placeholder="Bếp từ chối hủy món"
+          message="Từ chối hủy món"
+          onCancel={modalRefuse.handleHidden}
+        />
       </ModalCustom>
     </>
   );
@@ -179,5 +86,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
+    marginBottom: 32,
   },
 });
