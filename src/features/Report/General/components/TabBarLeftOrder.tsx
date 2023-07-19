@@ -1,10 +1,8 @@
-import React, {useCallback, useState} from 'react';
-import {StyleSheet, View, Text, TouchableOpacity} from 'react-native';
-
-import {defaultColors} from '@configs';
-import CheckBox from 'src/components/Checkbox/CheckBox';
-import DropDownView from 'src/components/DropDownView/DropDownView';
+import React, { useCallback, useState } from 'react';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { defaultColors } from '@configs';
 import { RadioButtonSelect } from 'src/components/Checkbox/RadioButton';
+import DropDownView from 'src/components/DropDownView/DropDownView';
 
 const dataCheckbox = [
   {
@@ -27,26 +25,16 @@ const dataCheckbox = [
 
 
 const TabBarLeftOrder = () => {
-  const [typeLocation, setTypeLocaion] = useState<number[]>([]);
+  const [typeLocation, setTypeLocaion] = useState<number>(0);
 
   const onSetTypeLocation = useCallback(
     (value: number) => {
-      const index = typeLocation.findIndex(type => {
-        return type === value;
-      });
-
-      const checkType = [...typeLocation];
-      if (index >= 0) {
-        delete checkType[index];
-        setTypeLocaion(checkType);
-      } else {
-        checkType.push(value);
-        setTypeLocaion(checkType);
+      if (value !== typeLocation) {
+        setTypeLocaion(value);
       }
     },
     [typeLocation],
   );
-
 
   return (
     <View style={styles.container}>
@@ -55,9 +43,7 @@ const TabBarLeftOrder = () => {
           itemView={
             <View style={styles.itemViewDropDown}>
               {dataCheckbox.map(e => {
-                const isActive = typeLocation.find(type => {
-                  return type === e.value;
-                });
+                const isActive = typeLocation === e.value;
                 return (
                   <TouchableOpacity
                     style={styles.buttonCheckBoxDropDown}
@@ -65,7 +51,10 @@ const TabBarLeftOrder = () => {
                     onPress={() => {
                       onSetTypeLocation(e.value);
                     }}>
-                    <RadioButtonSelect active={isActive ? true : false} />
+                    <RadioButtonSelect
+                      active={isActive}
+                      color={defaultColors.c_222124}
+                    />
                     <Text style={styles.labelTextDropDown}>{e.label}</Text>
                   </TouchableOpacity>
                 );
@@ -78,8 +67,7 @@ const TabBarLeftOrder = () => {
           headerButtonStyle={styles.headerButtonStyleDropDown}
           isOpen={true}
         />
-        <View style={{ height : 30 , width : '100%'}} />
-
+        <View style={{height: 30, width: '100%'}} />
       </View>
     </View>
   );
