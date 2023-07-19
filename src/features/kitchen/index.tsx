@@ -1,8 +1,11 @@
 import React, {useCallback, useMemo, useState} from 'react';
+import {SafeAreaView, StatusBar} from 'react-native';
 import {Header} from './components/Header';
 import {createStackNavigator} from '@react-navigation/stack';
 import {routerKitchens, routerPath} from '../../navigations/DrawerKitchen';
 import {categoryKitchenNames} from '@configs';
+import {HandleTabKitchen} from './components/HandleTabKitchen';
+import { globalStyles } from 'src/commons/globalStyles'
 
 const KitChenStack = createStackNavigator();
 
@@ -31,10 +34,15 @@ export const Kitchen = () => {
   }, [currentCategory]);
 
   return (
-    <>
+    <SafeAreaView style={globalStyles.fullFill}>
+      <StatusBar hidden />
       <Header
-        currentCategory={currentCategory}
-        onChange={handleChangeCategory}
+        renderLeft={
+          <HandleTabKitchen
+            currentCategory={currentCategory}
+            onChange={handleChangeCategory}
+          />
+        }
       />
       <KitChenStack.Navigator screenOptions={screenOptions}>
         {routerKitchens
@@ -50,6 +58,6 @@ export const Kitchen = () => {
             );
           })}
       </KitChenStack.Navigator>
-    </>
+    </SafeAreaView>
   );
 };

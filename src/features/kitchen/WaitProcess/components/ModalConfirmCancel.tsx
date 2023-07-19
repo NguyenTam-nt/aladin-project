@@ -3,7 +3,7 @@ import React, {memo} from 'react';
 import {defaultColors} from '@configs';
 import {TextCustom} from '@components';
 import {ICCloseModal} from '../../../../assets/icons/ICCloseModal';
-import {Button} from '.././../../../components/Button';
+import {Button} from '../../../../components/Button';
 import {ICCheck} from '../../../../assets/icons/ICCheck';
 import {ICDelete} from '../../../../assets/icons/ICDelete';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
