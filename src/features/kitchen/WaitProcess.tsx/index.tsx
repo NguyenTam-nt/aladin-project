@@ -1,23 +1,63 @@
-import { defaultColors } from '@configs';
-import { useNavigation } from '@react-navigation/native';
-import React, { useMemo } from 'react';
-import { StyleSheet, TouchableOpacity, View } from 'react-native';
+import {View, StyleSheet, FlatList} from 'react-native';
+import React, {useCallback} from 'react';
+import {defaultColors} from '@configs';
+import {Notice} from './components/Notice';
 import KitchenLinks from '../components/KitchenLinks';
-import { Notice } from './components/Notice';
+import {BillItem} from './components/BillItem';
+import ModalCustom from '../../../components/ModalCustom';
+import {ModalConfirmCancel} from './components/ModalConfirmCancel';
+import {HeaderListBill} from './components/HeaderListBill';
+import {useWaitProcess} from './hooks/useWaitProcess';
 
 export const WaitProcees = () => {
-  const navigation = useNavigation();
+  const {modalConfirmCancel, modalRefuse, handleShowModalAction} =
+    useWaitProcess();
 
-  const currentRoute = useMemo(() => {
-    return navigation.getState().routeNames[navigation.getState().index];
-  }, []);
+  const renderItem = useCallback(() => {
+    return (
+      <BillItem
+        onShowModal={handleShowModalAction}
+        onHideModal={modalConfirmCancel.handleHidden}
+      />
+    );
+  }, [handleShowModalAction]);
+
   return (
-    <View style={styles.container}>
-      <Notice />
-      <KitchenLinks />
-
-
-    </View>
+    <>
+      <View style={styles.container}>
+        <Notice />
+        <KitchenLinks />
+        <View style={styles.styleViewItem}>
+          <HeaderListBill />
+          <FlatList
+            showsVerticalScrollIndicator={false}
+            data={[1, 2, 3, 4, 5]}
+            renderItem={renderItem}
+            keyExtractor={(_, index) => index.toString()}
+          />
+        </View>
+      </View>
+      <ModalCustom
+        onBackdropPress={modalConfirmCancel.handleHidden}
+        ref={modalConfirmCancel.refModal}>
+        <ModalConfirmCancel
+          titleInput="Lý do hủy món"
+          placeholder="Hủy món từ thu ngân"
+          message="Hủy món [Tên món ăn]?"
+          onCancel={modalConfirmCancel.handleHidden}
+        />
+      </ModalCustom>
+      <ModalCustom
+        onBackdropPress={modalRefuse.handleHidden}
+        ref={modalRefuse.refModal}>
+        <ModalConfirmCancel
+          titleInput="Lý do từ chối"
+          placeholder="Bếp từ chối hủy món"
+          message="Từ chối hủy món"
+          onCancel={modalRefuse.handleHidden}
+        />
+      </ModalCustom>
+    </>
   );
 };
 
@@ -27,31 +67,25 @@ const styles = StyleSheet.create({
     backgroundColor: defaultColors.c_fff,
     padding: 32,
   },
-  groupNotice: {
+  styleTable: {
     flexDirection: 'row',
-    columnGap: 16,
+    height: 70,
+    alignItems: 'center',
   },
-  noticeItem: {
-    borderLeftWidth: 4,
-    borderLeftColor: defaultColors._EA222A,
-    borderRadius: 4,
-    height: 60,
+  styleViewItem: {
     flex: 1,
-    backgroundColor: defaultColors.bg_FCEAEA,
-    maxWidth: 376,
-    columnGap: 12,
-    paddingHorizontal: 16,
-    justifyContent: 'center',
   },
-  groupLink: {
+  styleModalView: {
+    width: 720,
+    height: 348,
+    backgroundColor: defaultColors.c_fff,
+    borderRadius: 16,
+    padding: 24,
+  },
+  styleModalHeader: {
     flexDirection: 'row',
-    columnGap: 20,
-    borderBottomWidth: 1,
-    borderBottomColor: defaultColors.bg_EFEFEF,
-    marginTop: 37,
-  },
-  styleLinkButton: {
-    paddingBottom: 10,
-    borderBottomWidth: 4,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 32,
   },
 });

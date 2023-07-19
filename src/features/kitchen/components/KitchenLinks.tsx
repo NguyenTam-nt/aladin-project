@@ -1,9 +1,11 @@
-import { TextCustom } from '@components';
-import { defaultColors } from '@configs';
-import { useNavigation, useRoute } from '@react-navigation/native';
-import React, { memo, useCallback, useMemo } from 'react';
-import { StyleSheet, TouchableOpacity, View } from 'react-native';
-import { routerKitchens, routerPath } from '../../../navigations/DrawerKitchen';
+import {View, StyleSheet, TouchableOpacity} from 'react-native';
+import React, {memo, useCallback, useMemo} from 'react';
+import {routerKitchens, routerPath} from '../../../navigations/DrawerKitchen';
+import {useNavigation, useRoute} from '@react-navigation/native';
+import {defaultColors} from '@configs';
+import {TextCustom} from '@components';
+import {ICSort} from '../../../assets/icons/ICSort';
+import {ICDown} from '../../../assets/icons/ICDown';
 
 const KitchenLinks = memo(() => {
   const navigation = useNavigation();
@@ -18,32 +20,49 @@ const KitchenLinks = memo(() => {
   }, []);
   return (
     <View style={styles.groupLink}>
-      {routerKitchens
-        .find(item => item.name === routerPath.kitchen)
-        ?.childs.map(item => {
-          const isActive = currentRoute === item.slug;
-          return (
-            <TouchableOpacity
-              onPress={() => handleNavigate(item.slug)}
-              key={item.slug}
-              style={[
-                styles.styleLinkButton,
-                {
-                  borderBottomColor: isActive
-                    ? defaultColors._EA222A
-                    : 'transparent',
-                },
-              ]}>
-              <TextCustom
-                fontSize={16}
-                weight="600"
-                color={isActive ? defaultColors._EA222A : defaultColors.c_0000}>
-                {item.name}
-              </TextCustom>
-            </TouchableOpacity>
-          );
-        })}
+      <View style={styles.groupLinkItem}>
+        {routerKitchens
+          .find(item => item.name === routerPath.kitchen)
+          ?.childs.map(item => {
+            const isActive = currentRoute === item.slug;
+            return (
+              <TouchableOpacity
+                onPress={() => handleNavigate(item.slug)}
+                key={item.slug}
+                style={[
+                  styles.styleLinkButton,
+                  {
+                    borderBottomColor: isActive
+                      ? defaultColors._EA222A
+                      : 'transparent',
+                  },
+                ]}>
+                <TextCustom
+                  fontSize={16}
+                  weight="600"
+                  color={
+                    isActive ? defaultColors._EA222A : defaultColors.c_0000
+                  }>
+                  {item.name}
+                </TextCustom>
+              </TouchableOpacity>
+            );
+          })}
+      </View>
 
+      <View style={{paddingBottom: 10}}>
+        <TouchableOpacity style={styles.styleBtnSort}>
+          <View>
+            <ICSort />
+          </View>
+          <TextCustom color={defaultColors.bg_A1A0A3}>
+            Sắp xếp theo bàn
+          </TextCustom>
+          <View>
+            <ICDown color={defaultColors.bg_A1A0A3} />
+          </View>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 });
@@ -70,16 +89,32 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     justifyContent: 'center',
   },
-  groupLink: {
+  groupLinkItem: {
     flexDirection: 'row',
     columnGap: 20,
+  },
+  groupLink: {
+    flexDirection: 'row',
     borderBottomWidth: 1,
     borderBottomColor: defaultColors.bg_EFEFEF,
-    marginTop: 37,
+    height: 77,
+    justifyContent: 'space-between',
+    alignItems: 'flex-end',
   },
   styleLinkButton: {
     paddingBottom: 10,
     borderBottomWidth: 4,
+  },
+  styleBtnSort: {
+    flexDirection: 'row',
+    columnGap: 8,
+    width: 'auto',
+    height: 40,
+    paddingHorizontal: 16,
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: defaultColors.bg_A1A0A3,
+    borderRadius: 4,
   },
 });
 
