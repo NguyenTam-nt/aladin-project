@@ -7,12 +7,12 @@ import {Kitchen} from '../features/kitchen';
 import {History} from '../features/kitchen/History';
 import OrderTabView from '../features/orderTab/index';
 import CompoundTabKitChen from 'src/features/kitchen/Compound/CompoundTabKitChen';
+import ReportPage from 'src/features/ReportPage';
 
 export const routerPath = {
-  order : 'Phần mềm order',
+  order: 'Phần mềm order',
   kitchen: 'Bếp/Bar',
   report: 'Báo cáo',
-
 };
 
 export const routerKitchens = [
@@ -52,13 +52,13 @@ export const routerKitchens = [
   },
   {
     name: routerPath.report,
-    element: Kitchen,
+    element: ReportPage,
     slug: 'report',
     childs: [
       {
         name: 'Báo cáo món ăn',
         slug: 'report-product',
-        element: WaitProcees,
+        element: ReportPage,
       },
     ],
   },
