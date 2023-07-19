@@ -40,27 +40,6 @@ export function DrawerItemListCustomKitchen({
     } = descriptors[route.key].options;
 
     const focused = i === state.index;
-    // const onPress = () => {
-    //   const event = navigation.emit({
-    //     type: 'drawerItemPress',
-    //     target: route.key,
-    //     canPreventDefault: true,
-    //   });
-    //   if (!event.defaultPrevented) {
-    //     if (focused) {
-    //       navigation.dispatch({
-    //         ...CommonActions.navigate(route.name),
-    //         target: state.key,
-    //       });
-    //     } else {
-    //       navigation.dispatch({
-    //         ...CommonActions.navigate(route.name),
-    //         target: state.key,
-    //       });
-    //     }
-    //   }
-    // };
-    
     const color = focused ? defaultColors.c_0000 : defaultColors.c_fff
 
     return (
@@ -73,6 +52,7 @@ export function DrawerItemListCustomKitchen({
             i={i}
             route={route}
             children={null}
+            key={i}
         />
     );
   }) as React.ReactNode as React.ReactElement;
