@@ -5,13 +5,28 @@ import CustomDrawerKitchen from './CustomDrawerKitchen';
 import {WaitProcees} from '../features/kitchen/WaitProcess.tsx';
 import {Kitchen} from '../features/kitchen';
 import {History} from '../features/kitchen/History';
+import OrderTabView from '../features/orderTab/index';
 
 export const routerPath = {
+  order : 'Phần mềm order',
   kitchen: 'Bếp/Bar',
   report: 'Báo cáo',
+
 };
 
 export const routerKitchens = [
+  {
+    name: routerPath.order,
+    element: OrderTabView,
+    slug: 'order-app',
+    childs: [
+      {
+        name: 'Quản lý hàng hoá',
+        slug: 'commodity-management',
+        element: WaitProcees,
+      },
+    ],
+  },
   {
     name: routerPath.kitchen,
     element: Kitchen,

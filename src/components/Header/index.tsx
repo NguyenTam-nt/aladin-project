@@ -20,9 +20,11 @@ import { setShowDrawerFloor } from '../../redux/infoDrawer/slice';
 export const Header = ({
   isCheckbox,
   goBack,
+  renderRight,
 }: {
   isCheckbox?: boolean
   goBack?: boolean
+  renderRight?:  JSX.Element
 }) => {
   const navigation = useNavigation();
   const statusDrawer = useDrawerStatus();
@@ -42,6 +44,7 @@ export const Header = ({
         {goBack ? (
           <TouchableOpacity
             onPress={() => {
+              //@ts-ignore
               navigation.navigate('main');
             }}
             style={styles.buttonBack}>
@@ -64,26 +67,32 @@ export const Header = ({
         )}
 
         <View style={styles.rightContent}>
-          {isCheckbox && isTabletDevice && (
+          {renderRight ? (
+            renderRight
+          ) : (
             <>
-              <ICCheckBoxTable />
-              <Text style={styles.textCheckBox}> Còn trống</Text>
-              <ICCheckBoxTable color={defaultColors._01A63E} />
-              <Text style={styles.textCheckBox}>Đặt trước</Text>
-              <ICCheckBoxTable color={defaultColors._0073E5} />
-              <Text style={styles.textCheckBox}> Đang ngồi</Text>
-            </>
-          )}
-          {goBack && DeviceInfo.isTablet() && (
-            <>
-              <View style={styles.icCircle} />
-              <Text style={styles.textCheckBox}>
-                Mã hóa đơn: <Text style={styles.textBold}> MHĐ01 </Text>
-              </Text>
-              <View style={styles.icCircle} />
-              <Text style={styles.textCheckBox}>
-                Khu vực: <Text style={styles.textBold}> Bàn 1/Tầng 3 </Text>
-              </Text>
+              {isCheckbox && isTabletDevice && (
+                <>
+                  <ICCheckBoxTable />
+                  <Text style={styles.textCheckBox}> Còn trống</Text>
+                  <ICCheckBoxTable color={defaultColors._01A63E} />
+                  <Text style={styles.textCheckBox}>Đặt trước</Text>
+                  <ICCheckBoxTable color={defaultColors._0073E5} />
+                  <Text style={styles.textCheckBox}> Đang ngồi</Text>
+                </>
+              )}
+              {goBack && DeviceInfo.isTablet() && (
+                <>
+                  <View style={styles.icCircle} />
+                  <Text style={styles.textCheckBox}>
+                    Mã hóa đơn: <Text style={styles.textBold}> MHĐ01 </Text>
+                  </Text>
+                  <View style={styles.icCircle} />
+                  <Text style={styles.textCheckBox}>
+                    Khu vực: <Text style={styles.textBold}> Bàn 1/Tầng 3 </Text>
+                  </Text>
+                </>
+              )}
             </>
           )}
 
