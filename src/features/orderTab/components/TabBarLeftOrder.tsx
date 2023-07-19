@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {StyleSheet, View, Text} from 'react-native';
+import {StyleSheet, View, Text, TouchableOpacity} from 'react-native';
 
 
 import { defaultColors } from '@configs';
@@ -24,7 +24,12 @@ const TabBarLeftOrder = () => {
           <View style={{ alignItems: 'center'}}>
             {dataCheckbox.map(e => {
               return (
-                <View style={{flexDirection: 'row' ,marginTop: 16 , justifyContent : 'center'}}>
+                <TouchableOpacity
+                  style={{
+                    flexDirection: 'row',
+                    marginTop: 16,
+                    justifyContent: 'center',
+                  }}>
                   <CheckBox active={e.value === typeLocation} />
                   <Text
                     style={{
@@ -34,7 +39,7 @@ const TabBarLeftOrder = () => {
                     }}>
                     {e.label}
                   </Text>
-                </View>
+                </TouchableOpacity>
               );
             })}
           </View>
@@ -57,6 +62,7 @@ const styles = StyleSheet.create({
     width: 226,
     backgroundColor : defaultColors.bg_FAFAFA,
   },
+
 });
 
 export default TabBarLeftOrder;
