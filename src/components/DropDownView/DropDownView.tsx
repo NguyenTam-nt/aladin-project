@@ -1,6 +1,6 @@
 import { defaultColors } from '@configs';
 import React, { useCallback, useEffect, useState } from 'react';
-import {   StyleProp, StyleSheet, Text, TouchableOpacity, LayoutAnimation, View, ViewStyle, UIManager, Platform } from 'react-native';
+import {   StyleProp, StyleSheet, Text, TouchableOpacity, LayoutAnimation, View, ViewStyle, UIManager, Platform, TextStyle } from 'react-native';
 import { ICUp } from '../../assets/icons/ICUp';
 import { ICDown } from '../../assets/icons/ICDown';
 
@@ -8,9 +8,10 @@ import { ICDown } from '../../assets/icons/ICDown';
 interface DropDownView {
   containerStyle?: StyleProp<ViewStyle>
   headerButtonStyle?: StyleProp<ViewStyle>
-  texStyle?: StyleProp<ViewStyle>
+  textStyle?: StyleProp<TextStyle>
   itemView: JSX.Element
   isOpen : boolean
+  textHeader : string
 }
 if (
     Platform.OS === 'android' &&
@@ -22,9 +23,10 @@ const DropDownView = React.memo((props: DropDownView) => {
   const {
     containerStyle = {},
     headerButtonStyle = {},
-    texStyle = {},
+    textStyle = {},
     itemView,
     isOpen,
+    textHeader,
   } = props;
   const [open, setOpen] = useState<boolean>(true);
 
@@ -45,11 +47,11 @@ const DropDownView = React.memo((props: DropDownView) => {
         style={[styles.headerButton, headerButtonStyle]}
         activeOpacity={0.9}
         onPress={changeOpen}>
-        <Text style={texStyle}>Test</Text>
+        <Text style={textStyle}>{textHeader}</Text>
         {open ? <ICUp /> : <ICDown color={defaultColors.c_222124} />}
       </TouchableOpacity>
       <View style={[styles.viewItem, !open ? {height: 0} : undefined]}>
-        {itemView}
+        {open && itemView}
       </View>
     </View>
   );

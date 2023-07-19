@@ -1,7 +1,7 @@
-import React from 'react';
 import { defaultColors } from '@configs';
-import { View ,StyleSheet} from 'react-native';
-import { ICCheck } from '../../assets/icons/ICCheck';
+import React from 'react';
+import { StyleSheet, View } from 'react-native';
+import { ICCheckSingle } from 'src/assets/icons/ICCheckSingle';
 
 
 const CheckBox = ({active}: {active: boolean}) => {
@@ -9,32 +9,22 @@ const CheckBox = ({active}: {active: boolean}) => {
     <View
       style={[
         styles.containerRadiobutton,
-        {borderColor: active ? defaultColors._EA222A : defaultColors.c_222124},
+        {borderColor: active ? defaultColors._074A20 : defaultColors.c_222124},
       ]}>
-      {active && (
-        <View style={{position: 'absolute'}}>
-          <ICCheck color={defaultColors._EA222A} />
-        </View>
-      )}
+      {active && <ICCheckSingle color={defaultColors._074A20} />}
     </View>
   );
 };
 const styles = StyleSheet.create({
   containerRadiobutton: {
-    width: 20,
-    height: 20,
-    borderRadius: 4,
+    width: 18,
+    height: 18,
+    borderRadius: 2,
     borderWidth: 2,
     borderColor: defaultColors.c_222124,
     alignItems: 'center',
     justifyContent: 'center',
     padding : 4,
-  },
-  circleDot: {
-    height: 8,
-    width: 8,
-    backgroundColor: defaultColors._EA222A,
-    borderRadius: 4,
   },
 });
 export default CheckBox;

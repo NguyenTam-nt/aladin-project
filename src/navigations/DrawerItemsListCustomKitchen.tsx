@@ -40,7 +40,7 @@ export function DrawerItemListCustomKitchen({
     } = descriptors[route.key].options;
 
     const focused = i === state.index;
-    const color = focused ? defaultColors.c_0000 : defaultColors.c_fff
+    const color = focused ? defaultColors.c_0000 : defaultColors.c_fff;
 
     return (
         <DrawerItemWithICArrowDown
@@ -73,12 +73,12 @@ const styles = StyleSheet.create({
     columnGap: 8,
   },
   ml_20: {
-    marginLeft: 20
-  }
+    marginLeft: 20,
+  },
 });
 
 if (
-    Platform.OS === "android" &&
+    Platform.OS === 'android' &&
     UIManager.setLayoutAnimationEnabledExperimental
   ) {
     UIManager.setLayoutAnimationEnabledExperimental(true);
@@ -110,12 +110,12 @@ export const DrawerItemWithICArrowDown = React.memo(({
     state: any
   }) => {
     const buildLink = useLinkBuilder();
-    const [isOpen, setIsOpen] = React.useState(true) 
+    const [isOpen, setIsOpen] = React.useState(true);
     const toggleOpen = () => {
         // onPress?.()
         setIsOpen(value => !value);
         LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-      }
+      };
     return (
         <View>
         <TouchableOpacity
@@ -158,7 +158,9 @@ export const DrawerItemWithICArrowDown = React.memo(({
                   });
                 } else {
                   navigation.dispatch({
-                    ...CommonActions.navigate(route.name),
+                    ...CommonActions.navigate(route.name, {
+                      screen: item.slug,
+                    }),
                     target: state.key,
                   });
                 }
@@ -177,5 +179,5 @@ export const DrawerItemWithICArrowDown = React.memo(({
           })}
         </View>
       </View>
-    )
-})
+    );
+});
