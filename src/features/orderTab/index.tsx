@@ -28,7 +28,7 @@ const dataItem = [
 const OrderTabView = () => {
   const [location, setLocation] = useState<IDataSelectionCustom>(dataItem[0]);
   return (
-    <View>
+    <View  style={styles.container}>
       <Header
         renderRight={
           <RightHeader location={location} setLocation={setLocation} />
@@ -44,8 +44,8 @@ export const RightHeader = React.memo(
     location,
     setLocation,
   }: {
-    location: IDataSelectionCustom;
-    setLocation: React.Dispatch<React.SetStateAction<IDataSelectionCustom>>;
+    location: IDataSelectionCustom
+    setLocation: React.Dispatch<React.SetStateAction<IDataSelectionCustom>>
   }) => {
     return (
       <View>
@@ -85,6 +85,9 @@ const styles = StyleSheet.create({
     width: 350,
     fontSize: 14,
     marginRight: 30,
+  },
+  container : {
+    flex : 1,
   },
   placeholderStyle: {
     fontSize: 14,

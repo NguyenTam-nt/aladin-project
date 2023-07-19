@@ -8,6 +8,7 @@ import {History} from '../features/kitchen/History';
 import OrderTabView from '../features/orderTab/index';
 import { Report } from 'src/features/Report'
 import { globalStyles } from 'src/commons/globalStyles'
+import CompoundTabKitChen from 'src/features/kitchen/Compound/CompoundTabKitChen';
 
 export const routerPath = {
   order : 'Phần mềm order',
@@ -47,7 +48,7 @@ export const routerKitchens = [
       {
         name: 'Tách/Ghép bàn',
         slug: 'split-table',
-        element: WaitProcees,
+        element: CompoundTabKitChen,
       },
     ],
   },

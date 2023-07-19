@@ -12,10 +12,9 @@ import { ICSort } from 'src/assets/icons/ICSort'
 import { TextCustom } from '@components'
 import { ICDown } from 'src/assets/icons/ICDown'
 
-export const WaitProcees = () => {
+export const WaitProcees = React.memo(() => {
   const {modalConfirmCancel, modalRefuse, handleShowModalAction} =
     useWaitProcess();
-
   const renderItem = useCallback(() => {
     return (
       <BillItem
@@ -26,7 +25,7 @@ export const WaitProcees = () => {
   }, [handleShowModalAction]);
 
   return (
-    <>
+
       <View style={styles.container}>
         <Notice />
         <KitchenLinks
@@ -53,7 +52,7 @@ export const WaitProcees = () => {
             keyExtractor={(_, index) => index.toString()}
           />
         </View>
-      </View>
+
       <ModalCustom
         onBackdropPress={modalConfirmCancel.handleHidden}
         ref={modalConfirmCancel.refModal}>
@@ -74,9 +73,9 @@ export const WaitProcees = () => {
           onCancel={modalRefuse.handleHidden}
         />
       </ModalCustom>
-    </>
+      </View>
   );
-};
+});
 
 const styles = StyleSheet.create({
   container: {
