@@ -39,7 +39,7 @@ const OrderTabView = () => {
   );
 };
 
-const RightHeader = React.memo(
+export const RightHeader = React.memo(
   ({
     location,
     setLocation,

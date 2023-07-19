@@ -1,4 +1,4 @@
-import {View, StyleSheet, FlatList} from 'react-native';
+import {View, StyleSheet, FlatList, TouchableOpacity} from 'react-native';
 import React, {useCallback} from 'react';
 import {defaultColors} from '@configs';
 import {Notice} from './components/Notice';
@@ -8,6 +8,9 @@ import ModalCustom from '../../../components/ModalCustom';
 import {ModalConfirmCancel} from './components/ModalConfirmCancel';
 import {HeaderListBill} from './components/HeaderListBill';
 import {useWaitProcess} from './hooks/useWaitProcess';
+import { ICSort } from 'src/assets/icons/ICSort'
+import { TextCustom } from '@components'
+import { ICDown } from 'src/assets/icons/ICDown'
 
 export const WaitProcees = React.memo(() => {
   const {modalConfirmCancel, modalRefuse, handleShowModalAction} =
@@ -25,7 +28,21 @@ export const WaitProcees = React.memo(() => {
 
       <View style={styles.container}>
         <Notice />
-        <KitchenLinks />
+        <KitchenLinks
+          renderRight={
+            <TouchableOpacity style={styles.styleBtnSort}>
+              <View>
+                <ICSort />
+              </View>
+              <TextCustom color={defaultColors.bg_A1A0A3}>
+                Sắp xếp theo bàn
+              </TextCustom>
+              <View>
+                <ICDown color={defaultColors.bg_A1A0A3} />
+              </View>
+            </TouchableOpacity>
+          }
+        />
         <View style={styles.styleViewItem}>
           <HeaderListBill />
           <FlatList
@@ -86,5 +103,16 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginBottom: 32,
+  },
+  styleBtnSort: {
+    flexDirection: 'row',
+    columnGap: 8,
+    width: 'auto',
+    height: 40,
+    paddingHorizontal: 16,
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: defaultColors.bg_A1A0A3,
+    borderRadius: 4,
   },
 });

@@ -2,12 +2,17 @@ import { defaultColors } from '@configs';
 import { View ,StyleSheet} from 'react-native';
 import React from 'react';
 
-export const RadioButtonSelect = ({active}: {active: boolean}) => {
+type Props = {
+  active: boolean
+  color?: string
+}
+
+export const RadioButtonSelect = ({active, color = defaultColors.c_fff}: Props) => {
   return (
     <View
       style={[
         styles.containerRadiobutton,
-        {borderColor: active ? defaultColors._EA222A : defaultColors.c_fff},
+        {borderColor: active ? defaultColors._EA222A : color},
       ]}>
       {active && <View style={styles.circleDot} />}
     </View>
