@@ -29,9 +29,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   circleDot: {
-    height: 8,
-    width: 8,
+    height: 10,
+    width: 10,
     backgroundColor: defaultColors._EA222A,
-    borderRadius: 4,
+    borderRadius: 5,
   },
 });

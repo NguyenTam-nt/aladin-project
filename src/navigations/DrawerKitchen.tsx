@@ -6,15 +6,15 @@ import {WaitProcees} from '../features/kitchen/WaitProcess';
 import {Kitchen} from '../features/kitchen';
 import {History} from '../features/kitchen/History';
 import OrderTabView from '../features/orderTab/index';
-import { Report } from 'src/features/Report'
-import { globalStyles } from 'src/commons/globalStyles'
+import { Report } from 'src/features/Report';
+import { globalStyles } from 'src/commons/globalStyles';
 import CompoundTabKitChen from 'src/features/kitchen/Compound/CompoundTabKitChen';
+import ReportPage from 'src/features/ReportPage';
 
 export const routerPath = {
-  order : 'Phần mềm order',
+  order: 'Phần mềm order',
   kitchen: 'Bếp/Bar',
   report: 'Báo cáo',
-
 };
 
 export const routerKitchens = [
