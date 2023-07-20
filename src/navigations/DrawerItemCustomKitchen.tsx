@@ -172,7 +172,7 @@ export function DrawerItemCustomKitchen(props: Props) {
             {typeof label === 'string' ? (
               <TextCustom
                 numberOfLines={1}
-                allowFontScaling={allowFontScaling}
+                // allowFontScaling={allowFontScaling}
                 weight="600"
                 color={defaultColors.c_fff}>
                 {label}

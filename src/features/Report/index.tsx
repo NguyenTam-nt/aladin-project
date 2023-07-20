@@ -1,28 +1,27 @@
 import { categoryReportNames, defaultColors } from '@configs';
-import { useNavigation, useRoute } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import React, { useCallback, useMemo } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Header } from '../kitchen/components/Header';
 import { ReportDetail } from './Detail';
-import  General  from './General/index';
+import General from './General/index';
 import { HandleTabReport } from './components/HandleTabReport';
 
 const ReportStack = createStackNavigator();
 
 export const Report = () => {
-  const router = useRoute();
+
   const navigation = useNavigation();
 
-
-
-
   const currentRoute = useMemo(() => {
-    return navigation.getState().routes[2].state?.routes[
-      navigation?.getState()?.routes[2]?.state?.routes?.length - 1
-    ].name;
+    return navigation.getState().routes[2].state?.routes
+      ? navigation.getState().routes[2].state?.routes[
+          //@ts-ignore
+          navigation?.getState()?.routes[2]?.state?.routes?.length - 1
+        ].name
+      : categoryReportNames.general;
   }, [navigation?.getState()?.routes[2]?.state]);
-
 
   const handleNavigate = useCallback(
     (slug: string) => {
