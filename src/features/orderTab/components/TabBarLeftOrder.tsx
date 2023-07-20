@@ -77,7 +77,7 @@ const TabBarLeftOrder = () => {
         <DropDownView
           itemView={
             <View style={styles.itemViewDropDown}>
-              {dataCheckbox.map(e => {
+              {dataCheckbox.map((e , index) => {
                 const isActive = typeLocation.find(type => {
                   return type === e.value;
                 });
@@ -87,7 +87,9 @@ const TabBarLeftOrder = () => {
                     activeOpacity={0.7}
                     onPress={() => {
                       onSetTypeLocation(e.value);
-                    }}>
+                    }}
+                    key={index}
+                    >
                     <CheckBox active={isActive ? true : false} />
                     <Text style={styles.labelTextDropDown}>{e.label}</Text>
                   </TouchableOpacity>
@@ -107,7 +109,7 @@ const TabBarLeftOrder = () => {
         <DropDownView
           itemView={
             <View style={styles.itemViewDropDown}>
-              {dataCheckBox2.map(e => {
+              {dataCheckBox2.map( (e , index) => {
                 const isActive = typeHotPot.find(type => {
                   return type === e.value;
                 });
@@ -117,7 +119,9 @@ const TabBarLeftOrder = () => {
                     activeOpacity={0.7}
                     onPress={() => {
                       onSetTypeHotPot(e.value);
-                    }}>
+                    }}
+                    key={index}
+                    >
                     <Text
                       style={[
                         styles.labelTextDropDown2,
@@ -140,7 +144,7 @@ const TabBarLeftOrder = () => {
           itemView={
             <View style={styles.itemViewDropDown}>
               {dataCheckBox3.length > 0 ? (
-                dataCheckBox2.map(e => {
+                dataCheckBox2.map((e , index) => {
                   const isActive = typeHotPot.find(type => {
                     return type === e.value;
                   });
@@ -150,7 +154,9 @@ const TabBarLeftOrder = () => {
                       activeOpacity={0.7}
                       onPress={() => {
                         onSetTypeHotPot(e.value);
-                      }}>
+                      }}
+                      key={index}
+                      >
                       <Text
                         style={[
                           styles.labelTextDropDown2,

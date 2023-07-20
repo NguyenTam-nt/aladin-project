@@ -1,29 +1,35 @@
-import {StyleSheet, View} from 'react-native';
-import React, {useCallback, useMemo} from 'react';
-import {Header} from '../kitchen/components/Header';
-import {categoryReportNames, defaultColors} from '@configs';
-import {HandleTabReport} from './components/HandleTabReport';
-import {createStackNavigator} from '@react-navigation/stack';
-import {ReportDetail} from './Detail';
-import {useNavigation, useRoute} from '@react-navigation/native';
-import { routerPath } from 'src/navigations/DrawerKitchen'
-import { General } from './General'
+import { categoryReportNames, defaultColors } from '@configs';
+import { useNavigation } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import React, { useCallback, useMemo } from 'react';
+import { StyleSheet, View } from 'react-native';
+import { Header } from '../kitchen/components/Header';
+import { ReportDetail } from './Detail';
+import General from './General/index';
+import { HandleTabReport } from './components/HandleTabReport';
 
 const ReportStack = createStackNavigator();
 
 export const Report = () => {
-  const router = useRoute();
+
   const navigation = useNavigation();
+
   const currentRoute = useMemo(() => {
-    return router.name;
-  }, [router]);
+    return navigation.getState().routes[2].state?.routes
+      ? navigation.getState().routes[2].state?.routes[
+          //@ts-ignore
+          navigation?.getState()?.routes[2]?.state?.routes?.length - 1
+        ].name
+      : categoryReportNames.general;
+  }, [navigation?.getState()?.routes[2]?.state]);
 
-  console.log({currentRoute})
-
-  const handleNavigate = useCallback((slug: string) => {
-    //@ts-ignore
-    navigation.navigate(slug);
-  }, [navigation]);
+  const handleNavigate = useCallback(
+    (slug: string) => {
+      //@ts-ignore
+      navigation.navigate(slug);
+    },
+    [navigation],
+  );
 
   const screenOptions = useMemo(
     () => ({

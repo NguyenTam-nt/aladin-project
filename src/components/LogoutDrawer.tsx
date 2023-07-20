@@ -53,6 +53,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     justifyContent: 'flex-end',
     paddingBottom: 12,
+    marginTop : 20,
   },
   styleGroupLogout: {
     width: '100%',
