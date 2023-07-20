@@ -1,12 +1,22 @@
-import {View, StyleSheet, Pressable, TouchableOpacity} from 'react-native';
-import React, {memo, useCallback, useState} from 'react';
-import {TextCustom} from '@components';
-import {defaultColors} from '@configs';
-import {ICDown} from 'src/assets/icons/ICDown';
-import {RadioButtonSelect} from 'src/components/Checkbox/RadioButton';
-import {globalStyles} from 'src/commons/globalStyles';
-import {ICCalendar} from 'src/assets/icons/ICLogo copy';
-import {Calendar} from './Calendar';
+import {
+  View,
+  StyleSheet,
+  Pressable,
+  TouchableOpacity,
+  Platform,
+  UIManager,
+  LayoutAnimation,
+  StyleProp,
+  ViewStyle,
+} from 'react-native'
+import React, {memo, useCallback, useMemo, useState} from 'react'
+import {TextCustom} from '@components'
+import {defaultColors} from '@configs'
+import {ICDown} from 'src/assets/icons/ICDown'
+import {RadioButtonSelect} from 'src/components/Checkbox/RadioButton'
+import {globalStyles} from 'src/commons/globalStyles'
+import {ICCalendar} from 'src/assets/icons/ICLogo copy'
+import {Calendar} from './Calendar'
 
 const filterDate = [
   {
@@ -29,44 +39,63 @@ const filterDate = [
     slug: 'nam-nay',
     name: 'Năm này',
   },
-];
+]
 
 type Props = {
   currenFilter: string
   onChange: (currentFilter: string) => void
-};
+}
+
+if (
+  Platform.OS === 'android' &&
+  UIManager.setLayoutAnimationEnabledExperimental
+) {
+  UIManager.setLayoutAnimationEnabledExperimental(true)
+}
 
 export const SideLeft = memo(({currenFilter, onChange}: Props) => {
+  const [isOpen, setIsOpen] = React.useState(true)
+  const toggleOpen = () => {
+    // onPress?.()
+    setIsOpen(value => !value)
+    LayoutAnimation.configureNext({
+      ...LayoutAnimation.Presets.linear,
+      duration: 300,
+    })
+  }
+
+  const styleGroupFilter = useMemo(():StyleProp<ViewStyle> => {
+    return {
+        display: isOpen ? 'flex' : 'none'
+    }
+  }, [isOpen])
+
   return (
-    <View
-      style={{
-        width: 248,
-        padding: 24,
-        backgroundColor: defaultColors.bg_FAFAFA,
-        height: '100%',
-      }}>
+    <View style={styles.container}>
       <View>
-        <TouchableOpacity style={styles.filterFilter}>
+        <TouchableOpacity onPress={toggleOpen} style={styles.filterFilter}>
           <TextCustom>Thời gian</TextCustom>
           <View>
             <ICDown color={defaultColors.c_222124} />
           </View>
         </TouchableOpacity>
-        {filterDate.map((item, index) => {
-          return (
-            <SideLeftFilterDate
-              data={item}
-              onChange={onChange}
-              isActive={item.slug === currenFilter}
-              key={index}
-            />
-          );
-        })}
-        <FilterCalendar currenFilter={currenFilter} onChange={onChange} />
+        <View style={styleGroupFilter}>
+          {filterDate.map((item, index) => {
+            return (
+              <SideLeftFilterDate
+                data={item}
+                onChange={onChange}
+                isActive={item.slug === currenFilter}
+                key={index}
+              />
+            )
+          })}
+          <FilterCalendar currenFilter={currenFilter} onChange={onChange} />
+        </View>
       </View>
     </View>
-  );
-});
+  )
+})
 
 const FilterCalendar = memo(
   ({
@@ -76,14 +105,18 @@ const FilterCalendar = memo(
     currenFilter: string
     onChange: (category: string) => void
   }) => {
-    const [isShow, setShow] = useState(false);
+    const [isShow, setShow] = useState(false)
     const handleChange = useCallback(() => {
-      onChange('distance_date');
-    }, [onChange]);
+      onChange('distance_date')
+    }, [onChange])
 
     const handleShow = () => {
-      setShow(!isShow);
-    };
+      setShow(!isShow)
+    }
+
+    const styleCalendar = useMemo(() => {
+      return {...styles.styleBoxCalendar, display: isShow ? 'flex' : 'none'}
+    }, [isShow])
 
     return (
       <View style={styles.positionRelative}>
@@ -104,15 +137,13 @@ const FilterCalendar = memo(
             <ICCalendar />
           </Pressable>
         </View>
-        {isShow ? (
-          <View style={styles.styleBoxCalendar}>
-            <Calendar />
-          </View>
-        ) : null}
+        <View style={[styles.styleBoxCalendar, styleCalendar]}>
+          <Calendar />
+        </View>
       </View>
-    );
+    )
   },
-);
+)
 
 type PropsSideLeftFilterDate = {
   data: {
@@ -121,13 +152,13 @@ type PropsSideLeftFilterDate = {
   }
   onChange: (category: string) => void
   isActive: boolean
-};
+}
 
 export const SideLeftFilterDate = memo(
   ({data, onChange, isActive}: PropsSideLeftFilterDate) => {
     const handleChange = () => {
-      onChange(data.slug);
-    };
+      onChange(data.slug)
+    }
 
     return (
       <Pressable onPress={handleChange} style={styles.sideLeft}>
@@ -136,11 +167,17 @@ export const SideLeftFilterDate = memo(
           {data.name}
         </TextCustom>
       </Pressable>
-    );
+    )
   },
-);
+)
 
 const styles = StyleSheet.create({
+  container: {
+    width: 248,
+    padding: 24,
+    backgroundColor: defaultColors.bg_FAFAFA,
+    height: '100%',
+  },
   sideLeft: {
     ...globalStyles.row,
     columnGap: 8,
@@ -176,4 +213,7 @@ const styles = StyleSheet.create({
   positionRelative: {
     position: 'relative',
   },
-});
+  h_0: {
+    height: 0,
+  },
+})

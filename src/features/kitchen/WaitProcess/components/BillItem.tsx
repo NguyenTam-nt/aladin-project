@@ -36,7 +36,10 @@ export const BillItem = ({onShowModal, onHideModal}: Props) => {
   const toggleOpen = () => {
     // onPress?.()
     setIsOpen(value => !value);
-    LayoutAnimation.configureNext(LayoutAnimation.Presets.linear);
+    LayoutAnimation.configureNext({
+      ...LayoutAnimation.Presets.linear,
+      duration: 300
+    });
   };
   return (
     <>
