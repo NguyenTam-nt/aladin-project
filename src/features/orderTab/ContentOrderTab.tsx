@@ -1,14 +1,21 @@
 import { StyleSheet, View } from 'react-native';
 import ContentRightOrder from './components/ContentRightOrder';
 import TabBarLeftOrder from './components/TabBarLeftOrder';
-import { defaultColors } from '@configs';
-import React from 'react';
+import { defaultColors, isTabletDevice } from '@configs';
+import React, { useState } from 'react';
+
+export interface TabBarOrder  {
+  isOpenTab : boolean
+  setIsOpenTab :React.Dispatch<React.SetStateAction<boolean>>
+}
 
 const ContentOrderTab = () => {
+  const [isOpenTab , setIsOpenTab] = useState<boolean>(true);
   return (
     <View style={styles.container}>
-      <TabBarLeftOrder />
-      <ContentRightOrder />
+      <TabBarLeftOrder isOpenTab={isOpenTab} setIsOpenTab={setIsOpenTab} />
+
+      <ContentRightOrder isOpenTab={isOpenTab} setIsOpenTab={setIsOpenTab} />
     </View>
   );
 };

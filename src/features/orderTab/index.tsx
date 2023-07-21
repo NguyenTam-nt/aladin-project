@@ -2,7 +2,7 @@ import {View, Text, StyleSheet} from 'react-native';
 import React, {useState} from 'react';
 import {Header} from '@components';
 import DropdownComponent from '../../components/DropDownCustom/DropdownCustom';
-import {defaultColors} from '@configs';
+import {defaultColors, isTabletDevice} from '@configs';
 import {IDataSelectionCustom} from '../../components/CartList/CompoundAction/CompoundCartList';
 import {ICDownList} from '../../assets/icons/ICDownList';
 import ContentOrderTab from './ContentOrderTab';
@@ -31,7 +31,7 @@ const OrderTabView = () => {
     <View  style={styles.container}>
       <Header
         renderRight={
-          <RightHeader location={location} setLocation={setLocation} />
+          isTabletDevice ? <RightHeader location={location} setLocation={setLocation} /> : <></>
         }
       />
       <ContentOrderTab />

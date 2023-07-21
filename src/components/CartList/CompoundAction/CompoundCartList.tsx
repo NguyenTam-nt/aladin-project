@@ -1,10 +1,10 @@
 import { defaultColors } from '@configs';
 import React, { useState } from 'react';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
+import { RadioButtonSelect } from '../../../components/Checkbox/RadioButton';
 import DropdownComponent from '../../DropDownCustom/DropdownCustom';
 import CompoundTable from './component/CompoundTable';
-import { RadioButtonSelect } from '../../../components/Checkbox/RadioButton';
 const dataItem = [
   {
     label: 'Tầng 1',
@@ -85,6 +85,7 @@ const dataItem = [
   }
 
 const CompoundCartList = () => {
+
 
   const [isCompound , setIsCompound] = useState<boolean>(true);
   const [table, setTable] = useState<IDataSelectionCustom>(dataItem[0]);

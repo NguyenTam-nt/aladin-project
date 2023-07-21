@@ -1,5 +1,5 @@
 module.exports = {
-  assets: ['./src/assets/fonts/IBM_Plex_Sans', './src/assets/fonts'],
+  assets: ['./src/assets/fonts/IBM_Plex_Sans'],
   ios: {
     supportsTablet: true,
   },
@@ -17,4 +17,4 @@ module.exports = {
     //   },
     // },
   },
-}
+};

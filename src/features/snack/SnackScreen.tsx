@@ -8,7 +8,7 @@ const SnackScreen = () => {
 
     const renderItem = (item: ListRenderItemInfo<any>) => {
       return (
-         <DishItem />
+         <DishItem item={item.item}/>
       );
     };
 

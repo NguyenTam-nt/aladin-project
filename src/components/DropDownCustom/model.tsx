@@ -68,6 +68,9 @@ import type {
     searchQuery?: (keyword: string, labelValue: string) => boolean
     onChangeText?: (search: string) => void
     onConfirmSelectItem?: (item: T) => void
+    isFilter ? : boolean
+    leftPosition? : boolean
+    minWidth? : number
   }
 
   interface Props extends TextInputProps {

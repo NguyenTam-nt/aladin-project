@@ -51,6 +51,7 @@ export const Report = () => {
             onChange={handleNavigate}
           />
         }
+        showLocattion={currentRoute !== categoryReportNames.general}
       />
       <ReportStack.Navigator
         initialRouteName={categoryReportNames.general}

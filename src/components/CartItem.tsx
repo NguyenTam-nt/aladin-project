@@ -24,17 +24,34 @@ import {
 } from '../redux/infoDrawer/hooks';
 import CartList from './CartList/CartList';
 import ListOfFood from './ListOfFood/ListOfFood';
-import { getValueForDevice } from '../commons/formatMoney';
+import { formatNumberDotSlice, getValueForDevice } from '../commons/formatMoney';
+import { useListItemInCart } from 'src/redux/cartOrder/hooks';
 
 
 const CartItem = React.memo(() => {
   const insets = useSafeAreaInsets();
-  const number = 2;
   const [isOpenCart, setIsOpenCart] = useState(false);
   const [isOpenList, setIsOpenList] = useState(false);
   const isOpenDrawerFloor = useIsShowDrawerFloor();
   const isOpenActionCart = useIsShowActionCart();
   const heightButtonValue = getValueForDevice(64, 128);
+  const dataItem = useListItemInCart();
+
+  const cost = useMemo(() => {
+    let newCost = 0;
+    dataItem.map(item => {
+      newCost += item?.quantity * 600000;
+    });
+    return newCost;
+  }, [dataItem]);
+
+  const number = useMemo(() => {
+    let newNumber = 0;
+    dataItem.map(item => {
+      newNumber += item?.quantity;
+    });
+    return newNumber;
+  }, [dataItem]);
 
   const heightView =
     DIMENSION.height -
@@ -51,7 +68,7 @@ const CartItem = React.memo(() => {
     return {
       height: height.value,
       opacity: interpolate(height.value, inputRange, outputRange),
-      width: isTabletDevice ? 816 : DIMENSION.width ,
+      width: isTabletDevice ? 816 : DIMENSION.width,
       backgroundColor: defaultColors._26272C,
       flex: 1,
     };
@@ -139,14 +156,14 @@ const CartItem = React.memo(() => {
     }
   }, [isOpenCart]);
 
-  const hiddenViewList =  useCallback(() => {
+  const hiddenViewList = useCallback(() => {
     setIsOpenCart(false);
     setIsOpenList(false);
     locationCart.value = 64;
     height.value = withTiming(0, {
       duration: 300,
     });
-  } , []);
+  }, []);
 
   useEffect(() => {
     if (isOpenDrawerFloor) {
@@ -164,8 +181,8 @@ const CartItem = React.memo(() => {
 
   const hiddenViewOpen = useMemo<StyleProp<ViewStyle>>(() => {
     return {
-      display: isOpenActionCart && isOpenCart ? 'none' : 'flex',
-      opacity: isOpenActionCart && isOpenCart ? 0 : 1,
+      display: isOpenActionCart ? 'none' : 'flex',
+      opacity: isOpenActionCart ? 0 : 1,
     };
   }, [isOpenActionCart]);
 
@@ -186,7 +203,9 @@ const CartItem = React.memo(() => {
             <View style={styles.containerConfrim}>
               <View>
                 <Text style={styles.textTitleCart}>Hoá đơn tạm tính</Text>
-                <Text style={styles.textTotalCart}>1.900.000 VNĐ</Text>
+                <Text style={styles.textTotalCart}>
+                  {formatNumberDotSlice(cost)} VNĐ
+                </Text>
               </View>
               <TouchableOpacity
                 activeOpacity={1}
@@ -209,7 +228,10 @@ const CartItem = React.memo(() => {
                   <Text style={styles.textNumber}>{number}</Text>
                 </View>
               </View>
-              <Text style={styles.text}> Tổng: 1.200.000</Text>
+              <Text style={styles.text}>
+                {' '}
+                Tổng: {formatNumberDotSlice(cost)}
+              </Text>
             </TouchableOpacity>
           </Animated.View>
         )}

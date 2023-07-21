@@ -1,9 +1,11 @@
-import { defaultColors } from '@configs';
+import { defaultColors, isTabletDevice } from '@configs';
 import React from 'react';
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native';
 import { ICDown } from 'src/assets/icons/ICDown';
 import { ICSort } from 'src/assets/icons/ICSort';
 import DropdownComponent from '../DropDownCustom/DropdownCustom';
+import { ICFilter } from 'src/assets/icons/ICFilter';
+import { getValueForDevice } from 'src/commons/formatMoney';
 
 interface IDropDownFilter {
   dataItem: any
@@ -13,6 +15,7 @@ interface IDropDownFilter {
   setValue: (value: any) => void
   placeholder: string
   styleDropdown?: StyleProp<ViewStyle>
+  isSort?: boolean
 }
 
 const DropDownFilter = (props: IDropDownFilter) => {
@@ -24,6 +27,7 @@ const DropDownFilter = (props: IDropDownFilter) => {
     setValue,
     placeholder = '',
     styleDropdown = {},
+    isSort,
   } = props;
 
   const renderRight = () => {
@@ -36,16 +40,14 @@ const DropDownFilter = (props: IDropDownFilter) => {
 
   const renderLeft = () => {
     return (
-      <View style={styles.iconLeft}>
-        <ICSort />
-      </View>
+      <View style={styles.iconLeft}>{isSort ? <ICSort /> : <ICFilter />}</View>
     );
   };
 
   return (
     <View>
       <DropdownComponent
-        style={[styles.dropdown ,styleDropdown]}
+        style={[styles.dropdown, styleDropdown]}
         placeholderStyle={styles.placeholderStyle}
         selectedTextStyle={styles.selectedTextStyle}
         inputSearchStyle={styles.inputSearchStyle}
@@ -65,8 +67,11 @@ const DropDownFilter = (props: IDropDownFilter) => {
         onChange={e => {
           setValue(e);
         }}
+        leftPosition={!isTabletDevice}
         renderRightIcon={renderRight}
         renderLeftIcon={renderLeft}
+        isFilter
+        minWidth={250}
       />
     </View>
   );
@@ -105,7 +110,7 @@ const styles = StyleSheet.create({
     backgroundColor: defaultColors._33343B,
   },
   iconLeft: {
-    marginLeft: 16,
+    marginLeft: getValueForDevice(16 , 6) ,
   },
   iconRight: {
     marginRight: 5,
