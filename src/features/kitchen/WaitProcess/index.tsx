@@ -8,9 +8,10 @@ import ModalCustom from '../../../components/ModalCustom';
 import {ModalConfirmCancel} from './components/ModalConfirmCancel';
 import {HeaderListBill} from './components/HeaderListBill';
 import {useWaitProcess} from './hooks/useWaitProcess';
-import { ICSort } from 'src/assets/icons/ICSort'
-import { TextCustom } from '@components'
-import { ICDown } from 'src/assets/icons/ICDown'
+import {ICSort} from 'src/assets/icons/ICSort';
+import {TextCustom} from '@components';
+import {ICDown} from 'src/assets/icons/ICDown';
+import { globalStyles } from 'src/commons/globalStyles'
 
 export const WaitProcees = React.memo(() => {
   const {modalConfirmCancel, modalRefuse, handleShowModalAction} =
@@ -25,33 +26,34 @@ export const WaitProcees = React.memo(() => {
   }, [handleShowModalAction]);
 
   return (
-
-      <View style={styles.container}>
-        <Notice />
-        <KitchenLinks
-          renderRight={
-            <TouchableOpacity style={styles.styleBtnSort}>
+    <View style={styles.container}>
+      <Notice />
+      <KitchenLinks
+        renderRight={
+          <TouchableOpacity style={styles.styleBtnSort}>
+            <View style={styles.styleGroupItemSort}>
               <View>
                 <ICSort />
               </View>
               <TextCustom color={defaultColors.bg_A1A0A3}>
                 Sắp xếp theo bàn
               </TextCustom>
-              <View>
-                <ICDown color={defaultColors.bg_A1A0A3} />
-              </View>
-            </TouchableOpacity>
-          }
+            </View>
+            <View>
+              <ICDown color={defaultColors.bg_A1A0A3} />
+            </View>
+          </TouchableOpacity>
+        }
+      />
+      <View style={styles.styleViewItem}>
+        <HeaderListBill />
+        <FlatList
+          showsVerticalScrollIndicator={false}
+          data={[1, 2, 3, 4, 5]}
+          renderItem={renderItem}
+          keyExtractor={(_, index) => index.toString()}
         />
-        <View style={styles.styleViewItem}>
-          <HeaderListBill />
-          <FlatList
-            showsVerticalScrollIndicator={false}
-            data={[1, 2, 3, 4, 5]}
-            renderItem={renderItem}
-            keyExtractor={(_, index) => index.toString()}
-          />
-        </View>
+      </View>
 
       <ModalCustom
         onBackdropPress={modalConfirmCancel.handleHidden}
@@ -73,7 +75,7 @@ export const WaitProcees = React.memo(() => {
           onCancel={modalRefuse.handleHidden}
         />
       </ModalCustom>
-      </View>
+    </View>
   );
 });
 
@@ -104,6 +106,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 32,
   },
+  styleGroupItemSort: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    columnGap: 4
+  },
   styleBtnSort: {
     flexDirection: 'row',
     columnGap: 8,
@@ -111,6 +118,7 @@ const styles = StyleSheet.create({
     height: 40,
     paddingHorizontal: 16,
     alignItems: 'center',
+    justifyContent: 'space-between',
     borderWidth: 1,
     borderColor: defaultColors.bg_A1A0A3,
     borderRadius: 4,

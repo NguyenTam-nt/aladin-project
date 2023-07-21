@@ -1,7 +1,9 @@
 import {View, StyleSheet} from 'react-native';
-import React, { memo } from 'react';
+import React, {memo} from 'react';
 import {TextCustom} from '@components';
 import {defaultColors} from '@configs';
+import {MultipleScreenView} from 'src/components/MultipleScreenView';
+import { getValueForDevice } from 'src/commons/formatMoney'
 
 export const HeaderListBill = memo(() => {
   return (
@@ -16,19 +18,26 @@ export const HeaderListBill = memo(() => {
           Tên món
         </TextCustom>
       </View>
-      <View style={styles.styleViewItem}>
+      <View style={[styles.styleViewItem, getValueForDevice(undefined, styles.justifyEnd) ]}>
         <TextCustom weight="600" fontSize={16} color={defaultColors.c_222124}>
           Số lượng
         </TextCustom>
       </View>
-      <View style={styles.styleViewItem}>
-        <TextCustom weight="600" fontSize={16} color={defaultColors.c_222124}>
-          Trạng thái
-        </TextCustom>
-      </View>
+      <MultipleScreenView
+        tableVew={
+          <View style={styles.styleViewItem}>
+            <TextCustom
+              weight="600"
+              fontSize={16}
+              color={defaultColors.c_222124}>
+              Trạng thái
+            </TextCustom>
+          </View>
+        }
+      />
     </View>
   );
-})
+});
 
 const styles = StyleSheet.create({
   container: {
@@ -57,4 +66,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 32,
   },
+  justifyEnd: {
+    justifyContent: 'flex-end'
+  }
 });

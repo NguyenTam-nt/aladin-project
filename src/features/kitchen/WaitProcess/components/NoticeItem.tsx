@@ -3,6 +3,8 @@ import React, {memo} from 'react';
 import {TextCustom} from '@components';
 import {defaultColors} from '@configs';
 import {ICCloseModal} from '../../../../assets/icons/ICCloseModal';
+import { getValueForDevice } from 'src/commons/formatMoney'
+import { DIMENSION } from '@constants'
 
 export const NoticeItem = memo(() => {
   return (
@@ -28,7 +30,7 @@ const styles = StyleSheet.create({
     height: 60,
     flex: 1,
     backgroundColor: defaultColors.bg_FCEAEA,
-    maxWidth: 376,
+    width: getValueForDevice(376, DIMENSION.width*0.7) ,
     columnGap: 12,
     paddingHorizontal: 16,
     alignItems: 'center',

@@ -6,12 +6,13 @@ import {defaultColors} from '@configs';
 import {TextCustom} from '@components';
 import {ICSort} from '../../../assets/icons/ICSort';
 import {ICDown} from '../../../assets/icons/ICDown';
+import {MultipleScreenView} from 'src/components/MultipleScreenView';
 
 type Props = {
-    renderRight?: JSX.Element
-}
+  renderRight?: JSX.Element
+};
 
-const KitchenLinks = memo(({renderRight}:Props) => {
+const KitchenLinks = memo(({renderRight}: Props) => {
   const navigation = useNavigation();
   const router = useRoute();
   const currentRoute = useMemo(() => {
@@ -23,43 +24,49 @@ const KitchenLinks = memo(({renderRight}:Props) => {
     navigation.navigate(slug);
   }, []);
   return (
-    <View style={styles.groupLink}>
-      <View style={styles.groupLinkItem}>
-        {routerKitchens
-          .find(item => item.name === routerPath.kitchen)
-          ?.childs.map(item => {
-            const isActive = currentRoute === item.slug;
-            return (
-              <TouchableOpacity
-                onPress={() => handleNavigate(item.slug)}
-                key={item.slug}
-                style={[
-                  styles.styleLinkButton,
-                  {
-                    borderBottomColor: isActive
-                      ? defaultColors._EA222A
-                      : 'transparent',
-                  },
-                ]}>
-                <TextCustom
-                  fontSize={16}
-                  weight="600"
-                  color={
-                    isActive ? defaultColors._EA222A : defaultColors.c_0000
-                  }>
-                  {item.name}
-                </TextCustom>
-              </TouchableOpacity>
-            );
-          })}
+    <>
+      <View style={styles.groupLink}>
+        <View style={styles.groupLinkItem}>
+          {routerKitchens
+            .find(item => item.name === routerPath.kitchen)
+            ?.childs.map(item => {
+              const isActive = currentRoute === item.slug;
+              return (
+                <TouchableOpacity
+                  onPress={() => handleNavigate(item.slug)}
+                  key={item.slug}
+                  style={[
+                    styles.styleLinkButton,
+                    {
+                      borderBottomColor: isActive
+                        ? defaultColors._EA222A
+                        : 'transparent',
+                    },
+                  ]}>
+                  <TextCustom
+                    fontSize={16}
+                    weight="600"
+                    color={
+                      isActive ? defaultColors._EA222A : defaultColors.c_0000
+                    }>
+                    {item.name}
+                  </TextCustom>
+                </TouchableOpacity>
+              );
+            })}
+        </View>
+        <MultipleScreenView
+          tableVew={
+            <View style={styles.pt_10}>{renderRight ? renderRight : null}</View>
+          }
+        />
       </View>
-
-      <View style={{paddingBottom: 10}}>
-        {
-            renderRight ? renderRight : null
-        }
-      </View>
-    </View>
+      <MultipleScreenView
+          phoneView={
+            <View style={styles.pt_18}>{renderRight ? renderRight : null}</View>
+          }
+        />
+    </>
   );
 });
 
@@ -111,6 +118,12 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: defaultColors.bg_A1A0A3,
     borderRadius: 4,
+  },
+  pt_10: {
+    paddingTop: 10,
+  },
+  pt_18: {
+    paddingTop: 18,
   },
 });
 
