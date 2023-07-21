@@ -1,73 +1,25 @@
-import {View, Text, StyleSheet} from 'react-native';
-import React, {useState} from 'react';
-import {defaultColors} from '@configs';
-import SearchInput from 'src/components/Filter/SearchInput';
-import DropDownFilter from 'src/components/Filter/DropDownFilter';
-const dataItem = [
-  {
-    label: 'Tất cả',
-    value: '1',
-  },
-  {
-    label: 'Sản phẩm 1',
-    value: '2',
-  },
-  {
-    label: 'Sản phẩm 2',
-    value: '3',
-  },
-  {
-    label: 'Sản phẩm 3',
-    value: '4',
-  },
-];
-const dataItem2 = [
-  {
-    label: 'Tất cả',
-    value: '1',
-  },
-  {
-    label: 'Thời gian',
-    value: '2',
-  },
-  {
-    label: 'Số lượng',
-    value: '3',
-  },
-];
+import { defaultColors } from '@configs';
+import React from 'react';
+import { StyleSheet, View ,Text } from 'react-native';
+
 
 const HeaderContentRight = () => {
-  const [valueSearch, setValueSearch] = useState<string>('');
-  const [valueField1, setValueField1] = useState<any>(dataItem[1]);
-  const [valueField2, setValueField2] = useState<any>(dataItem2[1]);
+
 
   return (
     <View style={styles.container}>
-      <Text style={styles.textHeader}>Món ăn</Text>
-      <View style={styles.contentRight}>
-        <SearchInput
-          placeholder="Theo mã/tên món ăn"
-          value={valueSearch}
-          setValue={setValueSearch}
-        />
-        <DropDownFilter
-          dataItem={dataItem}
-          labelField="label"
-          valueField="value"
-          value={valueField1}
-          setValue={setValueField1}
-          placeholder="Lọc sản phẩm"
-        />
-        <DropDownFilter
-          dataItem={dataItem2}
-          labelField="label"
-          valueField="value"
-          value={valueField2}
-          setValue={setValueField2}
-          placeholder="Sắp xếp"
-          styleDropdown={{width: 146}}
-        />
+      <View style={styles.headerContent}>
+        <Text style={styles.textHeaderTime}>
+          <Text style={styles.textBold}>Ngày lập:</Text> 15/06/2023 - 15:00
+        </Text>
+        <Text style={styles.textHeaderTime}>
+          <Text style={styles.textBold}>Người lập:</Text> 15/06/2023 - 15:00
+        </Text>
       </View>
+      <Text style={styles.textTitle}>BÁO CÁO MÓN ĂN</Text>
+      <Text style={styles.textHeaderTime}>
+          <Text style={styles.textBold}>Ngày:</Text> Từ 29/06/2023 đến 29/07/2023
+        </Text>
     </View>
   );
 };
@@ -76,8 +28,9 @@ export default HeaderContentRight;
 
 const styles = StyleSheet.create({
   container: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    marginTop: 24,
+    marginBottom: 16,
+    alignItems : 'center',
   },
   contentRight: {
     gap: 20,
@@ -88,4 +41,23 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: defaultColors.c_222124,
   },
+  textHeaderTime : {
+    fontSize : 14 ,
+    color : defaultColors.c_222124,
+  },
+  textBold : {
+    fontWeight : 'bold',
+  },
+  headerContent : {
+    flexDirection: 'row',
+    gap: 25,
+  },
+  textTitle : {
+    fontWeight : 'bold',
+    fontSize :32,
+    color : defaultColors.c_222124,
+    marginTop : 40,
+    marginBottom : 16,
+  },
+
 });

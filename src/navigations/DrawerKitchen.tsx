@@ -1,15 +1,14 @@
-import {View} from 'react-native';
-import React, {useMemo} from 'react';
-import {createDrawerNavigator} from '@react-navigation/drawer';
-import CustomDrawerKitchen from './CustomDrawerKitchen';
-import {WaitProcees} from '../features/kitchen/WaitProcess';
-import {Kitchen} from '../features/kitchen';
-import {History} from '../features/kitchen/History';
-import OrderTabView from '../features/orderTab/index';
-import { Report } from 'src/features/Report';
+import { createDrawerNavigator } from '@react-navigation/drawer';
+import React, { useMemo } from 'react';
+import { View } from 'react-native';
 import { globalStyles } from 'src/commons/globalStyles';
+import { Report } from 'src/features/Report';
 import CompoundTabKitChen from 'src/features/kitchen/Compound/CompoundTabKitChen';
-import ReportPage from 'src/features/ReportPage';
+import { Kitchen } from '../features/kitchen';
+import { History } from '../features/kitchen/History';
+import { WaitProcees } from '../features/kitchen/WaitProcess';
+import OrderTabView from '../features/orderTab/index';
+import CustomDrawerKitchen from './CustomDrawerKitchen';
 
 export const routerPath = {
   order: 'Phần mềm order',

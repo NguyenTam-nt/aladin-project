@@ -1,16 +1,24 @@
-import { defaultColors, isTabletDevice } from '@configs';
-import React from 'react';
-import { FlatList, ListRenderItemInfo, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { ICAddOrder } from '../../../../assets/icons/ICAddOrder';
-import { Thumb } from '../../../Thumb/Thumb';
-import ItemCardMobile from  './ItemCardMobile';
+import {defaultColors, isTabletDevice} from '@configs';
+import React, {useCallback} from 'react';
+import {
+  FlatList,
+  ListRenderItemInfo,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
+import {ICAddOrder} from '../../../../assets/icons/ICAddOrder';
+import {Thumb} from '../../../Thumb/Thumb';
+import ItemCardMobile from './ItemCardMobile';
 import QuantityUpdate from '../../..//QuantityUpdate';
-import { ICCheck } from '../../../../assets/icons/ICCheck';
-import { ICDelete } from '../../../../assets/icons/ICDelete';
+import {ICCheck} from '../../../../assets/icons/ICCheck';
+import {ICDelete} from '../../../../assets/icons/ICDelete';
+import {useListItemInCart} from 'src/redux/cartOrder/hooks';
+import {IITemCart} from 'src/redux/cartOrder/slice';
+import {formatNumberDotSlice} from 'src/commons/formatMoney';
 
-
-
-const TableCartItem = () => {
+const TableCartItem = ({data}: {data: IITemCart}) => {
 
   return (
     <View>
@@ -32,7 +40,9 @@ const TableCartItem = () => {
             <Text style={styles.textNameItem}>
               Combo 2 Người lớn ăn thả g... ssssss
             </Text>
-            <Text style={styles.textPriceItem}>600.000</Text>
+            <Text style={styles.textPriceItem}>
+              {formatNumberDotSlice(data.quantity * 600000)}
+            </Text>
             <View style={styles.textAddOrderItem}>
               <ICAddOrder />
               <Text style={styles.textNotiITem}>Đặt cho tôi đơn hàng này</Text>
@@ -40,34 +50,26 @@ const TableCartItem = () => {
           </View>
         </View>
         <View style={styles.col3}>
-          <Text style={styles.textTable}>1</Text>
+          <Text style={styles.textTable}>{data.quantity}</Text>
         </View>
-        <View style={styles.col5} >
-            <QuantityUpdate />
+        <View style={styles.col5}>
+          <QuantityUpdate value={data.quantity} max={data.quantity}/>
         </View>
       </View>
     </View>
   );
 };
 
-const CompoundTable = React.memo(() => {
-  const data = [
-    'success',
-    'cancel',
-    'waitingSuccess',
-    'waitingCancel',
-    'success',
-    'success',
-    'success',
-  ];
+const CompoundTable = React.memo(({deleteAction}: {deleteAction: boolean}) => {
+  const data = useListItemInCart();
 
-  const renderItem = (item: ListRenderItemInfo<any>) => {
+  const renderItem = useCallback((item: ListRenderItemInfo<any>) => {
     return isTabletDevice ? (
-      <TableCartItem />
+      <TableCartItem data={item.item} />
     ) : (
       <ItemCardMobile checkstatus={item.item} />
     );
-  };
+  }, []);
 
   return (
     <View style={styles.container}>
@@ -87,7 +89,9 @@ const CompoundTable = React.memo(() => {
                 <Text style={styles.textTable}>Số lượng</Text>
               </View>
               <View style={styles.col5}>
-                <Text style={styles.textTable}>Số lượng ghép</Text>
+                <Text style={styles.textTable}>
+                  Số lượng {deleteAction ? 'huỷ' : 'ghép'}
+                </Text>
               </View>
             </View>
           ) : (

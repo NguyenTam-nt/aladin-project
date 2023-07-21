@@ -1,209 +1,178 @@
-import { Thumb } from '@components';
-import { defaultColors } from '@configs';
-import React, { useState } from 'react';
+import {defaultColors} from '@configs';
+import React, {useCallback} from 'react';
 import {
-    FlatList,
-    ListRenderItemInfo,
-    StyleSheet,
-    Text,
-    TouchableOpacity,
-    View,
+  FlatList,
+  StyleSheet,
+  View,
+  Text,
+  ListRenderItemInfo,
 } from 'react-native';
-import { ICEdit } from 'src/assets/icons/ICEdit';
-import { ICEye } from 'src/assets/icons/ICEye';
-import { ICEyeOff } from 'src/assets/icons/ICEyeOff';
+import {ICDownTrend} from 'src/assets/icons/ICDownTrend';
+import {ICUpTrend} from 'src/assets/icons/ICUpTrend';
 
-const TableCartItem = () => {
-  const [active, setActive] = useState<boolean>(true);
+const ItemReport = ({index}: {index: number}) => {
   return (
-    <View>
-      <View style={styles.itemContainer} />
-      <View style={styles.tableItemContainer}>
-        <View style={styles.col1}>
-          <Thumb
-            source={{
-              uri: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=880&q=80',
-            }}
-            style={styles.imageItem}
+    <View
+      style={{
+        backgroundColor: index === 0 ? defaultColors._EA222A : undefined,
+        paddingHorizontal: 12,
+        borderTopLeftRadius: index === 0 ? 8 : 0,
+        borderTopRightRadius: index === 0 ? 8 : 0,
+      }}>
+      <Text
+        style={[
+          styles.textTitleItem,
+          index === 0 ? {color: defaultColors.c_fff} : undefined,
+        ]}>
+        Tất cả cơ sở
+      </Text>
+      <View style={styles.contentTextRow1}>
+        <Text
+          style={[
+            styles.textItemContent,
+            index === 0 ? {color: defaultColors.c_fff} : undefined,
+          ]}>
+          Số lượng bán:{' '}
+          <Text
+            style={[
+              styles.textBold,
+              {
+                color:
+                  index === 0 ? defaultColors.c_fff : defaultColors._EA222A,
+              },
+            ]}>
+            1000
+          </Text>{' '}
+          món
+        </Text>
+        <View style={styles.itemLeft}>
+          <ICUpTrend
+            color={index === 0 ? defaultColors.c_fff : defaultColors._01A63E}
           />
-        </View>
-        <View style={styles.col2}>
-          <Text style={styles.textTable}>ABCD</Text>
-        </View>
-        <View style={styles.col3}>
-          <Text style={styles.textTable}>Lẩu tứ xuyên</Text>
-        </View>
-        <View style={styles.col4}>
-          <Text style={styles.textTable}>600.000</Text>
-        </View>
-        <View style={styles.col5}>
-          <Text style={styles.textTable}>600.000</Text>
-        </View>
-        <View style={styles.col6}>
-          <Text style={styles.textTable}>600.000</Text>
-        </View>
-        <View style={styles.col7}>
-          <Text style={styles.textTable}>600.000</Text>
-        </View>
-        <View style={styles.col8}>
-          <View style={styles.containerAction}>
-            <TouchableOpacity>
-              <ICEdit />
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => {
-                setActive(value => !value);
-              }}>
-              {active ? <ICEye /> : <ICEyeOff />}
-            </TouchableOpacity>
-          </View>
+          <Text
+            style={[
+              styles.textItemContent,
+              index === 0 ? {color: defaultColors.c_fff} : undefined,
+            ]}>
+            Tăng{' '}
+            <Text
+              style={[
+                styles.textBold,
+                {
+                  color:
+                    index === 0 ? defaultColors.c_fff : defaultColors._01A63E,
+                },
+              ]}>
+              20%
+            </Text>{' '}
+            số lượng bán so với hôm qua
+          </Text>
         </View>
       </View>
+      <View style={styles.row}>
+        <Text
+          style={[
+            styles.textItemContent,
+            index === 0 ? {color: defaultColors.c_fff} : undefined,
+          ]}>
+          Doanh Thu:{' '}
+          <Text
+            style={[
+              styles.textBold,
+              {
+                color:
+                  index === 0 ? defaultColors.c_fff : defaultColors._01A63E,
+              },
+            ]}>
+            1000.000.000
+          </Text>{' '}
+          VNĐ
+        </Text>
+        <View style={styles.itemLeft}>
+          <ICDownTrend
+            color={index === 0 ? defaultColors.c_fff : defaultColors._EA222A}
+          />
+          <Text
+            style={[
+              styles.textItemContent,
+              index === 0 ? {color: defaultColors.c_fff} : undefined,
+            ]}>
+            Giảm{' '}
+            <Text
+              style={[
+                styles.textBold,
+                {
+                  color:
+                    index === 0 ? defaultColors.c_fff : defaultColors._01A63E,
+                },
+              ]}>
+              5%
+            </Text>{' '}
+            doanh thu so với hôm qua
+          </Text>
+        </View>
+      </View>
+      {index !== 0 && <View style={styles.devide} />}
     </View>
   );
 };
 
 const TableRightContent = () => {
-  const data = [
-    'success',
-    'cancel',
-    'waitingSuccess',
-    'waitingCancel',
-    'success',
-    'success',
-    'success',
-    'success',
-    'success',
-    'success',
-    'success',
-    'success',
-  ];
-  const renderItem = (item: ListRenderItemInfo<any>) => {
-    return <TableCartItem />;
-  };
+  const data = [1, 2, 3, 4, 5, 6];
+
+  const renderItem = useCallback((e: ListRenderItemInfo<any>) => {
+    return <ItemReport index={e.index} />;
+  }, []);
 
   return (
     <View style={styles.container}>
       <FlatList
         data={data}
-        showsVerticalScrollIndicator={false}
-        ListHeaderComponent={
-          <View style={styles.content}>
-            <View style={styles.col1}>
-              <Text style={styles.textTableHeader}>Hình ảnh</Text>
-            </View>
-            <View style={styles.col2}>
-              <Text style={styles.textTableHeader}>Mã món ăn</Text>
-            </View>
-            <View style={styles.col3}>
-              <Text style={styles.textTableHeader}>Tên món ăn</Text>
-            </View>
-            <View style={styles.col4}>
-              <Text style={styles.textTableHeader}>Loại thực đơn</Text>
-            </View>
-            <View style={styles.col5}>
-              <Text style={styles.textTableHeader}>Danh mục</Text>
-            </View>
-            <View style={styles.col6}>
-              <Text style={styles.textTableHeader}>Giá bán</Text>
-            </View>
-            <View style={styles.col7}>
-              <Text style={styles.textTableHeader}>Tồn kho</Text>
-            </View>
-            <View style={styles.col8}>
-              <Text style={styles.textTableHeader}>Chức năng</Text>
-            </View>
-          </View>
-        }
         renderItem={renderItem}
+        showsVerticalScrollIndicator={false}
       />
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  textTable: {
-    fontSize: 14,
-    color: defaultColors.c_222124,
-  },
-  textTableHeader: {
-    fontSize: 14,
-    color: defaultColors.c_222124,
-    fontWeight : '600',
-  },
   container: {
-    marginRight: 16,
+    marginHorizontal: 16,
     marginTop: 32,
     flex: 1,
   },
-  content: {
+  textTitleItem: {
+    fontSize: 20,
+    color: defaultColors.c_222124,
+    fontWeight: 'bold',
+    marginTop: 16,
+  },
+  textItemContent: {
+    fontSize: 14,
+    color: defaultColors.c_222124,
+  },
+  contentTextRow1: {
     flexDirection: 'row',
-    marginBottom: 16,
-  },
-  col1: {
-    width: '10%',
-  },
-  col2: {
-    width: '12%',
-  },
-  col3: {
-    width: '20%',
-  },
-  col4: {
-    width: '14%',
-  },
-  col5: {
-    width: '17%',
-  },
-  col6: {
-    width: '10%',
-  },
-  col7: {
-    width: '9%',
-  },
-  col8: {
-    width: '8%',
-    flexWrap: 'wrap-reverse',
-  },
-  itemContainer: {
-    height: 1,
-    width: '100%',
-    backgroundColor: defaultColors.bg_EFEFEF,
-  },
-  tableItemContainer: {
-    flexDirection: 'row',
-    paddingVertical: 16,
-    alignItems: 'center',
-  },
-  imageItem: {
-    height: 44,
-    width: 66,
-  },
-  textItemCol2: {
     justifyContent: 'space-between',
-    marginLeft: 16,
+    marginTop: 17,
+    marginBottom: 10,
   },
-  textAddOrderItem: {
+  row: {
     flexDirection: 'row',
-    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginBottom: 17,
   },
-  textNameItem: {
-    color: defaultColors.c_222124,
-    fontSize: 14,
+  textBold: {
+    fontWeight: 'bold',
   },
-  textPriceItem: {
-    color: defaultColors.c_222124,
-    fontSize: 14,
-    fontWeight: '600',
-  },
-  textNotiITem: {
-    color: defaultColors.c_222124,
-    fontSize: 12,
-    marginLeft: 4,
-  },
-  containerAction: {
+  itemLeft: {
     flexDirection: 'row',
     gap: 8,
+  },
+  devide: {
+    height: 1,
+    width: '100%',
+    backgroundColor: defaultColors._DBDBDB,
   },
 });
 

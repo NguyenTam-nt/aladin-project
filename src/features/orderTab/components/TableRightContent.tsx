@@ -1,17 +1,19 @@
-import { Thumb } from '@components';
-import { defaultColors } from '@configs';
-import React, { useState } from 'react';
+import {Thumb} from '@components';
+import {defaultColors, isTabletDevice} from '@configs';
+import {DIMENSION} from '@constants';
+import React, {useState} from 'react';
 import {
-    FlatList,
-    ListRenderItemInfo,
-    StyleSheet,
-    Text,
-    TouchableOpacity,
-    View,
+  FlatList,
+  ListRenderItemInfo,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
 } from 'react-native';
-import { ICEdit } from 'src/assets/icons/ICEdit';
-import { ICEye } from 'src/assets/icons/ICEye';
-import { ICEyeOff } from 'src/assets/icons/ICEyeOff';
+import {ScrollView} from 'react-native-gesture-handler';
+import {ICEdit} from 'src/assets/icons/ICEdit';
+import {ICEye} from 'src/assets/icons/ICEye';
+import {ICEyeOff} from 'src/assets/icons/ICEyeOff';
 
 const TableCartItem = () => {
   const [active, setActive] = useState<boolean>(true);
@@ -84,39 +86,43 @@ const TableRightContent = () => {
 
   return (
     <View style={styles.container}>
-      <FlatList
-        data={data}
-        showsVerticalScrollIndicator={false}
-        ListHeaderComponent={
-          <View style={styles.content}>
-            <View style={styles.col1}>
-              <Text style={styles.textTableHeader}>Hình ảnh</Text>
+      <ScrollView
+        horizontal
+        contentContainerStyle={isTabletDevice ? {flex: 1} : {minWidth: 934}}>
+        <FlatList
+          data={data}
+          showsVerticalScrollIndicator={false}
+          ListHeaderComponent={
+            <View style={styles.content}>
+              <View style={styles.col1}>
+                <Text style={styles.textTableHeader}>Hình ảnh</Text>
+              </View>
+              <View style={styles.col2}>
+                <Text style={styles.textTableHeader}>Mã món ăn</Text>
+              </View>
+              <View style={styles.col3}>
+                <Text style={styles.textTableHeader}>Tên món ăn</Text>
+              </View>
+              <View style={styles.col4}>
+                <Text style={styles.textTableHeader}>Loại thực đơn</Text>
+              </View>
+              <View style={styles.col5}>
+                <Text style={styles.textTableHeader}>Danh mục</Text>
+              </View>
+              <View style={styles.col6}>
+                <Text style={styles.textTableHeader}>Giá bán</Text>
+              </View>
+              <View style={styles.col7}>
+                <Text style={styles.textTableHeader}>Tồn kho</Text>
+              </View>
+              <View style={[styles.col8]}>
+                <Text style={styles.textTableHeader}>Chức năng</Text>
+              </View>
             </View>
-            <View style={styles.col2}>
-              <Text style={styles.textTableHeader}>Mã món ăn</Text>
-            </View>
-            <View style={styles.col3}>
-              <Text style={styles.textTableHeader}>Tên món ăn</Text>
-            </View>
-            <View style={styles.col4}>
-              <Text style={styles.textTableHeader}>Loại thực đơn</Text>
-            </View>
-            <View style={styles.col5}>
-              <Text style={styles.textTableHeader}>Danh mục</Text>
-            </View>
-            <View style={styles.col6}>
-              <Text style={styles.textTableHeader}>Giá bán</Text>
-            </View>
-            <View style={styles.col7}>
-              <Text style={styles.textTableHeader}>Tồn kho</Text>
-            </View>
-            <View style={styles.col8}>
-              <Text style={styles.textTableHeader}>Chức năng</Text>
-            </View>
-          </View>
-        }
-        renderItem={renderItem}
-      />
+          }
+          renderItem={renderItem}
+        />
+      </ScrollView>
     </View>
   );
 };
@@ -129,7 +135,7 @@ const styles = StyleSheet.create({
   textTableHeader: {
     fontSize: 14,
     color: defaultColors.c_222124,
-    fontWeight : '600',
+    fontWeight: '600',
   },
   container: {
     marginRight: 16,
@@ -175,13 +181,10 @@ const styles = StyleSheet.create({
     paddingVertical: 16,
     alignItems: 'center',
   },
+
   imageItem: {
     height: 44,
     width: 66,
-  },
-  textItemCol2: {
-    justifyContent: 'space-between',
-    marginLeft: 16,
   },
   textAddOrderItem: {
     flexDirection: 'row',

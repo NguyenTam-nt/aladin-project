@@ -1,9 +1,13 @@
-import React, {useCallback, useState} from 'react';
+import React, {useCallback, useRef, useState} from 'react';
 import {StyleSheet, View, Text, TouchableOpacity} from 'react-native';
 
-import {defaultColors} from '@configs';
+import {defaultColors, isTabletDevice} from '@configs';
 import CheckBox from 'src/components/Checkbox/CheckBox';
 import DropDownView from 'src/components/DropDownView/DropDownView';
+import MenuTabMobile from 'src/components/DropDownView/MenuTabMobile';
+import { ICTabBarMobile } from 'src/assets/icons/ICTabBarMobile';
+import ButtonMenuTabBar from 'src/components/DropDownView/ButtonMenuTabBar';
+import { TabBarOrder } from '../ContentOrderTab';
 
 const dataCheckbox = [
   {
@@ -29,159 +33,178 @@ const dataCheckBox2 = [
     value: 3,
   },
 ];
-const dataCheckBox3 = [
+const dataCheckBox3 = [];
 
-];
 
-const TabBarLeftOrder = () => {
-  const [typeLocation, setTypeLocaion] = useState<number[]>([]);
-  const [typeHotPot, setTypeHotPot] = useState<number[]>([]);
-  const onSetTypeLocation = useCallback(
-    (value: number) => {
-      const index = typeLocation.findIndex(type => {
-        return type === value;
-      });
 
-      const checkType = [...typeLocation];
-      if (index >= 0) {
-        delete checkType[index];
-        setTypeLocaion(checkType);
-      } else {
-        checkType.push(value);
-        setTypeLocaion(checkType);
-      }
-    },
-    [typeLocation],
-  );
-  const onSetTypeHotPot = useCallback(
-    (value: number) => {
-      const index = typeHotPot.findIndex(type => {
-        return type === value;
-      });
+const TabBarLeftOrder = React.memo((props : TabBarOrder ) => {
+    const {isOpenTab, setIsOpenTab} = props;
+    const [typeLocation, setTypeLocaion] = useState<number[]>([]);
+    const [typeHotPot, setTypeHotPot] = useState<number[]>([]);
 
-      const checkType = [...typeHotPot];
-      if (index >= 0) {
-        delete checkType[index];
-        setTypeHotPot(checkType);
-      } else {
-        checkType.push(value);
-        setTypeHotPot(checkType);
-      }
-    },
-    [typeHotPot],
-  );
+    const onSetTypeLocation = useCallback(
+      (value: number) => {
+        const index = typeLocation.findIndex(type => {
+          return type === value;
+        });
 
-  return (
-    <View style={styles.container}>
-      <View style={styles.content}>
-        <DropDownView
-          itemView={
-            <View style={styles.itemViewDropDown}>
-              {dataCheckbox.map((e , index) => {
-                const isActive = typeLocation.find(type => {
-                  return type === e.value;
-                });
-                return (
-                  <TouchableOpacity
-                    style={styles.buttonCheckBoxDropDown}
-                    activeOpacity={0.7}
-                    onPress={() => {
-                      onSetTypeLocation(e.value);
-                    }}
-                    key={index}
-                    >
-                    <CheckBox active={isActive ? true : false} />
-                    <Text style={styles.labelTextDropDown}>{e.label}</Text>
-                  </TouchableOpacity>
-                );
-              })}
-            </View>
-          }
-          containerStyle={styles.containerStyleDropdown}
-          textHeader="Loại thực đơn"
-          textStyle={styles.textStyle}
-          headerButtonStyle={styles.headerButtonStyleDropDown}
-          isOpen={true}
-        />
-        <View style={styles.textHeader2}>
-          <Text style={styles.textStyle}>Danh mục</Text>
-        </View>
-        <DropDownView
-          itemView={
-            <View style={styles.itemViewDropDown}>
-              {dataCheckBox2.map( (e , index) => {
-                const isActive = typeHotPot.find(type => {
-                  return type === e.value;
-                });
-                return (
-                  <TouchableOpacity
-                    style={styles.buttonCheckBoxDropDown}
-                    activeOpacity={0.7}
-                    onPress={() => {
-                      onSetTypeHotPot(e.value);
-                    }}
-                    key={index}
-                    >
-                    <Text
-                      style={[
-                        styles.labelTextDropDown2,
-                        isActive ? {color: defaultColors._074A20} : undefined,
-                      ]}>
-                      {e.label}
-                    </Text>
-                  </TouchableOpacity>
-                );
-              })}
-            </View>
-          }
-          containerStyle={styles.containerStyleDropdown}
-          textHeader="Lẩu"
-          textStyle={styles.textStyleDropDown2}
-          headerButtonStyle={styles.headerButtonStyleDropDown}
-          isOpen={true}
-        />
-        <DropDownView
-          itemView={
-            <View style={styles.itemViewDropDown}>
-              {dataCheckBox3.length > 0 ? (
-                dataCheckBox2.map((e , index) => {
-                  const isActive = typeHotPot.find(type => {
-                    return type === e.value;
-                  });
-                  return (
-                    <TouchableOpacity
-                      style={styles.buttonCheckBoxDropDown}
-                      activeOpacity={0.7}
-                      onPress={() => {
-                        onSetTypeHotPot(e.value);
-                      }}
-                      key={index}
-                      >
-                      <Text
-                        style={[
-                          styles.labelTextDropDown2,
-                          isActive ? {color: defaultColors._074A20} : undefined,
-                        ]}>
-                        {e.label}
-                      </Text>
-                    </TouchableOpacity>
-                  );
-                })
-              ) : (
-                <Text style={styles.emptyText}>Món không có danh mục con</Text>
+        const checkType = [...typeLocation];
+        if (index >= 0) {
+          delete checkType[index];
+          setTypeLocaion(checkType);
+        } else {
+          checkType.push(value);
+          setTypeLocaion(checkType);
+        }
+      },
+      [typeLocation],
+    );
+    const onSetTypeHotPot = useCallback(
+      (value: number) => {
+        const index = typeHotPot.findIndex(type => {
+          return type === value;
+        });
+
+        const checkType = [...typeHotPot];
+        if (index >= 0) {
+          delete checkType[index];
+          setTypeHotPot(checkType);
+        } else {
+          checkType.push(value);
+          setTypeHotPot(checkType);
+        }
+      },
+      [typeHotPot],
+    );
+
+    return (
+      <MenuTabMobile
+        isOpenTab={isOpenTab}
+        setIsOpenTab={setIsOpenTab}
+        content={
+          <View style={styles.container}>
+            <View style={styles.content}>
+              {!isTabletDevice && (
+                <View style={styles.buttonView}>
+                  <ButtonMenuTabBar onPress={setIsOpenTab} />
+                </View>
               )}
+              <DropDownView
+                itemView={
+                  <View style={styles.itemViewDropDown}>
+                    {dataCheckbox.map((e, index) => {
+                      const isActive = typeLocation.find(type => {
+                        return type === e.value;
+                      });
+                      return (
+                        <TouchableOpacity
+                          style={styles.buttonCheckBoxDropDown}
+                          activeOpacity={0.7}
+                          onPress={() => {
+                            onSetTypeLocation(e.value);
+                          }}
+                          key={index}>
+                          <CheckBox active={isActive ? true : false} />
+                          <Text style={styles.labelTextDropDown}>
+                            {e.label}
+                          </Text>
+                        </TouchableOpacity>
+                      );
+                    })}
+                  </View>
+                }
+                containerStyle={styles.containerStyleDropdown}
+                textHeader="Loại thực đơn"
+                textStyle={styles.textStyle}
+                headerButtonStyle={styles.headerButtonStyleDropDown}
+                isOpen={true}
+              />
+              <View style={styles.textHeader2}>
+                <Text style={styles.textStyle}>Danh mục</Text>
+              </View>
+              <DropDownView
+                itemView={
+                  <View style={styles.itemViewDropDown}>
+                    {dataCheckBox2.map((e, index) => {
+                      const isActive = typeHotPot.find(type => {
+                        return type === e.value;
+                      });
+                      return (
+                        <TouchableOpacity
+                          style={styles.buttonCheckBoxDropDown}
+                          activeOpacity={0.7}
+                          onPress={() => {
+                            onSetTypeHotPot(e.value);
+                          }}
+                          key={index}>
+                          <Text
+                            style={[
+                              styles.labelTextDropDown2,
+                              isActive
+                                ? {color: defaultColors._074A20}
+                                : undefined,
+                            ]}>
+                            {e.label}
+                          </Text>
+                        </TouchableOpacity>
+                      );
+                    })}
+                  </View>
+                }
+                containerStyle={styles.containerStyleDropdown}
+                textHeader="Lẩu"
+                textStyle={styles.textStyleDropDown2}
+                headerButtonStyle={styles.headerButtonStyleDropDown}
+                isOpen={true}
+              />
+              <DropDownView
+                itemView={
+                  <View style={styles.itemViewDropDown}>
+                    {dataCheckBox3.length > 0 ? (
+                      dataCheckBox2.map((e, index) => {
+                        const isActive = typeHotPot.find(type => {
+                          return type === e.value;
+                        });
+                        return (
+                          <TouchableOpacity
+                            style={styles.buttonCheckBoxDropDown}
+                            activeOpacity={0.7}
+                            onPress={() => {
+                              onSetTypeHotPot(e.value);
+                            }}
+                            key={index}>
+                            <Text
+                              style={[
+                                styles.labelTextDropDown2,
+                                isActive
+                                  ? {color: defaultColors._074A20}
+                                  : undefined,
+                              ]}>
+                              {e.label}
+                            </Text>
+                          </TouchableOpacity>
+                        );
+                      })
+                    ) : (
+                      <Text style={styles.emptyText}>
+                        Món không có danh mục con
+                      </Text>
+                    )}
+                  </View>
+                }
+                containerStyle={styles.containerStyleDropdown}
+                textHeader="Món khác"
+                textStyle={styles.textStyleDropDown2}
+                headerButtonStyle={styles.headerButtonStyleDropDown}
+                isOpen={true}
+              />
             </View>
-          }
-          containerStyle={styles.containerStyleDropdown}
-          textHeader="Món khác"
-          textStyle={styles.textStyleDropDown2}
-          headerButtonStyle={styles.headerButtonStyleDropDown}
-          isOpen={true}
-        />
-      </View>
-    </View>
-  );
-};
+          </View>
+        }
+      />
+    );
+  },
+);
 
 const styles = StyleSheet.create({
   container: {
@@ -225,18 +248,27 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: defaultColors.c_222124,
   },
-  textHeader2 : {
+  textHeader2: {
     width: '78%',
     borderBottomWidth: 1,
     borderColor: defaultColors.bg_EFEFEF,
     marginTop: 33,
     paddingBottom: 16,
   },
-  emptyText : {
-   fontSize : 14 ,
-   marginTop : 16,
-   fontWeight : 'bold',
-   color : defaultColors.c_222124,
+  emptyText: {
+    fontSize: 14,
+    marginTop: 16,
+    fontWeight: 'bold',
+    color: defaultColors.c_222124,
+  },
+  modal: {
+    backgroundColor: 'white',
+    margin: 0, // This is the important style you need to set
+    alignItems: undefined,
+    justifyContent: undefined,
+  },
+  buttonView: {
+    marginTop : 24,
   },
 });
 

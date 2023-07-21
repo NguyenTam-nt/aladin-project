@@ -8,6 +8,7 @@ import TableCartList from './TableCartList';
 import CompoundCartList from './CompoundAction/CompoundCartList';
 import {useDispatch} from 'react-redux';
 import {setShowActionCart, setShowDrawerFloor} from '../../redux/infoDrawer/slice';
+import CancelOrderAction from './CancelOrderAction/CancelOrderAction';
 
 export enum ActionCartListChoose {
   sentToKitchen = 'sentToKitchen',
@@ -76,6 +77,9 @@ const ContentViewCart = React.memo(
         );
       case ActionCartListChoose.compound:
         return <CompoundCartList />;
+
+      case ActionCartListChoose.cancelOrder:
+        return <CancelOrderAction />;
       default:
         return (
           <>

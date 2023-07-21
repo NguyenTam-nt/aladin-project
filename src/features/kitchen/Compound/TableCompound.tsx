@@ -65,8 +65,8 @@ const ItemDayList = () => {
         isOpen={false}
         itemView={
           <View>
-            {data.map(e => {
-              return <TableCartItem />;
+            {data.map((e , index) => {
+              return <TableCartItem  key={index} />;
             })}
           </View>
         }
@@ -88,7 +88,7 @@ const ItemDayList = () => {
   );
 };
 
-const TableCompound = () => {
+const TableCompound = React.memo(() => {
   const data = [
     'success',
     'cancel',
@@ -140,7 +140,7 @@ const TableCompound = () => {
       />
     </View>
   );
-};
+});
 
 const styles = StyleSheet.create({
   textTable: {

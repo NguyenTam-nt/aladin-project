@@ -89,6 +89,9 @@ const DropdownComponent: <T>(
       accessibilityLabel,
       itemAccessibilityLabelField,
       mode = 'default',
+      isFilter,
+      leftPosition,
+      minWidth = 200,
     } = props;
 
     const ref = useRef<View>(null);
@@ -172,9 +175,10 @@ const DropdownComponent: <T>(
           const bottom = H - top + height;
           const left = I18nManager.isRTL ? W - width - pageX : pageX;
 
+
           setPosition({
             isFull,
-            width: Math.floor(width * 2),
+            width: Math.floor(isChildren ? width * 2 : width),
             top: Math.floor(top + statusBarHeight),
             bottom: Math.floor(bottom - statusBarHeight),
             left: Math.floor(left),
@@ -412,28 +416,34 @@ const DropdownComponent: <T>(
           accessible={!!accessibilityLabel}
           accessibilityLabel={accessibilityLabel}
           onPress={showOrClose}>
-          <View style={styles.dropdown}>
-            {renderLeftIcon?.(visible)}
-            <Text
-              style={[
-                styles.textItem,
-                isSelected !== null ? selectedTextStyle : placeholderStyle,
-                font(),
-              ]}
-              {...selectedTextProps}>
-              {isSelected !== null
-                ? `${label_Parent && label_Parent + ' /'}  ${_.get(
-                    currentValue,
-                    labelField,
-                  )}`
-                : placeholder}
-            </Text>
-            {renderRightIcon ? (
-              renderRightIcon(visible)
+          <View style={[styles.dropdown]}>
+            {isFilter && !isTablet ? (
+              renderLeftIcon?.(visible)
             ) : (
-              <View>
-                <ICDown />
-              </View>
+              <>
+                {renderLeftIcon?.(visible)}
+                <Text
+                  style={[
+                    styles.textItem,
+                    isSelected !== null ? selectedTextStyle : placeholderStyle,
+                    font(),
+                  ]}
+                  {...selectedTextProps}>
+                  {isSelected !== null
+                    ? `${label_Parent && label_Parent + ' /'}  ${_.get(
+                        currentValue,
+                        labelField,
+                      )}`
+                    : placeholder}
+                </Text>
+                {renderRightIcon ? (
+                  renderRightIcon(visible)
+                ) : (
+                  <View>
+                    <ICDown />
+                  </View>
+                )}
+              </>
             )}
           </View>
         </TouchableWithoutFeedback>
@@ -576,29 +586,30 @@ const DropdownComponent: <T>(
         const _renderListHelper = () => {
 
           return (
-              <View style={styles.flatListView}>
-                <>
-                  <View style={{width: '50%' , backgroundColor : backgroundColor }}>
-                    <FlatList
-                      testID={testID + ' flatlist'}
-                      accessibilityLabel={accessibilityLabel + ' flatlist'}
-                      {...flatListProps}
-                      keyboardShouldPersistTaps="handled"
-                      ref={refList}
-                      onScrollToIndexFailed={scrollIndex}
-                      data={dataListChild || listData}
-                      inverted={isTopPosition ? inverted : false}
-                      renderItem={_renderItem}
-                      keyExtractor={(_item, index) => index.toString()}
-                      showsVerticalScrollIndicator={
-                        showsVerticalScrollIndicator
-                      }
-                    />
-                  </View>
-                  {_renderListChild(false, listChild)}
-                </>
-              </View>
-
+            <View style={styles.flatListView}>
+              <>
+                <View
+                  style={{
+                    width: isChildren ? '50%' : '100%',
+                    maxHeight: maxHeight,
+                  }}>
+                  <FlatList
+                    testID={testID + ' flatlist'}
+                    accessibilityLabel={accessibilityLabel + ' flatlist'}
+                    {...flatListProps}
+                    keyboardShouldPersistTaps="handled"
+                    ref={refList}
+                    onScrollToIndexFailed={scrollIndex}
+                    data={dataListChild || listData}
+                    inverted={isTopPosition ? inverted : false}
+                    renderItem={_renderItem}
+                    keyExtractor={(_item, index) => index.toString()}
+                    showsVerticalScrollIndicator={showsVerticalScrollIndicator}
+                  />
+                </View>
+                {_renderListChild(false, listChild)}
+              </>
+            </View>
           );
         };
         return (
@@ -623,6 +634,7 @@ const DropdownComponent: <T>(
         testID,
         listChild,
         backgroundColor,
+        isChildren,
       ]
     );
 
@@ -729,7 +741,6 @@ const DropdownComponent: <T>(
                   style={StyleSheet.flatten([
                     styles.flex1,
                     isFull && styleContainerVertical,
-                    // backgroundColor && {backgroundColor: backgroundColor},
                     keyboardStyle,
                   ])}>
                   <View
@@ -745,14 +756,18 @@ const DropdownComponent: <T>(
                             paddingBottom: extendHeight,
                           },
                       isFull && styles.fullScreen,
+                      isFilter && !isTablet ? {minWidth: minWidth} : undefined,
                     ])}>
                     <View
                       style={StyleSheet.flatten([
                         styles.container,
                         isFull ? styleHorizontal : styleVertical,
                         containerStyle,
+                        leftPosition
+                          ? {left: position.left - minWidth + 40}
+                          : undefined,
                       ])}>
-                        {_renderList(isTopPosition)}
+                      {_renderList(isTopPosition)}
                     </View>
                   </View>
                 </View>
@@ -777,16 +792,21 @@ const DropdownComponent: <T>(
       backgroundColor,
       containerStyle,
       styleHorizontal,
+      minWidth,
+      leftPosition,
       eventClose,
       _renderList,
     ]);
 
     return (
       <View
-        style={StyleSheet.flatten([styles.mainWrap, style])}
+        style={StyleSheet.flatten([
+          styles.mainWrap,
+          style,
+          isFilter && !isTablet ? {maxWidth: 40} : undefined,
+        ])}
         ref={ref}
-        onLayout={_measure}
-      >
+        onLayout={_measure}>
         {_renderDropdown()}
         {_renderModal()}
       </View>
