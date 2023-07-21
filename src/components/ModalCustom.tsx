@@ -3,6 +3,7 @@ import Modal, {Direction} from 'react-native-modal';
 import type {ModalProps} from 'react-native-modal/dist/modal';
 import {KeyboardAvoidingView, StyleSheet} from 'react-native';
 import {isIOS} from '@constants';
+import { getValueForDevice } from 'src/commons/formatMoney'
 
 export type ModalCustomProps = {
   children: ReactNode
@@ -167,8 +168,9 @@ const styles = StyleSheet.create({
     left:0,
     // opacity: 0.99,
     // zIndex: 100,
-    justifyContent: 'center',
-    alignItems: 'center'
+    justifyContent: getValueForDevice('center','flex-end') ,
+    alignItems: 'center' ,
+    margin: 0
   },
   styleChildren: {
     position: 'absolute',

@@ -46,22 +46,11 @@ type Props = {
   onChange: (currentFilter: string) => void
 }
 
-if (
-  Platform.OS === 'android' &&
-  UIManager.setLayoutAnimationEnabledExperimental
-) {
-  UIManager.setLayoutAnimationEnabledExperimental(true)
-}
-
 export const SideLeft = memo(({currenFilter, onChange}: Props) => {
   const [isOpen, setIsOpen] = React.useState(true)
   const toggleOpen = () => {
     // onPress?.()
     setIsOpen(value => !value)
-    LayoutAnimation.configureNext({
-      ...LayoutAnimation.Presets.linear,
-      duration: 300,
-    })
   }
 
   const styleGroupFilter = useMemo(():StyleProp<ViewStyle> => {
@@ -74,7 +63,7 @@ export const SideLeft = memo(({currenFilter, onChange}: Props) => {
     <View style={styles.container}>
       <View>
         <TouchableOpacity onPress={toggleOpen} style={styles.filterFilter}>
-          <TextCustom>Thời gian</TextCustom>
+          <TextCustom color={defaultColors.c_222124}>Thời gian</TextCustom>
           <View>
             <ICDown color={defaultColors.c_222124} />
           </View>
@@ -212,6 +201,7 @@ const styles = StyleSheet.create({
   },
   positionRelative: {
     position: 'relative',
+    zIndex: 9999
   },
   h_0: {
     height: 0,

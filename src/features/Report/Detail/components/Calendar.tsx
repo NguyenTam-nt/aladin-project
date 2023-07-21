@@ -263,6 +263,7 @@ export const Calendar =  memo(() => {
             {days.map((item, index) => {
               return (
                 <View
+                 key={index}
                   style={styles.styleBoxDay}>
                   <TextCustom
                     key={index}

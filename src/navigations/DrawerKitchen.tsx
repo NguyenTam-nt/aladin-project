@@ -86,10 +86,10 @@ const DrawerKitchen = () => {
       <Drawer.Navigator
         drawerContent={props => <CustomDrawerKitchen {...props} />}
         screenOptions={screenOptions}>
-        {routerKitchens.map(item => {
+        {routerKitchens.map((item, index) => {
           return (
             <Drawer.Screen
-              key={item.slug}
+              key={index}
               name={item.slug}
               component={item.element}
               options={{
