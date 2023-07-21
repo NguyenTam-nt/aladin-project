@@ -1,11 +1,10 @@
-import {View, StyleSheet, TouchableOpacity, Keyboard} from 'react-native';
-import React, {memo, useCallback, useState} from 'react';
-import {defaultColors, headersCategory} from '@configs';
-import {TextCustom} from '@components';
-import {DrawerActions, useNavigation} from '@react-navigation/native';
-import {ICMenubar} from '../../../assets/icons/ICMenubar';
-import {IDataSelectionCustom} from 'src/components/CartList/CompoundAction/CompoundCartList';
-import {RightHeader} from 'src/features/orderTab';
+import { defaultColors } from '@configs';
+import { DrawerActions, useNavigation } from '@react-navigation/native';
+import React, { memo, useState } from 'react';
+import { Keyboard, StyleSheet, TouchableOpacity, View } from 'react-native';
+import { IDataSelectionCustom } from 'src/components/CartList/CompoundAction/CompoundCartList';
+import { RightHeader } from 'src/features/orderTab';
+import { ICMenubar } from '../../../assets/icons/ICMenubar';
 
 const dataItem = [
   {
@@ -28,9 +27,10 @@ const dataItem = [
 
 type Props = {
   renderLeft?: JSX.Element
+  showLocattion? : boolean
 };
 
-export const Header = memo(({renderLeft}: Props) => {
+export const Header = memo(({renderLeft , showLocattion = true}: Props) => {
   const navigation = useNavigation();
   const onDraw = async () => {
     await Keyboard.dismiss();
@@ -42,7 +42,7 @@ export const Header = memo(({renderLeft}: Props) => {
     <View style={styles.container}>
       {renderLeft ? renderLeft : null}
       <View style={styles.styleRight}>
-        <RightHeader location={location} setLocation={setLocation} />
+        {showLocattion &&  <RightHeader location={location} setLocation={setLocation} />}
         <TouchableOpacity onPress={onDraw}>
           <ICMenubar color={defaultColors.c_fff} />
         </TouchableOpacity>

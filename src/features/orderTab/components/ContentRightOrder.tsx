@@ -1,12 +1,16 @@
-import {View, Text, StyleSheet} from 'react-native';
 import React from 'react';
+import { StyleSheet, View } from 'react-native';
 import HeaderContentRight from './HeaderContentRight';
 import TableRightContent from './TableRightContent';
+import { TabBarOrder } from '../ContentOrderTab';
 
-const ContentRightOrder = () => {
+
+const ContentRightOrder = (props :TabBarOrder ) => {
+  const {isOpenTab , setIsOpenTab} = props;
+
   return (
     <View style={styles.container}>
-      <HeaderContentRight />
+      <HeaderContentRight  isOpenTab={isOpenTab} setIsOpenTab={setIsOpenTab}/>
       <TableRightContent />
     </View>
   );

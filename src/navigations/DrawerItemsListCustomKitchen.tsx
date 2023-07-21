@@ -7,18 +7,18 @@ import {
 } from '@react-navigation/native';
 import * as React from 'react';
 
+import { TextCustom } from '@components';
+import { defaultColors } from '@configs';
+import { ICDrawerAll } from '@icons';
 import {
   DrawerDescriptorMap,
   DrawerNavigationHelpers,
 } from '@react-navigation/drawer/lib/typescript/src/types';
-import {routerKitchens} from './DrawerKitchen';
-import {TouchableOpacity, View, StyleSheet, ViewStyle, StyleProp, Platform, UIManager, LayoutAnimation} from 'react-native';
-import {TextCustom} from '@components';
-import {DrawerItemCustomKitchen} from './DrawerItemCustomKitchen';
-import {defaultColors} from '@configs';
-import {ICDrawerAll} from '@icons';
-import {ICDown} from '../assets/icons/ICDown';
-import {PlatformPressable} from '@react-navigation/elements';
+import { PlatformPressable } from '@react-navigation/elements';
+import { LayoutAnimation, Platform, StyleSheet, TouchableOpacity, UIManager, View } from 'react-native';
+import { ICDown } from '../assets/icons/ICDown';
+import { DrawerItemCustomKitchen } from './DrawerItemCustomKitchen';
+import { routerKitchens } from './DrawerKitchen';
 
 type Props = {
   state: DrawerNavigationState<ParamListBase>
@@ -35,25 +35,27 @@ export function DrawerItemListCustomKitchen({
   descriptors,
 }: Props) {
   return state.routes.map((route, i) => {
-    const {
-      drawerLabel,
-    } = descriptors[route.key].options;
+    const {drawerLabel} = descriptors[route.key].options;
 
     const focused = i === state.index;
+
     const color = focused ? defaultColors.c_0000 : defaultColors.c_fff;
 
+
+
     return (
-        <DrawerItemWithICArrowDown
-           focused={focused}
-            state={state}
-            navigation={navigation}
-            color={color}
-            drawerLabel={drawerLabel}
-            i={i}
-            route={route}
-            children={null}
-            key={i}
-        />
+      <DrawerItemWithICArrowDown
+        focused={focused}
+        state={state}
+        navigation={navigation}
+        color={color}
+        drawerLabel={drawerLabel}
+        i={i}
+        route={route}
+        children={null}
+        key={i}
+
+      />
     );
   }) as React.ReactNode as React.ReactElement;
 }
@@ -108,31 +110,42 @@ export const DrawerItemWithICArrowDown = React.memo(({
     i: number
     navigation: any
     state: any
+    focusChild?: string
   }) => {
     const buildLink = useLinkBuilder();
     const [isOpen, setIsOpen] = React.useState(true);
     const toggleOpen = () => {
-        // onPress?.()
-        setIsOpen(value => !value);
-        LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-      };
-    return (
-        <View>
-        <TouchableOpacity
+      // onPress?.()
+      setIsOpen(value => !value);
+      LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+    };
+    const [initIndexChild , setInitIndexChild] = React.useState<number>(-1);
 
+
+    state.routes[state.index]?.state?.index;
+    //@ts-ignore
+    const focusChild = 0;
+    //   state.routes[state.index].state?.routeNames[
+    //     //@ts-ignore
+    //     initIndexChild - state.routes[state.index]?.state?.index
+    //   ] ||  initIndexChild ? routerKitchens[i].childs[initIndexChild].slug : routerKitchens[i].childs[0].slug
+
+
+
+    return (
+      <View>
+        <TouchableOpacity
           activeOpacity={0.8}
           onPress={toggleOpen}
-          style={[styles.container, {
-            backgroundColor: focused ? defaultColors._F1BA42 : 'transparent',
-          }]}>
+          style={[
+            styles.container,
+            {
+              backgroundColor: focused ? defaultColors._F1BA42 : 'transparent',
+            },
+          ]}>
           <View style={styles.group_text}>
-            <ICDrawerAll
-              color={color}
-            />
-            <TextCustom
-              color={color}
-              fontSize={14}
-              weight="600">
+            <ICDrawerAll color={color} />
+            <TextCustom color={color} fontSize={14} weight="600">
               {drawerLabel}
             </TextCustom>
           </View>
@@ -149,6 +162,9 @@ export const DrawerItemWithICArrowDown = React.memo(({
                 canPreventDefault: true,
               });
               if (!event.defaultPrevented) {
+                if (!initIndexChild) {
+                  setInitIndexChild(index);
+                }
                 if (focused) {
                   navigation.dispatch({
                     ...CommonActions.navigate(route.name, {
@@ -172,7 +188,7 @@ export const DrawerItemWithICArrowDown = React.memo(({
                 route={route}
                 href={buildLink(route.name, route.params)}
                 label={item.name}
-                focused={focused}
+                focused={focused && item.slug === focusChild}
                 onPress={onPressItem}
               />
             );
@@ -180,4 +196,4 @@ export const DrawerItemWithICArrowDown = React.memo(({
         </View>
       </View>
     );
-});
+  });

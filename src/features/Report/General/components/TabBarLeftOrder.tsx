@@ -42,7 +42,7 @@ const TabBarLeftOrder = () => {
         <DropDownView
           itemView={
             <View style={styles.itemViewDropDown}>
-              {dataCheckbox.map(e => {
+              {dataCheckbox.map((e, index) => {
                 const isActive = typeLocation === e.value;
                 return (
                   <TouchableOpacity
@@ -50,7 +50,8 @@ const TabBarLeftOrder = () => {
                     activeOpacity={0.7}
                     onPress={() => {
                       onSetTypeLocation(e.value);
-                    }}>
+                    }}
+                    key={index}>
                     <RadioButtonSelect
                       active={isActive}
                       color={defaultColors.c_222124}

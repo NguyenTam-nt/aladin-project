@@ -5,7 +5,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import FastImage from 'react-native-fast-image';
 import QuantityUpdate from '../../../components/QuantityUpdate';
 
-const DishItem = () => {
+const DishItem = React.memo(({item}: {item: any}) => {
 
 
   return (
@@ -24,12 +24,12 @@ const DishItem = () => {
           600.000
         </Text>
         <View style={styles.quantityUpdate}>
-          <QuantityUpdate />
+          <QuantityUpdate  data={item} />
         </View>
       </View>
     </View>
   );
-};
+});
 
 const styles = StyleSheet.create({
   container: {
@@ -37,6 +37,8 @@ const styles = StyleSheet.create({
     height: 168,
     backgroundColor: defaultColors._26272C,
     flexDirection: 'row',
+    borderBottomWidth : 1,
+    borderColor : 'rgba(0, 0, 0, 0.2  )',
   },
   textTitle: {
     color: defaultColors.c_fff,

@@ -1,0 +1,41 @@
+{
+  "migIndex": 1,
+  "data": [
+    {
+      "path": "src/assets/fonts/IBM_Plex_Sans/Amatic-Bold.ttf",
+      "sha1": "fb8c5e8993d4baec52003499ec2c55b3cb0b1523"
+    },
+    {
+      "path": "src/assets/fonts/IBM_Plex_Sans/AmaticSC-Regular.ttf",
+      "sha1": "783f2627e0c17890f1b2fc4143de3fb0d241b099"
+    },
+    {
+      "path": "src/assets/fonts/IBM_Plex_Sans/IBMPlexSans-Bold.ttf",
+      "sha1": "6c829b9e0904df3399e7ac03ee1bb1f72c2d5e52"
+    },
+    {
+      "path": "src/assets/fonts/IBM_Plex_Sans/IBMPlexSans-Light.ttf",
+      "sha1": "371d18ef3fa2148a1c0b40834a9228eaa7bb2e31"
+    },
+    {
+      "path": "src/assets/fonts/IBM_Plex_Sans/IBMPlexSans-Medium.ttf",
+      "sha1": "754f3b3406638d2b8da0e71dd4449557add0eccf"
+    },
+    {
+      "path": "src/assets/fonts/IBM_Plex_Sans/IBMPlexSans-Regular.ttf",
+      "sha1": "8e18e19c963fd6b0895620010d1a4adbc2d2caf7"
+    },
+    {
+      "path": "src/assets/fonts/IBM_Plex_Sans/IBMPlexSans-SemiBold.ttf",
+      "sha1": "45bed8ec82912658ca349d6332084a12266fcc7a"
+    },
+    {
+      "path": "src/assets/fonts/IBM_Plex_Sans/OFL.txt",
+      "sha1": "80db3361b0ff3da772a7517b76566c101d0aae75"
+    },
+    {
+      "path": "src/assets/fonts/IBM_Plex_Sans/iCielBCCubano-Normal.otf",
+      "sha1": "f85956107d7964c8f47f34c6df149e7cc11bd13e"
+    }
+  ]
+}

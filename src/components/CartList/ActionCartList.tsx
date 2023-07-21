@@ -22,7 +22,7 @@ const ActionCartList = ({
         <ICAdd />
         <Text style={styles.textButton}>Gọi thêm</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.buttonCancel}>
+      <TouchableOpacity style={styles.buttonCancel} onPress={() => {setActionChoose(ActionCartListChoose.cancelOrder);}}>
         <ICDelete />
         <Text style={styles.textButton}>Hủy món</Text>
       </TouchableOpacity>

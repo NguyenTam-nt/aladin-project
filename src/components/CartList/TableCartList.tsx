@@ -4,6 +4,9 @@ import { FlatList, ListRenderItemInfo, StyleSheet, Text, View } from 'react-nati
 import { ICAddOrder } from '../../assets/icons/ICAddOrder';
 import { Thumb } from '../Thumb/Thumb';
 import ItemCardMobile from './ItemCardMobile';
+import { useListItemInCart } from 'src/redux/cartOrder/hooks';
+import { IITemCart } from 'src/redux/cartOrder/slice';
+import { formatNumberDotSlice } from 'src/commons/formatMoney';
 
 
 export const StatusOrderItem = React.memo(({checkstatus} : {checkstatus : string}) => {
@@ -79,7 +82,8 @@ export const StatusOrderItem = React.memo(({checkstatus} : {checkstatus : string
     </View>
   );});
 
-const TableCartItem = ( {checkstatus} : {checkstatus : string}) => {
+const TableCartItem = ( {checkstatus , data } : {checkstatus : string ; data : IITemCart}) => {
+
 
   return (
     <View>
@@ -109,10 +113,10 @@ const TableCartItem = ( {checkstatus} : {checkstatus : string}) => {
           </View>
         </View>
         <View style={styles.col3}>
-          <Text style={styles.textTable}>1</Text>
+          <Text style={styles.textTable}>{data.quantity}</Text>
         </View>
         <View style={styles.col4}>
-          <Text style={styles.textTable}>600.000</Text>
+          <Text style={styles.textTable}>{formatNumberDotSlice(data.quantity * 600000)}</Text>
         </View>
         <View style={styles.col5}>
           <StatusOrderItem  checkstatus={checkstatus}  />
@@ -123,17 +127,13 @@ const TableCartItem = ( {checkstatus} : {checkstatus : string}) => {
 };
 
 const TableCartList = () => {
-  const data = [
-    'success',
-    'cancel',
-    'waitingSuccess',
-    'waitingCancel',
-    'success',
-    'success',
-    'success',
-  ];
+  const data = useListItemInCart();
   const renderItem = (item: ListRenderItemInfo<any>) => {
-    return isTabletDevice ?  <TableCartItem checkstatus={item.item} /> : <ItemCardMobile checkstatus={item.item}  />;
+    return isTabletDevice ? (
+      <TableCartItem checkstatus={item.item} data={item.item} />
+    ) : (
+      <ItemCardMobile checkstatus={item.item} />
+    );
   };
 
   return (

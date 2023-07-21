@@ -137,7 +137,7 @@ export function DrawerItemCustomKitchen(props: Props) {
     labelStyle,
     focused = false,
     allowFontScaling,
-    activeTintColor = defaultColors.c_fff,
+    activeTintColor = defaultColors.c_0000,
     inactiveTintColor = defaultColors.c_fff,
     activeBackgroundColor = defaultColors._F1BA42,
     inactiveBackgroundColor = 'transparent',
@@ -152,9 +152,14 @@ export function DrawerItemCustomKitchen(props: Props) {
 
   const color = focused ? activeTintColor : inactiveTintColor;
   const iconNode = icon ? icon({size: 24, focused, color}) : null;
+  const backgroundColor = focused
+  ? activeBackgroundColor
+  : inactiveBackgroundColor;
+  // console.log('check focus' ,focused , label);
+
 
   return (
-    <View collapsable={false} {...rest} style={[styles.container, style]}>
+    <View collapsable={false} {...rest}   style={[styles.container, { backgroundColor}, style]}>
       <LinkPressable
         testID={testID}
         onPress={onPress}
@@ -172,9 +177,9 @@ export function DrawerItemCustomKitchen(props: Props) {
             {typeof label === 'string' ? (
               <TextCustom
                 numberOfLines={1}
-                // allowFontScaling={allowFontScaling}
+
                 weight="600"
-                color={defaultColors.c_fff}>
+                color={color}>
                 {label}
               </TextCustom>
             ) : (
