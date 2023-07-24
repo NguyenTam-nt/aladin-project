@@ -2,14 +2,6 @@
   "migIndex": 1,
   "data": [
     {
-      "path": "src/assets/fonts/IBM_Plex_Sans/Amatic-Bold.ttf",
-      "sha1": "fb8c5e8993d4baec52003499ec2c55b3cb0b1523"
-    },
-    {
-      "path": "src/assets/fonts/IBM_Plex_Sans/AmaticSC-Regular.ttf",
-      "sha1": "783f2627e0c17890f1b2fc4143de3fb0d241b099"
-    },
-    {
       "path": "src/assets/fonts/IBM_Plex_Sans/IBMPlexSans-Bold.ttf",
       "sha1": "6c829b9e0904df3399e7ac03ee1bb1f72c2d5e52"
     },
