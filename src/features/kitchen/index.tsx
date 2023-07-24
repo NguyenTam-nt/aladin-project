@@ -3,7 +3,7 @@ import {SafeAreaView, StatusBar} from 'react-native';
 import {Header} from './components/Header';
 import {createStackNavigator} from '@react-navigation/stack';
 import {routerKitchens, routerPath} from '../../navigations/DrawerKitchen';
-import {categoryKitchenNames} from '@configs';
+import {categoryKitchenNames, isTabletDevice} from '@configs';
 import {HandleTabKitchen} from './components/HandleTabKitchen';
 import { globalStyles } from 'src/commons/globalStyles';
 
@@ -43,10 +43,11 @@ export const Kitchen = React.memo(() => {
             onChange={handleChangeCategory}
           />
         }
+        showLocattion={isTabletDevice}
       />
-      <KitChenStack.Navigator screenOptions={screenOptions}
-      initialRouteName={routerKitchens[1].childs[0].slug}
-      >
+      <KitChenStack.Navigator
+        screenOptions={screenOptions}
+        initialRouteName={routerKitchens[1].childs[0].slug}>
         {routerKitchens
           .find(item => item.name === routerPath.kitchen)
           ?.childs.map(item => {

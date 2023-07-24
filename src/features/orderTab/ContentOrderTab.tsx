@@ -14,7 +14,6 @@ const ContentOrderTab = () => {
   return (
     <View style={styles.container}>
       <TabBarLeftOrder isOpenTab={isOpenTab} setIsOpenTab={setIsOpenTab} />
-
       <ContentRightOrder isOpenTab={isOpenTab} setIsOpenTab={setIsOpenTab} />
     </View>
   );
