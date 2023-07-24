@@ -1,5 +1,13 @@
-import {StyleSheet, TextInput, TouchableOpacity, View} from 'react-native';
-import React, {memo} from 'react';
+import {
+  StatusBar,
+  StyleProp,
+  StyleSheet,
+  TextInput,
+  TouchableOpacity,
+  View,
+  ViewStyle,
+} from 'react-native';
+import React, {memo, useMemo} from 'react';
 import {defaultColors} from '@configs';
 import {TextCustom} from '@components';
 import {ICCloseModal} from '../../../../assets/icons/ICCloseModal';
@@ -7,6 +15,11 @@ import {Button} from '../../../../components/Button';
 import {ICCheck} from '../../../../assets/icons/ICCheck';
 import {ICDelete} from '../../../../assets/icons/ICDelete';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import {getValueForDevice} from 'src/commons/formatMoney';
+import {DIMENSION} from '@constants';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import {MultipleScreenView} from 'src/components/MultipleScreenView';
+import {ICTagFloor} from '@icons';
 
 type Props = {
   onCancel: () => void
@@ -17,16 +30,33 @@ type Props = {
 
 export const ModalConfirmCancel = memo(
   ({onCancel, message, placeholder, titleInput}: Props) => {
+    const insets = useSafeAreaInsets();
+
+    const styleSizeModal = useMemo((): StyleProp<ViewStyle> => {
+      return {
+        ...styles.styleModalView,
+        width: getValueForDevice(720, DIMENSION.width),
+        height: getValueForDevice(348, DIMENSION.height - insets.top - 64),
+      };
+    }, [insets.bottom, insets.top]);
+
     return (
-      <View style={styles.styleModalView}>
+      <View style={styleSizeModal}>
         <KeyboardAwareScrollView keyboardShouldPersistTaps="handled">
           <View style={styles.styleModalHeader}>
             <View style={styles.styleViewItem}>
+              <MultipleScreenView
+                phoneView={
+                  <View>
+                    <ICTagFloor />
+                  </View>
+                }
+              />
               <TextCustom
                 fontSize={24}
                 weight="700"
                 color={defaultColors.c_222124}
-                textAlign="center">
+                textAlign={getValueForDevice('center', 'left')}>
                 {message}
               </TextCustom>
             </View>
@@ -91,10 +121,11 @@ const styles = StyleSheet.create({
   },
   styleViewItem: {
     flex: 1,
+    flexDirection: getValueForDevice('column', 'row'),
+    columnGap: getValueForDevice(0, 8),
+    justifyContent: 'flex-start',
   },
   styleModalView: {
-    width: 720,
-    height: 348,
     backgroundColor: defaultColors.c_fff,
     borderRadius: 16,
     padding: 24,

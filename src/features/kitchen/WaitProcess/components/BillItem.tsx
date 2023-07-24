@@ -18,6 +18,7 @@ import {ICDown} from '../../../../assets/icons/ICDown';
 import {TypeModalWaitProcess} from '../hooks/useWaitProcess';
 import { Button } from '../../../../components/Button'
 import { ICCheck } from '../../../../assets/icons/ICCheck'
+import { getValueForDevice } from 'src/commons/formatMoney'
 
 if (
   Platform.OS === 'android' &&
@@ -36,7 +37,10 @@ export const BillItem = ({onShowModal, onHideModal}: Props) => {
   const toggleOpen = () => {
     // onPress?.()
     setIsOpen(value => !value);
-    LayoutAnimation.configureNext(LayoutAnimation.Presets.linear);
+    LayoutAnimation.configureNext({
+      ...LayoutAnimation.Presets.linear,
+      duration: 300
+    });
   };
   return (
     <>
@@ -50,9 +54,9 @@ export const BillItem = ({onShowModal, onHideModal}: Props) => {
             Tầng 1/ bàn 6
           </TextCustom>
           <TextCustom
-            fontSize={14}
+            fontSize={getValueForDevice(14, 12)}
             lineHeight={18}
-            weight="600"
+            weight={getValueForDevice("600", "400")}
             color={defaultColors.bg_A1A0A3}>
             Mã hóa đơn 1253
           </TextCustom>
@@ -99,7 +103,7 @@ export const BillItemMenu = ({
     <View style={[styles.styleItemProduct, {
         backgroundColor: isCancel ? defaultColors.bg_FCEAEA : 'transparent'
     }]}>
-      <View style={styles.styleViewItem}>
+      <View style={getValueForDevice(styles.styleViewItemFlex1, styles.styleViewItem) }>
         <TextCustom
           lineHeight={22}
           fontSize={14}
@@ -115,7 +119,7 @@ export const BillItemMenu = ({
           Bởi Order
         </TextCustom>
       </View>
-      <View style={styles.styleViewItem}>
+      <View style={getValueForDevice(styles.styleViewItemFlex1, styles.styleViewItem) }>
         <TextCustom
           lineHeight={22}
           fontSize={14}
@@ -136,12 +140,12 @@ export const BillItemMenu = ({
           </View>
         </View>
       </View>
-      <View style={styles.styleViewItem}>
+      <View style={getValueForDevice(styles.styleViewItemFlex1, styles.styleViewItem) }>
         <TextCustom fontSize={14} weight="400" color={defaultColors.c_222124}>
           4
         </TextCustom>
       </View>
-      <View style={[styles.styleViewItem, styles.styleGroupBtn]}>
+      <View style={[styles.styleGroupBtn, getValueForDevice(styles.styleViewItemFlex1, undefined)]}>
         {!isCancel ? (
           <>
             <TouchableOpacity style={[styles.styleBtn, styles.styleBtnGreen]}>
@@ -164,7 +168,7 @@ export const BillItemMenu = ({
         ) : (
           <>
             <Button
-            style={styles.styleViewItem}
+            style={styles.styleViewItemFlex1}
               renderLeff={
                 <View>
                   <ICCheck />
@@ -174,7 +178,7 @@ export const BillItemMenu = ({
             />
             <Button
               onPress={handleShowModalRefuse}
-              style={[styles.styleBtnCancel, styles.styleViewItem]}
+              style={[styles.styleBtnCancel, styles.styleViewItemFlex1]}
               renderLeff={
                 <View>
                   <ICDelete />
@@ -201,7 +205,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   styleViewItem: {
-    flex: 1,
+    // flex: 1,
+    width: "33.333%"
+  },
+  styleViewItemFlex1: {
+    flex: 1
   },
   styleGoupItem: {
     height: 60,
@@ -212,10 +220,14 @@ const styles = StyleSheet.create({
     backgroundColor: defaultColors.bg_F5F5F5,
   },
   styleItemProduct: {
-    height: 76,
+    height: getValueForDevice(76, 'auto'),
+    paddingVertical: getValueForDevice(0, 16),
     flexDirection: 'row',
+    flexWrap: getValueForDevice('nowrap', 'wrap'),
     alignItems: 'center',
     paddingHorizontal: 16,
+    borderBottomWidth: 1,
+    borderBottomColor: defaultColors.bg_EFEFEF,
   },
   styleBtn: {
     flex: 1,
@@ -227,6 +239,8 @@ const styles = StyleSheet.create({
   styleGroupBtn: {
     columnGap: 12,
     flexDirection: 'row',
+    width: getValueForDevice('auto', '100%'),
+    marginTop: getValueForDevice(0, 16)
   },
   styleBtnGreen: {
     backgroundColor: defaultColors._01A63E,

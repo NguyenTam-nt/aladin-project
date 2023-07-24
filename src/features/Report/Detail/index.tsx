@@ -3,6 +3,8 @@ import React, {useState} from 'react';
 import {globalStyles} from 'src/commons/globalStyles';
 import {SideLeft} from './components/SideLeft';
 import {defaultColors} from '@configs';
+import {MainDetail} from './components/MainDetail';
+import {EventProvider} from 'react-native-outside-press';
 
 export const ReportDetail = () => {
   const [currenFilter, setCurrentFilter] = useState<string>('');
@@ -10,9 +12,12 @@ export const ReportDetail = () => {
     setCurrentFilter(filter);
   };
   return (
-    <View style={styles.container}>
-      <SideLeft currenFilter={currenFilter} onChange={handleChangeFilter} />
-    </View>
+    <EventProvider style={{flex: 1}}>
+      <View style={styles.container}>
+        <SideLeft currenFilter={currenFilter} onChange={handleChangeFilter} />
+        <MainDetail />
+      </View>
+    </EventProvider>
   );
 };
 

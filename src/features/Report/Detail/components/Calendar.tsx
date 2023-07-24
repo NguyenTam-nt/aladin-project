@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {memo, useCallback, useEffect, useState} from 'react';
 import {Pressable, View, StyleSheet, Text} from 'react-native';
 import {defaultColors} from '@configs';
 import {Days, months} from '@constants';
@@ -17,7 +17,7 @@ export interface IDate {
 const date = new Date();
 const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 
-export const Calendar = () => {
+export const Calendar =  memo(() => {
   const [dateEvent, setDateEvent] = useState<string | null>();
   const [targetDateStart, setTargetStart] = useState<IDate>();
   const [targetDateEnd, setTargetEnd] = useState<IDate>();
@@ -263,6 +263,7 @@ export const Calendar = () => {
             {days.map((item, index) => {
               return (
                 <View
+                 key={index}
                   style={styles.styleBoxDay}>
                   <TextCustom
                     key={index}
@@ -340,7 +341,7 @@ export const Calendar = () => {
       </View>
     </>
   );
-};
+})
 
 const styles = StyleSheet.create({
   container: {
@@ -400,7 +401,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     columnGap: 8,
-    rowGap: 16,
+    rowGap: 8,
     marginTop: 16,
   }
 });
