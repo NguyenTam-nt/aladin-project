@@ -58,22 +58,9 @@ const styles = StyleSheet.create({
     // columnGap: 8,
   },
   styleViewItem: {
-    flex: 1,
+    width: `${100 / 10}%`,
   },
   styleViewItem2: {
-    flex: 2,
-  },
-  styleModalView: {
-    width: 720,
-    height: 348,
-    backgroundColor: defaultColors.c_fff,
-    borderRadius: 16,
-    padding: 24,
-  },
-  styleModalHeader: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginBottom: 32,
+    width: `${(100 / 10) * 2}%`,
   },
 });

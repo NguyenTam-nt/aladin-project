@@ -49,6 +49,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     height: 70,
     alignItems: 'center',
+    // columnGap: 8,
   },
   styleViewItem: {
     flex: 1,

@@ -12,6 +12,8 @@ import {TextCustom} from '@components';
 import {ICAddOrder} from '../../../../assets/icons/ICAddOrder';
 import {ICDown} from '../../../../assets/icons/ICDown';
 import {globalStyles} from 'src/commons/globalStyles';
+import {getValueForDevice} from 'src/commons/formatMoney';
+import {DIMENSION} from '@constants';
 
 if (
   Platform.OS === 'android' &&
@@ -25,7 +27,10 @@ export const HistoryItem = () => {
   const toggleOpen = () => {
     // onPress?.()
     setIsOpen(value => !value);
-    LayoutAnimation.configureNext({...LayoutAnimation.Presets.linear, duration: 300});
+    LayoutAnimation.configureNext({
+      ...LayoutAnimation.Presets.linear,
+      duration: 300,
+    });
   };
   return (
     <>
@@ -66,14 +71,13 @@ export const HistoryItem = () => {
 export const HistoryItemMenu = () => {
   return (
     <View style={styles.styleItemProduct}>
-      <View style={styles.styleViewItem}>
+      <View style={[styles.styleViewItem, styles.pl_16]}>
         <TextCustom
           lineHeight={22}
           fontSize={14}
-          textAlign="center"
           weight="400"
           color={defaultColors.c_222124}>
-           10:25
+          15:05
         </TextCustom>
       </View>
       <View style={styles.styleViewItem2}>
@@ -147,18 +151,20 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   styleViewItem: {
-    flex: 1,
+    width: `${100 / 10}%`,
   },
   styleViewItem2: {
-    flex: 2,
+    width: `${(100 / 10) * 2}%`,
   },
   styleGoupItem: {
-    height: 60,
+    height: getValueForDevice(60, 40),
+    borderRadius: getValueForDevice(0, 8),
     flexDirection: 'row',
     alignItems: 'center',
     paddingHorizontal: 16,
     justifyContent: 'space-between',
     backgroundColor: defaultColors.bg_F5F5F5,
+    width: getValueForDevice('auto', DIMENSION.width - 24 * 2),
   },
   styleItemProduct: {
     height: 76,
@@ -166,7 +172,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     // paddingHorizontal: 16,
     backgroundColor: defaultColors.c_fff,
-    columnGap: 8
+    // columnGap: 8,
   },
   styleBtn: {
     flex: 1,
@@ -198,4 +204,7 @@ const styles = StyleSheet.create({
     ...globalStyles.alignItemsCenter,
     columnGap: 4,
   },
+  pl_16: {
+    paddingLeft: 16
+  }
 });

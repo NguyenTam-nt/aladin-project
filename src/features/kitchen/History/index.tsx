@@ -6,6 +6,7 @@ import {globalStyles} from 'src/commons/globalStyles';
 import {HeaderListHistory} from './components/HeaderListHistory';
 import {HistoryItem} from './components/HistoryItem';
 import {getValueForDevice} from 'src/commons/formatMoney';
+import SearchInput from "src/components/Filter/SearchInput"
 
 export const History = () => {
   const renderItem = useCallback(() => {
@@ -14,11 +15,13 @@ export const History = () => {
 
   return (
     <View style={styles.container}>
-      <KitchenLinks />
+      <KitchenLinks renderRight={<SearchInput stylesContainer={getValueForDevice(undefined, {width: '100%'})} placeholder={'Lịch sử theo Ngày/ Tên món/ Mã hóa đơn'} value={''} setValue={function (value: string): void {
+        throw new Error('Function not implemented.')
+      } } />} />
       <View style={globalStyles.fullFill}>
         <ScrollView
           horizontal
-          contentContainerStyle={getValueForDevice({flex: 1}, {minWidth: 1240})}>
+          contentContainerStyle={getValueForDevice(globalStyles.fullFill, {minWidth: 1240})}>
           <View style={globalStyles.fullFill}>
             <HeaderListHistory />
 
@@ -39,7 +42,7 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: defaultColors.c_fff,
     flex: 1,
-    paddingHorizontal: 32,
+    paddingHorizontal: getValueForDevice(32, 24),
     paddingBottom: 32,
   },
 });
