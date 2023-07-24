@@ -18,7 +18,7 @@ export const History = () => {
       <View style={globalStyles.fullFill}>
         <ScrollView
           horizontal
-          contentContainerStyle={getValueForDevice({flex: 1}, {minWidth: 950})}>
+          contentContainerStyle={getValueForDevice({flex: 1}, {minWidth: 1240})}>
           <View style={globalStyles.fullFill}>
             <HeaderListHistory />
 
