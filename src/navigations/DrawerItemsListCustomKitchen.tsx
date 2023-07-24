@@ -87,7 +87,8 @@ if (
   }
 
 
-export const DrawerItemWithICArrowDown = React.memo(({
+export const DrawerItemWithICArrowDown = React.memo(
+  ({
     route,
     href,
     onPress,
@@ -96,7 +97,8 @@ export const DrawerItemWithICArrowDown = React.memo(({
     onPressOut,
     accessibilityRole,
     focused,
-    color,drawerLabel,
+    color,
+    drawerLabel,
     i,
     navigation,
     state,
@@ -119,18 +121,23 @@ export const DrawerItemWithICArrowDown = React.memo(({
       setIsOpen(value => !value);
       LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
     };
-    const [initIndexChild , setInitIndexChild] = React.useState<number>(-1);
+    const [initIndexChild, setInitIndexChild] = React.useState<number>(null);
+    const [newArrayChild, setNewArrayChild] = React.useState(
+      routerKitchens[i].childs.map(child => child.slug),
+    );
 
+    const arr = routerKitchens[i].childs.map(child => child.slug);
 
-    state.routes[state.index]?.state?.index;
-    //@ts-ignore
-    const focusChild = 0;
-    //   state.routes[state.index].state?.routeNames[
-    //     //@ts-ignore
-    //     initIndexChild - state.routes[state.index]?.state?.index
-    //   ] ||  initIndexChild ? routerKitchens[i].childs[initIndexChild].slug : routerKitchens[i].childs[0].slug
+    if (initIndexChild) {
+      for (let i = 0; i < initIndexChild; i++) {
+        const element = arr.shift();
+        if (element !== undefined) {
+          arr.push(element);
+        }
+      }
+    }
 
-
+    const focusChild = arr[state.routes[i]?.state?.index];
 
     return (
       <View>
@@ -163,6 +170,8 @@ export const DrawerItemWithICArrowDown = React.memo(({
               });
               if (!event.defaultPrevented) {
                 if (!initIndexChild) {
+                  console.log('index', index);
+
                   setInitIndexChild(index);
                 }
                 if (focused) {
@@ -196,4 +205,5 @@ export const DrawerItemWithICArrowDown = React.memo(({
         </View>
       </View>
     );
-  });
+  },
+);
