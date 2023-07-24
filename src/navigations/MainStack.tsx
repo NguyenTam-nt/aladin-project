@@ -8,6 +8,7 @@ import DrawerOrderNavigation from './DrawerOrder';
 import DrawerKitchen from './DrawerKitchen';
 var Stomp = require('stompjs/lib/stomp.js').Stomp;
 import SockJS from 'sockjs-client';
+import LoginScreen from 'src/features/login';
 
 export const RootStack = createStackNavigator();
 export const MainStack = () => {
@@ -75,11 +76,12 @@ export const MainStack = () => {
       />
       <NavigationContainer>
         <RootStack.Navigator
-          initialRouteName="kitchen"
+          initialRouteName="login"
           screenOptions={screenOptions}>
           <RootStack.Screen name="main" component={DrawerNavigation} />
           <RootStack.Screen name="orderTab" component={DrawerOrderNavigation} />
           <RootStack.Screen name="kitchen" component={DrawerKitchen} />
+          <RootStack.Screen name="login" component={LoginScreen} />
         </RootStack.Navigator>
       </NavigationContainer>
     </>
