@@ -141,7 +141,7 @@ export const BillItemMenu = ({
         </View>
       </View>
       <View style={getValueForDevice(styles.styleViewItemFlex1, styles.styleViewItem) }>
-        <TextCustom fontSize={14} weight="400" color={defaultColors.c_222124}>
+        <TextCustom fontSize={14}  textAlign={getValueForDevice('left', 'right')} weight="400" color={defaultColors.c_222124}>
           4
         </TextCustom>
       </View>
@@ -206,7 +206,7 @@ const styles = StyleSheet.create({
   },
   styleViewItem: {
     // flex: 1,
-    width: "33.333%"
+    width: `${100/3}%`
   },
   styleViewItemFlex1: {
     flex: 1

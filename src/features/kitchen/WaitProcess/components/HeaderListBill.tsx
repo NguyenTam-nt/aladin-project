@@ -19,7 +19,7 @@ export const HeaderListBill = memo(() => {
         </TextCustom>
       </View>
       <View style={[styles.styleViewItem, getValueForDevice(undefined, styles.justifyEnd) ]}>
-        <TextCustom weight="600" fontSize={16} color={defaultColors.c_222124}>
+        <TextCustom weight="600" textAlign={getValueForDevice('left', 'right')} fontSize={16} color={defaultColors.c_222124}>
           Số lượng
         </TextCustom>
       </View>
@@ -49,6 +49,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     height: 70,
     alignItems: 'center',
+    // columnGap: 8,
   },
   styleViewItem: {
     flex: 1,
