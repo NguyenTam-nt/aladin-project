@@ -120,7 +120,7 @@ const styles = StyleSheet.create({
     borderRadius: 4,
   },
   pt_10: {
-    paddingTop: 10,
+    paddingBottom: 10,
   },
   pt_18: {
     paddingTop: 18,

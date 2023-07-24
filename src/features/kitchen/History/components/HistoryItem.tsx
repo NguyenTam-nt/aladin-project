@@ -73,7 +73,7 @@ export const HistoryItemMenu = () => {
           textAlign="center"
           weight="400"
           color={defaultColors.c_222124}>
-          10:25
+           10:25
         </TextCustom>
       </View>
       <View style={styles.styleViewItem2}>
