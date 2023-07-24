@@ -11,7 +11,7 @@ import {useWaitProcess} from './hooks/useWaitProcess';
 import {ICSort} from 'src/assets/icons/ICSort';
 import {TextCustom} from '@components';
 import {ICDown} from 'src/assets/icons/ICDown';
-import { globalStyles } from 'src/commons/globalStyles'
+import { getValueForDevice } from 'src/commons/formatMoney'
 
 export const WaitProcees = React.memo(() => {
   const {modalConfirmCancel, modalRefuse, handleShowModalAction} =
@@ -83,7 +83,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: defaultColors.c_fff,
-    padding: 32,
+    padding: getValueForDevice(32, 20),
   },
   styleTable: {
     flexDirection: 'row',
