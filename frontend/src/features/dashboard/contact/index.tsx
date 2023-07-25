@@ -154,7 +154,7 @@ function ContactAdmin() {
 
   
   const handleClickResponse = (data: IContact) => {
-    setElementModal(<ModalResponseContact data={data} loadData={() => getContactData(Number(1))}/>)
+    setElementModal(<ModalResponseContact data={data} loadData={() => getContactData(Number(0))}/>)
   }
 
   
@@ -286,14 +286,14 @@ function ContactAdmin() {
                 <div className={clsx("py-3 min-w-[122px] text-_14  hover:bg-TrueBlue_500 hover:text-white text-GreyPrimary px-4", {
                   "!bg-TrueBlue_500 !text-white": filterStatus
                 })}
-                  onClick={() => setFilterStatus(filterStatus ? undefined : true)}
+                  onClick={() => setFilterStatus(true)}
                 >
                   {t("adminContact.table.responsed")}
                 </div>
                 <div className={clsx("py-3 min-w-[122px] text-_14  hover:bg-TrueBlue_500 hover:text-white text-GreyPrimary px-4", {
                   "!bg-TrueBlue_500 !text-white": filterStatus == false
                 })}
-                  onClick={() => setFilterStatus(!filterStatus ? undefined : false)}
+                  onClick={() => setFilterStatus(false)}
                 >
                   {t("adminContact.table.not_response")}
                 </div>
