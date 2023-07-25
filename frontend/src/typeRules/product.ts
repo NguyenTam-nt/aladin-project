@@ -61,6 +61,7 @@ export interface IProduct {
   show?: boolean;
   quantity?: number;
   isStar?: boolean
+  guide?: string
 }
 
 

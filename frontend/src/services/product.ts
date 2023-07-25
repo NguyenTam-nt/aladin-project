@@ -10,6 +10,9 @@ export const productService = {
     get: (params:IParams):Promise<IResponseData<IProduct>> => {
         return HttpService.axiosClient.get(`${api}`, {params: {...params, page: Number(params.page) - 1}}) 
     },
+    getProductAdmin: (params:IParams):Promise<IResponseData<IProduct>> => {
+        return HttpService.axiosClient.get(`${apiAdmin}`, {params: {...params, page: Number(params.page) - 1}}) 
+    },
     getHome: ():Promise<IProductHome[]> => {
         return HttpService.axiosClient.get(`${api}/home`) 
     },

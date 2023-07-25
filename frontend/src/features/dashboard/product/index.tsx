@@ -4,6 +4,7 @@ import { ProductItem } from "./components/ProductItem";
 import { Pagination } from "@components/Paginnation";
 import { Loading } from "../components/Loading";
 import { useGetProduct } from "./components/useGetProduct";
+import { SIZE_DATA } from "@constants/index"
 
 export const ProductAdmin = () => {
   const {
@@ -17,7 +18,7 @@ export const ProductAdmin = () => {
     setCurrentPage,
     querySearch,
     handleSearch
-  } = useGetProduct();
+  } = useGetProduct( SIZE_DATA, "id,desc", true);
 
   return (
     <>

@@ -66,7 +66,9 @@ export const ProductHandlerPlace = memo(
               }
             )}
           >
-            <div className="line-clamp-1 text-text_A1A0A3 text-_14">
+            <div className={clsx("line-clamp-1 text-text_A1A0A3 text-_14", {
+              "!text-GreyPrimary": listChecked.length
+            })}>
               {listChecked.length
                 ? dataChecked
                     .map((item) => {
