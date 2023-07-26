@@ -1,8 +1,10 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
+import { IMenuItem } from 'src/api/products';
 
 export interface IITemCart {
   id: number
   quantity: number
+  data : IMenuItem
 }
 
 
@@ -38,7 +40,12 @@ export const cartOrderSlice = createSlice({
         }
       }
     },
+    removeCartList: state => {
+      if ( state.itemInCart.length > 0) {
+      state.itemInCart = [];
+      }
+    },
   },
 });
-export const {addItemToCart} = cartOrderSlice.actions;
+export const {addItemToCart ,removeCartList} = cartOrderSlice.actions;
 export default cartOrderSlice.reducer;

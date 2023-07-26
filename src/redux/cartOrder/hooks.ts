@@ -1,6 +1,5 @@
 import { useSelector } from 'react-redux';
 import { RootState } from '..';
-import { IITemCart } from './slice';
 
 
 

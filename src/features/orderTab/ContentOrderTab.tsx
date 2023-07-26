@@ -10,7 +10,7 @@ export interface TabBarOrder  {
 }
 
 const ContentOrderTab = () => {
-  const [isOpenTab , setIsOpenTab] = useState<boolean>(true);
+  const [isOpenTab , setIsOpenTab] = useState<boolean>(false);
   return (
     <View style={styles.container}>
       <TabBarLeftOrder isOpenTab={isOpenTab} setIsOpenTab={setIsOpenTab} />

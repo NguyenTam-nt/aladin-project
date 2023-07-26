@@ -163,7 +163,7 @@ export function DrawerItemCustom(props: Props) {
     <View
       collapsable={false}
       {...rest}
-      style={[styles.container, { backgroundColor}, style]}>
+      style={[styles.container, {backgroundColor}, style]}>
       <LinkPressable
         testID={testID}
         onPress={onPress}
@@ -176,13 +176,11 @@ export function DrawerItemCustom(props: Props) {
         route={route}
         href={href}>
         <React.Fragment>
-          <View style={styles.icon}>
-          {iconNode}
-          </View>
+          <View style={styles.icon}>{iconNode}</View>
           <View
             style={[
               styles.label,
-              {marginLeft: 8, marginVertical: 5},
+              {marginLeft: 8, marginVertical: 5, marginTop: 11},
             ]}>
             {typeof label === 'string' ? (
               <Text
@@ -194,7 +192,6 @@ export function DrawerItemCustom(props: Props) {
             ) : (
               label({color, focused})
             )}
-
           </View>
         </React.Fragment>
       </LinkPressable>

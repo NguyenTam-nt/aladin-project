@@ -4,8 +4,22 @@ import {defaultColors} from '@configs';
 import {ICLogout} from '@icons';
 import {TextCustom} from './Text';
 import {Thumb} from './Thumb/Thumb';
+import { useNavigation } from '@react-navigation/native';
+import { useDispatch } from 'react-redux';
+import { setRefreshToken, setToken, setUserInfo } from 'src/redux/reducers/AuthSlice';
+import { useUserInfo } from 'src/redux/reducers/hook';
 
 export const LogoutDrawer = () => {
+  const navigation = useNavigation();
+  const userInfo = useUserInfo();
+  const dispatch = useDispatch();
+ const logout = () => {
+   dispatch(setToken(''));
+   dispatch(setRefreshToken(''));
+   dispatch(setUserInfo(''));
+   navigation.replace('login');
+ };
+
   return (
     <View style={styles.styleAuth}>
       <View style={styles.styleGroupLogout}>
@@ -13,7 +27,7 @@ export const LogoutDrawer = () => {
           <Thumb
             style={styles.styleAvatarItem}
             source={{
-              uri: 'https://yt3.googleusercontent.com/-CFTJHU7fEWb7BYEb6Jh9gm1EpetvVGQqtof0Rbh-VQRIznYYKJxCaqv_9HeBcmJmIsp2vOO9JU=s900-c-k-c0x00ffffff-no-rj',
+              uri: userInfo.imageUrl,
             }}
           />
         </View>
@@ -24,7 +38,7 @@ export const LogoutDrawer = () => {
             lineHeight={22}
             textAlign="center"
             color={defaultColors.c_fff}>
-            Nguyễn Văn Anh
+            {userInfo.fullname}
           </TextCustom>
           <TextCustom
             fontSize={10}
@@ -32,15 +46,15 @@ export const LogoutDrawer = () => {
             lineHeight={18}
             textAlign="center"
             color={defaultColors.rgba_225_225_225_064}>
-            Tài khoản: Order
+            Tài khoản: {userInfo.phone}
           </TextCustom>
         </View>
-        <TouchableOpacity style={styles.styleBtn}>
+        <TouchableOpacity style={styles.styleBtn} onPress={logout}>
           <View style={styles.styleIcon}>
             <ICLogout />
           </View>
           <TextCustom fontSize={14} weight="600" color={defaultColors.c_fff}>
-            Đăng nhập
+            Đăng xuất
           </TextCustom>
         </TouchableOpacity>
       </View>

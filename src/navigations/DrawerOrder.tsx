@@ -1,20 +1,26 @@
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import * as React from 'react';
 import { useMemo } from 'react';
-import { ICAlcohol } from '../assets/icons/ICAlcohol';
-import { ICDrinks } from '../assets/icons/ICDrinks';
+import { StyleSheet, View } from 'react-native';
+import { ICategory, getCategories } from 'src/api/hotpot';
 import { ICHotPot } from '../assets/icons/ICHotPot';
-import { ICJunkFood } from '../assets/icons/ICJunkFood';
 import { ICSnack } from '../assets/icons/ICSnack';
-import { ICSpice } from '../assets/icons/ICSpice';
-import { ICVegetable } from '../assets/icons/ICVegetable';
+import CartItem from '../components/CartItem';
 import { HotpotOrder } from '../features/hotpot';
 import { SnackOrder } from '../features/snack';
 import CustomDrawer from './CustomDrawer';
-import { View ,StyleSheet } from 'react-native';
-import CartItem from '../components/CartItem';
-const Drawer = createDrawerNavigator();
+import { useIsFocused } from '@react-navigation/native';
+import { useDispatch } from 'react-redux';
+import { removeCartList } from 'src/redux/cartOrder/slice';
+export const idHotput = 248;
+export type RootStackParamList = {
+  [key: string]: {id: number}
+};
+const Drawer = createDrawerNavigator<RootStackParamList>();
 const DrawerOrderNavigation = () => {
+  const [categoty, setCategory] = React.useState<ICategory[]>([]);
+  const isFocused = useIsFocused();
+  const dispatch = useDispatch();
   const screenOptions = useMemo(
     () => ({
       headerShown: false,
@@ -28,15 +34,36 @@ const DrawerOrderNavigation = () => {
     [],
   );
 
+  const getCategoriesData = async () => {
+    const category = await getCategories();
+    if (category.success) {
+      setCategory(
+        category.data.filter((categoryValue : ICategory) => categoryValue.id !== idHotput),
+      );
+    }
+  };
+
+  React.useEffect(() => {
+    getCategoriesData();
+  }, []);
+
+  React.useEffect(() => {
+    if (!isFocused) {
+      // dispatch(removeCartList());
+    }
+  }, [isFocused]);
+
   return (
     <View style={{flex: 1}}>
       <Drawer.Navigator
         drawerContent={props => <CustomDrawer {...props} />}
+
         screenOptions={screenOptions}
         backBehavior="history">
         <Drawer.Screen
           name="hotpot"
           component={HotpotOrder}
+          initialParams={{id: idHotput}}
           options={{
             drawerLabel: 'Lẩu',
             drawerIcon: ({color}: {color: string}) => (
@@ -44,6 +71,23 @@ const DrawerOrderNavigation = () => {
             ),
           }}
         />
+        {categoty.map((data, index) => {
+          return (
+            <Drawer.Screen
+              name={data.id.toString()}
+              initialParams={{id: data.id}}
+              component={SnackOrder}
+              key={index}
+              options={{
+                drawerLabel: data.name,
+                drawerIcon: ({color}: {color: string}) => (
+                  <ICSnack color={color} />
+                ),
+              }}
+            />
+          );
+        })}
+        {/* <>
         <Drawer.Screen
           name="snacks"
           component={SnackOrder}
@@ -100,6 +144,7 @@ const DrawerOrderNavigation = () => {
             drawerIcon: ({color}: {color: string}) => <ICSpice color={color} />,
           }}
         />
+        </> */}
       </Drawer.Navigator>
       <View style={styles.cartItem}>
         <CartItem />

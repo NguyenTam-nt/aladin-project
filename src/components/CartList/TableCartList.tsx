@@ -7,6 +7,7 @@ import ItemCardMobile from './ItemCardMobile';
 import { useListItemInCart } from 'src/redux/cartOrder/hooks';
 import { IITemCart } from 'src/redux/cartOrder/slice';
 import { formatNumberDotSlice } from 'src/commons/formatMoney';
+import { IMenuItem } from 'src/api/products';
 
 
 export const StatusOrderItem = React.memo(({checkstatus} : {checkstatus : string}) => {
@@ -84,7 +85,6 @@ export const StatusOrderItem = React.memo(({checkstatus} : {checkstatus : string
 
 const TableCartItem = ( {checkstatus , data } : {checkstatus : string ; data : IITemCart}) => {
 
-
   return (
     <View>
       <View style={styles.itemContainer} />
@@ -96,16 +96,16 @@ const TableCartItem = ( {checkstatus , data } : {checkstatus : string ; data : I
           <View>
             <Thumb
               source={{
-                uri: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=880&q=80',
+                uri: data.data.linkMedia,
               }}
               style={styles.imageItem}
             />
           </View>
           <View style={styles.textItemCol2}>
-            <Text style={styles.textNameItem}>
-              Combo 2 Người lớn ăn thả g...
+            <Text style={styles.textNameItem}>{data.data.name}</Text>
+            <Text style={styles.textPriceItem}>
+              {formatNumberDotSlice(data.data.price)}
             </Text>
-            <Text style={styles.textPriceItem}>600.000</Text>
             <View style={styles.textAddOrderItem}>
               <ICAddOrder />
               <Text style={styles.textNotiITem}>Đặt cho tôi đơn hàng này</Text>
@@ -116,10 +116,12 @@ const TableCartItem = ( {checkstatus , data } : {checkstatus : string ; data : I
           <Text style={styles.textTable}>{data.quantity}</Text>
         </View>
         <View style={styles.col4}>
-          <Text style={styles.textTable}>{formatNumberDotSlice(data.quantity * 600000)}</Text>
+          <Text style={styles.textTable}>
+            {formatNumberDotSlice(data.quantity * data.data.price)}
+          </Text>
         </View>
         <View style={styles.col5}>
-          <StatusOrderItem  checkstatus={checkstatus}  />
+          <StatusOrderItem checkstatus={checkstatus} />
         </View>
       </View>
     </View>
@@ -128,11 +130,11 @@ const TableCartItem = ( {checkstatus , data } : {checkstatus : string ; data : I
 
 const TableCartList = () => {
   const data = useListItemInCart();
-  const renderItem = (item: ListRenderItemInfo<any>) => {
+  const renderItem = (item: ListRenderItemInfo<IITemCart>) => {
     return isTabletDevice ? (
-      <TableCartItem checkstatus={item.item} data={item.item} />
+      <TableCartItem checkstatus={item.item.data.name} data={item.item} />
     ) : (
-      <ItemCardMobile checkstatus={item.item} />
+      <ItemCardMobile checkstatus={item.item.data.name} data={item.item} />
     );
   };
 

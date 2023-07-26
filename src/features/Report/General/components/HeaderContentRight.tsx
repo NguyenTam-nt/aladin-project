@@ -1,6 +1,7 @@
 import { defaultColors } from '@configs';
 import React from 'react';
 import { StyleSheet, View ,Text } from 'react-native';
+import { TabBarOrder } from 'src/features/orderTab/ContentOrderTab';
 
 
 const HeaderContentRight = () => {
@@ -13,13 +14,13 @@ const HeaderContentRight = () => {
           <Text style={styles.textBold}>Ngày lập:</Text> 15/06/2023 - 15:00
         </Text>
         <Text style={styles.textHeaderTime}>
-          <Text style={styles.textBold}>Người lập:</Text> 15/06/2023 - 15:00
+          <Text style={styles.textBold}>Người lập:</Text> admin
         </Text>
       </View>
       <Text style={styles.textTitle}>BÁO CÁO MÓN ĂN</Text>
       <Text style={styles.textHeaderTime}>
-          <Text style={styles.textBold}>Ngày:</Text> Từ 29/06/2023 đến 29/07/2023
-        </Text>
+        <Text style={styles.textBold}>Ngày:</Text> Từ 29/06/2023 đến 29/07/2023
+      </Text>
     </View>
   );
 };
@@ -30,7 +31,7 @@ const styles = StyleSheet.create({
   container: {
     marginTop: 24,
     marginBottom: 16,
-    alignItems : 'center',
+    alignItems: 'center',
   },
   contentRight: {
     gap: 20,
@@ -41,23 +42,22 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: defaultColors.c_222124,
   },
-  textHeaderTime : {
-    fontSize : 14 ,
-    color : defaultColors.c_222124,
+  textHeaderTime: {
+    fontSize: 14,
+    color: defaultColors.c_222124,
   },
-  textBold : {
-    fontWeight : 'bold',
+  textBold: {
+    fontWeight: 'bold',
   },
-  headerContent : {
+  headerContent: {
     flexDirection: 'row',
     gap: 25,
   },
-  textTitle : {
-    fontWeight : 'bold',
-    fontSize :32,
-    color : defaultColors.c_222124,
-    marginTop : 40,
-    marginBottom : 16,
+  textTitle: {
+    fontWeight: 'bold',
+    fontSize: 32,
+    color: defaultColors.c_222124,
+    marginTop: 40,
+    marginBottom: 16,
   },
-
 });

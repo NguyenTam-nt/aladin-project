@@ -1,49 +1,56 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
-import type { RootState } from '..';
 
-export const initUserInfo: any = {
-  name: '',
+import {RootState} from '..';
+
+export interface IAuthorize {
+  name: string
+}
+
+export interface IUserInfo {
+  id: string
+  phone: string
+  fullname: string
+  imageUrl: string
+  authorities: IAuthorize[]
+}
+
+export const initUserInfo: IUserInfo = {
+  id: '',
   phone: '',
-  email: '',
-  faceImageUrl: '',
-  sub: -1,
+  fullname: '',
+  imageUrl: '',
+  authorities: [],
 };
 
-const initialState: any = {
-  skipIntroduction: false,
-  isSuggest: false,
-  language: '',
-  isShowLanguage: false,
-  credentials: '',
-  refreshToken: undefined,
-  haveSuggestAuth: false,
-  isCredentialsPin: false,
-  OTP: 'sms',
+interface AppInfoType {
+  token: string
+  refreshToken: string
+  userInfo: IUserInfo
+}
+
+const initialState: AppInfoType = {
+  token: '',
+  refreshToken: '',
   userInfo: initUserInfo,
-  isSplash: false,
-  isNotification: true,
-  userChannel: undefined,
-  paddingVideo: -1,
-  showBlurView: true,
 };
 
-export const authSlice = createSlice({
-  name: 'authSlice',
+export const appInfoSlice = createSlice({
+  name: 'appInfoReducer',
   initialState,
-  reducers: {},
+  reducers: {
+    setToken: (state, action: PayloadAction<string >) => {
+      state.token = action.payload;
+    },
+    setUserInfo: (state, action: PayloadAction<IUserInfo>) => {
+      state.userInfo = action.payload;
+    },
+    setRefreshToken: (state, action: PayloadAction<string >) => {
+      state.refreshToken = action.payload;
+    },
+  },
 });
 
-// export const {
-//   setHaveSuggestAuth,
-//   setCredentials,
-//   setUserInfo,
-//   setSplash,
-//   setSettingNotification,
-//   setUserChannel,
-//   setPaddingVideo,
-//   setRefreshToken,
-//   showBlurView,
-// } = authSlice.actions;
+export const {setToken, setUserInfo, setRefreshToken} = appInfoSlice.actions;
 
-export const selectAuth = (state: RootState) => state.authReducer;
-export default authSlice.reducer;
+export const selectAppInfo = (state: RootState) => state.appInfoReducer;
+export default appInfoSlice.reducer;
