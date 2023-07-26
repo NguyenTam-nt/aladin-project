@@ -8,15 +8,15 @@ import {
   LayoutAnimation,
   StyleProp,
   ViewStyle,
-} from 'react-native'
-import React, {memo, useCallback, useMemo, useState} from 'react'
-import {TextCustom} from '@components'
-import {defaultColors} from '@configs'
-import {ICDown} from 'src/assets/icons/ICDown'
-import {RadioButtonSelect} from 'src/components/Checkbox/RadioButton'
-import {globalStyles} from 'src/commons/globalStyles'
-import {ICCalendar} from 'src/assets/icons/ICLogo copy'
-import {Calendar} from './Calendar'
+} from 'react-native';
+import React, {memo, useCallback, useMemo, useState} from 'react';
+import {TextCustom} from '@components';
+import {defaultColors} from '@configs';
+import {ICDown} from 'src/assets/icons/ICDown';
+import {RadioButtonSelect} from 'src/components/Checkbox/RadioButton';
+import {globalStyles} from 'src/commons/globalStyles';
+import {ICCalendar} from 'src/assets/icons/ICLogo copy';
+import {Calendar} from './Calendar';
 
 const filterDate = [
   {
@@ -39,7 +39,7 @@ const filterDate = [
     slug: 'nam-nay',
     name: 'Năm này',
   },
-]
+];
 
 type Props = {
   currenFilter: string
@@ -47,17 +47,17 @@ type Props = {
 }
 
 export const SideLeft = memo(({currenFilter, onChange}: Props) => {
-  const [isOpen, setIsOpen] = React.useState(true)
+  const [isOpen, setIsOpen] = React.useState(true);
   const toggleOpen = () => {
     // onPress?.()
-    setIsOpen(value => !value)
-  }
+    setIsOpen(value => !value);
+  };
 
   const styleGroupFilter = useMemo(():StyleProp<ViewStyle> => {
     return {
-        display: isOpen ? 'flex' : 'none'
-    }
-  }, [isOpen])
+        display: isOpen ? 'flex' : 'none',
+    };
+  }, [isOpen]);
 
   return (
     <View style={styles.container}>
@@ -77,14 +77,14 @@ export const SideLeft = memo(({currenFilter, onChange}: Props) => {
                 isActive={item.slug === currenFilter}
                 key={index}
               />
-            )
+            );
           })}
           <FilterCalendar currenFilter={currenFilter} onChange={onChange} />
         </View>
       </View>
     </View>
-  )
-})
+  );
+});
 
 const FilterCalendar = memo(
   ({
@@ -94,18 +94,18 @@ const FilterCalendar = memo(
     currenFilter: string
     onChange: (category: string) => void
   }) => {
-    const [isShow, setShow] = useState(false)
+    const [isShow, setShow] = useState(false);
     const handleChange = useCallback(() => {
-      onChange('distance_date')
-    }, [onChange])
+      onChange('distance_date');
+    }, [onChange]);
 
     const handleShow = () => {
-      setShow(!isShow)
-    }
+      setShow(!isShow);
+    };
 
     const styleCalendar = useMemo(() => {
-      return {...styles.styleBoxCalendar, display: isShow ? 'flex' : 'none'}
-    }, [isShow])
+      return {...styles.styleBoxCalendar, display: isShow ? 'flex' : 'none'};
+    }, [isShow]);
 
     return (
       <View style={styles.positionRelative}>
@@ -130,9 +130,9 @@ const FilterCalendar = memo(
           <Calendar />
         </View>
       </View>
-    )
+    );
   },
-)
+);
 
 type PropsSideLeftFilterDate = {
   data: {
@@ -146,8 +146,8 @@ type PropsSideLeftFilterDate = {
 export const SideLeftFilterDate = memo(
   ({data, onChange, isActive}: PropsSideLeftFilterDate) => {
     const handleChange = () => {
-      onChange(data.slug)
-    }
+      onChange(data.slug);
+    };
 
     return (
       <Pressable onPress={handleChange} style={styles.sideLeft}>
@@ -156,9 +156,9 @@ export const SideLeftFilterDate = memo(
           {data.name}
         </TextCustom>
       </Pressable>
-    )
+    );
   },
-)
+);
 
 const styles = StyleSheet.create({
   container: {
@@ -201,9 +201,9 @@ const styles = StyleSheet.create({
   },
   positionRelative: {
     position: 'relative',
-    zIndex: 9999
+    zIndex: 9999,
   },
   h_0: {
     height: 0,
   },
-})
+});

@@ -5,21 +5,23 @@ import {defaultColors} from '@configs';
 import {ICAddOrder} from '../../assets/icons/ICAddOrder';
 import {StatusOrderItem} from './TableCartList';
 import { Thumb } from '../Thumb/Thumb';
+import { IITemCart } from 'src/redux/cartOrder/slice';
+import { formatNumberDotSlice } from 'src/commons/formatMoney';
 
-const ItemCardMobile = ({checkstatus}: {checkstatus: string}) => {
+const ItemCardMobile = ({checkstatus , data } : {checkstatus : string ; data : IITemCart}) => {
   return (
     <View>
       <Text style={styles.textHeader}>Sản phẩm</Text>
       <View style={styles.content}>
         <Thumb
           source={{
-            uri: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxleHBsb3JlLWZlZWR8Mnx8fGVufDB8fHx8fA%3D%3D&w=1000&q=80',
+            uri: data.data.linkMedia,
           }}
           style={styles.image}
         />
         <View style={styles.rightContent}>
-          <Text style={styles.textTitle} numberOfLines={1}>Combo 2 Người lớn ăn thả gaaaaa sdahsdhs ahhshshshsh</Text>
-          <Text style={styles.textPrice}>600.000</Text>
+          <Text style={styles.textTitle} numberOfLines={1}>{data.data.name}</Text>
+          <Text style={styles.textPrice}>{formatNumberDotSlice(data.data.price)}</Text>
           <View style={styles.viewNotiContent}>
             <ICAddOrder />
             <Text style={styles.textNoti}>Đặt cho tôi đơn hàng này</Text>
@@ -29,11 +31,11 @@ const ItemCardMobile = ({checkstatus}: {checkstatus: string}) => {
       <View style={styles.viewInfo}>
         <View>
           <Text style={styles.textTitleInfo}>Số lượng</Text>
-          <Text style={styles.textTitle}>1</Text>
+          <Text style={styles.textTitle}>{data.quantity}</Text>
         </View>
         <View style={styles.rightInfo}>
           <Text style={styles.textTitleInfo}>Thành tiền</Text>
-          <Text style={styles.textPrice}>600.000</Text>
+          <Text style={styles.textPrice}>{formatNumberDotSlice(data.data.price * data.quantity)}</Text>
         </View>
       </View>
       <Text style={styles.textStatus}>Trạng thái/Chức năng</Text>

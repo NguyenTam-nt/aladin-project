@@ -25,7 +25,6 @@ const CartList = React.memo(
     );
     const dispatch = useDispatch();
     useEffect(() => {
-
       dispatch(setShowActionCart(actionChoose !== ActionCartListChoose.empty));
     }, [actionChoose]);
 

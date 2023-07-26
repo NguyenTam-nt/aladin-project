@@ -22,3 +22,19 @@ export const useIsShowActionCart = () => {
   );
   return isShowActionCart;
 };
+
+export const useFloorActive = () => {
+  const floorDrawerActive = useSelector(
+    (appState: RootState) => appState.infoDrawerSlice.floorDrawerActive,
+  );
+  return floorDrawerActive;
+};
+
+export const useAreaId = () => {
+  const areaId = useSelector(
+    (appState: RootState) => appState.infoDrawerSlice.areaId,
+  );
+  return areaId;
+};
+
+

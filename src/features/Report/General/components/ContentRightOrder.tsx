@@ -3,12 +3,18 @@ import React from 'react';
 import HeaderContentRight from './HeaderContentRight';
 import TableRightContent from './TableRightContent';
 import { defaultColors } from '@configs';
+import { TabBarOrder } from 'src/features/orderTab/ContentOrderTab';
+import ButtonMenuTabBar from 'src/components/DropDownView/ButtonMenuTabBar';
 
-const ContentRightOrder = () => {
+const ContentRightOrder = (props :TabBarOrder ) => {
+  const { setIsOpenTab} = props;
   return (
-    <View style={styles.container}>
-      <HeaderContentRight />
-      <TableRightContent />
+    <View  style={{ flex : 1}}>
+      <ButtonMenuTabBar onPress={setIsOpenTab} />
+      <View  style={styles.container}>
+        <HeaderContentRight />
+        <TableRightContent />
+      </View>
     </View>
   );
 };
@@ -19,7 +25,7 @@ const styles = StyleSheet.create({
   container: {
     marginHorizontal: 32,
     marginTop: 24,
-    flex: 1,
+   flex :1 ,
     borderRadius : 4,
     borderWidth :1,
     borderColor : defaultColors.bg_EFEFEF,

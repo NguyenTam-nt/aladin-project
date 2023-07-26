@@ -1,0 +1,75 @@
+import { APIs, IData } from './config';
+import { handleError } from './handleError';
+import request from './request';
+
+export interface IFLoor {
+  id: number
+  name: string
+  description: string
+  ndinnerTable: number
+  nseat: number
+}
+
+interface Infrastructure {
+  id: number
+  name: string
+  address: string
+}
+
+export interface AreaInfo {
+  infrastructure: Infrastructure
+  area: IFLoor[]
+}
+
+
+export const getFloor = async (): Promise<IData<AreaInfo[]>> => {
+  try {
+    const result = await request().get(`${APIs.FLOOR}`);
+    const {data} = await result;
+    return {
+      success: true,
+      data: data,
+    };
+  } catch (e) {
+    return handleError(e);
+  }
+};
+
+export interface ITable {
+  id: number
+  name: string
+  description: string | null
+  state: string
+  nseat: number
+}
+
+// Định nghĩa kiểu cho đối tượng "area"
+export interface IFloorInfo {
+  nameArea: string
+  tables: ITable[]
+}
+
+
+
+export const getTable = async (areaId : number): Promise<IData<IFloorInfo[]>> => {
+  try {
+
+
+
+    const result = await request().get(`${APIs.TABLE}/${areaId}`);
+
+
+
+    const {data} = await result;
+    return {
+      success: true,
+      data: data,
+    };
+  } catch (e) {
+    return handleError(e);
+  }
+};
+
+
+
+

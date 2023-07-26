@@ -4,6 +4,7 @@ import { useNavigation } from '@react-navigation/native';
 import React from 'react';
 import { StyleProp, StyleSheet, Text, TouchableOpacity, View, ViewStyle } from 'react-native';
 import DeviceInfo from 'react-native-device-info';
+import { IFloorInfo, ITable } from 'src/api/table';
 
 
 
@@ -15,9 +16,12 @@ const TableItem = () => {
     {width: isTablet ? 180 : '45%', margin: isTablet ? 16 : 8},
   ];
 
-
   return (
-    <TouchableOpacity style={stylesTablet} onPress={() => { navigation.navigate('orderTab' , { screen : 'hotpot'});}}>
+    <TouchableOpacity
+      style={stylesTablet}
+      onPress={() => {
+        navigation.navigate('orderTab', {screen: 'hotpot'});
+      }}>
       <View style={styles.contentTableItem}>
         <ICArrowRight />
         <Text style={styles.textTable}>Bàn 1</Text>
@@ -28,15 +32,16 @@ const TableItem = () => {
 };
 
 
-const TableOrder = (item: any) => {
+const TableOrder = ({item}: { item  : IFloorInfo }) => {
+
   return (
     <View>
       <View style={styles.contentTextFloor}>
         <ICTagFloor />
-        <Text style={styles.textFloor}> Phòng/bàn - Tầng {item.item.index}</Text>
+        <Text style={styles.textFloor}> Phòng/bàn - {item.nameArea}</Text>
       </View>
       <View style={styles.contentTextFloor}>
-        {item.item.table.map((item: any , index : number) => {
+        {item?.tables?.map((item: ITable, index: number) => {
           return <TableItem key={index} />;
         })}
       </View>

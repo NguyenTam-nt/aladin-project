@@ -1,12 +1,13 @@
-import { categoryReportNames, defaultColors } from '@configs';
+import { categoryReportNames, defaultColors, isTabletDevice } from '@configs';
 import { useNavigation } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import React, { useCallback, useMemo } from 'react';
 import { StyleSheet, View } from 'react-native';
-import { Header } from '../kitchen/components/Header';
+import {  HeaderTab } from '../kitchen/components/Header';
 import { ReportDetail } from './Detail';
 import General from './General/index';
 import { HandleTabReport } from './components/HandleTabReport';
+import { Header } from '@components';
 
 const ReportStack = createStackNavigator();
 
@@ -44,7 +45,9 @@ export const Report = () => {
 
   return (
     <View style={styles.container}>
-      <Header
+      {!isTabletDevice &&     <Header />}
+
+      <HeaderTab
         renderLeft={
           <HandleTabReport
             currentCategory={currentRoute}

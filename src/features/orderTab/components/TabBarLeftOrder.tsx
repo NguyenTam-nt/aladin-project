@@ -1,13 +1,19 @@
-import React, {useCallback, useRef, useState} from 'react';
-import {StyleSheet, View, Text, TouchableOpacity} from 'react-native';
+import React, {useCallback, useState} from 'react';
+import {
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 
 import {defaultColors, isTabletDevice} from '@configs';
 import CheckBox from 'src/components/Checkbox/CheckBox';
+import ButtonMenuTabBar from 'src/components/DropDownView/ButtonMenuTabBar';
 import DropDownView from 'src/components/DropDownView/DropDownView';
 import MenuTabMobile from 'src/components/DropDownView/MenuTabMobile';
-import { ICTabBarMobile } from 'src/assets/icons/ICTabBarMobile';
-import ButtonMenuTabBar from 'src/components/DropDownView/ButtonMenuTabBar';
-import { TabBarOrder } from '../ContentOrderTab';
+import {TabBarOrder} from '../ContentOrderTab';
+import {ICategory, IChildCategory, getCategories} from 'src/api/hotpot';
 
 const dataCheckbox = [
   {
@@ -19,70 +25,78 @@ const dataCheckbox = [
     value: 2,
   },
 ];
-const dataCheckBox2 = [
-  {
-    label: 'Lẩu đơn',
-    value: 1,
-  },
-  {
-    label: 'Lẩu 2 ngăn',
-    value: 2,
-  },
-  {
-    label: 'Lẩu 4 ngăn',
-    value: 3,
-  },
-];
-const dataCheckBox3 = [];
 
+interface IStateFilter {
+  [key: string]: number | undefined
+}
 
+const TabBarLeftOrder = React.memo((props: TabBarOrder) => {
+  const {isOpenTab, setIsOpenTab} = props;
+  const [typeLocation, setTypeLocaion] = useState<number[]>([]);
+  const [stateFilter, setStateFilter] = useState<IStateFilter>({});
 
-const TabBarLeftOrder = React.memo((props : TabBarOrder ) => {
-    const {isOpenTab, setIsOpenTab} = props;
-    const [typeLocation, setTypeLocaion] = useState<number[]>([]);
-    const [typeHotPot, setTypeHotPot] = useState<number[]>([]);
-
-    const onSetTypeLocation = useCallback(
-      (value: number) => {
-        const index = typeLocation.findIndex(type => {
-          return type === value;
-        });
-
-        const checkType = [...typeLocation];
-        if (index >= 0) {
-          delete checkType[index];
-          setTypeLocaion(checkType);
+  const [categoty, setCategory] = React.useState<ICategory[]>([]);
+  const onSetStateFilter = (id: number, idParent?: number) => {
+    const newStateFilter = stateFilter;
+    if (idParent) {
+      if (stateFilter[idParent]) {
+        if (stateFilter[idParent] === id) {
+          delete stateFilter[idParent];
+          setStateFilter({...newStateFilter});
         } else {
-          checkType.push(value);
-          setTypeLocaion(checkType);
+          newStateFilter[idParent] = id;
+          setStateFilter({...newStateFilter});
         }
-      },
-      [typeLocation],
-    );
-    const onSetTypeHotPot = useCallback(
-      (value: number) => {
-        const index = typeHotPot.findIndex(type => {
-          return type === value;
-        });
+      } else {
+        newStateFilter[idParent] = id;
+        setStateFilter({...newStateFilter});
+      }
+    } else {
+      if (Object.keys(newStateFilter).find(key => key === id.toString())) {
+        delete newStateFilter[id];
+      } else {
+        newStateFilter[id] = undefined;
+      }
 
-        const checkType = [...typeHotPot];
-        if (index >= 0) {
-          delete checkType[index];
-          setTypeHotPot(checkType);
-        } else {
-          checkType.push(value);
-          setTypeHotPot(checkType);
-        }
-      },
-      [typeHotPot],
-    );
+      setStateFilter({...newStateFilter});
+    }
+  };
+  const getCategoriesData = async () => {
+    const category = await getCategories();
+    if (category.success) {
+      setCategory(category.data);
+    }
+  };
 
-    return (
-      <MenuTabMobile
-        isOpenTab={isOpenTab}
-        setIsOpenTab={setIsOpenTab}
-        content={
-          <View style={styles.container}>
+  React.useEffect(() => {
+    getCategoriesData();
+  }, []);
+
+  const onSetTypeLocation = useCallback(
+    (value: number) => {
+      const index = typeLocation.findIndex(type => {
+        return type === value;
+      });
+
+      const checkType = [...typeLocation];
+      if (index >= 0) {
+        delete checkType[index];
+        setTypeLocaion(checkType);
+      } else {
+        checkType.push(value);
+        setTypeLocaion(checkType);
+      }
+    },
+    [typeLocation],
+  );
+
+  return (
+    <MenuTabMobile
+      isOpenTab={isOpenTab}
+      setIsOpenTab={setIsOpenTab}
+      content={
+        <View style={styles.container}>
+          <ScrollView showsVerticalScrollIndicator={false}>
             <View style={styles.content}>
               {!isTabletDevice && (
                 <View style={styles.buttonView}>
@@ -115,96 +129,84 @@ const TabBarLeftOrder = React.memo((props : TabBarOrder ) => {
                 }
                 containerStyle={styles.containerStyleDropdown}
                 textHeader="Loại thực đơn"
+                onPressHeaderText={() => {
+                  setTypeLocaion([]);
+                }}
                 textStyle={styles.textStyle}
                 headerButtonStyle={styles.headerButtonStyleDropDown}
                 isOpen={true}
               />
               <View style={styles.textHeader2}>
-                <Text style={styles.textStyle}>Danh mục</Text>
+                <TouchableOpacity onPress={() => setStateFilter({})}>
+                  <Text style={styles.textStyle}>Danh mục</Text>
+                </TouchableOpacity>
               </View>
-              <DropDownView
-                itemView={
-                  <View style={styles.itemViewDropDown}>
-                    {dataCheckBox2.map((e, index) => {
-                      const isActive = typeHotPot.find(type => {
-                        return type === e.value;
-                      });
-                      return (
-                        <TouchableOpacity
-                          style={styles.buttonCheckBoxDropDown}
-                          activeOpacity={0.7}
-                          onPress={() => {
-                            onSetTypeHotPot(e.value);
-                          }}
-                          key={index}>
-                          <Text
-                            style={[
-                              styles.labelTextDropDown2,
-                              isActive
-                                ? {color: defaultColors._074A20}
-                                : undefined,
-                            ]}>
-                            {e.label}
+              {categoty.map((item, index) => {
+                const activeParent = Object.keys(stateFilter).find(
+                  itemCheck => itemCheck === item.id.toString(),
+                );
+                return (
+                  <DropDownView
+                    key={index}
+                    onPressHeaderText={() => {
+                      onSetStateFilter(item.id);
+                    }}
+                    itemView={
+                      <View style={styles.itemViewDropDown}>
+                        {item.listCategoryChild.length > 0 ? (
+                          item.listCategoryChild.map(
+                            (e: IChildCategory, index: number) => {
+                              const isActive = stateFilter[e.idParent] === e.id;
+                              return (
+                                <TouchableOpacity
+                                  style={styles.buttonCheckBoxDropDown}
+                                  activeOpacity={0.7}
+                                  onPress={() => {
+                                    onSetStateFilter(e.id, e.idParent);
+                                  }}
+                                  key={index}>
+                                  <Text
+                                    style={[
+                                      styles.labelTextDropDown2,
+                                      isActive
+                                        ? {color: defaultColors._074A20}
+                                        : undefined,
+                                    ]}>
+                                    {e.name}
+                                  </Text>
+                                </TouchableOpacity>
+                              );
+                            },
+                          )
+                        ) : (
+                          <Text style={styles.emptyText}>
+                            Món không có danh mục con
                           </Text>
-                        </TouchableOpacity>
-                      );
-                    })}
-                  </View>
-                }
-                containerStyle={styles.containerStyleDropdown}
-                textHeader="Lẩu"
-                textStyle={styles.textStyleDropDown2}
-                headerButtonStyle={styles.headerButtonStyleDropDown}
-                isOpen={true}
-              />
-              <DropDownView
-                itemView={
-                  <View style={styles.itemViewDropDown}>
-                    {dataCheckBox3.length > 0 ? (
-                      dataCheckBox2.map((e, index) => {
-                        const isActive = typeHotPot.find(type => {
-                          return type === e.value;
-                        });
-                        return (
-                          <TouchableOpacity
-                            style={styles.buttonCheckBoxDropDown}
-                            activeOpacity={0.7}
-                            onPress={() => {
-                              onSetTypeHotPot(e.value);
-                            }}
-                            key={index}>
-                            <Text
-                              style={[
-                                styles.labelTextDropDown2,
-                                isActive
-                                  ? {color: defaultColors._074A20}
-                                  : undefined,
-                              ]}>
-                              {e.label}
-                            </Text>
-                          </TouchableOpacity>
-                        );
-                      })
-                    ) : (
-                      <Text style={styles.emptyText}>
-                        Món không có danh mục con
-                      </Text>
-                    )}
-                  </View>
-                }
-                containerStyle={styles.containerStyleDropdown}
-                textHeader="Món khác"
-                textStyle={styles.textStyleDropDown2}
-                headerButtonStyle={styles.headerButtonStyleDropDown}
-                isOpen={true}
-              />
+                        )}
+                      </View>
+                    }
+                    containerStyle={styles.containerStyleDropdown}
+                    textHeader={item.name}
+                    textStyle={[
+                      styles.textStyleDropDown2,
+                      {
+                        color: activeParent
+                          ? defaultColors._red
+                          : defaultColors.c_222124,
+                      },
+                    ]}
+                    headerButtonStyle={styles.headerButtonStyleDropDown}
+                    isOpen={false}
+                  />
+                );
+              })}
             </View>
-          </View>
-        }
-      />
-    );
-  },
-);
+          </ScrollView>
+        </View>
+      }
+    />
+  );
+});
 
 const styles = StyleSheet.create({
   container: {
@@ -263,12 +265,12 @@ const styles = StyleSheet.create({
   },
   modal: {
     backgroundColor: 'white',
-    margin: 0, // This is the important style you need to set
+    margin: 0,
     alignItems: undefined,
     justifyContent: undefined,
   },
   buttonView: {
-    marginTop : 24,
+    marginTop: 24,
   },
 });
 

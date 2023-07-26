@@ -11,14 +11,14 @@ import {
   REGISTER,
 } from 'redux-persist';
 
-import {reducer} from './reducers'
+import {reducer} from './reducers';
 
 const persistConfig = {
   key: 'root',
   storage: AsyncStorage,
   keyPrefix: '',
-  whitelist: [],
-  blacklist: [],
+  whitelist: ['appInfoReducer'],
+  blacklist: ['infoDrawerSlice', 'cartOrderSlice'],
 };
 
 const persistedReducer = persistReducer(persistConfig, reducer);
@@ -32,6 +32,7 @@ const store = configureStore({
       },
     }),
 });
+
 
 export default store;
 export const persistor = persistStore(store);

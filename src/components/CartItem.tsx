@@ -24,7 +24,7 @@ import {
 } from '../redux/infoDrawer/hooks';
 import CartList from './CartList/CartList';
 import ListOfFood from './ListOfFood/ListOfFood';
-import { formatNumberDotSlice, getValueForDevice } from '../commons/formatMoney';
+import { formatNumberDotSlice, formatNumberDotWithVND, getValueForDevice } from '../commons/formatMoney';
 import { useListItemInCart } from 'src/redux/cartOrder/hooks';
 
 
@@ -40,7 +40,7 @@ const CartItem = React.memo(() => {
   const cost = useMemo(() => {
     let newCost = 0;
     dataItem.map(item => {
-      newCost += item?.quantity * 600000;
+      newCost += item?.quantity * item.data.price;
     });
     return newCost;
   }, [dataItem]);
@@ -154,7 +154,7 @@ const CartItem = React.memo(() => {
         duration: 300,
       });
     }
-  }, [isOpenCart]);
+  }, [isOpenList]);
 
   const hiddenViewList = useCallback(() => {
     setIsOpenCart(false);
@@ -204,7 +204,7 @@ const CartItem = React.memo(() => {
               <View>
                 <Text style={styles.textTitleCart}>Hoá đơn tạm tính</Text>
                 <Text style={styles.textTotalCart}>
-                  {formatNumberDotSlice(cost)} VNĐ
+                  {formatNumberDotWithVND(cost)}
                 </Text>
               </View>
               <TouchableOpacity

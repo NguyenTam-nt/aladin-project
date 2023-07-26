@@ -1,8 +1,11 @@
-import React, { useCallback, useState } from 'react';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { defaultColors } from '@configs';
-import { RadioButtonSelect } from 'src/components/Checkbox/RadioButton';
+import React, {useCallback, useState} from 'react';
+import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {defaultColors, isTabletDevice} from '@configs';
+import {RadioButtonSelect} from 'src/components/Checkbox/RadioButton';
 import DropDownView from 'src/components/DropDownView/DropDownView';
+import {TabBarOrder} from 'src/features/orderTab/ContentOrderTab';
+import MenuTabMobile from 'src/components/DropDownView/MenuTabMobile';
+import ButtonMenuTabBar from 'src/components/DropDownView/ButtonMenuTabBar';
 
 const dataCheckbox = [
   {
@@ -23,10 +26,9 @@ const dataCheckbox = [
   },
 ];
 
-
-const TabBarLeftOrder = () => {
+const TabBarLeftOrder = (props: TabBarOrder) => {
   const [typeLocation, setTypeLocaion] = useState<number>(0);
-
+  const {isOpenTab, setIsOpenTab} = props;
   const onSetTypeLocation = useCallback(
     (value: number) => {
       if (value !== typeLocation) {
@@ -37,40 +39,51 @@ const TabBarLeftOrder = () => {
   );
 
   return (
-    <View style={styles.container}>
-      <View style={styles.content}>
-        <DropDownView
-          itemView={
-            <View style={styles.itemViewDropDown}>
-              {dataCheckbox.map((e, index) => {
-                const isActive = typeLocation === e.value;
-                return (
-                  <TouchableOpacity
-                    style={styles.buttonCheckBoxDropDown}
-                    activeOpacity={0.7}
-                    onPress={() => {
-                      onSetTypeLocation(e.value);
-                    }}
-                    key={index}>
-                    <RadioButtonSelect
-                      active={isActive}
-                      color={defaultColors.c_222124}
-                    />
-                    <Text style={styles.labelTextDropDown}>{e.label}</Text>
-                  </TouchableOpacity>
-                );
-              })}
-            </View>
-          }
-          containerStyle={styles.containerStyleDropdown}
-          textHeader="Thời gian"
-          textStyle={styles.textStyle}
-          headerButtonStyle={styles.headerButtonStyleDropDown}
-          isOpen={true}
-        />
-        <View style={{height: 30, width: '100%'}} />
-      </View>
-    </View>
+    <MenuTabMobile
+      isOpenTab={isOpenTab}
+      setIsOpenTab={setIsOpenTab}
+      content={
+        <View style={styles.container}>
+          <View style={styles.content}>
+            {!isTabletDevice && (
+              <View style={styles.buttonView}>
+                <ButtonMenuTabBar onPress={setIsOpenTab} />
+              </View>
+            )}
+            <DropDownView
+              itemView={
+                <View style={styles.itemViewDropDown}>
+                  {dataCheckbox.map((e, index) => {
+                    const isActive = typeLocation === e.value;
+                    return (
+                      <TouchableOpacity
+                        style={styles.buttonCheckBoxDropDown}
+                        activeOpacity={0.7}
+                        onPress={() => {
+                          onSetTypeLocation(e.value);
+                        }}
+                        key={index}>
+                        <RadioButtonSelect
+                          active={isActive}
+                          color={defaultColors.c_222124}
+                        />
+                        <Text style={styles.labelTextDropDown}>{e.label}</Text>
+                      </TouchableOpacity>
+                    );
+                  })}
+                </View>
+              }
+              containerStyle={styles.containerStyleDropdown}
+              textHeader="Thời gian"
+              textStyle={styles.textStyle}
+              headerButtonStyle={styles.headerButtonStyleDropDown}
+              isOpen={true}
+            />
+            <View style={{height: 30, width: '100%'}} />
+          </View>
+        </View>
+      }
+    />
   );
 };
 
@@ -116,18 +129,21 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: defaultColors.c_222124,
   },
-  textHeader2 : {
+  textHeader2: {
     width: '78%',
     borderBottomWidth: 1,
     borderColor: defaultColors.bg_EFEFEF,
     marginTop: 33,
     paddingBottom: 16,
   },
-  emptyText : {
-   fontSize : 14 ,
-   marginTop : 16,
-   fontWeight : 'bold',
-   color : defaultColors.c_222124,
+  emptyText: {
+    fontSize: 14,
+    marginTop: 16,
+    fontWeight: 'bold',
+    color: defaultColors.c_222124,
+  },
+  buttonView: {
+    marginTop: 24,
   },
 });
 
