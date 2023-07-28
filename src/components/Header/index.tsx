@@ -45,7 +45,7 @@ export const Header = ({
           <TouchableOpacity
             onPress={() => {
               //@ts-ignore
-              navigation.navigate('main');
+              navigation.navigate('mainDrawer');
             }}
             style={styles.buttonBack}>
             <View style={styles.icBack}>

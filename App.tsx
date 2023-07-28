@@ -12,6 +12,8 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { PersistGate } from 'redux-persist/integration/react';
 import { MainStack } from './src/navigations/MainStack';
 import { persistor } from './src/redux';
+import Toast from 'react-native-toast-message';
+import ToastMessage from 'src/components/Toast';
 
 function App() {
    useLayoutEffect(() => {
@@ -21,11 +23,15 @@ function App() {
       Orientation.lockToPortrait();
     }
   }, []);
+  const toastConfig = {
+    tomatoToast: ({ props }: any) => <ToastMessage status={props.status} title={props.uuid} />,
+  };
 
   return (
     <PersistGate persistor={persistor}>
       <SafeAreaProvider>
         <MainStack />
+        <Toast config={toastConfig} position="bottom" />
       </SafeAreaProvider>
     </PersistGate>
   );

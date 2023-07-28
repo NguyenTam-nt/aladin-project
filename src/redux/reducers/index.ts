@@ -1,10 +1,10 @@
 import {combineReducers} from '@reduxjs/toolkit';
-import authReducer from './AuthSlice';
+import appInfoReducer from './AuthSlice';
 import infoDrawerSlice from '../infoDrawer/slice';
 import cartOrderSlice  from '../cartOrder/slice';
 
 export const reducer = combineReducers({
-  authReducer,
+  appInfoReducer,
   infoDrawerSlice,
   cartOrderSlice,
 });

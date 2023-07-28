@@ -1,4 +1,4 @@
-import {defaultColors} from '@configs';
+import {defaultColors, isTabletDevice} from '@configs';
 import React, {useCallback} from 'react';
 import {
   FlatList,
@@ -32,7 +32,7 @@ const ItemReport = ({index}: {index: number}) => {
             styles.textItemContent,
             index === 0 ? {color: defaultColors.c_fff} : undefined,
           ]}>
-          Số lượng bán:{' '}
+          {isTabletDevice && 'Số lượng bán: '}
           <Text
             style={[
               styles.textBold,
@@ -54,7 +54,7 @@ const ItemReport = ({index}: {index: number}) => {
               styles.textItemContent,
               index === 0 ? {color: defaultColors.c_fff} : undefined,
             ]}>
-            Tăng{' '}
+            {isTabletDevice && 'Tăng: '}
             <Text
               style={[
                 styles.textBold,
@@ -64,8 +64,8 @@ const ItemReport = ({index}: {index: number}) => {
                 },
               ]}>
               20%
-            </Text>{' '}
-            số lượng bán so với hôm qua
+            </Text>
+            {isTabletDevice && ' số lượng bán so với hôm qua'}
           </Text>
         </View>
       </View>
@@ -75,7 +75,7 @@ const ItemReport = ({index}: {index: number}) => {
             styles.textItemContent,
             index === 0 ? {color: defaultColors.c_fff} : undefined,
           ]}>
-          Doanh Thu:{' '}
+          {isTabletDevice && 'Doanh Thu:'}
           <Text
             style={[
               styles.textBold,
@@ -97,7 +97,7 @@ const ItemReport = ({index}: {index: number}) => {
               styles.textItemContent,
               index === 0 ? {color: defaultColors.c_fff} : undefined,
             ]}>
-            Giảm{' '}
+            {isTabletDevice && 'Giảm '}
             <Text
               style={[
                 styles.textBold,
@@ -107,8 +107,8 @@ const ItemReport = ({index}: {index: number}) => {
                 },
               ]}>
               5%
-            </Text>{' '}
-            doanh thu so với hôm qua
+            </Text>
+            {isTabletDevice && '  doanh thu so với hôm qua'}
           </Text>
         </View>
       </View>

@@ -6,6 +6,7 @@ import {useDispatch} from 'react-redux';
 import {ICAddQuanity} from '../assets/icons/ICAddQuanity';
 import {ICSubtractionQuanity} from '../assets/icons/ICSubtractionQuanity';
 import {addItemToCart} from 'src/redux/cartOrder/slice';
+import { IMenuItem } from 'src/api/products';
 
 const QuantityUpdate = ({
   value,
@@ -14,7 +15,7 @@ const QuantityUpdate = ({
   max = 999,
 }: {
   value?: number
-  data?: number
+  data?: IMenuItem
   updateList?: boolean
   max?: number
 }) => {
@@ -27,7 +28,7 @@ const QuantityUpdate = ({
     (value: number) => {
       textInputRef.current?.setNativeProps({text: value.toString()});
       if (data) {
-        dispatch(addItemToCart({id: data, quantity: value}));
+        dispatch(addItemToCart({id: data.id, quantity: value, data: data}));
       }
       if (value === 0) {
         viewRef.current?.setNativeProps({

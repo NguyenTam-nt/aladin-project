@@ -1,14 +1,14 @@
-import {defaultColors, isTabletDevice} from '@configs';
+import { defaultColors, isTabletDevice } from '@configs';
 import React from 'react';
 import {
   FlatList,
   ListRenderItemInfo,
+  ScrollView,
   StyleSheet,
   Text,
   View,
 } from 'react-native';
-import {ICAddOrder} from 'src/assets/icons/ICAddOrder';
-import ItemCardMobile from 'src/components/CartList/ItemCardMobile';
+import { ICAddOrder } from 'src/assets/icons/ICAddOrder';
 import DropDownView from 'src/components/DropDownView/DropDownView';
 
 const TableCartItem = () => {
@@ -104,20 +104,19 @@ const TableCompound = React.memo(() => {
     'success',
   ];
   const renderItem = (item: ListRenderItemInfo<any>) => {
-    return isTabletDevice ? (
-      <ItemDayList />
-    ) : (
-      <ItemCardMobile checkstatus={item.item} />
-    );
+    return <ItemDayList />;
+
   };
 
   return (
     <View style={styles.container}>
-      <FlatList
-        data={data}
-        showsVerticalScrollIndicator={false}
-        ListHeaderComponent={
-          isTabletDevice ? (
+      <ScrollView
+        horizontal
+        contentContainerStyle={isTabletDevice ? {flex: 1} : {minWidth: 934}}>
+        <FlatList
+          data={data}
+          showsVerticalScrollIndicator={false}
+          ListHeaderComponent={
             <View style={styles.content}>
               <View style={styles.col1}>
                 <Text style={styles.textHeaderTable}>Thời gian</Text>
@@ -132,12 +131,10 @@ const TableCompound = React.memo(() => {
                 <Text style={styles.textHeaderTable}>Trạng thái/Chức năng</Text>
               </View>
             </View>
-          ) : (
-            <></>
-          )
-        }
-        renderItem={renderItem}
-      />
+          }
+          renderItem={renderItem}
+        />
+      </ScrollView>
     </View>
   );
 });

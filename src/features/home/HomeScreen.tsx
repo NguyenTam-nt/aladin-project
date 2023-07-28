@@ -1,22 +1,56 @@
 import { defaultColors } from '@configs';
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { FlatList, ListRenderItemInfo, StyleSheet, View } from 'react-native';
 import DeviceInfo from 'react-native-device-info';
+import { IFloorInfo, getTable } from 'src/api/table';
+import { useAreaId, useFloorActive } from 'src/redux/infoDrawer/hooks';
 import TableOrder from './components/TableOrder';
 
-const data = [
-  {table: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13], index: 1},
-  {table: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13], index: 2},
-];
+
 
 const HomeScreen = () => {
-  const marginTablet = DeviceInfo.isTablet() ? 32  : '2.5%';
+  const [dataTable, setDataTable] = useState<IFloorInfo[]>([]);
+  const floorClone = useRef<IFloorInfo[]>([]);
+  const floorActive = useFloorActive();
+
+  const areaId = useAreaId();
+  const getDataTable = async () => {
+    if (areaId) {
+      const tableData = await getTable(areaId);
+      if (tableData.success && tableData.data) {
+        setDataTable(tableData.data);
+        floorClone.current = tableData.data;
+      }
+    }
+  };
+
+  useEffect(() => {
+    if (floorActive) {
+      const index = floorClone.current.findIndex(
+        item => item.nameArea === floorActive,
+      );
+      if (index >= 0) {
+        setDataTable([floorClone.current[index]]);
+      } else {
+        setDataTable(floorClone.current);
+      }
+    }
+  }, [floorActive]);
+
+  useEffect(() => {
+    getDataTable();
+  }, [areaId]);
+
+  const marginTablet = DeviceInfo.isTablet() ? 32 : '2.5%';
   return (
     <View style={styles.container}>
       <FlatList
-        data={data}
-        contentContainerStyle={[styles.flatlistContent , { marginHorizontal : marginTablet}]}
-        renderItem={(item: ListRenderItemInfo<any>) => {
+        data={dataTable}
+        contentContainerStyle={[
+          styles.flatlistContent,
+          {marginHorizontal: marginTablet},
+        ]}
+        renderItem={(item: ListRenderItemInfo<IFloorInfo>) => {
           return <TableOrder item={item.item} />;
         }}
       />

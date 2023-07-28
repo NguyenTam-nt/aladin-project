@@ -52,9 +52,12 @@ const HeaderContentRight = (props : TabBarOrder) => {
         styles.container,
         !isTabletDevice ? styles.containerMobile : undefined,
       ]}>
-      <View>
-        <ButtonMenuTabBar onPress={setIsOpenTab} />
-      </View>
+      {!isTabletDevice && (
+        <View>
+          <ButtonMenuTabBar onPress={setIsOpenTab} />
+        </View>
+      )}
+
       <Text style={styles.textHeader}>Món ăn</Text>
       <View style={styles.contentRight}>
         <SearchInput
