@@ -1,4 +1,4 @@
-import {View, StyleSheet, Platform, FlatList} from 'react-native';
+import {View, StyleSheet, Platform, FlatList, Share} from 'react-native';
 import React, {useCallback} from 'react';
 import {globalStyles} from 'src/commons/globalStyles';
 import {defaultColors} from '@configs';
@@ -312,16 +312,17 @@ export const MainDetail = () => {
     ];
     let ws = XLSX.utils.json_to_sheet(sample_data_to_export);
     XLSX.utils.book_append_sheet(wb, ws, 'Users');
-    const wbout = XLSX.write(wb, {type: 'base64'});
+    const wbout = XLSX.write(wb, {type: 'binary'});
     // const blob = new Blob([wbout], {
     //     type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
     //   });
 
-    const aPath = Platform.select({ios: DocumentDir, android: DownloadDir});
+    const aPath = Platform.select({ios: RNFetchBlob.fs.dirs.LibraryDir, android: DownloadDir});
 
     RNFetchBlob.fs
       .writeFile(aPath + '/bao-cao123.xlsx', wbout, 'base64')
       .then(() => {
+        // Share.share(aPath + '/bao-cao123.xlsx')
         alert('Tải file thành công');
       });
   };
@@ -333,7 +334,7 @@ export const MainDetail = () => {
           downloadPdf();
           return;
         }
-        downloadPdf()
+        // downloadPdf()
         handleSelectResourses.handleSelectFiles(downloadPdf);
         break;
       case FileType.excel:
