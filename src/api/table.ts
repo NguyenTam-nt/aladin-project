@@ -51,15 +51,9 @@ export interface IFloorInfo {
 
 
 
-export const getTable = async (areaId : number): Promise<IData<IFloorInfo[]>> => {
+export const getTable = async (areaId : number , stateCheckbox : string[]): Promise<IData<IFloorInfo[]>> => {
   try {
-
-
-
-    const result = await request().get(`${APIs.TABLE}/${areaId}`);
-
-
-
+    const result = await request().get(`${APIs.TABLE}/${areaId}${stateCheckbox.length > 0 ? `?state=${stateCheckbox.join('&state=')}` : ''}`);
     const {data} = await result;
     return {
       success: true,
@@ -69,6 +63,22 @@ export const getTable = async (areaId : number): Promise<IData<IFloorInfo[]>> =>
     return handleError(e);
   }
 };
+
+
+export const getTableID = async (id : number): Promise<IData<IFloorInfo[]>> => {
+  try {
+
+    const result = await request().patch(`${APIs.TABLEID}?idTable=${id}`);
+    const {data} = await result;
+    return {
+      success: true,
+      data: data,
+    };
+  } catch (e) {
+    return handleError(e);
+  }
+};
+
 
 
 

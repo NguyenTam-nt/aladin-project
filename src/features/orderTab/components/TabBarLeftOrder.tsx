@@ -1,4 +1,4 @@
-import React, {useCallback, useState} from 'react';
+import React, { useCallback } from 'react';
 import {
   ScrollView,
   StyleSheet,
@@ -7,60 +7,52 @@ import {
   View,
 } from 'react-native';
 
-import {defaultColors, isTabletDevice} from '@configs';
-import CheckBox from 'src/components/Checkbox/CheckBox';
+import { defaultColors, isTabletDevice } from '@configs';
+import { ICCheckBoxTable } from '@icons';
+import { ICategory, IChildCategory, getCategories } from 'src/api/hotpot';
+import { ICCheckBox } from 'src/assets/icons/ICCheckBox';
 import ButtonMenuTabBar from 'src/components/DropDownView/ButtonMenuTabBar';
 import DropDownView from 'src/components/DropDownView/DropDownView';
 import MenuTabMobile from 'src/components/DropDownView/MenuTabMobile';
-import {TabBarOrder} from '../ContentOrderTab';
-import {ICategory, IChildCategory, getCategories} from 'src/api/hotpot';
+import { TabBarOrder } from '../ContentOrderTab';
 
 const dataCheckbox = [
   {
     label: 'Bếp',
-    value: 1,
+    value: 'KITCHEN',
   },
   {
     label: 'Bar',
-    value: 2,
+    value: 'BAR',
   },
 ];
+ interface ITabBarLeftOrder {
+  typeLocation : string | undefined
+  setTypeLocaion : React.Dispatch<React.SetStateAction<string | undefined>>
+ }
 
-interface IStateFilter {
-  [key: string]: number | undefined
-}
 
-const TabBarLeftOrder = React.memo((props: TabBarOrder) => {
-  const {isOpenTab, setIsOpenTab} = props;
-  const [typeLocation, setTypeLocaion] = useState<number[]>([]);
-  const [stateFilter, setStateFilter] = useState<IStateFilter>({});
 
-  const [categoty, setCategory] = React.useState<ICategory[]>([]);
-  const onSetStateFilter = (id: number, idParent?: number) => {
-    const newStateFilter = stateFilter;
-    if (idParent) {
-      if (stateFilter[idParent]) {
-        if (stateFilter[idParent] === id) {
-          delete stateFilter[idParent];
-          setStateFilter({...newStateFilter});
-        } else {
-          newStateFilter[idParent] = id;
-          setStateFilter({...newStateFilter});
-        }
+const TabBarLeftOrder = React.memo((props: TabBarOrder & ITabBarLeftOrder) => {
+  const {isOpenTab, setIsOpenTab , stateFilter , setStateFilter , setTypeLocaion , typeLocation} = props;
+  const [category, setCategory] = React.useState<ICategory[]>([]);
+
+  const onSetStateFilter = ({
+    idParent,
+    id,
+  }: {
+    idParent: number
+    id?: number
+  }) => {
+    if (setStateFilter) {
+      if (id) {
+        setStateFilter({idParent: idParent, id: id});
       } else {
-        newStateFilter[idParent] = id;
-        setStateFilter({...newStateFilter});
+        setStateFilter({idParent: idParent});
       }
-    } else {
-      if (Object.keys(newStateFilter).find(key => key === id.toString())) {
-        delete newStateFilter[id];
-      } else {
-        newStateFilter[id] = undefined;
-      }
-
-      setStateFilter({...newStateFilter});
     }
   };
+
   const getCategoriesData = async () => {
     const category = await getCategories();
     if (category.success) {
@@ -73,18 +65,13 @@ const TabBarLeftOrder = React.memo((props: TabBarOrder) => {
   }, []);
 
   const onSetTypeLocation = useCallback(
-    (value: number) => {
-      const index = typeLocation.findIndex(type => {
-        return type === value;
-      });
+    (value: string) => {
+      const check = typeLocation === value;
 
-      const checkType = [...typeLocation];
-      if (index >= 0) {
-        delete checkType[index];
-        setTypeLocaion(checkType);
+      if (check) {
+        setTypeLocaion(undefined);
       } else {
-        checkType.push(value);
-        setTypeLocaion(checkType);
+        setTypeLocaion(value);
       }
     },
     [typeLocation],
@@ -107,9 +94,8 @@ const TabBarLeftOrder = React.memo((props: TabBarOrder) => {
                 itemView={
                   <View style={styles.itemViewDropDown}>
                     {dataCheckbox.map((e, index) => {
-                      const isActive = typeLocation.find(type => {
-                        return type === e.value;
-                      });
+                      const isActive = typeLocation === e.value;
+
                       return (
                         <TouchableOpacity
                           style={styles.buttonCheckBoxDropDown}
@@ -118,7 +104,7 @@ const TabBarLeftOrder = React.memo((props: TabBarOrder) => {
                             onSetTypeLocation(e.value);
                           }}
                           key={index}>
-                          <CheckBox active={isActive ? true : false} />
+                          {isActive ? <ICCheckBox color={defaultColors._E73F3F} /> : <ICCheckBoxTable color={defaultColors.c_0000} />}
                           <Text style={styles.labelTextDropDown}>
                             {e.label}
                           </Text>
@@ -130,39 +116,37 @@ const TabBarLeftOrder = React.memo((props: TabBarOrder) => {
                 containerStyle={styles.containerStyleDropdown}
                 textHeader="Loại thực đơn"
                 onPressHeaderText={() => {
-                  setTypeLocaion([]);
+                  setTypeLocaion(undefined);
                 }}
                 textStyle={styles.textStyle}
                 headerButtonStyle={styles.headerButtonStyleDropDown}
                 isOpen={true}
               />
               <View style={styles.textHeader2}>
-                <TouchableOpacity onPress={() => setStateFilter({})}>
+                <TouchableOpacity onPress={() => setStateFilter?.(undefined)}>
                   <Text style={styles.textStyle}>Danh mục</Text>
                 </TouchableOpacity>
               </View>
-              {categoty.map((item, index) => {
-                const activeParent = Object.keys(stateFilter).find(
-                  itemCheck => itemCheck === item.id.toString(),
-                );
+              {category.map((item, index) => {
+                const activeParent =  stateFilter?.idParent === item.id;
                 return (
                   <DropDownView
                     key={index}
                     onPressHeaderText={() => {
-                      onSetStateFilter(item.id);
+                      onSetStateFilter({idParent : item.id});
                     }}
                     itemView={
                       <View style={styles.itemViewDropDown}>
                         {item.listCategoryChild.length > 0 ? (
                           item.listCategoryChild.map(
                             (e: IChildCategory, index: number) => {
-                              const isActive = stateFilter[e.idParent] === e.id;
+                              const isActive = stateFilter?.id === e.id;
                               return (
                                 <TouchableOpacity
                                   style={styles.buttonCheckBoxDropDown}
                                   activeOpacity={0.7}
                                   onPress={() => {
-                                    onSetStateFilter(e.id, e.idParent);
+                                    onSetStateFilter({ idParent : e.idParent , id : e.id});
                                   }}
                                   key={index}>
                                   <Text

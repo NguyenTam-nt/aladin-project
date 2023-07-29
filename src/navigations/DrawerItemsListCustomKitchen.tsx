@@ -41,8 +41,6 @@ export function DrawerItemListCustomKitchen({
 
     const color = focused ? defaultColors.c_0000 : defaultColors.c_fff;
 
-
-
     return (
       <DrawerItemWithICArrowDown
         focused={focused}

@@ -1,19 +1,21 @@
 import { Header } from '@components';
-import { createStackNavigator } from '@react-navigation/stack';
-import React from 'react';
+import React, { useState } from 'react';
 import HomeScreen from './HomeScreen';
 
-const HomeStack = createStackNavigator();
+
 
 export const Home = () => {
+  const [stateCheckbox, setStateCheckbox] = useState<string[]>([]);
+
+
   return (
     <>
-      <Header isCheckbox />
-      <HomeStack.Navigator
-        initialRouteName="homeScreen"
-        screenOptions={{headerShown: false}}>
-        <HomeStack.Screen name="homeScreen" component={HomeScreen} />
-      </HomeStack.Navigator>
+      <Header
+        isCheckbox
+        updateCheckbox={setStateCheckbox}
+        valueCheckBox={stateCheckbox}
+      />
+      <HomeScreen  stateCheckbox={stateCheckbox}/>
     </>
   );
 };

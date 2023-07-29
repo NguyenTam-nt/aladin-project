@@ -6,6 +6,7 @@ import { useMemo } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { Home } from '../features/home';
 import CustomDrawerFloor from './CustomDrawerFloor';
+import { useToken } from 'src/redux/reducers/hook';
 
 const Drawer = createDrawerNavigator();
 const DrawerNavigation = () => {
@@ -21,6 +22,7 @@ const DrawerNavigation = () => {
     }),
     [],
   );
+
 
 
   return (

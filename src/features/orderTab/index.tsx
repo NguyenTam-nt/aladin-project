@@ -28,10 +28,14 @@ const dataItem = [
 const OrderTabView = () => {
   const [location, setLocation] = useState<IDataSelectionCustom>(dataItem[0]);
   return (
-    <View  style={styles.container}>
+    <View style={styles.container}>
       <Header
         renderRight={
-          isTabletDevice ? <RightHeader location={location} setLocation={setLocation} /> : <></>
+          isTabletDevice ? (
+            <RightHeader location={location} setLocation={setLocation} />
+          ) : (
+            <></>
+          )
         }
       />
       <ContentOrderTab />

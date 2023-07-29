@@ -1,7 +1,6 @@
-import {Thumb} from '@components';
-import {defaultColors, isTabletDevice} from '@configs';
-import {DIMENSION} from '@constants';
-import React, {useState} from 'react';
+import { Thumb } from '@components';
+import { defaultColors, isTabletDevice } from '@configs';
+import React, { useState } from 'react';
 import {
   FlatList,
   ListRenderItemInfo,
@@ -10,13 +9,16 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import {ScrollView} from 'react-native-gesture-handler';
-import {ICEdit} from 'src/assets/icons/ICEdit';
-import {ICEye} from 'src/assets/icons/ICEye';
-import {ICEyeOff} from 'src/assets/icons/ICEyeOff';
+import { ScrollView } from 'react-native-gesture-handler';
+import { IItemProductKitchen } from 'src/api/products';
+import { ICEdit } from 'src/assets/icons/ICEdit';
+import { ICEye } from 'src/assets/icons/ICEye';
+import { ICEyeOff } from 'src/assets/icons/ICEyeOff';
+import { formatNumberDotSlice } from 'src/commons/formatMoney';
 
-const TableCartItem = () => {
+const TableCartItem = ({item} : { item :IItemProductKitchen}) => {
   const [active, setActive] = useState<boolean>(true);
+
   return (
     <View>
       <View style={styles.itemContainer} />
@@ -24,28 +26,28 @@ const TableCartItem = () => {
         <View style={styles.col1}>
           <Thumb
             source={{
-              uri: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=880&q=80',
+              uri: item.linkMedia,
             }}
             style={styles.imageItem}
           />
         </View>
         <View style={styles.col2}>
-          <Text style={styles.textTable}>ABCD</Text>
+          <Text style={styles.textTable}>{item.id}</Text>
         </View>
         <View style={styles.col3}>
-          <Text style={styles.textTable}>Lẩu tứ xuyên</Text>
+          <Text style={styles.textTable}>{item.name}</Text>
         </View>
         <View style={styles.col4}>
-          <Text style={styles.textTable}>600.000</Text>
+          <Text style={styles.textTable}>{item.ncategory}</Text>
         </View>
         <View style={styles.col5}>
-          <Text style={styles.textTable}>600.000</Text>
+          <Text style={styles.textTable}>{item.mcategory}</Text>
         </View>
         <View style={styles.col6}>
-          <Text style={styles.textTable}>600.000</Text>
+          <Text style={styles.textTable}>{formatNumberDotSlice(item.pricePromotion)}</Text>
         </View>
         <View style={styles.col7}>
-          <Text style={styles.textTable}>600.000</Text>
+          <Text style={styles.textTable}>{item.inventory}</Text>
         </View>
         <View style={styles.col8}>
           <View style={styles.containerAction}>
@@ -65,23 +67,26 @@ const TableCartItem = () => {
   );
 };
 
-const TableRightContent = () => {
-  const data = [
-    'success',
-    'cancel',
-    'waitingSuccess',
-    'waitingCancel',
-    'success',
-    'success',
-    'success',
-    'success',
-    'success',
-    'success',
-    'success',
-    'success',
-  ];
-  const renderItem = (item: ListRenderItemInfo<any>) => {
-    return <TableCartItem />;
+interface ITableRightContent {
+  dataProducts: IItemProductKitchen[]
+  keyExtractor: (item: any, index: number) => string
+  onRefresh: () => void
+  onEndReached: (
+    info?:
+      | {
+          distanceFromEnd: number
+        }
+      | undefined,
+  ) => void
+}
+
+const TableRightContent = (props : ITableRightContent) => {
+  const {dataProducts ,keyExtractor ,onRefresh ,onEndReached } = props;
+
+
+
+  const renderItem = (item: ListRenderItemInfo<IItemProductKitchen>) => {
+    return <TableCartItem item={item.item}/>;
   };
 
   return (
@@ -90,7 +95,7 @@ const TableRightContent = () => {
         horizontal
         contentContainerStyle={isTabletDevice ? {flex: 1} : {minWidth: 934}}>
         <FlatList
-          data={data}
+          data={dataProducts}
           showsVerticalScrollIndicator={false}
           ListHeaderComponent={
             <View style={styles.content}>
@@ -121,6 +126,7 @@ const TableRightContent = () => {
             </View>
           }
           renderItem={renderItem}
+          onEndReached={onEndReached}
         />
       </ScrollView>
     </View>

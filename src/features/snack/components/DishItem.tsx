@@ -8,6 +8,7 @@ import { IMenuItem } from 'src/api/products';
 import { formatNumberDotSlice } from 'src/commons/formatMoney';
 
 const DishItem = React.memo(({item}: {item: IMenuItem}) => {
+
   return (
     <View style={styles.container}>
       <FastImage
