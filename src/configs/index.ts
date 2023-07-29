@@ -1,10 +1,9 @@
-import { defaultColors } from './dimentions';
+import {defaultColors} from './dimentions';
 
 export * from './dimentions';
 export * from './checkDevice';
 
 export const APIs = {};
-
 
 export enum categoryKitchenNames {
   kitchen = 'kitchen',
@@ -49,3 +48,37 @@ export const activeTintColor = defaultColors.c_0000;
 export const inactiveTintColor = defaultColors.c_fff;
 export const activeBackgroundColor = defaultColors._F1BA42;
 export const inactiveBackgroundColor = 'transparent';
+
+export const hotpotId = 248;
+export const hotpotId4 = 250
+export const hotpotId2 = 1507
+export const hotpotId1 = 1506
+
+export const categoriesHotpot = [
+  {
+    id: hotpotId4,
+    name: 'Lẩu 4 ngăn',
+    isHome: true,
+    isMenu: 'BAR',
+    type: 'CHILD',
+    idParent: hotpotId,
+  },
+  {
+    id: hotpotId2,
+    name: 'Lẩu 2 ngăn',
+    isHome: true,
+    linkMedia: null,
+    isMenu: 'KITCHEN',
+    type: 'CHILD',
+    idParent: hotpotId,
+  },
+  {
+    id: hotpotId1,
+    name: 'Nồi đơn',
+    isHome: true,
+    linkMedia: null,
+    isMenu: 'KITCHEN',
+    type: 'CHILD',
+    idParent: hotpotId,
+  },
+];

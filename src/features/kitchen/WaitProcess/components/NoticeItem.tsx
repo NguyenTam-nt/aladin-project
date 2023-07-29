@@ -3,8 +3,8 @@ import React, {memo} from 'react';
 import {TextCustom} from '@components';
 import {defaultColors} from '@configs';
 import {ICCloseModal} from '../../../../assets/icons/ICCloseModal';
-import { getValueForDevice } from 'src/commons/formatMoney'
-import { DIMENSION } from '@constants'
+import {getValueForDevice} from 'src/commons/formatMoney';
+import {DIMENSION} from '@constants';
 
 export const NoticeItem = memo(() => {
   return (
@@ -28,9 +28,12 @@ const styles = StyleSheet.create({
     borderLeftColor: defaultColors._EA222A,
     borderRadius: 4,
     height: 60,
-    flex: 1,
+    // flex: 1,
     backgroundColor: defaultColors.bg_FCEAEA,
-    width: getValueForDevice(376, DIMENSION.width*0.7) ,
+    width: getValueForDevice(
+      (DIMENSION.width - (32 * 2)) / 3 - (32/3),
+      DIMENSION.width * 0.7,
+    ),
     columnGap: 12,
     paddingHorizontal: 16,
     alignItems: 'center',

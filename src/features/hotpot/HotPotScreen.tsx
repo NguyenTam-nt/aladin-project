@@ -1,13 +1,14 @@
 import {View, StyleSheet} from 'react-native';
 import React, {useCallback, useState} from 'react';
-import {defaultColors, isTabletDevice} from '@configs';
+import {categoriesHotpot, defaultColors, isTabletDevice} from '@configs';
 import {ListProduct} from './components/ListProduct';
 import {GroupHotpot} from './components/GroupHotpot';
 import {MultipleScreenView} from '../../components/MultipleScreenView';
 import { getValueForDevice } from '../../commons/formatMoney'
 
 const HotPotScreen = () => {
-  const [currentCategory, setCurrentCategory] = useState(123);
+  const [currentCategory, setCurrentCategory] = useState(categoriesHotpot[0].id);
+
   const handlePressCategory = useCallback((id: number) => {
     setCurrentCategory(id);
   }, []);

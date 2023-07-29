@@ -1,59 +1,149 @@
-import {StyleSheet, Text, View} from 'react-native';
-import React, {useMemo} from 'react';
-import FastImage from 'react-native-fast-image';
-import {defaultColors, isTabletDevice} from '@configs';
-import {Thumb} from '@components';
-import {DIMENSION} from '@constants';
-import {getValueForDevice} from '../../../commons/formatMoney';
+import {StyleSheet, View} from 'react-native'
+import React, {useMemo} from 'react'
+import FastImage from 'react-native-fast-image'
+import {
+  defaultColors,
+  hotpotId1,
+  hotpotId2,
+  hotpotId4,
+  isTabletDevice,
+} from '@configs'
+import {Thumb} from '@components'
+import {DIMENSION} from '@constants'
+import {getValueForDevice} from '../../../commons/formatMoney'
+import {useListItemInCart} from 'src/redux/cartOrder/hooks'
+import {getLinkImageUrl} from 'src/commons'
 
-const widthHotPot = isTabletDevice ? 436 : DIMENSION.width - 19 * 2;
+const widthHotPot = isTabletDevice ? 436 : DIMENSION.width - 19 * 2
+const corePot =
+  widthHotPot -
+  getValueForDevice(18, 14) * 2 -
+  getValueForDevice(45.64, 35.18) * 2
 const sizeImageCategory =
   (widthHotPot -
     getValueForDevice(18, 14) * 2 -
     getValueForDevice(45.64, 35.18) * 2 -
     2) /
-  2;
+  2
 
 type Props = {
   currentCategory: number
-};
+}
 
 export const HotPot = ({currentCategory}: Props) => {
-  const source = useMemo(() => {
-    return {
-      uri: 'https://cdn.tgdd.vn/2021/06/CookProduct/Lau-cay-tu-xuyen.-1200x675.jpg',
-    };
-  }, []);
+  const listCategory = useListItemInCart()
+
+
+
+  const listCategoriesByCategory = useMemo(() => {
+    return listCategory.filter(
+      item => item.data?.idCategory === currentCategory,
+    )
+  }, [currentCategory, listCategory])
+
+  const lengthMenu = useMemo(() => {
+
+    return listCategory.reduce((currentCount, item) => {
+      return currentCount + item.quantity
+    }, 0)
+  }, [listCategory])
+
+  const isFourBar = useMemo(() => {
+    return currentCategory === hotpotId4
+  }, [currentCategory])
+
+  const isTwoBar = useMemo(() => {
+    return currentCategory === hotpotId2
+  }, [currentCategory])
+
+  const isOneBar = useMemo(() => {
+    return currentCategory === hotpotId1
+  }, [currentCategory])
+
   return (
     <View style={styles.styleHotpot}>
       <View style={styles.styleViewHotPot}>
-        {currentCategory === 123 ? (
-          <View style={styles.styleLineVertical} />
-        ) : null}
-        {currentCategory !== 345 ? (
-          <View style={styles.styleLineHorizontal} />
-        ) : null}
+        {isFourBar ? <View style={styles.styleLineVertical} /> : null}
+        {!isOneBar ? <View style={styles.styleLineHorizontal} /> : null}
 
         <FastImage
           style={styles.styleImage}
           source={require('../../../assets/image/hot_pot.jpg')}
         />
-        <View style={styles.styleImageOne}>
-          <Thumb style={styles.styleImageCategory} source={source} />
-        </View>
-        <View style={styles.styleImageTwo}>
-          <Thumb style={styles.styleImageCategory} source={source} />
-        </View>
-        <View style={styles.styleImageThree}>
-          <Thumb style={styles.styleImageCategory} source={source} />
-        </View>
-        <View style={styles.styleImageFour}>
-          <Thumb style={styles.styleImageCategory} source={source} />
-        </View>
+        {listCategoriesByCategory.length > 0 ? (
+          <View
+            style={[
+              isFourBar
+                ? styles.styleImageOne
+                : isTwoBar
+                ? styles.styleTwoBarOne
+                : styles.styleOneBarOne,
+            ]}>
+            <Thumb
+              style={styles.styleImageCategory}
+              source={{
+                uri: getLinkImageUrl(
+                  listCategoriesByCategory[0].data.linkMedia,
+                  100,
+                  100,
+                ),
+              }}
+            />
+          </View>
+        ) : null}
+        {!isOneBar ? (
+          listCategoriesByCategory.length > 1 ? (
+            <View
+              style={[
+                isFourBar ? styles.styleImageThree : styles.styleTwoBarTwo,
+              ]}>
+              <Thumb
+                style={styles.styleImageCategory}
+                source={{
+                  uri: getLinkImageUrl(
+                    listCategoriesByCategory[1].data.linkMedia,
+                    100,
+                    100,
+                  ),
+                }}
+              />
+            </View>
+          ) : null
+        ) : null}
+
+        {isFourBar ? (
+          <>
+            {listCategoriesByCategory.length > 2 ? (
+              <View style={styles.styleImageTwo}>
+                <Thumb
+                  style={styles.styleImageCategory}
+                  source={{
+                    uri: getLinkImageUrl(
+                      listCategoriesByCategory[2].data.linkMedia,
+                      100,
+                      100,
+                    ),
+                  }}
+                />
+              </View>
+            ) : null}
+            {listCategoriesByCategory.length > 3 ? (
+              <View style={styles.styleImageFour}>
+                <Thumb style={styles.styleImageCategory} source={{
+                  uri: getLinkImageUrl(
+                    listCategoriesByCategory[3].data.linkMedia,
+                    100,
+                    100,
+                  ),
+                }} />
+              </View>
+            ) : null}
+          </>
+        ) : null}
       </View>
     </View>
-  );
-};
+  )
+}
 
 const styles = StyleSheet.create({
   styleHotpot: {
@@ -96,7 +186,6 @@ const styles = StyleSheet.create({
     position: 'absolute',
     right: widthHotPot / 2 - 1,
     bottom: widthHotPot / 2 - 1,
-    backgroundColor: 'red',
     width: sizeImageCategory,
     height: sizeImageCategory,
     zIndex: 2,
@@ -107,7 +196,6 @@ const styles = StyleSheet.create({
     position: 'absolute',
     left: widthHotPot / 2 + 3,
     bottom: widthHotPot / 2 - 1,
-    backgroundColor: 'blue',
     width: sizeImageCategory,
     height: sizeImageCategory,
     zIndex: 2,
@@ -118,7 +206,6 @@ const styles = StyleSheet.create({
     position: 'absolute',
     right: widthHotPot / 2 - 1,
     top: widthHotPot / 2 + 3,
-    backgroundColor: 'red',
     width: sizeImageCategory,
     height: sizeImageCategory,
     zIndex: 2,
@@ -129,11 +216,42 @@ const styles = StyleSheet.create({
     position: 'absolute',
     left: widthHotPot / 2 + 3,
     top: widthHotPot / 2 + 3,
-    backgroundColor: 'red',
     width: sizeImageCategory,
     height: sizeImageCategory,
     zIndex: 2,
     borderBottomRightRadius: 32,
+    overflow: 'hidden',
+  },
+  styleTwoBarOne: {
+    position: 'absolute',
+    right: getValueForDevice(45.64, 35.18) + 16,
+    bottom: widthHotPot / 2 - 1,
+    width: corePot,
+    height: sizeImageCategory,
+    zIndex: 2,
+    borderTopLeftRadius: 32,
+    borderTopRightRadius: 32,
+    overflow: 'hidden',
+  },
+  styleTwoBarTwo: {
+    position: 'absolute',
+    right: getValueForDevice(45.64, 35.18) + 16,
+    top: widthHotPot / 2 + 3,
+    width: corePot,
+    height: sizeImageCategory,
+    zIndex: 2,
+    borderBottomLeftRadius: 32,
+    borderBottomRightRadius: 32,
+    overflow: 'hidden',
+  },
+  styleOneBarOne: {
+    position: 'absolute',
+    right: getValueForDevice(45.64, 35.18) + 16,
+    bottom: getValueForDevice(45.64, 35.18) + 16,
+    width: corePot,
+    height: corePot,
+    zIndex: 2,
+    borderRadius: 32,
     overflow: 'hidden',
   },
   styleImageCategory: {
@@ -141,4 +259,4 @@ const styles = StyleSheet.create({
     height: '100%',
     resizeMode: 'cover',
   },
-});
+})

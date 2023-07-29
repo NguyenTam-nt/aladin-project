@@ -171,9 +171,6 @@ export function useHandleResponsePagination<T>(
       setPageToken(0);
       return callback(0, pageSize)
         .then(response => {
-
-            console.log('response response' ,response);
-
           handleSuccessResponse(response, false);
           return Promise.resolve(response);
         })

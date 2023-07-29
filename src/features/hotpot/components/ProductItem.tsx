@@ -2,15 +2,24 @@ import {TextCustom, Thumb} from '@components';
 import {defaultColors} from '@configs';
 import React, {memo, useMemo} from 'react';
 import {View, StyleSheet} from 'react-native';
-import {formatNumberDotSlice, getValueForDevice} from '../../../commons/formatMoney';
+import {
+  formatNumberDotSlice,
+  getValueForDevice,
+} from '../../../commons/formatMoney';
 import QuantityUpdate from '../../../components/QuantityUpdate';
+import {getLinkImageUrl} from 'src/commons';
+import { IMenuItem } from 'src/api/products'
 
-export const ProductItem = memo(() => {
+type PropsProductItem = {
+  data: IMenuItem
+};
+
+export const ProductItem = memo(({data}: PropsProductItem) => {
   const source = useMemo(() => {
     return {
-      uri: 'https://cdn.tgdd.vn/2021/06/CookProduct/Lau-cay-tu-xuyen.-1200x675.jpg',
+      uri: getLinkImageUrl(data?.linkMedia ?? '', 200, 180),
     };
-  }, []);
+  }, [data]);
   return (
     <View style={styles.styleGroupImage}>
       <View style={styles.styleContainerImage}>
@@ -22,17 +31,17 @@ export const ProductItem = memo(() => {
           fontSize={18}
           weight="500"
           color={defaultColors.c_fff}>
-          Combo 2 Người lớn ăn thả ga....
+          {data.name}
         </TextCustom>
         <TextCustom
           numberOfLines={2}
           fontSize={18}
           weight="700"
           color={defaultColors.c_fff}>
-          {formatNumberDotSlice(600000)}
+          {formatNumberDotSlice(Number(data.pricePromotion))}
         </TextCustom>
         <View style={styles.styleGroupBtn}>
-          <QuantityUpdate value={1} />
+          <QuantityUpdate data={data} />
         </View>
       </View>
     </View>

@@ -20,12 +20,12 @@ import { Button } from '../../../../components/Button'
 import { ICCheck } from '../../../../assets/icons/ICCheck'
 import { getValueForDevice } from 'src/commons/formatMoney'
 
-if (
-  Platform.OS === 'android' &&
-  UIManager.setLayoutAnimationEnabledExperimental
-) {
-  UIManager.setLayoutAnimationEnabledExperimental(true);
-}
+// if (
+//   Platform.OS === 'android' &&
+//   UIManager.setLayoutAnimationEnabledExperimental
+// ) {
+//   UIManager.setLayoutAnimationEnabledExperimental(true);
+// }
 
 type Props = {
   onShowModal: (type: TypeModalWaitProcess) => void
@@ -37,10 +37,10 @@ export const BillItem = ({onShowModal, onHideModal}: Props) => {
   const toggleOpen = () => {
     // onPress?.()
     setIsOpen(value => !value);
-    LayoutAnimation.configureNext({
-      ...LayoutAnimation.Presets.linear,
-      duration: 300
-    });
+    // LayoutAnimation.configureNext({
+    //   ...LayoutAnimation.Presets.linear,
+    //   duration: 300
+    // });
   };
   return (
     <>
@@ -68,7 +68,7 @@ export const BillItem = ({onShowModal, onHideModal}: Props) => {
       <View
         style={[
           {flex: 1},
-          !isOpen ? {height: 0, overflow: 'hidden'} : undefined,
+          !isOpen ? {display: 'none', overflow: 'hidden'} : undefined,
         ]}>
         <BillItemMenu onHideModal={onHideModal} onShowModal={onShowModal} />
         <BillItemMenu onHideModal={onHideModal} onShowModal={onShowModal} />

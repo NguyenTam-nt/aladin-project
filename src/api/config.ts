@@ -50,4 +50,5 @@ export const APIs = {
   TABLE: getMicroService('table', microServices.restaurant),
   CATEGORIES: getMicroService('categories/select', microServices.restaurant),
   PRODUCTS: getMicroService('products', microServices.restaurant),
+  PRODUCTS_ADMIN: getMicroServiceAdmin('products/infrastructure', microServices.restaurant)
 };
