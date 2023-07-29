@@ -35,3 +35,17 @@ export const getCategories = async (): Promise<IData<ICategory[]>> => {
     return handleError(e) as IData<ICategory[]>;
   }
 };
+
+export const getCategoriesById = async (id:number): Promise<IData<ICategory>> => {
+  try {
+    const result = await request().get(`${APIs.CATEGORIES}/${id}`);
+    const {data} = await result;
+    return {
+      success: true,
+      data: data,
+    };
+  } catch (e) {
+    return handleError(e) as IData<ICategory>;
+  }
+};
+

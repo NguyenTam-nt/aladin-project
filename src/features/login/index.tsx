@@ -40,7 +40,7 @@ const LoginScreen = () => {
           switch (role.name) {
             case ROLE_LIST.guest:
               //@ts-ignore
-              navigation.replace('main', {screen: 'kitchen'});
+              navigation.replace('main', {screen: 'mainDrawer'});
               break;
             default:
               Toast.show({

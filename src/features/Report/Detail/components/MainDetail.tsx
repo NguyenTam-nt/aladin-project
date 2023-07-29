@@ -1,4 +1,4 @@
-import {View, StyleSheet, Platform, FlatList, Share} from 'react-native';
+import {View, StyleSheet, Platform, FlatList, Share, ScrollView} from 'react-native';
 import React, {useCallback} from 'react';
 import {globalStyles} from 'src/commons/globalStyles';
 import {defaultColors} from '@configs';
@@ -9,6 +9,8 @@ import XLSX from 'xlsx';
 import {GroupAction} from './GroupAction';
 import {handleSelectResourses} from 'src/commons/permissionUtil';
 import {isIOS} from '@constants';
+import ButtonMenuTabBar from 'src/components/DropDownView/ButtonMenuTabBar';
+import { getValueForDevice } from 'src/commons/formatMoney'
 const {
   dirs: {DownloadDir, DocumentDir},
 } = RNFetchBlob.fs;
@@ -154,7 +156,11 @@ export enum FileType {
   excel = 'EXCEL',
 }
 
-export const MainDetail = () => {
+type Props = {
+  setIsOpenTab: React.Dispatch<React.SetStateAction<boolean>>
+};
+
+export const MainDetail = ({setIsOpenTab}: Props) => {
   const downloadPdf = async () => {
     const aPath = Platform.select({ios: DocumentDir, android: DownloadDir});
 
@@ -317,7 +323,10 @@ export const MainDetail = () => {
     //     type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
     //   });
 
-    const aPath = Platform.select({ios: RNFetchBlob.fs.dirs.LibraryDir, android: DownloadDir});
+    const aPath = Platform.select({
+      ios: RNFetchBlob.fs.dirs.LibraryDir,
+      android: DownloadDir,
+    });
 
     RNFetchBlob.fs
       .writeFile(aPath + '/bao-cao123.xlsx', wbout, 'base64')
@@ -346,215 +355,222 @@ export const MainDetail = () => {
   }, []);
 
   return (
-    <View style={styles.container}>
-      <GroupAction onDownload={handleDownload} />
-      <View style={styles.content}>
-        <FlatList
-          ListHeaderComponent={
-            <>
-              <View
-                style={[globalStyles.row, globalStyles.justifyContentBetween]}>
-                <View style={[globalStyles.row, styles.styleGap25]}>
-                  <View style={globalStyles.row}>
-                    <TextCustom
-                      color={defaultColors.c_0000}
-                      fontSize={14}
-                      weight="700">
-                      Ngày lập:{' '}
-                    </TextCustom>
-                    <TextCustom
-                      color={defaultColors.c_0000}
-                      fontSize={14}
-                      weight="400">
-                      {' '}
-                      15/06/2023 - 15:00
-                    </TextCustom>
-                  </View>
-                  <View style={globalStyles.row}>
-                    <TextCustom
-                      color={defaultColors.c_0000}
-                      fontSize={14}
-                      weight="700">
-                      Người lập lập:{' '}
-                    </TextCustom>
-                    <TextCustom
-                      color={defaultColors.c_0000}
-                      fontSize={14}
-                      weight="400">
-                      {' '}
-                      Admin
-                    </TextCustom>
-                  </View>
-                </View>
-                <View style={globalStyles.row}>
-                  <TextCustom
-                    color={defaultColors.c_0000}
-                    fontSize={14}
-                    weight="700">
-                    Cơ sở:
-                  </TextCustom>
-                  <TextCustom
-                    color={defaultColors.c_0000}
-                    fontSize={14}
-                    weight="400">
-                    {' '}
-                    102 Trường Trinh, Phương Mai, Đống Đa, Hà Nội
-                  </TextCustom>
-                </View>
-                {/* </View> */}
-              </View>
-              <View style={styles.mt_40}>
-                <TextCustom
-                  fontSize={32}
-                  weight="700"
-                  color={defaultColors.c_0000}
-                  textAlign="center"
-                  textTransform="uppercase">
-                  Báo cáo món ăn Bán - Hủy
-                </TextCustom>
+    <View style={globalStyles.fullFill}>
+      <ButtonMenuTabBar onPress={setIsOpenTab} />
+      <View style={styles.container}>
+        <GroupAction onDownload={handleDownload} />
+        <View style={styles.content}>
+          <FlatList
+          showsVerticalScrollIndicator={false}
+            ListHeaderComponent={
+              <>
                 <View
                   style={[
                     globalStyles.row,
-                    globalStyles.justifyContentCenter,
-                    {marginTop: 16},
+                    globalStyles.justifyContentBetween,
+                    styles.colGap_50
                   ]}>
-                  <TextCustom
-                    color={defaultColors.c_0000}
-                    fontSize={14}
-                    weight="700">
-                    Cơ sở:
-                  </TextCustom>
-                  <TextCustom
-                    color={defaultColors.c_0000}
-                    fontSize={14}
-                    weight="400">
-                    {' '}
-                    102 Trường Trinh, Phương Mai, Đống Đa, Hà Nội
-                  </TextCustom>
+                  <View style={[globalStyles.row, styles.styleGap25]}>
+                    <View style={globalStyles.row}>
+                      <TextCustom
+                        color={defaultColors.c_0000}
+                        fontSize={14}
+                        weight="700">
+                        Ngày lập:{' '}
+                      </TextCustom>
+                      <TextCustom
+                        color={defaultColors.c_0000}
+                        fontSize={14}
+                        weight="400">
+                        {' '}
+                        15/06/2023 - 15:00
+                      </TextCustom>
+                    </View>
+                    <View style={globalStyles.row}>
+                      <TextCustom
+                        color={defaultColors.c_0000}
+                        fontSize={14}
+                        weight="700">
+                        Người lập lập:{' '}
+                      </TextCustom>
+                      <TextCustom
+                        color={defaultColors.c_0000}
+                        fontSize={14}
+                        weight="400">
+                        {' '}
+                        Admin
+                      </TextCustom>
+                    </View>
+                  </View>
+                  <View style={globalStyles.row}>
+                    <TextCustom
+                      color={defaultColors.c_0000}
+                      fontSize={14}
+                      weight="700">
+                      Cơ sở:
+                    </TextCustom>
+                    <TextCustom
+                      color={defaultColors.c_0000}
+                      fontSize={14}
+                      weight="400">
+                      {' '}
+                      102 Trường Trinh, Phương Mai, Đống Đa, Hà Nội
+                    </TextCustom>
+                  </View>
+                  {/* </View> */}
                 </View>
-                <View style={{marginTop: 16}}>
+                <View style={styles.mt_40}>
+                  <TextCustom
+                    fontSize={32}
+                    weight="700"
+                    color={defaultColors.c_0000}
+                    textAlign="center"
+                    textTransform="uppercase">
+                    Báo cáo món ăn Bán - Hủy
+                  </TextCustom>
                   <View
                     style={[
                       globalStyles.row,
-                      globalStyles.alignItemsCenter,
-                      {
-                        borderTopLeftRadius: 4,
-                        borderTopRightRadius: 4,
-                        height: 39,
-                        backgroundColor: defaultColors._EA222A,
-                        paddingLeft: 24,
-                      },
+                      globalStyles.justifyContentCenter,
+                      {marginTop: 16},
                     ]}>
-                    {titles.map((item, index) => {
-                      return (
-                        <View style={globalStyles.fullFill} key={index}>
-                          <TextCustom
-                            color={defaultColors.c_fff}
-                            fontSize={14}
-                            weight="700">
-                            {item}
-                          </TextCustom>
-                        </View>
-                      );
-                    })}
-                  </View>
-                </View>
-              </View>
-            </>
-          }
-          data={data}
-          renderItem={({item}) => {
-            return (
-              <>
-                <View
-                  style={styles.styleItemList}>
-                  <View style={globalStyles.fullFill}>
                     <TextCustom
                       color={defaultColors.c_0000}
-                      fontSize={12}
-                      weight="400">
-                      {item.code}
+                      fontSize={14}
+                      weight="700">
+                      Cơ sở:
                     </TextCustom>
-                  </View>
-                  <View style={globalStyles.fullFill}>
                     <TextCustom
                       color={defaultColors.c_0000}
-                      fontSize={12}
+                      fontSize={14}
                       weight="400">
-                      {item.name}
+                      {' '}
+                      102 Trường Trinh, Phương Mai, Đống Đa, Hà Nội
                     </TextCustom>
                   </View>
-                  <View style={globalStyles.fullFill}>
-                    <TextCustom
-                      color={defaultColors.c_0000}
-                      fontSize={12}
-                      weight="400">
-                      {item.quantity}
-                    </TextCustom>
-                  </View>
-                  <View style={globalStyles.fullFill}>
-                    <TextCustom
-                      color={defaultColors.c_0000}
-                      fontSize={12}
-                      weight="400">
-                      {item.quantity_cancel}
-                    </TextCustom>
-                  </View>
-                </View>
-                {item.items.map((_item, index) => {
-                  return (
+                  <View style={{marginTop: 16}}>
                     <View
-                      key={index}
                       style={[
                         globalStyles.row,
                         globalStyles.alignItemsCenter,
                         {
-                          height: 40,
+                          borderTopLeftRadius: 4,
+                          borderTopRightRadius: 4,
+                          height: 39,
+                          backgroundColor: defaultColors._EA222A,
                           paddingLeft: 24,
-                          borderBottomWidth: 1,
-                          borderBottomColor: defaultColors.bg_EFEFEF,
                         },
                       ]}>
-                      <View style={globalStyles.fullFill}>
-                        <TextCustom
-                          color={defaultColors.c_0000}
-                          fontSize={12}
-                          weight="400">
-                          {_item.code}
-                        </TextCustom>
-                      </View>
-                      <View style={globalStyles.fullFill}>
-                        <TextCustom
-                          color={defaultColors.c_0000}
-                          fontSize={12}
-                          weight="400">
-                          {_item.name}
-                        </TextCustom>
-                      </View>
-                      <View style={globalStyles.fullFill}>
-                        <TextCustom
-                          color={defaultColors.c_0000}
-                          fontSize={12}
-                          weight="400">
-                          {_item.quantity}
-                        </TextCustom>
-                      </View>
-                      <View style={globalStyles.fullFill}>
-                        <TextCustom
-                          color={defaultColors.c_0000}
-                          fontSize={12}
-                          weight="400">
-                          {_item.quantity_cancel}
-                        </TextCustom>
-                      </View>
+                      {titles.map((item, index) => {
+                        return (
+                          <View style={globalStyles.fullFill} key={index}>
+                            <TextCustom
+                              color={defaultColors.c_fff}
+                              fontSize={14}
+                              weight="700">
+                              {item}
+                            </TextCustom>
+                          </View>
+                        );
+                      })}
                     </View>
-                  );
-                })}
+                  </View>
+                </View>
               </>
-            );
-          }}
-          keyExtractor={(_, index) => index.toString()}
-        />
+            }
+            data={data}
+            renderItem={({item}) => {
+              return (
+                <>
+                  <View style={styles.styleItemList}>
+                    <View style={globalStyles.fullFill}>
+                      <TextCustom
+                        color={defaultColors.c_0000}
+                        fontSize={12}
+                        weight="400">
+                        {item.code}
+                      </TextCustom>
+                    </View>
+                    <View style={globalStyles.fullFill}>
+                      <TextCustom
+                        color={defaultColors.c_0000}
+                        fontSize={12}
+                        weight="400">
+                        {item.name}
+                      </TextCustom>
+                    </View>
+                    <View style={globalStyles.fullFill}>
+                      <TextCustom
+                        color={defaultColors.c_0000}
+                        fontSize={12}
+                        weight="400">
+                        {item.quantity}
+                      </TextCustom>
+                    </View>
+                    <View style={globalStyles.fullFill}>
+                      <TextCustom
+                        color={defaultColors.c_0000}
+                        fontSize={12}
+                        weight="400">
+                        {item.quantity_cancel}
+                      </TextCustom>
+                    </View>
+                  </View>
+                  {item.items.map((_item, index) => {
+                    return (
+                      <View
+                        key={index}
+                        style={[
+                          globalStyles.row,
+                          globalStyles.alignItemsCenter,
+                          {
+                            height: 40,
+                            paddingLeft: 24,
+                            borderBottomWidth: 1,
+                            borderBottomColor: defaultColors.bg_EFEFEF,
+                          },
+                        ]}>
+                        <View style={globalStyles.fullFill}>
+                          <TextCustom
+                            color={defaultColors.c_0000}
+                            fontSize={12}
+                            weight="400">
+                            {_item.code}
+                          </TextCustom>
+                        </View>
+                        <View style={globalStyles.fullFill}>
+                          <TextCustom
+                            color={defaultColors.c_0000}
+                            fontSize={12}
+                            weight="400">
+                            {_item.name}
+                          </TextCustom>
+                        </View>
+                        <View style={globalStyles.fullFill}>
+                          <TextCustom
+                            color={defaultColors.c_0000}
+                            fontSize={12}
+                            weight="400">
+                            {_item.quantity}
+                          </TextCustom>
+                        </View>
+                        <View style={globalStyles.fullFill}>
+                          <TextCustom
+                            color={defaultColors.c_0000}
+                            fontSize={12}
+                            weight="400">
+                            {_item.quantity_cancel}
+                          </TextCustom>
+                        </View>
+                      </View>
+                    );
+                  })}
+                </>
+              );
+            }}
+            keyExtractor={(_, index) => index.toString()}
+          />
+        </View>
       </View>
     </View>
   );
@@ -563,7 +579,7 @@ export const MainDetail = () => {
 const styles = StyleSheet.create({
   container: {
     paddingVertical: 24,
-    paddingHorizontal: 32,
+    paddingHorizontal: getValueForDevice(32, 24),
     flex: 1,
     zIndex: -1,
   },
@@ -578,11 +594,12 @@ const styles = StyleSheet.create({
     zIndex: 10,
   },
   content: {
-    padding: 24,
+    paddingHorizontal: 24,
+    paddingTop: 24,
     borderWidth: 1,
     borderColor: defaultColors.bg_EFEFEF,
     backgroundColor: defaultColors.c_fff,
-    flex: 1,
+    // flex: 1,
     zIndex: -1,
   },
   styleGap25: {
@@ -598,6 +615,9 @@ const styles = StyleSheet.create({
     backgroundColor: defaultColors._F8D5D5,
   },
   mt_40: {
-    marginTop: 40
+    marginTop: 40,
+  },
+  colGap_50: {
+    columnGap: 50
   }
 });
