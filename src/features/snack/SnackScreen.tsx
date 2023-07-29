@@ -14,12 +14,6 @@ const SnackScreen = () => {
     route.params.id,
   );
 
-  console.log('dataProducts' , dataProducts.data);
-
-
-
-
-
 
     const renderItem = (item: ListRenderItemInfo<IMenuItem>) => {
       return (

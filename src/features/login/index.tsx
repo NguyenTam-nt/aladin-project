@@ -42,6 +42,10 @@ const LoginScreen = () => {
               //@ts-ignore
               navigation.replace('main', {screen: 'mainDrawer'});
               break;
+              case ROLE_LIST.chef:
+                //@ts-ignore
+                navigation.replace('main', {screen: 'kitchen'});
+                break;
             default:
               Toast.show({
                 type: 'tomatoToast',

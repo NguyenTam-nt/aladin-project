@@ -41,8 +41,8 @@ export const cartOrderSlice = createSlice({
       }
     },
     removeCartList: state => {
-      if ( state.itemInCart.length > 0) {
-      state.itemInCart = [];
+      if (state.itemInCart.length > 0) {
+        state.itemInCart = [];
       }
     },
   },

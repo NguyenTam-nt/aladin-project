@@ -1,39 +1,72 @@
-import { defaultColors } from '@configs';
-import { ICArrowRight, ICTagFloor } from '@icons';
-import { useNavigation } from '@react-navigation/native';
+import {defaultColors} from '@configs';
+import {ICArrowRight, ICTagFloor} from '@icons';
+import {useNavigation} from '@react-navigation/native';
 import React from 'react';
-import { StyleProp, StyleSheet, Text, TouchableOpacity, View, ViewStyle } from 'react-native';
+import {
+  StyleProp,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+  ViewStyle,
+} from 'react-native';
 import DeviceInfo from 'react-native-device-info';
-import { IFloorInfo, ITable } from 'src/api/table';
+import {IFloorInfo, ITable, getTableID} from 'src/api/table';
 
+export enum DinnerTableState {
+  EMPTY = 'EMPTY',
+  BOOK = 'BOOK',
+  EATING = 'EATING',
+}
 
-
-const TableItem = () => {
+const TableItem = ({item}: {item: ITable}) => {
   const isTablet = DeviceInfo.isTablet();
   const navigation = useNavigation();
+  const {bgColor, textColor}: {bgColor: string; textColor: string} = (() => {
+    switch (item.state) {
+      case DinnerTableState.EMPTY:
+        return {bgColor: defaultColors.c_fff, textColor: defaultColors.c_0000};
+      case DinnerTableState.BOOK:
+        return {bgColor: defaultColors._01A63E, textColor: defaultColors.c_fff};
+      case DinnerTableState.EATING:
+        return {bgColor: defaultColors._0073E5, textColor: defaultColors.c_fff};
+      default:
+        return {bgColor: defaultColors.c_fff, textColor: defaultColors.c_0000};
+    }
+  })();
+
   const stylesTablet: StyleProp<ViewStyle> = [
     styles.tableItem,
-    {width: isTablet ? 180 : '45%', margin: isTablet ? 16 : 8},
+    {width: isTablet ? 180 : '45%', margin: isTablet ? 16 : 8 , backgroundColor : bgColor},
   ];
+
+  const onPress = async (id: number) => {
+    const getId = await getTableID(id);
+
+    console.log('getId' ,getId);
+
+    if (getId.success) {
+      //@ts-ignore
+      navigation.navigate('orderTab', {screen: 'hotpot'});
+    }
+  };
 
   return (
     <TouchableOpacity
       style={stylesTablet}
       onPress={() => {
-        navigation.navigate('orderTab', {screen: 'hotpot'});
+        onPress(item.id);
       }}>
       <View style={styles.contentTableItem}>
-        <ICArrowRight />
-        <Text style={styles.textTable}>Bàn 1</Text>
-        <Text style={styles.textMax}>Tối đa 4 người</Text>
+        <ICArrowRight color={textColor} />
+        <Text style={[styles.textTable , { color : textColor}]}>Bàn 1</Text>
+        <Text style={[styles.textMax , { color : textColor}]}>Tối đa 4 người</Text>
       </View>
     </TouchableOpacity>
   );
 };
 
-
-const TableOrder = ({item}: { item  : IFloorInfo }) => {
-
+const TableOrder = ({item}: {item: IFloorInfo}) => {
   return (
     <View>
       <View style={styles.contentTextFloor}>
@@ -42,7 +75,7 @@ const TableOrder = ({item}: { item  : IFloorInfo }) => {
       </View>
       <View style={styles.contentTextFloor}>
         {item?.tables?.map((item: ITable, index: number) => {
-          return <TableItem key={index} />;
+          return <TableItem key={index} item={item} />;
         })}
       </View>
     </View>
