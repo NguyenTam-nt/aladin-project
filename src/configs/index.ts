@@ -43,6 +43,7 @@ export enum ROLE_LIST {
   admin = 'ROLE_ADMIN',
   staff = 'ROLE_STAFF',
   guest = 'ROLE_GUEST',
+  chef = 'ROLE_CHEF',
 }
 
 export const activeTintColor = defaultColors.c_0000;

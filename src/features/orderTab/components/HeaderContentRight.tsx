@@ -1,50 +1,35 @@
-import {View, Text, StyleSheet} from 'react-native';
-import React, {useRef, useState} from 'react';
-import {defaultColors, isTabletDevice} from '@configs';
-import SearchInput from 'src/components/Filter/SearchInput';
-import DropDownFilter from 'src/components/Filter/DropDownFilter';
-import TabBarLeftOrder from './TabBarLeftOrder';
-import { TabBarOrder } from '../ContentOrderTab';
+import { defaultColors, isTabletDevice } from '@configs';
+import React, { useState } from 'react';
+import { StyleSheet, Text, View } from 'react-native';
 import ButtonMenuTabBar from 'src/components/DropDownView/ButtonMenuTabBar';
-const dataItem = [
-  {
-    label: 'Tất cả',
-    value: '1',
-  },
-  {
-    label: 'Sản phẩm 1',
-    value: '2',
-  },
-  {
-    label: 'Sản phẩm 2',
-    value: '3',
-  },
-  {
-    label: 'Sản phẩm 3',
-    value: '4',
-  },
-];
-const dataItem2 = [
-  {
-    label: 'Tất cả',
-    value: '1',
-  },
-  {
-    label: 'Thời gian',
-    value: '2',
-  },
-  {
-    label: 'Số lượng',
-    value: '3',
-  },
-];
+import DropDownFilter from 'src/components/Filter/DropDownFilter';
+import SearchInput from 'src/components/Filter/SearchInput';
+import { TabBarOrder } from '../ContentOrderTab';
+import { IValueFilter } from './ContentRightOrder';
 
-const HeaderContentRight = (props : TabBarOrder) => {
-  const {  setIsOpenTab} = props;
+interface HeaderContentRight {
+  dataItem: IValueFilter[]
+  dataItem2: IValueFilter[]
+  valueField1: IValueFilter
+  valueField2: IValueFilter
+  setValueField1: React.Dispatch<React.SetStateAction<IValueFilter>>
+  setValueField2: React.Dispatch<React.SetStateAction<IValueFilter>>
+
+}
+
+
+
+const HeaderContentRight = (props: HeaderContentRight & TabBarOrder) => {
+  const {
+    setIsOpenTab,
+    dataItem,
+    dataItem2,
+    valueField1,
+    valueField2,
+    setValueField1,
+    setValueField2,
+  } = props;
   const [valueSearch, setValueSearch] = useState<string>('');
-  const [valueField1, setValueField1] = useState<any>(dataItem[1]);
-  const [valueField2, setValueField2] = useState<any>(dataItem2[1]);
-
 
   return (
     <View

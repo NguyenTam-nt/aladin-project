@@ -41,3 +41,46 @@ export const getProductsApi = async (
   }
 };
 
+export interface IItemProductKitchen {
+  id: number
+  code: string
+  name:  string
+  linkMedia:  string
+  pricePromotion: number
+  inventory: number
+  show: boolean
+  ncategory: string
+  mcategory: string
+}
+
+
+
+export const getProductKitchenApi = async (
+  id: number | undefined,
+  page: number,
+  size: number,
+  menu?: string,
+  sort?: string,
+  state?: string,
+): Promise<IData<IItemProductKitchen>> => {
+  try {
+
+    const result = await request().get(
+      `${APIs.PRODUCTS_KITCHEN}?idCategory=${
+        id || ''
+      }&size=${size}&page=${page}&menu=${menu || ''}&state=${
+        state || ''
+      }&short=${sort || ''}`,
+    );
+    const data = await result.data.list;
+    return {
+      success: true,
+      data: data,
+    };
+  } catch (e) {
+    return handleError(e);
+  }
+};
+
+
+

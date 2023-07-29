@@ -1,30 +1,31 @@
 import { useCallback, useEffect } from 'react';
-import { IMenuItem, getProductsApi } from 'src/api/products';
+import { IItemProductKitchen, IMenuItem, getProductKitchenApi } from 'src/api/products';
 import { useHandleResponsePagination } from 'src/commons/useHandleResponsePagination';
 
 
-export const useProductFlatList = (id : number) => {
-
-
-
+export const useKitChenProduct = (
+  id?: number,
+  menu?: string,
+  sort?: string,
+  state?: string,
+) => {
   const handleRequest = useCallback(
     (pageToken: number, pageSize: number) => {
-      return getProductsApi(id, pageToken, pageSize);
+      return getProductKitchenApi(id, pageToken, pageSize, menu, sort, state);
     },
-    [id],
+    [id, menu, sort, state],
   );
 
-  const dataProducts = useHandleResponsePagination<IMenuItem>(handleRequest);
-
+  const dataProducts = useHandleResponsePagination<IItemProductKitchen>(handleRequest);
   const onRefresh = useCallback(() => {
     dataProducts.pullToRefresh();
   }, []);
 
   useEffect(() => {
-    if (id) {
+
       dataProducts.refresh();
-    }
-  }, [id]);
+
+  }, [id, menu, sort, state]);
 
   const keyExtractor = useCallback((item: any, index: number) => {
     return index.toString();

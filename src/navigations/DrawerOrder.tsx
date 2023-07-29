@@ -38,7 +38,9 @@ const DrawerOrderNavigation = () => {
     const category = await getCategories();
     if (category.success) {
       setCategory(
-        category.data.filter((categoryValue : ICategory) => categoryValue.id !== idHotput),
+        category.data.filter(
+          (categoryValue: ICategory) => categoryValue.id !== idHotput,
+        ),
       );
     }
   };
