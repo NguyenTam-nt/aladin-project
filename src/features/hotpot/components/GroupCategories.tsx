@@ -1,21 +1,7 @@
 import {View, StyleSheet} from 'react-native';
 import React, {memo} from 'react';
 import {ButtonCategory} from './ButtonCategory';
-
-const categories = [
-  {
-    name: 'Lẩu 4 ngăn',
-    id: 123,
-  },
-  {
-    name: 'Lẩu 2 ngăn',
-    id: 234,
-  },
-  {
-    name: 'Nồi đơn',
-    id: 345,
-  },
-];
+import { categoriesHotpot } from '@configs'
 
 type Props = {
   onPress: (id: number) => void
@@ -25,7 +11,7 @@ type Props = {
 export const GroupCategories = memo(({onPress, currentCategory}: Props) => {
   return (
     <View style={styles.group_btn}>
-      {categories.map(item => {
+      {categoriesHotpot.map(item => {
         return (
           <ButtonCategory
             onPress={onPress}

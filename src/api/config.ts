@@ -55,4 +55,5 @@ export const APIs = {
   PRODUCTS: getMicroService('products', microServices.restaurant),
   TABLEID  :  getMicroServiceAdmin('provisional/order', microServices.restaurant),
   PRODUCTS_KITCHEN : getMicroServiceAdmin('products/detail', microServices.restaurant),
+  PRODUCTS_ADMIN: getMicroServiceAdmin('products/infrastructure', microServices.restaurant),
 };

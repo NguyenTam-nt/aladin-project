@@ -6,16 +6,27 @@ import {defaultColors} from '@configs';
 import {MainDetail} from './components/MainDetail';
 import {EventProvider} from 'react-native-outside-press';
 
+export interface TabBarOrder {
+  isOpenTab: boolean
+  setIsOpenTab: React.Dispatch<React.SetStateAction<boolean>>
+}
+
 export const ReportDetail = () => {
   const [currenFilter, setCurrentFilter] = useState<string>('');
   const handleChangeFilter = (filter: string) => {
     setCurrentFilter(filter);
   };
+  const [isOpenTab, setIsOpenTab] = useState<boolean>(false);
   return (
     <EventProvider style={{flex: 1}}>
       <View style={styles.container}>
-        <SideLeft currenFilter={currenFilter} onChange={handleChangeFilter} />
-        <MainDetail />
+        <SideLeft
+          isOpenTab={isOpenTab}
+          setIsOpenTab={setIsOpenTab}
+          currenFilter={currenFilter}
+          onChange={handleChangeFilter}
+        />
+        <MainDetail setIsOpenTab={setIsOpenTab} />
       </View>
     </EventProvider>
   );
