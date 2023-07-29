@@ -5,13 +5,16 @@ import {ListProduct} from './components/ListProduct';
 import {GroupHotpot} from './components/GroupHotpot';
 import {MultipleScreenView} from '../../components/MultipleScreenView';
 import { getValueForDevice } from '../../commons/formatMoney'
+import { useGetCartItem } from './hook/useGetCartItem'
 
 const HotPotScreen = () => {
   const [currentCategory, setCurrentCategory] = useState(categoriesHotpot[0].id);
+  const {clearMenuCategory} = useGetCartItem(currentCategory)
 
   const handlePressCategory = useCallback((id: number) => {
+    clearMenuCategory()
     setCurrentCategory(id);
-  }, []);
+  }, [clearMenuCategory]);
   return (
     <View style={styles.container}>
       <MultipleScreenView

@@ -12,11 +12,13 @@ const QuantityUpdate = ({
   value,
   data,
   updateList,
+  isUnAddList = false,
   max = 999,
 }: {
   value?: number
   data?: IMenuItem
   updateList?: boolean
+  isUnAddList?: boolean
   max?: number
 }) => {
   const number = useRef<number>(0);
@@ -56,13 +58,14 @@ const QuantityUpdate = ({
     }
   }, [value]);
   const AddQuality = useCallback(() => {
+    if(isUnAddList) return
     if (max && number.current === max) {
       return;
     }
     number.current += 1;
 
     setValueToText(number.current);
-  }, [number, data, max]);
+  }, [number, data, max, isUnAddList]);
 
   const Subtraction = useCallback(() => {
     if (number.current > 0) {

@@ -8,13 +8,14 @@ import {
 } from '../../../commons/formatMoney';
 import QuantityUpdate from '../../../components/QuantityUpdate';
 import {getLinkImageUrl} from 'src/commons';
-import { IMenuItem } from 'src/api/products'
+import {IMenuItem} from 'src/api/products';
 
 type PropsProductItem = {
   data: IMenuItem
+  isPushCategory?: boolean
 };
 
-export const ProductItem = memo(({data}: PropsProductItem) => {
+export const ProductItem = memo(({data, isPushCategory}: PropsProductItem) => {
   const source = useMemo(() => {
     return {
       uri: getLinkImageUrl(data?.linkMedia ?? '', 200, 180),
@@ -41,7 +42,7 @@ export const ProductItem = memo(({data}: PropsProductItem) => {
           {formatNumberDotSlice(Number(data.pricePromotion))}
         </TextCustom>
         <View style={styles.styleGroupBtn}>
-          <QuantityUpdate data={data} />
+          <QuantityUpdate isUnAddList={!isPushCategory} data={data} />
         </View>
       </View>
     </View>

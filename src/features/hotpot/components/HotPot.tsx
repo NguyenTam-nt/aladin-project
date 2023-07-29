@@ -11,8 +11,8 @@ import {
 import {Thumb} from '@components'
 import {DIMENSION} from '@constants'
 import {getValueForDevice} from '../../../commons/formatMoney'
-import {useListItemInCart} from 'src/redux/cartOrder/hooks'
 import {getLinkImageUrl} from 'src/commons'
+import { useGetCartItem } from '../hook/useGetCartItem'
 
 const widthHotPot = isTabletDevice ? 436 : DIMENSION.width - 19 * 2
 const corePot =
@@ -31,34 +31,10 @@ type Props = {
 }
 
 export const HotPot = ({currentCategory}: Props) => {
-  const listCategory = useListItemInCart()
 
 
+  const {listCategoriesByCategory, isFourBar, isOneBar, isTwoBar} = useGetCartItem(currentCategory)
 
-  const listCategoriesByCategory = useMemo(() => {
-    return listCategory.filter(
-      item => item.data?.idCategory === currentCategory,
-    )
-  }, [currentCategory, listCategory])
-
-  const lengthMenu = useMemo(() => {
-
-    return listCategory.reduce((currentCount, item) => {
-      return currentCount + item.quantity
-    }, 0)
-  }, [listCategory])
-
-  const isFourBar = useMemo(() => {
-    return currentCategory === hotpotId4
-  }, [currentCategory])
-
-  const isTwoBar = useMemo(() => {
-    return currentCategory === hotpotId2
-  }, [currentCategory])
-
-  const isOneBar = useMemo(() => {
-    return currentCategory === hotpotId1
-  }, [currentCategory])
 
   return (
     <View style={styles.styleHotpot}>
