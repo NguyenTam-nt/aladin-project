@@ -6,39 +6,54 @@ import {
   TouchableOpacity,
   View,
   ViewStyle,
-} from 'react-native';
-import React, {memo, useMemo} from 'react';
-import {defaultColors} from '@configs';
-import {TextCustom} from '@components';
-import {ICCloseModal} from '../../../../assets/icons/ICCloseModal';
-import {Button} from '../../../../components/Button';
-import {ICCheck} from '../../../../assets/icons/ICCheck';
-import {ICDelete} from '../../../../assets/icons/ICDelete';
-import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
-import {getValueForDevice} from 'src/commons/formatMoney';
-import {DIMENSION} from '@constants';
-import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import {MultipleScreenView} from 'src/components/MultipleScreenView';
-import {ICTagFloor} from '@icons';
+} from 'react-native'
+import React, {memo, useCallback, useMemo, useRef, useState} from 'react'
+import {defaultColors} from '@configs'
+import {TextCustom} from '@components'
+import {ICCloseModal} from '../../../../assets/icons/ICCloseModal'
+import {Button} from '../../../../components/Button'
+import {ICCheck} from '../../../../assets/icons/ICCheck'
+import {ICDelete} from '../../../../assets/icons/ICDelete'
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view'
+import {getValueForDevice} from 'src/commons/formatMoney'
+import {DIMENSION} from '@constants'
+import {useSafeAreaInsets} from 'react-native-safe-area-context'
+import {MultipleScreenView} from 'src/components/MultipleScreenView'
+import {ICTagFloor} from '@icons'
+import {IOrderItem, OrderType} from 'src/typeRules/product'
 
 type Props = {
   onCancel: () => void
+  onPress: (data: IOrderItem, reason: string, state:OrderType, isAll?:boolean) => void
   message?: string
   placeholder?: string
   titleInput?: string
-};
+  data: IOrderItem | undefined
+  state: OrderType
+}
 
 export const ModalConfirmCancel = memo(
-  ({onCancel, message, placeholder, titleInput}: Props) => {
-    const insets = useSafeAreaInsets();
+  ({onCancel, message, placeholder, titleInput, onPress, data, state}: Props) => {
+    const insets = useSafeAreaInsets()
+    const [value, setValue] = useState<string>("")
 
     const styleSizeModal = useMemo((): StyleProp<ViewStyle> => {
       return {
         ...styles.styleModalView,
         width: getValueForDevice(720, DIMENSION.width),
         height: getValueForDevice(348, DIMENSION.height - insets.top - 64),
-      };
-    }, [insets.bottom, insets.top]);
+      }
+    }, [insets.bottom, insets.top])
+
+    const handlePress = useCallback(() => {
+      if (data && value.trim()) {
+        onPress(data, value, state)
+      }
+    }, [data, value, state])
+
+    const handleChangeText = useCallback((value: string) => {
+      setValue(value)
+    }, [])
 
     return (
       <View style={styleSizeModal}>
@@ -73,6 +88,8 @@ export const ModalConfirmCancel = memo(
               <TextCustom color={defaultColors._EA222A}>*</TextCustom>
             </TextCustom>
             <TextInput
+              value={value}
+              onChangeText={handleChangeText}
               placeholderTextColor={defaultColors.c_222124}
               placeholder={placeholder}
               style={styles.styleTextInput}
@@ -83,6 +100,7 @@ export const ModalConfirmCancel = memo(
           </View>
           <View style={styles.styleGroupBtn}>
             <Button
+              onPress={handlePress}
               style={styles.styleBtnPrimary}
               renderLeff={
                 <View>
@@ -104,9 +122,9 @@ export const ModalConfirmCancel = memo(
           </View>
         </KeyboardAwareScrollView>
       </View>
-    );
+    )
   },
-);
+)
 
 const styles = StyleSheet.create({
   container: {
@@ -161,4 +179,4 @@ const styles = StyleSheet.create({
   styleIconClose: {
     marginLeft: 'auto',
   },
-});
+})
