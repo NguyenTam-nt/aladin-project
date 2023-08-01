@@ -11,7 +11,9 @@ import {
   ViewStyle,
 } from 'react-native';
 import DeviceInfo from 'react-native-device-info';
+import { useDispatch } from 'react-redux';
 import {IFloorInfo, ITable, getTableID} from 'src/api/table';
+import { setIdBill } from 'src/redux/cartOrder/slice';
 
 export enum DinnerTableState {
   EMPTY = 'EMPTY',
@@ -22,6 +24,7 @@ export enum DinnerTableState {
 const TableItem = ({item}: {item: ITable}) => {
   const isTablet = DeviceInfo.isTablet();
   const navigation = useNavigation();
+  const dispatch = useDispatch();
   const {bgColor, textColor}: {bgColor: string; textColor: string} = (() => {
     switch (item.state) {
       case DinnerTableState.EMPTY:
@@ -43,11 +46,10 @@ const TableItem = ({item}: {item: ITable}) => {
   const onPress = async (id: number) => {
     const getId = await getTableID(id);
 
-    console.log('getId' ,getId);
-
     if (getId.success) {
       //@ts-ignore
       navigation.navigate('orderTab', {screen: 'hotpot'});
+      dispatch(setIdBill(getId.data));
     }
   };
 

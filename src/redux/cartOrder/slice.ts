@@ -10,10 +10,12 @@ export interface IITemCart {
 
 interface IPopupState {
   itemInCart: IITemCart[]
+  idBill : number | undefined
 }
 
 const initialState: IPopupState = {
   itemInCart: [],
+  idBill  : undefined,
 };
 
 export const cartOrderSlice = createSlice({
@@ -45,7 +47,10 @@ export const cartOrderSlice = createSlice({
         state.itemInCart = [];
       }
     },
+    setIdBill: (state, action: PayloadAction<number>) => {
+      state.idBill = action.payload;
+    },
   },
 });
-export const {addItemToCart ,removeCartList} = cartOrderSlice.actions;
+export const {addItemToCart ,removeCartList ,setIdBill} = cartOrderSlice.actions;
 export default cartOrderSlice.reducer;

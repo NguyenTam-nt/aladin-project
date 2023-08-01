@@ -25,7 +25,7 @@ import {
 import CartList from './CartList/CartList';
 import ListOfFood from './ListOfFood/ListOfFood';
 import { formatNumberDotSlice, formatNumberDotWithVND, getValueForDevice } from '../commons/formatMoney';
-import { useListItemInCart } from 'src/redux/cartOrder/hooks';
+import { useIdBill, useListItemInCart } from 'src/redux/cartOrder/hooks';
 
 
 const CartItem = React.memo(() => {
@@ -35,6 +35,15 @@ const CartItem = React.memo(() => {
   const isOpenDrawerFloor = useIsShowDrawerFloor();
   const isOpenActionCart = useIsShowActionCart();
   const heightButtonValue = getValueForDevice(64, 128);
+  const idBill = useIdBill();
+
+  console.log('idBill' ,idBill);
+
+
+  // const [billItems , setBillItems] = useState<any>("")
+
+
+
   const dataItem = useListItemInCart();
 
   const cost = useMemo(() => {

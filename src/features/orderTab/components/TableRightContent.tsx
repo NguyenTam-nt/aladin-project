@@ -1,24 +1,40 @@
 import { Thumb } from '@components';
 import { defaultColors, isTabletDevice } from '@configs';
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import {
   FlatList,
   ListRenderItemInfo,
+  RefreshControl,
   StyleSheet,
   Text,
+  TextInput,
   TouchableOpacity,
   View,
 } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
-import { IItemProductKitchen } from 'src/api/products';
+import { IItemProductKitchen, UpdateInventoryProduct, UpdateShowProduct } from 'src/api/products';
+import { ICCloseModal } from 'src/assets/icons/ICCloseModal';
 import { ICEdit } from 'src/assets/icons/ICEdit';
 import { ICEye } from 'src/assets/icons/ICEye';
 import { ICEyeOff } from 'src/assets/icons/ICEyeOff';
+import { getLinkImageUrl } from 'src/commons';
 import { formatNumberDotSlice } from 'src/commons/formatMoney';
+import { MessageUtils } from 'src/commons/messageUtils';
+import ButtonAction from 'src/components/ButtonAction/ButtonAction';
+import ModalCustom from 'src/components/ModalCustom';
+import { useModal } from 'src/hooks/useModal';
 
-const TableCartItem = ({item} : { item :IItemProductKitchen}) => {
-  const [active, setActive] = useState<boolean>(true);
-
+const TableCartItem = ({item , showModalEdit } : { item :IItemProductKitchen ;showModalEdit : (id : number) => void}) => {
+  const [active, setActive] = useState<boolean>(item.show);
+  const onPressShow = async () => {
+    const update = await UpdateShowProduct(item.id);
+    if (update.success) {
+      setActive(value => !value);
+      MessageUtils.showSuccessMessage('Thành công');
+    } else {
+      MessageUtils.showErrorMessage('Thất bái');
+    }
+  };
   return (
     <View>
       <View style={styles.itemContainer} />
@@ -26,7 +42,7 @@ const TableCartItem = ({item} : { item :IItemProductKitchen}) => {
         <View style={styles.col1}>
           <Thumb
             source={{
-              uri: item.linkMedia,
+              uri: getLinkImageUrl(item.linkMedia, 66, 44),
             }}
             style={styles.imageItem}
           />
@@ -44,20 +60,22 @@ const TableCartItem = ({item} : { item :IItemProductKitchen}) => {
           <Text style={styles.textTable}>{item.mcategory}</Text>
         </View>
         <View style={styles.col6}>
-          <Text style={styles.textTable}>{formatNumberDotSlice(item.pricePromotion)}</Text>
+          <Text style={styles.textTable}>
+            {formatNumberDotSlice(item.pricePromotion)}
+          </Text>
         </View>
         <View style={styles.col7}>
           <Text style={styles.textTable}>{item.inventory}</Text>
         </View>
         <View style={styles.col8}>
           <View style={styles.containerAction}>
-            <TouchableOpacity>
-              <ICEdit />
-            </TouchableOpacity>
             <TouchableOpacity
               onPress={() => {
-                setActive(value => !value);
+                showModalEdit(item.id);
               }}>
+              <ICEdit />
+            </TouchableOpacity>
+            <TouchableOpacity onPress={onPressShow}>
               {active ? <ICEye /> : <ICEyeOff />}
             </TouchableOpacity>
           </View>
@@ -78,15 +96,40 @@ interface ITableRightContent {
         }
       | undefined,
   ) => void
+  updateData :React.Dispatch<React.SetStateAction<IItemProductKitchen[] | undefined>>
 }
 
 const TableRightContent = (props : ITableRightContent) => {
-  const {dataProducts ,keyExtractor ,onRefresh ,onEndReached } = props;
+  const {dataProducts, keyExtractor, onRefresh, onEndReached ,updateData} = props;
+  const modalEditInventory = useModal();
+  const [newInventory, setNewInventory] = useState<string>('');
+  const idEdit = useRef<number>();
 
+  const showModalEdit = (id: number) => {
+    idEdit.current = id;
+    modalEditInventory.handleShow();
+  };
 
+  const updateItem = async () => {
+    const update = await UpdateInventoryProduct(idEdit.current, newInventory);
+    setNewInventory('');
+    if (update.success) {
+      modalEditInventory.handleHidden();
+      MessageUtils.showSuccessMessageWithTimeout('Thành công');
+      const newData = [...dataProducts];
+      const findIndex = newData.findIndex(item => item.id === idEdit.current);
+      if (findIndex >= 0) {
+        newData[findIndex] = update.data;
+        updateData([...newData]);
+      }
+    } else {
+      modalEditInventory.handleHidden();
+      MessageUtils.showErrorMessageWithTimeout('Thất bại');
+    }
+  };
 
   const renderItem = (item: ListRenderItemInfo<IItemProductKitchen>) => {
-    return <TableCartItem item={item.item}/>;
+    return <TableCartItem item={item.item} showModalEdit={showModalEdit} />;
   };
 
   return (
@@ -97,6 +140,7 @@ const TableRightContent = (props : ITableRightContent) => {
         <FlatList
           data={dataProducts}
           showsVerticalScrollIndicator={false}
+          keyExtractor={keyExtractor}
           ListHeaderComponent={
             <View style={styles.content}>
               <View style={styles.col1}>
@@ -127,8 +171,50 @@ const TableRightContent = (props : ITableRightContent) => {
           }
           renderItem={renderItem}
           onEndReached={onEndReached}
+          refreshControl={
+            <RefreshControl refreshing={false} onRefresh={onRefresh} />
+          }
         />
       </ScrollView>
+      <ModalCustom
+        onBackdropPress={modalEditInventory.handleHidden}
+        ref={modalEditInventory.refModal}>
+        <View style={styles.modalEdit}>
+          <View style={styles.contentHeaderModal}>
+            <Text style={styles.textHeaderModal}>Cập nhật số lượng </Text>
+            <TouchableOpacity
+              style={{padding: 10}}
+              onPress={modalEditInventory.handleHidden}>
+              <ICCloseModal color={defaultColors.c_0000} />
+            </TouchableOpacity>
+          </View>
+          <View style={{marginTop: 32}}>
+            <Text style={styles.textNumber}>Số lượng tồn kho</Text>
+            <TextInput
+              style={styles.textInputEdit}
+              placeholder={'Nhập số lượng'}
+              value={newInventory.toString()}
+              onFocus={() => {
+                setNewInventory('');
+              }}
+              keyboardType="numeric"
+              onChangeText={(value: any) => {
+                if (value && !isNaN(value)) {
+                  setNewInventory(+value);
+                } else {
+                  setNewInventory('');
+                }
+              }}
+            />
+          </View>
+          <View style={{marginTop: 20}}>
+            <ButtonAction
+              onPressCancel={modalEditInventory.handleHidden}
+              onPressDone={() => {updateItem();}}
+            />
+          </View>
+        </View>
+      </ModalCustom>
     </View>
   );
 };
@@ -213,6 +299,37 @@ const styles = StyleSheet.create({
   containerAction: {
     flexDirection: 'row',
     gap: 8,
+  },
+  modalEdit: {
+    height: 270,
+    width: 500,
+    backgroundColor: defaultColors.c_fff,
+    borderRadius: 10,
+    padding: 24,
+  },
+  textHeaderModal: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: defaultColors.c_222124,
+  },
+  textNumber: {
+    fontSize: 14,
+    fontWeight: 'bold',
+    color: defaultColors.c_222124,
+  },
+  contentHeaderModal : {
+    flexDirection : 'row' ,
+    justifyContent : 'space-between',
+     alignItems : 'center',
+  },
+  textInputEdit  : {
+    width: ' 80%',
+    height: 40,
+    borderWidth: 1,
+    marginTop: 12,
+    borderRadius: 8,
+    borderColor: defaultColors.bg_EFEFEF,
+    padding: 10,
   },
 });
 
