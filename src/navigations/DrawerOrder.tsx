@@ -51,7 +51,7 @@ const DrawerOrderNavigation = () => {
 
   React.useEffect(() => {
     if (!isFocused) {
-      // dispatch(removeCartList());
+      dispatch(removeCartList());
     }
   }, [isFocused]);
 
@@ -59,7 +59,6 @@ const DrawerOrderNavigation = () => {
     <View style={{flex: 1}}>
       <Drawer.Navigator
         drawerContent={props => <CustomDrawer {...props} />}
-
         screenOptions={screenOptions}
         backBehavior="history">
         <Drawer.Screen

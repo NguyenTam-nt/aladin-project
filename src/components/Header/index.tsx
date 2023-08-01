@@ -18,6 +18,7 @@ import { useDispatch } from 'react-redux';
 import { setShowDrawerFloor } from '../../redux/infoDrawer/slice';
 import { DinnerTableState } from 'src/features/home/components/TableOrder';
 import { ICCheckBox } from 'src/assets/icons/ICCheckBox';
+import { useIdBill } from 'src/redux/cartOrder/hooks';
 
 export const Header = ({
   isCheckbox,
@@ -35,6 +36,7 @@ export const Header = ({
   const navigation = useNavigation();
   const statusDrawer = useDrawerStatus();
   const dispatch = useDispatch();
+  const idBill = useIdBill();
   const onDraw = async () => {
     await Keyboard.dismiss();
     navigation.dispatch(DrawerActions.openDrawer());
@@ -151,7 +153,7 @@ export const Header = ({
                 <>
                   <View style={styles.icCircle} />
                   <Text style={styles.textCheckBox}>
-                    Mã hóa đơn: <Text style={styles.textBold}> MHĐ01 </Text>
+                    Mã hóa đơn: <Text style={styles.textBold}>{idBill || ''}</Text>
                   </Text>
                   <View style={styles.icCircle} />
                   <Text style={styles.textCheckBox}>

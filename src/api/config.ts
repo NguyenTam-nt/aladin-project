@@ -56,4 +56,6 @@ export const APIs = {
   TABLEID  :  getMicroServiceAdmin('provisional/order', microServices.restaurant),
   PRODUCTS_KITCHEN : getMicroServiceAdmin('products/detail', microServices.restaurant),
   PRODUCTS_ADMIN: getMicroServiceAdmin('products/infrastructure', microServices.restaurant),
+  UPDATE_INVENTORY : getMicroServiceAdmin('products/detail/inventory' , microServices.restaurant),
+  UPDATE_SHOW :  getMicroServiceAdmin('products/detail/show' , microServices.restaurant),
 };

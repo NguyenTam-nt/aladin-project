@@ -36,6 +36,7 @@ const ContentOrderTab = () => {
         setTypeLocaion={setTypeLocaion}
       />
       <ContentRightOrder
+      typeLocation={typeLocation}
         isOpenTab={isOpenTab}
         setIsOpenTab={setIsOpenTab}
         stateFilter={stateFilter}
