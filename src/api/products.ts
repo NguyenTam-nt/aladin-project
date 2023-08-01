@@ -142,3 +142,43 @@ export const updateOrerKitchenAllState = async (state:OrderType, idOrder:number,
     return handleError(e)
   }
 }
+
+
+export const UpdateInventoryProduct =  async (
+  id: number | undefined,
+  inventory : string
+): Promise<IData<IItemProductKitchen>> => {
+  try {
+
+
+    const result = await request().patch(
+      `${APIs.UPDATE_INVENTORY}?id=${id}&inventory=${inventory}`,
+    );
+
+    const data = await result.data;
+    return {
+      success: true,
+      data: data,
+    };
+  } catch (e) {
+    return handleError(e);
+  }
+};
+
+export const UpdateShowProduct = async (
+  id: number | undefined,
+): Promise<IData<IItemProductKitchen>> => {
+  try {
+    const result = await request().patch(`${APIs.UPDATE_SHOW}?id=${id}`);
+
+    const data = await result.data;
+    return {
+      success: true,
+      data: data,
+    };
+  } catch (e) {
+    return handleError(e);
+  }
+};
+
+

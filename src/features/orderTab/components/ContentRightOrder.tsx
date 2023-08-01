@@ -52,15 +52,20 @@ export interface IValueFilter {
   value : string
 }
 
+interface IContentRightOrder {
+  typeLocation : string | undefined
 
-const ContentRightOrder = (props :TabBarOrder ) => {
-  const {isOpenTab , setIsOpenTab} = props;
+}
+
+
+const ContentRightOrder = (props :TabBarOrder & IContentRightOrder ) => {
+  const {isOpenTab , setIsOpenTab ,typeLocation} = props;
   const [valueField1, setValueField1] = useState<IValueFilter>(dataItemFilter1[0]);
   const [valueField2, setValueField2] = useState<IValueFilter>(dataItemFilterItem2[0]);
 
   const {dataProducts, keyExtractor, onRefresh} = useKitChenProduct(
     props?.stateFilter?.id || props?.stateFilter?.idParent,
-    '',
+    typeLocation,
     valueField2.value,
     valueField1.value,
   );
@@ -80,6 +85,7 @@ const ContentRightOrder = (props :TabBarOrder ) => {
       />
       <TableRightContent
         dataProducts={dataProducts.data}
+        updateData={dataProducts.setData}
         keyExtractor={keyExtractor}
         onRefresh={onRefresh}
         onEndReached={dataProducts.handleLoadMore}

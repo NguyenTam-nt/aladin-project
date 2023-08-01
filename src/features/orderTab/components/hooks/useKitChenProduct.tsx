@@ -15,7 +15,6 @@ export const useKitChenProduct = (
     },
     [id, menu, sort, state],
   );
-
   const dataProducts = useHandleResponsePagination<IItemProductKitchen>(handleRequest);
   const onRefresh = useCallback(() => {
     dataProducts.pullToRefresh();

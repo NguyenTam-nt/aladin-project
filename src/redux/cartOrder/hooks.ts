@@ -16,4 +16,10 @@ export const useHandleAddCart = () => {
   return useCallback((data: IITemCart) => {
     dispatch(addItemToCart(data));
   }, []);
+}
+export const useIdBill = () => {
+  const idBill = useSelector(
+    (appState: RootState) => appState.cartOrderSlice.idBill,
+  );
+  return idBill;
 };

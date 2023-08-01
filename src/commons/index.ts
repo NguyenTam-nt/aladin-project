@@ -4,6 +4,7 @@ export const getLinkImageUrl = (
     height: number,
     quanlity = 100
   ) => {
+
     return `${url}/${Math.floor(width)}/${Math.floor(height)}/${quanlity}`;
   };
-  
+
