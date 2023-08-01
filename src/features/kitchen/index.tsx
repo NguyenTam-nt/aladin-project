@@ -1,12 +1,19 @@
-import React, {useCallback, useMemo, useState} from 'react';
-import {SafeAreaView, StatusBar, View} from 'react-native';
+import React, {createContext, useCallback, useMemo, useState} from 'react';
+import {View} from 'react-native';
 import { HeaderTab} from './components/Header';
 import {createStackNavigator} from '@react-navigation/stack';
 import {routerKitchens, routerPath} from '../../navigations/DrawerKitchen';
 import {categoryKitchenNames, isTabletDevice} from '@configs';
 import {HandleTabKitchen} from './components/HandleTabKitchen';
-import { globalStyles } from 'src/commons/globalStyles';
 import { Header } from '@components';
+
+type KitchenType = {
+  currentType: string
+}
+
+export const KitchenContext = createContext<KitchenType>({
+  currentType: categoryKitchenNames.kitchen
+})
 
 const KitChenStack = createStackNavigator();
 
@@ -28,13 +35,14 @@ export const Kitchen = React.memo(() => {
     setCurrentCategory(category);
   }, []);
 
-  const params = useMemo(() => {
+  const valueContext = useMemo(() => {
     return {
-      currentCategory,
-    };
-  }, [currentCategory]);
+      currentType: currentCategory
+    }
+  }, [currentCategory])
 
   return (
+    <KitchenContext.Provider value={valueContext} >
     <View style={{ flex : 1}}>
       {!isTabletDevice && <Header />}
       <HeaderTab
@@ -57,11 +65,12 @@ export const Kitchen = React.memo(() => {
                 key={item.slug}
                 name={item.slug}
                 component={item.element}
-                initialParams={params}
               />
             );
           })}
       </KitChenStack.Navigator>
     </View>
+
+    </KitchenContext.Provider>
   );
 });

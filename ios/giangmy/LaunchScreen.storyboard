@@ -18,38 +18,50 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Giang Mỹ Hotpot, Copyright @2023 - Design by Aladin Technology Company" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="12" translatesAutoresizingMaskIntoConstraints="NO" id="MN2-I3-ftu">
-                                <rect key="frame" x="20" y="606" width="335" height="41"/>
+                                <rect key="frame" x="20" y="586" width="335" height="41"/>
                                 <fontDescription key="fontDescription" type="system" weight="light" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <color key="highlightedColor" systemColor="labelColor"/>
                                 <size key="shadowOffset" width="600" height="-1"/>
                             </label>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo.png" translatesAutoresizingMaskIntoConstraints="NO" id="dZN-jo-a73">
-                                <rect key="frame" x="20" y="226" width="335" height="128"/>
-                            </imageView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kXU-fa-0kk">
+                                <rect key="frame" x="93.5" y="239.5" width="188" height="188"/>
+                                <subviews>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo_giangmy-40.png" translatesAutoresizingMaskIntoConstraints="NO" id="u0o-ay-9dS">
+                                        <rect key="frame" x="10" y="10" width="168" height="168"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="168" id="Wbk-Aq-dOm"/>
+                                            <constraint firstAttribute="height" constant="168" id="sZd-c6-3RE"/>
+                                        </constraints>
+                                    </imageView>
+                                </subviews>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="u0o-ay-9dS" secondAttribute="trailing" constant="10" id="BBn-mF-WV9"/>
+                                    <constraint firstItem="u0o-ay-9dS" firstAttribute="top" secondItem="kXU-fa-0kk" secondAttribute="top" constant="10" id="JhN-Gp-2xg"/>
+                                    <constraint firstItem="u0o-ay-9dS" firstAttribute="leading" secondItem="kXU-fa-0kk" secondAttribute="leading" constant="10" id="aTH-n1-VJf"/>
+                                    <constraint firstAttribute="bottom" secondItem="u0o-ay-9dS" secondAttribute="bottom" constant="10" id="hgc-nV-5P4"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="Bcu-3y-fUS"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="dZN-jo-a73" firstAttribute="height" secondItem="Ze5-6b-2t3" secondAttribute="height" multiplier="1/2" id="3DN-3L-1y8"/>
-                            <constraint firstItem="dZN-jo-a73" firstAttribute="leading" secondItem="Bcu-3y-fUS" secondAttribute="leading" constant="20" id="5cB-JA-dwV"/>
-                            <constraint firstItem="Bcu-3y-fUS" firstAttribute="trailing" secondItem="dZN-jo-a73" secondAttribute="trailing" constant="20" id="6mj-C1-OKz"/>
-                            <constraint firstItem="Bcu-3y-fUS" firstAttribute="bottom" secondItem="MN2-I3-ftu" secondAttribute="bottom" constant="20" id="OZV-Vh-mqD"/>
-                            <constraint firstItem="Bcu-3y-fUS" firstAttribute="trailing" secondItem="MN2-I3-ftu" secondAttribute="trailing" constant="20" id="OhH-7x-vsC"/>
-                            <constraint firstItem="MN2-I3-ftu" firstAttribute="centerX" secondItem="Bcu-3y-fUS" secondAttribute="centerX" id="akx-eg-2ui"/>
-                            <constraint firstItem="MN2-I3-ftu" firstAttribute="leading" secondItem="Bcu-3y-fUS" secondAttribute="leading" id="i1E-0Y-4RG"/>
-                            <constraint firstItem="dZN-jo-a73" firstAttribute="top" secondItem="Bcu-3y-fUS" secondAttribute="top" constant="226" id="kjN-k6-7js"/>
-                            <constraint firstItem="MN2-I3-ftu" firstAttribute="leading" secondItem="Bcu-3y-fUS" secondAttribute="leading" constant="20" id="vhd-J6-Jgb"/>
+                            <constraint firstItem="Bcu-3y-fUS" firstAttribute="trailing" secondItem="MN2-I3-ftu" secondAttribute="trailing" constant="20" id="Abe-eE-qqs"/>
+                            <constraint firstItem="kXU-fa-0kk" firstAttribute="centerX" secondItem="Bcu-3y-fUS" secondAttribute="centerX" id="NU7-6v-ytS"/>
+                            <constraint firstItem="kXU-fa-0kk" firstAttribute="centerY" secondItem="Bcu-3y-fUS" secondAttribute="centerY" id="UJJ-W0-Lpl"/>
+                            <constraint firstItem="MN2-I3-ftu" firstAttribute="leading" secondItem="Bcu-3y-fUS" secondAttribute="leading" constant="20" id="hbJ-Uy-9TT"/>
+                            <constraint firstItem="Bcu-3y-fUS" firstAttribute="bottom" secondItem="MN2-I3-ftu" secondAttribute="bottom" constant="40" id="vfg-g6-Yxp"/>
                         </constraints>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iYj-Kq-Ea1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="52" y="374.66266866566718"/>
+            <point key="canvasLocation" x="47.200000000000003" y="17.541229385307346"/>
         </scene>
     </scenes>
     <resources>
-        <image name="logo.png" width="120" height="120"/>
+        <image name="logo_giangmy-40.png" width="40" height="40"/>
         <systemColor name="labelColor">
             <color red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
