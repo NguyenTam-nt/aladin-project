@@ -18,8 +18,6 @@ const HomeScreen = ({ stateCheckbox } : { stateCheckbox : string[]}) => {
   const floorActive = useFloorActive();
   const areaId = useAreaId();
 
-
-
   const getDataTable = async () => {
     if (areaId) {
       const tableData = await getTable(areaId , stateCheckbox );
@@ -128,5 +126,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
 });
+
+
 
 export default HomeScreen;

@@ -95,7 +95,6 @@ const TabBarLeftOrder = React.memo((props: TabBarOrder & ITabBarLeftOrder) => {
                   <View style={styles.itemViewDropDown}>
                     {dataCheckbox.map((e, index) => {
                       const isActive = typeLocation === e.value;
-
                       return (
                         <TouchableOpacity
                           style={styles.buttonCheckBoxDropDown}

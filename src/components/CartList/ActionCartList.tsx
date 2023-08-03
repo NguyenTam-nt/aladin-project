@@ -49,8 +49,6 @@ const ActionCartList = ({
     }
   };
 
-
-
   return (
     <View style={styles.container}>
       <TouchableOpacity style={styles.buttonSent} onPress={postItemToKitChen}>
