@@ -1,80 +1,18 @@
 import { defaultColors } from '@configs';
-import React, { useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 import { RadioButtonSelect } from '../../../components/Checkbox/RadioButton';
 import DropdownComponent from '../../DropDownCustom/DropdownCustom';
 import CompoundTable from './component/CompoundTable';
-const dataItem = [
-  {
-    label: 'Tầng 1',
-    value: '1',
-    children: [
-      {label: 'Bàn 1', value: 'b11'},
-      {label: 'Bàn 2', value: 'b12' },
-      {label: 'Bàn 3', value: 'b13' },
-      {label: 'Bàn 4', value: 'b14' },
-      {label: 'Bàn 5', value: 'b15' },
-      {label: 'Bàn 6', value: 'b16' },
-      {label: 'Bàn 7', value: 'b17' },
-      {label: 'Bàn 8', value: 'b18' },
-      {label: 'Bàn 9', value: 'b19' },
-      {label: 'Bàn 10', value: 'b110' },
-    ],
-  },
-  {
-    label: 'Tầng 2',
-    value: '2',
-    children: [
-      {label: 'Bàn 1', value: 'b21'},
-      {label: 'Bàn 2', value: 'b22'},
-    ],
-  },
-  {
-    label: 'Tầng 3',
-    value: '3',
-    children: [
-      {label: 'Bàn 1', value: 'b21'},
-      {label: 'Bàn 2', value: 'b22'},
-    ],
-  },
-  {
-    label: 'Tầng 4',
-    value: '4',
-    children: [
-      {label: 'Bàn 1', value: 'b21'},
-      {label: 'Bàn 2', value: 'b22'},
-    ],
-  },
-  {
-    label: 'Tầng 5',
-    value: '5',
-    children: [
-      {label: 'Bàn 1', value: 'b21'},
-      {label: 'Bàn 2', value: 'b22'},
-    ],
-  },
-  {
-    label: 'Tầng 6',
-    value: '6',
-    children: [
-      {label: 'Bàn 1', value: 'b21'},
-      {label: 'Bàn 2', value: 'b22'},
-    ],
-  },
-  {
-    label: 'Tầng 7',
-    value: '7',
-    children: [
-      {label: 'Bàn 1', value: 'b21'},
-      {label: 'Bàn 2', value: 'b22'},
-    ],
-  },
-];
+import { IProductInCart } from 'src/api/products';
+import { ActionCartListChoose } from '../CartList';
+import { getTableCombine, getTableDetached } from 'src/api/table';
+import { useIdBill } from 'src/redux/cartOrder/hooks';
+
   interface IDataSelection {
     label: string
     value: any
-
   }
 
  export interface IDataSelectionCustom  {
@@ -84,11 +22,47 @@ const dataItem = [
     parentId?: number
   }
 
-const CompoundCartList = () => {
-
-
+const CompoundCartList = ({dataItemCart ,setActionChoose} : { dataItemCart: IProductInCart[]
+  setActionChoose: React.Dispatch<React.SetStateAction<ActionCartListChoose>> }) => {
+  const idBill = useIdBill();
   const [isCompound , setIsCompound] = useState<boolean>(true);
-  const [table, setTable] = useState<IDataSelectionCustom>(dataItem[0]);
+  const [dataItem , setDataItem] = useState<IDataSelectionCustom[]>([]);
+
+  const [table, setTable] = useState<IDataSelectionCustom | undefined>();
+
+  const dataListUpdate = useMemo<IProductInCart[]>(() => {
+    return dataItemCart.filter(item => item.state !== 'CANCEL');
+  }, [dataItemCart]);
+
+  const getTableList = useCallback(async () => {
+    if (idBill) {
+      const data = isCompound
+        ? await getTableCombine(idBill)
+        : await getTableDetached(idBill);
+      if (data.success) {
+        const dataCheck = data.data?.map(area => {
+          return {
+            label: area.nameArea,
+            value: area.id.toString(),
+            children: area.tables.map(table => {
+              return {
+                label: table.name,
+                value: table.id.toString(),
+              };
+            }),
+          };
+        });
+        setTable(undefined);
+        setDataItem(dataCheck || []);
+      }
+    }
+  }, [idBill ,isCompound]);
+
+  useEffect(() => {
+    if (idBill) {
+    getTableList();
+    }
+  }, [idBill , isCompound]);
 
   return (
     <View style={styles.container}>
@@ -133,7 +107,12 @@ const CompoundCartList = () => {
           setTable(e);
         }}
       />
-      <CompoundTable />
+      <CompoundTable
+        dataItemCart={dataListUpdate}
+        setActionChoose={setActionChoose}
+        tableId={table?.parentId ? table.value : undefined}
+        typeActions={isCompound ? 'combine' : 'detached'}
+      />
     </View>
   );
 };
@@ -161,7 +140,6 @@ const styles = StyleSheet.create({
     fontSize: 14,
     marginLeft: 8,
   },
-
   dropdown: {
     height: 40,
     borderWidth: 1,
@@ -172,8 +150,9 @@ const styles = StyleSheet.create({
     marginTop : 8,
   },
   placeholderStyle: {
+    color: defaultColors.c_fff,
     fontSize: 14,
-    backgroundColor :  defaultColors._EA222A,
+    marginLeft: 8,
   },
   selectedTextStyle: {
     fontSize: 14,

@@ -1,12 +1,10 @@
 import { defaultColors } from '@configs';
 import { createStackNavigator } from '@react-navigation/stack';
-import React, { useEffect, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import { StatusBar } from 'react-native';
-import SockJS from 'sockjs-client';
 import DrawerNavigation from './Drawer';
 import DrawerKitchen from './DrawerKitchen';
 import DrawerOrderNavigation from './DrawerOrder';
-import { sockClient } from 'src/api/config';
 var Stomp = require('stompjs/lib/stomp.js').Stomp;
 
 export const RootStack = createStackNavigator();

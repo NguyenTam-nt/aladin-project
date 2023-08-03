@@ -1,7 +1,7 @@
 import type {CancelTokenSource} from 'axios';
 export interface IResponseApi<T> {
   success?: boolean
-  data?: T
+  data: T
   message?: string
   status?: number | string
   page?: {

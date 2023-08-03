@@ -61,14 +61,15 @@ const TableItem = ({item}: {item: ITable}) => {
       }}>
       <View style={styles.contentTableItem}>
         <ICArrowRight color={textColor} />
-        <Text style={[styles.textTable , { color : textColor}]}>Bàn 1</Text>
-        <Text style={[styles.textMax , { color : textColor}]}>Tối đa 4 người</Text>
+        <Text style={[styles.textTable , { color : textColor}]}>{item.name}</Text>
+        <Text style={[styles.textMax , { color : textColor}]}>Tối đa {item.nseat} người</Text>
       </View>
     </TouchableOpacity>
   );
 };
 
 const TableOrder = ({item}: {item: IFloorInfo}) => {
+
   return (
     <View>
       <View style={styles.contentTextFloor}>

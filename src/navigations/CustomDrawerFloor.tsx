@@ -34,6 +34,10 @@ const CustomDrawerFloor = ({ navigation } : { navigation : DrawerNavigationHelpe
   const dispatch = useDispatch();
   const getDataFloor = async () => {
     const floor = await getFloor();
+
+
+
+
     if (floor.success) {
       setFloor(AllFloor.concat(floor.data[0].area));
       dispatch(setAreaId(floor.data[0].infrastructure.id));

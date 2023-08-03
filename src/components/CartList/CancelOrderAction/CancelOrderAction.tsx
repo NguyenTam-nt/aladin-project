@@ -1,7 +1,9 @@
 import {defaultColors} from '@configs';
-import React from 'react';
+import React, { useMemo } from 'react';
 import {StyleSheet, View, Text} from 'react-native';
 import CompoundTable from '../CompoundAction/component/CompoundTable';
+import { IProductInCart } from 'src/api/products';
+import { ActionCartListChoose } from '../CartList';
 
 interface IDataSelection {
   label: string
@@ -15,14 +17,27 @@ export interface IDataSelectionCustom {
   parentId?: number
 }
 
-const CancelOrderAction = () => {
+const CancelOrderAction = ({
+  dataItemCart,
+  setActionChoose,
+}: {
+  dataItemCart: IProductInCart[]
+  setActionChoose: React.Dispatch<React.SetStateAction<ActionCartListChoose>>
+}) => {
+  const dataListUpdate = useMemo<IProductInCart[]>(() => {
+    return dataItemCart.filter(item => item.state === 'PROCESSING');
+  }, [dataItemCart]);
   return (
     <View style={styles.container}>
       <View style={styles.headerContent}>
         <View style={styles.itemLeft} />
         <Text style={styles.textRight}>Chọn món ăn bạn muốn hủy</Text>
       </View>
-      <CompoundTable deleteAction />
+      <CompoundTable
+        deleteAction
+        dataItemCart={dataListUpdate}
+        setActionChoose={setActionChoose}
+      />
     </View>
   );
 };

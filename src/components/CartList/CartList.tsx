@@ -1,14 +1,15 @@
-import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
-import React, {useEffect, useMemo, useState} from 'react';
-import {ICTagFloor} from '@icons';
-import {defaultColors} from '@configs';
-import {ICCloseModal} from '../../assets/icons/ICCloseModal';
+import { defaultColors } from '@configs';
+import { ICTagFloor } from '@icons';
+import React, { useEffect, useMemo, useState } from 'react';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { useDispatch } from 'react-redux';
+import { IProductInCart } from 'src/api/products';
+import { ICCloseModal } from '../../assets/icons/ICCloseModal';
+import { setShowActionCart } from '../../redux/infoDrawer/slice';
 import ActionCartList from './ActionCartList';
-import TableCartList from './TableCartList';
-import CompoundCartList from './CompoundAction/CompoundCartList';
-import {useDispatch} from 'react-redux';
-import {setShowActionCart, setShowDrawerFloor} from '../../redux/infoDrawer/slice';
 import CancelOrderAction from './CancelOrderAction/CancelOrderAction';
+import CompoundCartList from './CompoundAction/CompoundCartList';
+import TableCartList from './TableCartList';
 
 export enum ActionCartListChoose {
   sentToKitchen = 'sentToKitchen',
@@ -19,7 +20,13 @@ export enum ActionCartListChoose {
 }
 
 const CartList = React.memo(
-  ({hiddenViewList}: {hiddenViewList: () => void}) => {
+  ({
+    hiddenViewList,
+    dataItemCart,
+  }: {
+    hiddenViewList: () => void
+    dataItemCart: IProductInCart[]
+  }) => {
     const [actionChoose, setActionChoose] = useState<ActionCartListChoose>(
       ActionCartListChoose.empty,
     );
@@ -38,7 +45,7 @@ const CartList = React.memo(
     }, [actionChoose]);
 
     return (
-      <View style={[styles.container , styleContainer]}>
+      <View style={[styles.container, styleContainer]}>
         <View style={styles.containerHeader}>
           <View style={styles.contentHeader}>
             <ICTagFloor />
@@ -49,8 +56,10 @@ const CartList = React.memo(
           </TouchableOpacity>
         </View>
         <ContentViewCart
+          dataItemCart={dataItemCart}
           actionChoose={actionChoose}
           setActionChoose={setActionChoose}
+          hiddenViewList={hiddenViewList}
         />
       </View>
     );
@@ -59,31 +68,50 @@ const CartList = React.memo(
 
 const ContentViewCart = React.memo(
   ({
+    dataItemCart,
     actionChoose,
     setActionChoose,
+    hiddenViewList,
   }: {
+    dataItemCart: IProductInCart[]
     actionChoose: ActionCartListChoose
     setActionChoose: React.Dispatch<React.SetStateAction<ActionCartListChoose>>
+    hiddenViewList: () => void
   }) => {
-
     switch (actionChoose) {
       case ActionCartListChoose.empty:
         return (
           <>
-            <ActionCartList setActionChoose={setActionChoose} />
-            <TableCartList />
+            <ActionCartList
+              setActionChoose={setActionChoose}
+              hiddenViewList={hiddenViewList}
+            />
+            <TableCartList itemInCart={dataItemCart} />
           </>
         );
       case ActionCartListChoose.compound:
-        return <CompoundCartList />;
+        return (
+          <CompoundCartList
+            setActionChoose={setActionChoose}
+            dataItemCart={dataItemCart}
+          />
+        );
 
       case ActionCartListChoose.cancelOrder:
-        return <CancelOrderAction />;
+        return (
+          <CancelOrderAction
+            dataItemCart={dataItemCart}
+            setActionChoose={setActionChoose}
+          />
+        );
       default:
         return (
           <>
-            <ActionCartList setActionChoose={setActionChoose} />
-            <TableCartList />
+            <ActionCartList
+              setActionChoose={setActionChoose}
+              hiddenViewList={hiddenViewList}
+            />
+            <TableCartList itemInCart={dataItemCart} />
           </>
         );
     }

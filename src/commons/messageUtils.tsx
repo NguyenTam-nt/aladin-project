@@ -29,6 +29,13 @@ export const MessageUtils = {
     Toast.show(params);
   },
 
+  showWarningMessage(message: string) {
+    this.show({
+      type: 'tomatoToast',
+      props: { status: 'warning', uuid: message ?? '' },
+    });
+  },
+
   showEditNotification(status: 'error' | 'success', message?: string) {
     Toast.show({
       type: 'tomatoToast',

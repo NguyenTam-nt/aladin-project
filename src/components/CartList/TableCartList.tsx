@@ -1,42 +1,52 @@
 import { defaultColors, isTabletDevice } from '@configs';
-import React from 'react';
-import { FlatList, ListRenderItemInfo, StyleSheet, Text, View } from 'react-native';
+import React, { useCallback } from 'react';
+import { FlatList, ListRenderItemInfo, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { ICDeleteProduct } from 'src/assets/icons/ICDeleteProduct';
+import { formatNumberDotSlice } from 'src/commons/formatMoney';
+import { useListItemInCart } from 'src/redux/cartOrder/hooks';
+import { IITemCart, removeItemById } from 'src/redux/cartOrder/slice';
 import { ICAddOrder } from '../../assets/icons/ICAddOrder';
 import { Thumb } from '../Thumb/Thumb';
 import ItemCardMobile from './ItemCardMobile';
-import { useListItemInCart } from 'src/redux/cartOrder/hooks';
-import { IITemCart } from 'src/redux/cartOrder/slice';
-import { formatNumberDotSlice } from 'src/commons/formatMoney';
-import { IMenuItem } from 'src/api/products';
+import { getLinkImageUrl } from 'src/commons';
+import { IProductInCart } from 'src/api/products';
+import { useDispatch } from 'react-redux';
 
+export  enum ProductState {
+  COMPLETE ='COMPLETE', CANCEL ='CANCEL', PROCESSING ='PROCESSING', PROCESSING_CANCEL='PROCESSING_CANCEL'
+}
 
-export const StatusOrderItem = React.memo(({checkstatus} : {checkstatus : string}) => {
+export const StatusOrderItem = React.memo(({checkstatus , id } : {checkstatus: string | null ; id : number}) => {
+
+  const dispatch = useDispatch();
+
   const {
     colorBackground,
     textStatus,
     circleColor,
   }: {colorBackground: string; textStatus: string; circleColor: string} =
     (() => {
+
       switch (checkstatus) {
-        case 'success':
+        case ProductState.COMPLETE:
           return {
             colorBackground: defaultColors._BAE5C8,
             textStatus: 'Hoàn thành',
             circleColor: defaultColors._01A63E,
           };
-        case 'cancel':
+        case ProductState.CANCEL:
           return {
             colorBackground: defaultColors._241_171_171_100,
             textStatus: 'Đã huỷ',
             circleColor: defaultColors._E73F3F,
           };
-        case 'waitingSuccess':
+        case  ProductState.PROCESSING:
           return {
             colorBackground: defaultColors._99C7F5,
             textStatus: 'Chờ chế biến',
             circleColor: defaultColors._0073E5,
           };
-        case 'waitingCancel':
+        case ProductState.PROCESSING_CANCEL :
           return {
             colorBackground: defaultColors._FFDB9E,
             textStatus: 'Chờ huỷ',
@@ -52,7 +62,10 @@ export const StatusOrderItem = React.memo(({checkstatus} : {checkstatus : string
       }
     })();
 
-  return (
+    const removeItem = useCallback(() => {
+      dispatch(removeItemById(id));
+    }, [id]);
+  return checkstatus ? (
     <View
       style={{
         width: 118,
@@ -68,7 +81,7 @@ export const StatusOrderItem = React.memo(({checkstatus} : {checkstatus : string
           width: 12,
           backgroundColor: circleColor,
           borderRadius: 6,
-          marginLeft : 8,
+          marginLeft: 8,
         }}
       />
       <Text
@@ -81,10 +94,20 @@ export const StatusOrderItem = React.memo(({checkstatus} : {checkstatus : string
         {textStatus}
       </Text>
     </View>
+  ) : (
+    <TouchableOpacity
+      style={{
+        flex: 1,
+        width: '100%',
+        justifyContent: 'center',
+        alignItems: 'center',
+      }}
+      onPress={removeItem}>
+      <ICDeleteProduct />
+    </TouchableOpacity>
   );});
 
-const TableCartItem = ( {checkstatus , data } : {checkstatus : string ; data : IITemCart}) => {
-
+const TableCartItem = ( {checkstatus , data } : {checkstatus: string | null ; data : IITemCart & IProductInCart}) => {
   return (
     <View>
       <View style={styles.itemContainer} />
@@ -96,15 +119,15 @@ const TableCartItem = ( {checkstatus , data } : {checkstatus : string ; data : I
           <View>
             <Thumb
               source={{
-                uri: data.data.linkMedia,
+                uri: getLinkImageUrl(data.linkMedia, 70, 70),
               }}
               style={styles.imageItem}
             />
           </View>
           <View style={styles.textItemCol2}>
-            <Text style={styles.textNameItem}>{data.data.name}</Text>
+            <Text style={styles.textNameItem}>{data.name}</Text>
             <Text style={styles.textPriceItem}>
-              {formatNumberDotSlice(data.data.price)}
+              {formatNumberDotSlice(data.price)}
             </Text>
             <View style={styles.textAddOrderItem}>
               <ICAddOrder />
@@ -113,35 +136,39 @@ const TableCartItem = ( {checkstatus , data } : {checkstatus : string ; data : I
           </View>
         </View>
         <View style={styles.col3}>
-          <Text style={styles.textTable}>{data.quantity}</Text>
+          <Text style={styles.textTable}>
+            {data.quantity || data.numProduct}
+          </Text>
         </View>
         <View style={styles.col4}>
           <Text style={styles.textTable}>
-            {formatNumberDotSlice(data.quantity * data.data.price)}
+            {formatNumberDotSlice(
+              (data.quantity || data.numProduct) * data.price,
+            )}
           </Text>
         </View>
         <View style={styles.col5}>
-          <StatusOrderItem checkstatus={checkstatus} />
+          <StatusOrderItem checkstatus={checkstatus} id={data.id} />
         </View>
       </View>
     </View>
   );
 };
 
-const TableCartList = () => {
+const TableCartList = ({itemInCart = []}: {itemInCart: IProductInCart[]}) => {
   const data = useListItemInCart();
-  const renderItem = (item: ListRenderItemInfo<IITemCart>) => {
+  const renderItem = (item: ListRenderItemInfo<IITemCart & IProductInCart>) => {
     return isTabletDevice ? (
-      <TableCartItem checkstatus={item.item.data.name} data={item.item} />
+      <TableCartItem checkstatus={item.item.state} data={item.item} />
     ) : (
-      <ItemCardMobile checkstatus={item.item.data.name} data={item.item} />
+      <ItemCardMobile checkstatus={item.item.state} data={item.item} />
     );
   };
 
   return (
     <View style={styles.container}>
       <FlatList
-        data={data}
+        data={itemInCart.concat(data)}
         showsVerticalScrollIndicator={false}
         ListHeaderComponent={
           isTabletDevice ? (

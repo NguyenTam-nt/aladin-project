@@ -17,15 +17,22 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useDispatch } from 'react-redux';
+import SockJS from 'sockjs-client';
+import { SOCK_CLIENNT_URL } from 'src/api/config';
+import { IProductInCart, IResponseProductUpdate, getProductInCartApi } from 'src/api/products';
+import { useIdBill, useListItemInCart, useListItemProductInCart } from 'src/redux/cartOrder/hooks';
+import { IITemCart, setItemProductInCart } from 'src/redux/cartOrder/slice';
 import { ICCart } from '../assets/icons/ICCart';
+import { formatNumberDotSlice, formatNumberDotWithVND, getValueForDevice } from '../commons/formatMoney';
 import {
+  useAreaId,
   useIsShowActionCart,
   useIsShowDrawerFloor,
 } from '../redux/infoDrawer/hooks';
 import CartList from './CartList/CartList';
 import ListOfFood from './ListOfFood/ListOfFood';
-import { formatNumberDotSlice, formatNumberDotWithVND, getValueForDevice } from '../commons/formatMoney';
-import { useIdBill, useListItemInCart } from 'src/redux/cartOrder/hooks';
+var Stomp = require('stompjs/lib/stomp.js').Stomp;
 
 
 const CartItem = React.memo(() => {
@@ -35,39 +42,42 @@ const CartItem = React.memo(() => {
   const isOpenDrawerFloor = useIsShowDrawerFloor();
   const isOpenActionCart = useIsShowActionCart();
   const heightButtonValue = getValueForDevice(64, 128);
-  const idBill = useIdBill();
+  const dataItemCart = useListItemProductInCart();
 
-  console.log('idBill' ,idBill);
-
-
-  // const [billItems , setBillItems] = useState<any>("")
-
-
-
+  const dispatch = useDispatch();
+  const billId = useIdBill();
+  const IdArea = useAreaId();
+  const getItemInCart = useCallback(async () => {
+    const data = await getProductInCartApi(billId);
+    if (data.success) {
+      dispatch(setItemProductInCart(data.data.list));
+    }
+  }, [billId]);
+  useEffect(() => {
+    getItemInCart();
+  }, [billId]);
   const dataItem = useListItemInCart();
-
+  const dataList: any = [...dataItemCart, ...dataItem];
   const cost = useMemo(() => {
     let newCost = 0;
-    dataItem.map(item => {
-      newCost += item?.quantity * item.data.price;
+    dataList.map((item: IITemCart & IProductInCart) => {
+      newCost += (item?.quantity || item?.numProduct) * item.price;
     });
     return newCost;
-  }, [dataItem]);
+  }, [dataList]);
 
   const number = useMemo(() => {
     let newNumber = 0;
-    dataItem.map(item => {
-      newNumber += item?.quantity;
+    dataList.map((item: IITemCart & IProductInCart) => {
+      newNumber += item?.quantity || item.numProduct;
     });
     return newNumber;
-  }, [dataItem]);
-
+  }, [dataList]);
   const heightView =
     DIMENSION.height -
     heightButtonValue -
     heightHeader -
     (Platform.OS === 'ios' ? insets.top : DIMENSION.topPadding);
-
   const height = useSharedValue(0);
   const locationCart = useSharedValue(64);
 
@@ -181,10 +191,16 @@ const CartItem = React.memo(() => {
   }, [isOpenDrawerFloor]);
 
   useEffect(() => {
-    if (isOpenActionCart && isOpenCart) {
-      height.value = withTiming(heightView + heightButtonValue, {
-        duration: 300,
-      });
+    if (isOpenCart) {
+      if (isOpenActionCart) {
+        height.value = withTiming(heightView + heightButtonValue, {
+          duration: 200,
+        });
+      } else {
+        height.value = withTiming(heightView, {
+          duration: 200,
+        });
+      }
     }
   }, [isOpenActionCart]);
 
@@ -195,13 +211,40 @@ const CartItem = React.memo(() => {
     };
   }, [isOpenActionCart]);
 
+  useEffect(() => {
+    if (IdArea && billId) {
+      const sockClient = new SockJS(SOCK_CLIENNT_URL);
+      let stompClient = Stomp.over(sockClient);
+      if (!stompClient.connected) {
+        stompClient.connect(
+          {},
+          function (frame: any) {
+            setTimeout(() => {
+              stompClient.subscribe(
+                `/topic/order/${IdArea}/${billId}`,
+                function (messageOutput: any) {
+                  const data = JSON.parse(
+                    messageOutput.body,
+                  ) as IResponseProductUpdate;
+                  dispatch(setItemProductInCart(data.list));
+                  console.log('data', data);
+                },
+              );
+            });
+          },
+          500,
+        );
+      }
+    }
+  }, [IdArea, billId]);
+
   return (
     <View style={{flex: 1, display: isOpenDrawerFloor ? 'none' : 'flex'}}>
       <Animated.View style={styleView}>
         {isOpenCart ? (
-          <CartList hiddenViewList={hiddenViewList} />
+          <CartList hiddenViewList={hiddenViewList} dataItemCart={dataItemCart}/>
         ) : (
-          <ListOfFood hiddenViewList={hiddenViewList} />
+          <ListOfFood hiddenViewList={hiddenViewList}  dataItemCart={dataItemCart} />
         )}
       </Animated.View>
       {isOpenCart && <View style={[styles.triangle, hiddenViewOpen]} />}

@@ -37,6 +37,9 @@ export const Header = ({
   const statusDrawer = useDrawerStatus();
   const dispatch = useDispatch();
   const idBill = useIdBill();
+
+
+
   const onDraw = async () => {
     await Keyboard.dismiss();
     navigation.dispatch(DrawerActions.openDrawer());

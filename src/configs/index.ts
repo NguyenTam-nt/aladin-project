@@ -43,6 +43,7 @@ export enum ROLE_LIST {
   staff = 'ROLE_STAFF',
   guest = 'ROLE_GUEST',
   chef = 'ROLE_CHEF',
+  order = 'ROLE_ORDER'
 }
 
 export const activeTintColor = defaultColors.c_0000;
@@ -51,9 +52,9 @@ export const activeBackgroundColor = defaultColors._F1BA42;
 export const inactiveBackgroundColor = 'transparent';
 
 export const hotpotId = 248;
-export const hotpotId4 = 250
-export const hotpotId2 = 1507
-export const hotpotId1 = 1506
+export const hotpotId4 = 250;
+export const hotpotId2 = 1507;
+export const hotpotId1 = 1506;
 
 export const categoriesHotpot = [
   {

@@ -1,5 +1,5 @@
 import { useCallback, useEffect } from 'react';
-import { IMenuItem, getProductsApi } from 'src/api/products';
+import { IMenuItem, getProductByCategory, getProductsApi } from 'src/api/products';
 import { useHandleResponsePagination } from 'src/commons/useHandleResponsePagination';
 
 

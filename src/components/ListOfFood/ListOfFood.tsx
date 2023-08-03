@@ -4,9 +4,16 @@ import {ICTagFloor} from '@icons';
 import {defaultColors} from '@configs';
 import {ICCloseModal} from '../../assets/icons/ICCloseModal';
 import TableListOfFood from './TableListOfFood';
+import { IProductInCart } from 'src/api/products';
 
 const ListOfFood = React.memo(
-  ({hiddenViewList}: {hiddenViewList: () => void}) => {
+  ({
+    hiddenViewList,
+    dataItemCart,
+  }: {
+    hiddenViewList: () => void
+    dataItemCart: IProductInCart[]
+  }) => {
     return (
       <View style={styles.container}>
         <View style={styles.containerHeader}>
@@ -20,7 +27,7 @@ const ListOfFood = React.memo(
             <ICCloseModal />
           </TouchableOpacity>
         </View>
-        <TableListOfFood />
+        <TableListOfFood dataItemCart={dataItemCart} />
       </View>
     );
   },

@@ -69,21 +69,17 @@ export const createRequest = (baseUrl: string, timeout: number) => {
       Accept: 'application/json',
       'Content-Type': 'application/json',
     };
-
     const tokenUser = store.getState().appInfoReducer.token;
-
     if (tokenUser) {
       // @ts-ignore
       headers.Authorization = `Bearer ${tokenUser}`;
     }
-
     const defaultOptions: AxiosRequestConfig = {
       headers,
       baseURL: baseUrl,
       timeout,
       cancelToken: cancelToken ? cancelToken.token : source.token,
     };
-
     return {
       /**
        * func get
@@ -93,6 +89,8 @@ export const createRequest = (baseUrl: string, timeout: number) => {
         url: string,
         options: AxiosRequestConfig = {},
       ) => {
+
+
 
         return axiosInstance.get<T, R>(url, {
           // ...options.params,

@@ -1,35 +1,88 @@
-import {defaultColors, isTabletDevice} from '@configs';
+import { ROLE_LIST, defaultColors, isTabletDevice } from '@configs';
 import React from 'react';
-import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
-import {ICAdd} from '../../assets/icons/ICAdd';
-import {ICCompound} from '../../assets/icons/ICCompound';
-import {ICDelete} from '../../assets/icons/ICDelete';
-import {ICSentToKitchen} from '../../assets/icons/ICSentToKitchen';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { useDispatch } from 'react-redux';
+import { postProductToKitchen } from 'src/api/products';
+import { useIdBill, useListItemInCart } from 'src/redux/cartOrder/hooks';
+import { removeCartList } from 'src/redux/cartOrder/slice';
+import { ICAdd } from '../../assets/icons/ICAdd';
+import { ICCompound } from '../../assets/icons/ICCompound';
+import { ICDelete } from '../../assets/icons/ICDelete';
+import { ICSentToKitchen } from '../../assets/icons/ICSentToKitchen';
 import { ActionCartListChoose } from './CartList';
+import { MessageUtils } from 'src/commons/messageUtils';
+import { useUserInfo } from 'src/redux/reducers/hook';
+import { IAuthorize } from 'src/redux/reducers/AuthSlice';
 
 const ActionCartList = ({
   setActionChoose,
+  hiddenViewList,
 }: {
   setActionChoose: React.Dispatch<React.SetStateAction<ActionCartListChoose>>
+  hiddenViewList : () => void
 }) => {
+  const listItemInCart = useListItemInCart();
+  const billId = useIdBill();
+  const dispatch = useDispatch();
+  const userInfo = useUserInfo();
+
+  const isOrder = userInfo.authorities.findIndex((item: IAuthorize) =>
+    item.name === ROLE_LIST.order,
+  );
+
+  const postItemToKitChen = async () => {
+    if (listItemInCart.length > 0) {
+      const itemPost = listItemInCart.map(item => ({
+        idProduct: item.id,
+        numProduct: item.quantity,
+        linkMedia: item.linkMedia,
+        state: null,
+      }));
+
+      const data = await postProductToKitchen(billId ,itemPost);
+      if (data.success) {
+        dispatch(removeCartList());
+        MessageUtils.showSuccessMessage('Thành công!');
+      } else {
+        MessageUtils.showErrorMessage(data?.message);
+      }
+    }
+  };
+
+
+
   return (
     <View style={styles.container}>
-      <TouchableOpacity style={styles.buttonSent}>
+      <TouchableOpacity style={styles.buttonSent} onPress={postItemToKitChen}>
         <ICSentToKitchen />
         <Text style={styles.textButton}>Chuyển tới bếp</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.buttonAddnew}>
+      <TouchableOpacity style={styles.buttonAddnew} onPress={hiddenViewList}>
         <ICAdd />
         <Text style={styles.textButton}>Gọi thêm</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.buttonCancel} onPress={() => {setActionChoose(ActionCartListChoose.cancelOrder);}}>
+      <TouchableOpacity
+        style={styles.buttonCancel}
+        onPress={() => {
+          setActionChoose(ActionCartListChoose.cancelOrder);
+        }}>
         <ICDelete />
         <Text style={styles.textButton}>Hủy món</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.buttonCompound} onPress={() => {setActionChoose(ActionCartListChoose.compound);}}>
-        <ICCompound />
-        <Text style={styles.textButton}>Tách / Ghép</Text>
-      </TouchableOpacity>
+      {isOrder >= 0 ? (
+        <TouchableOpacity
+          style={styles.buttonCompound}
+          onPress={() => {
+            setActionChoose(ActionCartListChoose.compound);
+          }}>
+          <ICCompound />
+          <Text style={styles.textButton}>Tách / Ghép</Text>
+        </TouchableOpacity>
+      ) : (
+        <View
+          style={[styles.buttonCompound, {backgroundColor: 'transparent'}]}
+        />
+      )}
     </View>
   );
 };
