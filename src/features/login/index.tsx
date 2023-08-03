@@ -37,6 +37,7 @@ const LoginScreen = () => {
       if (userInfo.data) {
         dispatch(setUserInfo(userInfo.data));
         userInfo.data.authorities.some((role : IAuthorize) => {
+          console.log({role})
           switch (role.name) {
             case ROLE_LIST.guest:
               //@ts-ignore

@@ -99,6 +99,7 @@ export const getProductByCategory = async (
 }
 
 export const getOrerKitchen = async (params: IParams, fileterItem: string):Promise<IData<IOrderKitchen[]>> => {
+  console.log(`${APIs.ORDER_KITCHEN}/${fileterItem}`, params)
   try {
     const result = await request().get(`${APIs.ORDER_KITCHEN}/${fileterItem}`, {
       params: {...params},
@@ -130,9 +131,9 @@ export const updateOrerKitchenOnlyState = async (state:OrderType, idOrder:number
 }
 
 
-export const updateOrerKitchenAllState = async (state:OrderType, idOrder:number, id: number):Promise<IData<IOrderKitchen>> => {
+export const updateOrerKitchenAllState = async (state:OrderType, idOrder:number, id: number, reason = ""):Promise<IData<IOrderKitchen>> => {
   try {
-    const result = await request().patch(`${APIs.ORDER_KITCHEN}/all/${state}/${idOrder}/${id}`)
+    const result = await request().patch(`${APIs.ORDER_KITCHEN}/all/${state}/${idOrder}/${id}?answer=${!!reason}&reason=${reason}`)
     const data = await result.data.list
     return {
       success: true,
