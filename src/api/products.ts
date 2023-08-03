@@ -49,9 +49,15 @@ export const getProductsApi = async (
   size: number,
 ): Promise<IResponseApi<IMenuData>> => {
   try {
+
+
     const result = await request().get(
       `${APIs.PRODUCTS_ADMIN}?id=${id}&size=${size}&page=${page}`,
     );
+
+
+
+
     const data = await result.data.list;
     return {
       success: true,

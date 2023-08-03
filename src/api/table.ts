@@ -133,7 +133,6 @@ export const postCombineProduct = async (
 ): Promise<IResponseApi<IResponseProductUpdate>> => {
   try {
 
-    console.log('check ' , body);
 
     const result = await request().patch(
       `${APIs.COMBINE_PRODUCTS}/${id}/${idTable}`,

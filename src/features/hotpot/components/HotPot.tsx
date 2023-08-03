@@ -29,9 +29,7 @@ const sizeImageCategory =
 type Props = {
   currentCategory: number
 }
-
 export const HotPot = ({currentCategory}: Props) => {
-
 
   const {listCategoriesByCategory, isFourBar, isOneBar, isTwoBar} = useGetCartItem(currentCategory);
 

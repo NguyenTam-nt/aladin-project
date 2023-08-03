@@ -24,7 +24,7 @@ export const ListProduct = memo(
     const getProduct = useCallback(
       (pageToken: number, numberOfPageSize: number) => {
 
-        console.log('currentCategory' ,currentCategory);
+
 
         return getProductByCategory({
           page: pageToken,
