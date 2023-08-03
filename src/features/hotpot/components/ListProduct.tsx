@@ -3,19 +3,16 @@ import {
   ListRenderItemInfo,
   RefreshControl,
   StyleSheet,
-  View,
 } from 'react-native';
 import React, {memo, useCallback, useEffect} from 'react';
 import {ProductItem} from './ProductItem';
 import SpaceBottom from '../../../components/SpaceBottom';
-import {defaultColors} from '@configs';
-import {GroupHotpot} from './GroupHotpot';
-import {TextCustom} from '@components';
-import {MultipleScreenView} from '../../../components/MultipleScreenView';
 import {getValueForDevice} from '../../../commons/formatMoney';
 import {useHandleResponsePagination} from 'src/commons/useHandleResponsePagination';
 import {IMenuItem, getProductByCategory} from 'src/api/products';
 import {useKeyArray} from 'src/commons/useKeyArray';
+import {useGetCartItem} from '../hook/useGetCartItem';
+import {HeaderMobileHotpot} from './HeaderMobileHotpot';
 
 type Props = {
   currentCategory: number
@@ -39,7 +36,9 @@ export const ListProduct = memo(
     );
 
     const {data, refresh, pullToRefresh, handleLoadMore, isRefreshing} =
-      useHandleResponsePagination(getProduct);
+      useHandleResponsePagination<IMenuItem>(getProduct);
+
+    const {isPushCategory} = useGetCartItem(currentCategory);
 
     useEffect(() => {
       refresh();
@@ -50,6 +49,7 @@ export const ListProduct = memo(
       ({item}: ListRenderItemInfo<IMenuItem>) => {
         return (
           <ProductItem
+            isPushCategory={isPushCategory}
             data={{
               ...item,
               idCategory: currentCategory,
@@ -57,7 +57,7 @@ export const ListProduct = memo(
           />
         );
       },
-      [currentCategory],
+      [currentCategory, isPushCategory],
     );
 
     return (
@@ -69,25 +69,9 @@ export const ListProduct = memo(
         onEndReachedThreshold={0.5}
         ListFooterComponent={<SpaceBottom />}
         ListHeaderComponent={
-          <MultipleScreenView
-            phoneView={
-              <>
-                <GroupHotpot
-                  currentCategory={currentCategory}
-                  handlePressCategory={handlePressCategory}
-                />
-                <View style={{marginTop: 25}}>
-                  <TextCustom
-                    textAlign="center"
-                    fontSize={14}
-                    weight="700"
-                    color={defaultColors.c_fff}
-                    fontiCielBCCubanoNormal="iCielBCCubano-Normal">
-                    Vui lòng chọn 1 vị nước Lẩu.
-                  </TextCustom>
-                </View>
-              </>
-            }
+          <HeaderMobileHotpot
+            currentCategory={currentCategory}
+            handlePressCategory={handlePressCategory}
           />
         }
         ListHeaderComponentStyle={styles.styleHeader}

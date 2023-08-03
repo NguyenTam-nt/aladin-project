@@ -1,8 +1,10 @@
-import { IParams } from '@typeRules';
-import { APIs } from './config';
-import { handleError } from './handleError';
-import request from './request';
+
 import { IResponseApi } from './types';
+import {IParams} from '@typeRules';
+import {APIs, IData} from './config';
+import {handleError} from './handleError';
+import request from './request';
+import { IOrderKitchen, OrderType } from 'src/typeRules/product';
 
 export interface IMenuItem {
   id: number
@@ -63,16 +65,14 @@ export const getProductsApi = async (
 export interface IItemProductKitchen {
   id: number
   code: string
-  name:  string
-  linkMedia:  string
+  name: string
+  linkMedia: string
   pricePromotion: number
   inventory: number
   show: boolean
   ncategory: string
   mcategory: string
 }
-
-
 
 export const getProductKitchenApi = async (
   id: number | undefined,
@@ -83,7 +83,6 @@ export const getProductKitchenApi = async (
   state?: string,
 ): Promise<IResponseApi<IItemProductKitchen>> => {
   try {
-
     const result = await request().get(
       `${APIs.PRODUCTS_KITCHEN}?idCategory=${
         id || ''
@@ -101,8 +100,6 @@ export const getProductKitchenApi = async (
   }
 };
 
-
-
 export const getProductByCategory = async (
   params: IParams,
 ): Promise<IResponseApi<IMenuItem[]>> => {
@@ -110,6 +107,66 @@ export const getProductByCategory = async (
     const result = await request().get(`${APIs.PRODUCTS_ADMIN}`, {
       params: {...params, page: Number(params.page)},
     });
+    const data = await result.data.list;
+    return {
+      success: true,
+      data: data,
+    };
+  } catch (e) {
+    return handleError(e);
+  }
+};
+
+export const getOrerKitchen = async (params: IParams, fileterItem: string):Promise<IResponseApi<IOrderKitchen[]>> => {
+
+  try {
+    const result = await request().get(`${APIs.ORDER_KITCHEN}/${fileterItem}`, {
+      params: {...params},
+    });
+    const data = await result.data.list;
+    return {
+      success: true,
+      data: data,
+    };
+  } catch (e) {
+    return handleError(e);
+  }
+};
+
+export const updateOrerKitchenOnlyState = async (
+  state: OrderType,
+  idOrder: number,
+  id: number,
+  reason = '',
+): Promise<IResponseApi<IOrderKitchen[]>> => {
+  try {
+    const result = await request().patch(
+      `${
+        APIs.ORDER_KITCHEN
+      }/${state}/${idOrder}/${id}?answer=${!!reason}&reason=${reason}`,
+    );
+    const data = await result.data.list;
+    return {
+      success: true,
+      data: data,
+    };
+  } catch (e) {
+    return handleError(e);
+  }
+};
+
+export const updateOrerKitchenAllState = async (
+  state: OrderType,
+  idOrder: number,
+  id: number,
+  reason = '',
+): Promise<IResponseApi<IOrderKitchen>> => {
+  try {
+    const result = await request().patch(
+      `${
+        APIs.ORDER_KITCHEN
+      }/all/${state}/${idOrder}/${id}?answer=${!!reason}&reason=${reason}`,
+    );
     const data = await result.data.list;
     return {
       success: true,

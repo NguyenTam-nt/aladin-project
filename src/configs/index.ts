@@ -6,8 +6,8 @@ export * from './checkDevice';
 export const APIs = {};
 
 export enum categoryKitchenNames {
-  kitchen = 'kitchen',
-  bar = 'bar',
+  kitchen = 'KITCHEN',
+  bar = 'BAR',
 }
 
 export const headersCategory = [

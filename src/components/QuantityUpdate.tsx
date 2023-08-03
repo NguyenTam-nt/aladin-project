@@ -13,12 +13,14 @@ const QuantityUpdate = ({
   value,
   data,
   updateList,
+  isUnAddList = false,
   max = 999,
   updateData,
 }: {
   value?: number
   data?: IMenuItem | IProductInCart
   updateList?: boolean
+  isUnAddList?: boolean
   max?: number
   updateData? : (value: IProductInCart) => void
 }) => {
@@ -86,6 +88,7 @@ const QuantityUpdate = ({
   }, [value ,data]);
 
   const AddQuality = useCallback(() => {
+    if (isUnAddList) {return;}
     if (max && number.current >= max) {
       number.current = max;
       setValueToText(number.current);
@@ -93,7 +96,7 @@ const QuantityUpdate = ({
     }
     number.current += 1;
     setValueToText(number.current);
-  }, [number, data, max ,updateData ]);
+  }, [number, data, max, isUnAddList]);
 
   const Subtraction = useCallback(() => {
     if (number.current > 0) {

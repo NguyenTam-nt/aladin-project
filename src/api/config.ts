@@ -82,6 +82,17 @@ export const APIs = {
   ),
   TABLE_COMBINE: getMicroService('table/combine', microServices.restaurant),
   TABLE_DETACHED: getMicroService('table/detached', microServices.restaurant),
-  COMBINE_PRODUCTS : getMicroServiceAdmin('provisional/staff/combine' , microServices.restaurant ),
-  DETACHED_PRODUCTS : getMicroServiceAdmin('provisional/staff/detached' , microServices.restaurant ),
+  COMBINE_PRODUCTS: getMicroServiceAdmin(
+    'provisional/staff/combine',
+    microServices.restaurant,
+  ),
+  DETACHED_PRODUCTS: getMicroServiceAdmin(
+    'provisional/staff/detached',
+    microServices.restaurant,
+  ),
+  ORDER_KITCHEN: getMicroServiceAdmin(
+    'provisional/kitchen',
+    microServices.restaurant,
+  ),
+  // ORDER_KITCHEN_UPDATE_STATUS: getMicroServiceAdmin('provisional/kitchen', microServices.restaurant)
 };

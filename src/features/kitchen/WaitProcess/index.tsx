@@ -1,4 +1,4 @@
-import {View, StyleSheet, FlatList, TouchableOpacity} from 'react-native';
+import {View, StyleSheet, FlatList, RefreshControl} from 'react-native';
 import React, {useCallback} from 'react';
 import {defaultColors} from '@configs';
 import {Notice} from './components/Notice';
@@ -7,51 +7,86 @@ import {BillItem} from './components/BillItem';
 import ModalCustom from '../../../components/ModalCustom';
 import {ModalConfirmCancel} from './components/ModalConfirmCancel';
 import {HeaderListBill} from './components/HeaderListBill';
-import {useWaitProcess} from './hooks/useWaitProcess';
-import {ICSort} from 'src/assets/icons/ICSort';
-import {TextCustom} from '@components';
-import {ICDown} from 'src/assets/icons/ICDown';
-import { getValueForDevice } from 'src/commons/formatMoney'
+import {dataFilter, useWaitProcess} from './hooks/useWaitProcess';
+import {getValueForDevice} from 'src/commons/formatMoney';
+import {useKeyArray} from 'src/commons/useKeyArray';
+import {ListRenderItemInfo} from '@typeRules';
+import {IOrderKitchen, OrderType} from 'src/typeRules/product';
+import DropDownFilter from 'src/components/Filter/DropDownFilter';
+import {HeaderListBillFood} from './components/HeaderListBillFood';
+import {BillItemFood} from './components/BillItemFood';
 
 export const WaitProcees = React.memo(() => {
-  const {modalConfirmCancel, modalRefuse, handleShowModalAction} =
-    useWaitProcess();
-  const renderItem = useCallback(() => {
-    return (
-      <BillItem
-        onShowModal={handleShowModalAction}
-        onHideModal={modalConfirmCancel.handleHidden}
-      />
-    );
-  }, [handleShowModalAction]);
+  const {
+    modalConfirmCancel,
+    modalRefuse,
+    handleShowModalAction,
+    data,
+    pullToRefresh,
+    isRefreshing,
+    handleLoadMore,
+    fileterItem,
+    setFilterItem,
+    isTable,
+    handlePressCompelete,
+    currentDataSelect
+  } = useWaitProcess();
+  const {keyExtractor} = useKeyArray();
+
+  const renderItem = useCallback(
+    ({item}: ListRenderItemInfo<IOrderKitchen>) => {
+      return isTable ? (
+        <BillItem
+          data={item}
+          onShowModal={handleShowModalAction}
+          onHideModal={modalConfirmCancel.handleHidden}
+          onPress={handlePressCompelete}
+        />
+      ) : (
+        <BillItemFood
+          data={item}
+          onShowModal={handleShowModalAction}
+          onHideModal={modalConfirmCancel.handleHidden}
+          onPress={handlePressCompelete}
+        />
+      );
+    },
+    [handleShowModalAction, isTable, handlePressCompelete],
+  );
 
   return (
     <View style={styles.container}>
       <Notice />
       <KitchenLinks
         renderRight={
-          <TouchableOpacity style={styles.styleBtnSort}>
-            <View style={styles.styleGroupItemSort}>
-              <View>
-                <ICSort />
-              </View>
-              <TextCustom color={defaultColors.bg_A1A0A3}>
-                Sắp xếp theo bàn
-              </TextCustom>
-            </View>
-            <View>
-              <ICDown color={defaultColors.bg_A1A0A3} />
-            </View>
-          </TouchableOpacity>
+          <DropDownFilter
+            dataItem={dataFilter}
+            labelField="label"
+            valueField="value"
+            value={fileterItem}
+            setValue={setFilterItem}
+            placeholder="Lọc sản phẩm"
+            isSort={true}
+            styleDropdown={styles.w_220}
+          />
         }
       />
       <View style={styles.styleViewItem}>
-        <HeaderListBill />
+        {isTable ? <HeaderListBill /> : <HeaderListBillFood />}
         <FlatList
           showsVerticalScrollIndicator={false}
-          data={[1, 2, 3, 4, 5]}
+          data={data}
           renderItem={renderItem}
-          keyExtractor={(_, index) => index.toString()}
+          keyExtractor={keyExtractor}
+          onEndReached={handleLoadMore}
+          onEndReachedThreshold={0.5}
+          refreshControl={
+            <RefreshControl
+              refreshing={isRefreshing}
+              onRefresh={pullToRefresh}
+              tintColor="#000"
+            />
+          }
         />
       </View>
 
@@ -61,14 +96,20 @@ export const WaitProcees = React.memo(() => {
         <ModalConfirmCancel
           titleInput="Lý do hủy món"
           placeholder="Hủy món từ thu ngân"
-          message="Hủy món [Tên món ăn]?"
+          message={`Hủy món ${currentDataSelect?.nameProduct}?`}
+          onPress={handlePressCompelete}
+          data={currentDataSelect}
           onCancel={modalConfirmCancel.handleHidden}
+          state={OrderType.cancel}
         />
       </ModalCustom>
       <ModalCustom
         onBackdropPress={modalRefuse.handleHidden}
         ref={modalRefuse.refModal}>
         <ModalConfirmCancel
+          state={OrderType.process}
+          onPress={handlePressCompelete}
+          data={currentDataSelect}
           titleInput="Lý do từ chối"
           placeholder="Bếp từ chối hủy món"
           message="Từ chối hủy món"
@@ -109,7 +150,7 @@ const styles = StyleSheet.create({
   styleGroupItemSort: {
     flexDirection: 'row',
     alignItems: 'center',
-    columnGap: 4
+    columnGap: 4,
   },
   styleBtnSort: {
     flexDirection: 'row',
@@ -122,5 +163,8 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: defaultColors.bg_A1A0A3,
     borderRadius: 4,
+  },
+  w_220: {
+    width: 220,
   },
 });

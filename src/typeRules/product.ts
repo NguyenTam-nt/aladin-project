@@ -45,3 +45,35 @@ export interface IProductHome {
   category: ICategory
   listProduct: IProduct[]
 }
+
+export enum OrderType {
+  complete = 'COMPLETE',
+  cancel = 'CANCEL',
+  process_cancel = 'PROCESSING_CANCEL',
+  process = 'PROCESSING',
+}
+
+export interface IOrderItem {
+  id: number
+  idProduct: number
+  numProduct: number
+  createdDate: string
+  nameTable: string
+  idInvoice: number
+  createdBy: string
+  linkImage: string
+  nameProduct: string
+  price: number
+  pricePromotion: number
+  state: OrderType
+  guide: null
+}
+
+export type IOrderKitchen = {
+  idProduct: number
+  nameProduct: string
+  idInvoice: number
+  nameTable: string
+  num: number
+  list: IOrderItem[]
+}
