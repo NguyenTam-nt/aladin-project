@@ -27,7 +27,7 @@ export const dataItemFilter1 = [
   },
   {
     label: 'Sản phẩm ẩn',
-    value: State_ShortProduct.SHOW,
+    value: State_ShortProduct.NO_SHOW,
   },
 ];
 
