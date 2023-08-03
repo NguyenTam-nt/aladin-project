@@ -3,7 +3,7 @@ import Modal, {Direction} from 'react-native-modal';
 import type {ModalProps} from 'react-native-modal/dist/modal';
 import {KeyboardAvoidingView, StyleSheet} from 'react-native';
 import {isIOS} from '@constants';
-import { getValueForDevice } from 'src/commons/formatMoney'
+import { getValueForDevice } from 'src/commons/formatMoney';
 
 export type ModalCustomProps = {
   children: ReactNode
@@ -112,7 +112,7 @@ const ModalCustom = forwardRef<ModalCustomMethod, ModalCustomProps>(
           if (onBackdropPress) {
             const rs = onBackdropPress();
 
-            if (!rs && isCloseOnBackdrop) setIsVisible(false);
+            if (!rs && isCloseOnBackdrop) {setIsVisible(false);}
           } else if (isCloseOnBackdrop) {
             setIsVisible(false);
           }
@@ -170,7 +170,7 @@ const styles = StyleSheet.create({
     // zIndex: 100,
     justifyContent: getValueForDevice('center','flex-end') ,
     alignItems: 'center' ,
-    margin: 0
+    margin: 0,
   },
   styleChildren: {
     position: 'absolute',

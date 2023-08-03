@@ -16,6 +16,7 @@ interface IDropDownFilter {
   placeholder: string
   styleDropdown?: StyleProp<ViewStyle>
   isSort?: boolean
+  leftPosition? : boolean
 }
 
 const DropDownFilter = (props: IDropDownFilter) => {
@@ -28,6 +29,7 @@ const DropDownFilter = (props: IDropDownFilter) => {
     placeholder = '',
     styleDropdown = {},
     isSort,
+    leftPosition = !isTabletDevice,
   } = props;
 
   const renderRight = () => {
@@ -67,7 +69,7 @@ const DropDownFilter = (props: IDropDownFilter) => {
         onChange={e => {
           setValue(e);
         }}
-        leftPosition={!isTabletDevice}
+        leftPosition={leftPosition}
         renderRightIcon={renderRight}
         renderLeftIcon={renderLeft}
         isFilter
