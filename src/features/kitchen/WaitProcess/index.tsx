@@ -40,16 +40,18 @@ export const WaitProcees = React.memo(() => {
           data={item}
           onShowModal={handleShowModalAction}
           onHideModal={modalConfirmCancel.handleHidden}
+          onPress={handlePressCompelete}
         />
       ) : (
         <BillItemFood
           data={item}
           onShowModal={handleShowModalAction}
           onHideModal={modalConfirmCancel.handleHidden}
+          onPress={handlePressCompelete}
         />
       );
     },
-    [handleShowModalAction, isTable],
+    [handleShowModalAction, isTable, handlePressCompelete],
   );
 
   return (
@@ -82,7 +84,7 @@ export const WaitProcees = React.memo(() => {
             <RefreshControl
               refreshing={isRefreshing}
               onRefresh={pullToRefresh}
-              tintColor="#fff"
+              tintColor="#000"
             />
           }
         />
@@ -105,7 +107,7 @@ export const WaitProcees = React.memo(() => {
         onBackdropPress={modalRefuse.handleHidden}
         ref={modalRefuse.refModal}>
         <ModalConfirmCancel
-           state={OrderType.complete}
+          state={OrderType.process}
           onPress={handlePressCompelete}
           data={currentDataSelect}
           titleInput="Lý do từ chối"

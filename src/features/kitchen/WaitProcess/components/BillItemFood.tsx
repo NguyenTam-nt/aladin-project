@@ -19,9 +19,15 @@ type Props = {
   onShowModal: (type: TypeModalWaitProcess, data:IOrderItem) => void
   onHideModal: () => void
   data: IOrderKitchen
+  onPress: (
+    data: IOrderItem,
+    reason: string,
+    state: OrderType,
+    isAll?: boolean,
+  ) => void
 }
 
-export const BillItemFood = memo(({onShowModal, onHideModal, data}: Props) => {
+export const BillItemFood = memo(({onShowModal, onHideModal, data, onPress}: Props) => {
   const [isOpen, setIsOpen] = React.useState(true)
   const toggleOpen = useCallback(() => {
     setIsOpen(value => !value)
@@ -69,6 +75,7 @@ export const BillItemFood = memo(({onShowModal, onHideModal, data}: Props) => {
               key={index}
               onHideModal={onHideModal}
               onShowModal={onShowModal}
+              onPress={onPress}
             />
           )
         })}
@@ -78,24 +85,48 @@ export const BillItemFood = memo(({onShowModal, onHideModal, data}: Props) => {
 })
 
 type PropsBillItemMenu = {
-  onShowModal: (type: TypeModalWaitProcess, data:IOrderItem) => void
+  onShowModal: (type: TypeModalWaitProcess, data:IOrderItem, isAll?: boolean) => void
   onHideModal: () => void
   isCancel?: boolean
   data: IOrderItem
+  onPress: (
+    data: IOrderItem,
+    reason: string,
+    state: OrderType,
+    isAll?: boolean,
+  ) => void
 }
 
 export const BillItemMenu = ({
   onShowModal,
   isCancel = false,
   data,
+  onPress
 }: PropsBillItemMenu) => {
   const handleShowModalCancel = useCallback(() => {
     onShowModal(TypeModalWaitProcess.cancelbill, data)
   }, [data])
 
+  const handleShowModalCancelAll = useCallback(() => {
+    onShowModal(TypeModalWaitProcess.cancelbill, data,  true)
+  }, [data])
+
   const handleShowModalRefuse = useCallback(() => {
     onShowModal(TypeModalWaitProcess.refusebill, data)
   }, [data])
+
+  const updateStateCompleteOnly = useCallback(() => {
+    onPress(data, '', OrderType.complete)
+  }, [data])
+
+  const updateStateCompleteAll = useCallback(() => {
+    onPress(data, '', OrderType.complete, true)
+  }, [data])
+
+  const updateStateCompleteCancel = useCallback(() => {
+    onPress(data, '', OrderType.cancel, false)
+  }, [data])
+  
   return (
     <View
       style={[
@@ -182,10 +213,10 @@ export const BillItemMenu = ({
         ]}>
         {!isCancel ? (
           <>
-            <TouchableOpacity style={[styles.styleBtn, styles.styleBtnGreen]}>
+            <TouchableOpacity onPress={updateStateCompleteOnly} style={[styles.styleBtn, styles.styleBtnGreen]}>
               <ICCheckSingle />
             </TouchableOpacity>
-            <TouchableOpacity style={[styles.styleBtn, styles.styleBtnGreen]}>
+            <TouchableOpacity onPress={updateStateCompleteAll} style={[styles.styleBtn, styles.styleBtnGreen]}>
               <ICCheckMulti />
             </TouchableOpacity>
             <TouchableOpacity
@@ -194,7 +225,7 @@ export const BillItemMenu = ({
               <ICDelete />
             </TouchableOpacity>
             <TouchableOpacity
-              onPress={handleShowModalCancel}
+              onPress={handleShowModalCancelAll}
               style={[styles.styleBtn, styles.styleBtnRed]}>
               <ICDeleteMulti />
             </TouchableOpacity>
@@ -202,13 +233,14 @@ export const BillItemMenu = ({
         ) : (
           <>
             <Button
+             onPress={updateStateCompleteCancel}
               style={styles.styleViewItemFlex1}
               renderLeff={
                 <View>
                   <ICCheck />
                 </View>
               }
-              text="Thực hiện"
+              text="Đồng ý hủy"
             />
             <Button
               onPress={handleShowModalRefuse}
@@ -218,7 +250,7 @@ export const BillItemMenu = ({
                   <ICDelete />
                 </View>
               }
-              text="Hủy bỏ"
+              text="Từ chối hủy"
             />
           </>
         )}
