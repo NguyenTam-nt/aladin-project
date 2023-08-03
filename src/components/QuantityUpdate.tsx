@@ -1,12 +1,13 @@
-import {defaultColors} from '@configs';
-import React, {useCallback, useEffect, useRef} from 'react';
-import {StyleSheet, TextInput, View} from 'react-native';
-import {TouchableWithoutFeedback} from 'react-native-gesture-handler';
-import {useDispatch} from 'react-redux';
-import {ICAddQuanity} from '../assets/icons/ICAddQuanity';
-import {ICSubtractionQuanity} from '../assets/icons/ICSubtractionQuanity';
-import {addItemToCart} from 'src/redux/cartOrder/slice';
-import { IMenuItem } from 'src/api/products';
+import { defaultColors } from '@configs';
+import React, { useCallback, useEffect, useRef } from 'react';
+import { StyleSheet, TextInput, View } from 'react-native';
+import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
+import { useDispatch } from 'react-redux';
+import { IMenuItem, IProductInCart } from 'src/api/products';
+import { useQuatityValueRedux } from 'src/redux/cartOrder/hooks';
+import { addItemToCart, updateItemProductInCart } from 'src/redux/cartOrder/slice';
+import { ICAddQuanity } from '../assets/icons/ICAddQuanity';
+import { ICSubtractionQuanity } from '../assets/icons/ICSubtractionQuanity';
 
 const QuantityUpdate = ({
   value,
@@ -14,23 +15,33 @@ const QuantityUpdate = ({
   updateList,
   isUnAddList = false,
   max = 999,
+  updateData,
 }: {
   value?: number
-  data?: IMenuItem
+  data?: IMenuItem | IProductInCart
   updateList?: boolean
   isUnAddList?: boolean
   max?: number
+  updateData? : (value: IProductInCart) => void
 }) => {
-  const number = useRef<number>(0);
+  let number = useRef<number>(0);
   const textInputRef = useRef<TextInput>(null);
   const viewRef = useRef<View>(null);
   const dispatch = useDispatch();
-
+  const updateNumber = useQuatityValueRedux(data?.id);
   const setValueToText = useCallback(
     (value: number) => {
+
       textInputRef.current?.setNativeProps({text: value.toString()});
       if (data) {
-        dispatch(addItemToCart({id: data.id, quantity: value, data: data}));
+        if (updateData) {
+          updateData({
+            ...(data as IProductInCart),
+            numProduct: value,
+          });
+        } else {
+          dispatch(addItemToCart({quantity: value, ...(data as IMenuItem)}));
+        }
       }
       if (value === 0) {
         viewRef.current?.setNativeProps({
@@ -48,22 +59,42 @@ const QuantityUpdate = ({
         });
       }
     },
-    [data, dispatch],
+    [data, dispatch, updateData],
   );
+
+
+  useEffect(() => {
+    if (updateNumber !== undefined) {
+      number.current = updateNumber;
+      textInputRef.current?.setNativeProps({text: updateNumber.toString()});
+    } else {
+      number.current = 0;
+      textInputRef.current?.setNativeProps({text: ''});
+      viewRef.current?.setNativeProps({
+        style: {
+          opacity: 0,
+          display: 'none',
+        },
+      });
+    }
+  }, [updateNumber]);
+
 
   useEffect(() => {
     if (value) {
       number.current = value;
-      setValueToText(number.current);
+      setValueToText(value);
     }
-  }, [value]);
+  }, [value ,data]);
+
   const AddQuality = useCallback(() => {
-    if(isUnAddList) return
-    if (max && number.current === max) {
+    if (isUnAddList) {return;}
+    if (max && number.current >= max) {
+      number.current = max;
+      setValueToText(number.current);
       return;
     }
     number.current += 1;
-
     setValueToText(number.current);
   }, [number, data, max, isUnAddList]);
 
@@ -75,7 +106,7 @@ const QuantityUpdate = ({
       number.current = 0;
       setValueToText(number.current);
     }
-  }, [number, data]);
+  }, [number, data ,updateData]);
 
   return (
     <View style={styles.container}>

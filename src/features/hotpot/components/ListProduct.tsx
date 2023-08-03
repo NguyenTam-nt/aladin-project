@@ -23,6 +23,9 @@ export const ListProduct = memo(
   ({currentCategory, handlePressCategory}: Props) => {
     const getProduct = useCallback(
       (pageToken: number, numberOfPageSize: number) => {
+
+
+
         return getProductByCategory({
           page: pageToken,
           size: numberOfPageSize,

@@ -5,7 +5,8 @@ import DeviceInfo from 'react-native-device-info';
 import { IFloorInfo, getTable } from 'src/api/table';
 import { useAreaId, useFloorActive } from 'src/redux/infoDrawer/hooks';
 import TableOrder from './components/TableOrder';
-import { sockClient } from 'src/api/config';
+import SockJS from 'sockjs-client';
+import { SOCK_CLIENNT_URL } from 'src/api/config';
 
 var Stomp = require('stompjs/lib/stomp.js').Stomp;
 
@@ -17,16 +18,16 @@ const HomeScreen = ({ stateCheckbox } : { stateCheckbox : string[]}) => {
   const floorActive = useFloorActive();
   const areaId = useAreaId();
 
-
-
   const getDataTable = async () => {
     if (areaId) {
       const tableData = await getTable(areaId , stateCheckbox );
+
       if (tableData.success && tableData.data) {
         if (floorActive) {
           const index = tableData.data.findIndex(
             item => item.nameArea === floorActive,
           );
+
           if (index >= 0) {
             setDataTable([tableData.data[index]]);
             floorClone.current = tableData.data;
@@ -58,47 +59,44 @@ const HomeScreen = ({ stateCheckbox } : { stateCheckbox : string[]}) => {
 
   useEffect(() => {
     getDataTable();
-  }, [areaId ,stateCheckbox]);
+  }, [areaId, stateCheckbox]);
 
   useEffect(() => {
     if (areaId) {
+      const sockClient = new SockJS(SOCK_CLIENNT_URL);
       let stompClient = Stomp.over(sockClient);
       if (!stompClient.connected) {
         stompClient.connect({}, function (frame: any) {
+          setTimeout(() => {
+            stompClient.subscribe(
+              `/topic/table/${areaId}`,
+              function (messageOutput: any) {
+                const data = JSON.parse(messageOutput.body);
+                let areaIndex = -1;
+                let tableIndex = -1;
+                floorClone.current.forEach((area, index) => {
+                  const foundTableIndex = area.tables.findIndex(
+                    table => table.id.toString() === data.id.toString(),
+                  );
+                  if (foundTableIndex !== -1) {
+                    areaIndex = index;
+                    tableIndex = foundTableIndex;
+                  }
+                });
 
-      console.log('frame' ,frame);
-
-
-         setTimeout(() => {
-          stompClient.subscribe(
-            `/topic/table/${areaId}`,
-            function (messageOutput: any) {
-              const data  = JSON.parse(messageOutput.body);
-              let areaIndex = -1;
-              let tableIndex = -1;
-              floorClone.current.forEach((area, index) => {
-                const foundTableIndex = area.tables.findIndex(
-                  table => table.id.toString() === data.id.toString(),
-                );
-                if (foundTableIndex !== -1) {
-                  areaIndex = index;
-                  tableIndex = foundTableIndex;
+                if (areaIndex >= 0 && tableIndex >= 0) {
+                  const newTable = [...floorClone.current];
+                  newTable[areaIndex].tables[tableIndex] = {
+                    ...newTable[areaIndex].tables[tableIndex],
+                    state: data.state,
+                  };
+                  setDataTable([...newTable]);
                 }
-              });
-
-              if (areaIndex >= 0 && tableIndex >= 0) {
-                const newTable = [...floorClone.current];
-                newTable[areaIndex].tables[tableIndex] = {
-                  ...newTable[areaIndex].tables[tableIndex],
-                  state: data.state,
-                };
-                setDataTable([...newTable]);
-              }
-            },
-          );
-         } , 1000);
-
+              },
+            );
+          }, 500);
         });
+
       }
     }
   }, [areaId]);
@@ -128,5 +126,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
 });
+
+
 
 export default HomeScreen;

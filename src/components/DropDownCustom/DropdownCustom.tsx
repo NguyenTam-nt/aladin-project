@@ -229,12 +229,13 @@ const DropdownComponent: <T>(
           : value;
 
       const getItem = data.filter(e =>
-        _.isEqual(defaultValue.toString(), _.get(e, valueField).toString()),
+        _.isEqual(defaultValue?.toString(), _.get(e, valueField).toString()),
       );
       if (getItem.length > 0) {
         setCurrentValue(value);
         setListChild(getItem[0]);
       } else {
+        setListChild([]);
         setCurrentValue(null);
       }
     }, [data, value, valueField]);
@@ -255,7 +256,7 @@ const DropdownComponent: <T>(
                 : value;
 
             const index = _.findIndex(listData, (e: any) =>
-              _.isEqual(defaultValue.toString(), _.get(e, valueField).toString()),
+              _.isEqual(defaultValue?.toString(), _.get(e, valueField).toString()),
             );
             if (index > -1 && index <= listData.length - 1) {
               refList?.current?.scrollToIndex({
@@ -276,7 +277,7 @@ const DropdownComponent: <T>(
               typeof value === 'object' ? _.get(value, valueField) : value;
             const index = _.findIndex(listChild?.children, (e: any) => {
               return _.isEqual(
-                defaultValue.toString(),
+                defaultValue?.toString(),
                 _.get(e, valueField.toString()),
               );
             });
@@ -653,7 +654,7 @@ const DropdownComponent: <T>(
             <TouchableWithoutFeedback onPress={showOrClose}>
               <View
                 style={{
-                  width: position.width / 2,
+                  width: position.width * 0.7,
                   height: '100%',
                 }}>
                 <FlatList
@@ -811,6 +812,7 @@ const DropdownComponent: <T>(
         {_renderModal()}
       </View>
     );
+
   });
 
 export default DropdownComponent;

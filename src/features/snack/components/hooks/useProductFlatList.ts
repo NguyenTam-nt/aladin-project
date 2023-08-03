@@ -1,5 +1,5 @@
 import { useCallback, useEffect } from 'react';
-import { IMenuItem, getProductsApi } from 'src/api/products';
+import { IMenuItem, getProductByCategory, getProductsApi } from 'src/api/products';
 import { useHandleResponsePagination } from 'src/commons/useHandleResponsePagination';
 
 
@@ -9,7 +9,10 @@ export const useProductFlatList = (id : number) => {
 
   const handleRequest = useCallback(
     (pageToken: number, pageSize: number) => {
+
+
       return getProductsApi(id, pageToken, pageSize);
+
     },
     [id],
   );

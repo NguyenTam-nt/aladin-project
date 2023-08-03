@@ -1,5 +1,5 @@
-import {defaultColors, isTabletDevice} from '@configs';
-import React, {useCallback} from 'react';
+import { defaultColors, isTabletDevice } from '@configs';
+import React, { useCallback, useRef } from 'react';
 import {
   FlatList,
   ListRenderItemInfo,
@@ -8,40 +8,51 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import {ICAddOrder} from '../../../../assets/icons/ICAddOrder';
-import {Thumb} from '../../../Thumb/Thumb';
-import ItemCardMobile from './ItemCardMobile';
+import { useDispatch } from 'react-redux';
+import { IProductInCart, cancelProductItem } from 'src/api/products';
+import { postCombineProduct, postDetechedProduct } from 'src/api/table';
+import { getLinkImageUrl } from 'src/commons';
+import { formatNumberDotSlice } from 'src/commons/formatMoney';
+import { MessageUtils } from 'src/commons/messageUtils';
+import { useIdBill } from 'src/redux/cartOrder/hooks';
+import { setItemProductInCart } from 'src/redux/cartOrder/slice';
+import { ICAddOrder } from '../../../../assets/icons/ICAddOrder';
+import { ICCheck } from '../../../../assets/icons/ICCheck';
+import { ICDelete } from '../../../../assets/icons/ICDelete';
 import QuantityUpdate from '../../..//QuantityUpdate';
-import {ICCheck} from '../../../../assets/icons/ICCheck';
-import {ICDelete} from '../../../../assets/icons/ICDelete';
-import {useListItemInCart} from 'src/redux/cartOrder/hooks';
-import {IITemCart} from 'src/redux/cartOrder/slice';
-import {formatNumberDotSlice} from 'src/commons/formatMoney';
+import { Thumb } from '../../../Thumb/Thumb';
+import { ActionCartListChoose } from '../../CartList';
+import ItemCardMobile from './ItemCardMobile';
 
-const TableCartItem = ({data}: {data: IITemCart}) => {
-
+const TableCartItem = ({
+  data,
+  index,
+  updateDataCancel,
+}: {
+  data: IProductInCart
+  index: number
+  updateDataCancel: (value: IProductInCart) => void
+}) => {
   return (
     <View>
       <View style={styles.itemContainer} />
       <View style={styles.tableItemContainer}>
         <View style={styles.col1}>
-          <Text style={styles.textTable}>1</Text>
+          <Text style={styles.textTable}>{index + 1}</Text>
         </View>
         <View style={styles.itemCol2}>
           <View>
             <Thumb
               source={{
-                uri: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=880&q=80',
+                uri: getLinkImageUrl(data.linkMedia, 70, 70),
               }}
               style={styles.imageItem}
             />
           </View>
           <View style={styles.textItemCol2}>
-            <Text style={styles.textNameItem}>
-              Combo 2 Người lớn ăn thả g... ssssss
-            </Text>
+            <Text style={styles.textNameItem}>{data.name}</Text>
             <Text style={styles.textPriceItem}>
-              {formatNumberDotSlice(data.quantity * 600000)}
+              {formatNumberDotSlice(data.numProduct * data.price)}
             </Text>
             <View style={styles.textAddOrderItem}>
               <ICAddOrder />
@@ -50,71 +61,167 @@ const TableCartItem = ({data}: {data: IITemCart}) => {
           </View>
         </View>
         <View style={styles.col3}>
-          <Text style={styles.textTable}>{data.quantity}</Text>
+          <Text style={styles.textTable}>{data.numProduct}</Text>
         </View>
         <View style={styles.col5}>
-          <QuantityUpdate value={data.quantity} max={data.quantity}/>
+          <QuantityUpdate
+            value={data.numProduct}
+            max={data.numProduct}
+            updateData={updateDataCancel}
+            data={data}
+          />
         </View>
       </View>
     </View>
   );
 };
 
-const CompoundTable = React.memo(({deleteAction}: {deleteAction: boolean}) => {
-  const data = useListItemInCart();
+const CompoundTable = React.memo(
+  ({
+    deleteAction,
+    dataItemCart,
+    setActionChoose,
+    tableId,
+    typeActions = null,
+  }: {
+    deleteAction?: boolean
+    dataItemCart: IProductInCart[]
+    setActionChoose: React.Dispatch<React.SetStateAction<ActionCartListChoose>>
+    tableId? : number
+    typeActions?: 'combine' | 'detached' | null
+  }) => {
+    const dataProduct = useRef<IProductInCart[]>([]);
+    const billId = useIdBill();
+    const dispatch = useDispatch();
+    const updateDataCancel = (value: IProductInCart) => {
+      const id = value.id;
+      const dataCheck = [...dataProduct.current];
+      if (id) {
+        const index = dataProduct.current.findIndex(item => item?.id === id);
+        if (index >= 0) {
+          if (value.numProduct > 0) {
+            dataCheck[index] = value;
+          } else {
+             dataCheck.splice(index, 1);
+          }
+          dataProduct.current = dataCheck;
+        } else {
+          if (value.numProduct > 0) {
+          dataCheck.push(value);
+          dataProduct.current = dataCheck;
+          }
+        }
+      }
+    };
 
-  const renderItem = useCallback((item: ListRenderItemInfo<any>) => {
-    return isTabletDevice ? (
-      <TableCartItem data={item.item} />
-    ) : (
-      <ItemCardMobile checkstatus={item.item} />
+    const onUpdatePress = useCallback(async () => {
+      if (typeActions === null && deleteAction) {
+        const dataUpdate = await cancelProductItem(billId, dataProduct.current);
+        if (dataUpdate.success) {
+          MessageUtils.showSuccessMessage('Yêu cầu huỷ món thành công');
+          dispatch(setItemProductInCart(dataUpdate.data?.list));
+        } else {
+          MessageUtils.showErrorMessage('Yêu cầu huỷ món thất bại');
+        }
+      } else {
+        if (tableId && billId) {
+          if (typeActions === 'combine') {
+            const dataUpdate = await postCombineProduct(
+              billId,
+              tableId,
+              dataProduct.current,
+            );
+            if (dataUpdate.success) {
+              MessageUtils.showSuccessMessage('Ghép bàn thành công');
+
+
+              dispatch(setItemProductInCart(dataUpdate.data.list));
+            } else {
+              MessageUtils.showErrorMessage('Ghép bàn thất bại');
+            }
+          } else {
+            const dataUpdate = await postDetechedProduct(
+              billId,
+              tableId,
+              dataProduct.current,
+            );
+            if (dataUpdate.success) {
+              MessageUtils.showSuccessMessage('Tách bàn thành công');
+              dispatch(setItemProductInCart(dataUpdate.data.list));
+            } else {
+              MessageUtils.showErrorMessage('Tách bàn thất bại');
+            }
+          }
+        } else {
+          MessageUtils.showWarningMessage('Chọn bàn để thực hiện');
+        }
+      }
+    }, [billId, dataProduct.current, tableId, typeActions, deleteAction]);
+
+    const renderItem = useCallback(
+      (item: ListRenderItemInfo<IProductInCart>) => {
+        return isTabletDevice ? (
+          <TableCartItem
+            data={item.item}
+            index={item.index}
+            updateDataCancel={updateDataCancel}
+          />
+        ) : (
+          <ItemCardMobile data={item.item}   deleteAction={deleteAction}    updateDataCancel={updateDataCancel}/>
+        );
+      },
+      [ updateDataCancel],
     );
-  }, []);
 
-  return (
-    <View style={styles.container}>
-      <FlatList
-        data={data}
-        showsVerticalScrollIndicator={false}
-        ListHeaderComponent={
-          isTabletDevice ? (
-            <View style={styles.content}>
-              <View style={styles.col1}>
-                <Text style={styles.textTable}>STT</Text>
+    return (
+      <View style={styles.container}>
+        <FlatList
+          data={dataItemCart}
+          showsVerticalScrollIndicator={false}
+          ListHeaderComponent={
+            isTabletDevice ? (
+              <View style={styles.content}>
+                <View style={styles.col1}>
+                  <Text style={styles.textTable}>STT</Text>
+                </View>
+                <View style={styles.col2}>
+                  <Text style={styles.textTable}>Sản phẩm</Text>
+                </View>
+                <View style={styles.col3}>
+                  <Text style={styles.textTable}>Số lượng</Text>
+                </View>
+                <View style={styles.col5}>
+                  <Text style={styles.textTable}>
+                    Số lượng {deleteAction ? 'huỷ' : 'ghép'}
+                  </Text>
+                </View>
               </View>
-              <View style={styles.col2}>
-                <Text style={styles.textTable}>Sản phẩm</Text>
-              </View>
-              <View style={styles.col3}>
-                <Text style={styles.textTable}>Số lượng</Text>
-              </View>
-              <View style={styles.col5}>
-                <Text style={styles.textTable}>
-                  Số lượng {deleteAction ? 'huỷ' : 'ghép'}
-                </Text>
-              </View>
+            ) : (
+              <></>
+            )
+          }
+          renderItem={renderItem}
+          ListFooterComponent={
+            <View style={styles.buttonAction}>
+              <TouchableOpacity style={styles.buttonConfirm} onPress={onUpdatePress}>
+                <ICCheck />
+                <Text style={styles.textConfirm}>Thực hiện</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.buttonCancel}
+                onPress={() => {
+                  setActionChoose(ActionCartListChoose.empty);
+                }}>
+                <ICDelete />
+                <Text style={styles.textConfirm}>Huỷ bỏ</Text>
+              </TouchableOpacity>
             </View>
-          ) : (
-            <></>
-          )
-        }
-        renderItem={renderItem}
-        ListFooterComponent={
-          <View style={styles.buttonAction}>
-            <TouchableOpacity style={styles.buttonConfirm}>
-              <ICCheck />
-              <Text style={styles.textConfirm}>Thực hiện</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.buttonCancel}>
-              <ICDelete />
-              <Text style={styles.textConfirm}>Huỷ bỏ</Text>
-            </TouchableOpacity>
-          </View>
-        }
-      />
-    </View>
-  );
-});
+          }
+        />
+      </View>
+    );
+  },
+);
 
 const styles = StyleSheet.create({
   buttonAction: {

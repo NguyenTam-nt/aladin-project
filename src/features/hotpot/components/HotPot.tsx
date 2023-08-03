@@ -1,39 +1,37 @@
-import {StyleSheet, View} from 'react-native'
-import React, {useMemo} from 'react'
-import FastImage from 'react-native-fast-image'
+import {StyleSheet, View} from 'react-native';
+import React, {useMemo} from 'react';
+import FastImage from 'react-native-fast-image';
 import {
   defaultColors,
   hotpotId1,
   hotpotId2,
   hotpotId4,
   isTabletDevice,
-} from '@configs'
-import {Thumb} from '@components'
-import {DIMENSION} from '@constants'
-import {getValueForDevice} from '../../../commons/formatMoney'
-import {getLinkImageUrl} from 'src/commons'
-import { useGetCartItem } from '../hook/useGetCartItem'
+} from '@configs';
+import {Thumb} from '@components';
+import {DIMENSION} from '@constants';
+import {getValueForDevice} from '../../../commons/formatMoney';
+import {getLinkImageUrl} from 'src/commons';
+import { useGetCartItem } from '../hook/useGetCartItem';
 
-const widthHotPot = isTabletDevice ? 436 : DIMENSION.width - 19 * 2
+const widthHotPot = isTabletDevice ? 436 : DIMENSION.width - 19 * 2;
 const corePot =
   widthHotPot -
   getValueForDevice(18, 14) * 2 -
-  getValueForDevice(45.64, 35.18) * 2
+  getValueForDevice(45.64, 35.18) * 2;
 const sizeImageCategory =
   (widthHotPot -
     getValueForDevice(18, 14) * 2 -
     getValueForDevice(45.64, 35.18) * 2 -
     2) /
-  2
+  2;
 
 type Props = {
   currentCategory: number
 }
-
 export const HotPot = ({currentCategory}: Props) => {
 
-
-  const {listCategoriesByCategory, isFourBar, isOneBar, isTwoBar} = useGetCartItem(currentCategory)
+  const {listCategoriesByCategory, isFourBar, isOneBar, isTwoBar} = useGetCartItem(currentCategory);
 
 
   return (
@@ -59,7 +57,7 @@ export const HotPot = ({currentCategory}: Props) => {
               style={styles.styleImageCategory}
               source={{
                 uri: getLinkImageUrl(
-                  listCategoriesByCategory[0].data.linkMedia,
+                  listCategoriesByCategory[0].linkMedia,
                   100,
                   100,
                 ),
@@ -77,7 +75,7 @@ export const HotPot = ({currentCategory}: Props) => {
                 style={styles.styleImageCategory}
                 source={{
                   uri: getLinkImageUrl(
-                    listCategoriesByCategory[1].data.linkMedia,
+                    listCategoriesByCategory[1].linkMedia,
                     100,
                     100,
                   ),
@@ -95,7 +93,7 @@ export const HotPot = ({currentCategory}: Props) => {
                   style={styles.styleImageCategory}
                   source={{
                     uri: getLinkImageUrl(
-                      listCategoriesByCategory[2].data.linkMedia,
+                      listCategoriesByCategory[2].linkMedia,
                       100,
                       100,
                     ),
@@ -107,7 +105,7 @@ export const HotPot = ({currentCategory}: Props) => {
               <View style={styles.styleImageFour}>
                 <Thumb style={styles.styleImageCategory} source={{
                   uri: getLinkImageUrl(
-                    listCategoriesByCategory[3].data.linkMedia,
+                    listCategoriesByCategory[3].linkMedia,
                     100,
                     100,
                   ),
@@ -118,8 +116,8 @@ export const HotPot = ({currentCategory}: Props) => {
         ) : null}
       </View>
     </View>
-  )
-}
+  );
+};
 
 const styles = StyleSheet.create({
   styleHotpot: {
@@ -235,4 +233,4 @@ const styles = StyleSheet.create({
     height: '100%',
     resizeMode: 'cover',
   },
-})
+});

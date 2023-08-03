@@ -20,7 +20,7 @@ export const useGetCartItem = (currentId: number) => {
   }, [currentId]);
 
   const listMenuCategories = useMemo(() => {
-    return listCategory.filter(item => item.data?.idCategory === currentId);
+    return listCategory.filter(item => item.idCategory === currentId);
   }, [listCategory]);
 
   const listCategoriesByCategory = useMemo(() => {
@@ -76,6 +76,6 @@ export const useGetCartItem = (currentId: number) => {
     clearMenuCategory,
     isFourBar,
     isTwoBar,
-    isOneBar
+    isOneBar,
   };
 };

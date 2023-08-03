@@ -1,8 +1,7 @@
-import {ROLE_LIST, defaultColors} from '@configs';
-import {DIMENSION} from '@constants';
+import { ROLE_LIST, defaultColors } from '@configs';
+import { DIMENSION } from '@constants';
 import { useNavigation } from '@react-navigation/native';
-import axios from 'axios';
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import {
   Image,
   StatusBar,
@@ -11,15 +10,15 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import {TextInput} from 'react-native-gesture-handler';
-import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import { TextInput } from 'react-native-gesture-handler';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import Toast from 'react-native-toast-message';
 import { useDispatch } from 'react-redux';
 import { login } from 'src/api/login';
 import { getUserInfo } from 'src/api/user';
-import {ICEye} from 'src/assets/icons/ICEye';
+import { ICEye } from 'src/assets/icons/ICEye';
 import { ICEyeOff } from 'src/assets/icons/ICEyeOff';
-import { IAuthorize, IUserInfo, setRefreshToken, setToken, setUserInfo } from 'src/redux/reducers/AuthSlice';
+import { IAuthorize, setRefreshToken, setToken, setUserInfo } from 'src/redux/reducers/AuthSlice';
 
 const LoginScreen = () => {
   const [account, setAccount] = useState<string>('');
@@ -31,21 +30,24 @@ const LoginScreen = () => {
   const handleSingIn = async () => {
     const res = await login(account, password);
     if (res.success) {
-    await dispatch(setRefreshToken(res.data.refresh_token));
-    await dispatch(setToken(res.data.access_token));
+      await dispatch(setRefreshToken(res.data.refresh_token));
+      await dispatch(setToken(res.data.access_token));
       const userInfo = await getUserInfo(res.data.access_token);
       if (userInfo.data) {
         dispatch(setUserInfo(userInfo.data));
-        userInfo.data.authorities.some((role : IAuthorize) => {
-          console.log({role})
+        userInfo.data.authorities.some((role: IAuthorize) => {
           switch (role.name) {
             case ROLE_LIST.guest:
               //@ts-ignore
+              navigation.replace('main', {screen: 'mainDrawer'});
+              break;
+            case ROLE_LIST.chef:
+              //@ts-ignore
               navigation.replace('main', {screen: 'kitchen'});
               break;
-              case ROLE_LIST.chef:
+              case ROLE_LIST.order:
                 //@ts-ignore
-                navigation.replace('main', {screen: 'kitchen'});
+                navigation.replace('main', {screen: 'mainDrawer'});
                 break;
             default:
               Toast.show({
@@ -58,11 +60,19 @@ const LoginScreen = () => {
               break;
           }
         });
+      } else {
+        Toast.show({
+          type: 'tomatoToast',
+          props: {
+            status: userInfo.success ? 'success' : 'error',
+            uuid: userInfo?.message,
+          },
+        });
       }
     } else {
       Toast.show({
         type: 'tomatoToast',
-        props: {status: res.success ? 'success' : 'error', uuid: res.message},
+        props: {status: res.success ? 'success' : 'error', uuid: res?.message},
       });
     }
   };
