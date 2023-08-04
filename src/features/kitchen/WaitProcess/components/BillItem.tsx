@@ -119,7 +119,7 @@ export const BillItemMenu = ({
   }, [data])
 
   const updateStateCompleteCancel = useCallback(() => {
-    onPress(data, '', OrderType.cancel, false)
+    onPress(data, '', OrderType.process_cancel, false)
   }, [data])
 
   return (

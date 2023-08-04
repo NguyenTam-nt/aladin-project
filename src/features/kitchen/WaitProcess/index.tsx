@@ -98,7 +98,7 @@ export const WaitProcees = React.memo(() => {
         <ModalConfirmCancel
           titleInput="Lý do hủy món"
           placeholder="Hủy món từ thu ngân"
-          message={`Hủy món ${currentDataSelect?.nameProduct}?`}
+          message={`Hủy món ${currentDataSelect?.name}?`}
           onPress={handlePressCompelete}
           data={currentDataSelect}
           onCancel={modalConfirmCancel.handleHidden}
@@ -110,7 +110,7 @@ export const WaitProcees = React.memo(() => {
         onBackdropPress={modalRefuse.handleHidden}
         ref={modalRefuse.refModal}>
         <ModalConfirmCancel
-          state={OrderType.process}
+          state={OrderType.process_cancel}
           onPress={handlePressCompelete}
           data={currentDataSelect}
           titleInput="Lý do từ chối"

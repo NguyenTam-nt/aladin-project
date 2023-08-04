@@ -9,6 +9,10 @@ import {
 import {useHandleResponsePagination} from 'src/commons/useHandleResponsePagination';
 import {IOrderItem, IOrderKitchen, OrderType} from 'src/typeRules/product';
 import {MessageUtils} from 'src/commons/messageUtils';
+import { useAreaId } from 'src/redux/infoDrawer/hooks'
+import SockJS from 'sockjs-client'
+import { SOCK_CLIENNT_URL } from 'src/api/config'
+var Stomp = require('stompjs/lib/stomp.js').Stomp;
 
 export enum TypeModalWaitProcess {
   cancelbill = 'CANCELBILL',
@@ -44,6 +48,37 @@ export const useWaitProcess = () => {
     },
     [currentType, fileterItem],
   );
+
+  const IdArea = useAreaId()
+
+  useEffect(() => {
+    console.log({IdArea})
+    if (IdArea) {
+      const sockClient = new SockJS(SOCK_CLIENNT_URL);
+      let stompClient = Stomp.over(sockClient);
+      if (!stompClient.connected) {
+        console.log("Stomp client is not connected")
+        stompClient.connect(
+          {},
+          function (frame: any) {
+            setTimeout(() => {
+              stompClient.subscribe(
+                `/topic/kitchen/${IdArea}`,
+                function (messageOutput: any) {
+                  const data = JSON.parse(
+                    messageOutput.body,
+                  ) as IOrderItem[];
+                  // dispatch(setItemProductInCart(data.list));
+                  console.log('data', data);
+                },
+              );
+            });
+          },
+          500,
+        );
+      }
+    }
+  }, [IdArea]);
 
   const {data, isRefreshing, pullToRefresh, refresh, handleLoadMore, setData} =
     useHandleResponsePagination<IOrderKitchen>(getOrderKitchenMethod);
@@ -128,7 +163,7 @@ export const useWaitProcess = () => {
     (item: IOrderItem, reason = '', state: OrderType) => {
       updateOrerKitchenOnlyState(state, item.idInvoice, item.id, reason)
         .then(result => {
-          console.log({data: result.data, item})
+          console.log({data: result, item})
            hanldeDataAfterUpdate(result.data, item);
         })
         .catch(error => {

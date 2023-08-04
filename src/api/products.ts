@@ -146,11 +146,15 @@ export const updateOrerKitchenOnlyState = async (
   reason = '',
 ): Promise<IResponseApi<IOrderItem[]>> => {
   try {
+    console.log( `${
+      APIs.ORDER_KITCHEN
+    }/${state}/${idOrder}/${id}?answer=${!!reason}&reason=${reason}`)
     const result = await request().patch(
       `${
         APIs.ORDER_KITCHEN
       }/${state}/${idOrder}/${id}?answer=${!!reason}&reason=${reason}`,
     );
+   
     const data = await result.data.list;
     return {
       success: true,

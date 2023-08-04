@@ -19,7 +19,7 @@ export const HeaderListBillFood = memo(() => {
         </TextCustom>
       </View>
       <View style={[styles.styleViewItem, getValueForDevice(undefined, styles.justifyEnd) ]}>
-        <TextCustom weight="600" textAlign='center' fontSize={16} color={defaultColors.c_222124}>
+        <TextCustom weight="600" textAlign="center" fontSize={16} color={defaultColors.c_222124}>
           Số lượng
         </TextCustom>
       </View>
