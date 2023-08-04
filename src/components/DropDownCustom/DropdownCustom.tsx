@@ -97,7 +97,6 @@ const DropdownComponent: <T>(
     const ref = useRef<View>(null);
     const refList = useRef<FlatList>(null);
     const refListChild = useRef<FlatList>(null);
-
     const [visible, setVisible] = useState<boolean>(false);
     const [currentValue, setCurrentValue] = useState<any>(null);
     const [listData, setListData] = useState<any[]>(data);

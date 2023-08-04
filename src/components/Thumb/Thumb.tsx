@@ -22,7 +22,7 @@ export const ThumbFallback: React.FC<ThumbFallbackProps> = (props: any) => {
     return (
       <FastImage
         {...props}
-        source={require('../../assets/image/avatar_default.png')}
+        source={require('../../assets/image/default-thumbnail.jpg')}
         resizeMode="cover"
       />
     );
@@ -39,8 +39,7 @@ export const ThumbFallback: React.FC<ThumbFallbackProps> = (props: any) => {
   return (
     <FastImage
       {...props}
-      defaultSource={require('../../assets/image/avatar_default.png')}
-      source={require('../../assets/image/avatar_default.png')}
+      source={require('../../assets/image/default-thumbnail.jpg')}
       resizeMode="cover"
     />
   );

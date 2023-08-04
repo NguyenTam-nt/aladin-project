@@ -53,21 +53,6 @@ const DropDownView = React.memo((props: DropDownView) => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut, () => {
       timePress.current = true;
     });
-    // LayoutAnimation.configureNext(
-    //   {
-    //     duration: 300,
-    //     create: {
-    //       type: LayoutAnimation.Types.easeInEaseOut,
-    //       property: LayoutAnimation.Properties.opacity,
-    //     },
-    //     update: {
-    //       type: LayoutAnimation.Types.easeInEaseOut,
-    //     },
-    //   },
-    //   () => {
-    //     timePress.current = true;
-    //   },
-    // );
 
 
   }, []);
@@ -84,10 +69,12 @@ const DropDownView = React.memo((props: DropDownView) => {
         style={[styles.headerButton, headerButtonStyle]}
         activeOpacity={0.9}
         onPress={changeOpen}>
-          <TouchableOpacity onPress={onPressHeaderText}>
-        <Text style={textStyle}>{textHeader}</Text>
+        <TouchableOpacity onPress={onPressHeaderText ? onPressHeaderText : changeOpen }>
+          <Text style={textStyle}>{textHeader}</Text>
         </TouchableOpacity>
-        {open ? <ICUp /> : <ICDown color={defaultColors.c_222124} />}
+        <View>
+          {open ? <ICUp /> : <ICDown color={defaultColors.c_222124} />}
+        </View>
       </TouchableOpacity>
       <View style={[styles.viewItem, !open ? {height: 0} : undefined]}>
         {open && itemView}
@@ -101,6 +88,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     height: 40,
+
   },
   styleView: {
     height: 50,

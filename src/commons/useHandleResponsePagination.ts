@@ -1,5 +1,5 @@
 import { useCallback, useMemo, useRef, useState } from 'react';
-import type { ApiResponse } from 'src/api/types';
+import type { ApiResponse, IResponseApi } from 'src/api/types';
 import { PAGE_SIZE } from 'src/constants';
 
 /**
@@ -20,7 +20,7 @@ export type Response =
  * @returns A promise contain response from pagination api
  */
 export function useHandleResponsePagination<T>(
-  callback: (pageToken: number, numberOfPageSize: number) => Promise<Response>,
+  callback: (pageToken: number, numberOfPageSize: number) => Promise<IResponseApi<T>>,
   pageSize: number = PAGE_SIZE,
   hasContent: boolean = false,
   initData?: T[],
@@ -71,7 +71,7 @@ export function useHandleResponsePagination<T>(
    */
 
   const handleSuccessResponse = (
-    response?: Response,
+    response?: IResponseApi<any>,
     fromLoadMore?: boolean,
   ) => {
     if (fromLoadMore && isLoadingRef.current) {return;}
