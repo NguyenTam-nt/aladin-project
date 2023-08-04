@@ -29,7 +29,7 @@ export const WaitProcees = React.memo(() => {
     setFilterItem,
     isTable,
     handlePressCompelete,
-    currentDataSelect
+    currentDataSelect,
   } = useWaitProcess();
   const {keyExtractor} = useKeyArray();
 
@@ -91,6 +91,7 @@ export const WaitProcees = React.memo(() => {
       </View>
 
       <ModalCustom
+        isCenter={getValueForDevice(true, false)}
         onBackdropPress={modalConfirmCancel.handleHidden}
         ref={modalConfirmCancel.refModal}>
         <ModalConfirmCancel
@@ -104,6 +105,7 @@ export const WaitProcees = React.memo(() => {
         />
       </ModalCustom>
       <ModalCustom
+        isCenter={getValueForDevice(true, false)}
         onBackdropPress={modalRefuse.handleHidden}
         ref={modalRefuse.refModal}>
         <ModalConfirmCancel

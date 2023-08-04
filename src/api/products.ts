@@ -4,7 +4,7 @@ import {IParams} from '@typeRules';
 import {APIs, IData} from './config';
 import {handleError} from './handleError';
 import request from './request';
-import { IOrderKitchen, OrderType } from 'src/typeRules/product';
+import { IOrderItem, IOrderKitchen, OrderType } from 'src/typeRules/product';
 
 export interface IMenuItem {
   id: number
@@ -144,7 +144,7 @@ export const updateOrerKitchenOnlyState = async (
   idOrder: number,
   id: number,
   reason = '',
-): Promise<IResponseApi<IOrderKitchen[]>> => {
+): Promise<IResponseApi<IOrderItem[]>> => {
   try {
     const result = await request().patch(
       `${

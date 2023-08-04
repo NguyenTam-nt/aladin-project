@@ -40,7 +40,7 @@ export const useWaitProcess = () => {
   const refAll = useRef<boolean>(false);
   const getOrderKitchenMethod = useCallback(
     async (page: number, size: number) => {
-      return getOrerKitchen({page, size, menu: currentType}, fileterItem.value);
+      return  getOrerKitchen({page, size, menu: currentType}, fileterItem.value);
     },
     [currentType, fileterItem],
   );
@@ -109,7 +109,8 @@ export const useWaitProcess = () => {
     (item: IOrderItem, reason = '', state: OrderType) => {
       updateOrerKitchenAllState(state, item.idInvoice, item.id, reason)
         .then(result => {
-          hanldeDataAfterUpdate(result.data, item)
+          console.log({data: result.data})
+          hanldeDataAfterUpdate(result.data.list, item)
         })
         .catch(error => {
           console.log({error});
@@ -127,7 +128,8 @@ export const useWaitProcess = () => {
     (item: IOrderItem, reason = '', state: OrderType) => {
       updateOrerKitchenOnlyState(state, item.idInvoice, item.id, reason)
         .then(result => {
-          hanldeDataAfterUpdate(result.data, item)
+          console.log({data: result.data, item})
+           hanldeDataAfterUpdate(result.data, item);
         })
         .catch(error => {
           console.log({error});
@@ -136,7 +138,7 @@ export const useWaitProcess = () => {
           handleClear();
         });
     },
-    [],
+    [hanldeDataAfterUpdate],
   );
 
   const handlePressCompelete = useCallback(
@@ -147,7 +149,7 @@ export const useWaitProcess = () => {
       }
       handlePressCompeleteOnly(item, reason, state);
     },
-    [data, handleConpleteAll],
+    [data, handleConpleteAll, handlePressCompeleteOnly],
   );
 
   const handleClear = useCallback(() => {

@@ -62,7 +62,7 @@ export interface IOrderItem {
   idInvoice: number
   createdBy: string
   linkImage: string
-  nameProduct: string
+  name: string
   price: number
   pricePromotion: number
   state: OrderType

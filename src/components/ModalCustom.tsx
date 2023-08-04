@@ -15,6 +15,7 @@ export type ModalCustomProps = {
   onBackdropPress?: () => void | undefined | boolean
   swipeDirection?: Direction
   isCloseOnBackdrop?: boolean
+  isCenter?: boolean
 } & Partial<ModalProps>
 export type ModalCustomMethod = {
   show: (isFullScreen: boolean) => void
@@ -34,6 +35,7 @@ const ModalCustom = forwardRef<ModalCustomMethod, ModalCustomProps>(
       propagateSwipe = false,
       swipeDirection,
       isCloseOnBackdrop = true,
+      isCenter = true
     }: ModalCustomProps,
     ref,
   ) => {
@@ -106,7 +108,9 @@ const ModalCustom = forwardRef<ModalCustomMethod, ModalCustomProps>(
         // useNativeDriver
         avoidKeyboard
         propagateSwipe
-        style={styles.styleBackgroudOpacity}
+        style={[styles.styleBackgroudOpacity, {
+          justifyContent: isCenter ? 'center' : 'flex-end'
+        }]}
         swipeThreshold={50}
         onBackButtonPress={() => {
           if (onBackdropPress) {
@@ -146,11 +150,7 @@ const ModalCustom = forwardRef<ModalCustomMethod, ModalCustomProps>(
         {!isIOS ? (
           children
         ) : (
-          <KeyboardAvoidingView behavior="position" enabled>
-            {/* <Box flex={1}> */}
-            {children}
-            {/* </Box> */}
-          </KeyboardAvoidingView>
+          children
         )}
       </Modal>
     );
@@ -168,7 +168,7 @@ const styles = StyleSheet.create({
     left:0,
     // opacity: 0.99,
     // zIndex: 100,
-    justifyContent: getValueForDevice('center','flex-end') ,
+    // justifyContent: getValueForDevice('center','flex-end') ,
     alignItems: 'center' ,
     margin: 0
   },

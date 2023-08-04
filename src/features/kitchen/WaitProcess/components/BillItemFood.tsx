@@ -41,6 +41,7 @@ export const BillItemFood = memo(({onShowModal, onHideModal, data, onPress}: Pro
             fontSize={14}
             weight="600"
             lineHeight={22}
+            numberOfLines={2}
             color={defaultColors.c_222124}>
             {data.nameProduct}
           </TextCustom>
@@ -163,9 +164,10 @@ export const BillItemMenu = ({
         <TextCustom
           lineHeight={22}
           fontSize={14}
+          numberOfLines={1}
           weight="400"
           color={defaultColors.c_222124}>
-          {data?.nameProduct}
+          {data?.name}
         </TextCustom>
         <View>
           <View style={styles.styleGroupNote}>

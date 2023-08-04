@@ -158,12 +158,13 @@ export const BillItemMenu = ({
         <TextCustom
           lineHeight={22}
           fontSize={14}
+          numberOfLines={1}
           weight="400"
           color={defaultColors.c_222124}>
-          {data?.nameProduct}
+          {data?.name}
         </TextCustom>
         <View>
-          <View style={{flexDirection: 'row', columnGap: 4}}>
+          <View style={{flexDirection: 'row', columnGap: 4, alignItems: 'stretch'}}>
             <ICAddOrder color={defaultColors.bg_A1A0A3} />
             <TextCustom
               lineHeight={18}
