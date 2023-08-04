@@ -68,6 +68,7 @@ export const WaitProcees = React.memo(() => {
             placeholder="Lọc sản phẩm"
             isSort={true}
             styleDropdown={styles.w_220}
+            leftPosition={false}
           />
         }
       />

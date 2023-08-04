@@ -1,5 +1,6 @@
 import { Thumb } from '@components';
 import { defaultColors, isTabletDevice } from '@configs';
+import { DIMENSION } from '@constants';
 import React, { useRef, useState } from 'react';
 import {
   FlatList,
@@ -301,11 +302,12 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   modalEdit: {
-    height: 270,
-    width: 500,
+    height:  270,
+    width: isTabletDevice ? 500 :  DIMENSION.width,
     backgroundColor: defaultColors.c_fff,
     borderRadius: 10,
     padding: 24,
+
   },
   textHeaderModal: {
     fontSize: 24,
