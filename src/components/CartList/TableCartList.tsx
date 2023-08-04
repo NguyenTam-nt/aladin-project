@@ -232,6 +232,7 @@ const styles = StyleSheet.create({
   },
   col5: {
     flex: 1,
+
     flexWrap: 'wrap-reverse',
   },
   itemContainer: {

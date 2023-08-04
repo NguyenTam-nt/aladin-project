@@ -198,7 +198,7 @@ const styles = StyleSheet.create({
     height: '100%',
   },
   content: {
-    marginLeft: 24,
+    paddingHorizontal : 24,
   },
   textStyle: {
     color: defaultColors._EA222A,
@@ -209,12 +209,13 @@ const styles = StyleSheet.create({
     color: defaultColors.c_222124,
     fontSize: 16,
     fontWeight: '600',
+    maxWidth : 155,
   },
   containerStyleDropdown: {
     marginTop: 24,
   },
   headerButtonStyleDropDown: {
-    width: '78%',
+    width: '100%',
     borderBottomWidth: 1,
     borderColor: defaultColors.bg_EFEFEF,
     alignItems: 'center',
@@ -223,18 +224,20 @@ const styles = StyleSheet.create({
   buttonCheckBoxDropDown: {
     flexDirection: 'row',
     marginTop: 16,
+
   },
   labelTextDropDown: {
     marginLeft: 8,
     fontSize: 14,
     color: defaultColors.c_222124,
+
   },
   labelTextDropDown2: {
     fontSize: 14,
     color: defaultColors.c_222124,
   },
   textHeader2: {
-    width: '78%',
+    width: '100%',
     borderBottomWidth: 1,
     borderColor: defaultColors.bg_EFEFEF,
     marginTop: 33,
