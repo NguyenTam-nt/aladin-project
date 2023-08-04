@@ -29,6 +29,7 @@ export const LogoutDrawer = () => {
             source={{
               uri: userInfo.imageUrl,
             }}
+            avatarType
           />
         </View>
         <View>

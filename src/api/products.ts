@@ -278,10 +278,13 @@ export interface IResponseProductUpdate {
 
 export const cancelProductItem = async (
   id: number | undefined,
-  body :  IBodyPostProduct[]
+  body: IBodyPostProduct[],
 ): Promise<IResponseApi<IResponseProductUpdate>> => {
   try {
-    const result = await request().patch(`${APIs.CANCEL_ITEM}/${id}` ,body);
+
+
+    const result = await request().patch(`${APIs.CANCEL_ITEM}/${id}`, body);
+
     const data = await result.data;
     return {
       success: true,

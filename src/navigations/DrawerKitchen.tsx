@@ -9,6 +9,9 @@ import { History } from '../features/kitchen/History';
 import { WaitProcees } from '../features/kitchen/WaitProcess';
 import OrderTabView from '../features/orderTab/index';
 import CustomDrawerKitchen from './CustomDrawerKitchen';
+import { useDispatch } from 'react-redux';
+import { getFloor } from 'src/api/table';
+import { setAreaId } from 'src/redux/infoDrawer/slice';
 
 export const routerPath = {
   order: 'Phần mềm order',
@@ -80,6 +83,17 @@ const DrawerKitchen = () => {
     }),
     [],
   );
+
+  const dispatch = useDispatch();
+  const getDataFloor = async () => {
+    const floor = await getFloor();
+    if (floor.success) {
+      dispatch(setAreaId(floor.data[0].infrastructure.id));
+    }
+  };
+  React.useLayoutEffect(() => {
+    getDataFloor();
+  }, []);
 
   return (
     <View style={globalStyles.fullFill}>

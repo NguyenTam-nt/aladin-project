@@ -49,6 +49,7 @@ const HeaderContentRight = (props: HeaderContentRight & TabBarOrder) => {
           placeholder="Theo mã/tên món ăn"
           value={valueSearch}
           setValue={setValueSearch}
+          stylesContainer={{maxWidth: '70%'}}
         />
         <DropDownFilter
           dataItem={dataItem}

@@ -110,6 +110,9 @@ const styles = StyleSheet.create({
   },
   itemContainerStyle: {
     backgroundColor: defaultColors._33343B,
+    borderTopWidth : 1,
+    borderBottomWidth : 1,
+    borderColor : defaultColors._33343B,
   },
   iconLeft: {
     marginLeft: getValueForDevice(16 , 6) ,

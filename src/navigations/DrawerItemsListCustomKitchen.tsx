@@ -119,7 +119,9 @@ export const DrawerItemWithICArrowDown = React.memo(
       setIsOpen(value => !value);
       LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
     };
-    const [initIndexChild, setInitIndexChild] = React.useState<number>(null);
+    const [initIndexChild, setInitIndexChild] = React.useState<number | null>(
+      null,
+    );
     const [newArrayChild, setNewArrayChild] = React.useState(
       routerKitchens[i].childs.map(child => child.slug),
     );
@@ -134,6 +136,8 @@ export const DrawerItemWithICArrowDown = React.memo(
         }
       }
     }
+
+    
 
     const focusChild = arr[state.routes[i]?.state?.index];
 
@@ -168,8 +172,6 @@ export const DrawerItemWithICArrowDown = React.memo(
               });
               if (!event.defaultPrevented) {
                 if (!initIndexChild) {
-                  console.log('index', index);
-
                   setInitIndexChild(index);
                 }
                 if (focused) {

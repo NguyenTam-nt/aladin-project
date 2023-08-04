@@ -113,27 +113,27 @@ const TableCompound = React.memo(() => {
       <ScrollView
         horizontal
         contentContainerStyle={isTabletDevice ? {flex: 1} : {minWidth: 934}}>
-        <FlatList
-          data={data}
-          showsVerticalScrollIndicator={false}
-          ListHeaderComponent={
-            <View style={styles.content}>
-              <View style={styles.col1}>
-                <Text style={styles.textHeaderTable}>Thời gian</Text>
-              </View>
-              <View style={styles.col2}>
-                <Text style={styles.textHeaderTable}>Tên món</Text>
-              </View>
-              <View style={styles.col3}>
-                <Text style={styles.textHeaderTable}>Số lượng chuyển</Text>
-              </View>
-              <View style={styles.col5}>
-                <Text style={styles.textHeaderTable}>Trạng thái/Chức năng</Text>
-              </View>
+        <View style={{ flex : 1}}>
+          <View style={styles.content}>
+            <View style={styles.col1}>
+              <Text style={styles.textHeaderTable}>Thời gian</Text>
             </View>
-          }
-          renderItem={renderItem}
-        />
+            <View style={styles.col2}>
+              <Text style={styles.textHeaderTable}>Tên món</Text>
+            </View>
+            <View style={styles.col3}>
+              <Text style={styles.textHeaderTable}>Số lượng chuyển</Text>
+            </View>
+            <View style={styles.col5}>
+              <Text style={styles.textHeaderTable}>Nội dung thông báo</Text>
+            </View>
+          </View>
+          <FlatList
+            data={data}
+            showsVerticalScrollIndicator={false}
+            renderItem={renderItem}
+          />
+        </View>
       </ScrollView>
     </View>
   );

@@ -137,45 +137,47 @@ const TableRightContent = (props : ITableRightContent) => {
     <View style={styles.container}>
       <ScrollView
         horizontal
-        contentContainerStyle={isTabletDevice ? {flex: 1} : {minWidth: 934}}>
+        contentContainerStyle={isTabletDevice ? {flex: 1} : {minWidth: 934}}
+        >
+        <View style={{ flex : 1}}>
+        <View style={styles.content}>
+          <View style={styles.col1}>
+            <Text style={styles.textTableHeader}>Hình ảnh</Text>
+          </View>
+          <View style={styles.col2}>
+            <Text style={styles.textTableHeader}>Mã món ăn</Text>
+          </View>
+          <View style={styles.col3}>
+            <Text style={styles.textTableHeader}>Tên món ăn</Text>
+          </View>
+          <View style={styles.col4}>
+            <Text style={styles.textTableHeader}>Loại thực đơn</Text>
+          </View>
+          <View style={styles.col5}>
+            <Text style={styles.textTableHeader}>Danh mục</Text>
+          </View>
+          <View style={styles.col6}>
+            <Text style={styles.textTableHeader}>Giá bán</Text>
+          </View>
+          <View style={styles.col7}>
+            <Text style={styles.textTableHeader}>Tồn kho</Text>
+          </View>
+          <View style={[styles.col8]}>
+            <Text style={styles.textTableHeader}>Chức năng</Text>
+          </View>
+        </View>
+
         <FlatList
           data={dataProducts}
           showsVerticalScrollIndicator={false}
           keyExtractor={keyExtractor}
-          ListHeaderComponent={
-            <View style={styles.content}>
-              <View style={styles.col1}>
-                <Text style={styles.textTableHeader}>Hình ảnh</Text>
-              </View>
-              <View style={styles.col2}>
-                <Text style={styles.textTableHeader}>Mã món ăn</Text>
-              </View>
-              <View style={styles.col3}>
-                <Text style={styles.textTableHeader}>Tên món ăn</Text>
-              </View>
-              <View style={styles.col4}>
-                <Text style={styles.textTableHeader}>Loại thực đơn</Text>
-              </View>
-              <View style={styles.col5}>
-                <Text style={styles.textTableHeader}>Danh mục</Text>
-              </View>
-              <View style={styles.col6}>
-                <Text style={styles.textTableHeader}>Giá bán</Text>
-              </View>
-              <View style={styles.col7}>
-                <Text style={styles.textTableHeader}>Tồn kho</Text>
-              </View>
-              <View style={[styles.col8]}>
-                <Text style={styles.textTableHeader}>Chức năng</Text>
-              </View>
-            </View>
-          }
           renderItem={renderItem}
           onEndReached={onEndReached}
           refreshControl={
             <RefreshControl refreshing={false} onRefresh={onRefresh} />
           }
         />
+        </View>
       </ScrollView>
       <ModalCustom
         onBackdropPress={modalEditInventory.handleHidden}
@@ -211,7 +213,9 @@ const TableRightContent = (props : ITableRightContent) => {
           <View style={{marginTop: 20}}>
             <ButtonAction
               onPressCancel={modalEditInventory.handleHidden}
-              onPressDone={() => {updateItem();}}
+              onPressDone={() => {
+                updateItem();
+              }}
             />
           </View>
         </View>
@@ -231,7 +235,7 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
   container: {
-    marginRight: 16,
+    // marginRight: 16,
     marginTop: 32,
     flex: 1,
   },
@@ -262,7 +266,7 @@ const styles = StyleSheet.create({
   },
   col8: {
     width: '8%',
-    flexWrap: 'wrap-reverse',
+    flexWrap: 'wrap-reverse', 
   },
   itemContainer: {
     height: 1,
@@ -274,7 +278,6 @@ const styles = StyleSheet.create({
     paddingVertical: 16,
     alignItems: 'center',
   },
-
   imageItem: {
     height: 44,
     width: 66,
@@ -302,12 +305,11 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   modalEdit: {
-    height:  270,
-    width: isTabletDevice ? 500 :  DIMENSION.width,
+    height: 270,
+    width: isTabletDevice ? 500 : DIMENSION.width,
     backgroundColor: defaultColors.c_fff,
     borderRadius: 10,
     padding: 24,
-
   },
   textHeaderModal: {
     fontSize: 24,
@@ -319,12 +321,12 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: defaultColors.c_222124,
   },
-  contentHeaderModal : {
-    flexDirection : 'row' ,
-    justifyContent : 'space-between',
-     alignItems : 'center',
+  contentHeaderModal: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
   },
-  textInputEdit  : {
+  textInputEdit: {
     width: ' 80%',
     height: 40,
     borderWidth: 1,
