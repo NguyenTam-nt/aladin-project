@@ -24,14 +24,16 @@ const getAccessToken = async () => {
 const configure = () => {
   axiosClient.interceptors.request.use(async (config: any) => {
     config.headers["Accept-Language"] = "en";
-    // const { method, url } = config;
+    const { url } = config;
 
-    // if (
-    //   (method === "get" && url === "/api/contact") ||
-    //   url === "/api/histories"
-    // ) {
-    //   return config;
-    // }
+    if(url !== "/services/account/api/user") {
+      if (
+        (!url.includes("admin"))
+      ) {
+        return config;
+      }
+
+    }
 
     // if (UserService.isLoggedIn()) {
     //   const cb = () => {
@@ -42,8 +44,9 @@ const configure = () => {
     //     return UserService.updateToken(cb);
 
     // }
-
+    
     const token = await getAccessToken();
+    console.log({token})
 
     if (token) {
       config.headers.Authorization = "Bearer " + token;

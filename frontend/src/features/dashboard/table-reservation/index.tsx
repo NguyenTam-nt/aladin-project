@@ -156,12 +156,6 @@ const ManageTableReserVation = () => {
     const scroolTop = e.currentTarget.scrollTop
     const clientHeight = e.currentTarget.clientHeight
     const scrollHeight = e.currentTarget.scrollHeight
-    console.log(
-      "ádfsd",
-      scroolTop + clientHeight,
-      scrollHeight,
-      currentPage < totalPage
-    )
     if (scroolTop + clientHeight >= scrollHeight && currentPage < totalPage) {
       setcurrentPage((preState) => preState + 1)
     }
