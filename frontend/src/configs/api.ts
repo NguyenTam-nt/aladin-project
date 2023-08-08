@@ -26,7 +26,7 @@ const configure = () => {
     config.headers["Accept-Language"] = "en";
     const { url } = config;
 
-    if(url !== "/services/account/api/user") {
+    if(url !== "/services/account/api/user" && url !== "/services/media/api/upload-image" && url !== "/services/media/api/upload-video") {
       if (
         (!url.includes("admin"))
       ) {
@@ -34,7 +34,6 @@ const configure = () => {
       }
 
     }
-
     // if (UserService.isLoggedIn()) {
     //   const cb = () => {
     //     config.headers.Authorization = `Bearer ${UserService.getToken()}`;
@@ -46,7 +45,6 @@ const configure = () => {
     // }
     
     const token = await getAccessToken();
-    console.log({token})
 
     if (token) {
       config.headers.Authorization = "Bearer " + token;
