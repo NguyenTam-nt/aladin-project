@@ -11,7 +11,7 @@ import { homeService } from "@services/home";
 export const HomePost = () => {
   const { listBanner, setListBanner } = useGetTopic(HomeTopicType.post);
   const { t } = useTranslation();
-  const { showLoading } = useHandleLoading();
+  const { showLoading, hideLoading } = useHandleLoading();
 
   const { showError, showSuccess, showWarning } = useShowMessage();
 

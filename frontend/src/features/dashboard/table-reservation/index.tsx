@@ -42,8 +42,7 @@ const ManageTableReserVation = () => {
     size: 20,
     date: filter.time,
     id: place ? place.id : "",
-    sort: `id,desc`,
-    sort1: `status,${filter?.status}`,
+    sort: filter?.status ? `status,${filter?.status}` : 'id,desc',
   }
   const {
     refCheckboxAll,
@@ -105,6 +104,17 @@ const ManageTableReserVation = () => {
     try {
       const { list, totalElement, totalElementPage } =
         await reservationTableSvice.getRequestReserTable(params)
+      setListRequesTable([...list])
+      setTotalpage(Math.ceil(totalElementPage / 20))
+    } catch (error) {
+      console.log("Không lấy được danh sách yêu cầu đặt bàn.")
+    }
+  }
+
+  const getListRequesResertableScroll = async (params: IParams) => {
+    try {
+      const { list, totalElement, totalElementPage } =
+        await reservationTableSvice.getRequestReserTable(params)
       setListRequesTable([...listRequetTable, ...list])
       setTotalpage(Math.ceil(totalElementPage / 20))
     } catch (error) {
@@ -156,24 +166,20 @@ const ManageTableReserVation = () => {
     const scroolTop = e.currentTarget.scrollTop
     const clientHeight = e.currentTarget.clientHeight
     const scrollHeight = e.currentTarget.scrollHeight
-    console.log(
-      "ádfsd",
-      scroolTop + clientHeight,
-      scrollHeight,
-      currentPage < totalPage
-    )
     if (scroolTop + clientHeight >= scrollHeight && currentPage < totalPage) {
+      getListRequesResertableScroll({...params, page: currentPage + 1})
       setcurrentPage((preState) => preState + 1)
     }
   }
   useEffect(() => {
     if (keySearch != "") {
-      debounceSearch({ ...params, query: keySearch.trim() })
+      debounceSearch({ ...params, query: keySearch.trim(), page: 0  })
+      setcurrentPage(0)
     } else {
       debounceSearch.cancel()
-      getListRequesResertable(params)
+      getListRequesResertable({...params, page: 0})
     }
-  }, [currentPage, filter, place, keySearch])
+  }, [filter, place, keySearch])
   return (
     <div
       onScroll={handleScroll}

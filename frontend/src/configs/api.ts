@@ -24,15 +24,16 @@ const getAccessToken = async () => {
 const configure = () => {
   axiosClient.interceptors.request.use(async (config: any) => {
     config.headers["Accept-Language"] = "en";
-    // const { method, url } = config;
+    const { url } = config;
 
-    // if (
-    //   (method === "get" && url === "/api/contact") ||
-    //   url === "/api/histories"
-    // ) {
-    //   return config;
-    // }
+    if(url !== "/services/account/api/user" && url !== "/services/media/api/upload-image" && url !== "/services/media/api/upload-video") {
+      if (
+        (!url.includes("admin"))
+      ) {
+        return config;
+      }
 
+    }
     // if (UserService.isLoggedIn()) {
     //   const cb = () => {
     //     config.headers.Authorization = `Bearer ${UserService.getToken()}`;
@@ -42,7 +43,7 @@ const configure = () => {
     //     return UserService.updateToken(cb);
 
     // }
-
+    
     const token = await getAccessToken();
 
     if (token) {
