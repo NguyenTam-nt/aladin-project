@@ -61,8 +61,10 @@ const TableItem = ({item}: {item: ITable}) => {
       }}>
       <View style={styles.contentTableItem}>
         <ICArrowRight color={textColor} />
-        <Text style={[styles.textTable , { color : textColor}]}>{item.name}</Text>
-        <Text style={[styles.textMax , { color : textColor}]}>Tối đa {item.nseat} người</Text>
+        <Text style={[styles.textTable, {color: textColor}]}>{item.name}</Text>
+        <Text style={[styles.textMax, {color: textColor}]}>
+          Tối đa {item.nseat} người
+        </Text>
       </View>
     </TouchableOpacity>
   );

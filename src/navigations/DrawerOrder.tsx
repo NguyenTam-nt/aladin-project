@@ -1,7 +1,7 @@
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import * as React from 'react';
 import { useMemo } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, TouchableOpacity, View ,Text} from 'react-native';
 import { ICategory, getCategories } from 'src/api/hotpot';
 import { ICHotPot } from '../assets/icons/ICHotPot';
 import { ICSnack } from '../assets/icons/ICSnack';
@@ -12,6 +12,12 @@ import CustomDrawer from './CustomDrawer';
 import { useIsFocused } from '@react-navigation/native';
 import { useDispatch } from 'react-redux';
 import { removeCartList } from 'src/redux/cartOrder/slice';
+import { useAreaId } from 'src/redux/infoDrawer/hooks';
+import { useIdBill } from 'src/redux/cartOrder/hooks';
+import SockJS from 'sockjs-client';
+import { SOCK_CLIENNT_URL } from 'src/api/config';
+import { NoticeCancelItem } from './notiCancelOrder/Notice';
+var Stomp = require('stompjs/lib/stomp.js').Stomp;
 export const idHotput = 248;
 export type RootStackParamList = {
   [key: string]: {id: number}
@@ -21,6 +27,8 @@ const DrawerOrderNavigation = () => {
   const [categoty, setCategory] = React.useState<ICategory[]>([]);
   const isFocused = useIsFocused();
   const dispatch = useDispatch();
+  const IdArea = useAreaId();
+  const billId = useIdBill();
   const screenOptions = useMemo(
     () => ({
       headerShown: false,
@@ -50,10 +58,44 @@ const DrawerOrderNavigation = () => {
   }, []);
 
   React.useEffect(() => {
+    if (IdArea && billId) {
+      const sockClient = new SockJS(SOCK_CLIENNT_URL);
+      let stompClient = Stomp.over(sockClient);
+
+      if (!stompClient.connected) {
+        stompClient.connect(
+          {},
+          function (frame: any) {
+            setTimeout(() => {
+              stompClient.subscribe(
+                `/topic/order/noti/${IdArea}/${billId}`,
+                function (messageOutput: any) {
+                  const data = JSON.parse(messageOutput.body);
+                  console.log('data noti', data);
+                },
+              );
+            });
+          },
+          500,
+        );
+      }
+    }
+  }, [IdArea, billId]);
+
+  React.useEffect(() => {
     if (!isFocused) {
       dispatch(removeCartList());
     }
   }, [isFocused]);
+
+  const [test ,setTest] = React.useState<number[]>([]);
+
+  const PushItem = () => {
+    const newTest = [...test];
+    newTest.push(1);
+    setTest(newTest);
+  };
+
 
   return (
     <View style={{flex: 1}}>
@@ -147,7 +189,13 @@ const DrawerOrderNavigation = () => {
         />
         </> */}
       </Drawer.Navigator>
+      <NoticeCancelItem test={test}  />
       <View style={styles.cartItem}>
+        <TouchableOpacity onPress={PushItem}>
+          <Text style={{height: 30, width: 30, backgroundColor: 'red'}}>
+            pussh
+          </Text>
+        </TouchableOpacity>
         <CartItem />
       </View>
     </View>
