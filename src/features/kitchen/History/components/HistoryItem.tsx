@@ -5,70 +5,92 @@ import {
   Platform,
   UIManager,
   LayoutAnimation,
-} from 'react-native';
-import React from 'react';
-import {defaultColors} from '@configs';
-import {TextCustom} from '@components';
-import {ICAddOrder} from '../../../../assets/icons/ICAddOrder';
-import {ICDown} from '../../../../assets/icons/ICDown';
-import {globalStyles} from 'src/commons/globalStyles';
-import {getValueForDevice} from 'src/commons/formatMoney';
-import {DIMENSION} from '@constants';
+} from 'react-native'
+import React from 'react'
+import {defaultColors} from '@configs'
+import {TextCustom} from '@components'
+import {ICAddOrder} from '../../../../assets/icons/ICAddOrder'
+import {ICDown} from '../../../../assets/icons/ICDown'
+import {globalStyles} from 'src/commons/globalStyles'
+import {getValueForDevice} from 'src/commons/formatMoney'
+import {IHistory} from '@typeRules'
+import {OrderType} from 'src/typeRules/product'
+import DropDownView from 'src/components/DropDownView/DropDownView'
 
 if (
   Platform.OS === 'android' &&
   UIManager.setLayoutAnimationEnabledExperimental
 ) {
-  UIManager.setLayoutAnimationEnabledExperimental(true);
+  UIManager.setLayoutAnimationEnabledExperimental(true)
 }
 
-export const HistoryItem = () => {
-  const [isOpen, setIsOpen] = React.useState(true);
+type Props = {
+  data: {date: string; list: IHistory[]}
+}
+
+export const HistoryItem = ({data}: Props) => {
+  const [isOpen, setIsOpen] = React.useState(true)
   const toggleOpen = () => {
     // onPress?.()
-    setIsOpen(value => !value);
+    setIsOpen(value => !value)
     LayoutAnimation.configureNext({
       ...LayoutAnimation.Presets.linear,
       duration: 300,
-    });
-  };
+    })
+  }
   return (
     <>
-      <TouchableOpacity onPress={toggleOpen} style={styles.styleGoupItem}>
-        <View>
-          <TextCustom
-            fontSize={14}
-            weight="600"
-            lineHeight={22}
-            color={defaultColors.c_222124}>
-            Ngày 15/05/2023
-          </TextCustom>
-        </View>
-        <TouchableOpacity
-          style={{
-            transform: [
-              {
-                rotate: isOpen ? '180deg' : '0deg',
-              },
-            ],
-          }}>
-          <ICDown color={defaultColors.c_222124} />
-        </TouchableOpacity>
-      </TouchableOpacity>
-      <View
+    <DropDownView
+     isOpen={false}
+     textHeader={`Ngày ${new Date(data.date).toLocaleDateString()}`}
+     itemView={ <View
         style={[
           {flex: 1},
-          !isOpen ? {height: 0, overflow: 'hidden'} : undefined,
+          // !isOpen ? {height: 0, overflow: 'hidden'} : undefined,
         ]}>
-        <HistoryItemMenu />
-        <HistoryItemMenu />
-        <HistoryItemMenu />
-      </View>
+        {data.list.map((item, index) => {
+          return <HistoryItemMenu key={index} data={item} />
+        })}
+      </View>}
+      headerButtonStyle={styles.styleGoupItem}
+      textStyle={{
+        fontSize: 14,
+        color: defaultColors.c_222124,
+        fontWeight: 'bold',
+      }}
+    />
     </>
-  );
-};
+  )
+}
 
-export const HistoryItemMenu = () => {
+type PropsItem = {
+  data: IHistory
+}
+
+const dataStatus = {
+  [OrderType.complete]: {
+    colorBackground: defaultColors._BAE5C8,
+    textStatus: 'Hoàn thành',
+    circleColor: defaultColors._01A63E,
+  },
+  [OrderType.cancel]: {
+    colorBackground: defaultColors._241_171_171_100,
+    textStatus: 'Đã huỷ',
+    circleColor: defaultColors._E73F3F,
+  },
+  [OrderType.process]: {
+    colorBackground: defaultColors._99C7F5,
+    textStatus: 'Chờ chế biến',
+    circleColor: defaultColors._0073E5,
+  },
+  [OrderType.process_cancel]: {
+    colorBackground: defaultColors._FFDB9E,
+    textStatus: 'Chờ huỷ',
+    circleColor: defaultColors._F4A118,
+  },
+}
+
+export const HistoryItemMenu = ({data}: PropsItem) => {
   return (
     <View style={styles.styleItemProduct}>
       <View style={[styles.styleViewItem, styles.pl_16]}>
@@ -77,7 +99,7 @@ export const HistoryItemMenu = () => {
           fontSize={14}
           weight="400"
           color={defaultColors.c_222124}>
-          15:05
+          {data.thour}
         </TextCustom>
       </View>
       <View style={styles.styleViewItem2}>
@@ -86,7 +108,7 @@ export const HistoryItemMenu = () => {
           fontSize={14}
           weight="400"
           color={defaultColors.c_222124}>
-          Lẩu riêu cua{' '}
+          {data?.numProduct}
         </TextCustom>
         <View>
           <View style={{flexDirection: 'row', columnGap: 4}}>
@@ -103,41 +125,46 @@ export const HistoryItemMenu = () => {
       </View>
       <View style={styles.styleViewItem}>
         <TextCustom fontSize={14} weight="400" color={defaultColors.c_222124}>
-          4
+          {data?.nameProduct}
         </TextCustom>
       </View>
       <View style={styles.styleViewItem}>
         <TextCustom fontSize={14} color={defaultColors.c_222124} weight="400">
-          Tầng 1/ Bàn 3
+          {data?.nameTable}
         </TextCustom>
       </View>
       <View style={styles.styleViewItem}>
         <TextCustom fontSize={14} color={defaultColors.c_222124} weight="400">
-          HĐ234
+          {data?.idInvoice}
         </TextCustom>
       </View>
       <View style={styles.styleViewItem}>
         <TextCustom fontSize={14} color={defaultColors.c_222124} weight="400">
-          Order
+          {data?.createdBy}
         </TextCustom>
       </View>
 
       <View style={[styles.styleViewItem, styles.styleStatus]}>
-        <View
-          style={[styles.styleCricle, {backgroundColor: defaultColors._EA222A}]}
-        />
-        <TextCustom fontSize={14} color={defaultColors.c_222124} weight="400">
-          Hủy món
-        </TextCustom>
+        <View style={styles.styleStatus}>
+          <View
+            style={[
+              styles.styleCricle,
+              {backgroundColor: dataStatus[data.state].circleColor},
+            ]}
+          />
+          <TextCustom fontSize={14} color={defaultColors.c_222124} weight="400">
+            {dataStatus[data.state].textStatus}
+          </TextCustom>
+        </View>
       </View>
       <View style={styles.styleViewItem2}>
         <TextCustom fontSize={14} color={defaultColors.c_222124} weight="400">
-          Order nhầm, đã xác nhận lại từ bếp
+          {data?.reason}
         </TextCustom>
       </View>
     </View>
-  );
-};
+  )
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -164,14 +191,18 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     justifyContent: 'space-between',
     backgroundColor: defaultColors.bg_F5F5F5,
-    width: getValueForDevice('auto', DIMENSION.width - 24 * 2),
+    width: getValueForDevice('auto', 'auto'),
   },
   styleItemProduct: {
-    height: 76,
+    height: 'auto',
+    paddingVertical: 16,
     flexDirection: 'row',
-    alignItems: 'center',
+    alignItems: 'flex-start',
+    // alignItems: 'center',
     // paddingHorizontal: 16,
     backgroundColor: defaultColors.c_fff,
+    borderBottomWidth: 1,
+    borderBottomColor: defaultColors.bg_EFEFEF
     // columnGap: 8,
   },
   styleBtn: {
@@ -205,6 +236,6 @@ const styles = StyleSheet.create({
     columnGap: 4,
   },
   pl_16: {
-    paddingLeft: 16
-  }
-});
+    paddingLeft: 16,
+  },
+})

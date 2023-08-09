@@ -30,8 +30,11 @@ export const WaitProcees = React.memo(() => {
     isTable,
     handlePressCompelete,
     currentDataSelect,
+    notices,
+    handleDeleteNotice
   } = useWaitProcess();
   const {keyExtractor} = useKeyArray();
+
 
   const renderItem = useCallback(
     ({item}: ListRenderItemInfo<IOrderKitchen>) => {
@@ -56,7 +59,7 @@ export const WaitProcees = React.memo(() => {
 
   return (
     <View style={styles.container}>
-      <Notice />
+      <Notice onDelete={handleDeleteNotice} notices={notices} />
       <KitchenLinks
         renderRight={
           <DropDownFilter
@@ -76,7 +79,7 @@ export const WaitProcees = React.memo(() => {
         {isTable ? <HeaderListBill /> : <HeaderListBillFood />}
         <FlatList
           showsVerticalScrollIndicator={false}
-          data={data}
+          data={data.filter(item => item.list.length)}
           renderItem={renderItem}
           keyExtractor={keyExtractor}
           onEndReached={handleLoadMore}
@@ -92,12 +95,13 @@ export const WaitProcees = React.memo(() => {
       </View>
 
       <ModalCustom
+        isCenter={getValueForDevice(true, false)}
         onBackdropPress={modalConfirmCancel.handleHidden}
         ref={modalConfirmCancel.refModal}>
         <ModalConfirmCancel
           titleInput="Lý do hủy món"
           placeholder="Hủy món từ thu ngân"
-          message={`Hủy món ${currentDataSelect?.nameProduct}?`}
+          message={`Hủy món ${currentDataSelect?.name}?`}
           onPress={handlePressCompelete}
           data={currentDataSelect}
           onCancel={modalConfirmCancel.handleHidden}
@@ -105,10 +109,11 @@ export const WaitProcees = React.memo(() => {
         />
       </ModalCustom>
       <ModalCustom
+        isCenter={getValueForDevice(true, false)}
         onBackdropPress={modalRefuse.handleHidden}
         ref={modalRefuse.refModal}>
         <ModalConfirmCancel
-          state={OrderType.process}
+          state={OrderType.process_cancel}
           onPress={handlePressCompelete}
           data={currentDataSelect}
           titleInput="Lý do từ chối"

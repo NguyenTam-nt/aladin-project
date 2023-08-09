@@ -4,7 +4,7 @@ import {IParams} from '@typeRules';
 import {APIs, IData} from './config';
 import {handleError} from './handleError';
 import request from './request';
-import { IOrderKitchen, OrderType } from 'src/typeRules/product';
+import { IOrderItem, IOrderKitchen, OrderType } from 'src/typeRules/product';
 
 export interface IMenuItem {
   id: number
@@ -144,13 +144,17 @@ export const updateOrerKitchenOnlyState = async (
   idOrder: number,
   id: number,
   reason = '',
-): Promise<IResponseApi<IOrderKitchen[]>> => {
+): Promise<IResponseApi<IOrderItem[]>> => {
   try {
+    console.log( `${
+      APIs.ORDER_KITCHEN
+    }/${state}/${idOrder}/${id}?answer=${!reason}&reason=${reason}`)
     const result = await request().patch(
       `${
         APIs.ORDER_KITCHEN
-      }/${state}/${idOrder}/${id}?answer=${!!reason}&reason=${reason}`,
+      }/${state}/${idOrder}/${id}?answer=${!reason}&reason=${reason}`,
     );
+   
     const data = await result.data.list;
     return {
       success: true,
@@ -171,7 +175,7 @@ export const updateOrerKitchenAllState = async (
     const result = await request().patch(
       `${
         APIs.ORDER_KITCHEN
-      }/all/${state}/${idOrder}/${id}?answer=${!!reason}&reason=${reason}`,
+      }/all/${state}/${idOrder}/${id}?answer=${!reason}&reason=${reason}`,
     );
     const data = await result.data.list;
     return {

@@ -1,4 +1,5 @@
-import type {ICategory, ICategoryItem} from './category'
+import { categoryKitchenNames } from '@configs'
+import type {CategoryMenuType, ICategory, ICategoryItem} from './category'
 
 export interface CheckType {
   status: number
@@ -62,7 +63,7 @@ export interface IOrderItem {
   idInvoice: number
   createdBy: string
   linkImage: string
-  nameProduct: string
+  name: string
   price: number
   pricePromotion: number
   state: OrderType
@@ -70,10 +71,15 @@ export interface IOrderItem {
 }
 
 export type IOrderKitchen = {
-  idProduct: number
-  nameProduct: string
-  idInvoice: number
-  nameTable: string
-  num: number
+  idProduct?: number
+  nameProduct?: string
+  idInvoice?: number
+  nameTable?: string
+  num?: number
   list: IOrderItem[]
+}
+
+export type IOrderSocket = {
+  menu: categoryKitchenNames
+  kitchen: IOrderKitchen[]
 }

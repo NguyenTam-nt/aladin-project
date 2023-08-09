@@ -1,21 +1,24 @@
 import {View, StyleSheet, TouchableOpacity} from 'react-native';
 import React, {memo} from 'react';
-import {TextCustom} from '@components';
 import {defaultColors} from '@configs';
 import {ICCloseModal} from '../../../../assets/icons/ICCloseModal';
 import {getValueForDevice} from 'src/commons/formatMoney';
 import {DIMENSION} from '@constants';
+import {INotice} from '@typeRules';
+import {Html} from 'src/components/Html';
 
-export const NoticeItem = memo(() => {
+type Props = {
+  notice: INotice
+  onDelete: () => void
+};
+
+export const NoticeItem = memo(({notice, onDelete}: Props) => {
   return (
     <View style={styles.noticeItem}>
       <View style={styles.styleGroupText}>
-        <TextCustom fontSize={14} color={defaultColors.c_222124} weight="400">
-          Chuyển từ <TextCustom weight="600"> H234 - Tầng 1/ Bàn 4</TextCustom>{' '}
-          đến <TextCustom weight="600">H134 - Tầng 1/ Bàn 5</TextCustom>
-        </TextCustom>
+        <Html content={notice.reason} />
       </View>
-      <TouchableOpacity>
+      <TouchableOpacity onPress={onDelete}>
         <ICCloseModal color={defaultColors.bg_5F5F61} />
       </TouchableOpacity>
     </View>
@@ -31,7 +34,7 @@ const styles = StyleSheet.create({
     // flex: 1,
     backgroundColor: defaultColors.bg_FCEAEA,
     width: getValueForDevice(
-      (DIMENSION.width - (32 * 2)) / 3 - (32/3),
+      (DIMENSION.width - 32 * 2) / 3 - 32 / 3,
       DIMENSION.width * 0.7,
     ),
     columnGap: 12,

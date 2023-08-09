@@ -1,16 +1,27 @@
-import {View, StyleSheet, Platform, FlatList, Share, ScrollView} from 'react-native';
-import React, {useCallback} from 'react';
+import {
+  View,
+  StyleSheet,
+  Platform,
+  FlatList,
+  Share,
+  ScrollView,
+  Alert,
+} from 'react-native';
+import React, {useCallback, useMemo, useState} from 'react';
 import {globalStyles} from 'src/commons/globalStyles';
 import {defaultColors} from '@configs';
 import RNHTMLtoPDF from 'react-native-html-to-pdf';
-import RNFetchBlob from 'rn-fetch-blob';
+// import { Dirs, FileSystem } from "react-native-file-access";
+// const DDP = Dirs.DocumentDir + "/";
 import {TextCustom} from '@components';
-import XLSX from 'xlsx';
+import XLSX, {WorkSheet, read, utils} from 'xlsx-js-style';
 import {GroupAction} from './GroupAction';
 import {handleSelectResourses} from 'src/commons/permissionUtil';
 import {isIOS} from '@constants';
 import ButtonMenuTabBar from 'src/components/DropDownView/ButtonMenuTabBar';
-import { getValueForDevice } from 'src/commons/formatMoney'
+import {getValueForDevice} from 'src/commons/formatMoney';
+import RNFetchBlob from 'rn-fetch-blob';
+import SpaceBottom from 'src/components/SpaceBottom';
 const {
   dirs: {DownloadDir, DocumentDir},
 } = RNFetchBlob.fs;
@@ -157,12 +168,15 @@ export enum FileType {
 }
 
 type Props = {
-  setIsOpenTab: React.Dispatch<React.SetStateAction<boolean>>
+  setIsOpenTab: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 export const MainDetail = ({setIsOpenTab}: Props) => {
   const downloadPdf = async () => {
-    const aPath = Platform.select({ios: DocumentDir, android: DownloadDir});
+    const aPath = Platform.select({
+      ios: DocumentDir,
+      android: DownloadDir,
+    });
 
     const html = `
     <html>
@@ -302,7 +316,7 @@ export const MainDetail = ({setIsOpenTab}: Props) => {
     let options = {
       html: html,
       fileName: 'doanh-thu5',
-      directory: aPath + '/' + 'test.pdf',
+      directory: aPath + 'test.pdf',
     };
 
     await RNHTMLtoPDF.convert(options);
@@ -312,13 +326,224 @@ export const MainDetail = ({setIsOpenTab}: Props) => {
 
   const exportExcelFIle = () => {
     let wb = XLSX.utils.book_new();
-    let sample_data_to_export = [
-      {id: '1', name: 'First User'},
-      {id: '2', name: 'Second User'},
+    const data_sheet = [
+      [
+        'Ngày cấp: 15/06/2023 - 15:00',
+        'Người lập: Admin',
+        'Cơ sở: 102 Trường Trinh, Phương Mai, Đống Đa, Hà Nội',
+      ],
+      ['Báo cáo món ăn Bán - Hủy'],
+      ['Cơ sở:  102 Trường Trinh, Phương Mai, Đống Đa, Hà Nội'],
+      titles,
     ];
-    let ws = XLSX.utils.json_to_sheet(sample_data_to_export);
-    XLSX.utils.book_append_sheet(wb, ws, 'Users');
-    const wbout = XLSX.write(wb, {type: 'binary'});
+
+    data.forEach(item => {
+      const _item = [
+        `${item.code}`,
+        item.name,
+        `${item.quantity}`,
+        `${item.quantity_cancel}`,
+      ];
+      data_sheet.push(_item);
+      item.items.forEach(_i => {
+        data_sheet.push([
+          `${_i.code}`,
+          _i.name,
+          `${_i.quantity}`,
+          `${_i.quantity_cancel}`,
+        ]);
+      });
+    });
+
+    const wsrows = [{}, {}, {}, {hpx: 50}];
+    const sizes = [
+      {wpx: 150},
+      {wpx: 100},
+      {wpx: 200},
+      {wpx: 200},
+      {wpx: 100},
+      {wpx: 100},
+    ];
+
+    let ws = XLSX.utils.aoa_to_sheet(data_sheet);
+    const merge = [
+      {s: {r: 0, c: 0}, e: {r: 0, c: 1}},
+      {s: {r: 0, c: 2}, e: {r: 0, c: 3}},
+      {s: {r: 1, c: 0}, e: {r: 1, c: 3}},
+      {s: {r: 2, c: 0}, e: {r: 2, c: 3}},
+    ];
+
+    ws['!cols'] = sizes;
+    ws['!rows'] = wsrows;
+    ws['!merges'] = merge;
+
+    ws.A2.s = {
+      alignment: {
+        vertical: 'center',
+        horizontal: 'center',
+        wrapText: '1', // any truthy value here
+      },
+      font: {
+        name: 'Times New Roman',
+        bold: true,
+        color: {rgb: '000000'},
+        sz: 32,
+      },
+    };
+
+    ws.A3.s = {
+      alignment: {
+        vertical: 'center',
+        horizontal: 'center',
+        wrapText: '1', // any truthy value here
+      },
+      font: {name: 'Times New Roman', color: {rgb: '000000'}, sz: 12},
+    };
+
+    ws.A1.s = {
+      font: {
+        name: 'Times New Roman',
+        sz: 12,
+      },
+      alignment: {
+        vertical: 'center',
+        horizontal: 'left',
+        wrapText: '1', // any truthy value here
+      },
+    };
+    ws.B1.s = {
+      font: {
+        name: 'Times New Roman',
+        sz: 12,
+      },
+      alignment: {
+        vertical: 'center',
+        horizontal: 'right',
+        wrapText: '1', // any truthy value here
+      },
+    };
+
+    ws.C1.s = {
+      font: {
+        name: 'Times New Roman',
+        sz: 12,
+      },
+      alignment: {
+        vertical: 'center',
+        horizontal: 'right',
+        wrapText: '1', // any truthy value here
+      },
+    };
+
+    const styleThead = {
+      font: {
+        name: 'Times New Roman',
+        sz: 12,
+        color: {rgb: 'FFFFFF'},
+      },
+      alignment: {
+        vertical: 'center',
+        horizontal: 'left',
+        wrapText: '1', // any truthy value here
+      },
+      fill: {fgColor: {rgb: 'EA222A'}},
+    };
+
+    ws.A4.s = styleThead;
+    ws.B4.s = styleThead;
+    ws.C4.s = styleThead;
+    ws.D4.s = {
+      font: {
+        name: 'Times New Roman',
+        sz: 12,
+        color: {rgb: 'FFFFFF'},
+      },
+      alignment: {
+        vertical: 'center',
+        horizontal: 'right',
+        wrapText: '1', // any truthy value here
+      },
+      fill: {fgColor: {rgb: 'EA222A'}},
+    };
+
+    const border = {
+      bottom: {
+        style: 'thin',
+        color: {rgb: '000000'},
+      },
+    };
+
+    const styleGroup = {
+      font: {
+        sz: 12,
+        border: true,
+        color: {rgb: 'EA222A'},
+      },
+      alignment: {
+        vertical: 'center',
+        horizontal: 'left',
+        wrapText: '1', // any truthy value here
+      },
+      fill: {fgColor: {rgb: 'F5F5F5'}},
+      border,
+    };
+
+    data.forEach((item, index) => {
+      const currentIndex = 5 + item.items.length * index + index;
+      ws[`A${currentIndex}`].s = styleGroup;
+
+      ws[`B${currentIndex}`].s = styleGroup;
+      ws[`C${currentIndex}`].s = styleGroup;
+
+      ws[`D${currentIndex}`].s = {
+        font: {
+          sz: 12,
+          color: {rgb: 'EA222A'},
+        },
+        alignment: {
+          vertical: 'center',
+          horizontal: 'right',
+          wrapText: '1', // any truthy value here
+        },
+        fill: {fgColor: {rgb: 'F5F5F5'}},
+        border,
+      };
+      const styleCell = {
+        font: {
+          sz: 12,
+          color: {rgb: '000000'},
+        },
+        alignment: {
+          vertical: 'center',
+          horizontal: 'left',
+          wrapText: '1', // any truthy value here
+        },
+        border,
+      };
+
+      item.items.forEach((_, _index) => {
+        ws[`A${currentIndex + (_index + 1)}`].s = styleCell;
+        ws[`B${currentIndex + (_index + 1)}`].s = styleCell;
+        ws[`C${currentIndex + (_index + 1)}`].s = styleCell;
+
+        ws[`D${currentIndex + (_index + 1)}`].s = {
+          font: {
+            sz: 12,
+            border: true,
+            color: {rgb: '000000'},
+          },
+          alignment: {
+            vertical: 'center',
+            horizontal: 'right',
+            wrapText: '1', // any truthy value here
+          },
+          border,
+        };
+      });
+    });
+
+    XLSX.utils.book_append_sheet(wb, ws, 'Báo cáo');
+    const wbout = XLSX.write(wb, {type: 'buffer', bookType: 'xlsx'});
     // const blob = new Blob([wbout], {
     //     type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
     //   });
@@ -329,10 +554,14 @@ export const MainDetail = ({setIsOpenTab}: Props) => {
     });
 
     RNFetchBlob.fs
-      .writeFile(aPath + '/bao-cao123.xlsx', wbout, 'base64')
+      .writeFile(aPath + '/bao-caohangtuan.xlsx', Array.from(wbout), 'ascii')
       .then(() => {
         // Share.share(aPath + '/bao-cao123.xlsx')
-        alert('Tải file thành công');
+        alert(
+          'Tải tệp thành công, địa chỉ tệp ở: ' +
+            aPath +
+            '/bao-caohangtuan.xlsx',
+        );
       });
   };
 
@@ -361,14 +590,14 @@ export const MainDetail = ({setIsOpenTab}: Props) => {
         <GroupAction onDownload={handleDownload} />
         <View style={styles.content}>
           <FlatList
-          showsVerticalScrollIndicator={false}
+            showsVerticalScrollIndicator={false}
             ListHeaderComponent={
               <>
                 <View
                   style={[
                     globalStyles.row,
                     globalStyles.justifyContentBetween,
-                    styles.colGap_50
+                    styles.colGap_50,
                   ]}>
                   <View style={[globalStyles.row, styles.styleGap25]}>
                     <View style={globalStyles.row}>
@@ -391,7 +620,7 @@ export const MainDetail = ({setIsOpenTab}: Props) => {
                         color={defaultColors.c_0000}
                         fontSize={14}
                         weight="700">
-                        Người lập lập:{' '}
+                        Người lập{' '}
                       </TextCustom>
                       <TextCustom
                         color={defaultColors.c_0000}
@@ -432,7 +661,7 @@ export const MainDetail = ({setIsOpenTab}: Props) => {
                     style={[
                       globalStyles.row,
                       globalStyles.justifyContentCenter,
-                      {marginTop: 16},
+                      {marginTop: 16, flexWrap: 'wrap'},
                     ]}>
                     <TextCustom
                       color={defaultColors.c_0000}
@@ -478,6 +707,7 @@ export const MainDetail = ({setIsOpenTab}: Props) => {
                 </View>
               </>
             }
+            ListFooterComponent={<SpaceBottom />}
             data={data}
             renderItem={({item}) => {
               return (
@@ -570,6 +800,7 @@ export const MainDetail = ({setIsOpenTab}: Props) => {
             }}
             keyExtractor={(_, index) => index.toString()}
           />
+          {/* <Html content={html} /> */}
         </View>
       </View>
     </View>
@@ -618,6 +849,6 @@ const styles = StyleSheet.create({
     marginTop: 40,
   },
   colGap_50: {
-    columnGap: 50
-  }
+    columnGap: 50,
+  },
 });

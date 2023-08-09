@@ -1,5 +1,5 @@
 import {View, StyleSheet, TouchableOpacity} from 'react-native'
-import React, {memo, useCallback} from 'react'
+import React, {memo, useCallback, useMemo} from 'react'
 import {defaultColors} from '@configs'
 import {TextCustom} from '@components'
 import {ICAddOrder} from '../../../../assets/icons/ICAddOrder'
@@ -14,9 +14,10 @@ import {ICCheck} from '../../../../assets/icons/ICCheck'
 import {getValueForDevice} from 'src/commons/formatMoney'
 import {IOrderItem, IOrderKitchen, OrderType} from 'src/typeRules/product'
 import {FomatDateYY_MM_DD_H_M} from 'src/commons/formatDate'
+import {globalStyles} from 'src/commons/globalStyles'
 
 type Props = {
-  onShowModal: (type: TypeModalWaitProcess, data:IOrderItem) => void
+  onShowModal: (type: TypeModalWaitProcess, data: IOrderItem) => void
   onHideModal: () => void
   data: IOrderKitchen
   onPress: (
@@ -27,65 +28,107 @@ type Props = {
   ) => void
 }
 
-export const BillItemFood = memo(({onShowModal, onHideModal, data, onPress}: Props) => {
-  const [isOpen, setIsOpen] = React.useState(true)
-  const toggleOpen = useCallback(() => {
-    setIsOpen(value => !value)
-  }, [])
+export const BillItemFood = memo(
+  ({onShowModal, onHideModal, data, onPress}: Props) => {
+    const [isOpen, setIsOpen] = React.useState(true)
+    const toggleOpen = useCallback(() => {
+      setIsOpen(value => !value)
+    }, [])
 
-  return (
-    <>
-      <TouchableOpacity onPress={toggleOpen} style={styles.styleGoupItem}>
-        <View style={styles.styleViewItemFlex1}>
-          <TextCustom
-            fontSize={14}
-            weight="600"
-            lineHeight={22}
-            color={defaultColors.c_222124}>
-            {data.nameProduct}
-          </TextCustom>
-        </View>
-        <View style={styles.styleViewItemFlex1} />
-        <View style={styles.styleViewItemFlex1}>
-          <TextCustom
-            fontSize={14}
-            weight="600"
-            lineHeight={22}
-            textAlign="center"
-            color={defaultColors.c_222124}>
-            {data.num}
-          </TextCustom>
-        </View>
-        <View style={styles.styleViewItemFlex1} />
-        <TouchableOpacity
-          style={[styles.styleViewItemFlex1, styles.styleFlexEnd]}>
-          <ICDown color={defaultColors.c_222124} />
+    const styleRotate = useMemo(() => {
+      return {
+        transform: [
+          {
+            rotate: isOpen ? '0deg' : '180deg',
+          },
+        ],
+        ...globalStyles.center
+      }
+    }, [isOpen])
+
+    return (
+      <>
+        <TouchableOpacity onPress={toggleOpen} style={styles.styleGoupItem}>
+          <View
+            style={getValueForDevice(
+              styles.styleViewItemFlex1,
+              styles.styleViewItem,
+            )}>
+            <TextCustom
+              fontSize={14}
+              weight="600"
+              lineHeight={22}
+              numberOfLines={2}
+              color={defaultColors.c_222124}>
+              {data.nameProduct}
+            </TextCustom>
+          </View>
+          <View
+            style={getValueForDevice(
+              styles.styleViewItemFlex1,
+              styles.styleViewItem,
+            )}
+          />
+          <View
+            style={getValueForDevice(
+              styles.styleViewItemFlex1,
+              styles.styleViewItem,
+            )}>
+            <TextCustom
+              fontSize={14}
+              weight="600"
+              lineHeight={22}
+              textAlign="center"
+              color={defaultColors.c_222124}>
+              {data.num}
+            </TextCustom>
+          </View>
+          <View
+            style={getValueForDevice(
+              styles.styleViewItemFlex1,
+              styles.styleViewItem,
+            )}
+          />
+          <View
+            style={[
+              styles.styleViewItemFlex1,
+              styles.styleFlexEnd,
+              globalStyles.justifyContentCenter,
+            ]}>
+            <View style={styleRotate}>
+              <ICDown color={defaultColors.c_222124} />
+            </View>
+          </View>
         </TouchableOpacity>
-      </TouchableOpacity>
-      <View
-        style={[
-          {flex: 1},
-          !isOpen ? {display: 'none', overflow: 'hidden'} : undefined,
-        ]}>
-        {data.list.map((item, index) => {
-          return (
-            <BillItemMenu
-              data={item}
-              isCancel={item.state === OrderType.process_cancel}
-              key={index}
-              onHideModal={onHideModal}
-              onShowModal={onShowModal}
-              onPress={onPress}
-            />
-          )
-        })}
-      </View>
-    </>
-  )
-})
+        <View
+          style={[
+            globalStyles.fullFill,
+            !isOpen ? {display: 'none', overflow: 'hidden'} : undefined,
+          ]}>
+          {data.list.map((item, index) => {
+            return (
+              <BillItemMenu
+                data={item}
+                isCancel={item.state === OrderType.process_cancel}
+                key={index}
+                onHideModal={onHideModal}
+                onShowModal={onShowModal}
+                onPress={onPress}
+              />
+            )
+          })}
+        </View>
+      </>
+    )
+  },
+)
 
 type PropsBillItemMenu = {
-  onShowModal: (type: TypeModalWaitProcess, data:IOrderItem, isAll?: boolean) => void
+  onShowModal: (
+    type: TypeModalWaitProcess,
+    data: IOrderItem,
+    isAll?: boolean,
+  ) => void
   onHideModal: () => void
   isCancel?: boolean
   data: IOrderItem
@@ -101,14 +144,14 @@ export const BillItemMenu = ({
   onShowModal,
   isCancel = false,
   data,
-  onPress
+  onPress,
 }: PropsBillItemMenu) => {
   const handleShowModalCancel = useCallback(() => {
     onShowModal(TypeModalWaitProcess.cancelbill, data)
   }, [data])
 
   const handleShowModalCancelAll = useCallback(() => {
-    onShowModal(TypeModalWaitProcess.cancelbill, data,  true)
+    onShowModal(TypeModalWaitProcess.cancelbill, data, true)
   }, [data])
 
   const handleShowModalRefuse = useCallback(() => {
@@ -124,9 +167,9 @@ export const BillItemMenu = ({
   }, [data])
 
   const updateStateCompleteCancel = useCallback(() => {
-    onPress(data, '', OrderType.cancel, false)
+    onPress(data, '', OrderType.process_cancel, false)
   }, [data])
-  
+
   return (
     <View
       style={[
@@ -163,9 +206,10 @@ export const BillItemMenu = ({
         <TextCustom
           lineHeight={22}
           fontSize={14}
+          numberOfLines={1}
           weight="400"
           color={defaultColors.c_222124}>
-          {data?.nameProduct}
+          {data?.name}
         </TextCustom>
         <View>
           <View style={styles.styleGroupNote}>
@@ -213,10 +257,14 @@ export const BillItemMenu = ({
         ]}>
         {!isCancel ? (
           <>
-            <TouchableOpacity onPress={updateStateCompleteOnly} style={[styles.styleBtn, styles.styleBtnGreen]}>
+            <TouchableOpacity
+              onPress={updateStateCompleteOnly}
+              style={[styles.styleBtn, styles.styleBtnGreen]}>
               <ICCheckSingle />
             </TouchableOpacity>
-            <TouchableOpacity onPress={updateStateCompleteAll} style={[styles.styleBtn, styles.styleBtnGreen]}>
+            <TouchableOpacity
+              onPress={updateStateCompleteAll}
+              style={[styles.styleBtn, styles.styleBtnGreen]}>
               <ICCheckMulti />
             </TouchableOpacity>
             <TouchableOpacity
@@ -233,7 +281,7 @@ export const BillItemMenu = ({
         ) : (
           <>
             <Button
-             onPress={updateStateCompleteCancel}
+              onPress={updateStateCompleteCancel}
               style={styles.styleViewItemFlex1}
               renderLeff={
                 <View>
@@ -272,7 +320,7 @@ const styles = StyleSheet.create({
   },
   styleViewItem: {
     // flex: 1,
-    width: `${100 / 3}%`,
+    width: `${100 / 4}%`,
   },
   styleViewItemFlex1: {
     flex: 1,
