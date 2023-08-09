@@ -1,5 +1,5 @@
 import {View, StyleSheet, TouchableOpacity} from 'react-native'
-import React, {useCallback} from 'react'
+import React, {useCallback, useMemo} from 'react'
 import {defaultColors} from '@configs'
 import {TextCustom} from '@components'
 import {ICAddOrder} from '../../../../assets/icons/ICAddOrder'
@@ -14,7 +14,7 @@ import {ICCheck} from '../../../../assets/icons/ICCheck'
 import {getValueForDevice} from 'src/commons/formatMoney'
 import {IOrderItem, IOrderKitchen, OrderType} from 'src/typeRules/product'
 import {FomatDateYY_MM_DD_H_M} from 'src/commons/formatDate'
-import {updateOrerKitchenOnlyState} from 'src/api/products'
+import {globalStyles} from 'src/commons/globalStyles'
 
 type Props = {
   onShowModal: (type: TypeModalWaitProcess, data: IOrderItem) => void
@@ -33,6 +33,16 @@ export const BillItem = ({onShowModal, onHideModal, data, onPress}: Props) => {
   const toggleOpen = useCallback(() => {
     setIsOpen(value => !value)
   }, [])
+  const styleRotate = useMemo(() => {
+    return {
+      transform: [
+        {
+          rotate: isOpen ? '180deg' : '0deg',
+        },
+      ],
+      ...globalStyles.center,
+    }
+  }, [isOpen])
   return (
     <>
       <TouchableOpacity onPress={toggleOpen} style={styles.styleGoupItem}>
@@ -53,7 +63,9 @@ export const BillItem = ({onShowModal, onHideModal, data, onPress}: Props) => {
           </TextCustom>
         </View>
         <TouchableOpacity>
-          <ICDown color={defaultColors.c_222124} />
+          <View style={styleRotate}>
+            <ICDown color={defaultColors.c_222124} />
+          </View>
         </TouchableOpacity>
       </TouchableOpacity>
       <View
@@ -79,7 +91,11 @@ export const BillItem = ({onShowModal, onHideModal, data, onPress}: Props) => {
 }
 
 type PropsBillItemMenu = {
-  onShowModal: (type: TypeModalWaitProcess, data: IOrderItem, isAll?:boolean) => void
+  onShowModal: (
+    type: TypeModalWaitProcess,
+    data: IOrderItem,
+    isAll?: boolean,
+  ) => void
   onHideModal: () => void
   isCancel?: boolean
   data: IOrderItem
@@ -103,7 +119,7 @@ export const BillItemMenu = ({
   }, [data])
 
   const handleShowModalCancelAll = useCallback(() => {
-    onShowModal(TypeModalWaitProcess.cancelbill, data,  true)
+    onShowModal(TypeModalWaitProcess.cancelbill, data, true)
   }, [data])
 
   const handleShowModalRefuse = useCallback(() => {
@@ -164,7 +180,8 @@ export const BillItemMenu = ({
           {data?.name}
         </TextCustom>
         <View>
-          <View style={{flexDirection: 'row', columnGap: 4, alignItems: 'stretch'}}>
+          <View
+            style={{flexDirection: 'row', columnGap: 4, alignItems: 'stretch'}}>
             <ICAddOrder color={defaultColors.bg_A1A0A3} />
             <TextCustom
               lineHeight={18}
@@ -201,7 +218,9 @@ export const BillItemMenu = ({
               style={[styles.styleBtn, styles.styleBtnGreen]}>
               <ICCheckSingle />
             </TouchableOpacity>
-            <TouchableOpacity onPress={updateStateCompleteAll} style={[styles.styleBtn, styles.styleBtnGreen]}>
+            <TouchableOpacity
+              onPress={updateStateCompleteAll}
+              style={[styles.styleBtn, styles.styleBtnGreen]}>
               <ICCheckMulti />
             </TouchableOpacity>
             <TouchableOpacity
@@ -218,7 +237,7 @@ export const BillItemMenu = ({
         ) : (
           <>
             <Button
-             onPress={updateStateCompleteCancel}
+              onPress={updateStateCompleteCancel}
               style={styles.styleViewItemFlex1}
               renderLeff={
                 <View>

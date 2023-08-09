@@ -30,8 +30,11 @@ export const WaitProcees = React.memo(() => {
     isTable,
     handlePressCompelete,
     currentDataSelect,
+    notices,
+    handleDeleteNotice
   } = useWaitProcess();
   const {keyExtractor} = useKeyArray();
+
 
   const renderItem = useCallback(
     ({item}: ListRenderItemInfo<IOrderKitchen>) => {
@@ -56,7 +59,7 @@ export const WaitProcees = React.memo(() => {
 
   return (
     <View style={styles.container}>
-      <Notice />
+      <Notice onDelete={handleDeleteNotice} notices={notices} />
       <KitchenLinks
         renderRight={
           <DropDownFilter
@@ -76,7 +79,7 @@ export const WaitProcees = React.memo(() => {
         {isTable ? <HeaderListBill /> : <HeaderListBillFood />}
         <FlatList
           showsVerticalScrollIndicator={false}
-          data={data}
+          data={data.filter(item => item.list.length)}
           renderItem={renderItem}
           keyExtractor={keyExtractor}
           onEndReached={handleLoadMore}

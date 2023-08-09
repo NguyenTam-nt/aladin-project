@@ -1,11 +1,11 @@
 import {View, StyleSheet, TouchableOpacity} from 'react-native';
 import React, {memo, useCallback} from 'react';
-import {defaultColors, headersCategory} from '@configs';
+import {categoryKitchenNames, defaultColors, headersCategory} from '@configs';
 import {TextCustom} from '@components';
 
 type Props = {
-  onChange: (category: string) => void
-  currentCategory?: string
+  onChange: (category: categoryKitchenNames) => void
+  currentCategory?: categoryKitchenNames
 };
 
 export const HandleTabKitchen = ({onChange, currentCategory}: Props) => {
@@ -30,8 +30,8 @@ export const HandleTabKitchen = ({onChange, currentCategory}: Props) => {
 type PropsHeaderButton = {
   isActive: boolean
   name: string
-  slug: string
-  onPress: (category: string) => void
+  slug: categoryKitchenNames
+  onPress: (category: categoryKitchenNames) => void
 };
 
 export const HeaderButton = memo(

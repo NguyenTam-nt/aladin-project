@@ -6,9 +6,10 @@ import {routerKitchens, routerPath} from '../../navigations/DrawerKitchen';
 import {categoryKitchenNames, isTabletDevice} from '@configs';
 import {HandleTabKitchen} from './components/HandleTabKitchen';
 import { Header } from '@components';
+import { CategoryMenuType } from 'src/typeRules/category'
 
 type KitchenType = {
-  currentType: string
+  currentType: categoryKitchenNames
 }
 
 export const KitchenContext = createContext<KitchenType>({
@@ -28,10 +29,10 @@ export const Kitchen = React.memo(() => {
     }),
     [],
   );
-  const [currentCategory, setCurrentCategory] = useState<string>(
+  const [currentCategory, setCurrentCategory] = useState<categoryKitchenNames>(
     categoryKitchenNames.kitchen,
   );
-  const handleChangeCategory = useCallback((category: string) => {
+  const handleChangeCategory = useCallback((category: categoryKitchenNames) => {
     setCurrentCategory(category);
   }, []);
 

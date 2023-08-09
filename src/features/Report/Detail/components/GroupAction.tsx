@@ -60,25 +60,29 @@ export const GroupAction = memo(({onDownload}: Props) => {
           <Pressable ref={ref} onPress={handleShow}>
             <ICDownloadFile />
           </Pressable>
-          <View style={[styles.styleDownloadAction, styleGroupDownload]}>
-            {fileData.map((item, index) => {
-              return (
-                <Pressable
-                  onPress={() => onDownload(item.type)}
-                  key={index}
-                  style={styles.styleDownloadItem}>
-                  <View>{item.icon}</View>
+          {
+            isShow ? (
+            <View style={[styles.styleDownloadAction, styleGroupDownload]}>
+              {fileData.map((item, index) => {
+                return (
+                  <Pressable
+                    onPress={() => onDownload(item.type)}
+                    key={index}
+                    style={styles.styleDownloadItem}>
+                    <View>{item.icon}</View>
 
-                  <TextCustom
-                    fontSize={14}
-                    color={defaultColors.c_222124}
-                    weight="400">
-                    {item.name}
-                  </TextCustom>
-                </Pressable>
-              );
-            })}
-          </View>
+                    <TextCustom
+                      fontSize={14}
+                      color={defaultColors.c_222124}
+                      weight="400">
+                      {item.name}
+                    </TextCustom>
+                  </Pressable>
+                );
+              })}
+            </View>
+            ) : null
+          }
         </OutsidePressHandler>
       </View>
     </>

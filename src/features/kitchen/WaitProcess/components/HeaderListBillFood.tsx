@@ -9,22 +9,22 @@ export const HeaderListBillFood = memo(() => {
   return (
     <View style={styles.styleTable}>
       <View style={styles.styleViewItem}>
-        <TextCustom weight="600" fontSize={16} color={defaultColors.c_222124}>
+        <TextCustom weight="600" fontSize={getValueForDevice(16, 14)} color={defaultColors.c_222124}>
           Thời gian
         </TextCustom>
       </View>
       <View style={styles.styleViewItem}>
-        <TextCustom weight="600" fontSize={16} color={defaultColors.c_222124}>
+        <TextCustom weight="600" fontSize={getValueForDevice(16, 14)} color={defaultColors.c_222124}>
           Tên món
         </TextCustom>
       </View>
       <View style={[styles.styleViewItem, getValueForDevice(undefined, styles.justifyEnd) ]}>
-        <TextCustom weight="600" textAlign="center" fontSize={16} color={defaultColors.c_222124}>
-          Số lượng
+        <TextCustom weight="600" textAlign="center" fontSize={getValueForDevice(16, 14)} color={defaultColors.c_222124}>
+          {getValueForDevice('Số lượng', 'SL')}
         </TextCustom>
       </View>
       <View style={[styles.styleViewItem, getValueForDevice(undefined, styles.justifyEnd) ]}>
-        <TextCustom weight="600" textAlign={getValueForDevice('left', 'right')} fontSize={16} color={defaultColors.c_222124}>
+        <TextCustom weight="600" textAlign={getValueForDevice('left', 'right')}fontSize={getValueForDevice(16, 14)} color={defaultColors.c_222124}>
           Bàn
         </TextCustom>
       </View>
@@ -33,7 +33,7 @@ export const HeaderListBillFood = memo(() => {
           <View style={styles.styleViewItem}>
             <TextCustom
               weight="600"
-              fontSize={16}
+              fontSize={getValueForDevice(16, 14)}
               color={defaultColors.c_222124}>
               Trạng thái
             </TextCustom>

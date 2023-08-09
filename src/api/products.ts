@@ -148,11 +148,11 @@ export const updateOrerKitchenOnlyState = async (
   try {
     console.log( `${
       APIs.ORDER_KITCHEN
-    }/${state}/${idOrder}/${id}?answer=${!!reason}&reason=${reason}`)
+    }/${state}/${idOrder}/${id}?answer=${!reason}&reason=${reason}`)
     const result = await request().patch(
       `${
         APIs.ORDER_KITCHEN
-      }/${state}/${idOrder}/${id}?answer=${!!reason}&reason=${reason}`,
+      }/${state}/${idOrder}/${id}?answer=${!reason}&reason=${reason}`,
     );
    
     const data = await result.data.list;
@@ -175,7 +175,7 @@ export const updateOrerKitchenAllState = async (
     const result = await request().patch(
       `${
         APIs.ORDER_KITCHEN
-      }/all/${state}/${idOrder}/${id}?answer=${!!reason}&reason=${reason}`,
+      }/all/${state}/${idOrder}/${id}?answer=${!reason}&reason=${reason}`,
     );
     const data = await result.data.list;
     return {
