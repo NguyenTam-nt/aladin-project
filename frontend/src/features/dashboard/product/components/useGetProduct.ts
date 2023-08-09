@@ -170,11 +170,13 @@ export const useGetProduct = (
 
   const handleChangeCategory = useCallback((id: number | undefined) => {
     setFilterId(id)
+    // setQueries("page", "1")
+    setCurrentPage(1)
   }, [])
 
   const handleChangeSort = useCallback((sort: string) => {
     const slug =
-      dataSortProduct.find((data) => data.action === sort)?.slug || ""
+      dataSortProduct.find((data) => data.action === sort)?.slug ?? ""
     setSortId(sort)
     if (!sort) {
       searchParams.delete("sort")

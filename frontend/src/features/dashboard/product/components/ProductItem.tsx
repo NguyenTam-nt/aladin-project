@@ -18,6 +18,7 @@ import React, { memo } from "react";
 import { useNavigate } from "react-router-dom";
 import { DiglogComfirm } from "./DiglogComfirm";
 import { DiglogMessage } from "./DialogMessage";
+import { getLinkImageUrl } from "@commons/common"
 
 type Props = {
   data: IProduct;
@@ -122,7 +123,7 @@ export const ProductItem = memo(({ data, onDelete, onUpdate }: Props) => {
         <div className=" absolute inset-0 bg-header_bg" />
         <img
           className="w-full h-full object-cover"
-          src={data?.linkMedia + ""}
+          src={getLinkImageUrl(data?.linkMedia + "", 200, 288)}
           alt=""
         />
       </div>

@@ -1,4 +1,5 @@
 import { ICStar } from "@assets/icons/ICStar";
+import { getLinkImageUrl } from "@commons/common"
 import { Avatar } from "@components/Avatar";
 import { Colors } from "@constants/color";
 import { prefixRootRoute } from "@constants/index";
@@ -58,7 +59,7 @@ export const ThanksCustomerItem = memo(
         <img
           alt=""
           className="w-full object-cover h-[162px]"
-          src={data?.linkProduct}
+          src={getLinkImageUrl(data?.linkProduct, 200, 162) }
         />
         <div className="p-[16px] flex-1 flex flex-col">
           <p className=" line-clamp-2 text-_16 font-semibold text-text_black">
