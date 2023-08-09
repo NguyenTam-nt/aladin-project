@@ -67,6 +67,7 @@ export const useCategoryFilter = ({ onChange, isAll = false }: Props) => {
       setIndexParent(index);
       onChange(id);
       setQueries("category", id + "");
+      setQueries("page", '1');
     // } else {
     //   setIndexChild(-1);
     //   onChange(id);
@@ -80,7 +81,7 @@ export const useCategoryFilter = ({ onChange, isAll = false }: Props) => {
       const id = parent?.listCategoryChild?.[index]?.id;
       onChange(Number(id));
       setQueries("category", `${parent.id}-${id}`);
-
+      setQueries("page", '1');
       setSearchParam(searchParams);
     }
   };
