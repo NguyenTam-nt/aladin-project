@@ -52,7 +52,8 @@ export const defaultColors = {
   bg_FAFAFA: '#FAFAFA',
   bg_848A95: '#848A95',
   bg_7E818C: '#7E818C',
-  rgba_0_0_0_03 : "rgba(0, 0, 0, 0.3)"
+  rgba_0_0_0_03 : 'rgba(0, 0, 0, 0.3)' ,
+  c_141 : '#141515',
 
 };
 

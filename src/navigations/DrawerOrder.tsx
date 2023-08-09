@@ -29,6 +29,7 @@ const DrawerOrderNavigation = () => {
   const dispatch = useDispatch();
   const IdArea = useAreaId();
   const billId = useIdBill();
+
   const screenOptions = useMemo(
     () => ({
       headerShown: false,
@@ -57,30 +58,35 @@ const DrawerOrderNavigation = () => {
     getCategoriesData();
   }, []);
 
-  React.useEffect(() => {
-    if (IdArea && billId) {
-      const sockClient = new SockJS(SOCK_CLIENNT_URL);
-      let stompClient = Stomp.over(sockClient);
-
-      if (!stompClient.connected) {
-        stompClient.connect(
-          {},
-          function (frame: any) {
-            setTimeout(() => {
-              stompClient.subscribe(
-                `/topic/order/noti/${IdArea}/${billId}`,
-                function (messageOutput: any) {
-                  const data = JSON.parse(messageOutput.body);
-                  console.log('data noti', data);
-                },
-              );
-            });
-          },
-          500,
-        );
-      }
-    }
-  }, [IdArea, billId]);
+  // React.useEffect(() => {
+  //   let stompClient1: any;
+  //   if (IdArea && billId && isFocused) {
+  //     const sockClient = new SockJS(SOCK_CLIENNT_URL);
+  //     let stompClient = Stomp.over(sockClient);
+  //     if (!stompClient.connected) {
+  //       stompClient.connect(
+  //         {},
+  //         function (frame: any) {
+  //           setTimeout(() => {
+  //             stompClient1 = stompClient.subscribe(
+  //               `/topic/order/noti/${IdArea}/${billId}`,
+  //               function (messageOutput: any) {
+  //                 const data = JSON.parse(messageOutput.body);
+  //                 console.log('data noti', data);
+  //               },
+  //             );
+  //           });
+  //         },
+  //         500,
+  //       );
+  //     }
+  //   }
+  //   return () => {
+  //     if (stompClient1) {
+  //       stompClient1.unsubscribe();
+  //     }
+  //   };
+  // }, [IdArea, billId, isFocused]);
 
   React.useEffect(() => {
     if (!isFocused) {
@@ -95,8 +101,6 @@ const DrawerOrderNavigation = () => {
     newTest.push(1);
     setTest(newTest);
   };
-
-
   return (
     <View style={{flex: 1}}>
       <Drawer.Navigator
@@ -130,72 +134,11 @@ const DrawerOrderNavigation = () => {
             />
           );
         })}
-        {/* <>
-        <Drawer.Screen
-          name="snacks"
-          component={SnackOrder}
-          options={{
-            drawerLabel: 'Món ăn nhẹ',
-            drawerIcon: ({color}: {color: string}) => <ICSnack color={color} />,
-          }}
-        />
-        <Drawer.Screen
-          name="vegetable"
-          component={SnackOrder}
-          options={{
-            drawerLabel: 'Món rau',
-            drawerIcon: ({color}: {color: string}) => (
-              <ICVegetable color={color} />
-            ),
-          }}
-        />
-        <Drawer.Screen
-          name="junkFood"
-          component={SnackOrder}
-          options={{
-            drawerLabel: 'Đồ ăn vặt',
-            drawerIcon: ({color}: {color: string}) => (
-              <ICJunkFood color={color} />
-            ),
-          }}
-        />
-        <Drawer.Screen
-          name="drinks"
-          component={SnackOrder}
-          options={{
-            drawerLabel: 'Đồ uống',
-            drawerIcon: ({color}: {color: string}) => (
-              <ICDrinks color={color} />
-            ),
-          }}
-        />
-        <Drawer.Screen
-          name="alcohol"
-          component={SnackOrder}
-          options={{
-            drawerLabel: 'Rượu',
-            drawerIcon: ({color}: {color: string}) => (
-              <ICAlcohol color={color} />
-            ),
-          }}
-        />
-        <Drawer.Screen
-          name="spice"
-          component={SnackOrder}
-          options={{
-            drawerLabel: 'Gia vị',
-            drawerIcon: ({color}: {color: string}) => <ICSpice color={color} />,
-          }}
-        />
-        </> */}
+
       </Drawer.Navigator>
-      <NoticeCancelItem test={test}  />
+      {/* <NoticeCancelItem test={test}  /> */}
       <View style={styles.cartItem}>
-        <TouchableOpacity onPress={PushItem}>
-          <Text style={{height: 30, width: 30, backgroundColor: 'red'}}>
-            pussh
-          </Text>
-        </TouchableOpacity>
+
         <CartItem />
       </View>
     </View>

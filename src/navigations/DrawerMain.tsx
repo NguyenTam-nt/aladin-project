@@ -1,11 +1,13 @@
-import { defaultColors } from '@configs';
+import { ROLE_LIST, defaultColors } from '@configs';
 import { createStackNavigator } from '@react-navigation/stack';
 import React, { useMemo } from 'react';
 import { StatusBar } from 'react-native';
 import DrawerNavigation from './Drawer';
 import DrawerKitchen from './DrawerKitchen';
 import DrawerOrderNavigation from './DrawerOrder';
-var Stomp = require('stompjs/lib/stomp.js').Stomp;
+import { useUserInfo } from 'src/redux/reducers/hook';
+import { IAuthorize } from 'src/redux/reducers/AuthSlice';
+
 
 export const RootStack = createStackNavigator();
 export const DrawerMain = () => {
@@ -19,21 +21,29 @@ export const DrawerMain = () => {
     }),
     [],
   );
-
-
+  const userInfo = useUserInfo();
+  const checkIsKitchen = userInfo?.authorities?.some((role: IAuthorize) => {
+    switch (role.name) {
+      case ROLE_LIST.chef:
+        return true;
+      default:
+        return false;
+    }
+  });
+  
   return (
     <>
       <StatusBar
         backgroundColor={defaultColors.bg_header}
         barStyle={'light-content'}
       />
-        <RootStack.Navigator
-          initialRouteName="mainDrawer"
-          screenOptions={screenOptions}>
-          <RootStack.Screen name="mainDrawer" component={DrawerNavigation} />
-          <RootStack.Screen name="orderTab" component={DrawerOrderNavigation} />
-          <RootStack.Screen name="kitchen" component={DrawerKitchen} />
-        </RootStack.Navigator>
+      <RootStack.Navigator
+        initialRouteName={checkIsKitchen ? 'kitchen' : 'mainDrawer'}
+        screenOptions={screenOptions}>
+        <RootStack.Screen name="mainDrawer" component={DrawerNavigation} />
+        <RootStack.Screen name="orderTab" component={DrawerOrderNavigation} />
+        <RootStack.Screen name="kitchen" component={DrawerKitchen} />
+      </RootStack.Navigator>
     </>
   );
 };

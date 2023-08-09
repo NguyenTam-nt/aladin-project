@@ -59,27 +59,35 @@ const ActionCartList = ({
         <ICAdd />
         <Text style={styles.textButton}>Gọi thêm</Text>
       </TouchableOpacity>
-      <TouchableOpacity
-        style={styles.buttonCancel}
-        onPress={() => {
-          setActionChoose(ActionCartListChoose.cancelOrder);
-        }}>
-        <ICDelete />
-        <Text style={styles.textButton}>Hủy món</Text>
-      </TouchableOpacity>
       {isOrder >= 0 ? (
-        <TouchableOpacity
-          style={styles.buttonCompound}
-          onPress={() => {
-            setActionChoose(ActionCartListChoose.compound);
-          }}>
-          <ICCompound />
-          <Text style={styles.textButton}>Tách / Ghép</Text>
-        </TouchableOpacity>
+        <>
+          <TouchableOpacity
+            style={styles.buttonCancel}
+            onPress={() => {
+              setActionChoose(ActionCartListChoose.cancelOrder);
+            }}>
+            <ICDelete />
+            <Text style={styles.textButton}>Hủy món</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={styles.buttonCompound}
+            onPress={() => {
+              setActionChoose(ActionCartListChoose.compound);
+            }}>
+            <ICCompound />
+            <Text style={styles.textButton}>Tách / Ghép</Text>
+          </TouchableOpacity>
+        </>
       ) : (
-        <View
-          style={[styles.buttonCompound, {backgroundColor: 'transparent'}]}
-        />
+        <>
+          <View
+            style={[styles.buttonCancel, {backgroundColor: 'tranparents'}]}
+          />
+          <View
+            style={[styles.buttonCancel, {backgroundColor: 'tranparents'}]}
+          />
+        </>
       )}
     </View>
   );

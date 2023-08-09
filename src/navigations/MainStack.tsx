@@ -1,10 +1,11 @@
-import { defaultColors } from '@configs';
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
-import React, { useMemo } from 'react';
-import { StatusBar } from 'react-native';
+import {defaultColors} from '@configs';
+import {NavigationContainer} from '@react-navigation/native';
+import {createStackNavigator} from '@react-navigation/stack';
+import React, {useMemo} from 'react';
+import {StatusBar} from 'react-native';
 import LoginScreen from 'src/features/login';
-import { DrawerMain } from './DrawerMain';
+import {DrawerMain} from './DrawerMain';
+import {useUserInfo} from 'src/redux/reducers/hook';
 
 export const RootStack = createStackNavigator();
 export const MainStack = () => {
@@ -18,6 +19,8 @@ export const MainStack = () => {
     [],
   );
 
+  const userInfo = useUserInfo();
+
 
   return (
     <>
@@ -27,7 +30,7 @@ export const MainStack = () => {
       />
       <NavigationContainer>
         <RootStack.Navigator
-          initialRouteName="login"
+          initialRouteName={userInfo.id ? 'main' : 'login'}
           screenOptions={screenOptions}>
           <RootStack.Screen name="main" component={DrawerMain} />
           <RootStack.Screen name="login" component={LoginScreen} />

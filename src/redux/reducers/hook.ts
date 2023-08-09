@@ -23,4 +23,13 @@ export const useUserInfo = () => {
   };
 
 
+  export const useIsGetTable = () => {
+    const isGetTable = useSelector(
+      (appState: RootState) => appState.appInfoReducer.isGetTable,
+    );
+    return isGetTable;
+  };
+
+
+
 
