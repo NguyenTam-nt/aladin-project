@@ -57,6 +57,7 @@ export const APIs = {
   CATEGORIES: getMicroService('categories/select', microServices.restaurant),
   PRODUCTS: getMicroService('products', microServices.restaurant),
   TABLEID: getMicroServiceAdmin('provisional/order', microServices.restaurant),
+  HISTORY: getMicroServiceAdmin('histories', microServices.restaurant),
   PRODUCTS_KITCHEN: getMicroServiceAdmin(
     'products/detail',
     microServices.restaurant,
