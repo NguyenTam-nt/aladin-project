@@ -1,11 +1,11 @@
-import { IHistory, IParams } from "@typeRules"
-import { APIs } from "./config"
-import { handleError } from "./handleError"
-import request from "./request"
-import { IResponseApi } from "./types"
+import { IHistory, IParams } from '@typeRules';
+import { APIs } from './config';
+import { handleError } from './handleError';
+import request from './request';
+import { IResponseApi } from './types';
 
-  export const getHistories = async (params: IParams):Promise<IResponseApi<IHistory[]>> => {
-    console.log(`${APIs.HISTORY}/kitchen/v2`, {params})
+  export const getHistories = async (params: IParams):Promise<IResponseApi<IHistory>> => {
+    console.log(`${APIs.HISTORY}/kitchen/v2`, {params});
     try {
       const result = await request().get(`${APIs.HISTORY}/kitchen/v2`, {
         params: {...params},

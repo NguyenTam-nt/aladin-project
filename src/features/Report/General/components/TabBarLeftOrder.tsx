@@ -6,6 +6,7 @@ import DropDownView from 'src/components/DropDownView/DropDownView';
 import {TabBarOrder} from 'src/features/orderTab/ContentOrderTab';
 import MenuTabMobile from 'src/components/DropDownView/MenuTabMobile';
 import ButtonMenuTabBar from 'src/components/DropDownView/ButtonMenuTabBar';
+import { FilterCalendar } from '../../Detail/components/SideLeft';
 
 const dataCheckbox = [
   {
@@ -20,14 +21,12 @@ const dataCheckbox = [
     label: 'Tháng',
     value: 3,
   },
-  {
-    label: 'Năm',
-    value: 4,
-  },
+
 ];
 
 const TabBarLeftOrder = (props: TabBarOrder) => {
   const [typeLocation, setTypeLocaion] = useState<number>(0);
+  const [currenFilter, setCurrentFilter] = useState<string>('');
   const {isOpenTab, setIsOpenTab} = props;
   const onSetTypeLocation = useCallback(
     (value: number) => {
@@ -71,6 +70,11 @@ const TabBarLeftOrder = (props: TabBarOrder) => {
                       </TouchableOpacity>
                     );
                   })}
+
+                  <FilterCalendar
+                    currenFilter={currenFilter}
+                    onChange={setCurrentFilter}
+                  />
                 </View>
               }
               containerStyle={styles.containerStyleDropdown}
@@ -79,6 +83,7 @@ const TabBarLeftOrder = (props: TabBarOrder) => {
               headerButtonStyle={styles.headerButtonStyleDropDown}
               isOpen={true}
             />
+
             <View style={{height: 30, width: '100%'}} />
           </View>
         </View>

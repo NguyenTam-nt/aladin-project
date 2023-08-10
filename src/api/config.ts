@@ -2,15 +2,14 @@
 export const APP_BASE_URL = 'https://giangmyhotpot.vn';
 export const APP_BASE_URL2 = 'http://192.168.1.24:8090';
 export const baseUrl = APP_BASE_URL;
-export const SOCK_CLIENNT_URL = 'http://192.168.1.24:8083/websocket/tracker';
+export const SOCK_CLIENNT_URL = 'https://giangmyhotpot.vn/services/notification/websocket/tracker';
+export const OTPCodeValue = '123456';
 
 export type IData<T> =
    {
       success: boolean
       data: T
     }
-
-
 
 export const microServices = {
   home: 'home', // trang chủ

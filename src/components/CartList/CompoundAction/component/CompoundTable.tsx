@@ -28,10 +28,12 @@ const TableCartItem = ({
   data,
   index,
   updateDataCancel,
+  deleteAction,
 }: {
   data: IProductInCart
   index: number
   updateDataCancel: (value: IProductInCart) => void
+  deleteAction :   boolean |undefined
 }) => {
   return (
     <View>
@@ -65,7 +67,7 @@ const TableCartItem = ({
         </View>
         <View style={styles.col5}>
           <QuantityUpdate
-            value={data.numProduct}
+            value={deleteAction ? 0 : data.numProduct}
             max={data.numProduct}
             updateData={updateDataCancel}
             data={data}
@@ -115,7 +117,9 @@ const CompoundTable = React.memo(
     };
 
     const onUpdatePress = useCallback(async () => {
-      if (typeActions === null && deleteAction) {
+      if (  dataProduct.current.length > 0) {
+      if (typeActions === null && deleteAction ) {
+
         const dataUpdate = await cancelProductItem(billId, dataProduct.current);
         if (dataUpdate.success) {
           MessageUtils.showSuccessMessage('Yêu cầu huỷ món thành công');
@@ -156,12 +160,14 @@ const CompoundTable = React.memo(
           MessageUtils.showWarningMessage('Chọn bàn để thực hiện');
         }
       }
+    }
     }, [billId, dataProduct.current, tableId, typeActions, deleteAction]);
 
     const renderItem = useCallback(
       (item: ListRenderItemInfo<IProductInCart>) => {
         return isTabletDevice ? (
           <TableCartItem
+           deleteAction={deleteAction}
             data={item.item}
             index={item.index}
             updateDataCancel={updateDataCancel}
@@ -170,7 +176,7 @@ const CompoundTable = React.memo(
           <ItemCardMobile data={item.item}   deleteAction={deleteAction}    updateDataCancel={updateDataCancel}/>
         );
       },
-      [ updateDataCancel],
+      [ updateDataCancel ,deleteAction],
     );
 
     return (

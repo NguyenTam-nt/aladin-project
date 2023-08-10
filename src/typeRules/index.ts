@@ -1,4 +1,4 @@
-import {OrderType} from './product'
+import {OrderType} from './product';
 
 export interface IIcon {
   width?: number
@@ -50,6 +50,24 @@ export interface IHistory {
   numProduct: string
   reason: string
   state: OrderType
+  status: boolean
+  thour: string
+}
+
+
+export interface IHistoryCompoumd {
+  createdBy: string
+  createdDate: string
+  lastModifiedBy: string
+  lastModifiedDate:string
+  id: number
+  idProduct: number
+  numProduct: number
+  nameProduct: string
+  nameTable: string
+  idInvoice: number
+  reason:  string
+  state: string
   status: boolean
   thour: string
 }

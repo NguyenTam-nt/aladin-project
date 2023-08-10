@@ -46,14 +46,13 @@ export const History = () => {
         groupedMap.set(key, [obj]);
       }
     }
-
     groupedMap.forEach((value, key) => {
       outputArray.push({
         date: value.length ? value[0].createdDate : '',
         list: value,
       });
     });
-    return outputArray
+    return outputArray;
   }, [data]);
 
 

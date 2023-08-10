@@ -7,7 +7,7 @@ import TabBarLeftOrder from './components/TabBarLeftOrder';
 export interface TabBarOrder  {
   isOpenTab : boolean
   setIsOpenTab :React.Dispatch<React.SetStateAction<boolean>>
-  stateFilter : IStateFilter | undefined
+  stateFilter?: IStateFilter | undefined
   setStateFilter?: React.Dispatch<React.SetStateAction<IStateFilter | undefined>>
 }
 

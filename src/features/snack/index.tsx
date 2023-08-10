@@ -4,6 +4,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import React from 'react';
 import SnackScreen from './SnackScreen';
 import { RootStackParamList } from 'src/navigations/DrawerOrder';
+import { isTabletDevice } from '@configs';
 
 const SnackStack = createStackNavigator();
 
@@ -11,7 +12,7 @@ export const SnackOrder = () => {
   const route = useRoute<RouteProp<RootStackParamList>>();
   return (
     <>
-      <Header goBack />
+      <Header goBack  isOrder={isTabletDevice}   table={route.params.item}/>
       <SnackStack.Navigator
         initialRouteName="snackSreen"
         screenOptions={{headerShown: false}}>

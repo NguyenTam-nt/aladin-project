@@ -17,8 +17,6 @@ interface HeaderContentRight {
 
 }
 
-
-
 const HeaderContentRight = (props: HeaderContentRight & TabBarOrder) => {
   const {
     setIsOpenTab,
@@ -66,7 +64,7 @@ const HeaderContentRight = (props: HeaderContentRight & TabBarOrder) => {
           value={valueField2}
           setValue={setValueField2}
           placeholder="Sắp xếp"
-          styleDropdown={{width: 146}}
+          styleDropdown={{width: 160}}
           isSort
         />
       </View>

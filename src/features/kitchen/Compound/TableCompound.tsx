@@ -1,5 +1,6 @@
 import { defaultColors, isTabletDevice } from '@configs';
-import React from 'react';
+import { IHistoryCompoumd } from '@typeRules';
+import React, { useCallback, useEffect, useMemo } from 'react';
 import {
   FlatList,
   ListRenderItemInfo,
@@ -8,20 +9,25 @@ import {
   Text,
   View,
 } from 'react-native';
+import { getHistories } from 'src/api/history';
+import { IResponseApi } from 'src/api/types';
 import { ICAddOrder } from 'src/assets/icons/ICAddOrder';
+import { useHandleResponsePagination } from 'src/commons/useHandleResponsePagination';
 import DropDownView from 'src/components/DropDownView/DropDownView';
+import { useGetCategotyType } from '../useGetCategotyType';
+import { Html } from 'src/components/Html';
 
-const TableCartItem = () => {
+const TableCartItem = ({item} : {item : IHistoryCompoumd}) => {
 
   return (
     <View>
       <View style={styles.itemContainer} />
       <View style={styles.tableItemContainer}>
         <View style={styles.col1}>
-          <Text style={styles.textTable}>1</Text>
+          <Text style={styles.textTable}>{item.thour}</Text>
         </View>
         <View style={styles.itemCol2}>
-          <Text style={styles.textTable}>Lẩu riêu cua</Text>
+          <Text style={styles.textTable}>{item.nameProduct}</Text>
           <View
             style={{
               flexDirection: 'row',
@@ -34,13 +40,11 @@ const TableCartItem = () => {
           </View>
         </View>
         <View style={styles.col3Item}>
-          <Text style={styles.textTable}>1</Text>
+          <Text style={styles.textTable}>{item.numProduct}</Text>
         </View>
         <View style={styles.col5}>
           <Text style={styles.textTable}>
-            Chuyển từ{' '}
-            <Text style={styles.textHeaderTable}> H134 - Tầng 1/ Bàn 5 </Text>{' '}
-            đến <Text style={styles.textHeaderTable}>H134 - Tầng 1/ Bàn 5</Text>
+            <Html content={item.reason} />
           </Text>
         </View>
       </View>
@@ -48,29 +52,20 @@ const TableCartItem = () => {
   );
 };
 
-const ItemDayList = () => {
-  const data = [
-    'success',
-    'cancel',
-    'waitingSuccess',
-    'waitingCancel',
-    'success',
-    'success',
-    'success',
-    'cancel',
-  ];
+const ItemDayList = ({ data} : { data : {date: string; list: IHistoryCompoumd[]}}) => {
+
   return (
     <View>
       <DropDownView
         isOpen={false}
         itemView={
           <View>
-            {data.map((e , index) => {
-              return <TableCartItem  key={index} />;
+            {data.list.map((e , index) => {
+              return <TableCartItem  item={e}  key={index} />;
             })}
           </View>
         }
-        textHeader="Ngày 15/05/2023"
+        textHeader={`Ngày ${new Date(data.date).toLocaleDateString()}`}
         headerButtonStyle={{
           backgroundColor: defaultColors.bg_FAFAFA,
           borderRadius: 8,
@@ -89,22 +84,51 @@ const ItemDayList = () => {
 };
 
 const TableCompound = React.memo(() => {
-  const data = [
-    'success',
-    'cancel',
-    'waitingSuccess',
-    'waitingCancel',
-    'success',
-    'success',
-    'success',
-    'cancel',
-    'waitingSuccess',
-    'waitingCancel',
-    'success',
-    'success',
-  ];
-  const renderItem = (item: ListRenderItemInfo<any>) => {
-    return <ItemDayList />;
+  const {currentType} = useGetCategotyType();
+  const getHistoryMethod    = useCallback(
+    async (page: number, size: number) :Promise<IResponseApi<IHistoryCompoumd>> => {
+      return getHistories({
+        page,
+        size,
+        menu: currentType,
+        sort: 'createdDate,desc',
+        state : false,
+      }) as any;
+    },
+    [currentType],
+  );
+  const {data, isRefreshing, pullToRefresh, refresh, handleLoadMore} =
+    useHandleResponsePagination<IHistoryCompoumd>(getHistoryMethod);
+    const newData = useMemo(() => {
+      const outputArray: {date: string; list: IHistoryCompoumd[]}[]  = [];
+      const groupedMap: Map<string, IHistoryCompoumd[]> = new Map();
+
+      for (const obj of data) {
+        const key = new Date(obj.createdDate).toLocaleDateString();
+        if (groupedMap.has(key)) {
+          // @ts-ignore
+          groupedMap.get(key).push(obj);
+        } else {
+          groupedMap.set(key, [obj]);
+        }
+      }
+
+      groupedMap.forEach((value, key) => {
+        outputArray.push({
+          date: value.length ? value[0].createdDate : '',
+          list: value,
+        });
+      });
+      return outputArray;
+    }, [data]);
+
+  console.log('check check' ,newData);
+
+  useEffect(() => {
+    refresh();
+  }, []);
+  const renderItem = ({item}:ListRenderItemInfo< {date: string; list: IHistoryCompoumd[]}>) => {
+    return <ItemDayList  data={item}/>;
 
   };
 
@@ -129,7 +153,7 @@ const TableCompound = React.memo(() => {
             </View>
           </View>
           <FlatList
-            data={data}
+            data={newData}
             showsVerticalScrollIndicator={false}
             renderItem={renderItem}
           />

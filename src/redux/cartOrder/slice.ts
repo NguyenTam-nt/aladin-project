@@ -10,7 +10,6 @@ interface IPopupState {
   idBill : number | undefined
   itemCartOrder : IProductInCart[]
 }
-
 const initialState: IPopupState = {
   itemInCart: [],
   idBill  : undefined,

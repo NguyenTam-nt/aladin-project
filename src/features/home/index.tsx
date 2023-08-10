@@ -9,7 +9,6 @@ import {ICCheckBox} from 'src/assets/icons/ICCheckBox';
 
 export const Home = () => {
   const [stateCheckbox, setStateCheckbox] = useState<string[]>([]);
-
   const onPressCheckbox = async (value: string) => {
     try {
       if (stateCheckbox) {
@@ -30,6 +29,7 @@ export const Home = () => {
     <>
       <Header
         isCheckbox
+        isOrder={isTabletDevice}
         updateCheckbox={setStateCheckbox}
         valueCheckBox={stateCheckbox}
       />

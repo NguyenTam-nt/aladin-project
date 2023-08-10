@@ -1,25 +1,36 @@
-import { defaultColors } from '@configs';
+import { ROLE_LIST, defaultColors, isTabletDevice } from '@configs';
 import { createStackNavigator } from '@react-navigation/stack';
 import React, { useMemo } from 'react';
 import { StatusBar } from 'react-native';
 import DrawerNavigation from './Drawer';
 import DrawerKitchen from './DrawerKitchen';
 import DrawerOrderNavigation from './DrawerOrder';
-var Stomp = require('stompjs/lib/stomp.js').Stomp;
+import { useUserInfo } from 'src/redux/reducers/hook';
+import { IAuthorize } from 'src/redux/reducers/AuthSlice';
+import { DrawerNavigationOptions } from '@react-navigation/drawer';
+
 
 export const RootStack = createStackNavigator();
 export const DrawerMain = () => {
-
-  const screenOptions = useMemo(
+  const screenOptions = useMemo<DrawerNavigationOptions >(
     () => ({
-      headerShown: false,
+      drawerType: isTabletDevice ? 'permanent' : 'slide',
+      headerShown : false,
       headerStyle: {
         shadowColor: 'transparent',
       },
     }),
     [],
   );
-
+  const userInfo = useUserInfo();
+  const checkIsKitchen = userInfo?.authorities?.some((role: IAuthorize) => {
+    switch (role.name) {
+      case ROLE_LIST.chef:
+        return true;
+      default:
+        return false;
+    }
+  });
 
   return (
     <>
@@ -27,13 +38,13 @@ export const DrawerMain = () => {
         backgroundColor={defaultColors.bg_header}
         barStyle={'light-content'}
       />
-        <RootStack.Navigator
-          initialRouteName="mainDrawer"
-          screenOptions={screenOptions}>
-          <RootStack.Screen name="mainDrawer" component={DrawerNavigation} />
-          <RootStack.Screen name="orderTab" component={DrawerOrderNavigation} />
-          <RootStack.Screen name="kitchen" component={DrawerKitchen} />
-        </RootStack.Navigator>
+      <RootStack.Navigator
+        initialRouteName={checkIsKitchen ? 'kitchen' : 'mainDrawer'}
+        screenOptions={screenOptions}>
+        <RootStack.Screen name="mainDrawer" component={DrawerNavigation} />
+        <RootStack.Screen name="orderTab" component={DrawerOrderNavigation} />
+        <RootStack.Screen name="kitchen" component={DrawerKitchen} />
+      </RootStack.Navigator>
     </>
   );
 };

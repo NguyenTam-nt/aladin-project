@@ -1,6 +1,6 @@
 import { defaultColors } from '@configs';
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native';
 import { ICCheck } from 'src/assets/icons/ICCheck';
 import { ICCloseModal } from 'src/assets/icons/ICCloseModal';
 import { Button } from '../Button';
@@ -8,22 +8,26 @@ import { Button } from '../Button';
 interface IButtonAction  {
   onPressDone : () => void
   onPressCancel : () => void
+  ICCancel? : JSX.Element
+  textCancel? : string
+  styleButtonDone?:  StyleProp<ViewStyle>
 }
 
 
 const ButtonAction = (props : IButtonAction) => {
+
   return (
     <View style={styles.container}>
       <Button
         text={'Thực hiện'}
         renderLeff={<ICCheck />}
         onPress={props.onPressDone}
-        style={styles.buttonDone}
+        style={[styles.buttonDone ,props.styleButtonDone]}
       />
       <Button
-        text={'Huỷ'}
+        text={ props.textCancel || 'Huỷ'}
         onPress={props.onPressCancel}
-        renderLeff={<ICCloseModal />}
+        renderLeff={props.ICCancel || <ICCloseModal /> }
         style={styles.buttonCancel}
       />
     </View>

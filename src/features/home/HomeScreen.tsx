@@ -4,30 +4,32 @@ import { FlatList, ListRenderItemInfo, StyleSheet, View } from 'react-native';
 import DeviceInfo from 'react-native-device-info';
 import { IFloorInfo, getTable } from 'src/api/table';
 import { useAreaId, useFloorActive } from 'src/redux/infoDrawer/hooks';
-import TableOrder from './components/TableOrder';
+import TableOrder, { DinnerTableState } from './components/TableOrder';
 import SockJS from 'sockjs-client';
 import { SOCK_CLIENNT_URL } from 'src/api/config';
+import { useIsGetTable } from 'src/redux/reducers/hook';
+import { useDispatch } from 'react-redux';
+import { setGetTable } from 'src/redux/reducers/AuthSlice';
+import { useIsFocused } from '@react-navigation/native';
 
 var Stomp = require('stompjs/lib/stomp.js').Stomp;
-
-
 
 const HomeScreen = ({ stateCheckbox } : { stateCheckbox : string[]}) => {
   const [dataTable, setDataTable] = useState<IFloorInfo[]>([]);
   const floorClone = useRef<IFloorInfo[]>([]);
   const floorActive = useFloorActive();
   const areaId = useAreaId();
-
+  const idTable = useIsGetTable();
+  const dispatch = useDispatch();
+  const isFocus = useIsFocused();
   const getDataTable = async () => {
     if (areaId) {
       const tableData = await getTable(areaId , stateCheckbox );
-
       if (tableData.success && tableData.data) {
         if (floorActive) {
           const index = tableData.data.findIndex(
             item => item.nameArea === floorActive,
           );
-
           if (index >= 0) {
             setDataTable([tableData.data[index]]);
             floorClone.current = tableData.data;
@@ -43,7 +45,6 @@ const HomeScreen = ({ stateCheckbox } : { stateCheckbox : string[]}) => {
     }
   };
 
-
   useEffect(() => {
     if (floorActive) {
       const index = floorClone.current.findIndex(
@@ -55,20 +56,23 @@ const HomeScreen = ({ stateCheckbox } : { stateCheckbox : string[]}) => {
         setDataTable(floorClone.current);
       }
     }
-  }, [floorActive ]);
+  }, [floorActive]);
 
   useEffect(() => {
+    if (isFocus){
     getDataTable();
-  }, [areaId, stateCheckbox]);
+    }
+  }, [areaId, stateCheckbox , isFocus]);
 
   useEffect(() => {
-    if (areaId) {
+    let stompClient1: any;
+    if (areaId && isFocus) {
       const sockClient = new SockJS(SOCK_CLIENNT_URL);
       let stompClient = Stomp.over(sockClient);
-      if (!stompClient.connected) {
+      if (!stompClient.connected ) {
         stompClient.connect({}, function (frame: any) {
           setTimeout(() => {
-            stompClient.subscribe(
+            stompClient1 = stompClient.subscribe(
               `/topic/table/${areaId}`,
               function (messageOutput: any) {
                 const data = JSON.parse(messageOutput.body);
@@ -83,7 +87,6 @@ const HomeScreen = ({ stateCheckbox } : { stateCheckbox : string[]}) => {
                     tableIndex = foundTableIndex;
                   }
                 });
-
                 if (areaIndex >= 0 && tableIndex >= 0) {
                   const newTable = [...floorClone.current];
                   newTable[areaIndex].tables[tableIndex] = {
@@ -99,7 +102,20 @@ const HomeScreen = ({ stateCheckbox } : { stateCheckbox : string[]}) => {
 
       }
     }
-  }, [areaId]);
+    return () => {
+      stompClient1?.unsubscribe();
+    };
+  }, [areaId ,isFocus]);
+
+   useEffect(() => {
+     floorClone.current.map((floor, index) => {
+       floor.tables.some(table => {
+         if (table.id === idTable && table.state === DinnerTableState.EMPTY) {
+           dispatch(setGetTable(undefined));
+         }
+       });
+     });
+   }, [idTable, dataTable]);
   const marginTablet = DeviceInfo.isTablet() ? 32 : '2.5%';
   return (
     <View style={styles.container}>

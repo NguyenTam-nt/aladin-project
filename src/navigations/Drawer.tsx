@@ -1,6 +1,6 @@
-import { defaultColors } from '@configs';
+import { defaultColors, isTabletDevice } from '@configs';
 import { ICDrawerAll } from '@icons';
-import { createDrawerNavigator } from '@react-navigation/drawer';
+import { DrawerNavigationOptions, createDrawerNavigator } from '@react-navigation/drawer';
 import * as React from 'react';
 import { useMemo } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
@@ -10,8 +10,9 @@ import { useToken } from 'src/redux/reducers/hook';
 
 const Drawer = createDrawerNavigator();
 const DrawerNavigation = () => {
-  const screenOptions = useMemo(
+  const screenOptions = useMemo<DrawerNavigationOptions>(
     () => ({
+      drawerType: isTabletDevice ? 'permanent' : 'slide',
       headerShown: false,
       headerStyle: {
         shadowColor: 'transparent',
