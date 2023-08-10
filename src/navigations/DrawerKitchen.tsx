@@ -1,4 +1,4 @@
-import { createDrawerNavigator } from '@react-navigation/drawer';
+import { DrawerNavigationOptions, createDrawerNavigator } from '@react-navigation/drawer';
 import React, { useMemo } from 'react';
 import { View } from 'react-native';
 import { globalStyles } from 'src/commons/globalStyles';
@@ -12,6 +12,7 @@ import CustomDrawerKitchen from './CustomDrawerKitchen';
 import { useDispatch } from 'react-redux';
 import { getFloor } from 'src/api/table';
 import { setAreaId } from 'src/redux/infoDrawer/slice';
+import { isTabletDevice } from '@configs';
 
 export const routerPath = {
   order: 'Phần mềm order',
@@ -71,7 +72,7 @@ export const routerKitchens = [
 const Drawer = createDrawerNavigator();
 
 const DrawerKitchen = () => {
-  const screenOptions = useMemo(
+  const screenOptions = useMemo<DrawerNavigationOptions>(
     () => ({
       headerShown: false,
       headerStyle: {

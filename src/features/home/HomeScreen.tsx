@@ -14,7 +14,6 @@ import { useIsFocused } from '@react-navigation/native';
 
 var Stomp = require('stompjs/lib/stomp.js').Stomp;
 
-
 const HomeScreen = ({ stateCheckbox } : { stateCheckbox : string[]}) => {
   const [dataTable, setDataTable] = useState<IFloorInfo[]>([]);
   const floorClone = useRef<IFloorInfo[]>([]);
@@ -46,7 +45,6 @@ const HomeScreen = ({ stateCheckbox } : { stateCheckbox : string[]}) => {
     }
   };
 
-
   useEffect(() => {
     if (floorActive) {
       const index = floorClone.current.findIndex(
@@ -61,15 +59,16 @@ const HomeScreen = ({ stateCheckbox } : { stateCheckbox : string[]}) => {
   }, [floorActive]);
 
   useEffect(() => {
+    if (isFocus){
     getDataTable();
-  }, [areaId, stateCheckbox]);
+    }
+  }, [areaId, stateCheckbox , isFocus]);
 
   useEffect(() => {
     let stompClient1: any;
     if (areaId && isFocus) {
       const sockClient = new SockJS(SOCK_CLIENNT_URL);
       let stompClient = Stomp.over(sockClient);
-
       if (!stompClient.connected ) {
         stompClient.connect({}, function (frame: any) {
           setTimeout(() => {
@@ -106,7 +105,6 @@ const HomeScreen = ({ stateCheckbox } : { stateCheckbox : string[]}) => {
     return () => {
       stompClient1?.unsubscribe();
     };
-
   }, [areaId ,isFocus]);
 
    useEffect(() => {

@@ -34,7 +34,6 @@ export enum DinnerTableState {
 const TableItem = React.memo(
   ({item, pressTable}: {item: ITable; pressTable: (item: ITable) => void}) => {
     const isTablet = DeviceInfo.isTablet();
-
     const {bgColor, textColor}: {bgColor: string; textColor: string} = (() => {
       switch (item.state) {
         case DinnerTableState.EMPTY:
@@ -103,27 +102,31 @@ const TableOrder = ({item}: {item: IFloorInfo}) => {
     if (role.name === ROLE_LIST.order) {
       return true;
     }});
+
   const pressTable = useCallback(
-    async (item: ITable, isPin?: boolean) => {
-      currentTable.current = item;
+    async (itemTable: ITable, isPin?: boolean) => {
+      currentTable.current = itemTable;
       if (
-        (idTable === undefined && item.state == DinnerTableState.EMPTY) ||
+        (idTable === undefined && itemTable.state === DinnerTableState.EMPTY) ||
         idTable === currentTable.current.id ||
         isPin ||
         isOrderUser
       ) {
-
-        navigation.navigate('orderTab', {screen: 'hotpot'});
+        //@ts-ignore
+        navigation.navigate('orderTab', {
+          screen: 'hotpot',
+          item: `${item.nameArea}/${itemTable.name}`,
+        });
         const getId = await getTableID(currentTable.current.id);
-
         if (getId.success) {
           if (isPin) {
+            modalEditInventory.handleHidden();
             setOTPCode('');
           }
           //@ts-ignore
           dispatch(setIdBill(getId.data));
-          if ((idTable === undefined || isPin) && isOrderUser) {
-            dispatch(setGetTable(item.id));
+          if ((idTable === undefined || isPin) && !isOrderUser) {
+            dispatch(setGetTable(itemTable.id));
           }
           //@ts-ignore
         }
@@ -153,7 +156,7 @@ const TableOrder = ({item}: {item: IFloorInfo}) => {
           if (idTable === item.id && item.state === DinnerTableState.EMPTY) {
             dispatch(setGetTable(undefined));
           }
-          return <TableItem key={index} item={item} pressTable={pressTable} />;
+          return <TableItem key={index}  item={item} pressTable={pressTable} />;
         })}
       </View>
       <ModalCustom

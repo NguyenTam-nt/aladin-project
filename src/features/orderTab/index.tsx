@@ -6,38 +6,12 @@ import {defaultColors, isTabletDevice} from '@configs';
 import {IDataSelectionCustom} from '../../components/CartList/CompoundAction/CompoundCartList';
 import {ICDownList} from '../../assets/icons/ICDownList';
 import ContentOrderTab from './ContentOrderTab';
-const dataItem = [
-  {
-    label: 'Cơ sở 1 - 102 Trường Trinh, Phương Mai, Hà Nội',
-    value: '1',
-  },
-  {
-    label: 'Cơ sở 2 - 102 Trường Trinh, Phương Mai, Hà Nội',
-    value: '2',
-  },
-  {
-    label: 'Cơ sở 3 - 102 Trường Trinh, Phương Mai, Hà Nội',
-    value: '3',
-  },
-  {
-    label: 'Cơ sở 4 - 102 Trường Trinh, Phương Mai, Hà Nội',
-    value: '4',
-  },
-];
 
 const OrderTabView = () => {
-  const [location, setLocation] = useState<IDataSelectionCustom>(dataItem[0]);
+
   return (
     <View style={styles.container}>
-      <Header
-        renderRight={
-          isTabletDevice ? (
-            <RightHeader location={location} setLocation={setLocation} />
-          ) : (
-            <></>
-          )
-        }
-      />
+      <Header />
       <ContentOrderTab />
     </View>
   );

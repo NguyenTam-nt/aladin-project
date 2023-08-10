@@ -1,6 +1,6 @@
-import {TextCustom} from '@components';
-import {defaultColors} from '@configs';
-import React, {useCallback, useEffect, useMemo, useRef, useState} from 'react';
+import { TextCustom } from '@components';
+import { defaultColors } from '@configs';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import {
   StyleProp,
   StyleSheet,
@@ -10,97 +10,72 @@ import {
   ViewStyle,
 } from 'react-native';
 
-import {DIMENSION} from '@constants';
+import { DIMENSION } from '@constants';
 import Animated, {
-  interpolate,
   runOnJS,
   useSharedValue,
   withTiming,
 } from 'react-native-reanimated';
-import {ICCloseModal} from 'src/assets/icons/ICCloseModal';
-import {getValueForDevice} from 'src/commons/formatMoney';
+import { ICCloseModal } from 'src/assets/icons/ICCloseModal';
+import { getValueForDevice } from 'src/commons/formatMoney';
+import { IDataNoti } from './Notice';
 
-export const NoticeItem = React.memo(() => {
-  const [data, setData] = useState<string[]>([]);
-  const ref = useRef<any>(null);
-  const numberCheck = useRef<number>(0);
-  const pushItem = () => {
-    const newItem = `Item ${numberCheck.current + 1}`;
-    numberCheck.current += 1;
-    const newData = [...data, newItem].slice(-3);
-    setData(newData);
-    setTimeout(() => {
-      ref?.current?.scrollToEnd({animated: true});
-    }, 300);
-  };
-  const removeItem = useCallback(
-    (item: string) => {
-      const newData = [...data];
-      const findIndex = newData.indexOf(item);
-      newData.splice(findIndex, 1);
-      setData(newData);
-    },
-    [data],
-  );
-  return (
-    <View style={styles.container}>
-      <TouchableOpacity style={styles.addButton} onPress={pushItem}>
-        <Text style={styles.buttonText}>Add Item</Text>
-      </TouchableOpacity>
-      <Animated.FlatList
-        ref={ref}
-        data={data}
-        inverted
-        renderItem={({item, index}) => (
-          <RenderItem item={item} removeItem={removeItem} />
-        )}
-        // scrollEnabled={false}
-        keyExtractor={item => item.toString()}
-        horizontal={true}
-        showsHorizontalScrollIndicator={false}
-      />
-    </View>
-  );
-});
+export const NoticeItem = React.memo(
+  ({
+    data,
+    ref,
+    removeItem,
+  }: {
+    data: IDataNoti[]
+    ref: React.MutableRefObject<any>
+    removeItem: (item: IDataNoti) => void
+  }) => {
+    return (
+      <View style={styles.container}>
+        <Animated.FlatList
+          ref={ref}
+          data={data}
+          inverted
+          renderItem={({item, index}) => (
+            <RenderItem  item={item} removeItem={removeItem} />
+          )}
+          scrollEnabled={false}
+          keyExtractor={item => item.key?.toString() || item.reason }
+          horizontal={true}
+          showsHorizontalScrollIndicator={false}
+        />
+      </View>
+    );
+  },
+);
 
 const RenderItem = React.memo(
-  ({item, removeItem}: {item: string; removeItem: (value: string) => void}) => {
+  ({item, removeItem}: {item: IDataNoti; removeItem: (value: IDataNoti) => void}) => {
     const defaultWidth = getValueForDevice(
       (DIMENSION.width - 216 - 16 * 3) / 3,
       DIMENSION.width * 0.7,
     );
     const translateX = useSharedValue(defaultWidth);
     const widthItem = useSharedValue(defaultWidth);
-
     const animatedStyle = useMemo<
       StyleProp<Animated.AnimateStyle<StyleProp<ViewStyle>>>
     >(() => {
-      let inputRange = [defaultWidth + 1, defaultWidth, 0];
-      let outputRange = [0, 1, 0];
       return {
         transform: [{translateX: translateX}],
-        width: widthItem,
-        opacity: interpolate(widthItem.value, inputRange, outputRange),
       };
-    }, [translateX, widthItem, defaultWidth]);
+    }, [translateX, widthItem]);
+
+   const animationContainer = useMemo<
+      StyleProp<Animated.AnimateStyle<StyleProp<ViewStyle>>>
+    >(() => {
+      return {
+        width: widthItem,
+      };
+    }, [widthItem]);
 
     const Check = () => {
       removeItem(item);
-      widthItem.value = defaultWidth + 1;
     };
-
-    useEffect(() => {
-      translateX.value = withTiming(
-        0,
-        {
-          duration: 300,
-        },
-        () => {
-          translateX.value = 0;
-        },
-      );
-    }, []);
-
     const delteItem = () => {
       widthItem.value = withTiming(
         0,
@@ -115,34 +90,61 @@ const RenderItem = React.memo(
       );
     };
 
+    useEffect(() => {
+      translateX.value = withTiming(
+        0,
+        {
+          duration: 300,
+        },
+        () => {
+          translateX.value = 0;
+        },
+      );
+      setTimeout(() => {
+        delteItem();
+      } , 5000);
+    }, []);
+
+
     return (
-      <Animated.View style={[styles.noticeItem, animatedStyle]}>
-        <View style={{width: defaultWidth * 0.8}}>
-          <View style={styles.styleGroupText}>
-            <ICCloseModal
-              height={32}
-              width={32}
-              color={defaultColors._EA222A}
-            />
-            <TextCustom
-              fontSize={16}
-              color={defaultColors.c_222124}
-              weight="600">
-              Bếp từ chối huỷ món {item}
-            </TextCustom>
+      <Animated.View
+        style={[
+          {
+            alignItems: 'center',
+            justifyContent: 'center',
+            marginRight: 8,
+            overflow: 'hidden',
+          },
+          animationContainer,
+        ]}>
+        <Animated.View style={[styles.noticeItem, animatedStyle]}>
+          <View style={{width: defaultWidth * 0.8}}>
+            <View style={styles.styleGroupText}>
+              <ICCloseModal
+                height={32}
+                width={32}
+                color={defaultColors._EA222A}
+              />
+              <TextCustom
+                fontSize={16}
+                color={defaultColors.c_222124}
+                weight="600">
+                Bếp từ chối huỷ món
+              </TextCustom>
+            </View>
+            <View style={{paddingLeft: 5, marginTop: 15}}>
+              <TextCustom
+                fontSize={14}
+                color={defaultColors.c_222124}
+                weight="700">
+                Lý do <TextCustom> {item.reason}</TextCustom>
+              </TextCustom>
+            </View>
           </View>
-          <View style={{paddingLeft: 5, marginTop: 15}}>
-            <TextCustom
-              fontSize={14}
-              color={defaultColors.c_222124}
-              weight="700">
-              Lý do <TextCustom> Bếp từ chối huỷ</TextCustom>
-            </TextCustom>
-          </View>
-        </View>
-        <TouchableOpacity onPress={delteItem}>
-          <ICCloseModal color={defaultColors.bg_5F5F61} />
-        </TouchableOpacity>
+          <TouchableOpacity onPress={delteItem}>
+            <ICCloseModal color={defaultColors.bg_5F5F61} />
+          </TouchableOpacity>
+        </Animated.View>
       </Animated.View>
     );
   },
@@ -159,13 +161,11 @@ const styles = StyleSheet.create({
       (DIMENSION.width - 216 - 16 * 3) / 3,
       DIMENSION.width * 0.7,
     ),
-    columnGap: 12,
-    paddingHorizontal: 16,
     alignItems: 'center',
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginRight: 8,
-    overflow: 'hidden',
+    paddingHorizontal : 16,
+
   },
   styleGroupText: {
     flexDirection: 'row',
@@ -173,14 +173,11 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    padding: 16,
-    backgroundColor: 'blue',
   },
   itemContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    // width: 180,
     height: 60,
     backgroundColor: '#f0f0f0',
     marginHorizontal: 10,

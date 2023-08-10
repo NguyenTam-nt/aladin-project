@@ -54,7 +54,7 @@ const ItemCardMobile = ({
               max={data.numProduct}
               updateData={updateDataCancel}
               data={data}
-              value={data.numProduct}
+              value={deleteAction ? 0 : data.numProduct}
             />
           </View>
         </View>

@@ -10,6 +10,8 @@ export enum categoryKitchenNames {
   bar = 'BAR',
 }
 
+export const idHotpot = 248;
+
 export const headersCategory = [
   {
     name: 'Bếp',

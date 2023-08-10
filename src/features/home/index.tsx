@@ -29,6 +29,7 @@ export const Home = () => {
     <>
       <Header
         isCheckbox
+        isOrder={isTabletDevice}
         updateCheckbox={setStateCheckbox}
         valueCheckBox={stateCheckbox}
       />

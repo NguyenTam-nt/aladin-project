@@ -1,4 +1,4 @@
-import { ROLE_LIST, defaultColors } from '@configs';
+import { ROLE_LIST, defaultColors, isTabletDevice } from '@configs';
 import { createStackNavigator } from '@react-navigation/stack';
 import React, { useMemo } from 'react';
 import { StatusBar } from 'react-native';
@@ -7,14 +7,15 @@ import DrawerKitchen from './DrawerKitchen';
 import DrawerOrderNavigation from './DrawerOrder';
 import { useUserInfo } from 'src/redux/reducers/hook';
 import { IAuthorize } from 'src/redux/reducers/AuthSlice';
+import { DrawerNavigationOptions } from '@react-navigation/drawer';
 
 
 export const RootStack = createStackNavigator();
 export const DrawerMain = () => {
-
-  const screenOptions = useMemo(
+  const screenOptions = useMemo<DrawerNavigationOptions >(
     () => ({
-      headerShown: false,
+      drawerType: isTabletDevice ? 'permanent' : 'slide',
+      headerShown : false,
       headerStyle: {
         shadowColor: 'transparent',
       },
@@ -30,7 +31,7 @@ export const DrawerMain = () => {
         return false;
     }
   });
-  
+
   return (
     <>
       <StatusBar

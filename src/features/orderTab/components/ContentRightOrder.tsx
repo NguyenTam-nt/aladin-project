@@ -34,16 +34,28 @@ export const dataItemFilter1 = [
 
 export const dataItemFilterItem2 = [
   {
-    label: 'Tên',
-    value: 'name',
+    label: 'Tên (A -> Z)',
+    value: 'name,asc',
   },
   {
-    label: 'Giá thành',
-    value: 'pricePromotion',
+    label: 'Tên (Z -> A)',
+    value: 'name,desc',
   },
   {
-    label: 'Số lượng',
-    value: 'inventory',
+    label: 'Giá tăng dần',
+    value: 'pricePromotion,asc',
+  },
+  {
+    label: 'Giá giảm dần',
+    value: 'pricePromotion,desc',
+  },
+  {
+    label: 'Số lượng tăng dần',
+    value: 'inventory,asc',
+  },
+  {
+    label: 'Số lượng giảm dần',
+    value: 'inventory,desc',
   },
 ];
 
@@ -62,7 +74,6 @@ const ContentRightOrder = (props :TabBarOrder & IContentRightOrder ) => {
   const {isOpenTab , setIsOpenTab ,typeLocation} = props;
   const [valueField1, setValueField1] = useState<IValueFilter>(dataItemFilter1[0]);
   const [valueField2, setValueField2] = useState<IValueFilter>(dataItemFilterItem2[0]);
-
   const {dataProducts, keyExtractor, onRefresh} = useKitChenProduct(
     props?.stateFilter?.id || props?.stateFilter?.idParent,
     typeLocation,

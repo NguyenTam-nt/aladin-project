@@ -19,6 +19,8 @@ import { setShowDrawerFloor } from '../../redux/infoDrawer/slice';
 import { DinnerTableState } from 'src/features/home/components/TableOrder';
 import { ICCheckBox } from 'src/assets/icons/ICCheckBox';
 import { useIdBill } from 'src/redux/cartOrder/hooks';
+import { ITable } from 'src/api/table';
+import { DIMENSION } from '@constants';
 
 export const Header = ({
   isCheckbox,
@@ -26,12 +28,16 @@ export const Header = ({
   renderRight,
   updateCheckbox,
   valueCheckBox = [],
+  isOrder,
+  table,
 }: {
   isCheckbox?: boolean
   goBack?: boolean
   renderRight?:  JSX.Element
   updateCheckbox?: React.Dispatch<React.SetStateAction<string[]>>
   valueCheckBox? : string[]
+  isOrder ? : boolean
+  table? : string
 }) => {
   const navigation = useNavigation();
   const statusDrawer = useDrawerStatus();
@@ -86,7 +92,9 @@ export const Header = ({
         ) : (
           <>
             <View>
-              <ICLogo color={defaultColors.c_fff} height={64} width={64} />
+              {!isTabletDevice && (
+                <ICLogo color={defaultColors.c_fff} height={64} width={64} />
+              )}
             </View>
             <View>
               {!isTabletDevice && (
@@ -116,7 +124,6 @@ export const Header = ({
                     ) : (
                       <ICCheckBoxTable />
                     )}
-
                     <Text style={styles.textCheckBox}> Còn trống</Text>
                   </TouchableOpacity>
                   <TouchableOpacity
@@ -152,26 +159,44 @@ export const Header = ({
                   </TouchableOpacity>
                 </>
               )}
-              {goBack && DeviceInfo.isTablet() && (
+              {goBack && isTabletDevice && (
                 <>
                   <View style={styles.icCircle} />
                   <Text style={styles.textCheckBox}>
-                    Mã hóa đơn: <Text style={styles.textBold}>{idBill || ''}</Text>
+                    Mã hóa đơn:{' '}
+                    <Text style={styles.textBold}>{idBill || ''}</Text>
                   </Text>
                   <View style={styles.icCircle} />
                   <Text style={styles.textCheckBox}>
-                    Khu vực: <Text style={styles.textBold}> Bàn 1/Tầng 3 </Text>
+                    Khu vực: <Text style={styles.textBold}>{table}</Text>
                   </Text>
                 </>
               )}
             </>
           )}
-
-          <TouchableOpacity onPress={onDraw}>
-            <ICMenubar color={defaultColors.c_fff} />
-          </TouchableOpacity>
+          {!isOrder && (
+            <TouchableOpacity onPress={onDraw}>
+              <ICMenubar color={defaultColors.c_fff} />
+            </TouchableOpacity>
+          )}
         </View>
       </View>
+      {goBack && !isTabletDevice && (
+        <View style={styles.notiContainer}>
+          <View style={{flex: 1, flexDirection: 'row'}}>
+            <View style={styles.icCircle} />
+            <Text style={styles.textCheckBox2} numberOfLines={1}>
+              Mã hóa đơn: <Text style={styles.textBold}>{idBill || ''}</Text>
+            </Text>
+          </View>
+          <View style={{flex: 1, flexDirection: 'row'}}>
+            <View style={styles.icCircle} />
+            <Text style={styles.textCheckBox} numberOfLines={1}>
+              Khu vực: <Text style={styles.textBold}>{table}</Text>
+            </Text>
+          </View>
+        </View>
+      )}
     </SafeAreaView>
   );
 };
@@ -180,6 +205,13 @@ const styles = StyleSheet.create({
   bg_primary: {
     backgroundColor: defaultColors.bg_header,
   },
+  notiContainer : {   flexDirection: 'row',
+  width: DIMENSION.width,
+  paddingHorizontal: 12,
+  justifyContent: 'space-between',
+  backgroundColor : defaultColors.bg_primary,
+  paddingVertical : 16},
+
   container: {
     height: heightHeader,
     backgroundColor: defaultColors.bg_header,
@@ -198,6 +230,13 @@ const styles = StyleSheet.create({
     marginRight: 32,
     marginLeft: 8,
     marginBottom : 2,
+  },
+  textCheckBox2: {
+    color: defaultColors.c_fff,
+    marginRight: 32,
+    marginLeft: 8,
+    marginBottom : 2,
+
   },
   textButtonBack: {
     color: defaultColors.c_fff,

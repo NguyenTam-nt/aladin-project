@@ -26,7 +26,7 @@ const ActionCartList = ({
   const dispatch = useDispatch();
   const userInfo = useUserInfo();
 
-  const isOrder = userInfo.authorities.findIndex((item: IAuthorize) =>
+  const isOrder = userInfo?.authorities?.findIndex((item: IAuthorize) =>
     item.name === ROLE_LIST.order,
   );
 

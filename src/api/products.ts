@@ -94,7 +94,7 @@ export const getProductKitchenApi = async (
         id || ''
       }&size=${size}&page=${page}&menu=${menu || ''}&state=${
         state || ''
-      }&short=${sort || ''}`,
+      }&sort=${sort || ''}`,
     );
     const data = await result.data.list;
     return {
@@ -148,13 +148,13 @@ export const updateOrerKitchenOnlyState = async (
   try {
     console.log( `${
       APIs.ORDER_KITCHEN
-    }/${state}/${idOrder}/${id}?answer=${!reason}&reason=${reason}`)
+    }/${state}/${idOrder}/${id}?answer=${!reason}&reason=${reason}`);
     const result = await request().patch(
       `${
         APIs.ORDER_KITCHEN
       }/${state}/${idOrder}/${id}?answer=${!reason}&reason=${reason}`,
     );
-   
+
     const data = await result.data.list;
     return {
       success: true,
