@@ -161,7 +161,7 @@ function OrderFoodAdmin() {
     BillService
       .deleteAll(listChecked.map(id => {return {id: id}}))
       .then(() => {
-        getBillsData(1)
+        getBillsData(0)
         setListChecked([])
         showSuccess("adminOrderFood.notification.deleteSuccess");
       })
