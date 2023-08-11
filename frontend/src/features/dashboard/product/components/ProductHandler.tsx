@@ -54,6 +54,7 @@ export const ProductHandler = () => {
       description: "",
       category: undefined,
       listInfrastructure: [],
+      guide: ''
     },
     validationSchema: Yup.object({
       code: Yup.string().trim().required("message.form.required"),
@@ -194,6 +195,7 @@ export const ProductHandler = () => {
       fomick.setFieldValue("name", product?.name ?? "");
       fomick.setFieldValue("price", product?.price ?? "");
       fomick.setFieldValue("description", product?.description ?? "");
+      fomick.setFieldValue("guide", product?.guide ?? "");
       fomick.setFieldValue("pricePromotion", product?.pricePromotion ?? "");
       fomick.setFieldValue("category", product?.category);
       fomick.setFieldValue("listInfrastructure", product?.listInfrastructure);
@@ -381,6 +383,20 @@ export const ProductHandler = () => {
           />
           {fomick.errors.description && fomick.touched.description && (
             <TextError message={fomick.errors.description} />
+          )}
+        </div>
+        <div className=" col-span-2">
+          <TitleInput isRequired={false} name="adminProduct.form.guide" />
+          <Textarea
+            name="guide"
+            value={fomick.values.guide}
+            onChange={fomick.handleChange}
+            onBlur={fomick.handleBlur}
+            maxLength={2000}
+            placeholder="adminProduct.form.guide_placeholder"
+          />
+          {fomick.errors.guide && fomick.touched.guide && (
+            <TextError message={fomick.errors.guide} />
           )}
         </div>
         <div className="col-span-2 flex justify-end">

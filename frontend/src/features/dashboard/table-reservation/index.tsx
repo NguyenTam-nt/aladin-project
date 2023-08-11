@@ -1,50 +1,49 @@
-import CalendarIcont from "@assets/icons/CalendarIcont";
-import { ICArowDown } from "@assets/icons/ICArowDown";
-import { ICDeleteTrashLight } from "@assets/icons/ICDeleteTrashLight";
-import MagnifyingGlass from "@assets/icons/MagnifyingGlass";
-import TitleOfContentManage from "@components/TitleOfContentManage";
-import { Colors } from "@constants/color";
-import { useTranslation } from "react-i18next";
-import { Button } from "../components/Button";
-import { useClickOutItem } from "@hooks/useClickOutItem";
-import { Checkbox } from "../components/Checkbox";
-import { ICFilterDropdown } from "@assets/icons/ICFilterDropdown";
-import FilterPlaceBox from "./component/FilterPlaceBox";
-import FilterByTime from "./component/FilterByTime";
-import { ChangeEvent, UIEvent, useCallback, useEffect, useState } from "react";
-import { useModalContext } from "@contexts/hooks/modal";
-import { DiglogComfirmDelete } from "../components/DiglogComfirmDelete";
-import ModalFeedbackReservation from "./component/ModalFeedbackReservation";
-import ModalConfirm from "./component/ModalConfirm";
-import { reservationTableSvice } from "@services/reservationTableSevice";
-import type { book_table } from "@typeRules/tableReservation";
-import { FomatDateYY_MM_DD } from "@constants/formatDateY_M_D";
-import { useHandleCheckbox } from "../category-product/useHandleCheckbox";
-import { useShowMessage } from "../components/DiglogMessage";
-import type { IParams } from "@typeRules/index";
-import { debounce } from "lodash";
+import CalendarIcont from "@assets/icons/CalendarIcont"
+import { ICArowDown } from "@assets/icons/ICArowDown"
+import { ICDeleteTrashLight } from "@assets/icons/ICDeleteTrashLight"
+import MagnifyingGlass from "@assets/icons/MagnifyingGlass"
+import TitleOfContentManage from "@components/TitleOfContentManage"
+import { Colors } from "@constants/color"
+import { useTranslation } from "react-i18next"
+import { Button } from "../components/Button"
+import { useClickOutItem } from "@hooks/useClickOutItem"
+import { Checkbox } from "../components/Checkbox"
+import { ICFilterDropdown } from "@assets/icons/ICFilterDropdown"
+import FilterPlaceBox from "./component/FilterPlaceBox"
+import FilterByTime from "./component/FilterByTime"
+import { ChangeEvent, UIEvent, useCallback, useEffect, useState } from "react"
+import { useModalContext } from "@contexts/hooks/modal"
+import { DiglogComfirmDelete } from "../components/DiglogComfirmDelete"
+import ModalFeedbackReservation from "./component/ModalFeedbackReservation"
+import ModalConfirm from "./component/ModalConfirm"
+import { reservationTableSvice } from "@services/reservationTableSevice"
+import type { book_table } from "@typeRules/tableReservation"
+import { FomatDateYY_MM_DD } from "@constants/formatDateY_M_D"
+import { useHandleCheckbox } from "../category-product/useHandleCheckbox"
+import { useShowMessage } from "../components/DiglogMessage"
+import type { IParams } from "@typeRules/index"
+import { debounce } from "lodash"
 
 const ManageTableReserVation = () => {
-  const { t } = useTranslation();
-  const { hideModal, setElementModal } = useModalContext();
-  const [isReply, setReply] = useState<boolean | null>(null);
-  const [keySearch, setKeySearch] = useState<string>("");
-  const [place, setPlace] = useState<{ id: number; name: string } | null>(null);
+  const { t } = useTranslation()
+  const { hideModal, setElementModal } = useModalContext()
+  const [isReply, setReply] = useState<boolean | null>(null)
+  const [keySearch, setKeySearch] = useState<string>("")
+  const [place, setPlace] = useState<{ id: number; name: string } | null>(null)
   const [filter, setFilter] = useState<{ time: string; status: string }>({
     time: "",
     status: "",
-  });
-  const [listRequetTable, setListRequesTable] = useState<book_table[]>([]);
-  const [currentPage, setcurrentPage] = useState<number>(1);
-  const [totalPage, setTotalpage] = useState<number>(1);
+  })
+  const [listRequetTable, setListRequesTable] = useState<book_table[]>([])
+  const [currentPage, setcurrentPage] = useState<number>(1)
+  const [totalPage, setTotalpage] = useState<number>(1)
   const params = {
     page: currentPage - 1,
     size: 20,
     date: filter.time,
     id: place ? place.id : "",
-    sort: `id,desc`,
-    sort1: `status,${filter?.status}`,
-  };
+    sort: filter?.status ? `status,${filter?.status}` : 'id,desc',
+  }
   const {
     refCheckboxAll,
     refCheckboxList,
@@ -52,36 +51,36 @@ const ManageTableReserVation = () => {
     handleCheckedItem,
     listChecked,
     setListChecked,
-  } = useHandleCheckbox(listRequetTable.map((item) => item.id!) || []);
-  const { showError, showSuccess } = useShowMessage();
+  } = useHandleCheckbox(listRequetTable.map((item) => item.id!) || [])
+  const { showError, showSuccess } = useShowMessage()
   const handleDeleteModal = () => {
     setElementModal(
       <DiglogComfirmDelete
-        message="common._message_delete_reservation"
+        message="tableReservation._message_delete_reservation"
         onClick={handleDeleteListReserTable}
       />
-    );
-  };
+    )
+  }
   const handleFeadbackCustommer = (id: number) => {
     setElementModal(
       <ModalFeedbackReservation
         idItem={id}
         handleUpdate={handleUpdateAfterChangeDate}
       />
-    );
-  };
+    )
+  }
   const handleShowModalConfirm = (item: book_table) => {
-    setElementModal(<ModalConfirm onClick={() => handleChangeStatus(item)} />);
-  };
+    setElementModal(<ModalConfirm onClick={() => handleChangeStatus(item)} />)
+  }
   const handleUpdateAfterChangeDate = (result: book_table) => {
     const newListTable = listRequetTable.map((item) => {
       if (item.id === result.id) {
-        item = result;
+        item = result
       }
-      return item;
-    });
-    setListRequesTable(newListTable);
-  };
+      return item
+    })
+    setListRequesTable(newListTable)
+  }
   const handleChangeStatus = async (item: book_table) => {
     try {
       const result = await reservationTableSvice.putReservationTable(
@@ -90,88 +89,97 @@ const ManageTableReserVation = () => {
           status: true,
         },
         item.id!
-      );
+      )
 
       if (result) {
-        handleUpdateAfterChangeDate(result);
-        hideModal();
-        showSuccess("tableReservation.changeSuccess");
+        handleUpdateAfterChangeDate(result)
+        hideModal()
+        showSuccess("tableReservation.changeSuccess")
       }
     } catch (error) {
-      showError("message.actions.error.delete_banner");
+      showError("message.actions.error.delete_banner")
     }
-  };
+  }
   const getListRequesResertable = async (params: IParams) => {
     try {
       const { list, totalElement, totalElementPage } =
-        await reservationTableSvice.getRequestReserTable(params);
-      setListRequesTable([...listRequetTable, ...list]);
-      setTotalpage(Math.ceil(totalElementPage / 20));
+        await reservationTableSvice.getRequestReserTable(params)
+      setListRequesTable([...list])
+      setTotalpage(Math.ceil(totalElementPage / 20))
     } catch (error) {
-      console.log("Không lấy được danh sách yêu cầu đặt bàn.");
+      console.log("Không lấy được danh sách yêu cầu đặt bàn.")
     }
-  };
+  }
+
+  const getListRequesResertableScroll = async (params: IParams) => {
+    try {
+      const { list, totalElement, totalElementPage } =
+        await reservationTableSvice.getRequestReserTable(params)
+      setListRequesTable([...listRequetTable, ...list])
+      setTotalpage(Math.ceil(totalElementPage / 20))
+    } catch (error) {
+      console.log("Không lấy được danh sách yêu cầu đặt bàn.")
+    }
+  }
+
   const handleDeleteListReserTable = async () => {
     try {
       const listDataDelete = listChecked.map((item) => {
         return {
           id: item,
-        };
-      });
-      await reservationTableSvice.deleteListReserTable(listDataDelete);
-      showSuccess("adminOrderFood.notification.deleteSuccess");
-      if (currentPage === 1) {
-        getListRequesResertable(params);
-      } else {
-        setcurrentPage(1);
-      }
-      setListChecked([]);
+        }
+      })
+      await reservationTableSvice.deleteListReserTable(listDataDelete)
+      const newData = [...listRequetTable]
+      const newDataList = newData.filter(
+        (item) => !listChecked.includes(Number(item.id))
+      )
+
+      setListRequesTable([...newDataList])
+      showSuccess("adminOrderFood.notification.deleteSuccess")
+      setListChecked([])
     } catch (error) {
-      showError("message.actions.error.delete_banner");
+      showError("message.actions.error.delete_banner")
     }
-  };
+  }
 
   const handleChangeInput = (e: ChangeEvent<HTMLInputElement>) => {
-    setKeySearch(e.target.value);
-    setcurrentPage(1);
-    setListRequesTable([]);
-  };
+    setKeySearch(e.target.value)
+    setcurrentPage(1)
+    setListRequesTable([])
+  }
   const searchRequestTable = async (params: IParams) => {
     try {
       const { list, totalElement, totalElementPage } =
-        await reservationTableSvice.searchReservationTable(params);
-      setListRequesTable([...listRequetTable, ...list]);
-      setTotalpage(Math.ceil(totalElementPage / 20));
+        await reservationTableSvice.searchReservationTable(params)
+      setListRequesTable([...listRequetTable, ...list])
+      setTotalpage(Math.ceil(totalElementPage / 20))
     } catch (error) {
-      console.log("Không lấy được danh sách yêu cầu đặt bàn.");
+      console.log("Không lấy được danh sách yêu cầu đặt bàn.")
     }
-  };
+  }
   const debounceSearch = useCallback(
     debounce((params) => searchRequestTable(params), 700),
     []
-  );
+  )
   const handleScroll = (e: UIEvent<any>) => {
-    const scroolTop = e.currentTarget.scrollTop;
-    const clientHeight = e.currentTarget.clientHeight;
-    const scrollHeight = e.currentTarget.scrollHeight;
-    console.log(
-      "ádfsd",
-      scroolTop + clientHeight,
-      scrollHeight,
-      currentPage < totalPage
-    );
+    const scroolTop = e.currentTarget.scrollTop
+    const clientHeight = e.currentTarget.clientHeight
+    const scrollHeight = e.currentTarget.scrollHeight
     if (scroolTop + clientHeight >= scrollHeight && currentPage < totalPage) {
-      setcurrentPage((preState) => preState + 1);
+      getListRequesResertableScroll({...params, page: currentPage + 1})
+      setcurrentPage((preState) => preState + 1)
     }
-  };
+  }
   useEffect(() => {
     if (keySearch != "") {
-      debounceSearch({ ...params, query: keySearch.trim() });
+      debounceSearch({ ...params, query: keySearch.trim(), page: 0  })
+      setcurrentPage(0)
     } else {
-      debounceSearch.cancel();
-      getListRequesResertable(params);
+      debounceSearch.cancel()
+      getListRequesResertable({...params, page: 0})
     }
-  }, [currentPage, filter, place, keySearch]);
+  }, [filter, place, keySearch])
   return (
     <div
       onScroll={handleScroll}
@@ -183,8 +191,8 @@ const ManageTableReserVation = () => {
         <TitleOfContentManage name="tableReservation.nameTable" />
       )}
       <div className="mt-10 pb-6">
-        <div className="flex items-center gap-6 justify-between">
-          <div className="w-[800px] relative">
+        <div className="flex flex-col lg:flex-row items-center gap-3 xl:gap-6 justify-between">
+          <div className="flex-1 w-full relative">
             <input
               type="text"
               value={keySearch}
@@ -196,23 +204,23 @@ const ManageTableReserVation = () => {
               <MagnifyingGlass color="#A1A0A3" />
             </div>
           </div>
-          <div className="flex items-center gap-6">
+          <div className="flex items-center gap-3 xl:gap-6">
             <Button
               onClick={handleDeleteModal}
               text="common.delete"
-              className="max-w-[177px] whitespace-nowrap text-text_EA222A border-text_EA222A"
+              className="max-w-[60px] !text-_12 xl:!text-_14 xl:max-w-[177px] whitespace-nowrap text-text_EA222A border-text_EA222A"
               imageLeft={
-                <span className="mr-2">
+                <span className="mr-1 lg:mr-2">
                   <ICDeleteTrashLight />
                 </span>
               }
               color={"empty"}
             />
-            <div className="flex gap-6 justify-between">
+            <div className="flex gap-3 xl:gap-6 justify-between">
               <FilterByTime
                 time={filter.time}
                 handleFilterByTime={(value) => {
-                  setFilter({ ...filter, time: value });
+                  setFilter({ ...filter, time: value })
                 }}
               />
               <FilterPlaceBox place={place} handleChosePlace={setPlace} />
@@ -220,9 +228,9 @@ const ManageTableReserVation = () => {
           </div>
         </div>
       </div>
-      <div>
-        <div className="w-full">
-          <div className="grid grid-cols-[5%_20%_15%_15%_10%_23%_12%] [&>div]:py-4 border-b text-_16 font-semibold">
+      <div className=" overflow-x-auto">
+        <div className="w-max xl:w-full">
+          <div className="grid grid-cols-[5%_20%_15%_15%_10%_23%_12%] [&>div]:py-2 lg:[&>div]:py-4 border-b text-_16 font-semibold">
             <div>
               <Checkbox onChange={handleCheckAll} ref={refCheckboxAll} />
             </div>
@@ -242,7 +250,7 @@ const ManageTableReserVation = () => {
                 <div
                   className="cursor-pointer"
                   onClick={() => {
-                    setFilter({ ...filter, status: "" });
+                    setFilter({ ...filter, status: "" })
                   }}
                 >
                   <ICFilterDropdown color={Colors.text_primary} />
@@ -280,13 +288,13 @@ const ManageTableReserVation = () => {
             return (
               <div
                 key={index}
-                className="grid grid-cols-[5%_20%_15%_15%_10%_23%_12%] py-4 border-b text-sm leading-22 font-normal"
+                className="grid grid-cols-[5%_20%_15%_15%_10%_23%_12%] py-2 lg:py-4 border-b text-sm leading-22 font-normal"
               >
                 <div>
                   <Checkbox
                     onChange={(event) => handleCheckedItem(event, index)}
                     ref={(element: HTMLInputElement) => {
-                      refCheckboxList.current[index] = element;
+                      refCheckboxList.current[index] = element
                     }}
                   />
                 </div>
@@ -317,7 +325,7 @@ const ManageTableReserVation = () => {
                 <div
                   className="flex items-center justify-end gap-1"
                   onClick={() => {
-                    !item.status && handleShowModalConfirm(item);
+                    !item.status && handleShowModalConfirm(item)
                   }}
                 >
                   <div
@@ -344,12 +352,12 @@ const ManageTableReserVation = () => {
                   </div>
                 </div>
               </div>
-            );
+            )
           })}
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default ManageTableReserVation;
+export default ManageTableReserVation

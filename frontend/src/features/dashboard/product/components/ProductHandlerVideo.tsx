@@ -57,7 +57,7 @@ export const ProductHandlerVideo = memo(({videoFile}:Props) => {
   );
 });
 
-const listNotice = ["Định dạnh MP4", "Thời lượng: 10s-60s", "Tối đa 20MB"];
+const listNotice = ["Định dạnh MP4", "Thời lượng: 5s-60s", "Tối đa 20MB"];
 
 const ListNoticeVideo = () => {
   return (

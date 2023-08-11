@@ -23,8 +23,6 @@ const TableReserVationForm = memo(
     const { ref, isShow, handleToggleItem } = useClickOutItem();
     const [listPlaces, setListPlace] = useState<PlaceSelectType[]>([]);
     const [currenPage, setCurrenPage] = useState<number>(1);
-    // const [totaPage, setTotaPages] = useState<number>(1);
-    // const scroolRef = useRef<HTMLDivElement>(null);
     const dateRef = useRef<HTMLInputElement>(null);
     const hourRef = useRef<HTMLInputElement>(null);
     const formik = useFormik({
@@ -68,7 +66,7 @@ const TableReserVationForm = memo(
           .required("Phải chọn giờ đặt bàn.")
           .test(
             "hour",
-            "Chưa chọn ngày hoặc thời gian đặt bàn tối thiểu phải lớn hơn hiện tại 10 phút.",
+            "Vui lòng chọn giờ đặt bàn trước thời gian hiện tại ít nhất 10 phút.",
             function (value, props) {
               if (value && values.chooseDate) {
                 const truThy: boolean = moment(
@@ -112,8 +110,8 @@ const TableReserVationForm = memo(
           const resultOrder = await reservationTableSvice.reserTable(
             dataUpload
           );
+          showSuccess("form.request_success", values.email);
           handleResetForm();
-          showSuccess("tableReservation.status.success");
         } catch (error) {
           showError("message.actions.error.delete_banner");
           handleResetForm();
@@ -239,13 +237,13 @@ const TableReserVationForm = memo(
                       value={FomatDateYY_MM_DD(values.chooseDate)}
                       onChange={handleChange}
                       className={
-                        "w-full px-3 py-2 radius-tl-br16 bg-transparent text-sm leading-22 placeholder:text-sm  outline-none border " +
+                        "w-full px-3 py-2 h-10 radius-tl-br16 bg-transparent text-sm leading-22 placeholder:text-sm  outline-none border " +
                         (values.chooseDate == "" && "text-text_A1A0A3")
                       }
                       placeholder={t("form.choseDayOder") as string}
                     />
                     {values.chooseDate == "" && (
-                      <span className="absolute bg-white text-sm text-text_A1A0A3 top-[8%] left-[1px] rounded-tl-[50%] px-3 py-2">
+                      <span className="absolute bg-white text-sm text-text_A1A0A3 top-[11%] left-[1px] rounded-tl-[50%] px-3 py-1">
                         {t("form.choseDayOder")}
                       </span>
                     )}
@@ -266,13 +264,13 @@ const TableReserVationForm = memo(
                       value={values.hour}
                       onChange={handleChange}
                       className={
-                        "w-full px-3 py-2 radius-tl-br16 bg-transparent text-sm leading-22 placeholder:text-sm outline-none border " +
+                        "w-full h-10 px-3 py-2 radius-tl-br16 bg-transparent text-sm leading-22 placeholder:text-sm outline-none border " +
                         (values.hour == "" && "text-text_A1A0A3")
                       }
                       placeholder={t("form.choseHourOder") as string}
                     />
                     {values.hour == "" && (
-                      <span className="absolute bg-white text-sm text-text_A1A0A3 top-[8%] left-[1px] rounded-tl-[50%] px-3 py-2">
+                      <span className="absolute bg-white text-sm text-text_A1A0A3 top-[11%] left-[1px] rounded-tl-[50%] px-3 py-1">
                         {t("form.choseHourOder")}
                       </span>
                     )}

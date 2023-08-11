@@ -154,7 +154,7 @@ function ContactAdmin() {
 
   
   const handleClickResponse = (data: IContact) => {
-    setElementModal(<ModalResponseContact data={data} loadData={() => getContactData(Number(1))}/>)
+    setElementModal(<ModalResponseContact data={data} loadData={() => getContactData(Number(0))}/>)
   }
 
   
@@ -191,8 +191,8 @@ function ContactAdmin() {
         <div className="-mb-[12px]">
           <TitleTopic name="adminContact.title" isRequired={false} />
         </div>
-        <div className="flex items-center justify-between gap-6 pb-4">
-          <div className="flex-1 relative">
+        <div className="flex flex-col lg:flex-row items-center justify-between gap-3 lg:gap-6 pb-4">
+          <div className="flex-1 w-full relative">
               <input
                 type="text"
                 value={keyword} onChange={e => setKeyword(e.target.value )} 
@@ -203,7 +203,7 @@ function ContactAdmin() {
                 <MagnifyingGlass color="#A1A0A3" />
               </div>
             </div>
-          <div className="flex justify-center items-center gap-4">
+          <div className="flex justify-center items-center gap-2 lg:gap-4">
             <Button
               onClick={handleShowModalDeleteAll} text="common.delete"
               className="max-w-[177px] whitespace-nowrap text-text_EA222A border-text_EA222A"
@@ -238,7 +238,23 @@ function ContactAdmin() {
         </div>
       </div>
       <div className="mt-4">
-        <div className="border-b border-br_E9ECEF pb-4 grid grid-cols-[25px_108px_108px_138px_128px__1fr_142px] 2xl:grid-cols-[25px_148px_148px_158px_208px__1fr_142px] gap-x-4 [&>p]:text-_16  [&>p]:font-semibold [&>P]:text-text_primary ">
+     
+        <InfiniteScroll
+          hasMore
+          loader={
+            loading ? (
+              <div className="flex items-center justify-center">
+                <Loading />
+              </div>
+            ) : (
+              <></>
+            )
+          }
+          next={fechData}
+          dataLength={contacts.length}
+          // scrollableTarget="comment-admin-scroll"
+        >
+             <div className="border-b border-br_E9ECEF pb-2 xl:pb-4 grid grid-cols-[25px_108px_108px_138px_128px__1fr_142px] 2xl:grid-cols-[25px_148px_148px_158px_208px__1fr_142px] gap-x-4 [&>p]:text-_16  [&>p]:font-semibold [&>P]:text-text_primary ">
           <div>
             <Checkbox onChange={handleCheckAll} ref={refCheckboxAll} />
           </div>
@@ -270,14 +286,14 @@ function ContactAdmin() {
                 <div className={clsx("py-3 min-w-[122px] text-_14  hover:bg-TrueBlue_500 hover:text-white text-GreyPrimary px-4", {
                   "!bg-TrueBlue_500 !text-white": filterStatus
                 })}
-                  onClick={() => setFilterStatus(filterStatus ? undefined : true)}
+                  onClick={() => setFilterStatus(true)}
                 >
                   {t("adminContact.table.responsed")}
                 </div>
                 <div className={clsx("py-3 min-w-[122px] text-_14  hover:bg-TrueBlue_500 hover:text-white text-GreyPrimary px-4", {
                   "!bg-TrueBlue_500 !text-white": filterStatus == false
                 })}
-                  onClick={() => setFilterStatus(!filterStatus ? undefined : false)}
+                  onClick={() => setFilterStatus(false)}
                 >
                   {t("adminContact.table.not_response")}
                 </div>
@@ -285,21 +301,6 @@ function ContactAdmin() {
             }
           </div>
         </div>
-        <InfiniteScroll
-          hasMore
-          loader={
-            loading ? (
-              <div className="flex items-center justify-center">
-                <Loading />
-              </div>
-            ) : (
-              <></>
-            )
-          }
-          next={fechData}
-          dataLength={contacts.length}
-          // scrollableTarget="comment-admin-scroll"
-        >
           {contacts && contacts.map((item, idx) => {
           return (
             <div

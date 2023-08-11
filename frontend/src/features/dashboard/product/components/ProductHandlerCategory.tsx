@@ -50,7 +50,8 @@ export const ProductHandlerCategory = memo(({ onChange, category, message }: Pro
         const indexSub =
           categories[index]?.listCategoryChild?.findIndex(
             (i) => i.id === category.id
-          ) || -1;
+          ) ?? -1;
+          console.log({indexSub})
         setSubIndex(indexSub);
       } else {
         const index = categories.findIndex(
@@ -74,7 +75,9 @@ export const ProductHandlerCategory = memo(({ onChange, category, message }: Pro
             }
           )}
         >
-          <span className="text-text_A1A0A3 line-clamp-1 text-_14">
+          <span className={clsx("text-text_A1A0A3 line-clamp-1 text-_14", {
+            "!text-GreyPrimary": indexActive !== -1
+          })}>
             {indexActive !== -1
               ? `${categories[indexActive].name} ${
                   categories[indexActive]?.listCategoryChild?.[subIndex]?.name

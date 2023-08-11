@@ -1,9 +1,11 @@
 import { ICArrowNext } from "@assets/icons/ICArrowNext";
 import { ICArrowPre } from "@assets/icons/ICArrowPre";
 import { ICPlay } from "@assets/icons/ICPlay";
+import { getLinkImageUrl } from "@commons/common";
 import { SwiperComponent } from "@components/SwiperComponent";
 import { Video } from "@components/Video";
 import { Colors } from "@constants/color";
+import { windownSizeWidth } from "@constants/index";
 import useInView from "@hooks/useInView";
 import { useSwiperNavigationRef } from "@hooks/useSwiperNavigationRef";
 import type { IListMedia } from "@typeRules/product";
@@ -97,7 +99,8 @@ const MenuDetailSliderMain = memo(
                   {item.type === MediaType.image ? (
                     <img
                       className="w-full h-full object-cover"
-                      src={item?.linkMedia}
+                      src={getLinkImageUrl(item?.linkMedia, windownSizeWidth, 424)}
+                      srcSet={`${getLinkImageUrl(item?.linkMedia, windownSizeWidth, 424)} 320w, ${getLinkImageUrl(item?.linkMedia, 500, 424)} 800w, ${getLinkImageUrl(item?.linkMedia, 500, 500)} 1200w`}
                       alt=""
                     />
                   ) : (
@@ -156,7 +159,8 @@ const MenuDetailSliderSlide = memo(
                   {item.type === MediaType.image ? (
                     <img
                       className="w-full h-full object-cover"
-                      src={item?.linkMedia}
+                      src={getLinkImageUrl(item?.linkMedia, 88, 88)}
+                      srcSet={`${getLinkImageUrl(item?.linkMedia, 80, 80)} 320w, ${getLinkImageUrl(item?.linkMedia, (windownSizeWidth - 104) / 4, (windownSizeWidth - 104) / 4)} 800w, ${getLinkImageUrl(item?.linkMedia, 88, 88)} 1200w`}
                       alt=""
                     />
                   ) : (

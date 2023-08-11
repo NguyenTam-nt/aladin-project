@@ -1,4 +1,5 @@
-import { Avatar } from "@components/Avatar";
+import { ICStar } from "@assets/icons/ICStar";
+import { Colors } from "@constants/color";
 import { prefixRootRoute } from "@constants/index";
 import { pathsAdmin } from "@constants/routerManager";
 import { useModalContext } from "@contexts/hooks/modal";
@@ -7,14 +8,15 @@ import { DiglogComfirmDelete } from "@features/dashboard/components/DiglogComfir
 import { useShowMessage } from "@features/dashboard/components/DiglogMessage";
 import { newService } from "@services/newService";
 import type { newItem_type } from "@typeRules/new";
-import React, { memo } from "react";
+import { memo } from "react";
 import { useNavigate } from "react-router-dom";
 
 interface Props {
   itemNew: newItem_type;
   handleDelete: () => void;
+  handlePriority: (id: number) => void;
 }
-const NewItem = memo(({ itemNew, handleDelete }: Props) => {
+const NewItem = memo(({ itemNew, handleDelete, handlePriority }: Props) => {
   const navigation = useNavigate();
   const { setElementModal } = useModalContext();
   const { showError, showSuccess } = useShowMessage();
@@ -23,7 +25,9 @@ const NewItem = memo(({ itemNew, handleDelete }: Props) => {
       `${prefixRootRoute.admin}/${pathsAdmin.news.prefix}/${itemNew.id}`
     );
   };
-
+  const handleMouseStar = async () => {
+    handlePriority(itemNew.id!);
+  };
   const handleDeleteModal = async (id: number) => {
     const handleClickDeleted = async () => {
       try {
@@ -42,7 +46,17 @@ const NewItem = memo(({ itemNew, handleDelete }: Props) => {
     );
   };
   return (
-    <div className="bg-white min-h-[434px] flex flex-col">
+    <div className="bg-white min-h-[434px] flex flex-col relative">
+      <button
+        onClick={handleMouseStar}
+        className=" absolute top-[24px] right-[24px]"
+      >
+        <ICStar
+          width={24}
+          height={24}
+          color={itemNew?.priority ? Colors.bg_FFC564 : Colors.text_white}
+        />
+      </button>
       <img
         alt=""
         className="w-full object-cover h-[288px]"

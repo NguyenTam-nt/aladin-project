@@ -117,7 +117,10 @@
             "integer_required": "Vui lòng nhập số nguyên.",
             "price_promotion_required": "Giá khuyến mãi phải nhỏ hơn hoặc bằng giá gốc.",
             "category_required": "Bặt buộc phải chọn danh mục nhỏ.",
-            "has_code": "Mã món ăn đã tồn tại."
+            "has_code": "Mã món ăn đã tồn tại.",
+            "guide": "Hướng dẫn sử dụng",
+            "guide_placeholder": "Hướng dẫn sử dụng"
+
         }
 
     },

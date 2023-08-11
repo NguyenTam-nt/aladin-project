@@ -1,4 +1,5 @@
 import { isUrl } from "@commons/common";
+import { Image } from "@components/Image";
 import {
   windownSizeHeight,
   windownSizeWidth,
@@ -29,7 +30,7 @@ export const TopicVideo = () => {
     >
       {url ? (
         isUrl(url) ? (
-          <img className="w-full h-full object-cover" src={url} alt="" />
+          <Image alt={url} className="w-full h-full object-cover" />
         ) : (
           <YouTube
             className={clsx("w-full h-full object-cover")}

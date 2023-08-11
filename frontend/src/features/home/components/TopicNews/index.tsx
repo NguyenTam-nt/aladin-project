@@ -14,8 +14,8 @@ export const TopicNews = () => {
   const [news, setNews] = useState<newItem_type[]>([]);
 
   useEffect(() => {
-    newService.getNews({ page: 0, size: 4, sort: "id,desc" }).then((data) => {
-      setNews(data?.list);
+    newService.home().then((data) => {
+      setNews(data?.list ?? []);
     });
   }, []);
 

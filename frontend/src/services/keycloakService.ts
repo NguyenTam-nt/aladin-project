@@ -1,9 +1,9 @@
 import Keycloak from 'keycloak-js'
 
 const _kc = Keycloak({
-  url: `https://www.giangmyhotpot.vn/auth`,
-  clientId: 'giangmy',
-  realm: 'giangmy',
+  url: `https://giangmyhotpot.vn/auth`,
+  clientId: 'hotpot',
+  realm: 'hotpot',
 })
 
 /**

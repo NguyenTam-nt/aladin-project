@@ -8,29 +8,33 @@ import React, { memo, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import { SidebarNavigation } from "./SidebarNavigation";
-import { useAuthContext } from "@contexts/hooks/auth";
 
 export const Header = () => {
   useEffect(() => {
     let lastIndex = 0;
-    window.addEventListener("scroll", () => {
-      const header = document.getElementById("header");
-      if (header) {
-        const headerbreak = windownSizeWidth > withResponsive._1024 ? 120 : 56;
+    window.addEventListener(
+      "scroll",
+      () => {
+        const header = document.getElementById("header");
+        if (header) {
+          const headerbreak =
+            windownSizeWidth > withResponsive._1024 ? 120 : 80;
 
-        if (lastIndex < document.documentElement.scrollTop - headerbreak) {
-          header!.style.transform = `translateY(${-headerbreak}px)`;
+          if (lastIndex < document.documentElement.scrollTop - headerbreak) {
+            header!.style.transform = `translateY(${-headerbreak}px)`;
 
-          lastIndex = document.documentElement.scrollTop - headerbreak;
-        } else {
-          header!.style.transform = `translateY(${0}px)`;
-          if (lastIndex > 0)
             lastIndex = document.documentElement.scrollTop - headerbreak;
+          } else {
+            header!.style.transform = `translateY(${0}px)`;
+            if (lastIndex > 0)
+              lastIndex = document.documentElement.scrollTop - headerbreak;
+          }
         }
+      },
+      {
+        passive: true,
       }
-    }, { 
-      passive: true 
-    });
+    );
 
     return () => {
       window.removeEventListener("scroll", () => {
@@ -45,7 +49,7 @@ export const Header = () => {
 
   return (
     <div
-      className="w-full h-[56px] lg:h-[120px] bg-header_bg backdrop-blur-[4px] active-header"
+      className="w-full h-[80px] lg:h-[120px] bg-header_bg backdrop-blur-[4px] active-header"
       id="header"
     >
       {windownSizeWidth > withResponsive._1024 ? (
@@ -74,7 +78,11 @@ const HeaderPC = ({ headerData }: { headerData: IRouter[] }) => {
           </Link>
         );
       })}
-      <Link onClick={handleScrollToTop} className="flex items-center relative justify-center" to="">
+      <Link
+        onClick={handleScrollToTop}
+        className="flex items-center relative justify-center"
+        to=""
+      >
         <div className="rotate-logo ">
           <ICLogoFrame />
         </div>
@@ -103,16 +111,24 @@ const HeaderMobile = memo(() => {
   return (
     <>
       <div className="w-rp flex h-full justify-between items-center">
-        <Link className="flex items-center relative justify-center" to="">
-          <div className="rotate-logo ">
-            <ICLogoFrame width={34} height={31} />
-          </div>
-          <div className=" absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%]">
-            <div className="scale-logo scale-0">
-              <ICGm width={27} height={12} />
+        <div className="flex items-center">
+          <Link
+            onClick={() => setShow(false)}
+            className="flex items-center relative justify-center"
+            to="/"
+          >
+            <div className="rotate-logo ">
+              <ICLogoFrame width={54} height={51} />
             </div>
-          </div>
-        </Link>
+            <div className=" absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%]">
+              <div className="scale-logo scale-0">
+                <ICGm width={37} height={22} />
+              </div>
+            </div>
+          </Link>
+
+          <p className="title-18 text-white ml-[35px]">Giang mỹ Hotpot</p>
+        </div>
         <button onClick={handleShow}>
           <ICMenuBar />
         </button>

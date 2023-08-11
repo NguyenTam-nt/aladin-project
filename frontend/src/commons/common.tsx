@@ -8,7 +8,11 @@ export const renderStar = (rate: number, size = 14) => {
   for (let i = 1; i <= 5; i++) {
     xhtml.push(
       <span key={i}>
-        <ICStar width={size} height={size} color={rate >= i ? Colors.bg_F4A118 : Colors.text_A1A0A3} />
+        <ICStar
+          width={size}
+          height={size}
+          color={rate >= i ? Colors.bg_F4A118 : Colors.text_A1A0A3}
+        />
       </span>
     );
   }
@@ -34,75 +38,98 @@ export const getVideoDuration = (file: File) => {
 };
 
 export const validateVideo = async (file: File) => {
+  if (!file.type.includes("mp4")) {
+    return "message.video.type";
+  }
 
-    if (!file.type.includes("mp4")) {
-      return "message.video.type";
-    }
+  if (file.size > fileBytes._20) {
+    return "message.video.size_20";
+  }
+  const duration = (await getVideoDuration(file)) as number;
+  if (duration < 5 || duration > 60) {
+    return "message.video.duration";
+  }
 
-    if (file.size > fileBytes._20) {
-      return "message.video.size_20";
-    }
-    const duration = (await getVideoDuration(file)) as number;
-    if (duration < 10 || duration > 60) {
-      return "message.video.duration";
-    }
-
-    return "";
+  return "";
 };
 
 export const validateImage = async (file: File) => {
-
-    if (!file.type.includes("image")) {
-      return "message.image.type";
-    }
-
-    if (file.size > fileBytes._20) {
-      return "message.image.size_20";
-    }
-
-    return "";
+  if (!file.type.includes("image")) {
+    return "message.image.type";
   }
 
-
-
-  export const isUrl = (url: string) => {
-    const regexp = /(ftp|http|https|blog|data:image):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/
-    return regexp.test(url)
-  }  
-
-
-  export const formatDateComment = (stringDate:string) => {
-    const dateFomat = new Date(stringDate);
-    let year: any = dateFomat.getFullYear();
-    let month: any = dateFomat.getMonth() + 1;
-    let day: any = dateFomat.getDate();
-    let hour: any = dateFomat.getHours();
-    let minus: any = dateFomat.getMinutes();
-    if (month < 10) {
-      month = `0${month}`;
-    }
-    if (day < 10) {
-      day = `0${day}`;
-    }
-
-    if (hour < 10) {
-      hour = `0${hour}`;
-    }
-    if (minus < 10) {
-      minus = `0${minus}`;
-    }
-    return `${year}/${month}/${day}-${hour}:${minus}`;
+  if (file.size > fileBytes._20) {
+    return "message.image.size_20";
   }
-  // export const FomatDateYY_MM_DD = (stringDate: string) => {
-  //   const dateFomat = new Date(stringDate);
-  //   let year: any = dateFomat.getFullYear();
-  //   let month: any = dateFomat.getMonth() + 1;
-  //   let day: any = dateFomat.getDate();
-  //   if (month < 10) {
-  //     month = `0${month}`;
-  //   }
-  //   if (day < 10) {
-  //     day = `0${day}`;
-  //   }
-  //   return `${year}-${month}-${day}`;
-  // };
+
+  return "";
+};
+
+export const isUrl = (url: string) => {
+  const regexp =
+    /(ftp|http|https|blog|data:image):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/;
+  return regexp.test(url);
+};
+
+export const formatDateComment = (stringDate: string) => {
+  const dateFomat = new Date(stringDate);
+  let year: any = dateFomat.getFullYear();
+  let month: any = dateFomat.getMonth() + 1;
+  let day: any = dateFomat.getDate();
+  let hour: any = dateFomat.getHours();
+  let minus: any = dateFomat.getMinutes();
+  if (month < 10) {
+    month = `0${month}`;
+  }
+  if (day < 10) {
+    day = `0${day}`;
+  }
+
+  if (hour < 10) {
+    hour = `0${hour}`;
+  }
+  if (minus < 10) {
+    minus = `0${minus}`;
+  }
+  return `${year}/${month}/${day}-${hour}:${minus}`;
+};
+// export const FomatDateYY_MM_DD = (stringDate: string) => {
+//   const dateFomat = new Date(stringDate);
+//   let year: any = dateFomat.getFullYear();
+//   let month: any = dateFomat.getMonth() + 1;
+//   let day: any = dateFomat.getDate();
+//   if (month < 10) {
+//     month = `0${month}`;
+//   }
+//   if (day < 10) {
+//     day = `0${day}`;
+//   }
+//   return `${year}-${month}-${day}`;
+// };
+
+export function iOS() {
+  if (!navigator) {
+    return false;
+  }
+  return (
+    [
+      "iPad Simulator",
+      "iPhone Simulator",
+      "iPod Simulator",
+      "iPad",
+      "iPhone",
+      "iPod",
+    ].includes(navigator?.platform) ||
+    // iPad on iOS 13 detection
+    (navigator?.userAgent.includes("Mac") && "ontouchend" in document)
+  );
+}
+
+export const getLinkImageUrl = (
+  url: string | undefined,
+  width: number,
+  height: number,
+  quanlity = 100
+) => {
+  return `${url}/${Math.floor(width)}/${Math.floor(height)}/${quanlity}`;
+};

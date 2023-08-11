@@ -7,6 +7,8 @@ import { Link } from "react-router-dom";
 import { paths } from "@constants/routerPublic";
 import type { IProduct } from "@typeRules/product";
 import { useCartContext } from "@contexts/hooks/order";
+import { getLinkImageUrl } from "@commons/common";
+import { Image } from "@components/Image";
 // import { AnimatedSmoke } from "@components/AnimatedSmoke";
 
 type Props = {
@@ -44,12 +46,17 @@ export const TopicMenuItem = memo(({ data }: Props) => {
           to={`${paths.memu.prefix}/${data?.id}`}
           className="h-[160px] lg:h-[312px] w-full relative"
         >
-          <img
+          <Image
             className="w-full h-full object-cover"
-            src={data?.linkMedia}
-            alt=""
+            alt={getLinkImageUrl(data?.linkMedia, 300, 300)}
             loading="lazy"
           />
+          {/* <img
+            className="w-full h-full object-cover"
+            src={getLinkImageUrl(data?.linkMedia, 300, 300)}
+            alt=""
+            loading="lazy"
+          /> */}
         </Link>
         <div className="p-[16px] flex-1 flex flex-col">
           <Link

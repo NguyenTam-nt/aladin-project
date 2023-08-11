@@ -11,10 +11,12 @@ export const DiglogMessage = ({
   message,
   type = "SUCCESS",
   onHide,
+  nameEmail,
 }: {
   message: string;
   type?: "SUCCESS" | "ERROR" | "WARNING";
   onHide?: () => void;
+  nameEmail?: string;
 }) => {
   const { t } = useTranslation();
   const { hideModal } = useModalContext();
@@ -33,17 +35,25 @@ export const DiglogMessage = ({
           <ICRequest color={Colors.bg_FFE600} width={106} height={106} />
         )}
       </div>
-      <span className="mt-[34px] text-center text-GreyPrimary text-_20 font-bold">
-        {t(message)}
-      </span>
+      {nameEmail ? (
+        <span className="mt-[34px] text-center text-_14 lg:text-_16 text-GreyPrimary font-normal">
+          {t(message)} &nbsp; {nameEmail}
+        </span>
+      ) : (
+        <span className="mt-[34px] text-center text-GreyPrimary text-_20 font-bold">
+          {t(message)}
+        </span>
+      )}
     </div>
   );
 };
 
 export const useShowMessage = () => {
   const { setElementModal } = useModalContext();
-  const showSuccess = (message: string) => {
-    setElementModal(<DiglogMessage message={message} type="SUCCESS" />);
+  const showSuccess = (message: string, nameEmail?: string) => {
+    setElementModal(
+      <DiglogMessage message={message} type="SUCCESS" nameEmail={nameEmail} />
+    );
   };
 
   const showError = (message: string) => {
