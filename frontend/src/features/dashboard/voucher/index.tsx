@@ -198,7 +198,7 @@ function VoucherAdmin() {
     VoucherService
       .deleteAll(listChecked.map(id => {return {id: id}}))
       .then(() => {
-        getVoucherData(1)
+        getVoucherData(0)
         setListChecked([])
         showSuccess("adminVoucher.notification.deleteSuccess");
       })
