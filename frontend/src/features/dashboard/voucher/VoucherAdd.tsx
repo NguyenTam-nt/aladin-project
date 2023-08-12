@@ -45,10 +45,17 @@ function VoucherAdd() {
     if (!isAdd) {
       VoucherService.getById(Number(params.id)).then((data) => {
         setVoucher(data);
+        console.log(data);
+
+        let sDate = new Date(data.startDate)
+        let eDate = new Date(data.endDate)
+        var s = new Date(sDate.getTime() - (sDate.getTimezoneOffset() * 60000)).toISOString().slice(0, -1);
+        var e = new Date(eDate.getTime() - (eDate.getTimezoneOffset() * 60000)).toISOString().slice(0, -1);
+        
         formik.setFieldValue("name", data.name);
         formik.setFieldValue("code", data.code);
-        formik.setFieldValue("start", new Date(data.startDate).toISOString().slice(0, -1));
-        formik.setFieldValue("endDate", new Date(data.endDate).toISOString().slice(0, -1));
+        formik.setFieldValue("start", s);
+        formik.setFieldValue("endDate", e);
         formik.setFieldValue("valueDiscount", data.value);
         formik.setFieldValue("minPriceOrder", data.minBill);
         formik.setFieldValue("amount", data.numBill);

@@ -175,7 +175,7 @@ function ContactAdmin() {
     ContactService
       .deleteAll(listChecked.map(id => {return {id: id}}))
       .then(() => {
-        getContactData(Number(1))
+        getContactData(Number(0))
         setListChecked([])
         showSuccess("adminContact.notification.deleteSuccess");
       })
