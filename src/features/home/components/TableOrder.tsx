@@ -116,6 +116,7 @@ const TableOrder = ({item}: {item: IFloorInfo}) => {
         navigation.navigate('orderTab', {
           screen: 'hotpot',
           item: `${item.nameArea}/${itemTable.name}`,
+          tableId : itemTable.id,
         });
         const getId = await getTableID(currentTable.current.id);
         if (getId.success) {

@@ -31,7 +31,6 @@ const QuantityUpdate = ({
   const updateNumber = useQuatityValueRedux(data?.id);
   const setValueToText = useCallback(
     (value: number) => {
-
       textInputRef.current?.setNativeProps({text: value.toString()});
       if (data) {
         if (updateData) {

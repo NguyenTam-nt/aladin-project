@@ -10,11 +10,14 @@ import { SOCK_CLIENNT_URL } from 'src/api/config';
 import { useIsGetTable } from 'src/redux/reducers/hook';
 import { useDispatch } from 'react-redux';
 import { setGetTable } from 'src/redux/reducers/AuthSlice';
-import { useIsFocused } from '@react-navigation/native';
+import { RouteProp, useIsFocused, useRoute } from '@react-navigation/native';
 
 var Stomp = require('stompjs/lib/stomp.js').Stomp;
-
+export type RootStackramHomeAll = {
+  [key: string]: {tableId : number }
+};
 const HomeScreen = ({ stateCheckbox } : { stateCheckbox : string[]}) => {
+  const route = useRoute<RouteProp<RootStackramHomeAll>>();
   const [dataTable, setDataTable] = useState<IFloorInfo[]>([]);
   const floorClone = useRef<IFloorInfo[]>([]);
   const floorActive = useFloorActive();
@@ -116,6 +119,7 @@ const HomeScreen = ({ stateCheckbox } : { stateCheckbox : string[]}) => {
        });
      });
    }, [idTable, dataTable]);
+
   const marginTablet = DeviceInfo.isTablet() ? 32 : '2.5%';
   return (
     <View style={styles.container}>

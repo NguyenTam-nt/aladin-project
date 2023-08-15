@@ -27,9 +27,7 @@ const CompoundCartList = ({dataItemCart ,setActionChoose} : { dataItemCart: IPro
   const idBill = useIdBill();
   const [isCompound , setIsCompound] = useState<boolean>(true);
   const [dataItem , setDataItem] = useState<IDataSelectionCustom[]>([]);
-
   const [table, setTable] = useState<IDataSelectionCustom | undefined>();
-
   const dataListUpdate = useMemo<IProductInCart[]>(() => {
     return dataItemCart.filter(item => item.state !== 'CANCEL');
   }, [dataItemCart]);

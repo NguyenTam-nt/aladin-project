@@ -1,35 +1,55 @@
-import React, {useCallback, useState} from 'react';
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import {defaultColors, isTabletDevice} from '@configs';
-import {RadioButtonSelect} from 'src/components/Checkbox/RadioButton';
-import DropDownView from 'src/components/DropDownView/DropDownView';
-import {TabBarOrder} from 'src/features/orderTab/ContentOrderTab';
-import MenuTabMobile from 'src/components/DropDownView/MenuTabMobile';
+import { defaultColors, isTabletDevice } from '@configs';
+import React, { useCallback } from 'react';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { RadioButtonSelect } from 'src/components/Checkbox/RadioButton';
 import ButtonMenuTabBar from 'src/components/DropDownView/ButtonMenuTabBar';
+import MenuTabMobile from 'src/components/DropDownView/MenuTabMobile';
+import { TabBarOrder } from 'src/features/orderTab/ContentOrderTab';
 import { FilterCalendar } from '../../Detail/components/SideLeft';
+
+export enum ReportTimeState {
+  TODAY = 'TODAY',
+  WEEK = 'WEEK',
+  MONTH = 'MONTH',
+  QUARTERLY = 'QUARTERLY',
+  YEAR = 'YEAR',
+  DATE = 'DATe',
+}
 
 const dataCheckbox = [
   {
     label: 'Hôm nay',
-    value: 1,
+    value: ReportTimeState.TODAY,
   },
   {
     label: 'Tuần',
-    value: 2,
+    value: ReportTimeState.WEEK,
   },
   {
     label: 'Tháng',
-    value: 3,
+    value: ReportTimeState.MONTH,
   },
-
 ];
 
-const TabBarLeftOrder = (props: TabBarOrder) => {
-  const [typeLocation, setTypeLocaion] = useState<number>(0);
-  const [currenFilter, setCurrentFilter] = useState<string>('');
-  const {isOpenTab, setIsOpenTab} = props;
+export interface ITabBarLeftOrder {
+  setTypeLocaion: React.Dispatch<React.SetStateAction<ReportTimeState>>
+  typeLocation: ReportTimeState
+  currenFilter: string
+  setCurrentFilter: React.Dispatch<React.SetStateAction<string>>
+}
+
+const TabBarLeftOrder = (props: ITabBarLeftOrder & TabBarOrder) => {
+  const {
+    isOpenTab,
+    setIsOpenTab,
+    typeLocation,
+    setTypeLocaion,
+    currenFilter,
+    setCurrentFilter,
+  } = props;
+
   const onSetTypeLocation = useCallback(
-    (value: number) => {
+    (value: ReportTimeState) => {
       if (value !== typeLocation) {
         setTypeLocaion(value);
       }
@@ -49,41 +69,30 @@ const TabBarLeftOrder = (props: TabBarOrder) => {
                 <ButtonMenuTabBar onPress={setIsOpenTab} />
               </View>
             )}
-            <DropDownView
-              itemView={
-                <View style={styles.itemViewDropDown}>
-                  {dataCheckbox.map((e, index) => {
-                    const isActive = typeLocation === e.value;
-                    return (
-                      <TouchableOpacity
-                        style={styles.buttonCheckBoxDropDown}
-                        activeOpacity={0.7}
-                        onPress={() => {
-                          onSetTypeLocation(e.value);
-                        }}
-                        key={index}>
-                        <RadioButtonSelect
-                          active={isActive}
-                          color={defaultColors.c_222124}
-                        />
-                        <Text style={styles.labelTextDropDown}>{e.label}</Text>
-                      </TouchableOpacity>
-                    );
-                  })}
-
-                  <FilterCalendar
-                    currenFilter={currenFilter}
-                    onChange={setCurrentFilter}
-                  />
-                </View>
-              }
-              containerStyle={styles.containerStyleDropdown}
-              textHeader="Thời gian"
-              textStyle={styles.textStyle}
-              headerButtonStyle={styles.headerButtonStyleDropDown}
-              isOpen={true}
-            />
-
+            <View style={styles.itemViewDropDown}>
+              {dataCheckbox.map((e, index) => {
+                const isActive = typeLocation === e.value;
+                return (
+                  <TouchableOpacity
+                    style={styles.buttonCheckBoxDropDown}
+                    activeOpacity={0.7}
+                    onPress={() => {
+                      onSetTypeLocation(e.value);
+                    }}
+                    key={index}>
+                    <RadioButtonSelect
+                      active={isActive}
+                      color={defaultColors.c_222124}
+                    />
+                    <Text style={styles.labelTextDropDown}>{e.label}</Text>
+                  </TouchableOpacity>
+                );
+              })}
+              <FilterCalendar
+                currenFilter={currenFilter}
+                onChange={setCurrentFilter}
+              />
+            </View>
             <View style={{height: 30, width: '100%'}} />
           </View>
         </View>

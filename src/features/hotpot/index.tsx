@@ -12,7 +12,7 @@ export const HotpotOrder = () => {
 
   return (
     <>
-      <Header  goBack isOrder={isTabletDevice} table={route.params.item}/>
+      <Header goBack isOrder={isTabletDevice} table={route.params.item} tableId={route.params.tableId} />
       <FloorStack.Navigator
         initialRouteName="hotpotScreen"
         screenOptions={{headerShown: false}}>

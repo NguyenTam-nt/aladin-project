@@ -115,13 +115,13 @@ const CompoundTable = React.memo(
         }
       }
     };
-
     const onUpdatePress = useCallback(async () => {
       if (  dataProduct.current.length > 0) {
       if (typeActions === null && deleteAction ) {
 
         const dataUpdate = await cancelProductItem(billId, dataProduct.current);
         if (dataUpdate.success) {
+          dataProduct.current = [];
           MessageUtils.showSuccessMessage('Yêu cầu huỷ món thành công');
           dispatch(setItemProductInCart(dataUpdate.data?.list));
         } else {
@@ -137,8 +137,7 @@ const CompoundTable = React.memo(
             );
             if (dataUpdate.success) {
               MessageUtils.showSuccessMessage('Ghép bàn thành công');
-
-
+              dataProduct.current = [];
               dispatch(setItemProductInCart(dataUpdate.data.list));
             } else {
               MessageUtils.showErrorMessage('Ghép bàn thất bại');
@@ -150,6 +149,7 @@ const CompoundTable = React.memo(
               dataProduct.current,
             );
             if (dataUpdate.success) {
+              dataProduct.current = [];
               MessageUtils.showSuccessMessage('Tách bàn thành công');
               dispatch(setItemProductInCart(dataUpdate.data.list));
             } else {

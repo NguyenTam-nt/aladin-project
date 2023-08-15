@@ -32,6 +32,7 @@ import {
 } from '../redux/infoDrawer/hooks';
 import CartList from './CartList/CartList';
 import ListOfFood from './ListOfFood/ListOfFood';
+import { useIsFocused } from '@react-navigation/native';
 var Stomp = require('stompjs/lib/stomp.js').Stomp;
 
 
@@ -43,7 +44,7 @@ const CartItem = React.memo(() => {
   const isOpenActionCart = useIsShowActionCart();
   const heightButtonValue = getValueForDevice(64, 128);
   const dataItemCart = useListItemProductInCart();
-
+  const isFocus = useIsFocused();
   const dispatch = useDispatch();
   const billId = useIdBill();
   const IdArea = useAreaId();
@@ -57,7 +58,11 @@ const CartItem = React.memo(() => {
     getItemInCart();
   }, [billId]);
   const dataItem = useListItemInCart();
-  const dataList: any = [...dataItemCart, ...dataItem];
+
+  const dataList = useMemo<any[]>(() => {
+    return [...dataItemCart, ...dataItem];
+  }, [dataItemCart, dataItem]);
+
   const cost = useMemo(() => {
     let newCost = 0;
     dataList.map((item: IITemCart & IProductInCart) => {
@@ -212,15 +217,16 @@ const CartItem = React.memo(() => {
   }, [isOpenActionCart]);
 
   useEffect(() => {
-    if (IdArea && billId) {
+   let stompClientSub : any;
+    if (IdArea && billId && isFocus) {
       const sockClient = new SockJS(SOCK_CLIENNT_URL);
       let stompClient = Stomp.over(sockClient);
       if (!stompClient.connected) {
         stompClient.connect(
           {},
-          function (frame: any) {
+          function () {
             setTimeout(() => {
-              stompClient.subscribe(
+              stompClientSub = stompClient .subscribe(
                 `/topic/order/${IdArea}/${billId}`,
                 function (messageOutput: any) {
                   const data = JSON.parse(
@@ -236,7 +242,10 @@ const CartItem = React.memo(() => {
         );
       }
     }
-  }, [IdArea, billId]);
+    return () => {
+      stompClientSub?.unsubscribe();
+    };
+  }, [IdArea, billId ,isFocus]);
 
   return (
     <View style={{flex: 1, display: isOpenDrawerFloor ? 'none' : 'flex'}}>

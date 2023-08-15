@@ -1,10 +1,9 @@
 import { TextCustom } from '@components';
-import { defaultColors } from '@configs';
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { defaultColors, isTabletDevice } from '@configs';
+import React, { useEffect, useMemo } from 'react';
 import {
   StyleProp,
   StyleSheet,
-  Text,
   TouchableOpacity,
   View,
   ViewStyle,
@@ -23,7 +22,6 @@ import { IDataNoti } from './Notice';
 export const NoticeItem = React.memo(
   ({
     data,
-    ref,
     removeItem,
   }: {
     data: IDataNoti[]
@@ -31,26 +29,25 @@ export const NoticeItem = React.memo(
     removeItem: (item: IDataNoti) => void
   }) => {
     return (
-      <View style={styles.container}>
-        <Animated.FlatList
-          ref={ref}
-          data={data}
-          inverted
-          renderItem={({item, index}) => (
-            <RenderItem  item={item} removeItem={removeItem} />
-          )}
-          scrollEnabled={false}
-          keyExtractor={item => item.key?.toString() || item.reason }
-          horizontal={true}
-          showsHorizontalScrollIndicator={false}
-        />
+      <View style={{ position : 'absolute' , top : 40 , right : 0 , flexDirection : 'row'}}>
+        {data.reverse().map((item) => {
+          return (
+            <RenderItem item={item} removeItem={removeItem}/>
+          );
+        })}
       </View>
     );
   },
 );
 
 const RenderItem = React.memo(
-  ({item, removeItem}: {item: IDataNoti; removeItem: (value: IDataNoti) => void}) => {
+  ({
+    item,
+    removeItem,
+  }: {
+    item: IDataNoti
+    removeItem: (value: IDataNoti) => void
+  }) => {
     const defaultWidth = getValueForDevice(
       (DIMENSION.width - 216 - 16 * 3) / 3,
       DIMENSION.width * 0.7,
@@ -66,29 +63,19 @@ const RenderItem = React.memo(
     }, [translateX, widthItem]);
 
    const animationContainer = useMemo<
-      StyleProp<Animated.AnimateStyle<StyleProp<ViewStyle>>>
-    >(() => {
-      return {
-        width: widthItem,
-      };
-    }, [widthItem]);
+     StyleProp<Animated.AnimateStyle<StyleProp<ViewStyle>>>
+   >(() => {
+     return {
+       width: widthItem,
+     };
+   }, [widthItem]);
 
-    const Check = () => {
-      removeItem(item);
-    };
-    const delteItem = () => {
-      widthItem.value = withTiming(
-        0,
-        {
-          duration: 300,
-        },
-        finished => {
-          if (finished) {
-            runOnJS(Check)();
-          }
-        },
-      );
-    };
+   const Check = () => {
+     removeItem(item);
+   };
+   const delteItem = () => {
+     Check();
+   };
 
     useEffect(() => {
       translateX.value = withTiming(
@@ -100,11 +87,7 @@ const RenderItem = React.memo(
           translateX.value = 0;
         },
       );
-      setTimeout(() => {
-        delteItem();
-      } , 5000);
     }, []);
-
 
     return (
       <Animated.View
@@ -117,7 +100,7 @@ const RenderItem = React.memo(
           },
           animationContainer,
         ]}>
-        <Animated.View style={[styles.noticeItem, animatedStyle]}>
+        <Animated.View style={[styles.noticeItem,animatedStyle]}>
           <View style={{width: defaultWidth * 0.8}}>
             <View style={styles.styleGroupText}>
               <ICCloseModal
@@ -129,12 +112,13 @@ const RenderItem = React.memo(
                 fontSize={16}
                 color={defaultColors.c_222124}
                 weight="600">
-                Bếp từ chối huỷ món
+                Bếp từ chối huỷ món {item.key}
               </TextCustom>
             </View>
-            <View style={{paddingLeft: 5, marginTop: 15}}>
+            <View style={{paddingLeft: 5, marginTop: 15 , paddingBottom : 5}}>
               <TextCustom
                 fontSize={14}
+                numberOfLines={2}
                 color={defaultColors.c_222124}
                 weight="700">
                 Lý do <TextCustom> {item.reason}</TextCustom>
@@ -159,7 +143,7 @@ const styles = StyleSheet.create({
     backgroundColor: defaultColors.c_fff,
     width: getValueForDevice(
       (DIMENSION.width - 216 - 16 * 3) / 3,
-      DIMENSION.width * 0.7,
+      DIMENSION.width * 0.9,
     ),
     alignItems: 'center',
     flexDirection: 'row',
@@ -172,7 +156,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   container: {
-    flex: 1,
+   backgroundColor : 'transparent',
   },
   itemContainer: {
     flexDirection: 'row',
@@ -192,13 +176,6 @@ const styles = StyleSheet.create({
     padding: 8,
     alignItems: 'center',
     borderRadius: 8,
-  },
-  addButton: {
-    backgroundColor: '#007bff',
-    padding: 10,
-    alignItems: 'center',
-    borderRadius: 8,
-    marginBottom: 10,
   },
   buttonText: {
     color: 'white',

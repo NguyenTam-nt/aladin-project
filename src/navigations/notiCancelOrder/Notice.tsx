@@ -17,23 +17,24 @@ export interface IDataNoti {
 }
 
 var Stomp = require('stompjs/lib/stomp.js').Stomp;
-export const NoticeCancelItem = memo(({test}: {test: number[]}) => {
+export const NoticeCancelItem = memo(() => {
   const IdArea = useAreaId();
   const billId = useIdBill();
   const [data, setData] = useState<IDataNoti[]>([]);
   const isFocused = useIsFocused();
-  const currentIndex =  useRef<number>(1);
-
+  const currentIndex = useRef<number>(1);
   const ref = useRef<any>(null);
+
   const pushItem = (itemPush: IDataNoti) => {
     currentIndex.current += 1;
-    let newData = [...data];
-    newData = [...data, {...itemPush , key : currentIndex.current}].slice( isTabletDevice ? -3 : -1);
-    setData(newData);
+    // let newData = [...data];
+    // newData = [...data, {...itemPush, key: currentIndex.current}].slice(-3);
+    setData(data => [...data, {...itemPush, key: currentIndex.current}].slice(-3));
     setTimeout(() => {
       ref?.current?.scrollToEnd({animated: true});
     }, 300);
   };
+
   const removeItem = useCallback(
     (item: IDataNoti) => {
       const newData = [...data];
@@ -47,7 +48,6 @@ export const NoticeCancelItem = memo(({test}: {test: number[]}) => {
     [data],
   );
 
-
   React.useEffect(() => {
     let stompClient1: any;
     if (IdArea && billId && isFocused) {
@@ -56,13 +56,13 @@ export const NoticeCancelItem = memo(({test}: {test: number[]}) => {
       if (!stompClient.connected) {
         stompClient.connect(
           {},
-          function (frame: any) {
+          function () {
             setTimeout(() => {
               stompClient1 = stompClient.subscribe(
                 `/topic/order/noti/${IdArea}/${billId}`,
                 function (messageOutput: any) {
-                  const data = JSON.parse(messageOutput.body);
-                  pushItem(data);
+                  const dataSocket = JSON.parse(messageOutput.body);
+                  pushItem(dataSocket);
                 },
               );
             });
@@ -77,18 +77,17 @@ export const NoticeCancelItem = memo(({test}: {test: number[]}) => {
       }
     };
   }, [IdArea, billId, isFocused]);
+
   return (
-    <View style={styles.groupNotice}>
       <NoticeItem data={data} ref={ref} removeItem={removeItem} />
-    </View>
   );
 });
 
 const styles = StyleSheet.create({
   groupNotice: {
     position: 'absolute',
-    top: heightHeader,
+    top: 0,
     right: 0,
-    maxWidth: isTabletDevice ?  (DIMENSION.width - 216) : DIMENSION.width,
+
   },
 });

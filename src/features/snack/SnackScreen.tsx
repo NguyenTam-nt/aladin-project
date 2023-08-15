@@ -10,6 +10,8 @@ import { IMenuItem } from 'src/api/products';
 
 const SnackScreen = () => {
   const route = useRoute<RouteProp<RootStackParamList>>();
+
+
   const {keyExtractor, dataProducts, onRefresh} = useProductFlatList(
     route.params.id,
   );

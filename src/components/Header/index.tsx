@@ -1,7 +1,9 @@
-import {defaultColors, heightHeader, isTabletDevice, paddingHorizontal} from '@configs';
-import {ICCheckBoxTable, ICLogo} from '@icons';
-import {DrawerActions, useNavigation} from '@react-navigation/native';
-import React, { useEffect } from 'react';
+import { defaultColors, heightHeader, isTabletDevice, paddingHorizontal } from '@configs';
+import { DIMENSION } from '@constants';
+import { ICCheckBoxTable, ICLogo } from '@icons';
+import { useDrawerStatus } from '@react-navigation/drawer';
+import { DrawerActions, useNavigation } from '@react-navigation/native';
+import React, { useCallback, useEffect } from 'react';
 import {
   Keyboard,
   SafeAreaView,
@@ -10,17 +12,14 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import {ICArrowLeft} from '../../assets/icons/ICArrowLeft';
-import {ICMenubar} from '../../assets/icons/ICMenubar';
-import DeviceInfo from 'react-native-device-info';
-import { useDrawerStatus } from '@react-navigation/drawer';
 import { useDispatch } from 'react-redux';
-import { setShowDrawerFloor } from '../../redux/infoDrawer/slice';
-import { DinnerTableState } from 'src/features/home/components/TableOrder';
 import { ICCheckBox } from 'src/assets/icons/ICCheckBox';
-import { useIdBill } from 'src/redux/cartOrder/hooks';
-import { ITable } from 'src/api/table';
-import { DIMENSION } from '@constants';
+import { DinnerTableState } from 'src/features/home/components/TableOrder';
+import { useIdBill, useListItemProductInCart } from 'src/redux/cartOrder/hooks';
+import { ICArrowLeft } from '../../assets/icons/ICArrowLeft';
+import { ICMenubar } from '../../assets/icons/ICMenubar';
+import { setShowDrawerFloor } from '../../redux/infoDrawer/slice';
+import { deleteBillApi } from 'src/api/products';
 
 export const Header = ({
   isCheckbox,
@@ -30,6 +29,7 @@ export const Header = ({
   valueCheckBox = [],
   isOrder,
   table,
+  tableId,
 }: {
   isCheckbox?: boolean
   goBack?: boolean
@@ -38,13 +38,13 @@ export const Header = ({
   valueCheckBox? : string[]
   isOrder ? : boolean
   table? : string
+  tableId? : number
 }) => {
   const navigation = useNavigation();
   const statusDrawer = useDrawerStatus();
+  const itemProduce = useListItemProductInCart();
   const dispatch = useDispatch();
   const idBill = useIdBill();
-
-
 
   const onDraw = async () => {
     await Keyboard.dismiss();
@@ -56,23 +56,44 @@ export const Header = ({
     }
   }, [statusDrawer]);
 
-  const onPressCheckbox = async (value: string) => {
-    try {
-      if (updateCheckbox && valueCheckBox) {
-        const newValueCheckBox = [...valueCheckBox];
-        const indexValue = newValueCheckBox.indexOf(value);
-        if (indexValue >= 0) {
-          updateCheckbox(newValueCheckBox.filter(check => check !== value));
-        } else {
-          newValueCheckBox.push(value);
-          updateCheckbox(newValueCheckBox);
+  const onPressCheckbox = useCallback(
+    async (value: string) => {
+      try {
+        if (updateCheckbox && valueCheckBox) {
+          const newValueCheckBox = [...valueCheckBox];
+          const indexValue = newValueCheckBox.indexOf(value);
+          if (indexValue >= 0) {
+            updateCheckbox(newValueCheckBox.filter(check => check !== value));
+          } else {
+            newValueCheckBox.push(value);
+            updateCheckbox(newValueCheckBox);
+          }
         }
+      } catch (error) {
+        console.log('error', error);
       }
-    } catch (error) {
-      console.log('error', error);
-    }
-  };
+    },
+    [valueCheckBox, updateCheckbox],
+  );
 
+  const deleteBill = useCallback(async () => {
+    if (idBill && itemProduce.length === 0 && tableId) {
+      const dataDelete = await deleteBillApi(idBill);
+      if (dataDelete.success) {
+        //@ts-ignore
+        navigation.navigate('mainDrawer', {
+          screen: 'all',
+          params: {tableId: tableId},
+        });
+      } else {
+        //@ts-ignore
+        navigation.navigate('mainDrawer');
+      }
+    } else {
+      //@ts-ignore
+      navigation.navigate('mainDrawer');
+    }
+  }, [idBill, itemProduce, tableId]);
 
   return (
     <SafeAreaView style={styles.bg_primary}>
@@ -80,8 +101,9 @@ export const Header = ({
         {goBack ? (
           <TouchableOpacity
             onPress={() => {
+              deleteBill();
               //@ts-ignore
-              navigation.navigate('mainDrawer');
+
             }}
             style={styles.buttonBack}>
             <View style={styles.icBack}>

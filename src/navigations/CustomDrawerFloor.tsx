@@ -28,7 +28,6 @@ const AllFloor =  [
 
 
 const CustomDrawerFloor = ({ navigation } : { navigation : DrawerNavigationHelpers }) => {
-
   const [floor, setFloor] = React.useState<IFLoor[]>(AllFloor);
   const [floorActive, setFloorActive] = React.useState(0);
   const dispatch = useDispatch();

@@ -7,10 +7,12 @@ import {
   Text,
   ListRenderItemInfo,
 } from 'react-native';
+import { IReportAll } from 'src/api/report';
 import {ICDownTrend} from 'src/assets/icons/ICDownTrend';
 import {ICUpTrend} from 'src/assets/icons/ICUpTrend';
+import { formatNumberDot } from 'src/commons/formatMoney';
 
-const ItemReport = ({index}: {index: number}) => {
+const ItemReport = ({index , item}: {index: number ; item : IReportAll}) => {
   return (
     <View
       style={{
@@ -24,7 +26,7 @@ const ItemReport = ({index}: {index: number}) => {
           styles.textTitleItem,
           index === 0 ? {color: defaultColors.c_fff} : undefined,
         ]}>
-        Tất cả cơ sở
+        {item.name}
       </Text>
       <View style={styles.contentTextRow1}>
         <Text
@@ -41,7 +43,7 @@ const ItemReport = ({index}: {index: number}) => {
                   index === 0 ? defaultColors.c_fff : defaultColors._EA222A,
               },
             ]}>
-            1000
+            {item.quantity || 0}
           </Text>{' '}
           món
         </Text>
@@ -84,7 +86,7 @@ const ItemReport = ({index}: {index: number}) => {
                   index === 0 ? defaultColors.c_fff : defaultColors._01A63E,
               },
             ]}>
-            1000.000.000
+            {formatNumberDot(item.revenue) || 0}
           </Text>{' '}
           VNĐ
         </Text>
@@ -117,17 +119,18 @@ const ItemReport = ({index}: {index: number}) => {
   );
 };
 
-const TableRightContent = () => {
-  const data = [1, 2, 3, 4, 5, 6];
 
-  const renderItem = useCallback((e: ListRenderItemInfo<any>) => {
-    return <ItemReport index={e.index} />;
+const TableRightContent = ({dataReport} : { dataReport : IReportAll[]}) => {
+
+
+  const renderItem = useCallback((e: ListRenderItemInfo<IReportAll>) => {
+    return <ItemReport item={e.item} index={e.index} />;
   }, []);
 
   return (
     <View style={styles.container}>
       <FlatList
-        data={data}
+        data={dataReport}
         renderItem={renderItem}
         showsVerticalScrollIndicator={false}
       />

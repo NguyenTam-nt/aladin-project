@@ -5,15 +5,20 @@ import TableRightContent from './TableRightContent';
 import { defaultColors } from '@configs';
 import { TabBarOrder } from 'src/features/orderTab/ContentOrderTab';
 import ButtonMenuTabBar from 'src/components/DropDownView/ButtonMenuTabBar';
+import { IReportAll } from 'src/api/report';
 
-const ContentRightOrder = (props :TabBarOrder ) => {
-  const { setIsOpenTab} = props;
+interface IContentRightOrderReport {
+  dataReport: IReportAll[]
+}
+
+const ContentRightOrder = (props : IContentRightOrderReport & TabBarOrder ) => {
+  const { setIsOpenTab ,dataReport} = props;
   return (
     <View  style={{ flex : 1}}>
       <ButtonMenuTabBar onPress={setIsOpenTab} />
       <View  style={styles.container}>
         <HeaderContentRight />
-        <TableRightContent />
+        <TableRightContent dataReport={dataReport} />
       </View>
     </View>
   );

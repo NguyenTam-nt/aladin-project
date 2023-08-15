@@ -281,8 +281,6 @@ export const cancelProductItem = async (
   body: IBodyPostProduct[],
 ): Promise<IResponseApi<IResponseProductUpdate>> => {
   try {
-
-
     const result = await request().patch(`${APIs.CANCEL_ITEM}/${id}`, body);
 
     const data = await result.data;
@@ -294,4 +292,25 @@ export const cancelProductItem = async (
     return handleError(e);
   }
 };
+
+export const deleteBillApi = async (
+  id: number | undefined,
+): Promise<IResponseApi<IResponseProductUpdate>> => {
+  try {
+
+    const result = await request().delete(`${APIs.DELETE_BILL}/${id}`);
+    const data = await result.data;
+
+    return {
+      success: true,
+      data: data,
+    };
+  } catch (e) {
+    console.log('eeeee', e);
+
+    return handleError(e);
+  }
+};
+
+
 
