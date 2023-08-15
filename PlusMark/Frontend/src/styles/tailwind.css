@@ -1,0 +1,82 @@
+@tailwind base;
+
+/* Your own custom base styles */
+
+/* Start purging... */
+@tailwind components;
+/* Stop purging. */
+
+/* Your own custom component styles */
+
+/* Start purging... */
+@tailwind utilities;
+/* Stop purging. */
+
+/* Your own custom utilities */
+
+@layer components {
+  /* .btn {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    min-width: 120px;
+    align-items: center;
+    height: 48px;
+    padding: 0 20px;
+    border-radius: 10px;
+  } */
+  .cricle_btn{
+    @apply w-12 h-12 rounded-1/2 border border-aqua-aq02 flex items-center justify-center cursor-pointer bg-transparent
+  }
+  .titlePage{
+    color: var(--main-color);
+    font-size: 32px;
+    line-height: 42px;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    text-align: left;
+  }
+  .textInput{
+    font-size: 14px;
+    letter-spacing: 0.03em;
+    line-height: 18px;
+    border-radius: 10px;
+    border: 1px solid var(--border-color);
+    @apply focus:outline-none placeholder:text-[var(--gray-003)];
+  }
+  .text-small{
+    font-size: 14px;
+    letter-spacing: 0.03em;
+    line-height: 18px;
+  }
+  .text-normal {
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 24px;
+    letter-spacing: 0.03em;
+  }
+  .btn-normal{
+    font-weight: 400;
+    letter-spacing: 0.03em;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    background-color: var(--main-color);
+    padding: 10px 20px;
+    border: none;
+    border-radius: 10px;
+  }
+}
+
+* {
+  box-sizing: border-box;
+  outline: none;
+}
+
+@layer {
+  .h-header {
+    height: var(--h-header);
+  }
+}
+

@@ -1,0 +1,7 @@
+.mySwiperGallery .swiper-slide {
+  opacity: 0.4 !important;
+}
+
+.mySwiperGallery .swiper-slide-thumb-active {
+  opacity: 1 !important;
+}

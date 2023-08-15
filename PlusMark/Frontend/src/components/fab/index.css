@@ -1,0 +1,105 @@
+
+
+
+
+.fab-buttons {
+  position: absolute;
+  bottom: 120%;
+  text-align: center;
+}
+
+.fab-buttons .fab-buttons_item {
+  display: flex;
+  border-radius: 50%;
+  text-decoration: none;
+  margin: 10px auto 0;
+  line-height: 1.15;
+  color: #fff;
+  opacity: 0;
+  visibility: hidden;
+  position: relative;
+  box-shadow: 0 0 5px 1px rgba(51, 51, 51, 0.3);
+}
+
+.fab-buttons .fab-buttons_item:hover {
+  transform: scale(1.05);
+}
+
+.fab-buttons .fab-buttons_item:nth-child(1) {
+  /* background-color: #ff5722; */
+  transition: opacity 0.2s ease-in-out 0.35s, transform 0.15s ease-in-out;
+}
+.fab-buttons .fab-buttons_item:nth-child(2) {
+  /* background-color: #03a9f4; */
+  transition: opacity 0.2s ease-in-out 0.3s, transform 0.15s ease-in-out;
+}
+.fab-buttons .fab-buttons_item:nth-child(3) {
+  /* background-color: #f44336; */
+  transition: opacity 0.2s ease-in-out 0.25s, transform 0.15s ease-in-out;
+}
+.fab-buttons .fab-buttons_item:nth-child(4) {
+  /* background-color: #4caf50; */
+  transition: opacity 0.2s ease-in-out 0.2s, transform 0.15s ease-in-out;
+}
+
+.fab-buttons .fab-buttons_item:nth-child(5) {
+  /* background-color: #4caf50; */
+  transition: opacity 0.2s ease-in-out 0.15s, transform 0.15s ease-in-out;
+}
+
+
+.fabToggle {
+  -webkit-appearance: none;
+  position: absolute;
+  border-radius: 50%;
+  top: 0;
+  left: 0;
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+  background-color: transparent;
+  border: none;
+  outline: none;
+  z-index: 2;
+  transition: box-shadow 0.2s ease-in-out;
+  box-shadow: 0 3px 5px 1px rgba(51, 51, 51, 0.3);
+}
+
+.fabToggle:hover {
+  box-shadow: 0 3px 6px 2px rgba(51, 51, 51, 0.3);
+}
+
+.fabToggle:checked ~ .fab-buttons .fab-buttons_item {
+  opacity: 1;
+  visibility: visible;
+}
+
+.fab-animation {
+  animation: pulse-fab 2s infinite;
+  border-radius: 50%;
+  transform: scale(1);
+}
+
+.fab-transition {
+  transition: transform .15s cubic-bezier(.15,.87,.45,1.23);
+}
+
+
+
+@keyframes pulse-fab {
+  0% {
+      box-shadow: 0 0 0 0 var(--main-color);
+      transform: scale(.95);
+  }
+
+  70% {
+      box-shadow: 0 0 0 10px rgba(2,143,227,0);
+      transform: scale(1)
+  }
+
+  to {
+      box-shadow: 0 0 0 0 rgba(2,143,227,0);
+      transform: scale(.95)
+  }
+}

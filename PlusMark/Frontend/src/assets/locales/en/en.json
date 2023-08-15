@@ -1,0 +1,12 @@
+{ 
+    "lang": "English" ,
+    "header": {
+        "search": "Search here"},
+    "homepage": {
+        "hot_sale": {
+            "title": "HOT SALE"
+        }
+    },
+    "a": "AAA"
+
+}

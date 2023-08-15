@@ -1,0 +1,100 @@
+.container-multi-range-slider {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.container-multi-range-slider .slider {
+  position: relative;
+  width: 100%;
+}
+
+.container-multi-range-slider .slider__track,
+.container-multi-range-slider .slider__range,
+.container-multi-range-slider .slider__left-value,
+.container-multi-range-slider .slider__right-value {
+  position: absolute;
+}
+
+.container-multi-range-slider .slider__track,
+.container-multi-range-slider .slider__range {
+  border-radius: 3px;
+  height: 5px;
+}
+
+.container-multi-range-slider .slider__track {
+  background-color: #ced4da;
+  width: 100%;
+  z-index: 1;
+}
+
+.container-multi-range-slider .slider__range {
+  background-color: var(--main-color);
+  z-index: 2;
+}
+
+.container-multi-range-slider .slider__left-value,
+.container-multi-range-slider .slider__right-value {
+  margin-top: -30px;
+}
+
+.container-multi-range-slider .slider__left-value {
+  left: 0;
+}
+
+.container-multi-range-slider .slider__right-value {
+  right: 0;
+}
+
+/* Removing the default appearance */
+.container-multi-range-slider .thumb,
+.container-multi-range-slider .thumb::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.container-multi-range-slider .thumb {
+  pointer-events: none;
+  position: absolute;
+  height: 0;
+  width: 100%;
+  outline: none;
+}
+
+.container-multi-range-slider .thumb--left {
+  z-index: 3;
+}
+
+.container-multi-range-slider .thumb--right {
+  z-index: 4;
+}
+
+/* For Chrome browsers */
+.container-multi-range-slider .thumb::-webkit-slider-thumb {
+  background-color: #f1f5f7;
+  border: none;
+  border-radius: 50%;
+  box-shadow: 0 0 1px 1px #ced4da;
+  cursor: pointer;
+  height: 18px;
+  width: 18px;
+  margin-top: 4px;
+  pointer-events: all;
+  position: relative;
+}
+
+/* For Firefox browsers */
+.container-multi-range-slider .thumb::-moz-range-thumb {
+  background-color: #f1f5f7;
+  border: none;
+  border-radius: 50%;
+  box-shadow: 0 0 1px 1px #ced4da;
+  cursor: pointer;
+  height: 18px;
+  width: 18px;
+  margin-top: 4px;
+  pointer-events: all;
+  position: relative;
+}

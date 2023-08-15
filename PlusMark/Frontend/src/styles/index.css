@@ -1,0 +1,32 @@
+:root {
+  --main-color: #FF0000;
+  --main-color-2: #009245;
+  --main-background: #F2F4F1;
+  --gray-001: #EFEFEF;
+  --gray-002: #D9D9D9;
+  --gray-002-60: #d9d9d999;
+  --gray-003: #8E8E8E;
+  --gray--004: linear-gradient(0deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), #303030;
+  --text-1: rgba(48, 48, 48, 1);
+  /* --text-1: #303030; */
+  --border-color: #DADADA;
+  --bgBtnSuccess: #1D9A28;
+  --background1: #8E8E8E;
+  --background2: #E4E4E4;
+  --background3: #F8F8F8;
+  --button-color: #B0BC92;
+  --icon-color: #FFEDE1;
+  --cancel-color: #F31A1A;
+  --h-header: 140px;
+  --ml-search-header: 220px;
+  --blue01: #0037C1;
+  --red01: #BB0000;
+  --orange01: #FF7D03;
+  --aqua01: #0FB7A3;
+  --aqua02: #00C3AB;
+}
+
+@import url('./tailwind.css');
+@import url('./globals.css');
+
+@import url('./styles.css');
