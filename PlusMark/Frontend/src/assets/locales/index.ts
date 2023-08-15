@@ -1,5 +1,6 @@
 import en from "./en";
 import vi from "./vi";
+import ksl from "./ksl";
 
 export const resources = {
   en: {
@@ -12,4 +13,9 @@ export const resources = {
       ...vi
     },
   },
+  ksl: {
+    translation: {
+      ...ksl
+    }
+  }
 };

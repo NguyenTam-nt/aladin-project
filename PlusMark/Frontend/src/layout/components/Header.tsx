@@ -1,6 +1,7 @@
 import {
   CartIcon,
   GuaranteIcon,
+  KoreaFlag,
   Logo,
   MenuMobileIconIcon,
   NewIcon,
@@ -61,12 +62,13 @@ export const LanguageBox = memo(() => {
   };
   return (
     <div className="cursor-pointer group relative w-full">
-      <div onClick={() => handleSetLanguage("vi")}>
-        {lang == "vi" ? <VnIcon /> : <UnitedSateIcon />}
+      <div>
+        {/* {lang == "vi" ? <VnIcon width={64} height={35} /> : <KoreaFlag />} */}
+        {<KoreaFlag />}
       </div>
 
-      {lang == "vi" ? (
-        <UnitedSateIcon
+      {/* {lang == "vi" ? (
+        <KoreaFlag
           onClick={() => handleSetLanguage("en")}
           className="w-full absolute top-full left-0 group-hover:block hidden"
         />
@@ -77,7 +79,7 @@ export const LanguageBox = memo(() => {
         >
           <VnIcon />
         </div>
-      )}
+      )} */}
     </div>
   );
 });
@@ -101,28 +103,6 @@ export const NavHeader = memo(
             {phoneNumber! ? fill : "1800.3675"}
           </p>
         </a>
-        <Link
-          to="/"
-          className="hover:cursor-pointer sm:gap-1 gap-4 flex items-center"
-        >
-          <GuaranteIcon
-            fill={fill || "white"}
-            stroke={fill || "white"}
-            className="sm:w-auto w-7"
-          />
-          {t("link.guarantee")}
-        </Link>
-        <Link
-          to="/"
-          className="hover:cursor-pointer flex sm:gap-1 gap-4 items-center"
-        >
-          <NewIcon
-            fill={fill || "white"}
-            stroke={fill || "white"}
-            className="sm:w-auto w-7"
-          />
-          {t("link.new")}
-        </Link>
       </div>
     );
   }
@@ -291,23 +271,58 @@ const Header = () => {
   // console.log(categoryHeader);
 
   return (
-    <div className="sticky top-0 z-50 bg-gray-100  lg:h-header lg:shadow ">
-      <div className="border-b lg:py-0 h-2/3 bg-header">
-        <div className="px-4 xl:px-[129px] py-4 h-full flex items-center justify-between ">
+    <div className="sticky top-0 z-50 bg-gray-100 lg:h-header lg:shadow  bg-header flex items-center justify-between px-4 xl:px-[129px] py-4 gap-[50px]">
+      <Link to={ROUTES["homepage"]} className="">
+        <Logo className="" fill="white" />
+      </Link>
+      <div className="rounded-[6px] lg:block hidden py-1 px-2 w-[147px] break-words text-sm text-white bg-[#00C3AB]">
+        Xem giá, tồn kho tại: Hà Nội
+      </div>
+      <div className="items-center w-2/4">
+        <HeaderSearch />
+      </div>
+      <div className="lg:block hidden">
+        <NavHeader phoneNumber={footerInfo?.phoneNumber[0]} />
+      </div>
+      {/* <div className="flex items-center gap-5">
+        <CartIcon className="fill-gray-300 w-8 lg:w-auto" stroke="white" />
+        <UserIcon
+          className={clsx(" fill-gray-300 ", {
+            "cursor-pointer": !AuthService.isLoggedIn(),
+          })}
+          onClick={userLogin}
+          stroke="white"
+        />
+      </div> */}
+      <div className="lg:block hidden">
+        <LanguageBox />
+      </div>
+      <MenuMobileIconIcon
+        onClick={openMenuMobile}
+        className="block lg:hidden w-10 ml-4 hover:cursor-pointer"
+        fill="white"
+        stroke="white"
+      />
+
+      {/* <div className="border-b lg:py-0 h-2/3 bg-header">
+        <div className="px-4 xl:px-[129px] py-4 h-full flex items-center justify-between lg:gap-[50px]">
           <Link to={ROUTES["homepage"]} className="md:mr-14 mr-8">
             <Logo className="" fill="white" />
           </Link>
 
-          <div className="flex flex-1 lg:justify-between justify-end items-center gap-3 ">
-            <div className="hidden lg:block w-2/4 lg:pr-4 xl:pr-14">
+          <div className="flex flex-1 lg:justify-between justify-end items-center lg:gap-[50px]">
+            <div className="rounded-[6px] lg:block hidden py-1 px-2 w-[147px] break-words text-sm text-white bg-[#00C3AB]">
+              Xem giá, tồn kho tại: Hà Nội
+            </div>
+            <div className="hidden md:block items-center w-2/4">
               <HeaderSearch />
             </div>
-            <div className="sm:block hidden">
+            <div className="lg:block hidden">
               <NavHeader phoneNumber={footerInfo?.phoneNumber[0]} />
             </div>
             <div className="flex items-center gap-4 relative">
               <div
-                className="relative sm:block hidden group hover:cursor-pointer"
+                className="relative lg:block hidden group hover:cursor-pointer"
                 onClick={() => navigate(ROUTES["cart"]["index"])}
               >
                 <CartIcon
@@ -327,9 +342,9 @@ const Header = () => {
                   </>
                 )}
               </div>
-              <div className="relative group">
+              <div className="relative group hidden lg:block">
                 <UserIcon
-                  className={clsx("hidden sm:block fill-gray-300 ", {
+                  className={clsx(" fill-gray-300 ", {
                     "cursor-pointer": !AuthService.isLoggedIn(),
                   })}
                   onClick={userLogin}
@@ -393,7 +408,7 @@ const Header = () => {
             {t("header.about")}
           </Link>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };

@@ -1,28 +1,28 @@
 import React from "react";
 
-const VnIcon = ({ width = 24, height = 24, color = "none" }) => {
+const VnIcon = ({ width = 64, height = 35, color = "none" }) => {
   return (
     <svg
-      width="28"
-      height="20"
+      width={width}
+      height={height}
       viewBox="0 0 28 20"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
     >
-      <rect width="28" height="20" rx="2" fill="white" />
+      <rect width={width} height={height} rx="2" fill="white" />
       <mask
         id="mask0_358_1169"
         style={{ maskType: "luminance" }}
         maskUnits="userSpaceOnUse"
         x="0"
         y="0"
-        width="28"
-        height="20"
+        width={width}
+        height={height}
       >
-        <rect width="28" height="20" rx="2" fill="white" />
+        <rect width={width} height={height} rx="2" fill="white" />
       </mask>
       <g mask="url(#mask0_358_1169)">
-        <rect width="28" height="20" fill="#EA403F" />
+        <rect width={width} height={height} fill="#EA403F" />
         <path
           fillRule="evenodd"
           clipRule="evenodd"

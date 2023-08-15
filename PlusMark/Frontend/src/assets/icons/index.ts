@@ -102,6 +102,7 @@ export { ReactComponent as ArrowForward } from "./arrowFoward.svg";
 export { ReactComponent as SendIcon } from "./send-icon.svg";
 export { ReactComponent as LocationIcon } from "./location-icon.svg";
 export { ReactComponent as HotlineIcon } from "./advise-icon.svg";
+export { ReactComponent as KoreaFlag } from "./koreaFlag.svg";
 
 
 
