@@ -8,14 +8,23 @@ module.exports = {
       spacing: {
         '6px': '6px',
         '10px': '10px',
+        'spc14': '14px',
         '18px': '18px',
         '25': '25px',
         '195px': '12.2rem',
         '100': '6.25rem',
+        spc80: "80px",
+        spc300: "300px"
 
       },
       maxWidth: {
-        'screen-100': 'calc(100% -100px)'
+        'screen-100': 'calc(100% -100px)',
+        'scr970': '970px',
+        'scr268': '268px',
+        '3/4': "75%",
+        '2/3': "60%",
+        '1/2': "60%",
+        'spc510': '510px'
       },
       fontFamily: {
         'valky': ['NVNValky'],
@@ -56,13 +65,16 @@ module.exports = {
           '300': 'var(--background3)',
 
         },
-
         gray: {
           '100': 'var(--gray-001)',
           '200': 'var(--gray-002)',
           '200-60': 'var(--gray-002-60)',
           '300': 'var(--gray-003)',
           '400': 'var(--gray-004)',
+        },
+        black: {
+          bl0: 'var(--black)',
+          bl01: 'var(--black01)'
         },
         blue: {
           b01: 'var(--blue01)',
@@ -71,7 +83,7 @@ module.exports = {
           r01: 'var(--red01)'
         },
         orange: {
-          or01: 'var(--orange01)'
+          or0: 'var(--orange00)',
         },
         aqua: {
           aq01: 'var(--aqua01)',
@@ -85,7 +97,8 @@ module.exports = {
         'icon-active': '#F45538'
       },
       boxShadow: {
-        DEFAULT: '0px 4px 4px rgba(0, 0, 0, 0.25)'
+        DEFAULT: '0px 4px 4px rgba(0, 0, 0, 0.25)',
+        shd020: `4p 2px 8px 0px rgba(0, 0, 0, 0.20)`,
       },
       backgroundImage: {
         header: "linear-gradient(225deg, #FF6B00 0%, #E0000D 100%)",

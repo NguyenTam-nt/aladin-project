@@ -17,8 +17,9 @@ const HeaderSearch = () => {
   const { t } = useI18n();
   const { clickShow, setClickShow, ref: searchRef } = useFocusOut();
   const [keyword, setkeyword] = useState("");
+
   return (
-    <div className="relative py-2" ref={searchRef}>
+    <div className="relative" ref={searchRef}>
       {clickShow && (
         <SearchDropdown keyword={keyword} close={() => setClickShow(false)} />
       )}
