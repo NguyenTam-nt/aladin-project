@@ -1,9 +1,13 @@
 import CartIcon from "@assets/iconElements/CartIcon";
 import CricleButton from "@components/Buttons/CricleButton";
 import DynamicButton from "@components/Buttons/DynamicButton";
+import { CartItem } from "@contexts/CartContext";
 import { colors } from "@utility/colors";
 import React from "react";
 
+interface Props {
+  item: CartItem;
+}
 const CardItem = () => {
   return (
     <div className="relative rounded-lg bg-white w-[280px]">

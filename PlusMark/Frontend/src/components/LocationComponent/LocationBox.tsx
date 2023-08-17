@@ -3,8 +3,12 @@ import DynamicButton from "@components/Buttons/DynamicButton";
 import CricleButton from "@components/Buttons/CricleButton";
 import useI18n from "@hooks/useI18n";
 import CardItem from "@components/Card/CardItem";
+// "proxy": "http://192.168.1.123:8888",
 
-const LocationBox = () => {
+interface Props {
+  onClose?: () => void;
+}
+const LocationBox = ({ onClose }: Props) => {
   const { t } = useI18n();
   return (
     <div className="w-[510px] ">
@@ -28,14 +32,6 @@ const LocationBox = () => {
           {t("text.title.chose_city_or_province")}
         </p>
         <div className="h-[500px] overflow-y-auto">
-          <DynamicButton text="button.see_more" />
-          <DynamicButton
-            text="button.see_more"
-            className="w-full"
-            gradien={true}
-            normal={false}
-          />
-
           <div className="grid grid-cols-2">
             <div className="h-spc50 text-black-bl0 flex items-center justify-center border-t">
               adsf

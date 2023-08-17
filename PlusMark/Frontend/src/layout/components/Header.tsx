@@ -282,7 +282,7 @@ const Header = () => {
           {t("global.see_Price")} {t("global.hanoi")}
           {clickShow && (
             <div ref={locationRef} className="absolute left-0 top-spc132%">
-              <LocationBox />
+              <LocationBox onClose={() => setClickShow(false)} />
             </div>
           )}
         </div>
