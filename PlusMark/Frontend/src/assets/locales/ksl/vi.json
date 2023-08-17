@@ -1,0 +1,140 @@
+{ 
+    "lang": "Tiếng Việt" ,
+    "header": {
+        "search": "Tìm kiếm tại đây",
+        "search_notfound": "Không tìm thấy sản phẩm nào",
+        "search_see_more": "Xem thêm {{amount}} sản phẩm",
+        "hotline": "Hotline",
+        "cart": {
+            "title": "Giỏ hàng", 
+            "total_price": "Tổng tiền",
+            "buy_now": "Mua ngay"
+        },
+        "about": "Về Supershop",
+        "admin": "Quản lý",
+        "login": "Đăng nhập",
+        "logout": "Đăng xuất"
+    },
+    "homepage": {
+        "hot_sale": {
+            "title": "HOT SALE"
+        },
+        "recently_product": {
+            "title": "HÀNG MỚI VỀ",
+            "see_more": "XEM TẤT CẢ SẢN PHẨM"
+        },
+        "best_sale": {
+            "title": "SẢN PHẨM BÁN CHẠY",
+            "see_more": "XEM TẤT CẢ SẢN PHẨM"
+        },
+        "news": {
+            "title": "Tin Tức",
+            "see_more": "Xem thêm"
+        }
+    },
+    "cart": {
+        "payment_info": {
+            "title": "Đừng quên chọn ưu đãi tốt nhất",
+            "placehoder_promotion": "Nhập mã ưu đãi",
+            "promotion_btn": "Áp dụng",
+            "total_price_title": "Giá trị sản phẩm:",
+            "total_discount": "Giảm:",
+            "total_price": "Tổng tiền",
+            "btn_process_payment": "Tiến hành đặt hàng",
+            "btn_buy_more": "Mua thêm sản phẩm"
+        }
+    },
+    "payment": {
+        "info_delivery": {
+            "index": "Thông tin giao hàng",
+            "form": {
+                "name": "Họ và tên ",
+                "phone": "Số điện thoại",
+                "email": "Email",
+                "address": "Địa chỉ",
+                "province": "Chọn tỉnh / thành",
+                "district": "Chọn quận / huyện",
+                "commune": "Chọn phường / xã "
+            }
+        },
+        "info_delivery_method": {
+            "title": "Phương thức thanh toán",
+            "mothod_title_1": "Thanh toán khi giao hàng (COD)",
+            "mothod_title_2": "Thanh toán bằng thẻ ATM / chuyển khoản"
+        },
+        "total_price_title": "Giá trị sản phẩm:",
+        "total_discount": "Giảm:",
+        "total_price": "Tổng tiền",
+        "payment": "Đặt hàng",
+        "success_modal": {
+            "title": "Đặt hàng thành công",
+            "thank": "Cảm ơn bạn đã đặt hàng tại",
+            "confirm": "Đơn hàng của bạn đã được hệ thống xác nhận",
+            "feedback": "Mọi thắc mắc xin vui lòng liên hệ: ",
+            "phone": "1800.3675"
+        }
+    },
+    "detail_product": {
+        "product_info": {
+            "info": "Thông tin sản phẩm",
+            "policy": "Chính sách bảo hành",
+            "instruction_size": "Hướng dẫn chọn size",
+            "add_product": "Thêm vào giỏ hàng",
+            "buy": "Mua ngay",
+            "amount": "Còn {{amount}} sản phẩm",
+            "code_product": "Mã sản phẩm: "
+        },
+        "product_relative": "SẢN PHẨM LIÊN QUAN",
+        "product_viewed": "SẢN PHẨM QUAN TÂM NHIỀU NHẤT"
+    },
+    "about_us": {
+        "about_title": "Về Supershop",
+        "support_title": "Hỗ trợ khách hàng",
+        "introduce_title": "Giới thiệu",
+        "news_title": "Tin tức khuyến mại",
+        "contact_title": "Liên hệ",
+        "contact": {
+            "address": "Địa chỉ",
+            "email": "Email", 
+            "phone": "Điện thoại",
+            "work_time": "Thời gian làm việc",
+            "form": {
+                "title": "Gửi thắc mắc cho chúng tôi",
+                "name": "Họ và tên ",
+                "phone": "Số điện thoại",
+                "email": "Email",
+                "content": "Nội dung",
+                "btn": "Gửi yêu cầu"
+            },
+            "message": {
+                "success_modal": {
+                    "title": "Gửi yêu cầu tư vấn  thành công",
+                    "thank": "Cảm ơn bạn đã ghé truy cập",
+                    "feedback": "Để được tư vấn nhanh chóng vui lòng liên hệ: ",
+                    "phone": "1800.3675"
+                }
+            }
+        }
+    },
+    "search_page": {
+        "filter": "Bộ lọc",
+        "filtering": "Đang lọc theo",
+        "remove_all_filtering": "Bỏ chọn tất cả",
+        "sort_by": "Sắp xếp theo",
+        "search": "Kết quả tìm kiếm cho",
+        "search_res1": "Có ",
+        "search_res2": " sản phẩm",
+        "search_res3": " cho tìm kiếm"
+    },
+    "footer": {
+        "form": {
+            "contact_title": "Đăng kí nhận tư vấn ngay",
+            "contact_button": "Tư vấn ngay"
+        },
+        "phone": "Tổng đài: ",
+        "about": "Về Supershop",
+        "policy": "Hỗ trợ khách hàng",
+        "copyright": "Supershop, Copyright @2023 - Design by Aladin Technology Company"
+    },
+    "a": "aaa ă â"
+}

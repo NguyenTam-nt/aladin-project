@@ -1,0 +1,13 @@
+{
+    "text": {
+        "title": {
+            "new": "Sản phẩm mới nhất",
+            "history_search": "Lịch sử tìm kiếm",
+            "get_location": "Quý khách vui lòng cho biết Địa Chỉ Nhận Hàng để biết chính xác thời gian giao hàng",
+            "chose_city_or_province": "Hoặc chọn tỉnh, thành phố"
+        },
+        "descrition": {
+            "a": "Sản phẩm được nhập khẩu từ korea"
+        }
+    }
+}

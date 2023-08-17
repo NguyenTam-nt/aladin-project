@@ -27,6 +27,7 @@ const ResultItem = memo(({ name, onDeleteItem }: ItemProps) => {
 });
 
 const ItemProductSearch = memo(({ item, handleclick }: ItemResearch) => {
+  const { t } = useI18n();
   return (
     <div
       onClick={handleclick}
@@ -42,7 +43,9 @@ const ItemProductSearch = memo(({ item, handleclick }: ItemResearch) => {
       />
       <div className="pr-3 max-w-2/3 flex flex-col justify-between">
         <p className="text_base line-clamp-2">{item.name}</p>
-        <p className="text-sm font-bold text-orange-or0">{item.price}đ</p>
+        <p className="text-sm font-bold text-main">
+          {item.price} {t("global.currency")}
+        </p>
       </div>
     </div>
   );
@@ -112,11 +115,13 @@ const SearchDropdown = (props: Props) => {
 
   return (
     <div className="bg-gray-100 fixed pt-4 pb-6 left-0 top-spc80 w-screen h-spc300 shadow-shd020 overflow-y-auto">
-      <div className="xl:w-2/3 w-3/4 max-w-scr970 mx-auto pb-3 border-b border-b-orange-or0">
-        <p className="text-lg font-bold text-black-bl01">Lịch sử tìm kiếm</p>
+      <div className="xl:w-2/3 w-3/4 max-w-scr970 mx-auto pb-3 border-b border-b-main">
+        <p className="text-lg font-bold text-black-bl01">
+          {t("text.title.history_search")}
+        </p>
         <div className="py-3 flex items-center gap-4 flex-wrap">
           <p className="px-4 w-fit py-1 text_base flex gap-1 border border-aqua-aq02 rounded-full">
-            Bánh ngọt
+            케이크
             <span className="cursor-pointer">
               <CloseIcon />
             </span>
@@ -149,7 +154,7 @@ const SearchDropdown = (props: Props) => {
           {
             <ItemProductSearch
               item={{
-                name: " Hộp trà tắc giảm cân an toàn Jeju Hàn Quốc",
+                name: "제주 안심체중감량 티박스, 한국",
                 price: 400000,
               }}
               handleclick={() => {}}

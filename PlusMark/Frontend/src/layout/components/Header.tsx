@@ -277,9 +277,14 @@ const Header = () => {
         </Link>
         <div
           onClick={() => setClickShow(true)}
-          className="rounded-[6px] cursor-pointer xl:block hidden py-1 px-2 w-[147px] break-words text-sm text-white bg-[#00C3AB]"
+          className="rounded-[6px] relative cursor-pointer xl:block hidden py-1 px-2 w-[147px] break-words text-sm text-white bg-aqua-aq02"
         >
-          Xem giá, tồn kho tại: Hà Nội
+          {t("global.see_Price")} {t("global.hanoi")}
+          {clickShow && (
+            <div ref={locationRef} className="absolute left-0 top-spc132%">
+              <LocationBox />
+            </div>
+          )}
         </div>
         <div className="items-center w-2/4">
           <HeaderSearch />
@@ -338,7 +343,7 @@ const Header = () => {
         </div> */}
       </div>
 
-      <div className="hidden xl:flex py-3 lg:px-[130px] xl:px-[110px] 1.5xl:px-[130px] px-4 justify-between gap-5 text-wap-regular1">
+      <div className="hidden xl:flex lg:px-[130px] xl:px-[110px] 1.5xl:px-[130px] px-4 justify-between gap-5 text-wap-regular1">
         <div className="flex gap-9 h-full">
           {categoryHeader.map((it, idx) => (
             <CategoryItem key={idx} data={it} />
@@ -347,7 +352,7 @@ const Header = () => {
         <div className="flex gap-3">
           {AuthService.hasRole([ROLES.admin, ROLES.system]) ? (
             <Link
-              className="flex items-center text-normal1 hover:text-main"
+              className="flex items-center text-normal1 font-semibold hover:text-main"
               to={"/admin"}
             >
               {t("header.admin")}
@@ -357,29 +362,19 @@ const Header = () => {
           )}
 
           <Link
-            className="flex items-center text-normal1 hover:text-main"
+            className="flex items-center px-4 text-normal1 font-semibold border-r hover:text-main"
             to={"/about-us"}
           >
-            Giới thiệu
+            {t("global.link.introduce")}
           </Link>
           <Link
-            className="flex items-center text-normal1 hover:text-main"
+            className="flex items-center pl-4 text-normal1 font-semibold hover:text-main"
             to={"/about-us"}
           >
-            Hệ thống phân phân phối
+            {t("global.link.distribution_system")}
           </Link>
         </div>
       </div>
-
-      {clickShow && (
-        <div
-          ref={locationRef}
-          className="absolute left-[400px]
-           top-spc80"
-        >
-          <LocationBox />
-        </div>
-      )}
     </div>
   );
 };

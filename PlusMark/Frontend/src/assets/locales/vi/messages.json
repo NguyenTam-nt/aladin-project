@@ -1,0 +1,16 @@
+{
+    "error": {
+        "require": {
+            "title": "Không được ..."
+        },
+        "max": {
+            "title": "Title không được quá .."
+        }
+    },
+    "success": {
+        "title": "Gửi tiêu đề thành công"
+    },
+    "warning": {
+        "title" : "cảnh báo title bị trùng khớp"
+    }
+}

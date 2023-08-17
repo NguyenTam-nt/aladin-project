@@ -13,8 +13,12 @@ module.exports = {
         '25': '25px',
         '195px': '12.2rem',
         '100': '6.25rem',
+        spc60: "60px",
+        spc50: "50px",
         spc80: "80px",
-        spc300: "300px"
+        spc300: "300px",
+        spc510: "510px",
+        'spc132%': "132%",
 
       },
       maxWidth: {
@@ -57,6 +61,8 @@ module.exports = {
         'main-2': 'var(--main-color-2)',
         text: {
           DEFAULT: 'var(--text-1)',
+          disable: 'var(--text-disable)',
+          main: 'var(--text-main)'
         },
         background: {
           DEFAULT: 'var(--main-background)',
@@ -74,16 +80,13 @@ module.exports = {
         },
         black: {
           bl0: 'var(--black)',
-          bl01: 'var(--black01)'
+          bl01: 'var(--black01)',
         },
         blue: {
           b01: 'var(--blue01)',
         },
         red: {
           r01: 'var(--red01)'
-        },
-        orange: {
-          or0: 'var(--orange00)',
         },
         aqua: {
           aq01: 'var(--aqua01)',
@@ -102,6 +105,7 @@ module.exports = {
       },
       backgroundImage: {
         header: "linear-gradient(225deg, #FF6B00 0%, #E0000D 100%)",
+        btn: "linear-gradient(52deg, #FF6D03 0%, #E60E00 100%)",
         footer: "linear-gradient(180deg, #FE7D29 0%, #F9849E 100%)",
       },
       fontSize: {
