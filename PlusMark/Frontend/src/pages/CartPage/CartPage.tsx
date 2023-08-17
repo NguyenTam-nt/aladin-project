@@ -13,28 +13,13 @@ import { Link, useNavigate } from "react-router-dom";
 
 const CartPage = () => {
 
-  const {t} = useI18n()
+  const { t } = useI18n()
   const navigate = useNavigate()
   const { listToast, onAddToast } = useContext(ToastContex);
-  const {cartQuantity, totalPriceChoose, cartItems} = useCart()
+  const { cartQuantity, totalPriceChoose, cartItems } = useCart()
   const [voucher, setVoucher] = useState<string>("")
   const [moneyVoucher, setmoneyVoucher] = useState<number>(0)
   const [isLoading, setIsLoading] = useState<boolean>(false)
-
-  const breakcrumData: BreadcrumbType[] = [
-    {
-        name: "Giỏ hàng",
-        clickable: true,
-        active: true,
-        link: "/cart"
-    },
-    {
-        name: "Thông tin giao hàng",
-        clickable: false,
-        active: false,
-        link: "/cart/payment"
-    }
-  ]
 
   useEffect(() => {
     callApiCheckVoucher()
@@ -42,15 +27,15 @@ const CartPage = () => {
 
   const handleClickToPayment = () => {
     let c = cartItems.filter(c => c.choose)
-    if(c && c.length > 0) {
-      navigate("/cart/payment", {state: {voucher: voucher || "", moneyVoucher: moneyVoucher}})
+    if (c && c.length > 0) {
+      navigate("/cart/payment", { state: { voucher: voucher || "", moneyVoucher: moneyVoucher } })
     } else {
       onAddToast({ type: "warn", message: `Vui lòng chọn sản phẩm!` });
     }
   }
 
   const handleCheckVoucher = () => {
-    if(!voucher) {
+    if (!voucher) {
       onAddToast({ type: "warn", message: `Vui lòng nhập mã giảm giá!` });
     } else {
       callApiCheckVoucher(true)
@@ -68,8 +53,8 @@ const CartPage = () => {
         price: c.price,
         total: c.quantity,
         sku: c.sku
-      } 
-    }) 
+      }
+    })
     let request: CheckVoucherRequest = {
       itemsCartList: cartItemRequest,
       voucher: voucher
@@ -83,32 +68,59 @@ const CartPage = () => {
         let m = res.moneyVoucher || 0
         setmoneyVoucher(m)
         setIsLoading(false)
-        if(m == 0 && noti) {
+        if (m == 0 && noti) {
           onAddToast({ type: "warn", message: `Voucher không hợp lệ!` });
         }
-      }) .catch(e => {
+      }).catch(e => {
         setIsLoading(false)
-        if(noti) {
+        if (noti) {
           onAddToast({ type: "error", message: `Có lỗi xảy ra!` });
         }
       })
     } catch (error) {
       setIsLoading(false)
-      if(noti) {
+      if (noti) {
         onAddToast({ type: "error", message: `Có lỗi xảy ra!` });
       }
-    } 
+    }
   }
 
   return (
     <div className="container  px-4 lg:px-8" >
-      <div className="mt-6">
-        <BreakCrumb data={[...breakcrumData]} normalClass="" activeClass=" text-main" />
+      <div className="mt-6 font-['Nunito_Sans']">
+        Giỏ mua hàng
       </div>
-      <div className=" rounded-lg bg-white pb-12 pt-6 flex flex-col xl:flex-row xl:gap-10">
-        <div className="flex-1">
+      <div className="rounded-lg bg-white pb-12 pt-6 flex flex-col xl:flex-row xl:gap-10">
+
+        <div className="flex-1 rounded-[20px] border mb-2 fit">
+          {/* <div className="bg-white flex flex-row justify-between h-12 shrink-0 items-center px-4 rounded-[20px] border">
+            <div className="flex flex-row gap-3 items-start">
+              <input type="checkbox"
+                className="w-6 sm:w-8 aspect-square p-1 border-2 flex items-center justify-center rounded-sm"
+              />
+              <div className="font-['Nunito_Sans'] text-[#313131]">
+                Tất cả ({cartItems.length} sản phẩm)
+              </div>
+            </div>
+            <div className="flex flex-row gap-10 w-1/2 items-center">
+              <div className="font-['Nunito_Sans'] text-[#313131] mr-4">
+                Đơn giá
+              </div>
+              <div className="font-['Nunito_Sans'] text-[#313131] mr-1">
+                Số lượng
+              </div>
+              <div className="font-['Nunito_Sans'] text-[#313131]">
+                Thành tiền
+              </div>
+              <img
+                src="https://file.rendit.io/n/diLvrWEqo6zojBwo2m7M.svg"
+                className="self-start w-6 shrink-0"
+              />
+            </div>
+          </div> */}
+          
           {cartQuantity > 0 ? cartItems.map((it, idx) => (
-            <div key={it.id+idx}>
+            <div key={it.id+idx} className="rounded-[20px] mt-5 p-3">
               <div className="hidden lg:block">
                 <CartProductNew itemCart={it} change={it.size.total > 0}  size="normal"  />
               </div>
@@ -161,7 +173,7 @@ const CartPage = () => {
               {formatMoney(totalPriceChoose - moneyVoucher)}
             </div>
           </div>
-          <button className={clsx("btn text-normal font-medium bg-main w-full h-9 text-center text-white my-3",{
+          <button className={clsx("btn text-normal font-medium bg-main w-full h-9 text-center text-white my-3", {
             "opacity-60 cursor-default": cartQuantity <= 0
           })} onClick={handleClickToPayment}>
             {t("cart.payment_info.btn_process_payment")}
