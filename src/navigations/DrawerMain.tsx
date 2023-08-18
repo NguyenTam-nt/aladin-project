@@ -1,21 +1,25 @@
 import { ROLE_LIST, defaultColors, isTabletDevice } from '@configs';
+import { DrawerNavigationOptions } from '@react-navigation/drawer';
 import { createStackNavigator } from '@react-navigation/stack';
 import React, { useMemo } from 'react';
 import { StatusBar } from 'react-native';
+import { IAuthorize } from 'src/redux/reducers/AuthSlice';
+import { useUserInfo } from 'src/redux/reducers/hook';
 import DrawerNavigation from './Drawer';
 import DrawerKitchen from './DrawerKitchen';
 import DrawerOrderNavigation from './DrawerOrder';
-import { useUserInfo } from 'src/redux/reducers/hook';
-import { IAuthorize } from 'src/redux/reducers/AuthSlice';
-import { DrawerNavigationOptions } from '@react-navigation/drawer';
+import { useNavigation } from '@react-navigation/native';
 
-
+export const RefNavigationToLoginScreen : any = React.createRef();
 export const RootStack = createStackNavigator();
 export const DrawerMain = () => {
-  const screenOptions = useMemo<DrawerNavigationOptions >(
+  if (!RefNavigationToLoginScreen.current) {
+    RefNavigationToLoginScreen.current = {};}
+    const navigation = useNavigation();
+  const screenOptions = useMemo<DrawerNavigationOptions>(
     () => ({
       drawerType: isTabletDevice ? 'permanent' : 'slide',
-      headerShown : false,
+      headerShown: false,
       headerStyle: {
         shadowColor: 'transparent',
       },
@@ -31,6 +35,11 @@ export const DrawerMain = () => {
         return false;
     }
   });
+  const GotoLoginScreen = () => {
+    navigation.replace('login');
+  };
+
+  RefNavigationToLoginScreen.current.GotoLoginScreen = GotoLoginScreen;
 
   return (
     <>

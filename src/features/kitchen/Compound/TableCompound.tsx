@@ -4,21 +4,24 @@ import React, { useCallback, useEffect, useMemo } from 'react';
 import {
   FlatList,
   ListRenderItemInfo,
+  RefreshControl,
   ScrollView,
   StyleSheet,
   Text,
+  TouchableOpacity,
   View,
 } from 'react-native';
-import { getHistories } from 'src/api/history';
+import { IHistoryDay, getHistories, getHistories3, getHistoriesContent } from 'src/api/history';
 import { IResponseApi } from 'src/api/types';
 import { ICAddOrder } from 'src/assets/icons/ICAddOrder';
 import { useHandleResponsePagination } from 'src/commons/useHandleResponsePagination';
 import DropDownView from 'src/components/DropDownView/DropDownView';
 import { useGetCategotyType } from '../useGetCategotyType';
 import { Html } from 'src/components/Html';
+import { ICDoubleArrowDown } from 'src/assets/icons/ICDoubleArrowDown';
+import { useIsFocused } from '@react-navigation/native';
 
-const TableCartItem = ({item} : {item : IHistoryCompoumd}) => {
-
+const TableCartItem = ({item}: {item: IHistoryCompoumd}) => {
   return (
     <View>
       <View style={styles.itemContainer} />
@@ -52,7 +55,37 @@ const TableCartItem = ({item} : {item : IHistoryCompoumd}) => {
   );
 };
 
-const ItemDayList = ({ data} : { data : {date: string; list: IHistoryCompoumd[]}}) => {
+const ItemDayList = ({
+  dataPage,
+  currentType,
+}: {
+  dataPage: IHistoryDay
+  currentType: string
+}) => {
+  const IsFocus = useIsFocused();
+  const getHistoryMethod = useCallback(
+    async (
+      page: number,
+      size: number,
+    ): Promise<IResponseApi<IHistoryCompoumd>> => {
+      return getHistoriesContent({
+        page,
+        size,
+        menu: currentType,
+        status: false,
+        day: dataPage.day,
+      }) as any;
+    },
+    [currentType, dataPage],
+  );
+  const {data, isRefreshing, pullToRefresh, refresh, handleLoadMore} =
+    useHandleResponsePagination<IHistoryCompoumd>(getHistoryMethod);
+
+  useEffect(() => {
+    if (IsFocus) {
+      refresh();
+    }
+  }, [currentType, IsFocus]);
 
   return (
     <View>
@@ -60,12 +93,20 @@ const ItemDayList = ({ data} : { data : {date: string; list: IHistoryCompoumd[]}
         isOpen={false}
         itemView={
           <View>
-            {data.list.map((e , index) => {
-              return <TableCartItem  item={e}  key={index} />;
+            {data.map((e, index) => {
+              return <TableCartItem item={e} key={index} />;
             })}
+            <View style={styles.buttonShowMore}>
+              <TouchableOpacity
+                style={styles.buttonShowMoreItem}
+                onPress={() => handleLoadMore()}>
+                <Text style={styles.buttonShowMoreText}>Hiển thị thêm</Text>
+                <ICDoubleArrowDown />
+              </TouchableOpacity>
+            </View>
           </View>
         }
-        textHeader={`Ngày ${new Date(data.date).toLocaleDateString()}`}
+        textHeader={`Ngày ${new Date(dataPage.day).toLocaleDateString()}`}
         headerButtonStyle={{
           backgroundColor: defaultColors.bg_FAFAFA,
           borderRadius: 8,
@@ -85,59 +126,42 @@ const ItemDayList = ({ data} : { data : {date: string; list: IHistoryCompoumd[]}
 
 const TableCompound = React.memo(() => {
   const {currentType} = useGetCategotyType();
-  const getHistoryMethod    = useCallback(
-    async (page: number, size: number) :Promise<IResponseApi<IHistoryCompoumd>> => {
-      return getHistories({
+  const IsFocus = useIsFocused();
+
+  const getHistoryMethod = useCallback(
+    async (page: number, size: number) :Promise<IResponseApi<IHistoryDay>> => {
+      return getHistories3({
         page,
         size,
         menu: currentType,
-        sort: 'createdDate,desc',
-        state : false,
+        status : false,
       }) as any;
     },
     [currentType],
   );
+
+
+
   const {data, isRefreshing, pullToRefresh, refresh, handleLoadMore} =
-    useHandleResponsePagination<IHistoryCompoumd>(getHistoryMethod);
-    const newData = useMemo(() => {
-      const outputArray: {date: string; list: IHistoryCompoumd[]}[]  = [];
-      const groupedMap: Map<string, IHistoryCompoumd[]> = new Map();
-
-      for (const obj of data) {
-        const key = new Date(obj.createdDate).toLocaleDateString();
-        if (groupedMap.has(key)) {
-          // @ts-ignore
-          groupedMap.get(key).push(obj);
-        } else {
-          groupedMap.set(key, [obj]);
-        }
-      }
-
-      groupedMap.forEach((value, key) => {
-        outputArray.push({
-          date: value.length ? value[0].createdDate : '',
-          list: value,
-        });
-      });
-      return outputArray;
-    }, [data]);
-
-  console.log('check check' ,newData);
+    useHandleResponsePagination<IHistoryDay>(getHistoryMethod);
 
   useEffect(() => {
+    if (IsFocus) {
     refresh();
-  }, []);
-  const renderItem = ({item}:ListRenderItemInfo< {date: string; list: IHistoryCompoumd[]}>) => {
-    return <ItemDayList  data={item}/>;
+    }
+  }, [currentType ,IsFocus]);
 
+  const renderItem = ({
+    item,
+  }: ListRenderItemInfo<IHistoryDay>) => {
+    return <ItemDayList dataPage={item} currentType={currentType} />;
   };
-
   return (
     <View style={styles.container}>
       <ScrollView
         horizontal
         contentContainerStyle={isTabletDevice ? {flex: 1} : {minWidth: 934}}>
-        <View style={{ flex : 1}}>
+        <View style={{flex: 1}}>
           <View style={styles.content}>
             <View style={styles.col1}>
               <Text style={styles.textHeaderTable}>Thời gian</Text>
@@ -153,9 +177,20 @@ const TableCompound = React.memo(() => {
             </View>
           </View>
           <FlatList
-            data={newData}
+            data={data}
             showsVerticalScrollIndicator={false}
             renderItem={renderItem}
+            onEndReached={handleLoadMore}
+            keyExtractor={item => item.day}
+            refreshControl={
+              <RefreshControl
+                refreshing={isRefreshing}
+                onRefresh={pullToRefresh}
+                tintColor="#000"
+              />
+            }
+            onEndReachedThreshold={0.5}
+            ListFooterComponent={<View style={{height: 50}} />}
           />
         </View>
       </ScrollView>
@@ -239,6 +274,22 @@ const styles = StyleSheet.create({
     color: defaultColors.c_222124,
     fontSize: 12,
     marginLeft: 4,
+  },
+  buttonShowMore : {
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop : 12,
+  } ,
+  buttonShowMoreItem : {
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexDirection: 'row',
+    gap: 8,
+  },
+  buttonShowMoreText : {
+    color: defaultColors._EA222A,
+    fontSize: 18,
+    fontWeight: 'bold',
   },
 });
 

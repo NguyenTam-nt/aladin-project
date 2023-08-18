@@ -8,6 +8,7 @@ import {ICCheckBoxTable} from '@icons';
 import {ICCheckBox} from 'src/assets/icons/ICCheckBox';
 
 export const Home = () => {
+
   const [stateCheckbox, setStateCheckbox] = useState<string[]>([]);
   const onPressCheckbox = async (value: string) => {
     try {
@@ -103,7 +104,6 @@ const styles = StyleSheet.create({
     backgroundColor: defaultColors.bg_primary,
     flexDirection: 'row',
     paddingVertical: 16,
-    marginLeft: -35,
     justifyContent: 'center',
     alignItems: 'center',
     gap: 24,

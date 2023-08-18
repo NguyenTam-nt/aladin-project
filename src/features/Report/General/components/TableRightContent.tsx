@@ -1,16 +1,23 @@
+import { TextCustom } from '@components';
 import {defaultColors, isTabletDevice} from '@configs';
-import React, {useCallback} from 'react';
+import React, {memo, useCallback, useMemo, useState} from 'react';
 import {
   FlatList,
   StyleSheet,
   View,
   Text,
   ListRenderItemInfo,
+  Pressable,
 } from 'react-native';
+import { IReportAll } from 'src/api/report';
 import {ICDownTrend} from 'src/assets/icons/ICDownTrend';
+import { ICCalendar } from 'src/assets/icons/ICLogo copy';
 import {ICUpTrend} from 'src/assets/icons/ICUpTrend';
+import { formatNumberDot } from 'src/commons/formatMoney';
+import { RadioButtonSelect } from 'src/components/Checkbox/RadioButton';
+import { Calendar } from '../../Detail/components/Calendar';
 
-const ItemReport = ({index}: {index: number}) => {
+const ItemReport = ({index , item}: {index: number ; item : IReportAll}) => {
   return (
     <View
       style={{
@@ -24,7 +31,7 @@ const ItemReport = ({index}: {index: number}) => {
           styles.textTitleItem,
           index === 0 ? {color: defaultColors.c_fff} : undefined,
         ]}>
-        Tất cả cơ sở
+        {item.name}
       </Text>
       <View style={styles.contentTextRow1}>
         <Text
@@ -41,7 +48,7 @@ const ItemReport = ({index}: {index: number}) => {
                   index === 0 ? defaultColors.c_fff : defaultColors._EA222A,
               },
             ]}>
-            1000
+            {item.quantity || 0}
           </Text>{' '}
           món
         </Text>
@@ -84,7 +91,7 @@ const ItemReport = ({index}: {index: number}) => {
                   index === 0 ? defaultColors.c_fff : defaultColors._01A63E,
               },
             ]}>
-            1000.000.000
+            {formatNumberDot(item.revenue || 0)}
           </Text>{' '}
           VNĐ
         </Text>
@@ -117,17 +124,20 @@ const ItemReport = ({index}: {index: number}) => {
   );
 };
 
-const TableRightContent = () => {
-  const data = [1, 2, 3, 4, 5, 6];
 
-  const renderItem = useCallback((e: ListRenderItemInfo<any>) => {
-    return <ItemReport index={e.index} />;
+
+
+const TableRightContent = ({dataReport} : { dataReport : IReportAll[]}) => {
+
+
+  const renderItem = useCallback((e: ListRenderItemInfo<IReportAll>) => {
+    return <ItemReport item={e.item} index={e.index} />;
   }, []);
 
   return (
     <View style={styles.container}>
       <FlatList
-        data={data}
+        data={dataReport}
         renderItem={renderItem}
         showsVerticalScrollIndicator={false}
       />
@@ -173,6 +183,20 @@ const styles = StyleSheet.create({
     height: 1,
     width: '100%',
     backgroundColor: defaultColors._DBDBDB,
+  },
+  styleBoxCalendar: {
+    position: 'absolute',
+    top: '110%',
+    left: 0,
+    transform: [
+      {
+        translateY: 17,
+      },
+    ],
+  },
+  positionRelative: {
+    position: 'relative',
+    zIndex: 9999,
   },
 });
 

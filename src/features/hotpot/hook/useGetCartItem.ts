@@ -41,7 +41,6 @@ export const useGetCartItem = (currentId: number) => {
         finalListCategories.push(item);
       }
     });
-
     return finalListCategories;
   }, [currentId, isFourBar, isTwoBar, isOneBar, listMenuCategories]);
 

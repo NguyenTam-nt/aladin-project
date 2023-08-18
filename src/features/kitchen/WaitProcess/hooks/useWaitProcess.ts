@@ -18,7 +18,7 @@ import {useAreaId} from 'src/redux/infoDrawer/hooks';
 import SockJS from 'sockjs-client';
 import {SOCK_CLIENNT_URL} from 'src/api/config';
 import {categoryKitchenNames} from '@configs';
-import { INotice } from '@typeRules'
+import { INotice } from '@typeRules';
 var Stomp = require('stompjs/lib/stomp.js').Stomp;
 
 export enum TypeModalWaitProcess {
@@ -128,7 +128,7 @@ export const useWaitProcess = () => {
       const listData = result.find(
         item => item.menu === currentTypeRef.current,
       );
-   
+
       const newDataConvert: IOrderSocket = {
         menu: listData?.menu || currentTypeRef.current,
         kitchen:
@@ -143,7 +143,7 @@ export const useWaitProcess = () => {
             };
           }) || [],
       };
-      
+
       const newData = [...dataRef.current];
       if (isTableRef.current) {
         newDataConvert?.kitchen.forEach(item => {
@@ -211,7 +211,7 @@ export const useWaitProcess = () => {
       }
       setData([...newData]);
     }
-  }, [])
+  }, []);
 
   useEffect(() => {
     // console.log({IdArea});
@@ -234,7 +234,6 @@ export const useWaitProcess = () => {
                   handleDataSocker(data);
                 },
               );
-
               connectedNotices = stompClient.subscribe(
                 `/topic/kitchen/noti/${IdArea}`,
                 function (messageOutput: any) {
@@ -259,7 +258,7 @@ export const useWaitProcess = () => {
           connected,
         );
         connected.unsubscribe();
-        connected = null
+        connected = null;
       }
 
       if (connectedNotices) {
@@ -268,7 +267,7 @@ export const useWaitProcess = () => {
           connectedNotices,
         );
         connectedNotices.unsubscribe();
-        connectedNotices = null
+        connectedNotices = null;
       }
     };
   }, [IdArea]);
@@ -382,6 +381,6 @@ export const useWaitProcess = () => {
     handlePressCompelete,
     currentDataSelect,
     handleDeleteNotice,
-    notices
+    notices,
   };
 };

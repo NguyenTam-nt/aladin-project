@@ -27,7 +27,7 @@ const SearchInput = (props: ISearchInput) => {
       <TextInput
         style={[styles.textInput, stylesTextInput]}
         placeholder={placeholder}
-        value={value}
+        // value={value}
         onChangeText={setValue}
       />
       <TouchableOpacity

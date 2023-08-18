@@ -17,7 +17,13 @@ export interface IDate {
 const date = new Date();
 const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 
-export const Calendar =  memo(() => {
+ interface ICalendar {
+   setStartDate?: (value: string) => void
+   setEndDate?: (value: string) => void
+ }
+
+export const Calendar =  memo((props : ICalendar) => {
+  const {setStartDate, setEndDate} = props;
   const [dateEvent, setDateEvent] = useState<string | null>();
   const [targetDateStart, setTargetStart] = useState<IDate>();
   const [targetDateEnd, setTargetEnd] = useState<IDate>();
@@ -27,6 +33,8 @@ export const Calendar =  memo(() => {
     year: `${date.getFullYear()}`,
     weekday: 'Hôm nay',
   });
+
+
 
   // list day current month
   const [arrDays, setArrdays] = useState<IDate[]>([]);
@@ -82,7 +90,6 @@ export const Calendar =  memo(() => {
 
     for (let i = 1; i <= nextDays; i++) {
       nextMonth.setDate(i);
-
       newArr.push({
         day: `00${i}`.slice(-2),
         month: `00${+month === 12 ? 1 : +month + 1}`.slice(-2),
@@ -109,6 +116,21 @@ export const Calendar =  memo(() => {
   const hanldeDay = (day: number) => {
     return Days[day === 0 ? 7 - 1 : day - 1];
   };
+
+  //lang nghe ngay thay doi
+
+  useEffect(() => {
+    if (targetDateStart) {
+      setStartDate?.(
+        `${targetDateStart.year}-${targetDateStart.month}-${targetDateStart.day}`,
+      );
+    }
+    if (targetDateEnd) {
+      setEndDate?.(
+        `${targetDateEnd.year}-${targetDateEnd.month}-${targetDateEnd.day}`,
+      );
+    }
+  }, [targetDateStart, targetDateEnd]);
 
   // lắng nghe sự kiện thay đổi tháng
   const changeMonth = useCallback(
@@ -341,7 +363,7 @@ export const Calendar =  memo(() => {
       </View>
     </>
   );
-})
+});
 
 const styles = StyleSheet.create({
   container: {
@@ -395,7 +417,7 @@ const styles = StyleSheet.create({
     fontWeight: '500',
   },
   styleBoxDay: {
-    width: 30
+    width: 30,
   },
   styleListday: {
     flexDirection: 'row',
@@ -403,5 +425,5 @@ const styles = StyleSheet.create({
     columnGap: 8,
     rowGap: 8,
     marginTop: 16,
-  }
+  },
 });

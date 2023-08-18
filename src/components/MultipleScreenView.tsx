@@ -5,7 +5,7 @@ interface MultipleScreenViewProps {
   tableVew?: JSX.Element | null
 }
 
-export const MultipleScreenView = ({
+export const  MultipleScreenView = ({
   phoneView = null,
   tableVew = null,
 }: MultipleScreenViewProps) => {

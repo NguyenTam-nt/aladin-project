@@ -22,9 +22,6 @@ const ContentOrderTab = () => {
   const [isOpenTab, setIsOpenTab] = useState<boolean>(false);
   const [stateFilter, setStateFilter] = useState<IStateFilter | undefined>();
   const [typeLocation, setTypeLocaion] = useState<string | undefined>();
-
-
-
   return (
     <View style={styles.container}>
       <TabBarLeftOrder

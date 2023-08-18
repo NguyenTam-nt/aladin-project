@@ -79,8 +79,6 @@ export const getTable = async (
 export const getTableID = async (id : number): Promise<IResponseApi<IFloorInfo[]>> => {
   try {
     const result = await request().patch(`${APIs.TABLEID}?idTable=${id}`);
-
-
     const {data} = await result;
     return {
       success: true,
@@ -133,7 +131,6 @@ export const postCombineProduct = async (
 ): Promise<IResponseApi<IResponseProductUpdate>> => {
   try {
 
-
     const result = await request().patch(
       `${APIs.COMBINE_PRODUCTS}/${id}/${idTable}`,
       body,
@@ -156,14 +153,11 @@ export const postDetechedProduct = async (
   body :  IBodyPostProduct[]
 ): Promise<IResponseApi<IResponseProductUpdate>> => {
   try {
-
-
-    const result = await request().patch(`${APIs.DETACHED_PRODUCTS}/${id}/${idTable}` ,body );
-
-    console.log('result' ,result);
-
+    const result = await request().patch(
+      `${APIs.DETACHED_PRODUCTS}/${id}/${idTable}`,
+      body,
+    );
     const {data} = await result;
-
     return {
       success: true,
       data: data,

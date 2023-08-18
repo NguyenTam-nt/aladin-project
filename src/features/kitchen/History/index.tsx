@@ -1,79 +1,52 @@
-import {View, StyleSheet, FlatList, ScrollView, RefreshControl} from 'react-native';
-import React, {useCallback, useEffect, useMemo} from 'react';
-import KitchenLinks from '../components/KitchenLinks';
-import {defaultColors} from '@configs';
-import {globalStyles} from 'src/commons/globalStyles';
-import {HeaderListHistory} from './components/HeaderListHistory';
-import {HistoryItem} from './components/HistoryItem';
-import {getValueForDevice} from 'src/commons/formatMoney';
+import { defaultColors } from '@configs';
+import { useIsFocused } from '@react-navigation/native';
+import { ListRenderItemInfo } from '@typeRules';
+import React, { useCallback, useEffect } from 'react';
+import { FlatList, RefreshControl, ScrollView, StyleSheet, View } from 'react-native';
+import { IHistoryDay, getHistories3 } from 'src/api/history';
+import { getValueForDevice } from 'src/commons/formatMoney';
+import { globalStyles } from 'src/commons/globalStyles';
+import { useHandleResponsePagination } from 'src/commons/useHandleResponsePagination';
 import SearchInput from 'src/components/Filter/SearchInput';
-import {useHandleResponsePagination} from 'src/commons/useHandleResponsePagination';
-import {getHistories} from 'src/api/history';
-import {useGetCategotyType} from '../useGetCategotyType';
-import {IHistory, ListRenderItemInfo} from '@typeRules';
+import KitchenLinks from '../components/KitchenLinks';
+import { useGetCategotyType } from '../useGetCategotyType';
+import { HeaderListHistory } from './components/HeaderListHistory';
+import { HistoryItem } from './components/HistoryItem';
 
 export const History = () => {
   const {currentType} = useGetCategotyType();
+  const isFocus = useIsFocused();
   const getHistoryMethod = useCallback(
     async (page: number, size: number) => {
-      return getHistories({
+      return getHistories3({
         page,
         size,
         menu: currentType,
-        sort: 'createdDate,desc',
+        status : true,
       });
     },
     [currentType],
   );
 
   const {data, isRefreshing, pullToRefresh, refresh, handleLoadMore} =
-    useHandleResponsePagination<IHistory>(getHistoryMethod);
+    useHandleResponsePagination<IHistoryDay>(getHistoryMethod);
 
   useEffect(() => {
-    refresh();
-  }, []);
-
-  const newData = useMemo(() => {
-    const outputArray: {date: string; list: IHistory[]}[]  = [];
-    const groupedMap: Map<string, IHistory[]> = new Map();
-
-    for (const obj of data) {
-      const key = new Date(obj.createdDate).toLocaleDateString();
-      if (groupedMap.has(key)) {
-        // @ts-ignore
-        groupedMap.get(key).push(obj);
-      } else {
-        groupedMap.set(key, [obj]);
-      }
+    if (isFocus) {
+      refresh();
     }
-    groupedMap.forEach((value, key) => {
-      outputArray.push({
-        date: value.length ? value[0].createdDate : '',
-        list: value,
-      });
-    });
-    return outputArray;
-  }, [data]);
+  }, [currentType, isFocus]);
 
-
-  const renderItem = useCallback(({item}:ListRenderItemInfo< {date: string; list: IHistory[]}>) => {
-    return <HistoryItem data={item} />;
-  }, []);
+  const renderItem = useCallback(
+    ({item}: ListRenderItemInfo<IHistoryDay>) => {
+      return <HistoryItem dataPage={item} currentType={currentType} />;
+    },
+    [currentType],
+  );
 
   return (
     <View style={styles.container}>
-      <KitchenLinks
-        renderRight={
-          <SearchInput
-            stylesContainer={getValueForDevice(undefined, {width: '100%'})}
-            placeholder={'Lịch sử theo Ngày/ Tên món/ Mã hóa đơn'}
-            value={''}
-            setValue={function (value: string): void {
-              throw new Error('Function not implemented.');
-            }}
-          />
-        }
-      />
+      <KitchenLinks />
       <View style={globalStyles.fullFill}>
         <ScrollView
           showsHorizontalScrollIndicator={false}
@@ -83,7 +56,6 @@ export const History = () => {
           })}>
           <View style={globalStyles.fullFill}>
             <HeaderListHistory />
-
             <FlatList
               onEndReached={handleLoadMore}
               onEndReachedThreshold={0.5}
@@ -95,7 +67,7 @@ export const History = () => {
                 />
               }
               showsVerticalScrollIndicator={false}
-              data={newData}
+              data={data}
               renderItem={renderItem}
               keyExtractor={(_, index) => index.toString()}
             />

@@ -1,4 +1,4 @@
-import { ROLE_LIST, defaultColors, isTabletDevice } from '@configs';
+import { ROLE_LIST, defaultColors, hotpotId2, hotpotId4, isTabletDevice } from '@configs';
 import React from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { useDispatch } from 'react-redux';
@@ -29,17 +29,40 @@ const ActionCartList = ({
   const isOrder = userInfo?.authorities?.findIndex((item: IAuthorize) =>
     item.name === ROLE_LIST.order,
   );
-
   const postItemToKitChen = async () => {
     if (listItemInCart.length > 0) {
-      const itemPost = listItemInCart.map(item => ({
-        idProduct: item.id,
-        numProduct: item.quantity,
-        linkMedia: item.linkMedia,
-        state: null,
-      }));
-
-      const data = await postProductToKitchen(billId ,itemPost);
+      let checkHotPot = 0;
+      const itemPost = listItemInCart.map(item => {
+        if (item.idCategory) {
+          switch (item.idCategory) {
+            case hotpotId4:
+              if (item.quantity < 4) {
+                checkHotPot = 4;
+              }
+              break;
+            case hotpotId2:
+              if (item.quantity < 2) {
+                checkHotPot = 2;
+              }
+              break;
+            default:
+              break;
+          }
+        }
+        return {
+          idProduct: item.id,
+          numProduct: item.quantity,
+          linkMedia: item.linkMedia,
+          state: null,
+        };
+      });
+      if (checkHotPot !== 0) {
+        MessageUtils.showWarningMessage(
+          `Vui lòng chọn ${checkHotPot} vị nước lẩu !`,
+        );
+        return;
+      }
+      const data = await postProductToKitchen(billId, itemPost);
       if (data.success) {
         dispatch(removeCartList());
         MessageUtils.showSuccessMessage('Thành công!');

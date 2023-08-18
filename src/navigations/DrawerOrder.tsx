@@ -17,11 +17,11 @@ import { NoticeCancelItem } from './notiCancelOrder/Notice';
 
 
 export type RootStackParamList = {
-  [key: string]: {id: number ; item :string }
+  [key: string]: {id: number ; item :string  ; tableId : number }
 };
 
 export type RootStackramDrawe = {
-  [key: string]: {item: string}
+  [key: string]: {item: string ;tableId : number }
 };
 const Drawer = createDrawerNavigator<RootStackParamList>();
 const DrawerOrderNavigation = () => {
@@ -67,13 +67,7 @@ const DrawerOrderNavigation = () => {
     }
   }, [isFocused]);
 
-  const [test ,setTest] = React.useState<number[]>([]);
 
-  const PushItem = () => {
-    const newTest = [...test];
-    newTest.push(1);
-    setTest(newTest);
-  };
 
   return (
     <View style={{flex: 1}}>
@@ -84,7 +78,7 @@ const DrawerOrderNavigation = () => {
         <Drawer.Screen
           name="hotpot"
           component={HotpotOrder}
-          initialParams={{id: idHotpot ,item : route.params.item}}
+          initialParams={{id: idHotpot ,item : route.params.item , tableId : route.params.tableId}}
           options={{
             drawerLabel: 'Lẩu',
             drawerIcon: ({color}: {color: string}) => (
@@ -96,7 +90,7 @@ const DrawerOrderNavigation = () => {
           return (
             <Drawer.Screen
               name={data.id.toString()}
-              initialParams={{id: data.id , item : route.params.item}}
+              initialParams={{id: data.id ,item : route.params.item , tableId : route.params.tableId}}
               component={SnackOrder}
               key={index}
               options={{
@@ -112,7 +106,7 @@ const DrawerOrderNavigation = () => {
       <View style={styles.cartItem}>
         <CartItem />
       </View>
-      <NoticeCancelItem test={test} />
+      <NoticeCancelItem />
     </View>
   );
 };

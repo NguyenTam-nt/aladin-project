@@ -14,7 +14,8 @@ interface HeaderContentRight {
   valueField2: IValueFilter
   setValueField1: React.Dispatch<React.SetStateAction<IValueFilter>>
   setValueField2: React.Dispatch<React.SetStateAction<IValueFilter>>
-
+  setValueSearch : (value: string) => void
+  valueSearch : string
 }
 
 const HeaderContentRight = (props: HeaderContentRight & TabBarOrder) => {
@@ -24,10 +25,12 @@ const HeaderContentRight = (props: HeaderContentRight & TabBarOrder) => {
     dataItem2,
     valueField1,
     valueField2,
+    valueSearch,
     setValueField1,
     setValueField2,
+    setValueSearch,
   } = props;
-  const [valueSearch, setValueSearch] = useState<string>('');
+
 
   return (
     <View

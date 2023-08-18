@@ -12,7 +12,7 @@ export const SnackOrder = () => {
   const route = useRoute<RouteProp<RootStackParamList>>();
   return (
     <>
-      <Header goBack  isOrder={isTabletDevice}   table={route.params.item}/>
+      <Header goBack  isOrder={isTabletDevice}   table={route.params.item} tableId={route.params.tableId}/>
       <SnackStack.Navigator
         initialRouteName="snackSreen"
         screenOptions={{headerShown: false}}>

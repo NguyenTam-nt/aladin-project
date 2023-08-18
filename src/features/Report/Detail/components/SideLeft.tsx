@@ -17,33 +17,34 @@ import {Calendar} from './Calendar';
 import MenuTabMobile from 'src/components/DropDownView/MenuTabMobile';
 import { MultipleScreenView } from 'src/components/MultipleScreenView';
 import ButtonMenuTabBar from 'src/components/DropDownView/ButtonMenuTabBar';
+import { ReportTimeState } from '../../General/components/TabBarLeftOrder';
 
 const filterDate = [
   {
-    slug: 'home-nay',
+    slug: ReportTimeState.TODAY,
     name: 'Hôm nay',
   },
   {
-    slug: '7-ngay-vua-qua',
+    slug: ReportTimeState.WEEK,
     name: '7 ngày vừa qua',
   },
   {
-    slug: 'thang-nay',
+    slug: ReportTimeState.MONTH,
     name: 'Thánh này',
   },
   {
-    slug: 'quy-nay',
+    slug: ReportTimeState.QUARTERLY,
     name: 'Quý này',
   },
   {
-    slug: 'nam-nay',
+    slug: ReportTimeState.YEAR,
     name: 'Năm này',
   },
 ];
 
 type Props = {
-  currenFilter: string
-  onChange: (currentFilter: string) => void
+  currenFilter: ReportTimeState
+  onChange: (currentFilter: ReportTimeState) => void
   isOpenTab: boolean
   setIsOpenTab: React.Dispatch<React.SetStateAction<boolean>>
 }
@@ -55,7 +56,6 @@ export const SideLeft = memo(
       // onPress?.()
       setIsOpen(value => !value);
     };
-
     const styleGroupFilter = useMemo((): StyleProp<ViewStyle> => {
       return {
         display: isOpen ? 'flex' : 'none',
@@ -115,12 +115,12 @@ export const FilterCalendar = memo(
     currenFilter,
     onChange,
   }: {
-    currenFilter: string
-    onChange: (category: string) => void
+    currenFilter: ReportTimeState
+    onChange: (category: ReportTimeState) => void
   }) => {
     const [isShow, setShow] = useState(false);
     const handleChange = useCallback(() => {
-      onChange('distance_date');
+      onChange(ReportTimeState.DATE);
     }, [onChange]);
 
     const handleShow = () => {
@@ -137,7 +137,7 @@ export const FilterCalendar = memo(
           <Pressable onPress={handleChange} style={styles.sideLeftCalendar}>
             <RadioButtonSelect
               color={defaultColors.c_0000}
-              active={currenFilter === 'distance_date'}
+              active={currenFilter === ReportTimeState.DATE}
             />
             <TextCustom
               fontSize={14}
@@ -151,7 +151,7 @@ export const FilterCalendar = memo(
           </Pressable>
         </View>
         <View style={[styles.styleBoxCalendar, styleCalendar]}>
-          <Calendar />
+          <Calendar  />
         </View>
       </View>
     );
@@ -160,10 +160,10 @@ export const FilterCalendar = memo(
 
 type PropsSideLeftFilterDate = {
   data: {
-    slug: string
+    slug: ReportTimeState
     name: string
   }
-  onChange: (category: string) => void
+  onChange: (category: ReportTimeState) => void
   isActive: boolean
 }
 

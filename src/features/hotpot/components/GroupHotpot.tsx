@@ -1,7 +1,6 @@
 import {View, StyleSheet} from 'react-native';
 import React, {memo} from 'react';
 import {defaultColors, isTabletDevice} from '@configs';
-import FastImage from 'react-native-fast-image';
 import {GroupCategories} from './GroupCategories';
 import {HotPot} from './HotPot';
 
@@ -19,16 +18,6 @@ export const GroupHotpot = memo(
           onPress={handlePressCategory}
         />
         <HotPot currentCategory={currentCategory} />
-        {isTabletDevice ? (
-          <View style={styles.imageThumb}>
-            <FastImage
-              style={styles.fastImage}
-              source={{
-                uri: 'https://antimatter.vn/wp-content/uploads/2022/05/anh-gif.gif',
-              }}
-            />
-          </View>
-        ) : null}
       </View>
     );
   },

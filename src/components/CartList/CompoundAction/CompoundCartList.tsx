@@ -27,9 +27,7 @@ const CompoundCartList = ({dataItemCart ,setActionChoose} : { dataItemCart: IPro
   const idBill = useIdBill();
   const [isCompound , setIsCompound] = useState<boolean>(true);
   const [dataItem , setDataItem] = useState<IDataSelectionCustom[]>([]);
-
   const [table, setTable] = useState<IDataSelectionCustom | undefined>();
-
   const dataListUpdate = useMemo<IProductInCart[]>(() => {
     return dataItemCart.filter(item => item.state !== 'CANCEL');
   }, [dataItemCart]);
@@ -64,13 +62,19 @@ const CompoundCartList = ({dataItemCart ,setActionChoose} : { dataItemCart: IPro
     }
   }, [idBill , isCompound]);
 
+  const setActiveCompound = (status: boolean) => {
+    setIsCompound(status);
+    setTable(undefined);
+    setDataItem([]);
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.buttonContainer}>
         <TouchableWithoutFeedback
           style={styles.button}
           onPress={() => {
-            setIsCompound(true);
+            setActiveCompound(true);
           }}>
           <RadioButtonSelect active={isCompound} />
           <Text style={styles.textButton}>Ghép đơn</Text>
@@ -78,7 +82,7 @@ const CompoundCartList = ({dataItemCart ,setActionChoose} : { dataItemCart: IPro
         <TouchableWithoutFeedback
           style={styles.button}
           onPress={() => {
-            setIsCompound(false);
+            setActiveCompound(false);
           }}>
           <RadioButtonSelect active={!isCompound} />
           <Text style={styles.textButton}>Tách đơn</Text>

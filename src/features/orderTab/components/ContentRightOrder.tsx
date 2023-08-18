@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import HeaderContentRight from './HeaderContentRight';
 import TableRightContent from './TableRightContent';
 import { TabBarOrder } from '../ContentOrderTab';
 import { useKitChenProduct } from './hooks/useKitChenProduct';
+import _ from 'lodash';
 export enum State_ShortProduct {
   INVENTORY = 'INVENTORY',
   NO_INVENTORY = 'NO_INVENTORY',
@@ -74,12 +75,27 @@ const ContentRightOrder = (props :TabBarOrder & IContentRightOrder ) => {
   const {isOpenTab , setIsOpenTab ,typeLocation} = props;
   const [valueField1, setValueField1] = useState<IValueFilter>(dataItemFilter1[0]);
   const [valueField2, setValueField2] = useState<IValueFilter>(dataItemFilterItem2[0]);
+  const [valueSearch, setValueSearch] = useState<string>('');
+  const [query, setQuery] = useState<string>('');
   const {dataProducts, keyExtractor, onRefresh} = useKitChenProduct(
     props?.stateFilter?.id || props?.stateFilter?.idParent,
     typeLocation,
     valueField2.value,
     valueField1.value,
+    query,
   );
+
+  const debounce = useCallback(
+    _.debounce((nextValue: string) => {
+      setQuery(nextValue);
+    }, 500),
+    [],
+  );
+
+  const setDebouceSearch = (value: string) => {
+    debounce(value);
+    setValueSearch(valueSearch);
+  };
 
   return (
     <View style={styles.container}>
@@ -93,6 +109,8 @@ const ContentRightOrder = (props :TabBarOrder & IContentRightOrder ) => {
         setValueField2={setValueField2}
         dataItem={dataItemFilter1}
         dataItem2={dataItemFilterItem2}
+        valueSearch={valueSearch}
+        setValueSearch={setDebouceSearch}
       />
       <TableRightContent
         dataProducts={dataProducts.data}

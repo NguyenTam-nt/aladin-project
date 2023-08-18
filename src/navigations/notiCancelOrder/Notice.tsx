@@ -17,38 +17,38 @@ export interface IDataNoti {
 }
 
 var Stomp = require('stompjs/lib/stomp.js').Stomp;
-export const NoticeCancelItem = memo(({test}: {test: number[]}) => {
+export const NoticeCancelItem = memo(() => {
   const IdArea = useAreaId();
   const billId = useIdBill();
   const [data, setData] = useState<IDataNoti[]>([]);
   const isFocused = useIsFocused();
-  const currentIndex =  useRef<number>(1);
+  const currentIndex = useRef<number>(1);
 
-  const ref = useRef<any>(null);
   const pushItem = (itemPush: IDataNoti) => {
     currentIndex.current += 1;
-    let newData = [...data];
-    newData = [...data, {...itemPush , key : currentIndex.current}].slice( isTabletDevice ? -3 : -1);
-    setData(newData);
-    setTimeout(() => {
-      ref?.current?.scrollToEnd({animated: true});
-    }, 300);
+    // let newData = [...data];
+    // newData = [...data, {...itemPush, key: currentIndex.current}].slice(-3);
+    setData(data => [...data, {...itemPush, key: currentIndex.current}]);
+
   };
+
   const removeItem = useCallback(
     (item: IDataNoti) => {
-      const newData = [...data];
-      const findIndex = newData.indexOf(item);
-      newData.splice(findIndex, 1);
-      setData(newData);
-      setTimeout(() => {
-        ref?.current?.scrollToEnd({animated: true});
-      }, 300);
+
+      setData(data => data.filter(data => data.key !== item.key));
     },
     [data],
   );
 
-
   React.useEffect(() => {
+    // const intervalId = setInterval(() => {
+    //   pushItem({
+    //     state: true,
+    //     idInfrastructure: 123213,
+    //     idInvoice: 312212,
+    //     reason: 'hehehe',
+    //   });
+    // }, 3000);
     let stompClient1: any;
     if (IdArea && billId && isFocused) {
       const sockClient = new SockJS(SOCK_CLIENNT_URL);
@@ -56,13 +56,16 @@ export const NoticeCancelItem = memo(({test}: {test: number[]}) => {
       if (!stompClient.connected) {
         stompClient.connect(
           {},
-          function (frame: any) {
+          function () {
             setTimeout(() => {
               stompClient1 = stompClient.subscribe(
                 `/topic/order/noti/${IdArea}/${billId}`,
                 function (messageOutput: any) {
-                  const data = JSON.parse(messageOutput.body);
-                  pushItem(data);
+                  const dataSocket = JSON.parse(messageOutput.body);
+
+                  console.log('data noti cancel' ,dataSocket);
+
+                  pushItem(dataSocket);
                 },
               );
             });
@@ -72,23 +75,16 @@ export const NoticeCancelItem = memo(({test}: {test: number[]}) => {
       }
     }
     return () => {
+      // clearInterval(intervalId);
       if (stompClient1) {
         stompClient1.unsubscribe();
       }
     };
   }, [IdArea, billId, isFocused]);
+
   return (
-    <View style={styles.groupNotice}>
-      <NoticeItem data={data} ref={ref} removeItem={removeItem} />
-    </View>
+      <NoticeItem data={data} removeItem={removeItem} />
   );
 });
 
-const styles = StyleSheet.create({
-  groupNotice: {
-    position: 'absolute',
-    top: heightHeader,
-    right: 0,
-    maxWidth: isTabletDevice ?  (DIMENSION.width - 216) : DIMENSION.width,
-  },
-});
+
