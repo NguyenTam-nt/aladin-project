@@ -5,8 +5,13 @@ import {
   UtilHome4Icon,
 } from "@assets/icons";
 import Banner from "@components/Banner/Banner";
+import CartISlideImage from "@components/Card/CartISlideImage";
 import HotSaleProductNew from "@components/Category/HotSaleProductNew";
+import ContactSession from "@components/Home/ContactSession";
 import NewsItemHome from "@components/News/Item/NewsItemHome";
+import TitleSession from "@components/common/TitleSession";
+import SlideProductPaginate from "@components/product/SlideProductPaginate";
+import SlideProducts from "@components/product/SlideProducts";
 import OneSpecialProduct from "@components/product/list/OneSpecialProduct";
 import useI18n from "@hooks/useI18n";
 import useViewport from "@hooks/useViewPort";
@@ -140,10 +145,10 @@ function HomePage() {
   return (
     <div className="">
       <Banner className="h-auto lg:h-[50vh]" images={bannerImages} />
-      <div className="container px-4 lg:px-8 py-10">
+      <div className="lg:px-[156px] py-10">
         {/* <Banner className="h-auto lg:h-[50vh]" images={bannerHomepage} /> */}
 
-        <div className="grid xl:grid-cols-4 grid-cols-2  mt-4 sm:mt-9 shadow-md rounded-lg ">
+        {/* <div className="grid xl:grid-cols-4 grid-cols-2  mt-4 sm:mt-9 shadow-md rounded-lg ">
           {utilShops.map((u, i) => {
             return (
               <div
@@ -170,27 +175,27 @@ function HomePage() {
               </div>
             );
           })}
-        </div>
+        </div> */}
 
-        <HotSaleProductNew />
+        {/* <HotSaleProductNew /> */}
 
-        <div className="border-b-[1px]">
+        {/* <div className="border-b-[1px]">
           <OneSpecialProduct
             banner={bannerRecentlyHomepage}
             data={newProducts}
             name={t("homepage.recently_product.title")}
           />
-        </div>
+        </div> */}
 
-        <div className="border-b-[1px]">
+        {/* <div className="border-b-[1px]">
           <OneSpecialProduct
             banner={bannerHotsoldHomepage}
             data={hotSold}
             name={t("homepage.best_sale.title")}
           />
-        </div>
+        </div> */}
 
-        <div className="">
+        {/* <div className="">
           <h3 className="mt-10 mb-5 lg:mb-10 text-title font-semibold uppercase">
             {t("homepage.news.title")}
           </h3>
@@ -209,8 +214,29 @@ function HomePage() {
               {t("homepage.news.see_more")}
             </Link>
           </div>
+        </div> */}
+
+        <div className="grid grid-cols-4">
+          <CartISlideImage item={{ name: "Sức khỏe" }} />
+        </div>
+        <div>
+          <SlideProductPaginate />
+        </div>
+        <div className="py-12">
+          <TitleSession
+            text="text.section.special_product"
+            className="w-full mb-[30px]"
+          />
+        </div>
+        <div className=" relative py-[30px]">
+          <TitleSession
+            text="text.section.special_product"
+            className="w-full mb-[30px]"
+          />
+          <SlideProducts size={4} row={1} />
         </div>
       </div>
+      <ContactSession />
     </div>
   );
 }

@@ -13,10 +13,12 @@ module.exports = {
         '25': '25px',
         '195px': '12.2rem',
         '100': '6.25rem',
+        spc30: "30px",
         spc60: "60px",
         spc50: "50px",
         spc80: "80px",
         spc300: "300px",
+        spc400: "400px",
         spc510: "510px",
         'spc132%': "132%",
 
@@ -28,7 +30,10 @@ module.exports = {
         '3/4': "75%",
         '2/3': "60%",
         '1/2': "60%",
-        'spc510': '510px'
+        'spc510': '510px',
+      },
+      minHeight: {
+        'spc280': '280px'
       },
       fontFamily: {
         'valky': ['NVNValky'],
