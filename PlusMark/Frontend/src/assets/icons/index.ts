@@ -102,12 +102,13 @@ export { ReactComponent as ArrowForward } from "./arrowFoward.svg";
 export { ReactComponent as SendIcon } from "./send-icon.svg";
 export { ReactComponent as LocationIcon } from "./location-icon.svg";
 export { ReactComponent as HotlineIcon } from "./advise-icon.svg";
-
-
+export { ReactComponent as RemoveCartIcon} from "./icon-remove-cart.svg";
+export { ReactComponent as PaymentCartIcon} from "./cart-payment-icon.svg";
 
 export {
     FaceRound,
-    YtbRound
+    YtbRound,
+    
 }
 
 

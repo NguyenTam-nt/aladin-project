@@ -1,4 +1,4 @@
-import { CircleFilledIcon, DeleteIcon, TickIcon } from "@assets/icons";
+import {TickIcon, RemoveCartIcon} from "@assets/icons";
 import DiscountFlag from "@components/Flag/DiscountFlag";
 import AmountChange from "@components/common/AmountChange";
 import ColorSizeChoose from "@components/product/choose/ColorSizeChoose";
@@ -15,10 +15,10 @@ interface Props {
   change?: any,
   size: string,
   border?: any,
-  className?: string
+  className?: string,
 }
 
-const CartProductNew = ({ className, itemCart, change, size, border }: Props) => {
+const CartProductNew = ({ className, itemCart, change, size, border}: Props) => {
   const { onChangeItem, chooseProduct } = useCart()
   const [checked, setChecked] = useState<boolean>(itemCart.choose || false);
   const [quantityDescActive, setQuantityDescActive] = useState<boolean>(false);
@@ -29,6 +29,7 @@ const CartProductNew = ({ className, itemCart, change, size, border }: Props) =>
 
   const [sizeChoose, setsizeChoose] = useState<ProductSize | undefined>(itemCart.size)
   const [colorChoose, setcolorChoose] = useState<ProductColor | undefined>(itemCart.color)
+  const [itemChoose, setItemChoose] = useState<boolean | undefined>(true)
 
 
   useEffect(() => {
@@ -67,6 +68,10 @@ const CartProductNew = ({ className, itemCart, change, size, border }: Props) =>
     setcolorChoose(itemCart.color)
 
   }, [itemCart.color])
+
+  useEffect(() => {
+    setItemChoose(itemCart.choose)
+  })
 
   const handleIncrease = () => {
     if (quantity + 1 <= itemCart.size.total) {
@@ -110,21 +115,21 @@ const CartProductNew = ({ className, itemCart, change, size, border }: Props) =>
   }, [sizeChoose, colorChoose])
 
   return (
-    <div className={`${className} ${border && 'border-b'} ${size == 'sm' && 'py-6'} ${size == 'cart' && 'py-4'} py-10 flex items-center botder-b-backgroud-100`}>
+    <div className={`${className} ${border && 'border-b'} ${size == 'sm' && 'py-6'} ${size == 'cart' && 'py-4'} py-10 flex items-center border-b-background-100`}>
       {change && (
         <div>
           <label>
             <input
               className="hidden"
               type="checkbox"
-              checked={checked}
+              checked={itemChoose}
               onChange={handleChecked}
             />
             <div
-              className={`w-6 sm:w-7 aspect-square p-1 border-2 flex items-center justify-center rounded-sm ${checked ? "bg-[#ff7d03]" : ""
+              className={`w-6 sm:w-7 aspect-square p-1 border-2 flex items-center justify-center rounded-sm ${itemChoose ? "bg-main" : ""
                 }`}
             >
-              {itemCart.size.total > 0 && checked && <TickIcon />}
+              {itemCart.size.total > 0 && itemChoose && <TickIcon />}
             </div>
           </label>
         </div>
@@ -139,7 +144,10 @@ const CartProductNew = ({ className, itemCart, change, size, border }: Props) =>
         }`)}
       >
         <img
-          className={`w-20`
+          className={` 
+          false 
+          max-w-[64px]  
+          lg:w-[240px] aspect-square object-contain`
           }
           src={itemCart.image}
           alt=""
@@ -149,99 +157,53 @@ const CartProductNew = ({ className, itemCart, change, size, border }: Props) =>
           <div className="flex justify-between gap-3">
             <div className="flex-1 relative">
               <div className="flex gap-3 justify-between items-center pt-9">
-                <Link to={ROUTES.product.detail(itemCart.id)} className={clsx("hover:cursor-pointer text-normal text-black mb-2 line-clamp-2", { "mb-1 text-wap-regular2": size == 'cart' })}>
+                <Link to={ROUTES.product.detail(itemCart.id)} className={clsx("hover:cursor-pointer text-normal text-black mb-2 line-clamp-2 w-1/3", { "mb-1 text-wap-regular2": size == 'cart' })}>
                   {itemCart.name}
                 </Link>
-                <div className="text-main text-text font-bold">{formatMoney(itemCart.price)}</div>
-                {itemCart.size.total == 0 ? <span>Đã hết hàng</span> :
-                  <AmountChange
-                    className="text-normal2"
-                    quantity={quantity}
-                    descActive={quantityDescActive}
-                    ascActive={quantityAscActive}
-                    handleIncrease={handleIncrease}
-                    handleDecrease={handleDecrease}
-                  />}
-                <div className="text-main text-[#ff7d03] font-bold">{formatMoney(itemCart.price)}</div>
-                <div className="min-h-full flex">
-                  <button onClick={handleRemoveFromCart}>
-                    <img src="https://file.rendit.io/n/EqPt1AuwD0WLICaDiSws.svg" className="w-6" />
-                  </button>
-                </div>
-
+                {size == 'normal' &&
+                  <>
+                    <div className="text-main text-text font-bold">{formatMoney(itemCart.price)}</div>
+                    {itemCart.size.total == 0 ? <span>Đã hết hàng</span> :
+                      <AmountChange
+                        className="text-normal2 mr-5"
+                        quantity={quantity}
+                        descActive={quantityDescActive}
+                        ascActive={quantityAscActive}
+                        handleIncrease={handleIncrease}
+                        handleDecrease={handleDecrease}
+                      />}
+                    <div className="text-[#FF7D03] font-bold">{formatMoney(itemCart.price * itemCart.quantity)}</div>
+                    <div className="min-h-full flex">
+                      <RemoveCartIcon onClick={handleRemoveFromCart}>
+                      </RemoveCartIcon>
+                    </div>
+                  </>
+                }
               </div>
-              {
-                change &&
-                <div className={clsx("   z-10 absolute -translate-x-1/2 lg:translate-x-0 left-4 lg:left-0 top-[calc(100%_+_4px)] lg:top-[calc(100%_+_18px)] bg-white rounded-md p-4  border border-gray-100", {
-                  "block": openChoseSizeColor,
-                  "hidden": !openChoseSizeColor
-                })}
-                  style={{ boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)" }}
-                >
-                  <div className="hidden lg:block absolute left-6 -top-2.5 w-5 h-5 rotate-45 border-t border-l "></div>
-                  <div className="w-fit h-fit bg-white">
-                    <ColorSizeChoose
-                      sizeChoose={sizeChoose}
-                      colorChoose={colorChoose}
-                      colorPicker={productData?.colors}
-                      onChangeSize={setsizeChoose}
-                      onChangeColor={setcolorChoose}
-                      close={setopenChoseSizeColor}
-                    />
+            </div>
+          </div>
+          <div>
+            {change && size == 'cart' &&
+              <div className="mt-2 sm:mt-4">
+                <div className="text-main font-bold ">{formatMoney(itemCart.price)}</div>
+                <div className="flex justify-between items-center mt-2 sm:mt-4">
+                  {itemCart.size.total == 0 ? <span>Đã hết hàng</span> :
+                    <AmountChange
+                      className="text-wap-regular2 mt-4"
+                      quantity={quantity}
+                      descActive={quantityDescActive}
+                      ascActive={quantityAscActive}
+                      handleIncrease={handleIncrease}
+                      handleDecrease={handleDecrease}
+                    />}
+                  <div className="min-h-full flex">
+                  <RemoveCartIcon onClick={handleRemoveFromCart}>
+                      </RemoveCartIcon>
                   </div>
                 </div>
-              }
-            </div>
-            {
-              size == 'cart' &&
-              <button className="hover:text-black  w-6 h-6 flex justify-center items-center text-gray-200 border border-gray-200 text-normal1 pb-1 "
-                onClick={handleRemoveFromCart}
-              >
-                x
-              </button>
+              </div>
             }
           </div>
-          {/* <div className="">
-            {change && size == 'normal' ? (
-              <div className="flex items-center justify-between">
-                {itemCart.size.total == 0 ? <span>Đã hết hàng</span> :
-                <AmountChange 
-                  className = " text-normal2"
-                  quantity={quantity}   
-                  descActive={quantityDescActive}
-                  ascActive={quantityAscActive}
-                  handleIncrease={handleIncrease}
-                  handleDecrease={handleDecrease}
-                /> }
-                <div className="min-h-full flex items-end">
-                  <button onClick={handleRemoveFromCart}>
-                    <DeleteIcon />
-                  </button>
-                </div>
-              </div>
-            ) :  size == 'cart' ? (
-              <div className="flex justify-between items-center mt-2 sm:mt-4">
-                 {itemCart.size.total == 0 ? <span>Đã hết hàng</span> :
-                 <AmountChange 
-                  className = "text-wap-regular2 "
-                  quantity={quantity}   
-                  descActive={quantityDescActive}
-                  ascActive={quantityAscActive}
-                  handleIncrease={handleIncrease}
-                  handleDecrease={handleDecrease}
-                /> }
-                <div className="text-main text-normal1 font-bold">{formatMoney(itemCart.price)}</div>
-              </div>
-            ) : (
-              <div className="flex justify-between items-center">
-                <p className="text-wap-regular2 py-2 text-main">
-                  x
-                  <span className="px-3 text-main">{quantity}</span>
-                </p>
-                <div className="text-main text-normal1 font-bold">{formatMoney(itemCart.price)}</div>
-              </div>
-            )}
-          </div> */}
         </div>
       </div>
     </div>

@@ -10,20 +10,31 @@ import { formatMoney } from "@utility/helper";
 import clsx from "clsx";
 import { useState, useContext, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { PaymentCartIcon, RemoveCartIcon, TickIcon } from "@assets/icons";
 
 const CartPage = () => {
 
   const { t } = useI18n()
   const navigate = useNavigate()
   const { listToast, onAddToast } = useContext(ToastContex);
-  const { cartQuantity, totalPriceChoose, cartItems } = useCart()
+  const { cartQuantity, totalPriceChoose, cartItems, setCartItems } = useCart()
   const [voucher, setVoucher] = useState<string>("")
   const [moneyVoucher, setmoneyVoucher] = useState<number>(0)
   const [isLoading, setIsLoading] = useState<boolean>(false)
+  const [checked, setChecked] = useState<boolean>(false);
 
   useEffect(() => {
     callApiCheckVoucher()
   }, [cartItems])
+
+  useEffect(() => {
+    const selectedItems = cartItems.filter(item => item.choose);
+    if (selectedItems.length === cartItems.length) {
+      setChecked(false);
+    } else {
+      setChecked(true);
+    }
+  }, [cartItems]);
 
   const handleClickToPayment = () => {
     let c = cartItems.filter(c => c.choose)
@@ -33,6 +44,17 @@ const CartPage = () => {
       onAddToast({ type: "warn", message: `Vui lòng chọn sản phẩm!` });
     }
   }
+
+  const handleSetChecked = () => {
+    setChecked(!checked);
+    const updatedCartItems = cartItems.map((cartItem) => {
+      return {
+        ...cartItem,
+        choose: checked,
+      };
+    });
+    setCartItems(updatedCartItems);
+  };
 
   const handleCheckVoucher = () => {
     if (!voucher) {
@@ -90,60 +112,57 @@ const CartPage = () => {
       <div className="mt-6 font-['Nunito_Sans']">
         Giỏ mua hàng
       </div>
-      <div className="rounded-lg bg-white pb-12 pt-6 flex flex-col xl:flex-row xl:gap-10">
 
-        <div className="flex-1 rounded-[20px] border mb-2 fit">
-          {/* <div className="bg-white flex flex-row justify-between h-12 shrink-0 items-center px-4 rounded-[20px] border">
-            <div className="flex flex-row gap-3 items-start">
-              <input type="checkbox"
-                className="w-6 sm:w-8 aspect-square p-1 border-2 flex items-center justify-center rounded-sm"
-              />
-              <div className="font-['Nunito_Sans'] text-[#313131]">
-                Tất cả ({cartItems.length} sản phẩm)
+      <div className="rounded-lg bg-white pb-12 pt-6 flex flex-col xl:flex-row xl:gap-10">
+        <div className="flex-1 rounded-[20px] mb-2 fit">
+          <div className="flex justify-between items-center rounded-md border mb-5">
+            <label className="flex p-3 w-1/2 item-center justify-start">
+              <input
+                className="hidden"
+                type="checkbox"
+                onClick={handleSetChecked} />
+              <div
+                className={`w-6 sm:w-7 aspect-square p-1 border-2 flex items-center justify-center rounded-sm ${!checked ? "bg-main" : ""}`} >
+                <TickIcon />
               </div>
+              <div className="p-1 ml-5 ">
+                {t("cart.payment_info.label_total_items", { total: cartItems.length })}
+              </div>
+            </label>
+            <div >Đơn giá</div>
+            <div >Số lượng</div>
+            <div >Thành tiền</div>
+            <div className="pr-3">
+              <RemoveCartIcon />
             </div>
-            <div className="flex flex-row gap-10 w-1/2 items-center">
-              <div className="font-['Nunito_Sans'] text-[#313131] mr-4">
-                Đơn giá
-              </div>
-              <div className="font-['Nunito_Sans'] text-[#313131] mr-1">
-                Số lượng
-              </div>
-              <div className="font-['Nunito_Sans'] text-[#313131]">
-                Thành tiền
-              </div>
-              <img
-                src="https://file.rendit.io/n/diLvrWEqo6zojBwo2m7M.svg"
-                className="self-start w-6 shrink-0"
-              />
-            </div>
-          </div> */}
-          
-          {cartQuantity > 0 ? cartItems.map((it, idx) => (
-            <div key={it.id+idx} className="rounded-[20px] mt-5 p-3">
-              <div className="hidden lg:block">
-                <CartProductNew itemCart={it} change={it.size.total > 0}  size="normal"  />
-              </div>
-              <div className="block lg:hidden">
-                <CartProductNew itemCart={it} change={it.size.total > 0} size="cart"  />
-              </div>
-            </div>
-          )) : <div className="w-full flex justify-center mt-8">
-            <img src="/images-raw/empty-cart.png" alt="empty-cart"/>
           </div>
-        }
+          <div className="flex-1 rounded-[20px] border mb-2 fit">
+            {cartQuantity > 0 ? cartItems.map((it, idx) => (
+              <div key={it.id + idx} className="rounded-[20px] p-3">
+                <div className="hidden lg:block">
+                  <CartProductNew itemCart={it} change={it.size.total > 0} size="normal" />
+                </div>
+                <div className="block lg:hidden">
+                  <CartProductNew itemCart={it} change={it.size.total > 0} size="cart" />
+                </div>
+              </div>
+            )) : <div className="w-full flex justify-center mt-8">
+              <img src="/images-raw/empty-cart.png" alt="empty-cart" />
+            </div>
+            }
+          </div>
         </div>
-        <div className="py-4 px-3 w-full xl:w-1/4 bg-gray-200-60 rounded-md h-fit mt-8 lg:mt-0">
-          <div className="bg-white rounded-md p-3 mb-4">
+        <div className="py-4 px-3 w-full xl:w-1/4 bg-white border rounded-md h-fit mt-8 lg:mt-0">
+          <div className="bg-[#DAF1E7] rounded-md p-3 mb-4">
             <p className="text-wap-regular2 text-text mb-2">{t("cart.payment_info.title")}</p>
             <div className="h-8 flex gap-1">
-              <div className="flex-1 border-gray-200 border">
-                <input type="text" value={voucher} onChange={e => setVoucher(e.target.value)} name="promotion" className="w-full h-full text-text placeholder:text-gray-200 text-wap-regular2 px-2" placeholder={t("cart.payment_info.placehoder_promotion") || ""} />
+              <div className="flex-1">
+                <input type="text" value={voucher} onChange={e => setVoucher(e.target.value)} name="promotion" className="w-full h-full text-text rounded-lg border bg-[#DAF1E7] placeholder:text-[#626262] text-wap-regular2 px-2" placeholder={t("cart.payment_info.placehoder_promotion") || ""} />
               </div>
               <BtnLoading
                 onClick={handleCheckVoucher}
                 isLoading={isLoading}
-                className={clsx("btn text-wap-regular2 rounded-none px-2 bg-main w-fit h-full text-center text-white", {
+                className={clsx("btn text-wap-regular2 rounded-lg bg-header px-2 w-fit h-full text-center text-white", {
                   "opacity-70 cursor-default": isLoading
                 })}
               > {t("cart.payment_info.promotion_btn")}</BtnLoading>
@@ -166,19 +185,20 @@ const CartPage = () => {
             </div>
           </div>
           <div className="flex justify-between py-4 mb-6 border-t-[1px] border-gray-100">
-            <h1 className="text-wap-regular2  text-text">
+            <h1 className="text-wap-regular2  text-text font-semibold">
               {t("cart.payment_info.total_price")}
             </h1>
             <div className="text-normal text-black font-semibold">
               {formatMoney(totalPriceChoose - moneyVoucher)}
             </div>
           </div>
-          <button className={clsx("btn text-normal font-medium bg-main w-full h-9 text-center text-white my-3", {
+          <button className={clsx("btn text-normal font-medium rounded-lg bg-header w-full h-9 text-center text-white my-3", {
             "opacity-60 cursor-default": cartQuantity <= 0
           })} onClick={handleClickToPayment}>
+            <PaymentCartIcon />
             {t("cart.payment_info.btn_process_payment")}
           </button>
-          <Link to={"/"} className="btn text-normal font-medium border-background-100 border-2 w-full h-9 text-center text-black ">
+          <Link to={"/"} className="btn text-main font-semibold rounded-lg border-[#00c3ab] border-2 w-full h-9 text-center text-black ">
             {t("cart.payment_info.btn_buy_more")}
           </Link>
         </div>
