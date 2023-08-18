@@ -12,7 +12,9 @@ import {
 import { DIMENSION } from '@constants';
 import Animated, {
   runOnJS,
+  useAnimatedStyle,
   useSharedValue,
+  useWorkletCallback,
   withTiming,
 } from 'react-native-reanimated';
 import { ICCloseModal } from 'src/assets/icons/ICCloseModal';
@@ -25,14 +27,21 @@ export const NoticeItem = React.memo(
     removeItem,
   }: {
     data: IDataNoti[]
-    ref: React.MutableRefObject<any>
     removeItem: (item: IDataNoti) => void
   }) => {
     return (
-      <View style={{ position : 'absolute' , top : 40 , right : 0 , flexDirection : 'row'}}>
-        {data.reverse().map((item) => {
+      <View
+        style={{
+          position: 'absolute',
+          top: 40,
+          right: 0,
+          flexDirection: isTabletDevice ? 'row' : 'column',
+          maxWidth: isTabletDevice ? DIMENSION.width - 216 : DIMENSION.width,
+          gap : 12,
+        }}>
+        {data.map(item => {
           return (
-            <RenderItem item={item} removeItem={removeItem}/>
+            <RenderItem key={item.key} item={item} removeItem={removeItem} />
           );
         })}
       </View>
@@ -50,44 +59,50 @@ const RenderItem = React.memo(
   }) => {
     const defaultWidth = getValueForDevice(
       (DIMENSION.width - 216 - 16 * 3) / 3,
-      DIMENSION.width * 0.7,
+      DIMENSION.width * 0.9,
     );
-    const translateX = useSharedValue(defaultWidth);
-    const widthItem = useSharedValue(defaultWidth);
-    const animatedStyle = useMemo<
-      StyleProp<Animated.AnimateStyle<StyleProp<ViewStyle>>>
-    >(() => {
-      return {
-        transform: [{translateX: translateX}],
-      };
-    }, [translateX, widthItem]);
 
-   const animationContainer = useMemo<
-     StyleProp<Animated.AnimateStyle<StyleProp<ViewStyle>>>
-   >(() => {
-     return {
-       width: widthItem,
-     };
-   }, [widthItem]);
-
-   const Check = () => {
-     removeItem(item);
-   };
-   const delteItem = () => {
-     Check();
-   };
-
-    useEffect(() => {
-      translateX.value = withTiming(
-        0,
-        {
-          duration: 300,
-        },
-        () => {
-          translateX.value = 0;
-        },
-      );
+    const widthItem = useSharedValue(0);
+    const heightItem = useSharedValue(0);
+    const containerAnimated = useAnimatedStyle(() => {
+      return isTabletDevice
+        ? {
+            width: widthItem.value,
+          }
+        : {height: heightItem.value};
     }, []);
+
+    const Check = () => {
+      removeItem(item);
+    };
+    const delteItem = () => {
+      if (isTabletDevice) {
+        widthItem.value = withTiming(0, {duration: 400}, isFinished => {
+          if (isFinished) {
+            runOnJS(Check)();
+          }
+        });
+      } else {
+        heightItem.value = withTiming(0, {duration: 400}, isFinished => {
+          if (isFinished) {
+            runOnJS(Check)();
+          }
+        });
+      }
+    };
+    useEffect(() => {
+       if (isTabletDevice) {
+        widthItem.value = withTiming(defaultWidth, {duration: 400});
+       } else {
+        heightItem.value = withTiming(102 ,  {duration: 400});
+       }
+      const timeout = setTimeout(() => {
+        delteItem();
+      }, 9000);
+      return () => {
+        clearTimeout(timeout);
+      };
+    }, [item.key]);
 
     return (
       <Animated.View
@@ -95,12 +110,11 @@ const RenderItem = React.memo(
           {
             alignItems: 'center',
             justifyContent: 'center',
-            marginRight: 8,
             overflow: 'hidden',
           },
-          animationContainer,
+          containerAnimated,
         ]}>
-        <Animated.View style={[styles.noticeItem,animatedStyle]}>
+        <Animated.View style={[styles.noticeItem]}>
           <View style={{width: defaultWidth * 0.8}}>
             <View style={styles.styleGroupText}>
               <ICCloseModal
@@ -115,7 +129,7 @@ const RenderItem = React.memo(
                 Bếp từ chối huỷ món {item.key}
               </TextCustom>
             </View>
-            <View style={{paddingLeft: 5, marginTop: 15 , paddingBottom : 5}}>
+            <View style={{paddingLeft: 5, marginTop: 15, paddingBottom: 5}}>
               <TextCustom
                 fontSize={14}
                 numberOfLines={2}
@@ -148,15 +162,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flexDirection: 'row',
     justifyContent: 'space-between',
-    paddingHorizontal : 16,
-
+    marginHorizontal: getValueForDevice(16 , '2.5%') ,
   },
   styleGroupText: {
     flexDirection: 'row',
     alignItems: 'center',
   },
   container: {
-   backgroundColor : 'transparent',
+    backgroundColor: 'transparent',
   },
   itemContainer: {
     flexDirection: 'row',

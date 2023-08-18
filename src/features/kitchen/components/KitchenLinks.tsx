@@ -4,8 +4,7 @@ import {routerKitchens, routerPath} from '../../../navigations/DrawerKitchen';
 import {useNavigation, useRoute} from '@react-navigation/native';
 import {defaultColors} from '@configs';
 import {TextCustom} from '@components';
-import {ICSort} from '../../../assets/icons/ICSort';
-import {ICDown} from '../../../assets/icons/ICDown';
+
 import {MultipleScreenView} from 'src/components/MultipleScreenView';
 
 type Props = {

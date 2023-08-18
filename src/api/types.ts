@@ -9,6 +9,7 @@ export interface IResponseApi<T> {
     max: number
   }
   count?: number
+  code? : number
 }
 export interface IParamBase {
   authen?: string

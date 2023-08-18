@@ -79,8 +79,6 @@ export const getTable = async (
 export const getTableID = async (id : number): Promise<IResponseApi<IFloorInfo[]>> => {
   try {
     const result = await request().patch(`${APIs.TABLEID}?idTable=${id}`);
-
-
     const {data} = await result;
     return {
       success: true,

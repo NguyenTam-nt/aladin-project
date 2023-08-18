@@ -1,7 +1,8 @@
 import { defaultColors, heightHeader, isTabletDevice } from '@configs';
 import { DIMENSION } from '@constants';
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import {
+  AppState,
   Platform,
   StyleProp,
   StyleSheet,
@@ -33,14 +34,16 @@ import {
 import CartList from './CartList/CartList';
 import ListOfFood from './ListOfFood/ListOfFood';
 import { useIsFocused } from '@react-navigation/native';
+import { ProductState } from './CartList/TableCartList';
 var Stomp = require('stompjs/lib/stomp.js').Stomp;
-
 
 const CartItem = React.memo(() => {
   const insets = useSafeAreaInsets();
   const [isOpenCart, setIsOpenCart] = useState(false);
   const [isOpenList, setIsOpenList] = useState(false);
   const isOpenDrawerFloor = useIsShowDrawerFloor();
+  const appState = useRef(AppState.currentState);
+  const [appStateVisible, setAppStateVisible] = useState(appState.current);
   const isOpenActionCart = useIsShowActionCart();
   const heightButtonValue = getValueForDevice(64, 128);
   const dataItemCart = useListItemProductInCart();
@@ -55,7 +58,9 @@ const CartItem = React.memo(() => {
     }
   }, [billId]);
   useEffect(() => {
-    getItemInCart();
+    if (billId) {
+      getItemInCart();
+    }
   }, [billId]);
   const dataItem = useListItemInCart();
 
@@ -63,10 +68,13 @@ const CartItem = React.memo(() => {
     return [...dataItemCart, ...dataItem];
   }, [dataItemCart, dataItem]);
 
+
+
   const cost = useMemo(() => {
     let newCost = 0;
     dataList.map((item: IITemCart & IProductInCart) => {
-      newCost += (item?.quantity || item?.numProduct) * item.price;
+      if (item.status !== ProductState.CANCEL)
+        {newCost += (item?.quantity || item?.numProduct) * item.price;}
     });
     return newCost;
   }, [dataList]);
@@ -78,6 +86,7 @@ const CartItem = React.memo(() => {
     });
     return newNumber;
   }, [dataList]);
+
   const heightView =
     DIMENSION.height -
     heightButtonValue -
@@ -85,7 +94,6 @@ const CartItem = React.memo(() => {
     (Platform.OS === 'ios' ? insets.top : DIMENSION.topPadding);
   const height = useSharedValue(0);
   const locationCart = useSharedValue(64);
-
   const styleView = useAnimatedStyle(() => {
     let inputRange = [0, heightView * 0.6, heightView];
     let outputRange = [0, 0, 1];
@@ -217,35 +225,62 @@ const CartItem = React.memo(() => {
   }, [isOpenActionCart]);
 
   useEffect(() => {
-   let stompClientSub : any;
-    if (IdArea && billId && isFocus) {
+    let stompClient1: any = null;
+    let stompClient: any = null;
+    const connectWebSocket = () => {
       const sockClient = new SockJS(SOCK_CLIENNT_URL);
-      let stompClient = Stomp.over(sockClient);
-      if (!stompClient.connected) {
-        stompClient.connect(
-          {},
-          function () {
-            setTimeout(() => {
-              stompClientSub = stompClient .subscribe(
-                `/topic/order/${IdArea}/${billId}`,
-                function (messageOutput: any) {
-                  const data = JSON.parse(
-                    messageOutput.body,
-                  ) as IResponseProductUpdate;
-                  dispatch(setItemProductInCart(data.list));
-                  console.log('data', data);
-                },
-              );
-            });
-          },
-          500,
-        );
-      }
+      stompClient = Stomp.over(sockClient);
+      stompClient.heartbeat.outgoing = 5000;
+      stompClient.heartbeat.incoming = 5000;
+      stompClient.reconnect_delay = 5000;
+      stompClient.debug = function (message : any) {
+        console.log('check  message', message); // show tất cả tin nhắn debug từ Stomp
+      };
+      stompClient.connect(
+        {},
+        function () {
+          setTimeout(() => {
+            stompClient1 = stompClient .subscribe(
+              `/topic/order/${IdArea}/${billId}`,
+              function (messageOutput: any) {
+                const data = JSON.parse(
+                  messageOutput.body,
+                ) as IResponseProductUpdate;
+                dispatch(setItemProductInCart(data.list));
+              },
+            );
+          }, 500,);
+        },
+        stompFailureCallback,
+      );
+    };
+    var stompFailureCallback = function (error: any) {
+      console.log('STOMP error: ' + error);
+      getItemInCart();
+      setTimeout(connectWebSocket, 5000);
+      console.log('STOMP: Reconecting in 5 seconds');
+    };
+    if (IdArea && isFocus && billId && appStateVisible === 'active') {
+      connectWebSocket();
     }
     return () => {
-      stompClientSub?.unsubscribe();
+      if (stompClient1) {
+        stompClient1.unsubscribe();
+      }
     };
-  }, [IdArea, billId ,isFocus]);
+  }, [IdArea, billId ,isFocus, appStateVisible]);
+
+
+
+  useEffect(() => {
+    const subscription = AppState.addEventListener('change', nextAppState => {
+      appState.current = nextAppState;
+      setAppStateVisible(appState.current);
+    });
+    return () => {
+      subscription.remove();
+    };
+  }, []);
 
   return (
     <View style={{flex: 1, display: isOpenDrawerFloor ? 'none' : 'flex'}}>

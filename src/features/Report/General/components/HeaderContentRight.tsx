@@ -1,25 +1,25 @@
 import { defaultColors } from '@configs';
 import React from 'react';
-import { StyleSheet, View ,Text } from 'react-native';
-import { TabBarOrder } from 'src/features/orderTab/ContentOrderTab';
+import { StyleSheet, Text, View } from 'react-native';
+import { FomatDateYY_MM_DD } from 'src/commons/formatDate';
+import { useUserInfo } from 'src/redux/reducers/hook';
 
 
-const HeaderContentRight = () => {
-
-
+const HeaderContentRight = ( {stringDate} : {stringDate : string}) => {
+  const userInfo = useUserInfo();
   return (
     <View style={styles.container}>
       <View style={styles.headerContent}>
         <Text style={styles.textHeaderTime}>
-          <Text style={styles.textBold}>Ngày lập:</Text> 15/06/2023 - 15:00
+          <Text style={styles.textBold}>Ngày lập:</Text> {FomatDateYY_MM_DD(new Date().toDateString())}
         </Text>
         <Text style={styles.textHeaderTime}>
-          <Text style={styles.textBold}>Người lập:</Text> admin
+          <Text style={styles.textBold}>Người lập:</Text> {userInfo.fullname}
         </Text>
       </View>
       <Text style={styles.textTitle}>BÁO CÁO MÓN ĂN</Text>
       <Text style={styles.textHeaderTime}>
-        <Text style={styles.textBold}>Ngày:</Text> Từ 29/06/2023 đến 29/07/2023
+        <Text style={styles.textBold}>Ngày:</Text> {stringDate}
       </Text>
     </View>
   );

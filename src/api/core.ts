@@ -1,4 +1,4 @@
-import { useNavigation } from '@react-navigation/native';
+import { baseUrl } from './config';
 import axios, {
   AxiosRequestConfig,
   AxiosResponse,
@@ -6,18 +6,23 @@ import axios, {
 } from 'axios';
 import store from 'src/redux';
 import { setRefreshToken, setToken } from 'src/redux/reducers/AuthSlice';
-import { refreshToken } from './login';
-import { useToken } from 'src/redux/reducers/hook';
-
+import { refreshToken, urlLogin } from './login';
+import { MessageUtils } from 'src/commons/messageUtils';
+import { RefNavigationToLoginScreen } from 'src/navigations/DrawerMain';
 const {CancelToken} = axios;
 const source = CancelToken.source();
 
 const logout = () => {
-  const navigation = useNavigation();
-  navigation.replace('login');
+  RefNavigationToLoginScreen?.current?.GotoLoginScreen();
 };
-const axiosInstance = axios.create();
 
+const ShowMessageRefreshTokenError = () => {
+  MessageUtils.showErrorMessage(
+    'Không thể refresh token, thực hiện đăng nhập lại!',
+  );
+};
+
+const axiosInstance = axios.create();
 axiosInstance.interceptors.response.use(
   response => {
     // Nếu phản hồi thành công, trả về phản hồi
@@ -25,31 +30,38 @@ axiosInstance.interceptors.response.use(
   },
   async error => {
     const originalRequest = error.config;
-    if (error.response.status === 401 && !originalRequest._retry) {
-      originalRequest._retry = true;
-      const refresh_token = store.getState().appInfoReducer.refreshToken;
 
-      try {
-        const res = await refreshToken(refresh_token);
-        if (res.data === 200 || res.data === 201) {
-          originalRequest.headers.Authorization = `Bearer ${res.data.access_token}`;
-          store.dispatch(setRefreshToken(res.data.refresh_token));
-          store.dispatch(setToken(res.data.access_token));
-
-          return axiosInstance(originalRequest);
-        }
-      } catch (e) {
-        const status = e.response?.status;
-        if (status === 401) {
+    if (error.response.status === 401 && originalRequest.baseURL !== urlLogin) {
+    // Nếu có lỗi 401, thực hiện refresh token
+      if (!originalRequest._retry) {
+        originalRequest._retry = true;
+        const refresh_token = store.getState().appInfoReducer.refreshToken;
+        try {
+          const res = await refreshToken(refresh_token);
+          if (res.success) {
+            // Cập nhật token mới vào header của originalRequest
+            originalRequest.headers.Authorization = `Bearer ${res.data.access_token}`;
+            // Cập nhật token và refresh token mới
+            store.dispatch(setRefreshToken(res.data.refresh_token));
+            store.dispatch(setToken(res.data.access_token));
+            // Thực hiện lại request ban đầu với token mới
+            return axiosInstance(originalRequest);
+          } else {
+            // refresh token thất bại
+            ShowMessageRefreshTokenError();
+            logout();
+          }
+        } catch (e) {
+          // Nếu có lỗi khác khi refresh token
+          ShowMessageRefreshTokenError();
           logout();
         }
+      } else {
+        // Nếu retry token không thành công, thực hiện logout
+        ShowMessageRefreshTokenError();
+        logout();
       }
-
-      // Cập nhật token mới vào header của originalRequest
-
-      // Thực hiện lại request ban đầu với token mới
     }
-
     // Nếu không phải lỗi 401 hoặc refresh token không thành công, throw error
     throw error;
   },

@@ -8,11 +8,14 @@ import { useUserInfo } from 'src/redux/reducers/hook';
 import DrawerNavigation from './Drawer';
 import DrawerKitchen from './DrawerKitchen';
 import DrawerOrderNavigation from './DrawerOrder';
+import { useNavigation } from '@react-navigation/native';
 
-
+export const RefNavigationToLoginScreen : any = React.createRef();
 export const RootStack = createStackNavigator();
 export const DrawerMain = () => {
-
+  if (!RefNavigationToLoginScreen.current) {
+    RefNavigationToLoginScreen.current = {};}
+    const navigation = useNavigation();
   const screenOptions = useMemo<DrawerNavigationOptions>(
     () => ({
       drawerType: isTabletDevice ? 'permanent' : 'slide',
@@ -32,6 +35,11 @@ export const DrawerMain = () => {
         return false;
     }
   });
+  const GotoLoginScreen = () => {
+    navigation.replace('login');
+  };
+
+  RefNavigationToLoginScreen.current.GotoLoginScreen = GotoLoginScreen;
 
   return (
     <>

@@ -138,13 +138,16 @@ const TableOrder = ({item}: {item: IFloorInfo}) => {
     [idTable, userInfo],
   );
 
+  const hiddenModal = useCallback(() => {
+    setOTPCode('');
+    modalEditInventory.handleHidden();
+  } , []);
+
   const confirmPinAction = useCallback(() => {
     if (otpCode === OTPCodeValue && currentTable.current) {
       pressTable(currentTable.current, true);
     }
   }, [otpCode]);
-
-
 
   return (
     <View>
@@ -161,12 +164,12 @@ const TableOrder = ({item}: {item: IFloorInfo}) => {
         })}
       </View>
       <ModalCustom
-        onBackdropPress={modalEditInventory.handleHidden}
+        onBackdropPress={hiddenModal}
         ref={modalEditInventory.refModal}>
         <View style={styles.modalEdit}>
           <TouchableOpacity
             style={{padding: 10, position: 'absolute', top: 15, right: 10}}
-            onPress={modalEditInventory.handleHidden}>
+            onPress={hiddenModal}>
             <ICCloseModal color={defaultColors.c_fff} />
           </TouchableOpacity>
           <View style={styles.contentHeaderModal}>
@@ -192,7 +195,7 @@ const TableOrder = ({item}: {item: IFloorInfo}) => {
                 opacity: isPinReady ? 1 : 0.5,
               }}
               ICCancel={<ICDelete />}
-              onPressCancel={modalEditInventory.handleHidden}
+              onPressCancel={hiddenModal}
               onPressDone={confirmPinAction}
             />
           </View>

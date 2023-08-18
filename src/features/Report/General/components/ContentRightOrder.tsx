@@ -9,15 +9,16 @@ import { IReportAll } from 'src/api/report';
 
 interface IContentRightOrderReport {
   dataReport: IReportAll[]
+  stringDate : string
 }
 
 const ContentRightOrder = (props : IContentRightOrderReport & TabBarOrder ) => {
-  const { setIsOpenTab ,dataReport} = props;
+  const {setIsOpenTab, dataReport ,stringDate} = props;
   return (
-    <View  style={{ flex : 1}}>
+    <View style={{flex: 1}}>
       <ButtonMenuTabBar onPress={setIsOpenTab} />
-      <View  style={styles.container}>
-        <HeaderContentRight />
+      <View style={styles.container}>
+        <HeaderContentRight stringDate={stringDate}/>
         <TableRightContent dataReport={dataReport} />
       </View>
     </View>

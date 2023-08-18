@@ -1,27 +1,28 @@
+import { defaultColors } from '@configs';
+import React, { useCallback } from 'react';
 import {
-  View,
-  StyleSheet,
-  Platform,
   FlatList,
-  Share,
-  ScrollView,
-  Alert,
+  ListRenderItemInfo,
+  Platform,
+  StyleSheet,
+  View,
 } from 'react-native';
-import React, {useCallback, useMemo, useState} from 'react';
-import {globalStyles} from 'src/commons/globalStyles';
-import {defaultColors} from '@configs';
 import RNHTMLtoPDF from 'react-native-html-to-pdf';
+import { globalStyles } from 'src/commons/globalStyles';
 // import { Dirs, FileSystem } from "react-native-file-access";
 // const DDP = Dirs.DocumentDir + "/";
-import {TextCustom} from '@components';
-import XLSX, {WorkSheet, read, utils} from 'xlsx-js-style';
-import {GroupAction} from './GroupAction';
-import {handleSelectResourses} from 'src/commons/permissionUtil';
-import {isIOS} from '@constants';
-import ButtonMenuTabBar from 'src/components/DropDownView/ButtonMenuTabBar';
-import {getValueForDevice} from 'src/commons/formatMoney';
+import { TextCustom } from '@components';
+import { isIOS } from '@constants';
 import RNFetchBlob from 'rn-fetch-blob';
+import { IReportDist } from 'src/api/report';
+import { getValueForDevice } from 'src/commons/formatMoney';
+import { handleSelectResourses } from 'src/commons/permissionUtil';
+import ButtonMenuTabBar from 'src/components/DropDownView/ButtonMenuTabBar';
 import SpaceBottom from 'src/components/SpaceBottom';
+import XLSX from 'xlsx-js-style';
+import { GroupAction } from './GroupAction';
+import { ExportPDF } from './ExportPDF';
+import { FomatDateYY_MM_DD, FomatDateYY_MM_DD_H_M } from 'src/commons/formatDate';
 const {
   dirs: {DownloadDir, DocumentDir},
 } = RNFetchBlob.fs;
@@ -168,151 +169,20 @@ export enum FileType {
 }
 
 type Props = {
-  setIsOpenTab: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsOpenTab: React.Dispatch<React.SetStateAction<boolean>>
+  dataReport :IReportDist[]
 };
 
-export const MainDetail = ({setIsOpenTab}: Props) => {
-  const downloadPdf = async () => {
+export const MainDetail = ({setIsOpenTab ,dataReport}: Props) => {
+
+
+
+  const downloadPdf = useCallback(async () => {
     const aPath = Platform.select({
       ios: DocumentDir,
       android: DownloadDir,
     });
-
-    const html = `
-    <html>
-      <head>
-        <style>
-        .container {
-            width: 100%;
-        }
-          body {
-            font-family: 'Times New Roman';
-            font-size: 12px;
-          }
-          .header-info {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-          }
-          .header-tr {
-            background-color: #EA222A;
-            color: #fff;
-          }
-          header, footer {
-            height: 50px;
-            background-color: #fff;
-            color: #000;
-            display: flex;
-            justify-content: center;
-            padding: 0 20px;
-          }
-          table {
-            width: 100%;
-            border-collapse: collapse;
-          }
-          th, td {
-            border-width: 1px;
-            border-style: solid;
-            border-color: transparent transparent #ccc transparent;
-            padding: 5px;
-          }
-          th {
-            background-color: #ccc;
-          }
-          .font-bold {
-            font-weight: bold;
-          }
-          p {
-            font-size: 12px
-          }
-          h2 {
-            font-size: 32px;
-            font-weight: bold;
-            text-align: center;
-            margin-top: 40px;
-            text-transform: uppercase;
-          }
-          .sub-title {
-            font-size: 14px;
-            text-align: center;
-            margin-top: 16px
-          }
-
-          .header {
-            display: flex;
-            align-items: center;
-            grid-column-gap: 25px;
-            font-size: 14
-          }
-          table {
-            margin-top: 16px;
-          }
-          .flex {
-            display: flex;
-            align-items: center;
-          }
-        </style>
-      </head>
-      <body>
-          <div class="container">
-          <div class="header-info">
-          <div class="header">
-            <p class="flex">
-            <span class="font-bold">Ngày lập: </span> <span>15/06/2023 - 15:00</span>
-            </p>
-            <p class="flex">
-            <span class="font-bold">Người lập: </span> <span>Admin</span>
-            </p>
-        </div>
-          <p class="flex">
-            <span class="font-bold">Cơ sở: </span>
-            <span>102 Trường Trinh, Phường Mai, Đống Đa, Hà Nội</span>
-             </p>
-          </div>
-          <h2>Báo cáo món ăn Bán - Hủy</h2>
-          <p class="sub-title">
-          <span class=" font-bold">Ngày: </span>
-          <span>Từ 29/06/2023 đến 29/07/2023</span>
-        </p>
-      <table>
-        <tr class="header-tr">
-        ${titles
-          .map(item => {
-            return ` <td>${item}</td>`;
-          })
-          .join('')} 
-        </tr>
-        ${data
-          .map(
-            line => `
-          <tr style="background-color: rgba(248, 213, 213, 1)">
-            <td>${line.code}</td>
-            <td>${line.name}</td>
-            <td style="margin-left: 40px">${line.quantity}</td>
-            <td style="margin-left: 40px">${line.quantity_cancel}</td>
-          </tr>
-          ${line.items
-            .map(
-              item => `
-                <tr>
-                <td>${item.code}</td>
-                <td>${item.name}</td>
-                <td style="margin-left: 40px">${item.quantity}</td>
-                <td style="margin-left: 40px">${item.quantity_cancel}</td>
-              </tr>
-            `,
-            )
-            .join('')}
-        `,
-          )
-          .join('')}
-      </table>
-          </div>
-        
-      </body>
-    </html>
-  `;
-
+    const html = ExportPDF(titles, dataReport);
     let options = {
       html: html,
       fileName: 'doanh-thu5',
@@ -322,9 +192,9 @@ export const MainDetail = ({setIsOpenTab}: Props) => {
     await RNHTMLtoPDF.convert(options);
     // console.log(file.filePath);
     alert('Tải file thành công');
-  };
+  }, [dataReport]);
 
-  const exportExcelFIle = () => {
+  const exportExcelFIle = useCallback(() => {
     let wb = XLSX.utils.book_new();
     const data_sheet = [
       [
@@ -337,24 +207,31 @@ export const MainDetail = ({setIsOpenTab}: Props) => {
       titles,
     ];
 
-    data.forEach(item => {
+    dataReport.forEach(item => {
       const _item = [
-        `${item.code}`,
+        `${item.id}`,
         item.name,
-        `${item.quantity}`,
-        `${item.quantity_cancel}`,
+        `${item.quantitySuccess}`,
+        `${item.quantityCancel}`,
       ];
       data_sheet.push(_item);
-      item.items.forEach(_i => {
+      item.list.forEach(_i => {
         data_sheet.push([
-          `${_i.code}`,
+          `${_i.id}`,
           _i.name,
-          `${_i.quantity}`,
-          `${_i.quantity_cancel}`,
+          `${_i.quantitySuccess}`,
+          `${_i.quantitySuccess}`,
         ]);
+        _i.list?.forEach(_j => {
+          data_sheet.push([
+            `${_j.id}`,
+            _j.name,
+            `${_j.quantitySuccess}`,
+            `${_j.quantitySuccess}`,
+          ]);
+        });
       });
     });
-
     const wsrows = [{}, {}, {}, {hpx: 50}];
     const sizes = [
       {wpx: 150},
@@ -477,56 +354,70 @@ export const MainDetail = ({setIsOpenTab}: Props) => {
       font: {
         sz: 12,
         border: true,
-        color: {rgb: 'EA222A'},
+        color: {rgb: '000000'},
       },
       alignment: {
         vertical: 'center',
         horizontal: 'left',
         wrapText: '1', // any truthy value here
       },
-      fill: {fgColor: {rgb: 'F5F5F5'}},
+      fill: {fgColor: {rgb: 'F4CCCC'}},
       border,
     };
 
-    data.forEach((item, index) => {
-      const currentIndex = 5 + item.items.length * index + index;
-      ws[`A${currentIndex}`].s = styleGroup;
-
-      ws[`B${currentIndex}`].s = styleGroup;
-      ws[`C${currentIndex}`].s = styleGroup;
-
-      ws[`D${currentIndex}`].s = {
-        font: {
-          sz: 12,
-          color: {rgb: 'EA222A'},
-        },
-        alignment: {
-          vertical: 'center',
-          horizontal: 'right',
-          wrapText: '1', // any truthy value here
-        },
-        fill: {fgColor: {rgb: 'F5F5F5'}},
-        border,
-      };
-      const styleCell = {
+    const styleCell2 = {
+      font: {
+        sz: 12,
+        color: {rgb: '000000'},
+      },
+      alignment: {
+        vertical: 'center',
+        horizontal: 'left',
+        wrapText: '1', // any truthy value here
+      },
+      border,
+    };
+    let count = 5;
+    dataReport.forEach((item, index) => {
+      const parentIndex = count; // Lưu lại chỉ số của phần tử cha
+      count++;
+      ws[`A${parentIndex}`].s = styleGroup;
+      ws[`B${parentIndex}`].s = styleGroup;
+      ws[`C${parentIndex}`].s = styleGroup;
+      ws[`D${parentIndex}`].s = {
         font: {
           sz: 12,
           color: {rgb: '000000'},
         },
         alignment: {
           vertical: 'center',
-          horizontal: 'left',
+          horizontal: 'right',
           wrapText: '1', // any truthy value here
         },
+        fill: {fgColor: {rgb: 'F4CCCC'}},
         border,
       };
-
-      item.items.forEach((_, _index) => {
-        ws[`A${currentIndex + (_index + 1)}`].s = styleCell;
-        ws[`B${currentIndex + (_index + 1)}`].s = styleCell;
-        ws[`C${currentIndex + (_index + 1)}`].s = styleCell;
-
-        ws[`D${currentIndex + (_index + 1)}`].s = {
+      item?.list?.forEach((_child, _index) => {
+        const checkHadChild = !!_child.list;
+        const styleCell = {
+          font: {
+            sz: 12,
+            color: {rgb: '000000'},
+          },
+          alignment: {
+            vertical: 'center',
+            horizontal: 'left',
+            wrapText: '1', // any truthy value here
+          },
+          fill: {fgColor: {rgb: checkHadChild ? 'FCE5CD' : 'FFFFFF'}},
+          border,
+        };
+        const childIndex = count;
+        count++;
+        ws[`A${childIndex}`].s = styleCell;
+        ws[`B${childIndex}`].s = styleCell;
+        ws[`C${childIndex}`].s = styleCell;
+        ws[`D${childIndex}`].s = {
           font: {
             sz: 12,
             border: true,
@@ -537,8 +428,29 @@ export const MainDetail = ({setIsOpenTab}: Props) => {
             horizontal: 'right',
             wrapText: '1', // any truthy value here
           },
+          fill: {fgColor: {rgb: checkHadChild ? 'FCE5CD' : 'FFFFFF'}},
           border,
         };
+        _child.list?.forEach((_child2, _index) => {
+          const childIndex2 = count;
+          count++;
+          ws[`A${childIndex2}`].s = styleCell2;
+          ws[`B${childIndex2}`].s = styleCell2;
+          ws[`C${childIndex2}`].s = styleCell2;
+          ws[`D${childIndex2}`].s = {
+            font: {
+              sz: 12,
+              border: true,
+              color: {rgb: '000000'},
+            },
+            alignment: {
+              vertical: 'center',
+              horizontal: 'right',
+              wrapText: '1', // any truthy value here
+            },
+            border,
+          };
+        });
       });
     });
 
@@ -563,7 +475,7 @@ export const MainDetail = ({setIsOpenTab}: Props) => {
             '/bao-caohangtuan.xlsx',
         );
       });
-  };
+   } , [dataReport]);
 
   const handleDownload = useCallback((type: FileType) => {
     switch (type) {
@@ -581,6 +493,10 @@ export const MainDetail = ({setIsOpenTab}: Props) => {
       default:
         break;
     }
+  }, [downloadPdf ,exportExcelFIle]);
+
+  const renderItem = useCallback((item: ListRenderItemInfo<IReportDist>) => {
+    return <RenderItemReport item={item.item} index={1} />;
   }, []);
 
   return (
@@ -591,220 +507,187 @@ export const MainDetail = ({setIsOpenTab}: Props) => {
         <View style={styles.content}>
           <FlatList
             showsVerticalScrollIndicator={false}
-            ListHeaderComponent={
-              <>
-                <View
-                  style={[
-                    globalStyles.row,
-                    globalStyles.justifyContentBetween,
-                    styles.colGap_50,
-                  ]}>
-                  <View style={[globalStyles.row, styles.styleGap25]}>
-                    <View style={globalStyles.row}>
-                      <TextCustom
-                        color={defaultColors.c_0000}
-                        fontSize={14}
-                        weight="700">
-                        Ngày lập:{' '}
-                      </TextCustom>
-                      <TextCustom
-                        color={defaultColors.c_0000}
-                        fontSize={14}
-                        weight="400">
-                        {' '}
-                        15/06/2023 - 15:00
-                      </TextCustom>
-                    </View>
-                    <View style={globalStyles.row}>
-                      <TextCustom
-                        color={defaultColors.c_0000}
-                        fontSize={14}
-                        weight="700">
-                        Người lập{' '}
-                      </TextCustom>
-                      <TextCustom
-                        color={defaultColors.c_0000}
-                        fontSize={14}
-                        weight="400">
-                        {' '}
-                        Admin
-                      </TextCustom>
-                    </View>
-                  </View>
-                  <View style={globalStyles.row}>
-                    <TextCustom
-                      color={defaultColors.c_0000}
-                      fontSize={14}
-                      weight="700">
-                      Cơ sở:
-                    </TextCustom>
-                    <TextCustom
-                      color={defaultColors.c_0000}
-                      fontSize={14}
-                      weight="400">
-                      {' '}
-                      102 Trường Trinh, Phương Mai, Đống Đa, Hà Nội
-                    </TextCustom>
-                  </View>
-                  {/* </View> */}
-                </View>
-                <View style={styles.mt_40}>
-                  <TextCustom
-                    fontSize={32}
-                    weight="700"
-                    color={defaultColors.c_0000}
-                    textAlign="center"
-                    textTransform="uppercase">
-                    Báo cáo món ăn Bán - Hủy
-                  </TextCustom>
-                  <View
-                    style={[
-                      globalStyles.row,
-                      globalStyles.justifyContentCenter,
-                      {marginTop: 16, flexWrap: 'wrap'},
-                    ]}>
-                    <TextCustom
-                      color={defaultColors.c_0000}
-                      fontSize={14}
-                      weight="700">
-                      Cơ sở:
-                    </TextCustom>
-                    <TextCustom
-                      color={defaultColors.c_0000}
-                      fontSize={14}
-                      weight="400">
-                      {' '}
-                      102 Trường Trinh, Phương Mai, Đống Đa, Hà Nội
-                    </TextCustom>
-                  </View>
-                  <View style={{marginTop: 16}}>
-                    <View
-                      style={[
-                        globalStyles.row,
-                        globalStyles.alignItemsCenter,
-                        {
-                          borderTopLeftRadius: 4,
-                          borderTopRightRadius: 4,
-                          height: 39,
-                          backgroundColor: defaultColors._EA222A,
-                          paddingLeft: 24,
-                        },
-                      ]}>
-                      {titles.map((item, index) => {
-                        return (
-                          <View style={globalStyles.fullFill} key={index}>
-                            <TextCustom
-                              color={defaultColors.c_fff}
-                              fontSize={14}
-                              weight="700">
-                              {item}
-                            </TextCustom>
-                          </View>
-                        );
-                      })}
-                    </View>
-                  </View>
-                </View>
-              </>
-            }
+            ListHeaderComponent={<ListHeaderComponent />}
             ListFooterComponent={<SpaceBottom />}
-            data={data}
-            renderItem={({item}) => {
-              return (
-                <>
-                  <View style={styles.styleItemList}>
-                    <View style={globalStyles.fullFill}>
-                      <TextCustom
-                        color={defaultColors.c_0000}
-                        fontSize={12}
-                        weight="400">
-                        {item.code}
-                      </TextCustom>
-                    </View>
-                    <View style={globalStyles.fullFill}>
-                      <TextCustom
-                        color={defaultColors.c_0000}
-                        fontSize={12}
-                        weight="400">
-                        {item.name}
-                      </TextCustom>
-                    </View>
-                    <View style={globalStyles.fullFill}>
-                      <TextCustom
-                        color={defaultColors.c_0000}
-                        fontSize={12}
-                        weight="400">
-                        {item.quantity}
-                      </TextCustom>
-                    </View>
-                    <View style={globalStyles.fullFill}>
-                      <TextCustom
-                        color={defaultColors.c_0000}
-                        fontSize={12}
-                        weight="400">
-                        {item.quantity_cancel}
-                      </TextCustom>
-                    </View>
-                  </View>
-                  {item.items.map((_item, index) => {
-                    return (
-                      <View
-                        key={index}
-                        style={[
-                          globalStyles.row,
-                          globalStyles.alignItemsCenter,
-                          {
-                            height: 40,
-                            paddingLeft: 24,
-                            borderBottomWidth: 1,
-                            borderBottomColor: defaultColors.bg_EFEFEF,
-                          },
-                        ]}>
-                        <View style={globalStyles.fullFill}>
-                          <TextCustom
-                            color={defaultColors.c_0000}
-                            fontSize={12}
-                            weight="400">
-                            {_item.code}
-                          </TextCustom>
-                        </View>
-                        <View style={globalStyles.fullFill}>
-                          <TextCustom
-                            color={defaultColors.c_0000}
-                            fontSize={12}
-                            weight="400">
-                            {_item.name}
-                          </TextCustom>
-                        </View>
-                        <View style={globalStyles.fullFill}>
-                          <TextCustom
-                            color={defaultColors.c_0000}
-                            fontSize={12}
-                            weight="400">
-                            {_item.quantity}
-                          </TextCustom>
-                        </View>
-                        <View style={globalStyles.fullFill}>
-                          <TextCustom
-                            color={defaultColors.c_0000}
-                            fontSize={12}
-                            weight="400">
-                            {_item.quantity_cancel}
-                          </TextCustom>
-                        </View>
-                      </View>
-                    );
-                  })}
-                </>
-              );
-            }}
+            data={dataReport}
+            renderItem={renderItem}
             keyExtractor={(_, index) => index.toString()}
           />
-          {/* <Html content={html} /> */}
         </View>
       </View>
     </View>
   );
+};
+
+const RenderItemReport = ({
+  item,
+  index,
+}: {
+  item: IReportDist
+  index?: number
+}) => {
+  const indexValueCheck = item.list ? 2 : 3;
+  const backgroundColorValue = {
+    [1]: defaultColors._F8D5D5,
+    [2]: defaultColors._FFDB9E,
+    [3]: defaultColors.c_fff,
+  };
+
+  return (
+    <>
+      <View
+        style={[
+          styles.styleItemList,
+          {backgroundColor: backgroundColorValue[index || indexValueCheck]},
+        ]}>
+        <View style={globalStyles.fullFill}>
+          <TextCustom color={defaultColors.c_0000} numberOfLines={2} fontSize={12} weight="400">
+            {item.id}
+          </TextCustom>
+        </View>
+        <View style={globalStyles.fullFill}>
+          <TextCustom color={defaultColors.c_0000} numberOfLines={2} fontSize={12} weight="400">
+            {item.name}
+          </TextCustom>
+        </View>
+        <View style={globalStyles.fullFill}>
+          <TextCustom color={defaultColors.c_0000} fontSize={12} weight="400">
+            {item.quantitySuccess}
+          </TextCustom>
+        </View>
+        <View style={globalStyles.fullFill}>
+          <TextCustom color={defaultColors.c_0000} fontSize={12} weight="400">
+            {item.quantityCancel}
+          </TextCustom>
+        </View>
+      </View>
+      {item?.list?.map((_item, index) => {
+        return <RenderItemReport key={index} item={_item} />;
+      })}
+    </>
+  );
+};
+
+
+const ListHeaderComponent = () => {
+  const newDate = new Date();
+
+   return (
+    <>
+    <View
+      style={[
+        globalStyles.row,
+        globalStyles.justifyContentBetween,
+        styles.colGap_50,
+      ]}>
+      <View style={[globalStyles.row, styles.styleGap25]}>
+        <View style={globalStyles.row}>
+          <TextCustom
+            color={defaultColors.c_0000}
+            fontSize={14}
+            weight="700">
+            Ngày lập:{' '}
+          </TextCustom>
+          <TextCustom
+            color={defaultColors.c_0000}
+            fontSize={14}
+            weight="400">
+            {' '}
+            {FomatDateYY_MM_DD(newDate.toDateString())}
+          </TextCustom>
+        </View>
+        <View style={globalStyles.row}>
+          <TextCustom
+            color={defaultColors.c_0000}
+            fontSize={14}
+            weight="700">
+            Người lập{' '}
+          </TextCustom>
+          <TextCustom
+            color={defaultColors.c_0000}
+            fontSize={14}
+            weight="400">
+            {' '}
+            Admin
+          </TextCustom>
+        </View>
+      </View>
+      <View style={globalStyles.row}>
+        <TextCustom
+          color={defaultColors.c_0000}
+          fontSize={14}
+          weight="700">
+          Cơ sở:
+        </TextCustom>
+        <TextCustom
+          color={defaultColors.c_0000}
+          fontSize={14}
+          weight="400">
+          {' '}
+          102 Trường Trinh, Phương Mai, Đống Đa, Hà Nội
+        </TextCustom>
+      </View>
+      {/* </View> */}
+    </View>
+    <View style={styles.mt_40}>
+      <TextCustom
+        fontSize={32}
+        weight="700"
+        color={defaultColors.c_0000}
+        textAlign="center"
+        textTransform="uppercase">
+        Báo cáo món ăn Bán - Hủy
+      </TextCustom>
+      <View
+        style={[
+          globalStyles.row,
+          globalStyles.justifyContentCenter,
+          {marginTop: 16, flexWrap: 'wrap'},
+        ]}>
+        <TextCustom
+          color={defaultColors.c_0000}
+          fontSize={14}
+          weight="700">
+          Cơ sở:
+        </TextCustom>
+        <TextCustom
+          color={defaultColors.c_0000}
+          fontSize={14}
+          weight="400">
+          {' '}
+          102 Trường Trinh, Phương Mai, Đống Đa, Hà Nội
+        </TextCustom>
+      </View>
+      <View style={{marginTop: 16}}>
+        <View
+          style={[
+            globalStyles.row,
+            globalStyles.alignItemsCenter,
+            {
+              borderTopLeftRadius: 4,
+              borderTopRightRadius: 4,
+              height: 39,
+              backgroundColor: defaultColors._EA222A,
+              paddingLeft: 24,
+            },
+          ]}>
+          {titles.map((item, index) => {
+            return (
+              <View style={globalStyles.fullFill} key={index}>
+                <TextCustom
+                  color={defaultColors.c_fff}
+                  fontSize={14}
+                  weight="700">
+                  {item}
+                </TextCustom>
+              </View>
+            );
+          })}
+        </View>
+      </View>
+    </View>
+  </>
+   );
 };
 
 const styles = StyleSheet.create({

@@ -5,63 +5,97 @@ import {
   Platform,
   UIManager,
   LayoutAnimation,
-} from 'react-native'
-import React from 'react'
-import {defaultColors} from '@configs'
-import {TextCustom} from '@components'
-import {ICAddOrder} from '../../../../assets/icons/ICAddOrder'
-import {ICDown} from '../../../../assets/icons/ICDown'
-import {globalStyles} from 'src/commons/globalStyles'
-import {getValueForDevice} from 'src/commons/formatMoney'
-import {IHistory} from '@typeRules'
-import {OrderType} from 'src/typeRules/product'
-import DropDownView from 'src/components/DropDownView/DropDownView'
+  Text,
+} from 'react-native';
+import React, { useCallback, useEffect } from 'react';
+import {defaultColors} from '@configs';
+import {TextCustom} from '@components';
+import {ICAddOrder} from '../../../../assets/icons/ICAddOrder';
+import {ICDown} from '../../../../assets/icons/ICDown';
+import {globalStyles} from 'src/commons/globalStyles';
+import {getValueForDevice} from 'src/commons/formatMoney';
+import {IHistory, IHistoryCompoumd} from '@typeRules';
+import {OrderType} from 'src/typeRules/product';
+import DropDownView from 'src/components/DropDownView/DropDownView';
+import { IHistoryDay, getHistoriesContent } from 'src/api/history';
+import { useIsFocused } from '@react-navigation/native';
+import { IResponseApi } from 'src/api/types';
+import { useHandleResponsePagination } from 'src/commons/useHandleResponsePagination';
+import { ICDoubleArrowDown } from 'src/assets/icons/ICDoubleArrowDown';
 
 if (
   Platform.OS === 'android' &&
   UIManager.setLayoutAnimationEnabledExperimental
 ) {
-  UIManager.setLayoutAnimationEnabledExperimental(true)
+  UIManager.setLayoutAnimationEnabledExperimental(true);
 }
 
 type Props = {
-  data: {date: string; list: IHistory[]}
+  dataPage:IHistoryDay
+  currentType : string
 }
 
-export const HistoryItem = ({data}: Props) => {
-  const [isOpen, setIsOpen] = React.useState(true)
-  const toggleOpen = () => {
-    // onPress?.()
-    setIsOpen(value => !value)
-    LayoutAnimation.configureNext({
-      ...LayoutAnimation.Presets.linear,
-      duration: 300,
-    })
-  }
+export const HistoryItem = ({dataPage ,currentType}: Props) => {
+  const IsFocus = useIsFocused();
+  const getHistoryMethod = useCallback(
+    async (
+      page: number,
+      size: number,
+    ): Promise<IResponseApi<IHistory>> => {
+      return getHistoriesContent({
+        page,
+        size,
+        menu: currentType,
+        status: true,
+        day: dataPage.day,
+      }) as any;
+    },
+    [currentType, dataPage],
+  );
+
+  const {data, refresh ,handleLoadMore} =
+    useHandleResponsePagination<IHistory>(getHistoryMethod);
+
+  useEffect(() => {
+    if (IsFocus) {
+      refresh();
+    }
+  }, [currentType, IsFocus]);
+
   return (
     <>
-    <DropDownView
-     isOpen={false}
-     textHeader={`Ngày ${new Date(data.date).toLocaleDateString()}`}
-     itemView={ <View
-        style={[
-          {flex: 1},
-          // !isOpen ? {height: 0, overflow: 'hidden'} : undefined,
-        ]}>
-        {data.list.map((item, index) => {
-          return <HistoryItemMenu key={index} data={item} />
-        })}
-      </View>}
-      headerButtonStyle={styles.styleGoupItem}
-      textStyle={{
-        fontSize: 14,
-        color: defaultColors.c_222124,
-        fontWeight: 'bold',
-      }}
-    />
+      <DropDownView
+        isOpen={false}
+        textHeader={`Ngày ${new Date(dataPage.day).toLocaleDateString()}`}
+        itemView={
+          <View
+            style={[
+              {flex: 1},
+              // !isOpen ? {height: 0, overflow: 'hidden'} : undefined,
+            ]}>
+            {data.map((item, index) => {
+              return <HistoryItemMenu key={index} data={item} />;
+            })}
+            <View style={styles.buttonShowMore}>
+              <TouchableOpacity
+                style={styles.buttonShowMoreItem}
+                onPress={() => handleLoadMore()}>
+                <Text style={styles.buttonShowMoreText}>Hiển thị thêm</Text>
+                <ICDoubleArrowDown />
+              </TouchableOpacity>
+            </View>
+          </View>
+        }
+        headerButtonStyle={styles.styleGoupItem}
+        textStyle={{
+          fontSize: 14,
+          color: defaultColors.c_222124,
+          fontWeight: 'bold',
+        }}
+      />
     </>
-  )
-}
+  );
+};
 
 type PropsItem = {
   data: IHistory
@@ -88,9 +122,12 @@ const dataStatus = {
     textStatus: 'Chờ huỷ',
     circleColor: defaultColors._F4A118,
   },
-}
+};
+
+
 
 export const HistoryItemMenu = ({data}: PropsItem) => {
+
   return (
     <View style={styles.styleItemProduct}>
       <View style={[styles.styleViewItem, styles.pl_16]}>
@@ -163,8 +200,8 @@ export const HistoryItemMenu = ({data}: PropsItem) => {
         </TextCustom>
       </View>
     </View>
-  )
-}
+  );
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -202,7 +239,7 @@ const styles = StyleSheet.create({
     // paddingHorizontal: 16,
     backgroundColor: defaultColors.c_fff,
     borderBottomWidth: 1,
-    borderBottomColor: defaultColors.bg_EFEFEF
+    borderBottomColor: defaultColors.bg_EFEFEF,
     // columnGap: 8,
   },
   styleBtn: {
@@ -238,4 +275,20 @@ const styles = StyleSheet.create({
   pl_16: {
     paddingLeft: 16,
   },
-})
+  buttonShowMore : {
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop : 12,
+  } ,
+  buttonShowMoreItem : {
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexDirection: 'row',
+    gap: 8,
+  },
+  buttonShowMoreText : {
+    color: defaultColors._EA222A,
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
+});

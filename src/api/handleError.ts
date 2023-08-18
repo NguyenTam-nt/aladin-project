@@ -25,7 +25,7 @@ export const handleError: (error: any) => ApiResponse<any> = error => {
         message:
           // @ts-ignore
           (error?.response?.data?.message as string) ||
-          'Hệ thống đang có lỗi xảy ra, quý khách vui lòng thử lại sau ít phút',
+          'Hệ thống đang có lỗi xảy ra, quý khách vui lòng thử lại',
       };
     }
     return {
@@ -37,7 +37,7 @@ export const handleError: (error: any) => ApiResponse<any> = error => {
       message:
         // @ts-ignore
         (error?.response?.data?.message as string) ||
-        'Hệ thống đang có lỗi xảy ra, quý khách vui lòng thử lại sau ít phút',
+        'Hệ thống đang có lỗi xảy ra, quý khách vui lòng thử lại',
     };
   }
   return {

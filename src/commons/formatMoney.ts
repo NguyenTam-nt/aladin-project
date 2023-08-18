@@ -1,4 +1,4 @@
-import { isTabletDevice } from "@configs"
+import { isTabletDevice } from '@configs';
 
 export function formatNumberDot(num: number | string = 0) {
   if (num !== undefined) {
@@ -35,5 +35,5 @@ export function formatNumberDotWithVND(num: number | string = 0) {
 
 export const getValueForDevice = (tabletValue?:any, phoneValue?:any) => {
 
-  return isTabletDevice ? tabletValue : phoneValue
-}
+  return isTabletDevice ? tabletValue : phoneValue;
+};

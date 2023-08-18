@@ -1,5 +1,5 @@
 import {StyleSheet, View} from 'react-native';
-import React, {useMemo} from 'react';
+import React, {useEffect, useMemo} from 'react';
 import FastImage from 'react-native-fast-image';
 import {
   defaultColors,
@@ -32,6 +32,11 @@ type Props = {
 export const HotPot = ({currentCategory}: Props) => {
 
   const {listCategoriesByCategory, isFourBar, isOneBar, isTwoBar} = useGetCartItem(currentCategory);
+
+   useEffect(() => {
+
+
+   }, [isFourBar, isOneBar, isTwoBar]);
 
 
   return (
@@ -84,7 +89,6 @@ export const HotPot = ({currentCategory}: Props) => {
             </View>
           ) : null
         ) : null}
-
         {isFourBar ? (
           <>
             {listCategoriesByCategory.length > 2 ? (

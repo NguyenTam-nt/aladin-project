@@ -20,7 +20,9 @@ import { ICEye } from 'src/assets/icons/ICEye';
 import { ICEyeOff } from 'src/assets/icons/ICEyeOff';
 import { IAuthorize, setRefreshToken, setToken, setUserInfo } from 'src/redux/reducers/AuthSlice';
 
+
 const LoginScreen = () => {
+
   const [account, setAccount] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [error, setError] = useState<boolean>(false);
@@ -45,10 +47,10 @@ const LoginScreen = () => {
               //@ts-ignore
               navigation.replace('main', {screen: 'kitchen'});
               break;
-              case ROLE_LIST.order:
-                //@ts-ignore
-                navigation.replace('main', {screen: 'mainDrawer'});
-                break;
+            case ROLE_LIST.order:
+              //@ts-ignore
+              navigation.replace('main', {screen: 'mainDrawer'});
+              break;
             default:
               Toast.show({
                 type: 'tomatoToast',
@@ -70,12 +72,20 @@ const LoginScreen = () => {
         });
       }
     } else {
-      Toast.show({
-        type: 'tomatoToast',
-        props: {status: res.success ? 'success' : 'error', uuid: res?.message},
-      });
+      if (res.code === 401) {
+        setError(true);
+      } else {
+        Toast.show({
+          type: 'tomatoToast',
+          props: {
+            status: res.success ? 'success' : 'error',
+            uuid: res?.message,
+          },
+        });
+      }
     }
   };
+
   return (
     <View>
       <StatusBar />
@@ -160,7 +170,7 @@ const styles = StyleSheet.create({
   textTitle: {
     fontFamily: 'iCielBCCubano-Normal',
     fontSize: 24,
-    color: defaultColors._074A20,
+    color: defaultColors._EA222A,
   },
   textNoti: {
     marginTop: 24,
@@ -214,7 +224,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 5,
   },
   buttonLogin: {
-    backgroundColor: defaultColors._074A20,
+    backgroundColor: defaultColors._EA222A,
     width: '90%',
     height: 48,
     justifyContent: 'center',

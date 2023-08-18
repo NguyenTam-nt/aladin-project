@@ -1,5 +1,5 @@
 import {defaultColors} from '@configs';
-import {NavigationContainer} from '@react-navigation/native';
+import {NavigationContainer, NavigationProp, useNavigation} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import React, {useMemo} from 'react';
 import {StatusBar} from 'react-native';
@@ -7,8 +7,11 @@ import LoginScreen from 'src/features/login';
 import {DrawerMain} from './DrawerMain';
 import {useUserInfo} from 'src/redux/reducers/hook';
 
+
 export const RootStack = createStackNavigator();
 export const MainStack = () => {
+
+
   const screenOptions = useMemo(
     () => ({
       headerShown: false,
@@ -18,9 +21,7 @@ export const MainStack = () => {
     }),
     [],
   );
-
   const userInfo = useUserInfo();
-
 
   return (
     <>

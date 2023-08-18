@@ -100,5 +100,9 @@ export const APIs = {
     'report/all',
     microServices.restaurant,
   ),
+  REPORT_DIST: getMicroServiceAdmin(
+    'report/dist',
+    microServices.restaurant,
+  ),
   // ORDER_KITCHEN_UPDATE_STATUS: getMicroServiceAdmin('provisional/kitchen', microServices.restaurant)
 };
