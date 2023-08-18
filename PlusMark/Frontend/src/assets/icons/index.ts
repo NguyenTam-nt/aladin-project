@@ -1,5 +1,7 @@
 import FaceRound from './face-round.png'
 import YtbRound from './ytbRound.png'
+import  Bct from './bct.png'
+// import BocongthuonIcon from './bct.png'
 
 export { ReactComponent as ArrowDownIcon } from "./arrow-down.svg";
 export { ReactComponent as CartFilledIcon } from "./cart-filled.svg";
@@ -102,12 +104,14 @@ export { ReactComponent as ArrowForward } from "./arrowFoward.svg";
 export { ReactComponent as SendIcon } from "./send-icon.svg";
 export { ReactComponent as LocationIcon } from "./location-icon.svg";
 export { ReactComponent as HotlineIcon } from "./advise-icon.svg";
+export { ReactComponent as KoreaFlag } from "./koreaFlag.svg";
 
 
 
 export {
     FaceRound,
-    YtbRound
+    YtbRound,
+    Bct
 }
 
 

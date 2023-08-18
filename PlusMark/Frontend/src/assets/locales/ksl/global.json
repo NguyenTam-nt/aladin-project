@@ -1,15 +1,91 @@
 {
-    "link": {
-        "guarantee": "Bảo hành",
-        "new": "Tin tức",
-        "manage": "Quản lý"
-    },
-    "logout": "Đăng xuất",
-    "login": "Đăng nhập",
-    "about-our" : "Về chúng tôi",
-    "fanpage": "Fanpage",
-    "like": "like",
-    "subcribe": "Subcribe",
-    "register": "đăng ký",
-    "free-consultation": "Nhận tư vấn miễn phí"
+   "global": {
+        "link": {
+            "guarantee": "Bảo hành",
+            "new": "Tin tức",
+            "manage": "Quản lý",
+            "introduce": "소개하다",
+            "distribution_system": "분배 체계"
+        },
+        "logout": "Đăng xuất",
+        "login": "Đăng nhập",
+        "about-us" : "Về chúng tôi",
+        "fanpage": "Fanpage",
+        "like": "like",
+        "subcribe": "Subcribe",
+        "register": "đăng ký",
+        "free-consultation": "Nhận tư vấn miễn phí",
+        "see_Price": "가격 및 재고 확인:",
+        "hanoi": "Ha noi",
+        "currency": "won",
+        "footer": {
+            "instar_message": "인스타그램 MARKET MOA 팔로우 및 방문하여 최신 정보 업데이트!",
+            "faceb_message": "Facebook MARKET MOA 좋아요 및 방문하여 최신 정보 업데이트!",
+            "shopee_message": "Shopee MARKET MOA를 팔로우하고 방문하여 최신 정보를 업데이트하세요!",
+            "market_moa": {
+                "name": "Market Moa",
+                "intro": "모아 소개",
+                "culture": "기업 문화",
+                "factory": "공장",
+                "service_center": "서비스 센터",
+                "electronic_warranly": "전자 보증",
+                "shop_system": "상점 시스템",
+                "contact_us": "문의하기"
+            },
+            "support_customer": {
+                "name": "고객 지원",
+                "regulation":"일반 정책 및 규정",
+                "buy&pay": "구매 및 결제 정책",
+                "ship":"배송 및 배달 정책",
+                "guarantee": "보증 정책",
+                "lie": "반품 정책",
+                "sercurity": "정보 프라이버시 정책",
+                "quoutes&agents":  "대리점 및 대리점 견적"
+            },
+            "produc_special": {
+                "name": "소식",
+                "electric_appliances": "전자 제품",
+                "water_purifier": " 정수기",
+                "houseware": "주방 용품",
+                "kitchen_equiment": "가정용품",
+                "air_conditioner": "에어컨 - 에어컨"
+            },
+            "new": {
+                "name": "소식",
+                "new": "뉴스레터 모아",
+                "meeting": "고객 간담회",
+                "kitchen": "사토와 함께 부엌에서",
+                "scret":  "레시피 - 팁",
+                "recruit":  "신병 모집",
+                "sociely":  "사회적 책임"
+            },
+            "subfooter": {
+                "office": {
+                    "name": "영업 부서",
+                    "address": "Số 18/TT5.2 KĐT Ao Sào, Thịnh Liệt, Hoàng Mai, Hà Nội ",
+                    "phone_number": "0989.86.86.87"
+                },
+                "factory": {
+                    "name": "일본 본사",
+                    "address": "KCN Vĩnh Khúc, Văn Giang, Hưng Yên",
+                    "phone_number":"Điện thoại: 0221.3.997.666"
+                },
+                "head_quater": {
+                    "name": "일본 본사",
+                    "address": "Tầng 19, Tháp Văn Phòng Hilton Plaze West 2-2-2 Umeda Kita-Ku, Osaka 530-001 Janpan"
+                },
+                "infocontact": {
+                    "name" : "연락처 정보",
+                    "hotline": "Hotline CSKH: 1900.54.54.97",
+                    "email":" Admin@satovietnhat.com.vn"
+                },
+                "rigistration_license": {
+                    "company_name": "마켓모아 종합무역상사 주식회사",
+                    "license": "사업자번호 : 0104918404 2010년 9월 20일 최초등록, 44차 변경등록, 2021년 9월 15일"
+                    
+                }
+            }
+           
+        }
+   }
 }

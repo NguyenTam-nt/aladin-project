@@ -1,5 +1,7 @@
 import {
   ArrowForward,
+  Bct,
+  // BocongthuonIcon,
   FaceRound,
   FacebookFilledIcon,
   HotlineIcon,
@@ -30,98 +32,103 @@ import { Link } from "react-router-dom";
 
 interface Props {}
 interface SubProps {
-  description: string;
-  typeBox: "face" | "yt" | "req";
+  typeBox: "face" | "instar" | "shopee";
   counts?: number;
   onClickForWard: () => void;
 }
-const SubFooterBox = memo(
-  ({ description, typeBox, counts, onClickForWard }: SubProps) => {
-    const { t } = useI18n();
-    return (
-      <div>
-        <p className="text-small text-white font-normal mb-[18px]">
-          {t(description)}
-        </p>
-        <div className="w-full rounded-[30px] h-10 bg-white px-1 flex items-center justify-between">
-          <div className="flex items-center gap-1">
-            {typeBox == "face" && <img src={FaceRound} alt="" />}
-            {typeBox == "yt" && <img src={YtbRound} alt="" />}
+const SubFooterBox = memo(({ typeBox, counts, onClickForWard }: SubProps) => {
+  const { t } = useI18n();
+  return (
+    <div>
+      <p className="text-small text-white font-normal mb-[18px]">
+        {t(
+          typeBox == "face"
+            ? "global.footer.faceb_message"
+            : typeBox == "instar"
+            ? "global.footer.instar_message"
+            : "global.footer.shopee_message"
+        )}
+      </p>
+      <div className="w-full rounded-[30px] h-10 bg-white px-1 flex items-center justify-between">
+        <div className="flex items-center gap-1">
+          {typeBox == "face" && <img src={FaceRound} alt="" />}
+          {typeBox == "instar" && <img src={YtbRound} alt="" />}
 
-            {typeBox == "face" && (
-              <p className={clsx("text-small text-blue-b01")}>
-                {t("fanpage")} :{counts}&nbsp;
-                {t("like")}
-              </p>
-            )}
-            {typeBox == "yt" && (
-              <p className={clsx("text-small text-red-r01")}>
-                {t("subcribe")} :{counts} &nbsp;
-                {t("register")}
-              </p>
-            )}
-            {typeBox == "req" && (
-              <p className={clsx("text-small text-orange-or01 font-bold px-2")}>
-                {t("free-consultation")}
-              </p>
-            )}
-          </div>
-          <div className="cursor-pointer" onClick={onClickForWard}>
-            {typeBox == "face" || typeBox == "yt" ? (
-              <ArrowForward />
-            ) : (
-              <SendIcon />
-            )}
-          </div>
+          {typeBox == "face" && (
+            <p className={clsx("text-small text-blue-b01")}>
+              {t("fanpage")} :{counts}&nbsp;
+              {t("like")}
+            </p>
+          )}
+          {typeBox == "instar" && (
+            <p className={clsx("text-small text-red-r01")}>
+              {t("subcribe")} :{counts} &nbsp;
+              {t("register")}
+            </p>
+          )}
+          {typeBox == "shopee" && (
+            <p className={clsx("text-small text-main1 font-bold px-2")}>
+              {t("free-consultation")}
+            </p>
+          )}
+        </div>
+        <div className="cursor-pointer" onClick={onClickForWard}>
+          {typeBox == "face" || typeBox == "instar" ? (
+            <ArrowForward />
+          ) : (
+            <SendIcon />
+          )}
         </div>
       </div>
-    );
-  }
-);
+    </div>
+  );
+});
 
 const listContentFooter = [
   {
-    name: "Market Moa",
+    name: "global.footer.market_moa.name",
     contents: [
-      "Giới thiệu về Moa",
-      "Văn hóa doanh nghiệp",
-      "Nhà máy sản xuất",
-      "Trung tâm bảo hành",
-      "Bảo hành điện tử",
-      "Hệ thống cửa hàng",
-      "Liên Hệ Chúng Tôi",
+      "global.footer.market_moa.intro",
+      "global.footer.market_moa.culture",
+      "global.footer.market_moa.factory",
+      "global.footer.market_moa.service_center",
+      "global.footer.market_moa.electronic_warranly",
+      "global.footer.market_moa.shop_system",
+      "global.footer.market_moa.contact_us",
     ],
   },
   {
-    name: "Hỗ trợ khách hàng",
+    name: "global.footer.support_customer.name",
     contents: [
-      "Chính sách & quy định chung",
-      "Chính sách mua hàng & thanh toán",
-      "Chính sách vận chuyển & giao nhận",
-      "Chính sách bảo hành",
-      "Chính sách đổi trả",
-      "Chính sách bảo mật thông tin",
-      "Báo giá NPP & Đại lý",
+      "global.footer.support_customer.regulation",
+      "global.footer.support_customer.buy&pay",
+      "global.footer.support_customer.ship",
+      "global.footer.support_customer.guarantee",
+      "global.footer.support_customer.lie",
+      "global.footer.support_customer.sercurity",
+      "global.footer.support_customer.quoutes&agents",
     ],
   },
   {
-    name: "Tin tức",
+    name: "global.footer.new.name",
     contents: [
-      "Điện gia dụng",
-      "Máy lọc nước",
-      "Thiết bị nhà bếp",
-      "Đồ gia dụng",
-      "Điều hòa - Máy lạnh",
+      "global.footer.new.new",
+      "global.footer.new.meeting",
+      "global.footer.new.kitchen",
+      "global.footer.new.scret",
+      "global.footer.new.recruit",
+      "global.footer.new.sociely",
     ],
   },
   {
-    name: "Sản phẩm nổi bật",
+    name: "global.footer.produc_special.name",
     contents: [
-      "Điện gia dụng",
-      "Máy lọc nước",
-      "Thiết bị nhà bếp",
-      "Đồ gia dụng",
-      "Điều hòa - Máy lạnh",
+      "global.footer.produc_special.name",
+      "global.footer.produc_special.electric_appliances",
+      "global.footer.produc_special.water_purifier",
+      "global.footer.produc_special.houseware",
+      "global.footer.produc_special.kitchen_equiment",
+      "global.footer.produc_special.air_conditioner",
     ],
   },
 ];
@@ -134,26 +141,26 @@ const listAddress: {
   type: "address" | "hotline";
 }[] = [
   {
-    name: "Văn phòng giao dịch",
-    address: "Số 18/TT5.2 KĐT Ao Sào, Thịnh Liệt, Hoàng Mai, Hà Nội",
-    phoneNumber: "Điện thoại: 0989.86.86.87",
+    name: "global.footer.subfooter.office.name",
+    address: "global.footer.subfooter.office.address",
+    phoneNumber: "global.footer.subfooter.office.phone_number",
     type: "address",
   },
   {
-    name: "Nhà máy sản xuất",
-    address: "Số 18/TT5.2 KĐT Ao Sào, Thịnh Liệt, Hoàng Mai, Hà Nội",
-    phoneNumber: "Điện thoại: 0989.86.86.87",
+    name: "global.footer.subfooter.factory.name",
+    address: "global.footer.subfooter.factory.address",
+    phoneNumber: "global.footer.subfooter.factory.phone_number",
     type: "address",
   },
   {
-    name: "Trụ sở tại Nhật Bản",
-    address: "Số 18/TT5.2 KĐT Ao Sào, Thịnh Liệt, Hoàng Mai, Hà Nội",
+    name: "global.footer.subfooter.head_quater.name",
+    address: "global.footer.subfooter.head_quater.address",
     type: "address",
   },
   {
-    name: "Thông tin liên hệ",
-    hotline: "19001999",
-    email: "congty@gmail.com",
+    name: "global.footer.subfooter.infocontact.name",
+    hotline: "global.footer.subfooter.infocontact.hotline",
+    email: "global.footer.subfooter.infocontact.email",
     type: "hotline",
   },
 ];
@@ -208,26 +215,14 @@ const Footer = (props: Props) => {
             <SubFooterBox
               onClickForWard={handleForward}
               counts={1200}
-              description={
-                "Like và truy cập Faceook MARKET MOA để cập nhật những thông tin mới nhất!"
-              }
-              typeBox={"face"}
+              typeBox={"instar"}
             />
             <SubFooterBox
               onClickForWard={handleForward}
               counts={500000}
-              description={
-                "Like và truy cập Faceook MARKET MOA để cập nhật những thông tin mới nhất!"
-              }
-              typeBox={"yt"}
+              typeBox={"face"}
             />
-            <SubFooterBox
-              onClickForWard={handleForward}
-              description={
-                "Like và truy cập Faceook MARKET MOA để cập nhật những thông tin mới nhất!"
-              }
-              typeBox={"req"}
-            />
+            <SubFooterBox onClickForWard={handleForward} typeBox={"shopee"} />
           </div>
         </div>
 
@@ -237,7 +232,7 @@ const Footer = (props: Props) => {
               return (
                 <div key={index} className="h-full">
                   <h5 className="text-base font-bold text-white mb-3">
-                    {item.name}
+                    {t(item.name)}
                   </h5>
                   <div>
                     {item.contents.map((itemContent, index) => {
@@ -246,7 +241,7 @@ const Footer = (props: Props) => {
                           key={index}
                           className="text-small font-normal text-white"
                         >
-                          {itemContent}
+                          {t(itemContent)}
                         </p>
                       );
                     })}
@@ -267,30 +262,31 @@ const Footer = (props: Props) => {
                         <HotlineIcon />
                       )}
                     </span>
-                    {item.name}
+                    {t(item.name || "")}
                   </h5>
                   <p className="text-small font-normal text-white">
-                    {item.address}
+                    {t(item.address || "")}
                   </p>
                   <p className="text-small font-normal text-white">
-                    {item.phoneNumber}
+                    {t(item.phoneNumber || "")}
                   </p>
                   <p className="text-small font-normal text-white">
-                    {item.hotline}
+                    {t(item.hotline || "")}
                   </p>
                   <p className="text-small font-normal text-white">
-                    {item.email}
+                    {t(item.email || "")}
                   </p>
                 </div>
               );
             })}
           </div>
-          <div className="mt-10">
+          {/* <div className="mt-10">
             <p className="text-center text-white text-wap-regular2 mt-6 lg:mt-0">
               {t("footer.copyright")}
             </p>
-          </div>
+          </div> */}
         </div>
+
         {/* <div className="grid grid-cols-1 lg:grid-cols-4 lg:gap-2 xl:gap-10">
           <div>
             <WhiteLogo className="w-48 xl:w-56" />
@@ -390,6 +386,17 @@ const Footer = (props: Props) => {
             {t("footer.copyright")}
           </p>
         </div> */}
+      </div>
+      <div className="pl-[265px] pr-[5%] flex items-center justify-between h-spc60 bg-white">
+        <div>
+          <p className="text_base">
+            {t("global.footer.subfooter.rigistration_license.company_name")}
+          </p>
+          <p className="text_base">
+            {t("global.footer.subfooter.rigistration_license.license")}
+          </p>
+        </div>
+        <img src={Bct} alt="" />
       </div>
     </div>
   );

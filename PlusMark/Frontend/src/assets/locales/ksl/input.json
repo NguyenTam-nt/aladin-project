@@ -1,0 +1,9 @@
+{
+    "lable": {
+        "search": "Từ khóa tìm kiếm"
+    },
+    "placeholder": {
+        "key_search": "검색 키워드를 입력하세요",
+        "search_location": "지방, 지구, 병동 및 코뮌을 빠르게 찾으십시오"
+    }
+}

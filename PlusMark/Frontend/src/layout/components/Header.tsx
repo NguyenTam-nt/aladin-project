@@ -1,10 +1,12 @@
 import {
-  CartIcon,
   GuaranteIcon,
+  KoreaFlag,
   Logo,
   MenuMobileIconIcon,
   NewIcon,
+  PhoneContactIcon,
   PhoneIcon,
+  PhoneOutlineIcon,
   UnitedSateIcon,
   UserIcon,
 } from "@assets/icons";
@@ -32,8 +34,10 @@ import CategoryProductServices, {
 import { some } from "@utility/helper";
 import AuthService from "@services/AuthServices";
 import clsx from "clsx";
-import VnIcon from "@assets/icons/VnIcon";
 import { useTranslation } from "react-i18next";
+import CartIcon from "@assets/iconElements/CartIcon";
+import useFocusOut from "@hooks/useFocusOut";
+import LocationBox from "@components/LocationComponent/LocationBox";
 
 const mapped = [
   {
@@ -61,13 +65,11 @@ export const LanguageBox = memo(() => {
   };
   return (
     <div className="cursor-pointer group relative w-full">
-      <div onClick={() => handleSetLanguage("vi")}>
-        {lang == "vi" ? <VnIcon /> : <UnitedSateIcon />}
-      </div>
+      <div>{lang == "vi" ? <KoreaFlag /> : <KoreaFlag />}</div>
 
-      {lang == "vi" ? (
-        <UnitedSateIcon
-          onClick={() => handleSetLanguage("en")}
+      {/* {lang == "vi" ? (
+        <KoreaFlag
+          onClick={() => handleSetLanguage("ksl")}
           className="w-full absolute top-full left-0 group-hover:block hidden"
         />
       ) : (
@@ -75,9 +77,9 @@ export const LanguageBox = memo(() => {
           className="w-full absolute top-full left-0 group-hover:block hidden"
           onClick={() => handleSetLanguage("vi")}
         >
-          <VnIcon />
+          <KoreaFlag />
         </div>
-      )}
+      )} */}
     </div>
   );
 });
@@ -91,38 +93,11 @@ export const NavHeader = memo(
           href={`tel:${phoneNumber && phoneNumber.replace(/\s/g, "")}`}
           className="hover:cursor-pointer flex sm:gap-1 gap-4 items-center "
         >
-          <PhoneIcon
-            className="fill-main sm:w-auto w-7"
-            fill={fill || "white"}
-            stroke={fill || "white"}
-            width={20}
-          />
+          <PhoneIcon />
           <p className="sm:px-2 sm:text-wap-regular1 ">
             {phoneNumber! ? fill : "1800.3675"}
           </p>
         </a>
-        <Link
-          to="/"
-          className="hover:cursor-pointer sm:gap-1 gap-4 flex items-center"
-        >
-          <GuaranteIcon
-            fill={fill || "white"}
-            stroke={fill || "white"}
-            className="sm:w-auto w-7"
-          />
-          {t("link.guarantee")}
-        </Link>
-        <Link
-          to="/"
-          className="hover:cursor-pointer flex sm:gap-1 gap-4 items-center"
-        >
-          <NewIcon
-            fill={fill || "white"}
-            stroke={fill || "white"}
-            className="sm:w-auto w-7"
-          />
-          {t("link.new")}
-        </Link>
       </div>
     );
   }
@@ -131,6 +106,7 @@ const Header = () => {
   const { t } = useI18n();
   const navigate = useNavigate();
   const { setContentModal, setShowModal } = useContext(ModalContext);
+  const { clickShow, setClickShow, ref: locationRef } = useFocusOut();
   const cartContext = useCart();
   const [footerInfo, setFooterInfo] = useState<ContentFooter>();
   const [maleCategory, setMaleCategory] = useState<ProductCategoryHeader[]>();
@@ -149,7 +125,12 @@ const Header = () => {
   }, []);
 
   const openMenuMobile = () => {
-    setContentModal(<HeaderMenuMobile categoryData={categoryHeader} />);
+    setContentModal(
+      <HeaderMenuMobile
+        categoryData={categoryHeader}
+        handleShowFormLocation={() => setClickShow(true)}
+      />
+    );
     setShowModal(true);
   };
 
@@ -288,87 +269,81 @@ const Header = () => {
     });
   };
 
-  // console.log(categoryHeader);
-
   return (
-    <div className="sticky top-0 z-50 bg-gray-100  lg:h-header lg:shadow ">
-      <div className="border-b lg:py-0 h-2/3 bg-header">
-        <div className="px-4 xl:px-[129px] py-4 h-full flex items-center justify-between ">
-          <Link to={ROUTES["homepage"]} className="md:mr-14 mr-8">
-            <Logo className="" fill="white" />
-          </Link>
-
-          <div className="flex flex-1 lg:justify-between justify-end items-center gap-3 ">
-            <div className="hidden lg:block w-2/4 lg:pr-4 xl:pr-14">
-              <HeaderSearch />
+    <div className="sticky top-0 z-50 bg-gray-100 xl:h-header xl:shadow ">
+      <div className=" bg-header flex items-center justify-between px-[14px] lg:px-[130px] xl:px-[110px] 1.5xl:px-[130px] h-spc80 lg:gap-[50px] gap-3">
+        <Link to={ROUTES["homepage"]}>
+          <Logo className="xl:w-[74px] w-[60px]" fill="white" />
+        </Link>
+        <div
+          onClick={() => setClickShow(true)}
+          className="rounded-[6px] relative cursor-pointer xl:block hidden py-1 px-2 w-[147px] break-words text-sm text-white bg-aqua-aq02"
+        >
+          {t("global.see_Price")} {t("global.hanoi")}
+          {clickShow && (
+            <div ref={locationRef} className="absolute left-0 top-spc132%">
+              <LocationBox onClose={() => setClickShow(false)} />
             </div>
-            <div className="sm:block hidden">
-              <NavHeader phoneNumber={footerInfo?.phoneNumber[0]} />
-            </div>
-            <div className="flex items-center gap-4 relative">
-              <div
-                className="relative sm:block hidden group hover:cursor-pointer"
-                onClick={() => navigate(ROUTES["cart"]["index"])}
+          )}
+        </div>
+        <div className="items-center w-2/4">
+          <HeaderSearch />
+        </div>
+        <div className="xl:block hidden">
+          <NavHeader phoneNumber={footerInfo?.phoneNumber[0]} />
+        </div>
+        <div className="xl:flex hidden items-center gap-5">
+          <div
+            className="relative  group hover:cursor-pointer"
+            onClick={() => navigate(ROUTES["cart"]["index"])}
+          >
+            <CartIcon />
+            {/* {cartContext.cartQuantity > 0 && ( */}
+            <>
+              <div className="absolute -top-1 -right-2 rounded-full bg-cancel aspect-square border w-5 h-5 text-xs text-white border-white flex justify-center items-center ">
+                {cartContext.cartQuantity}
+              </div>
+              <div className="lg:group-hover:block hidden absolute top-[calc(100%_+_32px)]  -right-9 z-10">
+                <CartProductHover />
+              </div>
+            </>
+            {/* )} */}
+          </div>
+          <div className="group relative">
+            <UserIcon
+              className={clsx(" fill-gray-300 ", {
+                "cursor-pointer": !AuthService.isLoggedIn(),
+              })}
+              onClick={userLogin}
+              stroke="white"
+            />
+            {/* {AuthService.isLoggedIn() && ( */}
+            <div className="group-hover:block hidden absolute top-full -right-3 z-10">
+              <p
+                className="rounded-md px-4 py-2 whitespace-nowrap cursor-pointer bg-icon hover:text-main transition-all"
+                onClick={userLogout}
               >
-                <CartIcon
-                  className="fill-gray-300 w-8 lg:w-auto"
-                  stroke="white"
-                />
-                {cartContext.cartQuantity > 0 && (
-                  <>
-                    <div className="absolute -top-1 -right-2 rounded-full bg-cancel aspect-square h-5 lg:h-4 flex justify-center items-center ">
-                      <p className="text-white text-wap-regular1 text-center">
-                        {cartContext.cartQuantity}
-                      </p>
-                    </div>
-                    <div className="lg:group-hover:block hidden absolute top-[calc(100%_+_32px)]  -right-9 z-10">
-                      <CartProductHover />
-                    </div>
-                  </>
-                )}
-              </div>
-              <div className="relative group">
-                <UserIcon
-                  className={clsx("hidden sm:block fill-gray-300 ", {
-                    "cursor-pointer": !AuthService.isLoggedIn(),
-                  })}
-                  onClick={userLogin}
-                  stroke="white"
-                />
-                {AuthService.isLoggedIn() && (
-                  <div className="group-hover:block hidden absolute top-[calc(100%_+_16px)]  -right-3 z-10">
-                    <div className=" bg-white shadow-md rounded-md w-fit h-fit relative ">
-                      <div className="trangle arrow-up absolute bottom-full right-4 border-l-[8px] border-r-[8px] border-b-[8px] border-b-white group-hover:border-b-icon"></div>
-                      <div className="absolute bottom-full w-full h-4 left-0"></div>
-                      <p
-                        className="rounded-md px-4 py-2 whitespace-nowrap cursor-pointer bg-icon hover:text-main transition-all"
-                        onClick={userLogout}
-                      >
-                        {t("header.logout")}
-                      </p>
-                    </div>
-                  </div>
-                )}
-              </div>
-              <MenuMobileIconIcon
-                onClick={openMenuMobile}
-                className="block lg:hidden w-10 ml-4 hover:cursor-pointer"
-                fill="white"
-                stroke="white"
-              />
+                đăng xuất
+              </p>
             </div>
-            <div className="lg:block hidden">
-              <LanguageBox />
-            </div>
+            {/* )} */}
           </div>
         </div>
+        <div className="xl:block hidden">
+          <LanguageBox />
+        </div>
+        <MenuMobileIconIcon
+          onClick={openMenuMobile}
+          className="block xl:hidden w-10 hover:cursor-pointer"
+          fill="white"
+          stroke="white"
+        />
+        {/* <div className="block lg:hidden container px-4 flex-1 lg:pr-4 xl:pr-14">
+          <HeaderSearch />
+        </div> */}
       </div>
 
-      <div className="block lg:hidden container px-4 flex-1 lg:pr-4 xl:pr-14">
-        <HeaderSearch />
-      </div>
-
-      <div className="hidden lg:flex container h-1/3 px-8  justify-between gap-5 text-wap-regular1">
+      <div className="hidden xl:flex lg:px-[130px] xl:px-[110px] 1.5xl:px-[130px] px-4 justify-between gap-5 text-wap-regular1">
         <div className="flex gap-9 h-full">
           {categoryHeader.map((it, idx) => (
             <CategoryItem key={idx} data={it} />
@@ -377,7 +352,7 @@ const Header = () => {
         <div className="flex gap-3">
           {AuthService.hasRole([ROLES.admin, ROLES.system]) ? (
             <Link
-              className="flex items-center text-normal1 hover:text-main"
+              className="flex items-center text-normal1 font-semibold hover:text-main"
               to={"/admin"}
             >
               {t("header.admin")}
@@ -387,10 +362,16 @@ const Header = () => {
           )}
 
           <Link
-            className="flex items-center text-normal1 hover:text-main"
+            className="flex items-center px-4 text-normal1 font-semibold border-r hover:text-main"
             to={"/about-us"}
           >
-            {t("header.about")}
+            {t("global.link.introduce")}
+          </Link>
+          <Link
+            className="flex items-center pl-4 text-normal1 font-semibold hover:text-main"
+            to={"/about-us"}
+          >
+            {t("global.link.distribution_system")}
           </Link>
         </div>
       </div>
