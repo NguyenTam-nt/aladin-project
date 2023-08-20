@@ -78,7 +78,7 @@ const Navleft = memo(({ isShown, onShow }: PropsNavleft) => {
               <ICLogoFrame
                 width={101.5}
                 height={94}
-                color={Colors.text_EA222A}
+                color={Colors.primary}
               />
             </div>
             <div className=" absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%]">
