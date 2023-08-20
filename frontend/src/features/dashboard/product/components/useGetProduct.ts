@@ -184,7 +184,7 @@ export const useGetProduct = (
       return
     }
     setQueries("sort", slug)
-  }, [])
+  }, [setQueries])
 
   const handleSearch = useCallback((event: ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value
@@ -192,7 +192,7 @@ export const useGetProduct = (
     setQueries("page", "1")
     setCurrentPage(1)
     setSearchQuery(value)
-  }, [])
+  }, [setQueries])
 
   return {
     products,
