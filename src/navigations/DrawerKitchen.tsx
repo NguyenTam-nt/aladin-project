@@ -1,18 +1,21 @@
-import { DrawerNavigationOptions, createDrawerNavigator } from '@react-navigation/drawer';
-import React, { useMemo } from 'react';
-import { View } from 'react-native';
-import { globalStyles } from 'src/commons/globalStyles';
-import { Report } from 'src/features/Report';
+import {
+  DrawerNavigationOptions,
+  createDrawerNavigator,
+} from '@react-navigation/drawer';
+import React, {useMemo} from 'react';
+import {View} from 'react-native';
+import {globalStyles} from 'src/commons/globalStyles';
+import {Report} from 'src/features/Report';
 import CompoundTabKitChen from 'src/features/kitchen/Compound/CompoundTabKitChen';
-import { Kitchen } from '../features/kitchen';
-import { History } from '../features/kitchen/History';
-import { WaitProcees } from '../features/kitchen/WaitProcess';
+import {Kitchen} from '../features/kitchen';
+import {History} from '../features/kitchen/History';
+import {WaitProcees} from '../features/kitchen/WaitProcess';
 import OrderTabView from '../features/orderTab/index';
 import CustomDrawerKitchen from './CustomDrawerKitchen';
-import { useDispatch } from 'react-redux';
-import { getFloor } from 'src/api/table';
-import { setAreaId } from 'src/redux/infoDrawer/slice';
-import { isTabletDevice } from '@configs';
+import {useDispatch} from 'react-redux';
+import {getFloor} from 'src/api/table';
+import {setAreaId} from 'src/redux/infoDrawer/slice';
+import {isTabletDevice} from '@configs';
 
 export const routerPath = {
   order: 'Phần mềm order',
@@ -99,6 +102,7 @@ const DrawerKitchen = () => {
   return (
     <View style={globalStyles.fullFill}>
       <Drawer.Navigator
+        initialRouteName="bar-kitchen"
         drawerContent={props => <CustomDrawerKitchen {...props} />}
         screenOptions={screenOptions}>
         {routerKitchens.map((item, index) => {

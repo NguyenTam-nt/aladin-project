@@ -42,7 +42,7 @@ export const BillItemFood = memo(
             rotate: isOpen ? '0deg' : '180deg',
           },
         ],
-        ...globalStyles.center
+        ...globalStyles.center,
       }
     }, [isOpen])
 
@@ -80,7 +80,9 @@ export const BillItemFood = memo(
               lineHeight={22}
               textAlign="center"
               color={defaultColors.c_222124}>
-              {data.num}
+              {data?.list.reduce((currentCount, item) => {
+                return currentCount + (item.numProduct ?? 0)
+              }, 0)}
             </TextCustom>
           </View>
           <View
