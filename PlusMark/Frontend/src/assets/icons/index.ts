@@ -5,6 +5,8 @@ import  ImgHomeContact from './homecontac-img.png'
 import  DistributorImage from './distributor.png'
 import  MessageContact from './mesageContact.png'
 // import BocongthuonIcon from './bct.png'
+import VisaCard from './visa_img.png'
+import MasterCard from './master_card_img.png'
 
 export { ReactComponent as ArrowDownIcon } from "./arrow-down.svg";
 export { ReactComponent as CartFilledIcon } from "./cart-filled.svg";
@@ -107,9 +109,12 @@ export { ReactComponent as ArrowForward } from "./arrowFoward.svg";
 export { ReactComponent as SendIcon } from "./send-icon.svg";
 export { ReactComponent as LocationIcon } from "./location-icon.svg";
 export { ReactComponent as HotlineIcon } from "./advise-icon.svg";
+export { ReactComponent as RemoveCartIcon} from "./icon-remove-cart.svg";
+export { ReactComponent as PaymentCartIcon} from "./cart-payment-icon.svg";
 export { ReactComponent as KoreaFlag } from "./koreaFlag.svg";
 export { ReactComponent as TooltipSale } from "./toltipSale.svg";
 export { ReactComponent as CricleContactSvg } from "./cricle-contact.svg";
+
 
 
 
@@ -119,7 +124,9 @@ export {
     Bct,
     ImgHomeContact,
     DistributorImage,
-    MessageContact
+    MessageContact,
+    VisaCard,
+    MasterCard,
 }
 
 

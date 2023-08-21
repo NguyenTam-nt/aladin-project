@@ -1,4 +1,4 @@
-import { AtmMethodIcon, PersonMethodIcon, TickIcon } from '@assets/icons';
+import { AtmMethodIcon, CircleFilledIcon, PersonMethodIcon, TickIcon } from '@assets/icons';
 import { some } from '@utility/helper';
 import React, { useState } from 'react'
 
@@ -6,8 +6,11 @@ function ShipmentMethod({method, checked, setChecked, ...props}: some) {
 
 
   return (
-    <div className='flex items-center gap-5 border border-gray-200 rounded-md px-4 py-4 '>
-        <div className="w-6 ">
+    <div className='flex justify-between items-center gap-5 border border-gray-200 rounded-lg px-4 py-2 '>
+        <div className="text-normal1">
+            { method == 'person' ? 'Thanh toán khi giao hàng (COD)' : 'Thanh toán qua VISA / MASTERCARD'} 
+        </div>
+        <div className="w-6">
             <label >
                 <input
                 className="hidden"
@@ -17,18 +20,12 @@ function ShipmentMethod({method, checked, setChecked, ...props}: some) {
                 />
                 <div
                 className={`hover:cursor-pointer w-6 aspect-square p-1 border-2   flex items-center justify-center rounded-full ${
-                    checked ? " border-[#00880C] bg-[#E9FFEA]" : ""
+                    checked ? " border-main" : ""
                 }`}
                 >
-                {checked && <TickIcon stroke='#00880C'  />}
+                {checked && <CircleFilledIcon className='fill-main' />}
                 </div>
             </label>
-        </div>
-        <div className="mr-4">
-            { method == 'person' ? <PersonMethodIcon  /> : <AtmMethodIcon />}
-        </div>
-        <div className="text-normal1">
-            { method == 'person' ? 'Thanh toán khi giao hàng (COD)' : 'Thanh toán bằng thẻ ATM / chuyển khoản'} 
         </div>
     </div>
   )

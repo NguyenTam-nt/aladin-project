@@ -50,28 +50,27 @@ function SelectInputPayment({
   return (
     <label
       htmlFor={id}
-      className=" w-full h-full flex relative border border-gray-300 rounded-md hover:cursor-pointer"
+      className=" w-full h-full flex relative border border-gray-300 rounded-lg hover:cursor-pointer"
       
     >
       <Select
         inputId={id}
         styles={styles}
-        className="h-full w-full  text-text text-normal1 rounded-md hover:cursor-pointer "
+        className="h-full w-full text-text text-normal1 rounded-md hover:cursor-pointer"
         defaultValue={value}
         value={value}
         isSearchable={false}
         name={name}
         options={options}
         onChange={(e) => setValue(e)}
-        
       />
 
-      <div className="hover:cursor-pointer text-normal1   py-2 absolute  px-3"
+      <div className="hover:cursor-pointer text-normal1 py-2 absolute  px-3"
       >
         {value == null || value.value == "" ? (
           <>
             <span className="text-gray-300 select-none">{label}</span>{" "}
-            {required && <span className="text-red-500">*</span>}
+            {required}
           </>
         ) : (
           ""

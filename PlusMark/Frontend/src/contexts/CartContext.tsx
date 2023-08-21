@@ -29,7 +29,8 @@ type CartContext = {
   cartQuantity: number
   totalPrice: number
   totalPriceChoose: number
-  cartItems: CartItem[]
+  cartItems: CartItem[],
+  setCartItems: (cartItems: CartItem[]) => void
 }
 
 const CartContext = createContext({} as CartContext)
@@ -232,6 +233,7 @@ export function CartProvider({ children }: CartProviderProps) {
         totalPrice,
         totalPriceChoose,
         cartQuantity,
+        setCartItems
       }}
     >
       {children}

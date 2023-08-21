@@ -11,29 +11,29 @@ export type WardType = {
     Level: string,
     Id?: string,
     Name?: string
-  }
-  
-  
-  export type DistrictType = {
+}
+
+
+export type DistrictType = {
     Wards: WardType[],
     Id: string,
     Name: string
-  }
-  
-  export type ProvinceType = {
+}
+
+export type ProvinceType = {
     Districts: DistrictType[],
     Id: string,
     Name: string
-  }
+}
 
 type Props = {
     formik: any
 }
 
-function PaymentForm({formik}: Props) {
+function PaymentForm({ formik }: Props) {
 
-    const {t} = useI18n()
-    const defaultOption = {value: '', label: ''}
+    const { t } = useI18n()
+    const defaultOption = { value: '', label: '' }
 
     const [name, setname] = useState('')
     const [province, setProvince] = useState<some>(defaultOption)
@@ -42,30 +42,30 @@ function PaymentForm({formik}: Props) {
     const [provinceOptions, setProvinceOptions] = useState<some[]>([])
     const [districtOptions, setDistrictOptions] = useState<some[]>([])
     const [communeOptions, setCommuneOptions] = useState<some[]>([])
-    
+
     useEffect(() => {
-        
-        if(province_data) {
+
+        if (province_data) {
             let optopns = province_data.map((a) => {
-                return  { value: a.Name, label: a.Name, district: a.Districts }
+                return { value: a.Name, label: a.Name, district: a.Districts }
             })
             setProvinceOptions(optopns)
         }
     }, [])
     // console.log(province, district, commune);
-    
+
 
     const onchangeProvince = (s: any) => {
         setProvince(s)
         setDistrict(defaultOption)
         setCommune(defaultOption)
-        if(s.district) {
+        if (s.district) {
             setDistrictOptions(s.district.map((d: DistrictType) => {
-                return  { value: d.Name, label: d.Name, commune: d.Wards }
+                return { value: d.Name, label: d.Name, commune: d.Wards }
             }))
-            
+
         }
-        
+
         formik.setValues({
             ...formik.values, province: s.label, district: null, commune: null
         })
@@ -74,9 +74,9 @@ function PaymentForm({formik}: Props) {
     const onchangeDistrict = (s: any) => {
         setDistrict(s)
         setCommune(defaultOption)
-        if(s.commune) {
+        if (s.commune) {
             setCommuneOptions(s.commune.map((d: WardType) => {
-                return  { value: d.Name, label: d.Name }
+                return { value: d.Name, label: d.Name }
             }))
         }
 
@@ -92,59 +92,55 @@ function PaymentForm({formik}: Props) {
         })
     }
 
-  return (
-    <div>
-        <div className="h-10 mb-4">
-            <InputPayment className="border border-gray-300 " name="fullname" 
-                value={formik.values.fullname} setValue={formik.handleChange} 
-                label={t("payment.info_delivery.form.name")} required  
-                onBlur={formik.handleBlur}
-                autoFocus={true}
-            />
-        </div>
-        <div className="grid grid-cols-2 gap-4 mb-4">
-            <div className="h-10">
-                <InputPayment className="border border-gray-300 " name="phoneNumber"  
-                    value={formik.values.phoneNumber} setValue={formik.handleChange} 
-                    label={t("payment.info_delivery.form.phone")} required  
+    return (
+        <div>
+            <div className="mb-2"><label className="text-text font-bold">{t("payment.info_delivery.form.name")} <span className="text-red-500">*</span></label></div>
+            <div className="h-10 mb-4">
+                <InputPayment className="border border-gray-300 " name="fullname"
+                    value={formik.values.fullname} setValue={formik.handleChange}
+                    label={t("payment.info_delivery.form.name")} required
+                    onBlur={formik.handleBlur}
+                    autoFocus={true}
+                />
+            </div>
+            <div className="mb-2"><label className="text-text font-bold">{t("payment.info_delivery.form.phone")} <span className="text-red-500">*</span></label></div>
+            <div className="h-10 mb-4">
+                <InputPayment className="border border-gray-300 " name="phoneNumber"
+                    value={formik.values.phoneNumber} setValue={formik.handleChange}
+                    label={t("payment.info_delivery.form.phone")} required
                     onBlur={formik.handleBlur}
                 />
             </div>
-            <div className="h-10">
-                <InputPayment className="border border-gray-300 " name="email"  
-                    value={formik.values.email} setValue={formik.handleChange} 
-                    label={t("payment.info_delivery.form.email")} required={false} 
-                    onBlur={formik.handleBlur}
-                />
+            <div className="mb-2"><label className="text-text font-bold">{t("payment.info_delivery.form.address")} <span className="text-red-500">*</span></label></div>
+            <div className="lg:flex lg:flex-wrap justify-between ">
+                <div className="h-10 mb-4 lg:w-[49%]">
+                    <InputPayment className="border border-gray-300 " name="address"
+                        value={formik.values.address} setValue={formik.handleChange}
+                        label={t("payment.info_delivery.form.address")} required
+                        onBlur={formik.handleBlur}
+                    />
+                </div>
+                <div className="h-10 mb-4 lg:w-[49%]">
+                    <SelectInputPayment
+                        name="province" setValue={onchangeProvince}
+                        options={provinceOptions} value={province}
+                        label={t("payment.info_delivery.form.province")} required />
+                </div>
+                <div className="h-10 mb-4 lg:w-[49%]">
+                    <SelectInputPayment
+                        name="district" setValue={onchangeDistrict}
+                        options={districtOptions} value={district}
+                        label={t("payment.info_delivery.form.district")} required />
+                </div>
+                <div className="h-10 mb-4 lg:w-[49%]">
+                    <SelectInputPayment
+                        name="commune" setValue={onchangeCommune}
+                        options={communeOptions} value={commune}
+                        label={t("payment.info_delivery.form.commune")} required />
+                </div>
             </div>
         </div>
-        <div className="h-10 mb-4">
-            <InputPayment className="border border-gray-300 " name="address"  
-                value={formik.values.address} setValue={formik.handleChange} 
-                label={t("payment.info_delivery.form.address")} required  
-                onBlur={formik.handleBlur}
-            />  
-        </div>
-        <div className="h-10 mb-4">
-            <SelectInputPayment 
-                name="province" setValue={onchangeProvince} 
-                options={provinceOptions} value={province} 
-                label={t("payment.info_delivery.form.province")} required  />
-        </div>
-        <div className="h-10 mb-4">
-            <SelectInputPayment 
-                name="district" setValue={onchangeDistrict} 
-                options={districtOptions} value={district} 
-                label={t("payment.info_delivery.form.district")} required  />
-        </div>
-        <div className="h-10 mb-4">
-            <SelectInputPayment 
-                name="commune" setValue={onchangeCommune} 
-                options={communeOptions} value={commune} 
-                label={t("payment.info_delivery.form.commune")} required  />
-        </div>
-    </div>
-  )
+    )
 }
 
 export default PaymentForm
