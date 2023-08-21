@@ -15,13 +15,15 @@ const DistributorSession = () => {
   ];
   return (
     <div
-      className="2xl:px-[190px] lg:px-[158px] pt-[100px] pb-[190px]"
+      className="2xl:px-[190px] lg:px-[158px] lg:pt-[100px] lg:pb-[190px] py-10 px-4"
       style={{
         backgroundImage: `url(${DistributorImage})`,
-        objectFit: "cover",
+        backgroundSize: "cover",
+        backgroundPositionX: "0px",
+        backgroundPosition: "0px",
       }}
     >
-      <div className="max-w-1/2">
+      <div className="lg:max-w-1/2 w-full">
         <p className="text-2xl uppercase">
           {t("global.distributor.intened_for")}
         </p>
