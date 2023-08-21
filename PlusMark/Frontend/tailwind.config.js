@@ -8,14 +8,27 @@ module.exports = {
       spacing: {
         '6px': '6px',
         '10px': '10px',
+        'spc14': '14px',
         '18px': '18px',
         '25': '25px',
         '195px': '12.2rem',
         '100': '6.25rem',
+        spc60: "60px",
+        spc50: "50px",
+        spc80: "80px",
+        spc300: "300px",
+        spc510: "510px",
+        'spc132%': "132%",
 
       },
       maxWidth: {
-        'screen-100': 'calc(100% -100px)'
+        'screen-100': 'calc(100% -100px)',
+        'scr970': '970px',
+        'scr268': '268px',
+        '3/4': "75%",
+        '2/3': "60%",
+        '1/2': "60%",
+        'spc510': '510px'
       },
       fontFamily: {
         'valky': ['NVNValky'],
@@ -48,6 +61,8 @@ module.exports = {
         'main-2': 'var(--main-color-2)',
         text: {
           DEFAULT: 'var(--text-1)',
+          disable: 'var(--text-disable)',
+          main: 'var(--text-main)'
         },
         background: {
           DEFAULT: 'var(--main-background)',
@@ -56,7 +71,6 @@ module.exports = {
           '300': 'var(--background3)',
 
         },
-
         gray: {
           '100': 'var(--gray-001)',
           '200': 'var(--gray-002)',
@@ -64,14 +78,15 @@ module.exports = {
           '300': 'var(--gray-003)',
           '400': 'var(--gray-004)',
         },
+        black: {
+          bl0: 'var(--black)',
+          bl01: 'var(--black01)',
+        },
         blue: {
           b01: 'var(--blue01)',
         },
         red: {
           r01: 'var(--red01)'
-        },
-        orange: {
-          or01: 'var(--orange01)'
         },
         aqua: {
           aq01: 'var(--aqua01)',
@@ -85,10 +100,12 @@ module.exports = {
         'icon-active': '#F45538'
       },
       boxShadow: {
-        DEFAULT: '0px 4px 4px rgba(0, 0, 0, 0.25)'
+        DEFAULT: '0px 4px 4px rgba(0, 0, 0, 0.25)',
+        shd020: `4p 2px 8px 0px rgba(0, 0, 0, 0.20)`,
       },
       backgroundImage: {
         header: "linear-gradient(225deg, #FF6B00 0%, #E0000D 100%)",
+        btn: "linear-gradient(52deg, #FF6D03 0%, #E60E00 100%)",
         footer: "linear-gradient(180deg, #FE7D29 0%, #F9849E 100%)",
       },
       fontSize: {

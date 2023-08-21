@@ -10,7 +10,7 @@ const DefaultLayout = ({ children }: { children: JSX.Element }) => {
   const router = useLocation().pathname.includes("admin");
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-background max-w-[1920px] mx-auto relative">
       {!router ? <Header /> : <HeaderAdmin />}
 
       <div className="min-h-[800px]">
@@ -20,7 +20,6 @@ const DefaultLayout = ({ children }: { children: JSX.Element }) => {
       </div>
       <Footer />
       {!router ? <FabComponent /> : <></>}
-      
     </div>
   );
 };

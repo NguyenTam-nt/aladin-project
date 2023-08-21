@@ -28,6 +28,9 @@
   .cricle_btn{
     @apply w-12 h-12 rounded-1/2 border border-aqua-aq02 flex items-center justify-center cursor-pointer bg-transparent
   }
+  .text_base{
+    @apply text-sm font-normal text-black-bl0
+  }
   .titlePage{
     color: var(--main-color);
     font-size: 32px;

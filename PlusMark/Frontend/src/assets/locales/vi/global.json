@@ -1,16 +1,89 @@
 {
-    "link": {
-        "guarantee": "Bảo hành",
-        "new": "Tin tức",
-        "manage": "Quản lý"
-    },
-    "logout": "Đăng xuất",
-    "login": "Đăng nhập",
-    "about-our" : "Về chúng tôi",
-    "fanpage": "Fanpage",
-    "like": "like",
-    "subcribe": "Subcribe",
-    "register": "đăng ký",
-    "free-consultation": "Nhận tư vấn miễn phí"
-
+    "global": {
+        "link": {
+            "guarantee": "Bảo hành",
+            "new": "Tin tức",
+            "manage": "Quản lý",
+            "introduce": "Giới thiệu",
+            "distribution_system": "Hệ thống phân phối"
+        },
+        "logout": "Đăng xuất",
+        "login": "Đăng nhập",
+        "about-us" : "Về chúng tôi",
+        "fanpage": "Fanpage",
+        "like": "like",
+        "subcribe": "Subcribe",
+        "register": "đăng ký",
+        "free-consultation": "Nhận tư vấn miễn phí",
+        "see_Price": "Xem giá, tồn kho tại:",
+        "hanoi": "Ha noi",
+        "currency": "đ",
+        "footer": {
+            "instar_message": "Theo dõi và truy cập Instagram MARKET MOA để cập nhật những thông tin mới nhất!",
+            "faceb_message": "Like và truy cập Faceook MARKET MOA để cập nhật những thông tin mới nhất!",
+            "shopee_message": "Theo dõi và truy cập Shopee MARKET MOA để cập nhật những thông tin mới nhất!",
+            "market_moa": {
+                "name": "Market Moa",
+                "intro": "Giới thiệu về Moa",
+                "culture": "Văn hóa doanh nghiệp",
+                "factory": "Nhà máy sản xuất",
+                "service_center": "Trung tâm bảo hành",
+                "electronic_warranly": "Bảo hành điện tử",
+                "shop_system": "Hệ thống cửa hàng",
+                "contact_us": "Liên Hệ Chúng Tôi"
+            },
+            "support_customer": {
+                "name": "Hỗ trợ khách hàng",
+                "regulation":"Chính sách & quy định chung",
+                "buy&pay": "Chính sách mua hàng & thanh toán",
+                "ship":"Chính sách vận chuyển & giao nhận",
+                "guarantee": "Chính sách bảo hành",
+                "lie": "Chính sách đổi trả",
+                "sercurity": "Chính sách bảo mật thông tin",
+                "quoutes&agents":  "Báo giá NPP & Đại lý"
+            },
+            "produc_special": {
+                "name": "Sản phẩm nổi bật",
+                "electric_appliances": "Điện gia dụng",
+                "water_purifier":  "Máy lọc nước",
+                "houseware": "Thiết bị nhà bếp",
+                "kitchen_equiment":  "Đồ gia dụng",
+                "air_conditioner": "Điều hòa - Máy lạnh"
+            },
+            "new": {
+                "name": "Tin tức",
+                "new": "Bản tin Moa",
+                "meeting": " Hội nghị khách hàng",
+                "kitchen": "Vào bếp cùng Sato",
+                "scret":  "Bí quyết - Mẹo vặt",
+                "recruit":  "Tuyển dụng",
+                "sociely":  "Trách nhiệm xã hội"
+            },
+            "subfooter": {
+                "office": {
+                    "name": "Văn phòng giao dịch",
+                    "address": "Số 18/TT5.2 KĐT Ao Sào, Thịnh Liệt, Hoàng Mai, Hà Nội ",
+                    "phone_number": "0989.86.86.87"
+                },
+                "factory": {
+                    "name": "Nhà máy sản xuất",
+                    "address": "KCN Vĩnh Khúc, Văn Giang, Hưng Yên",
+                    "phone_number":"Điện thoại: 0221.3.997.666"
+                },
+                "head_quater": {
+                    "name": "Trụ sở tại Nhật Bản",
+                    "address": "Tầng 19, Tháp Văn Phòng Hilton Plaze West 2-2-2 Umeda Kita-Ku, Osaka 530-001 Janpan"
+                },
+                "infocontact": {
+                    "name" : "연락처 정보",
+                    "hotline": "Hotline CSKH: 1900.54.54.97",
+                    "email":" Admin@satovietnhat.com.vn"
+                },
+                "rigistration_license": {
+                    "company_name": "Công Ty Cổ Phần Dịch Vụ Thương Mại Tổng Hợp Market Moa",
+                    "license": "Mã số doanh nghiệp: 0104918404 Đăng ký lần đầu ngày 20 tháng 09 năm 2010, đăng ký thay đổi lần thứ 44, ngày 15 tháng 09 năm 2021"
+                }
+            }
+        }
+    }
 }
