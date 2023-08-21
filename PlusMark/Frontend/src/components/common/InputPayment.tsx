@@ -5,9 +5,9 @@ function InputPayment({
   }: some) {
 
   return (
-    <label className={`w-full h-full rounded-md px-3 py-2 flex flex-col relative  ${className} ${background}`}>
+    <label className={`w-full h-full rounded-lg px-3 py-2 flex flex-col relative  ${className} ${background}`}>
         <p className="text-normal1  text-gray-300  absolute">
-            {value == '' ? <>{label} {required && <span className="text-red-500">*</span>}</>  : ''}
+            {value == '' ? <>{label} {required}</>  : ''}
         </p>
         <input autoFocus={autoFocus} name={name} className={`h-full w-full text-text text-normal1 ${background}`} 
           value={value} onChange={setValue} onBlur={onBlur} />

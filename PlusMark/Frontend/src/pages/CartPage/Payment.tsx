@@ -4,7 +4,7 @@ import { Input } from "@components/common/Input";
 const PaymentPage = () => {
   return (
     <div className="py-14">
-      <div className="container rounded-lg bg-white p-12 shadow">
+      <div className="container rounded-lg p-12 shadow">
         {[1, 2].map((it, idx) => (
           <CartProduct />
         ))}
