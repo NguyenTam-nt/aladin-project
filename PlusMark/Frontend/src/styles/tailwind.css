@@ -70,6 +70,11 @@
     border: none;
     border-radius: 10px;
   }
+  .text_linear{
+    background: -webkit-linear-gradient(var(--main-color) 0%, var(--red02) 100% );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
 }
 
 * {

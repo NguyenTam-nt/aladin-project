@@ -28,11 +28,11 @@ function CardItem({ description, showBtn = true }: Props) {
   return (
     <div className="relative p-3 rounded-lg overflow-hidden bg-white">
       <Discount percent={30} />
-      <div className="min-h-spc280">
+      <div className="2xl:min-h-spc280 2xl:h-[350px]  h-[280px] px-5">
         <img
           src="https://supershop.vn/api/image/1690982804721"
           alt=""
-          className="w-full object-contain "
+          className="w-full h-full object-cover"
         />
       </div>
       <hr className="w-3/4 h-[1px] bg-gray-100 mx-auto" />

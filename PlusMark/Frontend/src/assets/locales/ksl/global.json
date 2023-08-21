@@ -7,6 +7,8 @@
             "introduce": "소개하다",
             "distribution_system": "분배 체계"
         },
+        "kakaotalk": "Kakaotalk",
+        "zalo": "Zalo",
         "logout": "Đăng xuất",
         "login": "Đăng nhập",
         "about-us" : "Về chúng tôi",
@@ -86,6 +88,19 @@
                 }
             }
            
+        },
+        "distributor": {
+            "intened_for": "대상",
+            "distributor": "유통 업체",
+            "policy": "Moa는 항상 모든 대리점/대리점에게 최고의 인센티브를 제공합니다. Sato 대리점/리셀러가 아닌 경우 지금 등록하려면 당사에 문의하십시오.",
+            "successed": {
+                "first": "매력적인 할인",
+                "second": "컨설팅 구현 지원",
+                "third": "컨설팅 구현 지원",
+                "forth": "베트남 고품질 상품",
+                "fiveth": "매력적인 가격 및 보너스 정책",
+                "sixth": "전문 보증 및 고객 관리"
+            }
         }
    }
 }
