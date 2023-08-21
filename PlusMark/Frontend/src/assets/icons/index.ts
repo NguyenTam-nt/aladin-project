@@ -119,9 +119,9 @@ export {
     FaceRound,
     YtbRound,
     Bct,
+    ImgHomeContact,
     VisaCard,
     MasterCard,
-    ImgHomeContact
 }
 
 
