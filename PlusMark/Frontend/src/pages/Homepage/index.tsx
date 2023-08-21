@@ -1,3 +1,5 @@
+import KakaoTalkIcon from "@assets/iconElements/KakaoTalkIcon";
+import ZaloIcon from "@assets/iconElements/ZaloIcon";
 import {
   UtilHome1Icon,
   UtilHome2Icon,
@@ -5,9 +7,11 @@ import {
   UtilHome4Icon,
 } from "@assets/icons";
 import Banner from "@components/Banner/Banner";
+import DynamicButton from "@components/Buttons/DynamicButton";
 import CartISlideImage from "@components/Card/CartISlideImage";
 import HotSaleProductNew from "@components/Category/HotSaleProductNew";
 import ContactSession from "@components/Home/ContactSession";
+import DistributorSession from "@components/Home/DistributorSession";
 import NewsItemHome from "@components/News/Item/NewsItemHome";
 import TitleSession from "@components/common/TitleSession";
 import SlideProductPaginate from "@components/product/SlideProductPaginate";
@@ -145,7 +149,7 @@ function HomePage() {
   return (
     <div className="">
       <Banner className="h-auto lg:h-[50vh]" images={bannerImages} />
-      <div className="lg:px-[156px] py-10">
+      <div className="2xl:px-[190px] lg:px-[158px] py-10">
         {/* <Banner className="h-auto lg:h-[50vh]" images={bannerHomepage} /> */}
 
         {/* <div className="grid xl:grid-cols-4 grid-cols-2  mt-4 sm:mt-9 shadow-md rounded-lg ">
@@ -216,27 +220,39 @@ function HomePage() {
           </div>
         </div> */}
 
-        <div className="grid grid-cols-4">
+        {/* <div className="grid grid-cols-4">
           <CartISlideImage item={{ name: "Sức khỏe" }} />
-        </div>
-        <div>
+        </div> */}
+        {/* <div>
           <SlideProductPaginate />
+        </div> */}
+        <div className="py-14">
+          <TitleSession text="text.section.sale" className="w-full mb-6" />
+          <SlideProducts typeSlide="new" row={2} size={4} />
+          <div className="flex items-center justify-center gap-5 mt-16">
+            <DynamicButton
+              text="global.kakaotalk"
+              className="h-spc45 2xl:w-spc300 w-1/2 gap-3"
+              iconLeft={<KakaoTalkIcon />}
+              gradien={true}
+              normal={false}
+            />
+            <DynamicButton
+              text="global.zalo"
+              className="h-spc45 2xl:w-spc300 w-1/2 gap-3"
+              iconLeft={<ZaloIcon />}
+              gradien={true}
+              normal={false}
+            />
+          </div>
         </div>
-        <div className="py-12">
-          <TitleSession
-            text="text.section.special_product"
-            className="w-full mb-[30px]"
-          />
-        </div>
-        <div className=" relative py-[30px]">
-          <TitleSession
-            text="text.section.special_product"
-            className="w-full mb-[30px]"
-          />
-          <SlideProducts size={4} row={1} />
+        <div className=" relative py-10">
+          <TitleSession text="text.section.new" className="w-full mb-6" />
+          <SlideProducts typeSlide="new" />
         </div>
       </div>
       <ContactSession />
+      <DistributorSession />
     </div>
   );
 }

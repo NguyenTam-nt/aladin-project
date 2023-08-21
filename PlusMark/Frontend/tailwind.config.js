@@ -15,7 +15,9 @@ module.exports = {
         '100': '6.25rem',
         spc30: "30px",
         spc60: "60px",
+        spc45: "45px",
         spc50: "50px",
+        spc77: "77px",
         spc80: "80px",
         spc300: "300px",
         spc400: "400px",
@@ -29,11 +31,13 @@ module.exports = {
         'scr268': '268px',
         '3/4': "75%",
         '2/3': "60%",
-        '1/2': "60%",
+        '1/2': "50%",
         'spc510': '510px',
       },
       minHeight: {
-        'spc280': '280px'
+        'spc280': '280px',
+        'spc300': '300px',
+        'spc400': '400px'
       },
       fontFamily: {
         'valky': ['NVNValky'],
@@ -43,7 +47,7 @@ module.exports = {
       screens: {
         // by default (minwidth)
         ssm: '360px',
-        // sm: 640px
+        sm: "640px",
         // md: 768px
         // lg: 1024px
         '2lg': '1100px',
@@ -67,7 +71,7 @@ module.exports = {
         text: {
           DEFAULT: 'var(--text-1)',
           disable: 'var(--text-disable)',
-          main: 'var(--text-main)'
+          main: 'var(--text-main)',
         },
         background: {
           DEFAULT: 'var(--main-background)',
@@ -122,7 +126,8 @@ module.exports = {
         normal2: ['24px', '30px'],
         title: ['32px', '40px'],
         header2: ['48px', '56px'],
-        header3: ['64px', '86px']
+        header3: ['64px', '86px'],
+        40: ['40px', 'normal']
       },
       lineHeight: {
         '18': '18px',

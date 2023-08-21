@@ -8,7 +8,13 @@
           
         },
         "section": {
-            "special_product": "새로운 제품"
+            "special_product": "주요 제품",
+            "sale": "세일 상품",
+            "new": "새로운 제품"
+        },
+        "constact": {
+            "help": "MARKET MOA가 도와드리겠습니다.",
+            "already": "지원팀은 항상 준비되어 있습니다"
         },
         "descrition": {
             "a": "Sản phẩm được nhập khẩu từ korea"
