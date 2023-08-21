@@ -1,4 +1,4 @@
-import {TickIcon, RemoveCartIcon} from "@assets/icons";
+import { TickIcon, RemoveCartIcon } from "@assets/icons";
 import DiscountFlag from "@components/Flag/DiscountFlag";
 import AmountChange from "@components/common/AmountChange";
 import ColorSizeChoose from "@components/product/choose/ColorSizeChoose";
@@ -16,9 +16,10 @@ interface Props {
   size: string,
   border?: any,
   className?: string,
+  payment?: boolean
 }
 
-const CartProductNew = ({ className, itemCart, change, size, border}: Props) => {
+const CartProductNew = ({ className, itemCart, change, size, border, payment }: Props) => {
   const { onChangeItem, chooseProduct } = useCart()
   const [checked, setChecked] = useState<boolean>(itemCart.choose || false);
   const [quantityDescActive, setQuantityDescActive] = useState<boolean>(false);
@@ -115,7 +116,7 @@ const CartProductNew = ({ className, itemCart, change, size, border}: Props) => 
   }, [sizeChoose, colorChoose])
 
   return (
-    <div className={`${className} ${border && 'border-b'} ${size == 'sm' && 'py-6'} ${size == 'cart' && 'py-4'} py-10 flex items-center border-b-background-100`}>
+    <div className={`${className} ${size == 'sm' && 'py-6'} ${size == 'cart' && 'py-4'} py-5 flex items-center `}>
       {change && (
         <div>
           <label>
@@ -126,7 +127,7 @@ const CartProductNew = ({ className, itemCart, change, size, border}: Props) => 
               onChange={handleChecked}
             />
             <div
-              className={`w-6 sm:w-7 aspect-square p-1 border-2 flex items-center justify-center rounded-sm ${itemChoose ? "bg-main" : ""
+              className={`w-6 sm:w-7 lg:mt-7 aspect-square p-1 border-2 flex items-center justify-center rounded-sm ${itemChoose ? "bg-main" : ""
                 }`}
             >
               {itemCart.size.total > 0 && itemChoose && <TickIcon />}
@@ -146,8 +147,9 @@ const CartProductNew = ({ className, itemCart, change, size, border}: Props) => 
         <img
           className={` 
           false 
-          max-w-[64px]  
-          lg:w-[240px] aspect-square object-contain`
+          max-w-[64px]
+           max-h-[64px]  
+          lg:w-[240px] aspect-square object-contain lg:mt-7`
           }
           src={itemCart.image}
           alt=""
@@ -157,22 +159,30 @@ const CartProductNew = ({ className, itemCart, change, size, border}: Props) => 
           <div className="flex justify-between gap-3">
             <div className="flex-1 relative">
               <div className="flex gap-3 justify-between items-center pt-9">
-                <Link to={ROUTES.product.detail(itemCart.id)} className={clsx("hover:cursor-pointer text-normal text-black mb-2 line-clamp-2 w-1/3", { "mb-1 text-wap-regular2": size == 'cart' })}>
-                  {itemCart.name}
-                </Link>
+                <div className={`flex flex-wrap ${payment ? "" : "lg:w-1/4"} border-l-2`}>
+                  <Link to={ROUTES.product.detail(itemCart.id)} className={clsx("hover:cursor-pointer text-normal text-black mb-2 line-clamp-2 pl-1", { "mb-1 text-wap-regular2": size == 'cart' })}>
+                    {itemCart.name}
+                  </Link>
+                  <div className={`w-full`}>
+                    <div className="flex justify-between">
+                      <label className={`font-bold text-main pl-1 mb-2 ${payment ? "block" : "hidden"} `}>x{itemCart.quantity}</label>
+                      <div className={`text-main pl-1 font-bold ${payment ? "block" : "block lg:hidden"} `}>{formatMoney(itemCart.price)}</div>
+                    </div>
+                  </div>
+                </div>
                 {size == 'normal' &&
                   <>
                     <div className="text-main text-text font-bold">{formatMoney(itemCart.price)}</div>
                     {itemCart.size.total == 0 ? <span>Đã hết hàng</span> :
                       <AmountChange
-                        className="text-normal2 mr-5"
+                        className="text-normal2"
                         quantity={quantity}
                         descActive={quantityDescActive}
                         ascActive={quantityAscActive}
                         handleIncrease={handleIncrease}
                         handleDecrease={handleDecrease}
                       />}
-                    <div className="text-[#FF7D03] font-bold">{formatMoney(itemCart.price * itemCart.quantity)}</div>
+                    <div className="text-[#FF7D03] font-bold pr-8">{formatMoney(itemCart.price * itemCart.quantity)}</div>
                     <div className="min-h-full flex">
                       <RemoveCartIcon onClick={handleRemoveFromCart}>
                       </RemoveCartIcon>
@@ -185,7 +195,6 @@ const CartProductNew = ({ className, itemCart, change, size, border}: Props) => 
           <div>
             {change && size == 'cart' &&
               <div className="mt-2 sm:mt-4">
-                <div className="text-main font-bold ">{formatMoney(itemCart.price)}</div>
                 <div className="flex justify-between items-center mt-2 sm:mt-4">
                   {itemCart.size.total == 0 ? <span>Đã hết hàng</span> :
                     <AmountChange
@@ -197,8 +206,8 @@ const CartProductNew = ({ className, itemCart, change, size, border}: Props) => 
                       handleDecrease={handleDecrease}
                     />}
                   <div className="min-h-full flex">
-                  <RemoveCartIcon onClick={handleRemoveFromCart}>
-                      </RemoveCartIcon>
+                    <RemoveCartIcon onClick={handleRemoveFromCart}>
+                    </RemoveCartIcon>
                   </div>
                 </div>
               </div>

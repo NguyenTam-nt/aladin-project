@@ -11,6 +11,7 @@ import clsx from "clsx";
 import { useState, useContext, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { PaymentCartIcon, RemoveCartIcon, TickIcon } from "@assets/icons";
+import CloseIcon from "@assets/iconElements/CloseIcon";
 
 const CartPage = () => {
 
@@ -113,30 +114,32 @@ const CartPage = () => {
         Giỏ mua hàng
       </div>
 
-      <div className="rounded-lg bg-white pb-12 pt-6 flex flex-col xl:flex-row xl:gap-10">
+      <div className="rounded-lg pb-12 pt-6 flex flex-col xl:flex-row xl:gap-10">
         <div className="flex-1 rounded-[20px] mb-2 fit">
-          <div className="flex justify-between items-center rounded-md border mb-5">
-            <label className="flex p-3 w-1/2 item-center justify-start">
+          {cartItems.length > 0 && <div className="flex justify-between items-center rounded-lg mb-5 bg-white">
+            <label className="flex p-3 lg:w-1/3 item-center justify-start">
               <input
                 className="hidden"
                 type="checkbox"
                 onClick={handleSetChecked} />
               <div
-                className={`w-6 sm:w-7 aspect-square p-1 border-2 flex items-center justify-center rounded-sm ${!checked ? "bg-main" : ""}`} >
+                className={`w-7 sm:w-7 aspect-square p-1 border-2 flex items-center justify-center rounded-sm ${!checked ? "bg-main" : ""}`} >
                 <TickIcon />
               </div>
-              <div className="p-1 ml-5 ">
+              <div className="p-1 ml-5">
                 {t("cart.payment_info.label_total_items", { total: cartItems.length })}
               </div>
             </label>
-            <div >Đơn giá</div>
-            <div >Số lượng</div>
-            <div >Thành tiền</div>
+            <div className="hidden lg:block">{t("cart.payment_info.title_price_per_unit")}</div>
+            <div className="hidden lg:block">{t("cart.payment_info.title_total_quantity")}</div>
+            <div className="hidden lg:block">{t("cart.payment_info.title_total_price_per_product")}</div>
             <div className="pr-3">
               <RemoveCartIcon />
             </div>
           </div>
-          <div className="flex-1 rounded-[20px] border mb-2 fit">
+
+          }
+          <div className="flex-1 rounded-lg mb-2 fit bg-white">
             {cartQuantity > 0 ? cartItems.map((it, idx) => (
               <div key={it.id + idx} className="rounded-[20px] p-3">
                 <div className="hidden lg:block">
@@ -152,7 +155,7 @@ const CartPage = () => {
             }
           </div>
         </div>
-        <div className="py-4 px-3 w-full xl:w-1/4 bg-white border rounded-md h-fit mt-8 lg:mt-0">
+        <div className="py-4 px-3 w-full xl:w-1/4 bg-white rounded-md h-fit mt-8 lg:mt-0">
           <div className="bg-[#DAF1E7] rounded-md p-3 mb-4">
             <p className="text-wap-regular2 text-text mb-2">{t("cart.payment_info.title")}</p>
             <div className="h-8 flex gap-1">
@@ -168,6 +171,24 @@ const CartPage = () => {
               > {t("cart.payment_info.promotion_btn")}</BtnLoading>
             </div>
           </div>
+          <div className="flex flex-wrap">
+            <p className="px-4 w-fit py-1 m-2 text_base flex gap-1 border border-aqua-aq02 rounded-full bg-[#DAF1E7]">
+              <span className="cursor-pointer">
+                Giảm 30.000 cho đơn từ 400.000
+              </span>
+            </p>
+            <p className="px-4 w-fit py-1 m-2 text_base flex gap-1 border border-aqua-aq02 rounded-full">
+              <span className="cursor-pointer">
+                Freeship
+              </span>
+            </p>
+            <p className="px-4 w-fit py-1 m-2 text_base flex gap-1 border border-aqua-aq02 rounded-full">
+              <span className="cursor-pointer">
+                Giảm 30.000
+              </span>
+            </p>
+          </div>
+
           <div className="flex justify-between pb-4 ">
             <h1 className="text-wap-regular2  text-text">
               {t("cart.payment_info.total_price_title")}
