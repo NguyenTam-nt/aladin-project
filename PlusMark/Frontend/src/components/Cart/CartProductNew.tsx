@@ -148,8 +148,7 @@ const CartProductNew = ({ className, itemCart, change, size, border, payment }: 
           className={` 
           false 
           max-w-[64px]
-           max-h-[64px]  
-          lg:w-[240px] aspect-square object-contain lg:mt-7`
+          lg:w-[240px] aspect-square object-contain mt-7 pr-2 border-r-2`
           }
           src={itemCart.image}
           alt=""
@@ -159,13 +158,13 @@ const CartProductNew = ({ className, itemCart, change, size, border, payment }: 
           <div className="flex justify-between gap-3">
             <div className="flex-1 relative">
               <div className="flex gap-3 justify-between items-center pt-9">
-                <div className={`flex flex-wrap ${payment ? "" : "lg:w-1/4"} border-l-2`}>
-                  <Link to={ROUTES.product.detail(itemCart.id)} className={clsx("hover:cursor-pointer text-normal text-black mb-2 line-clamp-2 pl-1", { "mb-1 text-wap-regular2": size == 'cart' })}>
+                <div className={`flex flex-wrap ${payment ? "" : "lg:w-1/4"}`}>
+                  <Link to={ROUTES.product.detail(itemCart.id)} className={clsx("hover:cursor-pointer text-normal text-black mb-2 line-clamp-2", { "mb-1 text-wap-regular2": size == 'cart' })}>
                     {itemCart.name}
                   </Link>
                   <div className={`w-full`}>
                     <div className="flex justify-between">
-                      <label className={`font-bold text-main pl-1 mb-2 ${payment ? "block" : "hidden"} `}>x{itemCart.quantity}</label>
+                      <label className={`font-bold text-main mb-2 ${payment ? "block" : "hidden"} `}>x{itemCart.quantity}</label>
                       <div className={`text-main pl-1 font-bold ${payment ? "block" : "block lg:hidden"} `}>{formatMoney(itemCart.price)}</div>
                     </div>
                   </div>

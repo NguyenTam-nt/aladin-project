@@ -65,6 +65,10 @@ const CartPage = () => {
     }
   }
 
+  const handleRemoveCart = () => {
+    setCartItems([])
+  }
+
   const callApiCheckVoucher = (noti?: boolean) => {
     let cartItemRequest: CartItemRequest[] = cartItems.filter(c => c.choose).map(c => {
       return {
@@ -108,6 +112,8 @@ const CartPage = () => {
     }
   }
 
+  
+
   return (
     <div className="container  px-4 lg:px-8" >
       <div className="mt-6 font-['Nunito_Sans']">
@@ -134,7 +140,7 @@ const CartPage = () => {
             <div className="hidden lg:block">{t("cart.payment_info.title_total_quantity")}</div>
             <div className="hidden lg:block">{t("cart.payment_info.title_total_price_per_product")}</div>
             <div className="pr-3">
-              <RemoveCartIcon />
+              <RemoveCartIcon onClick={handleRemoveCart}/>
             </div>
           </div>
 
