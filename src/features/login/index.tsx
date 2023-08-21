@@ -45,7 +45,9 @@ const LoginScreen = () => {
               break;
             case ROLE_LIST.chef:
               //@ts-ignore
-              navigation.replace('main', {screen: 'kitchen'});
+              navigation.replace('main', {screen: 'kitchen', params: {
+                screen: 'wait-progressing'
+              }});
               break;
             case ROLE_LIST.order:
               //@ts-ignore

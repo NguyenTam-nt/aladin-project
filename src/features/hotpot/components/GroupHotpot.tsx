@@ -1,4 +1,4 @@
-import {View, StyleSheet} from 'react-native';
+import {View, StyleSheet, ScrollView} from 'react-native';
 import React, {memo} from 'react';
 import {defaultColors, isTabletDevice} from '@configs';
 import {GroupCategories} from './GroupCategories';
@@ -12,6 +12,7 @@ type Props = {
 export const GroupHotpot = memo(
   ({currentCategory, handlePressCategory}: Props) => {
     return (
+        
       <View style={styles.container_child}>
         <GroupCategories
           currentCategory={currentCategory}

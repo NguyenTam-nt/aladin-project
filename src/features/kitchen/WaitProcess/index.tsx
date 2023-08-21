@@ -79,7 +79,7 @@ export const WaitProcees = React.memo(() => {
         {isTable ? <HeaderListBill /> : <HeaderListBillFood />}
         <FlatList
           showsVerticalScrollIndicator={false}
-          data={data.filter(item => item.list.length)}
+          data={data}
           renderItem={renderItem}
           keyExtractor={keyExtractor}
           onEndReached={handleLoadMore}

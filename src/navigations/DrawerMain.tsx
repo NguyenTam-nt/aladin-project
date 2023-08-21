@@ -30,6 +30,9 @@ export const DrawerMain = () => {
   const checkIsKitchen = userInfo?.authorities?.some((role: IAuthorize) => {
     switch (role.name) {
       case ROLE_LIST.chef:
+        // navigation.replace('main', {screen: 'kitchen', params: {
+        //         screen: 'wait-progressing'
+        //       }});
         return true;
       default:
         return false;

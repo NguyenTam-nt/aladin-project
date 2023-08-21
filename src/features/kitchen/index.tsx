@@ -57,7 +57,7 @@ export const Kitchen = React.memo(() => {
       />
       <KitChenStack.Navigator
         screenOptions={screenOptions}
-        initialRouteName={routerKitchens[1].childs[0].slug}>
+        initialRouteName={"wait-progressing"}>
         {routerKitchens
           .find(item => item.name === routerPath.kitchen)
           ?.childs.map(item => {
