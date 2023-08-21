@@ -6,13 +6,26 @@ import { useEffect, useRef, useState } from "react";
 import { Autoplay, Navigation, Pagination } from "swiper";
 import { SwiperSlide } from "swiper/react";
 import "./banner.css";
+import { useSwiperNavigationRef } from "@hooks/useSwiperNavigationRef";
+import CricleButton from "@components/Buttons/CricleButton";
+import PrevIconElm from "@assets/iconElements/PrevIconElm";
+import { current } from "@reduxjs/toolkit";
 
 const banner = "/banner.png";
 
 const Banner = ({ className, images, ...props }: any) => {
   const [bannerHomepage, setbannerHomepage] = useState<string[]>([]);
-  const navigationPrevRef = useRef(null);
-  const navigationNextRef = useRef(null);
+  const {
+    navigationPrevRef,
+    navigationNextRef,
+    handleNext,
+    handlePre,
+    NavigationElement,
+    currentIndex,
+    onActiveIndexChange,
+    activeThumb,
+    setThumbActive,
+  } = useSwiperNavigationRef();
   // const pagination = {
   //   clickable: true,
   //   renderBullet: function (index: any, className: any) {
@@ -36,11 +49,11 @@ const Banner = ({ className, images, ...props }: any) => {
       <SwiperComponent
         navigationNextRef={navigationNextRef}
         navigationPrevRef={navigationPrevRef}
-        spaceBetween={24}
+        // spaceBetween={24}
         slidesPerView={1}
         loop={true}
         autoplay={{
-          delay: 10000,
+          delay: 5000,
           disableOnInteraction: false,
         }}
         modules={[Autoplay, Pagination, Navigation]}
@@ -58,19 +71,20 @@ const Banner = ({ className, images, ...props }: any) => {
           );
         })}
       </SwiperComponent>
-
-      <button
-        className="absolute left-[5%] top-1/2 -translate-y-1/2 z-10 cricle_btn"
-        ref={navigationPrevRef}
-      >
-        <PrevArrowIcon fill="#00C3AB" stroke="#00C3AB" width={24} height={24} />
-      </button>
-      <button
-        className="absolute right-[5%] top-1/2 -translate-y-1/2 z-10 cricle_btn"
-        ref={navigationNextRef}
-      >
-        <NextArrowIcon fill="#00C3AB" stroke="#00C3AB" width={24} height={24} />
-      </button>
+      {images.length > 1 && (
+        <>
+          <CricleButton
+            onClick={() => handlePre}
+            className="absolute left-[5%] top-1/2 -translate-y-1/2 z-10 "
+            icon={<PrevIconElm />}
+          />
+          <CricleButton
+            onClick={() => handleNext()}
+            className="absolute right-[5%] top-1/2 -translate-y-1/2 z-10"
+          />
+          {NavigationElement}
+        </>
+      )}
     </div>
   );
 };

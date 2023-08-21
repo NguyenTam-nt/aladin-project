@@ -1,6 +1,7 @@
 import FaceRound from './face-round.png'
 import YtbRound from './ytbRound.png'
 import  Bct from './bct.png'
+import  ImgHomeContact from './homecontac-img.png'
 // import BocongthuonIcon from './bct.png'
 import VisaCard from './visa_img.png'
 import MasterCard from './master_card_img.png'
@@ -109,6 +110,7 @@ export { ReactComponent as HotlineIcon } from "./advise-icon.svg";
 export { ReactComponent as RemoveCartIcon} from "./icon-remove-cart.svg";
 export { ReactComponent as PaymentCartIcon} from "./cart-payment-icon.svg";
 export { ReactComponent as KoreaFlag } from "./koreaFlag.svg";
+export { ReactComponent as TooltipSale } from "./toltipSale.svg";
 
 
 
@@ -118,7 +120,8 @@ export {
     YtbRound,
     Bct,
     VisaCard,
-    MasterCard
+    MasterCard,
+    ImgHomeContact
 }
 
 
