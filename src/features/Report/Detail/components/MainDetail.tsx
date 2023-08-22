@@ -1,5 +1,5 @@
 import { defaultColors } from '@configs';
-import React, { useCallback } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import {
   FlatList,
   ListRenderItemInfo,
@@ -23,145 +23,13 @@ import XLSX from 'xlsx-js-style';
 import { GroupAction } from './GroupAction';
 import { ExportPDF } from './ExportPDF';
 import { FomatDateYY_MM_DD, FomatDateYY_MM_DD_H_M } from 'src/commons/formatDate';
+import { useAreaName } from 'src/redux/infoDrawer/hooks'
+import { useUserInfo } from 'src/redux/reducers/hook'
 const {
   dirs: {DownloadDir, DocumentDir},
 } = RNFetchBlob.fs;
 
 const titles = ['Mã món ăn', 'Món ăn', 'Số lượng bán', 'Số lượng hủy'];
-const data = [
-  {
-    code: 'Lau01',
-    name: 'Lẩu',
-    quantity: 430,
-    quantity_cancel: 230,
-    items: [
-      {
-        code: 'MA1',
-        name: 'Lẩu nướng',
-        quantity: 50,
-        quantity_cancel: 60,
-      },
-      {
-        code: 'MA2',
-        name: 'Lẩu 1 ngăn',
-        quantity: 50,
-        quantity_cancel: 60,
-      },
-      {
-        code: 'MA3',
-        name: 'Lẩu 2 ngăn',
-        quantity: 50,
-        quantity_cancel: 60,
-      },
-      {
-        code: 'MA4',
-        name: 'Lẩu 4 ngăng',
-        quantity: 50,
-        quantity_cancel: 60,
-      },
-      {
-        code: 'MA5',
-        name: 'Món lẻ',
-        quantity: 50,
-        quantity_cancel: 60,
-      },
-      {
-        code: 'MA1',
-        name: 'Lẩu nướng',
-        quantity: 50,
-        quantity_cancel: 60,
-      },
-    ],
-  },
-  {
-    code: 'Lau01',
-    name: 'Lẩu',
-    quantity: 430,
-    quantity_cancel: 230,
-    items: [
-      {
-        code: 'MA1',
-        name: 'Lẩu nướng',
-        quantity: 50,
-        quantity_cancel: 60,
-      },
-      {
-        code: 'MA2',
-        name: 'Lẩu 1 ngăn',
-        quantity: 50,
-        quantity_cancel: 60,
-      },
-      {
-        code: 'MA3',
-        name: 'Lẩu 2 ngăn',
-        quantity: 50,
-        quantity_cancel: 60,
-      },
-      {
-        code: 'MA4',
-        name: 'Lẩu 4 ngăng',
-        quantity: 50,
-        quantity_cancel: 60,
-      },
-      {
-        code: 'MA5',
-        name: 'Món lẻ',
-        quantity: 50,
-        quantity_cancel: 60,
-      },
-      {
-        code: 'MA1',
-        name: 'Lẩu nướng',
-        quantity: 50,
-        quantity_cancel: 60,
-      },
-    ],
-  },
-  {
-    code: 'Lau01',
-    name: 'Lẩu',
-    quantity: 430,
-    quantity_cancel: 230,
-    items: [
-      {
-        code: 'MA1',
-        name: 'Lẩu nướng',
-        quantity: 50,
-        quantity_cancel: 60,
-      },
-      {
-        code: 'MA2',
-        name: 'Lẩu 1 ngăn',
-        quantity: 50,
-        quantity_cancel: 60,
-      },
-      {
-        code: 'MA3',
-        name: 'Lẩu 2 ngăn',
-        quantity: 50,
-        quantity_cancel: 60,
-      },
-      {
-        code: 'MA4',
-        name: 'Lẩu 4 ngăng',
-        quantity: 50,
-        quantity_cancel: 60,
-      },
-      {
-        code: 'MA5',
-        name: 'Món lẻ',
-        quantity: 50,
-        quantity_cancel: 60,
-      },
-      {
-        code: 'MA1',
-        name: 'Lẩu nướng',
-        quantity: 50,
-        quantity_cancel: 60,
-      },
-    ],
-  },
-];
 
 export enum FileType {
   pdf = 'PDF',
@@ -175,7 +43,8 @@ type Props = {
 
 export const MainDetail = ({setIsOpenTab ,dataReport}: Props) => {
 
-
+  const nameArea = useAreaName()
+  const userInfo = useUserInfo()
 
   const downloadPdf = useCallback(async () => {
     const aPath = Platform.select({
@@ -194,16 +63,21 @@ export const MainDetail = ({setIsOpenTab ,dataReport}: Props) => {
     alert('Tải file thành công');
   }, [dataReport]);
 
+  const dateExport = useMemo(() => {
+    const newDate = new Date();
+    return `${FomatDateYY_MM_DD(newDate.toISOString())} ${FomatDateYY_MM_DD(newDate.toISOString(), true)}` 
+  }, [])
+
   const exportExcelFIle = useCallback(() => {
     let wb = XLSX.utils.book_new();
     const data_sheet = [
       [
-        'Ngày cấp: 15/06/2023 - 15:00',
-        'Người lập: Admin',
-        'Cơ sở: 102 Trường Trinh, Phương Mai, Đống Đa, Hà Nội',
+        `Ngày cấp: ${dateExport}`,
+        `Người lập: ${userInfo?.fullname}`,
+        `Cơ sở ${nameArea}`,
       ],
       ['Báo cáo món ăn Bán - Hủy'],
-      ['Cơ sở:  102 Trường Trinh, Phương Mai, Đống Đa, Hà Nội'],
+      [nameArea],
       titles,
     ];
 
@@ -244,7 +118,7 @@ export const MainDetail = ({setIsOpenTab ,dataReport}: Props) => {
 
     let ws = XLSX.utils.aoa_to_sheet(data_sheet);
     const merge = [
-      {s: {r: 0, c: 0}, e: {r: 0, c: 1}},
+      // {s: {r: 0, c: 0}, e: {r: 0, c: 1}},
       {s: {r: 0, c: 2}, e: {r: 0, c: 3}},
       {s: {r: 1, c: 0}, e: {r: 1, c: 3}},
       {s: {r: 2, c: 0}, e: {r: 2, c: 3}},
@@ -280,13 +154,14 @@ export const MainDetail = ({setIsOpenTab ,dataReport}: Props) => {
     ws.A1.s = {
       font: {
         name: 'Times New Roman',
+        color: {rgb: '000000'},
         sz: 12,
       },
       alignment: {
         vertical: 'center',
         horizontal: 'left',
         wrapText: '1', // any truthy value here
-      },
+      }
     };
     ws.B1.s = {
       font: {
@@ -304,6 +179,7 @@ export const MainDetail = ({setIsOpenTab ,dataReport}: Props) => {
       font: {
         name: 'Times New Roman',
         sz: 12,
+        color: {rgb: '000000'},
       },
       alignment: {
         vertical: 'center',
@@ -461,21 +337,21 @@ export const MainDetail = ({setIsOpenTab ,dataReport}: Props) => {
     //   });
 
     const aPath = Platform.select({
-      ios: RNFetchBlob.fs.dirs.LibraryDir,
+      ios: DocumentDir,
       android: DownloadDir,
     });
 
     RNFetchBlob.fs
-      .writeFile(aPath + '/bao-caohangtuan.xlsx', Array.from(wbout), 'ascii')
+      .writeFile(aPath + '/bao-cao-mon-an-ban-huy.xlsx', Array.from(wbout), 'ascii')
       .then(() => {
         // Share.share(aPath + '/bao-cao123.xlsx')
         alert(
           'Tải tệp thành công, địa chỉ tệp ở: ' +
             aPath +
-            '/bao-caohangtuan.xlsx',
+            '/bao-cao-mon-an-ban-huy.xlsx',
         );
       });
-   } , [dataReport]);
+   } , [dataReport, nameArea, userInfo?.fullname]);
 
   const handleDownload = useCallback((type: FileType) => {
     switch (type) {
@@ -507,7 +383,7 @@ export const MainDetail = ({setIsOpenTab ,dataReport}: Props) => {
         <View style={styles.content}>
           <FlatList
             showsVerticalScrollIndicator={false}
-            ListHeaderComponent={<ListHeaderComponent />}
+            ListHeaderComponent={<ListHeaderComponent dateExport={dateExport} />}
             ListFooterComponent={<SpaceBottom />}
             data={dataReport}
             renderItem={renderItem}
@@ -568,10 +444,13 @@ const RenderItemReport = ({
   );
 };
 
+type PropsListHeaderComponent ={
+  dateExport: string
+}
 
-const ListHeaderComponent = () => {
-  const newDate = new Date();
-
+const ListHeaderComponent = ({dateExport}:PropsListHeaderComponent) => {
+  const nameArea = useAreaName()
+  const userInfo = useUserInfo()
    return (
     <>
     <View
@@ -593,7 +472,7 @@ const ListHeaderComponent = () => {
             fontSize={14}
             weight="400">
             {' '}
-            {FomatDateYY_MM_DD(newDate.toDateString())}
+            {dateExport}
           </TextCustom>
         </View>
         <View style={globalStyles.row}>
@@ -608,7 +487,7 @@ const ListHeaderComponent = () => {
             fontSize={14}
             weight="400">
             {' '}
-            Admin
+            {userInfo?.fullname}
           </TextCustom>
         </View>
       </View>
@@ -624,7 +503,7 @@ const ListHeaderComponent = () => {
           fontSize={14}
           weight="400">
           {' '}
-          102 Trường Trinh, Phương Mai, Đống Đa, Hà Nội
+          {nameArea}
         </TextCustom>
       </View>
       {/* </View> */}
@@ -655,7 +534,7 @@ const ListHeaderComponent = () => {
           fontSize={14}
           weight="400">
           {' '}
-          102 Trường Trinh, Phương Mai, Đống Đa, Hà Nội
+         {nameArea}
         </TextCustom>
       </View>
       <View style={{marginTop: 16}}>
