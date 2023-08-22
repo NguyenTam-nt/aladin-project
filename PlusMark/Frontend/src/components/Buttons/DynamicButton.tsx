@@ -39,9 +39,9 @@ const DynamicButton = memo(
             className
           )}
         >
-          {icon}
-          {t(text || "")}
           {iconLeft}
+          {t(text || "")}
+          {icon}
         </button>
       );
     }

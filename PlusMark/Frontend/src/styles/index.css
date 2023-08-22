@@ -11,6 +11,7 @@
   --text-main:#313131;
   --text-disable:#626262;
   --gray--004: linear-gradient(0deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), #303030;
+  --textLinear: linear-gradient(180deg, #FF6B00 0%, #E0000D 100%);
   --text-1: rgba(48, 48, 48, 1);
   /* --text-1: #303030; */
   --border-color: #DADADA;
@@ -25,6 +26,7 @@
   --ml-search-header: 220px;
   --blue01: #0037C1;
   --red01: #BB0000;
+  --red02: #E0000D;
   --black: #000000;
   --black01: #313131;
   --aqua01: #0FB7A3;

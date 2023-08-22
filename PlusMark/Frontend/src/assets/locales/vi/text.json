@@ -7,7 +7,13 @@
             "chose_city_or_province": "Hoặc chọn tỉnh, thành phố"
         },
         "section": {
-            "special_product": "Sản phẩm mới"
+            "special_product": "Sản đặc biệt",
+            "sale": "Sản phẩm sale",
+            "new": "Sản phẩm mơi"
+        },
+        "constact": {
+            "help": "Hãy để MArKET MOA hỗ trợ bạn.",
+            "already": "Đội ngũ hỗ trợ luôn sẵn sàng"
         },
         "descrition": {
             "a": "Sản phẩm được nhập khẩu từ korea"

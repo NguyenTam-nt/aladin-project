@@ -10,6 +10,8 @@ import { useSwiperNavigationRef } from "@hooks/useSwiperNavigationRef";
 import CricleButton from "@components/Buttons/CricleButton";
 import PrevIconElm from "@assets/iconElements/PrevIconElm";
 import { current } from "@reduxjs/toolkit";
+import { colors } from "@utility/colors";
+import NextIcon from "@assets/iconElements/NextIcon";
 
 const banner = "/banner.png";
 
@@ -74,13 +76,14 @@ const Banner = ({ className, images, ...props }: any) => {
       {images.length > 1 && (
         <>
           <CricleButton
-            onClick={() => handlePre}
-            className="absolute left-[5%] top-1/2 -translate-y-1/2 z-10 "
-            icon={<PrevIconElm />}
+            onClick={() => handlePre()}
+            className="absolute left-[5%] top-1/2 -translate-y-1/2 z-10 !border-white "
+            icon={<PrevIconElm color={colors.white} />}
           />
           <CricleButton
+            icon={<NextIcon color={colors.white} />}
             onClick={() => handleNext()}
-            className="absolute right-[5%] top-1/2 -translate-y-1/2 z-10"
+            className="absolute right-[5%] top-1/2 -translate-y-1/2 z-10 !border-white"
           />
           {NavigationElement}
         </>
