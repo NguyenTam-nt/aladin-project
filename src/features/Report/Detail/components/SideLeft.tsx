@@ -30,7 +30,7 @@ const filterDate = [
   },
   {
     slug: ReportTimeState.MONTH,
-    name: 'Thánh này',
+    name: 'Tháng này',
   },
   {
     slug: ReportTimeState.QUARTERLY,

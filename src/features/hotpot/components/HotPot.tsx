@@ -1,11 +1,8 @@
 import {StyleSheet, View} from 'react-native';
-import React, {useEffect, useMemo} from 'react';
+import React, {useEffect} from 'react';
 import FastImage from 'react-native-fast-image';
 import {
   defaultColors,
-  hotpotId1,
-  hotpotId2,
-  hotpotId4,
   isTabletDevice,
 } from '@configs';
 import {Thumb} from '@components';
@@ -14,15 +11,19 @@ import {getValueForDevice} from '../../../commons/formatMoney';
 import {getLinkImageUrl} from 'src/commons';
 import { useGetCartItem } from '../hook/useGetCartItem';
 
-const widthHotPot = isTabletDevice ? 436 : DIMENSION.width - 19 * 2;
+// 216
+
+const widthHotPot = isTabletDevice ? (DIMENSION.height - 72 - 64 - 40 - 40 - 32 - DIMENSION.topPadding - DIMENSION.bottomPadding) >= 436 ?  436 : 260 : DIMENSION.width - 19 * 2;
+const percent= widthHotPot/436
+
 const corePot =
   widthHotPot -
   getValueForDevice(18, 14) * 2 -
-  getValueForDevice(45.64, 35.18) * 2;
+  getValueForDevice(45.64*percent, 35.18) * 2;
 const sizeImageCategory =
   (widthHotPot -
     getValueForDevice(18, 14) * 2 -
-    getValueForDevice(45.64, 35.18) * 2 -
+    getValueForDevice(45.64*percent, 35.18) * 2 -
     2) /
   2;
 
@@ -125,7 +126,7 @@ export const HotPot = ({currentCategory}: Props) => {
 
 const styles = StyleSheet.create({
   styleHotpot: {
-    marginTop: getValueForDevice(56, 25),
+    marginTop: getValueForDevice(40, 25),
   },
   styleViewHotPot: {
     width: widthHotPot,
@@ -143,8 +144,8 @@ const styles = StyleSheet.create({
     resizeMode: 'cover',
   },
   styleLineVertical: {
-    width: 2,
-    height: getValueForDevice(374, widthHotPot - 24 * 2),
+    width: getValueForDevice(2, 0.5),
+    height: getValueForDevice(widthHotPot - 18*2 - 13*2, widthHotPot - 24 * 2),
     backgroundColor: defaultColors.bg_939393,
     position: 'absolute',
     left: widthHotPot / 2 + 1,
@@ -152,8 +153,8 @@ const styles = StyleSheet.create({
     zIndex: 1,
   },
   styleLineHorizontal: {
-    width: getValueForDevice(374, widthHotPot - 24 * 2),
-    height: 2,
+    width: getValueForDevice(widthHotPot - 18*2 - 13*2, widthHotPot - 24 * 2),
+    height: getValueForDevice(2, 0.5),
     backgroundColor: defaultColors.bg_939393,
     position: 'absolute',
     left: getValueForDevice(32, 24),
@@ -167,69 +168,69 @@ const styles = StyleSheet.create({
     width: sizeImageCategory,
     height: sizeImageCategory,
     zIndex: 2,
-    borderTopLeftRadius: 32,
+    borderTopLeftRadius: 32*percent,
     overflow: 'hidden',
   },
   styleImageTwo: {
     position: 'absolute',
-    left: widthHotPot / 2 + 3,
+    left: widthHotPot / 2 + getValueForDevice(3, 2),
     bottom: widthHotPot / 2 - 1,
     width: sizeImageCategory,
     height: sizeImageCategory,
     zIndex: 2,
-    borderTopRightRadius: 32,
+    borderTopRightRadius: Math.round(32*percent),
     overflow: 'hidden',
   },
   styleImageThree: {
     position: 'absolute',
     right: widthHotPot / 2 - 1,
-    top: widthHotPot / 2 + 3,
+    top: widthHotPot / 2 + getValueForDevice(3, 2),
     width: sizeImageCategory,
     height: sizeImageCategory,
     zIndex: 2,
-    borderBottomLeftRadius: 32,
+    borderBottomLeftRadius: 32*percent,
     overflow: 'hidden',
   },
   styleImageFour: {
     position: 'absolute',
-    left: widthHotPot / 2 + 3,
-    top: widthHotPot / 2 + 3,
+    left: widthHotPot / 2 + getValueForDevice(3, 2),
+    top: widthHotPot / 2 + getValueForDevice(3, 2),
     width: sizeImageCategory,
     height: sizeImageCategory,
     zIndex: 2,
-    borderBottomRightRadius: 32,
+    borderBottomRightRadius: Math.round(32*percent),
     overflow: 'hidden',
   },
   styleTwoBarOne: {
     position: 'absolute',
-    right: getValueForDevice(45.64, 35.18) + 16,
+    right: getValueForDevice(45.64*percent, 35.18) + 16,
     bottom: widthHotPot / 2 - 1,
     width: corePot,
     height: sizeImageCategory,
     zIndex: 2,
-    borderTopLeftRadius: 32,
-    borderTopRightRadius: 32,
+    borderTopLeftRadius:  Math.round(32*percent),
+    borderTopRightRadius:  Math.round(32*percent),
     overflow: 'hidden',
   },
   styleTwoBarTwo: {
     position: 'absolute',
-    right: getValueForDevice(45.64, 35.18) + 16,
+    right: getValueForDevice(45.64*percent, 35.18) + 16,
     top: widthHotPot / 2 + 3,
     width: corePot,
     height: sizeImageCategory,
     zIndex: 2,
-    borderBottomLeftRadius: 32,
-    borderBottomRightRadius: 32,
+    borderBottomLeftRadius:  Math.round(32*percent),
+    borderBottomRightRadius:  Math.round(32*percent),
     overflow: 'hidden',
   },
   styleOneBarOne: {
     position: 'absolute',
-    right: getValueForDevice(45.64, 35.18) + 16,
-    bottom: getValueForDevice(45.64, 35.18) + 16,
+    right: getValueForDevice(45.64*percent, 35.18) + 16,
+    bottom: getValueForDevice(45.64*percent, 35.18) + 16,
     width: corePot,
     height: corePot,
     zIndex: 2,
-    borderRadius: 32,
+    borderRadius:  Math.round(32*percent),
     overflow: 'hidden',
   },
   styleImageCategory: {

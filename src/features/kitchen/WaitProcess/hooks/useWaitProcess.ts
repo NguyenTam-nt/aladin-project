@@ -15,11 +15,8 @@ import {
 } from 'src/typeRules/product';
 import {MessageUtils} from 'src/commons/messageUtils';
 import {useAreaId} from 'src/redux/infoDrawer/hooks';
-import SockJS from 'sockjs-client';
-import {SOCK_CLIENNT_URL} from 'src/api/config';
-import {categoryKitchenNames} from '@configs';
 import { INotice } from '@typeRules';
-var Stomp = require('stompjs/lib/stomp.js').Stomp;
+import { useConnectSocketJS } from 'src/hooks/useConnectSockJS'
 
 export enum TypeModalWaitProcess {
   cancelbill = 'CANCELBILL',
@@ -47,7 +44,6 @@ export const useWaitProcess = () => {
   const modalRefuse = useModal();
   const [currentDataSelect, setCurrentDataSelect] = useState<IOrderItem>();
   const {currentType} = useGetCategotyType();
-  const currentTypeRef = useRef<categoryKitchenNames>(currentType);
   const [notices, setNotices] = useState<INotice[]>([]);
 
   const [fileterItem, setFilterItem] = useState(dataFilter[0]);
@@ -60,28 +56,20 @@ export const useWaitProcess = () => {
   );
 
   const IdArea = useAreaId();
-  const isTableRef = useRef<boolean>(fileterItem.value === TypeFilter.area);
-  const dataRef = useRef<IOrderKitchen[]>([]);
 
   const isTable = useMemo(() => {
-    isTableRef.current = fileterItem.value === TypeFilter.area;
     return fileterItem.value === TypeFilter.area;
   }, [fileterItem]);
 
   const {data, isRefreshing, pullToRefresh, refresh, handleLoadMore, setData} =
     useHandleResponsePagination<IOrderKitchen>(getOrderKitchenMethod);
 
-  useEffect(() => {
-    dataRef.current = data;
-  }, [data]);
-
-  useEffect(() => {
-    currentTypeRef.current = currentType;
-  }, [currentType]);
+  const {dataSocket, setDataSocket} = useConnectSocketJS<IOrderSocket[]>(IdArea ? `/topic/kitchen/${IdArea}` : "")
+  const {dataSocket:dataNotification, setDataSocket:setDataSocketNotification} = useConnectSocketJS<INotice>(IdArea ? `/topic/kitchen/noti/${IdArea}` : "")
 
   const hanldeDataAfterUpdate = useCallback(
     (result: IOrderItem[], item: IOrderItem) => {
-      // console.log({result})
+      console.log({result})
       // if(item.state === OrderType.cancel || item.state === OrderType.complete) {
       if (isTable) {
         const index = data.findIndex(
@@ -126,26 +114,24 @@ export const useWaitProcess = () => {
   const handleDataSocker = useCallback((result: IOrderSocket[]) => {
     if (result) {
       const listData = result.find(
-        item => item.menu === currentTypeRef.current,
+        item => item.menu === currentType,
       );
 
+      console.log({listData: listData?.kitchen?.[0].list, currentType})
+
       const newDataConvert: IOrderSocket = {
-        menu: listData?.menu || currentTypeRef.current,
+        menu: listData?.menu ?? currentType,
         kitchen:
           listData?.kitchen.map((item) => {
             return {
               ...item,
-              list: item.list.filter(
-                item =>
-                item.state === OrderType.process ||
-                item.state === OrderType.process_cancel,
-              ),
+              list: item.list,
             };
           }) || [],
       };
 
-      const newData = [...dataRef.current];
-      if (isTableRef.current) {
+      const newData = [...data];
+      if (isTable) {
         newDataConvert?.kitchen.forEach(item => {
           const index = newData.findIndex(
             _item => _item.idInvoice === item.idInvoice,
@@ -211,66 +197,26 @@ export const useWaitProcess = () => {
       }
       setData([...newData]);
     }
-  }, []);
+  }, [currentType, data, isTable]);
 
   useEffect(() => {
-    // console.log({IdArea});
-    const sockClient = new SockJS(SOCK_CLIENNT_URL);
-    let stompClient = Stomp.over(sockClient);
-    let connected: any;
-    let connectedNotices: any;
-    if (IdArea) {
-      if (!stompClient.connected) {
-        stompClient.connect(
-          {},
-          function (frame: any) {
-            setTimeout(() => {
-              connected = stompClient.subscribe(
-                `/topic/kitchen/${IdArea}`,
-                function (messageOutput: any) {
-                  const data = JSON.parse(messageOutput.body) as IOrderSocket[];
-                  // dispatch(setItemProductInCart(data.list));
-                  // console.log('data', data);
-                  handleDataSocker(data);
-                },
-              );
-              connectedNotices = stompClient.subscribe(
-                `/topic/kitchen/noti/${IdArea}`,
-                function (messageOutput: any) {
-                  const data = JSON.parse(messageOutput.body);
-                  // dispatch(setItemProductInCart(data.list));
-                  setNotices(oldData => {
-                    const newData = [data, ...oldData];
-                    return newData.slice(0, 3);
-                  });
-                },
-              );
-            });
-          },
-          500,
-        );
-      }
+    if(dataSocket) {
+      console.log("socket ----------------------------------------------------------------", dataSocket)
+      handleDataSocker(dataSocket)
+      setDataSocket(undefined)
     }
-    return () => {
-      if (connected) {
-        console.log(
-          '________________________________________________________________',
-          connected,
-        );
-        connected.unsubscribe();
-        connected = null;
-      }
+  }, [dataSocket, handleDataSocker])
 
-      if (connectedNotices) {
-        console.log(
-          '________________________________________________________________',
-          connectedNotices,
-        );
-        connectedNotices.unsubscribe();
-        connectedNotices = null;
-      }
-    };
-  }, [IdArea]);
+  useEffect(() => {
+    if(dataNotification) {
+      console.log("dataNotification-------",dataNotification )
+      setNotices(oldData => {
+        const newData = [dataNotification, ...oldData];
+        return newData.slice(0, 3);
+      });
+      setDataSocketNotification(undefined)
+    }
+  }, [dataNotification])
 
   const handleShowModalAction = useCallback(
     (type: TypeModalWaitProcess, item: IOrderItem, isAll = false) => {
@@ -296,7 +242,10 @@ export const useWaitProcess = () => {
         .then(result => {
           console.log({data: result.data});
           if (data) {
-            hanldeDataAfterUpdate(result.data.list ?? [], item);
+            // hanldeDataAfterUpdate(result.data.list ?? [], item);
+            MessageUtils.showSuccessMessageWithTimeout(
+              'Cập nhật trạng thái thành công',
+            );
             return;
           }
           MessageUtils.showErrorMessageWithTimeout('Đã có lỗi xảy ra');
@@ -318,7 +267,10 @@ export const useWaitProcess = () => {
         .then(result => {
           console.log({data: result, item});
           if (data) {
-            hanldeDataAfterUpdate(result.data, item);
+            // hanldeDataAfterUpdate(result.data, item);
+            MessageUtils.showSuccessMessageWithTimeout(
+              'Cập nhật trạng thái thành công',
+            );
             return;
           }
           MessageUtils.showErrorMessageWithTimeout('Đã có lỗi xảy ra');
@@ -365,12 +317,17 @@ export const useWaitProcess = () => {
     [notices],
   );
 
+
+  const newData = useMemo(() => {
+    return data.filter(item => item.list.length)
+  }, [data]) 
+
   return {
     modalConfirmCancel,
     modalRefuse,
     handleShowModalAction,
     currentType,
-    data,
+    data: newData,
     isRefreshing,
     pullToRefresh,
     refresh,

@@ -35,7 +35,7 @@ const CustomDrawerFloor = ({ navigation } : { navigation : DrawerNavigationHelpe
   const floor = await getFloor();
     if (floor.success) {
       setFloor(AllFloor.concat(floor.data[0].area));
-      dispatch(setAreaId(floor.data[0].infrastructure.id));
+      dispatch(setAreaId({id: floor.data[0].infrastructure.id, name: floor.data[0].infrastructure.name}));
     }
   };
   React.useLayoutEffect(() => {
