@@ -1,25 +1,34 @@
-import React, { useLayoutEffect, useState } from "react";
-import { Outlet } from "react-router-dom";
-import Header from "./Header";
-import Navleft from "./Navleft";
-import { useAuthContext } from "@contexts/hooks/auth";
-import { windownSizeWidth, withResponsive } from "@constants/index";
+import React, { useLayoutEffect, useState } from "react"
+import { Outlet, useNavigate, Navigate } from "react-router-dom"
+import Header from "./Header"
+import Navleft from "./Navleft"
+import { useAuthContext } from "@contexts/hooks/auth"
+import { windownSizeWidth, withResponsive } from "@constants/index"
+import { RoleUser } from "@typeRules/user"
 
 const LayoutManager = () => {
-  const { isLogin, doLogin } = useAuthContext();
-  const [isShowSidebar, setShow] = useState(windownSizeWidth > withResponsive._1280);
+  const { isLogin, doLogin, user } = useAuthContext()
+  const [isShowSidebar, setShow] = useState(
+    windownSizeWidth > withResponsive._1280
+  )
+  // const navigate = useNavigate()
   const handleShow = () => {
-    setShow(true);
-  };
+    setShow(true)
+  }
 
   const handleHiden = () => {
-    if(windownSizeWidth > withResponsive._1280) return
-    setShow(false);
-  };
+    if (windownSizeWidth > withResponsive._1280) return
+    setShow(false)
+  }
 
   if (!isLogin) {
-    doLogin();
-    return;
+    doLogin()
+    return
+  } else {
+    if (user?.authorities?.[0].name !== RoleUser.ADMIN) {
+      // navigate("/")
+      return <Navigate to="/" />
+    }
   }
   return (
     <div className="bg-bg_fafafa xl:min-w-[1280px] relative">
@@ -36,7 +45,7 @@ const LayoutManager = () => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default LayoutManager;
+export default LayoutManager

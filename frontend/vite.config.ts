@@ -10,7 +10,7 @@ export default defineConfig({
     port: 3000,
     proxy: {
       "/services": {
-        target: "http://192.168.1.24:8090",
+        target: "https://giangmyhotpot.vn/",
         changeOrigin: true,
       },
     }
