@@ -11,7 +11,7 @@ interface CricleBtnProp extends ButtonHTMLAttributes<HTMLButtonElement> {
   gradien?: boolean;
   normal?: boolean;
   text?: string;
-  textGradient?: boolean
+  textGradient?: boolean;
 }
 
 const DynamicButton = memo(
@@ -35,9 +35,11 @@ const DynamicButton = memo(
           className={clsx(
             "flex items-center text-base justify-center gap-1 min-h-[32px] min-w-[136px]",
             {
-              "bg-btn text-white": gradien,
-              "border border-aqua-aq02 bg-transparent text-aqua-aq02": normal,
-              "text-transparent bg-clip-text bg-gradient-to-tr from-red-red500 to-orange-orange400": textGradient,
+              "bg-btn text-white rounded-full": gradien,
+              "border border-aqua-aq02 bg-transparent text-aqua-aq02 rounded-full":
+                normal,
+              "text-transparent bg-clip-text bg-gradient-to-tr from-red-red500 to-orange-orange400":
+                textGradient,
             },
             className
           )}

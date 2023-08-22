@@ -3,11 +3,11 @@ import React from "react";
 import SlideProducts from "./SlideProducts";
 import DynamicButton from "@components/Buttons/DynamicButton";
 import KakaoTalkIcon from "@assets/iconElements/KakaoTalkIcon";
-import { ZaloIcon } from "@assets/icons";
+import ZaloIcon from "@assets/iconElements/ZaloIcon";
 
 const ProductSale = () => {
   return (
-    <div className="product_box xl:py-14 sc480:py-10">
+    <div className="product_box xl:py-14 py-10">
       <TitleSession
         text="text.section.sale"
         isBox={true}
