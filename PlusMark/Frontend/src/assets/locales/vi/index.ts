@@ -4,12 +4,13 @@ import messages from './messages.json'
 import text from './text.json'
 import input from './input.json'
 import button from './button.json'
-
+import product from './product.json'
 export default {
     ...vi,
     ...global,
     ...text,
     ...messages,
     ...input,
-    ...button
+    ...button,
+    ...product
 }

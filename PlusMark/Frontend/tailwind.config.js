@@ -119,10 +119,12 @@ module.exports = {
         'white': 'var(--white)',
         neutra: {
           neutra80: 'var(--neutral80)',
-          neutra20: 'var(--neutral20)'
+          neutra20: 'var(--neutral20)',
+          neutral98: 'var(--neutral98)'
         },
         orange: {
-          orange400: 'var(--orange400)'
+          orange400: 'var(--orange400)',
+          lightPink: 'var(--light-pink-orange)',
         }
       },
       boxShadow: {
@@ -174,7 +176,6 @@ module.exports = {
         lg: '900px',
         xl: '1100px',
         '2xl': '1320px',
-        // '3xl': '1920px'
         '3xl': '1648px'
       },
       padding: '0rem',

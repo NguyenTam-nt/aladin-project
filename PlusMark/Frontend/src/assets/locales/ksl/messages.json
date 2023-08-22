@@ -5,12 +5,28 @@
         },
         "max": {
             "title": "Title không được quá .."
+        },
+        "form": {
+            "required": "Bắt buộc",
+            "number": "Phải là số",
+            "minNum": "Phải lớn hơn {{min}}",
+            "minNumEqual": "Phải lớn hơn hoặc bằng {{min}}",
+            "maxNum": "Phải nhỏ hơn {{max}}",
+            "maxEqualNum": "Phải nhỏ hơn hoặc bằng {{max}}",
+            "phone": "Số điện thoại không phù hợp",
+            "phone-length": "Số điện thoại phải đủ 10 số",
+            "zalo": "Số zalo không phù hợp",
+            "zalo-length": "Số zalo phải đủ 10 số",
+            "email": "Email không đúng định dạng",
+            "enddateGreaterThanStartdate": "Thời gian kết thúc phải lớn hơn thời gian bắt đầu",
+            "greaterNow": "Thời gian phải bắt đầu từ bây giờ",
+            "max": "Vui lòng nhập tối đa {{max}} ký tự."
         }
     },
     "success": {
         "title": "Gửi tiêu đề thành công"
     },
     "warning": {
-        "title" : "cảnh báo title bị trùng khớp"
+        "title": "cảnh báo title bị trùng khớp"
     }
 }

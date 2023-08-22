@@ -1,0 +1,14 @@
+{
+    "product": {
+        "product-info": "Thông tin sản phẩm",
+        "add-to-cart": "Thêm giỏ hàng",
+        "head-phone": "Tư vấn mua hàng",
+        "buy-now": "Mua ngay",
+        "outstanding-features": "Đặc điểm nổi bật",
+        "table": {
+            "stt": "STT",
+            "specifications": "Thông số kỹ thuật",
+            "model": "Model"
+        }
+    }
+}
