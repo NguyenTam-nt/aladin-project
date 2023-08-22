@@ -62,7 +62,7 @@ const SlideProductPaginate = memo(({ size = 4, row = 1 }: Props) => {
   }, [currentPage]);
 
   return (
-    <div className="relative">
+    <div className="relative product_box">
       <div className="flex items-center justify-between mb-6">
         <TitleSession text="a" />
         <div className="flex items-center h-10 gap-x-6">

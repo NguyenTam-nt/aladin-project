@@ -19,10 +19,13 @@ module.exports = {
         spc50: "50px",
         spc77: "77px",
         spc80: "80px",
+        spc136: "136px",
+        spc230: "230px",
         spc300: "300px",
         spc400: "400px",
         spc510: "510px",
         'spc132%': "132%",
+        1280: "1280px"
 
       },
       maxWidth: {
@@ -33,6 +36,8 @@ module.exports = {
         '2/3': "60%",
         '1/2': "50%",
         'spc510': '510px',
+        'spc400': '400px',
+        1280: "1280px"
       },
       minHeight: {
         'spc280': '280px',
@@ -47,6 +52,7 @@ module.exports = {
       screens: {
         // by default (minwidth)
         ssm: '360px',
+        sc480: '480px',
         sm: "640px",
         // md: 768px
         // lg: 1024px
@@ -116,6 +122,7 @@ module.exports = {
         header: "linear-gradient(225deg, #FF6B00 0%, #E0000D 100%)",
         btn: "linear-gradient(52deg, #FF6D03 0%, #E60E00 100%)",
         footer: "linear-gradient(180deg, #FE7D29 0%, #F9849E 100%)",
+        title: "linear-gradient(227deg, #FE7D29 0%, #F9849E 100%)"
       },
       fontSize: {
         // follow figma

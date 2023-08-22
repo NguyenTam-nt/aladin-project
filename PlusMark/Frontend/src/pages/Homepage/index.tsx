@@ -14,6 +14,9 @@ import ContactSession from "@components/Home/ContactSession";
 import DistributorSession from "@components/Home/DistributorSession";
 import NewsItemHome from "@components/News/Item/NewsItemHome";
 import TitleSession from "@components/common/TitleSession";
+import ProductNew from "@components/product/ProductNew";
+import ProductSale from "@components/product/ProductSale";
+import ProductSpecial from "@components/product/ProductSpecial";
 import SlideProductPaginate from "@components/product/SlideProductPaginate";
 import SlideProducts from "@components/product/SlideProducts";
 import OneSpecialProduct from "@components/product/list/OneSpecialProduct";
@@ -148,11 +151,14 @@ function HomePage() {
 
   return (
     <div className="">
-      <Banner className="h-auto lg:h-[50vh]" images={bannerImages} />
-      <div className="2xl:px-[190px] lg:px-[158px] py-10">
-        {/* <Banner className="h-auto lg:h-[50vh]" images={bannerHomepage} /> */}
+      <Banner
+        className="h-spc230 lg:min-h-[490px] sm:h-[50vh]"
+        images={bannerImages}
+      />
+      {/* <div className="px-4 lg:px-[130px] xl:px-[110px] 1.5xl:px-[130px]">
+        <Banner className="h-auto lg:h-[50vh]" images={bannerHomepage} />
 
-        {/* <div className="grid xl:grid-cols-4 grid-cols-2  mt-4 sm:mt-9 shadow-md rounded-lg ">
+        <div className="grid xl:grid-cols-4 grid-cols-2  mt-4 sm:mt-9 shadow-md rounded-lg ">
           {utilShops.map((u, i) => {
             return (
               <div
@@ -179,27 +185,27 @@ function HomePage() {
               </div>
             );
           })}
-        </div> */}
+        </div>
 
-        {/* <HotSaleProductNew /> */}
+        <HotSaleProductNew />
 
-        {/* <div className="border-b-[1px]">
+        <div className="border-b-[1px]">
           <OneSpecialProduct
             banner={bannerRecentlyHomepage}
             data={newProducts}
             name={t("homepage.recently_product.title")}
           />
-        </div> */}
+        </div>
 
-        {/* <div className="border-b-[1px]">
+        <div className="border-b-[1px]">
           <OneSpecialProduct
             banner={bannerHotsoldHomepage}
             data={hotSold}
             name={t("homepage.best_sale.title")}
           />
-        </div> */}
+        </div>
 
-        {/* <div className="">
+        <div className="">
           <h3 className="mt-10 mb-5 lg:mb-10 text-title font-semibold uppercase">
             {t("homepage.news.title")}
           </h3>
@@ -218,39 +224,11 @@ function HomePage() {
               {t("homepage.news.see_more")}
             </Link>
           </div>
-        </div> */}
-
-        {/* <div className="grid grid-cols-4">
-          <CartISlideImage item={{ name: "Sức khỏe" }} />
-        </div> */}
-        {/* <div>
-          <SlideProductPaginate />
-        </div> */}
-        <div className="py-14">
-          <TitleSession text="text.section.sale" className="w-full mb-6" />
-          <SlideProducts typeSlide="new" row={2} size={4} />
-          <div className="flex items-center justify-center gap-5 mt-16">
-            <DynamicButton
-              text="global.kakaotalk"
-              className="h-spc45 2xl:w-spc300 w-1/2 gap-3"
-              iconLeft={<KakaoTalkIcon />}
-              gradien={true}
-              normal={false}
-            />
-            <DynamicButton
-              text="global.zalo"
-              className="h-spc45 2xl:w-spc300 w-1/2 gap-3"
-              iconLeft={<ZaloIcon />}
-              gradien={true}
-              normal={false}
-            />
-          </div>
         </div>
-        <div className=" relative py-10">
-          <TitleSession text="text.section.new" className="w-full mb-6" />
-          <SlideProducts typeSlide="new" />
-        </div>
-      </div>
+      </div> */}
+      <ProductSale />
+      <ProductSpecial />
+      <ProductNew />
       <ContactSession />
       <DistributorSession />
     </div>
