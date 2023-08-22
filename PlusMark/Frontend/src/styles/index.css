@@ -36,9 +36,11 @@
   /* plustMark */
   --neutral80: #C4C4C4;
   --neutral20: #313131;
+  --neutral98: #EFEFEF;
   --white: #FFF;
   --orange400: #FF6D03;
   --red500: #E60E00;
+  --light-pink-orange: #FE7D29;
 }
 
 @import url('./tailwind.css');

@@ -33,7 +33,7 @@ const DynamicButton = memo(
           ref={ref}
           {...props}
           className={clsx(
-            "rounded-full flex items-center text-base justify-center gap-1 min-h-[32px] min-w-[136px]",
+            "flex items-center text-base justify-center gap-1 min-h-[32px] min-w-[136px]",
             {
               "bg-btn text-white": gradien,
               "border border-aqua-aq02 bg-transparent text-aqua-aq02": normal,
