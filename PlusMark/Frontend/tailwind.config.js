@@ -92,6 +92,7 @@ module.exports = {
           '200-60': 'var(--gray-002-60)',
           '300': 'var(--gray-003)',
           '400': 'var(--gray-004)',
+          '600': 'var(--gray-006)'
         },
         black: {
           bl0: 'var(--black)',
@@ -101,18 +102,28 @@ module.exports = {
           b01: 'var(--blue01)',
         },
         red: {
-          r01: 'var(--red01)'
+          r01: 'var(--red01)',
+          red500: 'var(--red500)'
         },
         aqua: {
           aq01: 'var(--aqua01)',
           aq02: 'var(--aqua02)',
+          aq03: 'var(--aqua03)',
         },
         'borderGray': 'var(--border-color)',
         'button': 'var(--button-color)',
         'buttonSucces': 'var(--bgBtnSuccess)',
         'icon': 'var(--icon-color)',
         'cancel': 'var(--cancel-color)',
-        'icon-active': '#F45538'
+        'icon-active': '#F45538',
+        'white': 'var(--white)',
+        neutra: {
+          neutra80: 'var(--neutral80)',
+          neutra20: 'var(--neutral20)'
+        },
+        orange: {
+          orange400: 'var(--orange400)'
+        }
       },
       boxShadow: {
         DEFAULT: '0px 4px 4px rgba(0, 0, 0, 0.25)',
@@ -163,10 +174,10 @@ module.exports = {
         lg: '900px',
         xl: '1100px',
         '2xl': '1320px',
-        '3xl': '1648px'
+        '3xl': '1920px'
       },
-      padding: '0rem',
-      center: true,
+      // padding: '0rem',
+      // center: true,
     },
   },
   plugins: [
