@@ -1,0 +1,16 @@
+{
+    "product": {
+        "product-info": "제품 정보",
+        "add-to-cart": "장바구니에 담기",
+        "head-phone": "쇼핑 조언",
+        "buy-now": "지금 구매",
+        "outstanding-features": "뛰어난 기능",
+        "products-in-the-same-category":"같은 카테고리의 제품",
+        "viewed-products":"본 제품",
+        "table": {
+            "stt": "STT",
+            "specifications": "명세서",
+            "model": "Model"
+        }
+    }
+}

@@ -1,65 +1,70 @@
+import PrevIconElm from "@assets/iconElements/PrevIconElm";
 import { NextArrowIcon, PrevArrowIcon } from "@assets/icons";
+import CricleButton from "@components/Buttons/CricleButton";
+import CardItem from "@components/Card/CardItem";
 import ProductCard from "@components/Card/ProductCard";
+import { useSwiperNavigationRef } from "@hooks/useSwiperNavigationRef";
 import { ProductItem } from "@services/ProductServices";
+import clsx from "clsx";
+import SwiperComponent from "commons/SwiperComponent";
 import { useCallback, useRef } from "react";
-import { Autoplay, Navigation } from "swiper";
+import { Autoplay, Grid, Navigation, Pagination } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
 
 type Props = {
-  product: ProductItem[] 
+  product: ProductItem[]
 }
 
-const ProductCarousel = ({product}: Props) => {
-  const slideRef = useRef<any>(null);
-  const nextSlide = useCallback(() => {
-    if (slideRef.current) {
-      slideRef.current.swiper.slideNext();
-    }
-  }, []);
-  const prevSlide = useCallback(() => {
-    if (slideRef.current) {
-      slideRef.current.swiper.slidePrev();
-    }
-  }, []);
+const ProductCarousel = ({ product }: Props) => {
+  const {
+    navigationPrevRef,
+    navigationNextRef,
+    handleNext,
+    handlePre,
+    NavigationElement,
+    currentIndex,
+    onActiveIndexChange,
+    activeThumb,
+    setThumbActive,
+  } = useSwiperNavigationRef();
+
   return (
-    <div>
-      <div className="relative py-9">
-        <button className="absolute hidden sm:block -left-10 top-1/2 -translate-y-2/4" onClick={prevSlide}>
-          <PrevArrowIcon className="fill-text w-5" />
-        </button>
-        <button className="absolute hidden sm:block -right-10 top-1/2 -translate-y-2/4" onClick={nextSlide}>
-          <NextArrowIcon className="fill-text w-5" />
-        </button>
-        <Swiper
-          modules={[Autoplay, Navigation]}
-          ref={slideRef}
-          spaceBetween={18}
-          slidesPerView={1}
-          autoplay={{
-            delay: 2000,
-            disableOnInteraction: false,
-          }}
-          loop={true}
-          breakpoints={{
-            596: {
-              slidesPerView: 2,
-            },
-            1024: {
-              slidesPerView: 3,
-            },
-            1280: {
-              slidesPerView: 4,
-            },
-          }}
+    <>
+      <div className="relative">
+        <CricleButton
+          onClick={() => handlePre()}
+          className="absolute -left-[5%] top-1/2 -translate-y-1/2 z-10 "
+          icon={<PrevIconElm />}
+        />
+        <SwiperComponent
+          onActiveIndexChange={onActiveIndexChange}
+          navigationNextRef={navigationNextRef}
+          navigationPrevRef={navigationPrevRef}
+          slidesPerView={4}
+          modules={[Grid, Autoplay, Pagination, Navigation]}
+          className={clsx("w-full h-full", {})}
+          spaceBetween={26}
+          autoplay={true}
+          loop
         >
-          {product.map((it, idx) => (
-            <SwiperSlide className="xl:p-2" key={idx}>
-              <ProductCard product={it} />
-            </SwiperSlide>
-          ))}
-        </Swiper>
+          {(product ?? []).map((item: any, index: number) => {
+            return (
+              <SwiperSlide key={index} className={clsx("")}>
+                <CardItem description={`${index}`} />
+              </SwiperSlide>
+            );
+          })}
+        </SwiperComponent>
+
+        <CricleButton
+          onClick={() => handleNext()}
+          className={
+            "absolute -right-[5%] top-1/2 -translate-y-1/2 z-10 "
+          }
+        />
+        {NavigationElement}
       </div>
-    </div>
+    </>
   );
 };
 
