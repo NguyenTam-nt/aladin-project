@@ -34,9 +34,9 @@ export const HotPot = ({currentCategory}: Props) => {
   const {listCategoriesByCategory, isFourBar, isOneBar, isTwoBar} = useGetCartItem(currentCategory);
 
    useEffect(() => {
+     
 
-
-   }, [isFourBar, isOneBar, isTwoBar]);
+   } , [isFourBar ,isOneBar ,isTwoBar])
 
 
   return (

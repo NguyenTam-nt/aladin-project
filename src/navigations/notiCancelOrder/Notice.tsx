@@ -54,24 +54,20 @@ export const NoticeCancelItem = memo(() => {
       const sockClient = new SockJS(SOCK_CLIENNT_URL);
       let stompClient = Stomp.over(sockClient);
       if (!stompClient.connected) {
-        stompClient.connect(
-          {},
-          function () {
-            setTimeout(() => {
-              stompClient1 = stompClient.subscribe(
-                `/topic/order/noti/${IdArea}/${billId}`,
-                function (messageOutput: any) {
-                  const dataSocket = JSON.parse(messageOutput.body);
+        stompClient.connect({}, function () {
+          setTimeout(() => {
+            stompClient1 = stompClient.subscribe(
+              `/topic/order/noti/${IdArea}/${billId}`,
+              function (messageOutput: any) {
+                const dataSocket = JSON.parse(messageOutput.body);
 
-                  console.log('data noti cancel' ,dataSocket);
+                console.log('data noti cancel', dataSocket);
 
-                  pushItem(dataSocket);
-                },
-              );
-            });
-          },
-          500,
-        );
+                pushItem(dataSocket);
+              },
+            );
+          }, 500);
+        });
       }
     }
     return () => {

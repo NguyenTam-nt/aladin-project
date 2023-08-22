@@ -63,13 +63,9 @@ const CartItem = React.memo(() => {
     }
   }, [billId]);
   const dataItem = useListItemInCart();
-
   const dataList = useMemo<any[]>(() => {
     return [...dataItemCart, ...dataItem];
   }, [dataItemCart, dataItem]);
-
-
-
   const cost = useMemo(() => {
     let newCost = 0;
     dataList.map((item: IITemCart & IProductInCart) => {

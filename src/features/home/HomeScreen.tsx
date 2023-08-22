@@ -125,6 +125,8 @@ const HomeScreen = ({stateCheckbox}: {stateCheckbox: string[]}) => {
   //     stompClient1?.unsubscribe();
   //   };
   // }, [areaId, isFocus, appStateVisible]);
+  const stompClient = useRef();
+  
   useEffect(() => {
     let stompClient1: any = null;
     // let socketInterval: any = null;
