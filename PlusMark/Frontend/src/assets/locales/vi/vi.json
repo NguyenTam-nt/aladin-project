@@ -37,11 +37,12 @@
             "title": "Đừng quên chọn ưu đãi tốt nhất",
             "placehoder_promotion": "Nhập mã ưu đãi",
             "promotion_btn": "Áp dụng",
-            "total_price_title": "Giá trị sản phẩm:",
-            "total_discount": "Giảm:",
+            "total_price_title": "Giá trị sản phẩm",
+            "total_discount": "Giảm giá",
             "total_price": "Tổng tiền",
             "btn_process_payment": "Tiến hành đặt hàng",
-            "btn_buy_more": "Mua thêm sản phẩm"
+            "btn_buy_more": "Xem thêm sản phẩm",
+            "label_total_items": "Tất cả ({{total}} sản phẩm)"
         }
     },
     "payment": {

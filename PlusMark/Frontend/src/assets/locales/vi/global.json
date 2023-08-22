@@ -84,6 +84,19 @@
                     "license": "Mã số doanh nghiệp: 0104918404 Đăng ký lần đầu ngày 20 tháng 09 năm 2010, đăng ký thay đổi lần thứ 44, ngày 15 tháng 09 năm 2021"
                 }
             }
+        },
+        "distributor": {
+            "intened_for": "Dành cho",
+            "distributor": "Nhà phân phối",
+            "policy": "Moa luôn có những chính sách ưu đãi tốt nhất dành cho tất cả các nhà phân phối / đại lý của mình. Nếu bạn chưa là nhà phân phối / đại lý của Sato hãy liên hệ với chúng tôi đăng ký ngay hôm  nay.",
+            "successed": {
+                "first": "Chiết khấu hấp dẫn",
+                "second": "Hỗ trợ triển khai tư vấn",
+                "third": "Hỗ trợ thông tin sản phẩm",
+                "forth": "Hàng Việt Nam chất lượng cao",
+                "fiveth": "Hàng Việt Nam chất lượng cao",
+                "sixth": "Bảo hành & CSKH chuyên nghiệp"
+            }
         }
     }
 }

@@ -6,5 +6,6 @@ export const colors ={
     main: "#FF0000",
     aqua02: "#00C3AB",
     neutral80: "#C4C4C4",
-    darkOrange: "#FF7D03"
+    darkOrange: "#FF7D03",
+    darkGreen: "#17646E"
 }

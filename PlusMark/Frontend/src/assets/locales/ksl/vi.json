@@ -41,7 +41,11 @@
             "total_discount": "Giảm:",
             "total_price": "Tổng tiền",
             "btn_process_payment": "Tiến hành đặt hàng",
-            "btn_buy_more": "Mua thêm sản phẩm"
+            "btn_buy_more": "Mua thêm sản phẩm",
+            "label_total_items": "Tất cả ({{total}} sản phẩm)",
+            "title_price_per_unit": "Đơn giá",
+            "title_total_quantity": "Số lượng",
+            "title_total_price_per_product": "Thành tiền"
         }
     },
     "payment": {
@@ -54,7 +58,15 @@
                 "address": "Địa chỉ",
                 "province": "Chọn tỉnh / thành",
                 "district": "Chọn quận / huyện",
-                "commune": "Chọn phường / xã "
+                "commune": "Chọn phường / xã ",
+                "card_number_title": "Số thẻ",
+                "card_number_place_holder": "Nhập số thẻ của bạn",
+                "card_number_type_title" : "Loại thẻ",
+                "expired_date_card_title" : "Ngày hết hạn",
+                "month" : "Tháng",
+                "year" : "Năm",
+                "zip_code": "Mã bưu điện",
+                "country_code": "Mã quốc gia"
             }
         },
         "info_delivery_method": {
@@ -62,10 +74,11 @@
             "mothod_title_1": "Thanh toán khi giao hàng (COD)",
             "mothod_title_2": "Thanh toán bằng thẻ ATM / chuyển khoản"
         },
-        "total_price_title": "Giá trị sản phẩm:",
-        "total_discount": "Giảm:",
+        "total_price_title": "Giá trị sản phẩm",
+        "total_discount": "Giảm giá",
         "total_price": "Tổng tiền",
         "payment": "Đặt hàng",
+        "continue": "Tiếp tục",
         "success_modal": {
             "title": "Đặt hàng thành công",
             "thank": "Cảm ơn bạn đã đặt hàng tại",

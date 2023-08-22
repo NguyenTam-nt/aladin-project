@@ -1,6 +1,7 @@
 import { ListProductType, Product, SomeType } from "commons/contannt";
 import queryString from "query-string";
 import api from "./api";
+import { Params } from "@utility/typeService";
 
 const apiItems = "/items"
 const pathRemainning = '/filterremaining'
@@ -84,6 +85,11 @@ const ProductServices = {
     },
     getProductNew: async (): Promise<ResponseProductItems> => {
         return api.get(apiItems + "?sort=createdAt,desc&gender=nam,nữ").then(data => data.data)
+    },
+    getListNewProducts: async (params: Params): Promise<ResponseProductItems> => {
+        const result = (await api.get(apiItems, {params: params})).data;
+        return result
+        // return (await api.get(apiItems + "?sort=createdAt,desc&gender=nam,nữ", {params: {page: page, size}})).data.data
     },
    
     getProductSeenMost: async (): Promise<ResponseProductItems> => {
