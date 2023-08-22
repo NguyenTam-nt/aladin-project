@@ -6,6 +6,8 @@ import {
   NextArrowIcon,
   PrevArrowIcon,
 } from "@assets/icons";
+import { PrevIcon } from "@assets/icons/plust-mark/PrevIcon";
+import { SaleIcon } from "@assets/icons/plust-mark/SaleIcon";
 import BreakCrumb, { BreadcrumbType } from "@components/Breadcrumb";
 import ProductCarousel from "@components/Carousel/ProductCarousel";
 import ColorPicker from "@components/ColorPicker/ColorPicker";
@@ -27,10 +29,17 @@ import ProductServices, {
 import convertToHtml from "@utility/convertoHtml";
 import { formatMoney, some } from "@utility/helper";
 import clsx from "clsx";
-import { useCallback, useContext, useEffect, useRef, useState } from "react";
+import React, { memo, useCallback, useContext, useEffect, useRef, useState, ReactNode } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { Autoplay, Navigation } from "swiper";
+import { Autoplay, Navigation, Pagination } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
+import { DiscountElement } from "./DiscountElement";
+import DynamicButton from "@components/Buttons/DynamicButton";
+import CricleButton from "@components/Buttons/CricleButton";
+import { colors } from "@utility/colors";
+import { ShoppingCart } from "@assets/icons/plust-mark/ShoppingCart";
+import { Cart } from "@assets/icons/plust-mark/Cart";
+import { HeadPhone } from "@assets/icons/plust-mark/HeadPhone";
 
 const breakcrumData: BreadcrumbType[] = [
   {
@@ -45,6 +54,52 @@ const breakcrumData: BreadcrumbType[] = [
     active: false,
     link: "/",
   },
+];
+
+export const ServiceItem = memo((props: { icon: ReactNode, content: string }) => {
+  const { icon, content } = props;
+  return (
+    <>
+      <div className="flex flex-row gap-x-1 items-center">
+        {icon}
+        <p className="font-NunitoSans text-wap-regular2 font-normal text-black-bl0">{content}</p>
+      </div>
+    </>
+  )
+});
+
+export const TextGradient = memo((props: { title: string, clssName?: string }) => {
+  return (
+    <>
+      <div className={clsx('text-transparent font-NunitoSans bg-clip-text bg-gradient-to-tr from-red-red500 to-orange-orange400',
+        props.clssName
+      )}>
+        {props.title}
+      </div>
+    </>
+  )
+});
+
+export const Outstanding = memo((props: { content: string }) => {
+  return (
+    <>
+      <div className="flex flex-row gap-x-1 items-start">
+        <span>&#x2022;</span>
+        <div className="text-normal font-normal font-NunitoSans text-neutra-neutra20">{props.content}</div>
+      </div>
+    </>
+  )
+})
+export const SERVICES = [
+  { icon: <PrevIcon />, content: "100% Hàng Việt Nam Chất Lượng Cao" },
+  { icon: <PrevIcon />, content: "Cam Kết Giá Tốt Nhất & CTKM Hấp Dẫn" },
+  { icon: <PrevIcon />, content: "Dịch Vụ Bảo Hành Chuyên Nghiệp" },
+  { icon: <PrevIcon />, content: "Giao Hàng Toàn Quốc" },
+]
+export type ExploreTabKey = 'product-info' | 'specifications';
+export const exploreTabs: { key: ExploreTabKey; text: string }[] = [
+  { key: 'product-info', text: 'Thông tin sản phẩm' },
+  { key: 'specifications', text: 'Thông số kỹ thuật' },
 ];
 
 const ProductDetailNew = () => {
@@ -71,6 +126,7 @@ const ProductDetailNew = () => {
 
   const [productRelated, setproductRelated] = useState<ProductItem[]>();
   const [productSeen, setproductSeen] = useState<ProductItem[]>();
+  const [numberActive, setNumberActive] = useState<number>(0)
 
   const slideRef = useRef<any>(null);
   const nextSlide = useCallback(() => {
@@ -243,6 +299,163 @@ const ProductDetailNew = () => {
       {/* <div className="container px-4 lg:px-8">
         <BreakCrumb data={breakcrumData} lastData={lastBreakCrumb} normalClass="text-normal1" activeClass="font-bold"  />
       </div> */}
+      <div className="px-[172px] container">
+        <BreakCrumb data={breakcrumData} lastData={lastBreakCrumb} normalClass="text-normal1" activeClass="font-bold" />
+        <div className="pt-5 flex-1 grid grid-cols-[1fr_380px] justify-between gap-x-5">
+          <div className="flex flex-col">
+            <div className="flex-1 grid grid-cols-[120px_1fr] gap-x-5">
+              <div className="w-full h-[636px] flex flex-col items-center gap-y-3">
+                <button
+                  className="flex items-center justify-center w-12 h-12 border border-neutra-neutra80 rounded-full"
+                  onClick={prevSlide}
+                >
+                  <PrevIcon />
+                </button>
+                <Swiper
+                  modules={[Autoplay, Navigation]}
+                  direction="vertical"
+                  ref={slideRef}
+                  // loop={true}
+                  slidesPerView={4}
+                  spaceBetween={10}
+                  className="w-full h-[516px] flex items-center justify-center gap-2 -z-1"
+                  autoplay={{
+                    delay: 3000,
+                    disableOnInteraction: false,
+                  }}
+                >
+                  {productData && productData?.images && productData?.images.length > 0 && productData?.images.map((it, idx) => (
+                    <SwiperSlide key={idx}>
+                      <img
+                        onClick={() => setimageView(it)}
+                        className="aspect-square object-cover rounded-md cursor-pointer w-full h-full"
+                        src={it}
+                        alt="product-image"
+                      ></img>
+                    </SwiperSlide>
+                  ))}
+                </Swiper>
+                <button
+                  className="flex items-center justify-center w-12 h-12 border border-neutra-neutra80 rounded-full"
+                  onClick={nextSlide}
+                >
+                  <div className="rotate-180">
+                    <PrevIcon />
+                  </div>
+                </button>
+              </div>
+              <div className="w-full h-[640px] relative rounded-lg shadow-shd020">
+                <img
+                  className="w-full h-full object-cover rounded-lg"
+                  src={imageView}
+                  alt="product-img"
+                />
+                <DiscountElement content="-30%" className="text-white text-normal2 font-NunitoSans font-extrabold" />
+              </div>
+            </div>
+            <div className="pt-[60px] flex-1 flex flex-row">
+              <div className="flex-1 flex items-center justify-center">
+                <TextGradient
+                  title="Thông tin sản phẩm"
+                  clssName="text-normal2 font-bold"
+                />
+              </div>
+              <div className="flex-1 flex items-center justify-center">
+                <TextGradient
+                  title="Thông tin sản phẩm"
+                  clssName="text-normal2 font-bold"
+                />
+              </div>
+            </div>
+          </div>
+          <div>
+            <div className="w-full h-auto bg-white rounded-lg relative">
+              <DiscountElement content="-30%" widthIcon={97} heightIcon={34} className="text-white text-[20px] leading-normal font-NunitoSans font-extrabold" />
+              <div className="pt-[50px] px-[13px] pb-6">
+                <p className="font-NunitoSans text-normal2 text-text-main font-bold">Hộp trà tắc giảm cân an toàn Jẹu Hàn Quốc</p>
+                <div className="pt-3 flex  flex-row items-center gap-x-4 border-b-[2px] border-aqua-aq02">
+                  <TextGradient title={sizeSelected ? formatMoney(400000) : formatMoney(productData?.price || 0)} clssName="text-title font-bold " />
+                  <p className="line-through font-NunitoSans text-normal1 font-normal text-gray-600">{formatMoney(430000)}</p>
+                </div>
+                <div className="pt-6 flex flex-row gap-x-3 items-center">
+                  <p className="font-NunitoSans font-normal text-normal text-black-bl0">Khối lượng:</p>
+                  <div className="flex w-fit flex-wrap gap-x-2">
+                    {colorSelected && colorSelected?.sizes && colorSelected?.sizes.map((s, i) => {
+                      return (
+                        <>
+                          {i < 3 && (
+                            <SizePicker
+                              selected={sizeSelected}
+                              data={s}
+                              handleClick={setsizeSelected}
+                              key={i}
+                            />
+                          )}
+                        </>
+                      );
+                    })}
+                  </div>
+                </div>
+                <div className="pt-3 flex flex-row gap-x-3 items-center">
+                  <p className="font-NunitoSans font-normal text-normal text-black-bl0">Số lượng:</p>
+                  <AmountChange
+                    quantity={quantity}
+                    descActive={quantityDescActive}
+                    ascActive={quantityAscActive}
+                    handleIncrease={handleIncrease}
+                    handleDecrease={handleDecrease}
+                  />
+                </div>
+                <div className="pt-4">
+                  <div className="px-3 pt-2 pb-3 bg-aqua-aq03 rounded-lg">
+                    <div className="pb-3">
+                      <h1 className="font-NunitoSans text-normal font-bold text-neutra-neutra20">Yên tâm mua hàng tại Market Moa</h1>
+                    </div>
+                    <div className="flex flex-col gap-y-2">
+                      {
+                        SERVICES.map((it, idx) => {
+                          return (
+                            <ServiceItem key={idx} icon={it.icon} content={it.content} />
+                          )
+                        })
+                      }
+                    </div>
+                  </div>
+                </div>
+                <div className="pt-3 flex flex-row gap-x-1">
+                  <DynamicButton
+                    text="Thêm giỏ hàng"
+                    textGradient={true}
+                    icon={<ShoppingCart />}
+                    className="!rounded-[20px] !px-[6px] !py-2 !min-w-[83px] text-[16px] leading-normal font-bold font-NunitoSans"
+                  />
+                  <DynamicButton
+                    text="Tư vấn mua hàng"
+                    textGradient={true}
+                    icon={<HeadPhone />}
+                    className="!rounded-[20px] !px-[6px] !py-2 !min-w-[83px] text-[16px] leading-normal font-bold font-NunitoSans"
+                  />
+                </div>
+                <div className="pt-3">
+                  <DynamicButton
+                    text="Mua ngay"
+                    gradien={true}
+                    icon={<Cart />}
+                    className="w-full !rounded-[20px] !px-[6px] !py-2 !min-w-[83px] text-[16px] leading-normal font-bold font-NunitoSans"
+                  />
+                </div>
+                <div className="pt-3">
+                  <p className="text-normal2 font-bold font-NunitoSans text-neutra-neutra20">Đặc điểm nổi bật</p>
+                  <div className="px-1 pt-3 flex flex-col gap-y-1">
+                    <Outstanding content="Dung tích 1.2L phù hợp sử dụng cho 2 - 4 người." />
+                    <Outstanding content="Lòng nồi hợp kim nhôm phủ chống dính cao cấp, an toàn cho sức khỏe." />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
       <div className="container p-4 lg:p-8  bg-white">
         {!isLoading ? (
           <div className="flex flex-col lg:flex-row gap-5 lg:border-b-[1px] pb-8">
@@ -254,8 +467,8 @@ const ProductDetailNew = () => {
                     onClick={handleShowGallery}
                   >
                     {productData &&
-                    productData.video &&
-                    imageView == productData?.video ? (
+                      productData.video &&
+                      imageView == productData?.video ? (
                       <video
                         className=" w-full h-full object-contain rounded-md "
                         autoPlay
@@ -282,7 +495,7 @@ const ProductDetailNew = () => {
                     )}
                     {/*  */}
                   </div>
-                  <div className="relative overflow-hidden rounded-md">
+                  {/* <div className="relative overflow-hidden rounded-md">
                     <button
                       className="absolute  z-10 bg-transparent top-0 left-0 flex items-center justify-center w-8 h-full"
                       onClick={prevSlide}
@@ -334,7 +547,7 @@ const ProductDetailNew = () => {
                         </SwiperSlide>
                       ))}
                     </Swiper>
-                  </div>
+                  </div> */}
                 </div>
               </div>
             </div>
@@ -446,7 +659,7 @@ const ProductDetailNew = () => {
                       <div
                         className="h-fit max-h-fit w-full bg-transparent resize-none overflow-hidden"
                         style={{ whiteSpace: "pre-line" }}
-                        dangerouslySetInnerHTML={{__html: productData?.detail || ""}}
+                        dangerouslySetInnerHTML={{ __html: productData?.detail || "" }}
                       >
                         {/* {productData?.detail || ""} */}
                       </div>
@@ -479,7 +692,7 @@ const ProductDetailNew = () => {
                         <div
                           className="h-fit max-h-fit w-full bg-transparent resize-none overflow-hidden"
                           style={{ whiteSpace: "pre-line" }}
-                          dangerouslySetInnerHTML={{__html: productData?.policy || ""}}
+                          dangerouslySetInnerHTML={{ __html: productData?.policy || "" }}
                         >
                           {/* {productData?.policy || ""} */}
                         </div>
