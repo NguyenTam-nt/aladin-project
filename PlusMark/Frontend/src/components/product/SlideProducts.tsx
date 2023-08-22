@@ -9,6 +9,8 @@ import PrevIconElm from "@assets/iconElements/PrevIconElm";
 import clsx from "clsx";
 import ProductServices, { ProductItem } from "@services/ProductServices";
 import LoadingPage from "@components/LoadingPage";
+import useViewport from "@hooks/useViewPort";
+import DynamicButton from "@components/Buttons/DynamicButton";
 
 interface Props {
   typeSlide: "new" | "sale" | "viewed" | "sameCategory";
@@ -17,6 +19,7 @@ interface Props {
   gap?: number;
 }
 const SlideProducts = memo(({ typeSlide, size = 4, row, gap = 24 }: Props) => {
+  const { width } = useViewport();
   const [listproducts, setListProducts] = useState<ProductItem[]>([]);
   const [totalElements, setTotalElements] = useState<number>(0);
   const [totalPage, setTotalPage] = useState<number>(0);
@@ -33,9 +36,11 @@ const SlideProducts = memo(({ typeSlide, size = 4, row, gap = 24 }: Props) => {
     activeThumb,
     setThumbActive,
   } = useSwiperNavigationRef();
+
   const valueExpression = row
     ? currentIndex * 2 + size * row
     : currentIndex + size;
+
   const handleAddState = () => {
     if (valueExpression >= listproducts.length) {
       if (currentPage >= totalPage) return;
@@ -44,7 +49,6 @@ const SlideProducts = memo(({ typeSlide, size = 4, row, gap = 24 }: Props) => {
     }
     return;
   };
-
   const callApi = async () => {
     try {
       setLoading(true);
@@ -67,8 +71,29 @@ const SlideProducts = memo(({ typeSlide, size = 4, row, gap = 24 }: Props) => {
   useEffect(() => {
     callApi();
   }, [currentPage]);
+  if (width < 1280)
+    return (
+      <>
+        <div className="grid grid-cols-2 md:grid-cols-3 sc480:gap-6 gap-2">
+          {listproducts.map((item: any, index: number) => {
+            return <CardItem key={index} description={`${index}`} />;
+          })}
+        </div>
+        {currentPage < totalPage && (
+          <div className="flex justify-center mt-5">
+            <DynamicButton
+              text="button.see_more"
+              className="w-spc136"
+              onClick={() => {
+                currentPage < totalPage && setCurrentPage(currentPage + 1);
+              }}
+            />
+          </div>
+        )}
+      </>
+    );
   return (
-    <div className="relative">
+    <div className="relative 2xl:w-1280 2xl:mx-auto xl:block hidden">
       <SwiperComponent
         onActiveIndexChange={onActiveIndexChange}
         navigationNextRef={navigationNextRef}
