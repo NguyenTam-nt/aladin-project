@@ -38,3 +38,12 @@ export const useAreaId = () => {
 };
 
 
+export const useAreaName = () => {
+  const name = useSelector(
+    (appState: RootState) => appState.infoDrawerSlice.nameArea,
+  );
+  return name;
+};
+
+
+

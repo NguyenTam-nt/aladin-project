@@ -92,7 +92,7 @@ const DrawerKitchen = () => {
   const getDataFloor = async () => {
     const floor = await getFloor();
     if (floor.success) {
-      dispatch(setAreaId(floor.data[0].infrastructure.id));
+      dispatch(setAreaId({id: floor.data[0].infrastructure.id, name: floor.data[0].infrastructure.name}));
     }
   };
   React.useLayoutEffect(() => {

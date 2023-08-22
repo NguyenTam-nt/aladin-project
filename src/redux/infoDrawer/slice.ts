@@ -5,6 +5,7 @@ interface IPopupState {
   showAction : boolean
   floorDrawerActive : string
   areaId : number | undefined
+  nameArea: string
 }
 
 const initialState: IPopupState = {
@@ -12,6 +13,7 @@ const initialState: IPopupState = {
   showAction : false,
   floorDrawerActive : 'Tất cả',
   areaId : undefined,
+  nameArea: ""
 };
 
 export const infoDrawerSlice = createSlice({
@@ -31,8 +33,9 @@ export const infoDrawerSlice = createSlice({
     setFloorActiveRedux: (state, action: PayloadAction<string>) => {
       state.floorDrawerActive = action.payload;
     },
-    setAreaId: (state, action: PayloadAction<number>) => {
-      state.areaId = action.payload;
+    setAreaId: (state, action: PayloadAction<{id: number; name: string}>) => {
+      state.areaId = action.payload.id;
+      state.nameArea = action.payload.name;
     },
   },
 });
