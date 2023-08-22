@@ -10,7 +10,8 @@ interface CricleBtnProp extends ButtonHTMLAttributes<HTMLButtonElement> {
   ref?: any;
   gradien?: boolean;
   normal?: boolean;
-  text: string;
+  text?: string;
+  textGradient?: boolean
 }
 
 const DynamicButton = memo(
@@ -23,6 +24,7 @@ const DynamicButton = memo(
       gradien = false,
       normal = true,
       text,
+      textGradient,
       ...props
     }: CricleBtnProp) => {
       const { t } = useI18n();
@@ -35,6 +37,7 @@ const DynamicButton = memo(
             {
               "bg-btn text-white": gradien,
               "border border-aqua-aq02 bg-transparent text-aqua-aq02": normal,
+              "text-transparent bg-clip-text bg-gradient-to-tr from-red-red500 to-orange-orange400": textGradient,
             },
             className
           )}
