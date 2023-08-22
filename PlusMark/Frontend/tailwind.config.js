@@ -174,10 +174,11 @@ module.exports = {
         lg: '900px',
         xl: '1100px',
         '2xl': '1320px',
-        '3xl': '1920px'
+        // '3xl': '1920px'
+        '3xl': '1648px'
       },
-      // padding: '0rem',
-      // center: true,
+      padding: '0rem',
+      center: true,
     },
   },
   plugins: [
