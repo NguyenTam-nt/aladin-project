@@ -490,23 +490,23 @@ const ProductDetailNew = () => {
                 <div className="pt-3 flex flex-row gap-x-1">
                   <DynamicButton
                     onClick={handleAddToCart}
-                    text="Thêm giỏ hàng"
+                    text={t('product.add-to-cart')}
                     textGradient={true}
                     iconLeft={<ShoppingCart />}
-                    className="!rounded-[20px] !px-[6px] !py-2 !min-w-[83px] text-[16px] leading-normal font-bold font-NunitoSans"
+                    className="flex-1 !rounded-[20px] !px-[6px] !py-2 !min-w-[83px] text-[16px] leading-normal font-bold font-NunitoSans"
                   />
                   <DynamicButton
                     onClick={showGetFreeConsulation}
-                    text="Tư vấn mua hàng"
+                    text={t('product.head-phone')}
                     textGradient={true}
                     iconLeft={<HeadPhone />}
-                    className="!rounded-[20px] !px-[6px] !py-2 !min-w-[83px] text-[16px] leading-normal font-bold font-NunitoSans"
+                    className="flex-1 !rounded-[20px] !px-[6px] !py-2 !min-w-[83px] text-[16px] leading-normal font-bold font-NunitoSans"
                   />
                 </div>
                 <div className="pt-3">
                   <DynamicButton
                     onClick={handleBuyNow}
-                    text="Mua ngay"
+                    text={t('product.buy-now')}
                     gradien={true}
                     iconLeft={<Cart />}
                     className="w-full !rounded-[20px] !px-[6px] !py-2 !min-w-[83px] text-[16px] leading-normal font-bold font-NunitoSans"
