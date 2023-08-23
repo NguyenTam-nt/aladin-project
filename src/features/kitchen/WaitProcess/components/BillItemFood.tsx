@@ -39,7 +39,7 @@ export const BillItemFood = memo(
       return {
         transform: [
           {
-            rotate: isOpen ? '0deg' : '180deg',
+            rotate: isOpen ? '180deg' : '0deg',
           },
         ],
         ...globalStyles.center,

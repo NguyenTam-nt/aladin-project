@@ -1,8 +1,8 @@
 import {useCallback} from 'react';
 
 export const useKeyArray = () => {
-  const keyExtractor = useCallback((_: any, index: number) => {
-    return index.toString();
+  const keyExtractor = useCallback((item: any, index: number) => {
+    return `${item?.id ?? index}`;
   }, []);
 
   return {

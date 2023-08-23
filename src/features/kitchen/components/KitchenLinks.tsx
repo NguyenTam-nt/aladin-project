@@ -6,6 +6,7 @@ import {defaultColors} from '@configs';
 import {TextCustom} from '@components';
 
 import {MultipleScreenView} from 'src/components/MultipleScreenView';
+import { getValueForDevice } from 'src/commons/formatMoney'
 
 type Props = {
   renderRight?: JSX.Element
@@ -99,7 +100,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     borderBottomWidth: 1,
     borderBottomColor: defaultColors.bg_EFEFEF,
-    height: 77,
+    height: getValueForDevice(77, 50),
     justifyContent: 'space-between',
     alignItems: 'flex-end',
   },

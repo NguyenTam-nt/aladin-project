@@ -31,10 +31,9 @@ export const WaitProcees = React.memo(() => {
     handlePressCompelete,
     currentDataSelect,
     notices,
-    handleDeleteNotice
+    handleDeleteNotice,
   } = useWaitProcess();
   const {keyExtractor} = useKeyArray();
-
 
   const renderItem = useCallback(
     ({item}: ListRenderItemInfo<IOrderKitchen>) => {
@@ -59,7 +58,9 @@ export const WaitProcees = React.memo(() => {
 
   return (
     <View style={styles.container}>
-      <Notice onDelete={handleDeleteNotice} notices={notices} />
+      {notices && notices?.length ? (
+        <Notice onDelete={handleDeleteNotice} notices={notices} />
+      ) : null}
       <KitchenLinks
         renderRight={
           <DropDownFilter

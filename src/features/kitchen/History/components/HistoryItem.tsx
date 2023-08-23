@@ -145,7 +145,7 @@ export const HistoryItemMenu = ({data}: PropsItem) => {
           fontSize={14}
           weight="400"
           color={defaultColors.c_222124}>
-          {data?.numProduct}
+          {data?.nameProduct}
         </TextCustom>
         <View>
           <View style={{flexDirection: 'row', columnGap: 4}}>
@@ -162,7 +162,7 @@ export const HistoryItemMenu = ({data}: PropsItem) => {
       </View>
       <View style={styles.styleViewItem}>
         <TextCustom fontSize={14} weight="400" color={defaultColors.c_222124}>
-          {data?.nameProduct}
+          {data?.numProduct}
         </TextCustom>
       </View>
       <View style={styles.styleViewItem}>

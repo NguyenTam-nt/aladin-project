@@ -1,4 +1,6 @@
 import {
+  KeyboardAvoidingView,
+  ScrollView,
   StatusBar,
   StyleProp,
   StyleSheet,
@@ -24,7 +26,12 @@ import {IOrderItem, OrderType} from 'src/typeRules/product'
 
 type Props = {
   onCancel: () => void
-  onPress: (data: IOrderItem, reason: string, state:OrderType, isAll?:boolean) => void
+  onPress: (
+    data: IOrderItem,
+    reason: string,
+    state: OrderType,
+    isAll?: boolean,
+  ) => void
   message?: string
   placeholder?: string
   titleInput?: string
@@ -33,15 +40,25 @@ type Props = {
 }
 
 export const ModalConfirmCancel = memo(
-  ({onCancel, message, placeholder, titleInput, onPress, data, state}: Props) => {
+  ({
+    onCancel,
+    message,
+    placeholder,
+    titleInput,
+    onPress,
+    data,
+    state,
+  }: Props) => {
     const insets = useSafeAreaInsets()
-    const [value, setValue] = useState<string>("")
+    const [value, setValue] = useState<string>(placeholder ?? '')
 
     const styleSizeModal = useMemo((): StyleProp<ViewStyle> => {
       return {
         ...styles.styleModalView,
         width: getValueForDevice(720, DIMENSION.width),
         height: getValueForDevice(348, DIMENSION.height - insets.top - 64),
+        maxWidth: getValueForDevice(720, DIMENSION.width),
+        maxHeight: getValueForDevice(348, DIMENSION.height - insets.top - 64),
       }
     }, [insets.bottom, insets.top])
 
@@ -56,8 +73,12 @@ export const ModalConfirmCancel = memo(
     }, [])
 
     return (
-      <View style={styleSizeModal}>
-        <KeyboardAwareScrollView keyboardShouldPersistTaps="handled">
+      <KeyboardAwareScrollView
+        style={styleSizeModal}
+      //   behavior="position"
+      //  enabled
+        >
+        <View>
           <View style={styles.styleModalHeader}>
             <View style={styles.styleViewItem}>
               <MultipleScreenView
@@ -120,8 +141,8 @@ export const ModalConfirmCancel = memo(
               text="Hủy bỏ"
             />
           </View>
-        </KeyboardAwareScrollView>
-      </View>
+        </View>
+      </KeyboardAwareScrollView>
     )
   },
 )
