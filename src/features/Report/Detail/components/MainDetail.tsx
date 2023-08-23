@@ -54,8 +54,8 @@ export const MainDetail = ({setIsOpenTab ,dataReport}: Props) => {
     const html = ExportPDF(titles, dataReport);
     let options = {
       html: html,
-      fileName: 'doanh-thu5',
-      directory: aPath + 'test.pdf',
+      fileName: 'bao-cao-mon-an-ban-huy',
+      directory: aPath + 'bao-cao-mon-an-ban-huy.pdf',
     };
 
     await RNHTMLtoPDF.convert(options);
@@ -460,31 +460,31 @@ const ListHeaderComponent = ({dateExport}:PropsListHeaderComponent) => {
         styles.colGap_50,
       ]}>
       <View style={[globalStyles.row, styles.styleGap25]}>
-        <View style={globalStyles.row}>
+        <View style={[globalStyles.row,  globalStyles.alignItemsCenter]}>
           <TextCustom
             color={defaultColors.c_0000}
-            fontSize={14}
+            fontSize={getValueForDevice(14, 12)}
             weight="700">
             Ngày lập:{' '}
           </TextCustom>
           <TextCustom
             color={defaultColors.c_0000}
-            fontSize={14}
+            fontSize={getValueForDevice(14, 12)}
             weight="400">
             {' '}
             {dateExport}
           </TextCustom>
         </View>
-        <View style={globalStyles.row}>
+        <View style={[globalStyles.row,  globalStyles.alignItemsCenter]}>
           <TextCustom
             color={defaultColors.c_0000}
-            fontSize={14}
+            fontSize={getValueForDevice(14, 12)}
             weight="700">
             Người lập{' '}
           </TextCustom>
           <TextCustom
             color={defaultColors.c_0000}
-            fontSize={14}
+            fontSize={getValueForDevice(14, 12)}
             weight="400">
             {' '}
             {userInfo?.fullname}
@@ -494,13 +494,13 @@ const ListHeaderComponent = ({dateExport}:PropsListHeaderComponent) => {
       <View style={globalStyles.row}>
         <TextCustom
           color={defaultColors.c_0000}
-          fontSize={14}
+          fontSize={getValueForDevice(14, 12)}
           weight="700">
           Cơ sở:
         </TextCustom>
         <TextCustom
           color={defaultColors.c_0000}
-          fontSize={14}
+          fontSize={getValueForDevice(14, 12)}
           weight="400">
           {' '}
           {nameArea}
@@ -521,41 +521,36 @@ const ListHeaderComponent = ({dateExport}:PropsListHeaderComponent) => {
         style={[
           globalStyles.row,
           globalStyles.justifyContentCenter,
+          globalStyles.alignItemsCenter,
           {marginTop: 16, flexWrap: 'wrap'},
         ]}>
         <TextCustom
           color={defaultColors.c_0000}
-          fontSize={14}
+          fontSize={getValueForDevice(14, 12)}
           weight="700">
           Cơ sở:
         </TextCustom>
         <TextCustom
           color={defaultColors.c_0000}
-          fontSize={14}
+          fontSize={getValueForDevice(14, 12)}
           weight="400">
           {' '}
          {nameArea}
         </TextCustom>
       </View>
-      <View style={{marginTop: 16}}>
+      <View style={styles.mt_16}>
         <View
           style={[
             globalStyles.row,
             globalStyles.alignItemsCenter,
-            {
-              borderTopLeftRadius: 4,
-              borderTopRightRadius: 4,
-              height: 39,
-              backgroundColor: defaultColors._EA222A,
-              paddingLeft: 24,
-            },
+            styles.group_table,
           ]}>
           {titles.map((item, index) => {
             return (
               <View style={globalStyles.fullFill} key={index}>
                 <TextCustom
                   color={defaultColors.c_fff}
-                  fontSize={14}
+                  fontSize={getValueForDevice(14, 12)}
                   weight="700">
                   {item}
                 </TextCustom>
@@ -587,7 +582,7 @@ const styles = StyleSheet.create({
     zIndex: 10,
   },
   content: {
-    paddingHorizontal: 24,
+    paddingHorizontal: getValueForDevice(24, 12),
     paddingTop: 24,
     borderWidth: 1,
     borderColor: defaultColors.bg_EFEFEF,
@@ -610,7 +605,17 @@ const styles = StyleSheet.create({
   mt_40: {
     marginTop: 40,
   },
+  mt_16: {
+    marginTop: 16,
+  },
   colGap_50: {
     columnGap: 50,
   },
+  group_table: {
+    borderTopLeftRadius: 4,
+    borderTopRightRadius: 4,
+    height: 39,
+    backgroundColor: defaultColors._EA222A,
+    paddingLeft: 24,
+  }
 });

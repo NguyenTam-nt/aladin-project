@@ -21,6 +21,7 @@ export const History = () => {
       return getHistories3({
         page,
         size,
+        // sort: 'createdAt,desc',
         menu: currentType,
         status : true,
       });

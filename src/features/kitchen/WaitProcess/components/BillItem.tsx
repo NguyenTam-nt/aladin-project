@@ -62,11 +62,17 @@ export const BillItem = ({onShowModal, onHideModal, data, onPress}: Props) => {
             Mã hóa đơn {data.idInvoice}
           </TextCustom>
         </View>
-        <TouchableOpacity>
-          <View style={styleRotate}>
-            <ICDown color={defaultColors.c_222124} />
+        <View
+            style={[
+              styles.styleViewItemFlex1,
+              styles.styleFlexEnd,
+              globalStyles.justifyContentCenter,
+            ]}
+            >
+            <View style={styleRotate}>
+              <ICDown color={defaultColors.c_222124} />
+            </View>
           </View>
-        </TouchableOpacity>
       </TouchableOpacity>
       <View
         style={[
@@ -320,5 +326,8 @@ const styles = StyleSheet.create({
   },
   styleBtnCancel: {
     backgroundColor: defaultColors.c_222124,
+  },
+  styleFlexEnd: {
+    alignItems: 'flex-end',
   },
 })

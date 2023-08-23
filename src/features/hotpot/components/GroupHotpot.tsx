@@ -34,6 +34,7 @@ const styles = StyleSheet.create({
   },
   container_child: {
     flex: 1,
+    alignItems: 'center',
     position: 'relative',
   },
   imageThumb: {
