@@ -67,7 +67,7 @@ const TabBarLeftOrder = React.memo((props: TabBarOrder & ITabBarLeftOrder) => {
   const onSetTypeLocation = useCallback(
     (value: string) => {
       const check = typeLocation === value;
-
+      setStateFilter(undefined);
       if (check) {
         setTypeLocaion(undefined);
       } else {
@@ -128,15 +128,17 @@ const TabBarLeftOrder = React.memo((props: TabBarOrder & ITabBarLeftOrder) => {
               </View>
               {category.map((item, index) => {
                 const activeParent =  stateFilter?.idParent === item.id;
-                return (
+
+                return typeLocation === item.isMenu || !typeLocation  ? (
                   <DropDownView
                     key={index}
                     onPressHeaderText={() => {
                       onSetStateFilter({idParent : item.id});
                     }}
+                    showDrop={item.listCategoryChild.length > 0 ? true : false}
                     itemView={
                       <View style={styles.itemViewDropDown}>
-                        {item.listCategoryChild.length > 0 ? (
+                        {
                           item.listCategoryChild.map(
                             (e: IChildCategory, index: number) => {
                               const isActive = stateFilter?.id === e.id;
@@ -161,11 +163,7 @@ const TabBarLeftOrder = React.memo((props: TabBarOrder & ITabBarLeftOrder) => {
                               );
                             },
                           )
-                        ) : (
-                          <Text style={styles.emptyText}>
-                            Món không có danh mục con
-                          </Text>
-                        )}
+                    }
                       </View>
                     }
                     containerStyle={styles.containerStyleDropdown}
@@ -181,7 +179,7 @@ const TabBarLeftOrder = React.memo((props: TabBarOrder & ITabBarLeftOrder) => {
                     headerButtonStyle={styles.headerButtonStyleDropDown}
                     isOpen={false}
                   />
-                );
+                ) : <></>;
               })}
             </View>
           </ScrollView>

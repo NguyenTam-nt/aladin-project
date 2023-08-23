@@ -6,19 +6,22 @@ import {TextCustom} from './Text';
 import {Thumb} from './Thumb/Thumb';
 import { useNavigation } from '@react-navigation/native';
 import { useDispatch } from 'react-redux';
-import { setRefreshToken, setToken, setUserInfo } from 'src/redux/reducers/AuthSlice';
+import { initUserInfo, setRefreshToken, setToken, setUserInfo } from 'src/redux/reducers/AuthSlice';
 import { useUserInfo } from 'src/redux/reducers/hook';
+import { setFloorActiveRedux } from 'src/redux/infoDrawer/slice';
 
 export const LogoutDrawer = () => {
   const navigation = useNavigation();
   const userInfo = useUserInfo();
   const dispatch = useDispatch();
- const logout = () => {
-   dispatch(setToken(''));
-   dispatch(setRefreshToken(''));
-   dispatch(setUserInfo(''));
-   navigation.replace('login');
- };
+  const logout = () => {
+    dispatch(setToken(''));
+    dispatch(setRefreshToken(''));
+    dispatch(setUserInfo(initUserInfo));
+    dispatch(setFloorActiveRedux('Tất cả'));
+    //@ts-ignore
+    navigation.replace('login');
+  };
 
   return (
     <View style={styles.styleAuth}>

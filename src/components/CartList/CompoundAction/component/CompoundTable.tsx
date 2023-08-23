@@ -1,10 +1,11 @@
 import { defaultColors, isTabletDevice } from '@configs';
-import React, { useCallback, useRef } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 import {
   FlatList,
   ListRenderItemInfo,
   StyleSheet,
   Text,
+  TextInput,
   TouchableOpacity,
   View,
 } from 'react-native';
@@ -23,6 +24,11 @@ import QuantityUpdate from '../../..//QuantityUpdate';
 import { Thumb } from '../../../Thumb/Thumb';
 import { ActionCartListChoose } from '../../CartList';
 import ItemCardMobile from './ItemCardMobile';
+import ModalCustom from 'src/components/ModalCustom';
+import { ICCloseModal } from 'src/assets/icons/ICCloseModal';
+import { useModal } from 'src/hooks/useModal';
+import ButtonAction from 'src/components/ButtonAction/ButtonAction';
+import { DIMENSION } from '@constants';
 
 const TableCartItem = ({
   data,
@@ -35,6 +41,10 @@ const TableCartItem = ({
   updateDataCancel: (value: IProductInCart) => void
   deleteAction :   boolean |undefined
 }) => {
+  const modalEditInventory = useModal();
+  const [newInventory, setNewInventory] = useState<string>('');
+  const updateItem = async () => {};
+
   return (
     <View>
       <View style={styles.itemContainer} />
@@ -74,6 +84,7 @@ const TableCartItem = ({
           />
         </View>
       </View>
+
     </View>
   );
 };
@@ -124,6 +135,7 @@ const CompoundTable = React.memo(
           dataProduct.current = [];
           MessageUtils.showSuccessMessage('Yêu cầu huỷ món thành công');
           dispatch(setItemProductInCart(dataUpdate.data?.list));
+          setActionChoose(ActionCartListChoose.addNewFood);
         } else {
           MessageUtils.showErrorMessage('Yêu cầu huỷ món thất bại');
         }
@@ -139,6 +151,7 @@ const CompoundTable = React.memo(
               MessageUtils.showSuccessMessage('Ghép bàn thành công');
               dataProduct.current = [];
               dispatch(setItemProductInCart(dataUpdate.data.list));
+              setActionChoose(ActionCartListChoose.addNewFood);
             } else {
               MessageUtils.showErrorMessage('Ghép bàn thất bại');
             }
@@ -152,6 +165,7 @@ const CompoundTable = React.memo(
               dataProduct.current = [];
               MessageUtils.showSuccessMessage('Tách bàn thành công');
               dispatch(setItemProductInCart(dataUpdate.data.list));
+              setActionChoose(ActionCartListChoose.addNewFood);
             } else {
               MessageUtils.showErrorMessage('Tách bàn thất bại');
             }
@@ -207,23 +221,23 @@ const CompoundTable = React.memo(
             )
           }
           renderItem={renderItem}
-          ListFooterComponent={
-            <View style={styles.buttonAction}>
-              <TouchableOpacity style={styles.buttonConfirm} onPress={onUpdatePress}>
-                <ICCheck />
-                <Text style={styles.textConfirm}>Thực hiện</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={styles.buttonCancel}
-                onPress={() => {
-                  setActionChoose(ActionCartListChoose.empty);
-                }}>
-                <ICDelete />
-                <Text style={styles.textConfirm}>Huỷ bỏ</Text>
-              </TouchableOpacity>
-            </View>
-          }
         />
+        <View style={styles.buttonAction}>
+          <TouchableOpacity
+            style={styles.buttonConfirm}
+            onPress={onUpdatePress}>
+            <ICCheck />
+            <Text style={styles.textConfirm}>Thực hiện</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.buttonCancel}
+            onPress={() => {
+              setActionChoose(ActionCartListChoose.empty);
+            }}>
+            <ICDelete />
+            <Text style={styles.textConfirm}>Huỷ bỏ</Text>
+          </TouchableOpacity>
+        </View>
       </View>
     );
   },
@@ -235,6 +249,7 @@ const styles = StyleSheet.create({
     gap: 16,
     marginBottom: 16,
     marginLeft: 16,
+    justifyContent : !isTabletDevice ? 'center' : undefined,
   },
   buttonConfirm: {
     height: 40,
@@ -334,6 +349,7 @@ const styles = StyleSheet.create({
     fontSize: 12,
     marginLeft: 4,
   },
+
 });
 
 export default CompoundTable;

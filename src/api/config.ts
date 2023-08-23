@@ -96,12 +96,10 @@ export const APIs = {
     'provisional/order/invoice',
     microServices.restaurant,
   ),
-  REPORT_ALL: getMicroServiceAdmin(
-    'report/all',
-    microServices.restaurant,
-  ),
-  REPORT_DIST: getMicroServiceAdmin(
-    'report/dist',
+  REPORT_ALL: getMicroServiceAdmin('report/all', microServices.restaurant),
+  REPORT_DIST: getMicroServiceAdmin('report/dist', microServices.restaurant),
+  COMPLETE_BILL: getMicroServiceAdmin(
+    'provisional/order/complete',
     microServices.restaurant,
   ),
   // ORDER_KITCHEN_UPDATE_STATUS: getMicroServiceAdmin('provisional/kitchen', microServices.restaurant)

@@ -24,6 +24,7 @@ interface DropDownView {
   isOpen: boolean
   textHeader: string
   onPressHeaderText?: () => void
+  showDrop ? : boolean
 }
 if (
   Platform.OS === 'android' &&
@@ -40,6 +41,7 @@ const DropDownView = React.memo((props: DropDownView) => {
     isOpen,
     textHeader,
     onPressHeaderText,
+    showDrop = true,
   } = props;
   const [open, setOpen] = useState<boolean>(true);
   const timePress = useRef<boolean>(true);
@@ -69,12 +71,15 @@ const DropDownView = React.memo((props: DropDownView) => {
         style={[styles.headerButton, headerButtonStyle]}
         activeOpacity={0.9}
         onPress={changeOpen}>
-        <TouchableOpacity onPress={onPressHeaderText ? onPressHeaderText : changeOpen }>
+        <TouchableOpacity
+          onPress={onPressHeaderText ? onPressHeaderText : changeOpen}>
           <Text style={textStyle}>{textHeader}</Text>
         </TouchableOpacity>
-        <View>
-          {open ? <ICUp /> : <ICDown color={defaultColors.c_222124} />}
-        </View>
+        {showDrop && (
+          <View>
+            {open ? <ICUp /> : <ICDown color={defaultColors.c_222124} />}
+          </View>
+        )}
       </TouchableOpacity>
       <View style={[styles.viewItem, !open ? {height: 0} : undefined]}>
         {open && itemView}

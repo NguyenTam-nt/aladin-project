@@ -50,14 +50,7 @@ export const dataItemFilterItem2 = [
     label: 'Giá giảm dần',
     value: 'pricePromotion,desc',
   },
-  {
-    label: 'Số lượng tăng dần',
-    value: 'inventory,asc',
-  },
-  {
-    label: 'Số lượng giảm dần',
-    value: 'inventory,desc',
-  },
+
 ];
 
 export interface IValueFilter {

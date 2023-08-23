@@ -16,7 +16,8 @@ import {
 import {MessageUtils} from 'src/commons/messageUtils';
 import {useAreaId} from 'src/redux/infoDrawer/hooks';
 import { INotice } from '@typeRules';
-import { useConnectSocketJS } from 'src/hooks/useConnectSockJS'
+import { useConnectSocketJS } from 'src/hooks/useConnectSockJS';
+import NotificationSound from 'src/components/Toast/SoundNotification';
 
 export enum TypeModalWaitProcess {
   cancelbill = 'CANCELBILL',
@@ -45,6 +46,7 @@ export const useWaitProcess = () => {
   const [currentDataSelect, setCurrentDataSelect] = useState<IOrderItem>();
   const {currentType} = useGetCategotyType();
   const [notices, setNotices] = useState<INotice[]>([]);
+  const {playNotificationSound  } = NotificationSound();
 
   const [fileterItem, setFilterItem] = useState(dataFilter[0]);
   const refAll = useRef<boolean>(false);
@@ -64,12 +66,12 @@ export const useWaitProcess = () => {
   const {data, isRefreshing, pullToRefresh, refresh, handleLoadMore, setData} =
     useHandleResponsePagination<IOrderKitchen>(getOrderKitchenMethod);
 
-  const {dataSocket, setDataSocket} = useConnectSocketJS<IOrderSocket[]>(IdArea ? `/topic/kitchen/${IdArea}` : "")
-  const {dataSocket:dataNotification, setDataSocket:setDataSocketNotification} = useConnectSocketJS<INotice>(IdArea ? `/topic/kitchen/noti/${IdArea}` : "")
+  const {dataSocket, setDataSocket} = useConnectSocketJS<IOrderSocket[]>(IdArea ? `/topic/kitchen/${IdArea}` : '');
+  const {dataSocket:dataNotification, setDataSocket:setDataSocketNotification} = useConnectSocketJS<INotice>(IdArea ? `/topic/kitchen/noti/${IdArea}` : '');
 
   const hanldeDataAfterUpdate = useCallback(
     (result: IOrderItem[], item: IOrderItem) => {
-      console.log({result})
+      console.log({result});
       // if(item.state === OrderType.cancel || item.state === OrderType.complete) {
       if (isTable) {
         const index = data.findIndex(
@@ -117,7 +119,6 @@ export const useWaitProcess = () => {
         item => item.menu === currentType,
       );
 
-      console.log({listData: listData?.kitchen?.[0].list, currentType})
 
       const newDataConvert: IOrderSocket = {
         menu: listData?.menu ?? currentType,
@@ -200,23 +201,24 @@ export const useWaitProcess = () => {
   }, [currentType, data, isTable]);
 
   useEffect(() => {
-    if(dataSocket) {
-      console.log("socket ----------------------------------------------------------------", dataSocket)
-      handleDataSocker(dataSocket)
-      setDataSocket(undefined)
+    if (dataSocket) {
+      console.log('socket ----------------------------------------------------------------', dataSocket);
+      playNotificationSound();
+      handleDataSocker(dataSocket);
+      setDataSocket(undefined);
     }
-  }, [dataSocket, handleDataSocker])
+  }, [dataSocket, handleDataSocker]);
 
   useEffect(() => {
-    if(dataNotification) {
-      console.log("dataNotification-------",dataNotification )
+    if (dataNotification) {
+      console.log('dataNotification-------',dataNotification );
       setNotices(oldData => {
         const newData = [dataNotification, ...oldData];
         return newData.slice(0, 3);
       });
-      setDataSocketNotification(undefined)
+      setDataSocketNotification(undefined);
     }
-  }, [dataNotification])
+  }, [dataNotification]);
 
   const handleShowModalAction = useCallback(
     (type: TypeModalWaitProcess, item: IOrderItem, isAll = false) => {
@@ -319,8 +321,8 @@ export const useWaitProcess = () => {
 
 
   const newData = useMemo(() => {
-    return data.filter(item => item.list.length)
-  }, [data]) 
+    return data.filter(item => item.list.length);
+  }, [data]);
 
   return {
     modalConfirmCancel,

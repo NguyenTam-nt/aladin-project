@@ -41,6 +41,7 @@ export interface IProductInCart {
   pricePromotion: number
   state: 'COMPLETE' | 'CANCEL' | 'PROCESSING' | 'PROCESSING_CANCEL' | null
   guide: null
+  note?: string
 }
 
 export const getProductsApi = async (

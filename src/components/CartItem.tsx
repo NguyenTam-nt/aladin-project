@@ -1,8 +1,7 @@
-import { defaultColors, heightHeader, isTabletDevice } from '@configs';
+import { ROLE_LIST, defaultColors, heightHeader, isTabletDevice } from '@configs';
 import { DIMENSION } from '@constants';
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import {
-  AppState,
   Platform,
   StyleProp,
   StyleSheet,
@@ -19,9 +18,8 @@ import Animated, {
 } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useDispatch } from 'react-redux';
-import SockJS from 'sockjs-client';
-import { SOCK_CLIENNT_URL } from 'src/api/config';
 import { IProductInCart, IResponseProductUpdate, getProductInCartApi } from 'src/api/products';
+import { useConnectSocketJS } from 'src/hooks/useConnectSockJS';
 import { useIdBill, useListItemInCart, useListItemProductInCart } from 'src/redux/cartOrder/hooks';
 import { IITemCart, setItemProductInCart } from 'src/redux/cartOrder/slice';
 import { ICCart } from '../assets/icons/ICCart';
@@ -32,49 +30,55 @@ import {
   useIsShowDrawerFloor,
 } from '../redux/infoDrawer/hooks';
 import CartList from './CartList/CartList';
-import ListOfFood from './ListOfFood/ListOfFood';
-import { useIsFocused } from '@react-navigation/native';
 import { ProductState } from './CartList/TableCartList';
-var Stomp = require('stompjs/lib/stomp.js').Stomp;
+import ListOfFood from './ListOfFood/ListOfFood';
+import { useUserInfo } from 'src/redux/reducers/hook';
+import { IAuthorize } from 'src/redux/reducers/AuthSlice';
+import { completeBillApi } from 'src/api/table';
+import { Toast } from 'react-native-toast-message/lib/src/Toast';
+import { MessageUtils } from 'src/commons/messageUtils';
+import { useNavigation } from '@react-navigation/native';
 
 const CartItem = React.memo(() => {
   const insets = useSafeAreaInsets();
   const [isOpenCart, setIsOpenCart] = useState(false);
   const [isOpenList, setIsOpenList] = useState(false);
   const isOpenDrawerFloor = useIsShowDrawerFloor();
-  const appState = useRef(AppState.currentState);
-  const [appStateVisible, setAppStateVisible] = useState(appState.current);
   const isOpenActionCart = useIsShowActionCart();
   const heightButtonValue = getValueForDevice(64, 128);
   const dataItemCart = useListItemProductInCart();
-  const isFocus = useIsFocused();
   const dispatch = useDispatch();
+  const navigation = useNavigation();
   const billId = useIdBill();
   const IdArea = useAreaId();
+  const userInfo = useUserInfo();
+
+  const isOrder = userInfo?.authorities?.findIndex((item: IAuthorize) =>
+  item.name === ROLE_LIST.order,
+);
+
+  const {dataSocket, setDataSocket} = useConnectSocketJS<IResponseProductUpdate>(IdArea &&  billId ?  `/topic/order/${IdArea}/${billId}` : '');
   const getItemInCart = useCallback(async () => {
     const data = await getProductInCartApi(billId);
     if (data.success) {
       dispatch(setItemProductInCart(data.data.list));
     }
   }, [billId]);
+
   useEffect(() => {
     if (billId) {
       getItemInCart();
     }
   }, [billId]);
   const dataItem = useListItemInCart();
-
   const dataList = useMemo<any[]>(() => {
     return [...dataItemCart, ...dataItem];
   }, [dataItemCart, dataItem]);
-
-
-
   const cost = useMemo(() => {
     let newCost = 0;
     dataList.map((item: IITemCart & IProductInCart) => {
       if (item.status !== ProductState.CANCEL)
-        {newCost += (item?.quantity || item?.numProduct) * item.price;}
+        {newCost += (item?.quantity || item?.numProduct) * item.pricePromotion;}
     });
     return newCost;
   }, [dataList]);
@@ -225,70 +229,39 @@ const CartItem = React.memo(() => {
   }, [isOpenActionCart]);
 
   useEffect(() => {
-    let stompClient1: any = null;
-    let stompClient: any = null;
-    const connectWebSocket = () => {
-      const sockClient = new SockJS(SOCK_CLIENNT_URL);
-      stompClient = Stomp.over(sockClient);
-      stompClient.heartbeat.outgoing = 5000;
-      stompClient.heartbeat.incoming = 5000;
-      stompClient.reconnect_delay = 5000;
-      stompClient.debug = function (message : any) {
-        console.log('check  message', message); // show tất cả tin nhắn debug từ Stomp
-      };
-      stompClient.connect(
-        {},
-        function () {
-          setTimeout(() => {
-            stompClient1 = stompClient .subscribe(
-              `/topic/order/${IdArea}/${billId}`,
-              function (messageOutput: any) {
-                const data = JSON.parse(
-                  messageOutput.body,
-                ) as IResponseProductUpdate;
-                dispatch(setItemProductInCart(data.list));
-              },
-            );
-          }, 500,);
-        },
-        stompFailureCallback,
-      );
-    };
-    var stompFailureCallback = function (error: any) {
-      console.log('STOMP error: ' + error);
-      getItemInCart();
-      setTimeout(connectWebSocket, 5000);
-      console.log('STOMP: Reconecting in 5 seconds');
-    };
-    if (IdArea && isFocus && billId && appStateVisible === 'active') {
-      connectWebSocket();
+    if (dataSocket) {
+      dispatch(setItemProductInCart(dataSocket.list));
+      setDataSocket(undefined);
     }
-    return () => {
-      if (stompClient1) {
-        stompClient1.unsubscribe();
+  }, [dataSocket]);
+
+  const completeBill = useCallback( async () => {
+    if (billId) {
+     const complete =  await  completeBillApi(billId);
+      console.log('complete' ,complete);
+
+      if (complete.success) {
+         MessageUtils.showSuccessMessage('Hoàn thành hoá đơn thành công');
+          navigation.navigate('mainDrawer');
+      } else {
+        MessageUtils.showErrorMessage(complete.message || '');
       }
-    };
-  }, [IdArea, billId ,isFocus, appStateVisible]);
-
-
-
-  useEffect(() => {
-    const subscription = AppState.addEventListener('change', nextAppState => {
-      appState.current = nextAppState;
-      setAppStateVisible(appState.current);
-    });
-    return () => {
-      subscription.remove();
-    };
-  }, []);
+    }
+  }, [billId]);
 
   return (
     <View style={{flex: 1, display: isOpenDrawerFloor ? 'none' : 'flex'}}>
       <Animated.View style={styleView}>
         {isOpenCart ? (
-          <CartList hiddenViewList={hiddenViewList} dataItemCart={dataItemCart}/>
+          <CartList
+            hiddenViewList={hiddenViewList}
+            dataItemCart={dataItemCart}
+          />
         ) : (
-          <ListOfFood hiddenViewList={hiddenViewList}  dataItemCart={dataItemCart} />
+          <ListOfFood
+            hiddenViewList={hiddenViewList}
+            dataItemCart={dataItemCart}
+          />
         )}
       </Animated.View>
       {isOpenCart && <View style={[styles.triangle, hiddenViewOpen]} />}
@@ -296,20 +269,45 @@ const CartItem = React.memo(() => {
       <Animated.View style={[styles.container, styleViewButton]}>
         {isOpenCart ? (
           <Animated.View style={styleViewCart}>
-            <View style={styles.containerConfrim}>
-              <View>
-                <Text style={styles.textTitleCart}>Hoá đơn tạm tính</Text>
-                <Text style={styles.textTotalCart}>
-                  {formatNumberDotWithVND(cost)}
-                </Text>
+            {isOrder >= 0 ? (
+              <View style={styles.containerConfrim}>
+                <View>
+                  <Text style={styles.textTitleCart}>Hoá đơn tạm tính</Text>
+                  <Text style={styles.textTotalCart}>
+                    {formatNumberDotWithVND(cost)}
+                  </Text>
+                </View>
+                <TouchableOpacity
+                  activeOpacity={1}
+                  onPress={completeBill}
+                  style={styles.buttonConfirm}>
+                  <Text style={styles.textConfirm}>Hoàn thành bữa ăn</Text>
+                </TouchableOpacity>
               </View>
+            ) : (
               <TouchableOpacity
-                activeOpacity={1}
+                style={[
+                  styles.cartButton,
+                  {
+                    backgroundColor:  defaultColors.c_222124,
+
+                  },
+                ]}
                 onPress={toggleOpen}
-                style={styles.buttonConfirm}>
-                <Text style={styles.textConfirm}>Hoàn thành bữa ăn</Text>
+                activeOpacity={1}
+                delayPressIn={1000}>
+                <View style={{marginRight: 32}}>
+                  <ICCart />
+                  <View style={styles.icNumber}>
+                    <Text style={styles.textNumber}>{number}</Text>
+                  </View>
+                </View>
+                <Text style={styles.text}>
+                  {' '}
+                  Tổng: {formatNumberDotSlice(cost)}
+                </Text>
               </TouchableOpacity>
-            </View>
+            )}
           </Animated.View>
         ) : (
           <Animated.View style={styleViewCart}>

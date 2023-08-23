@@ -70,4 +70,5 @@ export interface IHistoryCompoumd {
   state: string
   status: boolean
   thour: string
+  note? : string
 }

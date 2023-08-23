@@ -17,13 +17,13 @@ import {useIsGetTable} from 'src/redux/reducers/hook';
 import {useDispatch} from 'react-redux';
 import {setGetTable} from 'src/redux/reducers/AuthSlice';
 import {RouteProp, useIsFocused, useRoute} from '@react-navigation/native';
+import NotificationSound from 'src/components/Toast/SoundNotification';
 
 var Stomp = require('stompjs/lib/stomp.js').Stomp;
 export type RootStackramHomeAll = {
   [key: string]: {tableId: number}
 };
 const HomeScreen = ({stateCheckbox}: {stateCheckbox: string[]}) => {
-  const route = useRoute<RouteProp<RootStackramHomeAll>>();
   const appState = useRef(AppState.currentState);
   const [appStateVisible, setAppStateVisible] = useState(appState.current);
   const [dataTable, setDataTable] = useState<IFloorInfo[]>([]);
@@ -76,55 +76,9 @@ const HomeScreen = ({stateCheckbox}: {stateCheckbox: string[]}) => {
     }
   }, [areaId, stateCheckbox, isFocus]);
 
-  // useEffect(() => {
-  //   let stompClient1: any;
-  //   let socketInteVal: any;
-  //   if (areaId && isFocus && appStateVisible === 'active') {
-  //     const sockClient = new SockJS(SOCK_CLIENNT_URL);
-  //     let stompClient = Stomp.over(sockClient);
-  //     socketInteVal = () => {
-  //       console.log('check check ');
-  //       if (stompClient && !stompClient.connected) {
-  //         stompClient.connect({}, function (frame: any) {
-  //           setTimeout(() => {
-  //             stompClient1 = stompClient.subscribe(
-  //               `/topic/table/${areaId}`,
-  //               function (messageOutput: any) {
-  //                 const data = JSON.parse(messageOutput.body);
-  //                 let areaIndex = -1;
-  //                 let tableIndex = -1;
-  //                 floorClone.current.forEach((area, index) => {
-  //                   const foundTableIndex = area.tables.findIndex(
-  //                     table => table.id.toString() === data.id.toString(),
-  //                   );
-  //                   if (foundTableIndex !== -1) {
-  //                     areaIndex = index;
-  //                     tableIndex = foundTableIndex;
-  //                   }
-  //                 });
-  //                 if (areaIndex >= 0 && tableIndex >= 0) {
-  //                   const newTable = [...floorClone.current];
-  //                   newTable[areaIndex].tables[tableIndex] = {
-  //                     ...newTable[areaIndex].tables[tableIndex],
-  //                     state: data.state,
-  //                   };
-  //                   setDataTable([...newTable]);
-  //                 }
-  //               },
-  //             );
-  //           }, 500);
-  //         });
-  //       }
-  //     };
-  //     setInterval(() => socketInteVal(), 5000);
-  //   }
-  //   return () => {
-  //     if (socketInteVal) {
-  //       clearInterval(socketInteVal());
-  //     }
-  //     stompClient1?.unsubscribe();
-  //   };
-  // }, [areaId, isFocus, appStateVisible]);
+
+
+
   useEffect(() => {
     let stompClient1: any = null;
     // let socketInterval: any = null;
@@ -216,6 +170,9 @@ const HomeScreen = ({stateCheckbox}: {stateCheckbox: string[]}) => {
       });
     });
   }, [idTable, dataTable]);
+
+
+
 
   const marginTablet = DeviceInfo.isTablet() ? 32 : '2.5%';
   return (
