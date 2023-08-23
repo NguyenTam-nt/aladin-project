@@ -4,8 +4,8 @@
             "new": "Sản phẩm mới nhất",
             "history_search": "검색 기록",
             "get_location": "정확한 배송 시간을 알기 위해 배송 주소를 표시하십시오",
-            "chose_city_or_province": "또는 주 또는 도시를 선택하십시오"
-          
+            "chose_city_or_province": "또는 주 또는 도시를 선택하십시오",
+            "about_us":"소개하다"
         },
         "section": {
             "special_product": "주요 제품",

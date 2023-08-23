@@ -74,7 +74,7 @@ const SlideProducts = memo(({ typeSlide, size = 4, row, gap = 24 }: Props) => {
   if (width < 1280)
     return (
       <>
-        <div className="grid grid-cols-2 md:grid-cols-3 sc480:gap-6 gap-2">
+        <div className="grid grid-cols-2 md:grid-cols-3 md:gap-6 gap-3">
           {listproducts.map((item: any, index: number) => {
             return <CardItem key={index} description={`${index}`} />;
           })}
@@ -93,7 +93,7 @@ const SlideProducts = memo(({ typeSlide, size = 4, row, gap = 24 }: Props) => {
       </>
     );
   return (
-    <div className="relative 2xl:w-1280 2xl:mx-auto xl:block hidden">
+    <div className="relative 2xl:mx-auto xl:block hidden">
       <SwiperComponent
         onActiveIndexChange={onActiveIndexChange}
         navigationNextRef={navigationNextRef}
@@ -102,7 +102,13 @@ const SlideProducts = memo(({ typeSlide, size = 4, row, gap = 24 }: Props) => {
         grid={row ? { rows: row, fill: "row" } : undefined}
         modules={[Grid, Autoplay, Pagination, Navigation]}
         className={clsx("w-full h-full", {})}
-        spaceBetween={gap}
+        spaceBetween={8}
+        breakpoints={{
+          768: {
+            slidesPerView: size,
+            spaceBetween: 26,
+          },
+        }}
       >
         {listproducts.map((item: any, index: number) => {
           return (

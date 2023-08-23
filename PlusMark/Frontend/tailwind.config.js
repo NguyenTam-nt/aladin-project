@@ -25,7 +25,8 @@ module.exports = {
         spc400: "400px",
         spc510: "510px",
         'spc132%': "132%",
-        1280: "1280px"
+        1280: "1280px",
+        1194: "1194px"
 
       },
       maxWidth: {
@@ -37,7 +38,8 @@ module.exports = {
         '1/2': "50%",
         'spc510': '510px',
         'spc400': '400px',
-        1280: "1280px"
+        1280: "1280px",
+
       },
       minHeight: {
         'spc280': '280px',

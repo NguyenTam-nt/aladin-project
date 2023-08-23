@@ -76,7 +76,7 @@
     -webkit-text-fill-color: transparent;
   }
   .product_box{
-    @apply px-4 lg:px-[130px] 2xl:px-0 2xl:w-1280 2xl:mx-auto
+    @apply sm:px-12 px-4 lg:px-[130px] 2xl:px-0 2xl:w-1280 2xl:mx-auto
   }
 }
 
