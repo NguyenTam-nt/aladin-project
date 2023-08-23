@@ -152,7 +152,7 @@
   height: auto;
 }
 /* .table-Style tr> td, th{ */
-.table-Style thead, tbody > tr> td, th{
+/* .table-Style thead, tbody > tr> td, th{
   text-align: center;
   border: 1px solid var(--border-color);
 }
@@ -169,7 +169,7 @@
 }
 .table-Style thead > tr> th:last-child{
   border-top-right-radius: 10px;
-}
+} */
 
 /* style table managerAccounts */
 .table-accounts > tbody td {
