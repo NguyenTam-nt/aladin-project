@@ -272,7 +272,7 @@ const CartItem = React.memo(() => {
             {isOrder >= 0 ? (
               <View style={styles.containerConfrim}>
                 <View>
-                  <Text style={styles.textTitleCart}>Hoá đơn tạm tính</Text>
+                  <Text style={styles.textTitleCart}>Hoá đơn tạm tính (chưa gồm VAT)</Text>
                   <Text style={styles.textTotalCart}>
                     {formatNumberDotWithVND(cost)}
                   </Text>
