@@ -194,7 +194,10 @@ const PaymentNew = () => {
   return (
     <div className="container px-4 lg:px-8" >
       <div className="mt-6">
-        <BreakCrumb data={breakcrumData} normalClass="" activeClass=" text-main" />
+        {/* <BreakCrumb data={breakcrumData} normalClass="" activeClass=" text-main" /> */}
+        <div className="mt-6 font-['Nunito_Sans']">
+          Giỏ mua hàng
+        </div>
       </div>
       <div className="rounded-lg flex-1 pb-12 pt-6 flex flex-col lg:flex-row lg:gap-4 xl:gap-10">
         <div className="flex-1 mb-2">
@@ -237,11 +240,11 @@ const PaymentNew = () => {
           </div>
           <div className="">
             <h3 className="text-normal2 font-bold">{t("payment.info_delivery_method.title")}</h3>
-            <div className="my-4 xl:mt-7 flex flex-col gap-3 w-full">
+            <div className="my-2 xl:mt-5 flex flex-col gap-3 w-full">
               <ShipmentMethod method="person" checked={checked} setChecked={setChecked} />
             </div>
           </div>
-          <div className="mt-6 lg:mt-12">
+          <div className="mt-4 lg:mt-8">
             <BtnLoading className={clsx("btn text-normal font-medium rounded-lg bg-header w-full h-9 text-center text-white my-3", {
               "opacity-60 cursor-default": cartQuantity <= 0
             })} onClick={handleOrder}
