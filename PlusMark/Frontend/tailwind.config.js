@@ -19,10 +19,13 @@ module.exports = {
         spc50: "50px",
         spc77: "77px",
         spc80: "80px",
+        spc136: "136px",
+        spc230: "230px",
         spc300: "300px",
         spc400: "400px",
         spc510: "510px",
         'spc132%': "132%",
+        1280: "1280px"
 
       },
       maxWidth: {
@@ -33,6 +36,8 @@ module.exports = {
         '2/3': "60%",
         '1/2': "50%",
         'spc510': '510px',
+        'spc400': '400px',
+        1280: "1280px"
       },
       minHeight: {
         'spc280': '280px',
@@ -47,6 +52,7 @@ module.exports = {
       screens: {
         // by default (minwidth)
         ssm: '360px',
+        sc480: '480px',
         sm: "640px",
         // md: 768px
         // lg: 1024px
@@ -86,6 +92,7 @@ module.exports = {
           '200-60': 'var(--gray-002-60)',
           '300': 'var(--gray-003)',
           '400': 'var(--gray-004)',
+          '600': 'var(--gray-006)'
         },
         black: {
           bl0: 'var(--black)',
@@ -95,18 +102,28 @@ module.exports = {
           b01: 'var(--blue01)',
         },
         red: {
-          r01: 'var(--red01)'
+          r01: 'var(--red01)',
+          red500: 'var(--red500)'
         },
         aqua: {
           aq01: 'var(--aqua01)',
           aq02: 'var(--aqua02)',
+          aq03: 'var(--aqua03)',
         },
         'borderGray': 'var(--border-color)',
         'button': 'var(--button-color)',
         'buttonSucces': 'var(--bgBtnSuccess)',
         'icon': 'var(--icon-color)',
         'cancel': 'var(--cancel-color)',
-        'icon-active': '#F45538'
+        'icon-active': '#F45538',
+        'white': 'var(--white)',
+        neutra: {
+          neutra80: 'var(--neutral80)',
+          neutra20: 'var(--neutral20)'
+        },
+        orange: {
+          orange400: 'var(--orange400)'
+        }
       },
       boxShadow: {
         DEFAULT: '0px 4px 4px rgba(0, 0, 0, 0.25)',
@@ -116,6 +133,7 @@ module.exports = {
         header: "linear-gradient(225deg, #FF6B00 0%, #E0000D 100%)",
         btn: "linear-gradient(52deg, #FF6D03 0%, #E60E00 100%)",
         footer: "linear-gradient(180deg, #FE7D29 0%, #F9849E 100%)",
+        title: "linear-gradient(227deg, #FE7D29 0%, #F9849E 100%)"
       },
       fontSize: {
         // follow figma
@@ -156,10 +174,10 @@ module.exports = {
         lg: '900px',
         xl: '1100px',
         '2xl': '1320px',
-        '3xl': '1648px'
+        '3xl': '1920px'
       },
-      padding: '0rem',
-      center: true,
+      // padding: '0rem',
+      // center: true,
     },
   },
   plugins: [

@@ -47,7 +47,7 @@ const Banner = ({ className, images, ...props }: any) => {
   //   getBanner();
   // }, []);
   return (
-    <div className={`w-full relative ${className}`} {...props}>
+    <div className={`w-full h-full relative ${className}`} {...props}>
       <SwiperComponent
         navigationNextRef={navigationNextRef}
         navigationPrevRef={navigationPrevRef}
@@ -55,7 +55,7 @@ const Banner = ({ className, images, ...props }: any) => {
         slidesPerView={1}
         loop={true}
         autoplay={{
-          delay: 5000,
+          delay: 2000,
           disableOnInteraction: false,
         }}
         modules={[Autoplay, Pagination, Navigation]}
@@ -75,16 +75,18 @@ const Banner = ({ className, images, ...props }: any) => {
       </SwiperComponent>
       {images.length > 1 && (
         <>
-          <CricleButton
-            onClick={() => handlePre()}
-            className="absolute left-[5%] top-1/2 -translate-y-1/2 z-10 !border-white "
-            icon={<PrevIconElm color={colors.white} />}
-          />
-          <CricleButton
-            icon={<NextIcon color={colors.white} />}
-            onClick={() => handleNext()}
-            className="absolute right-[5%] top-1/2 -translate-y-1/2 z-10 !border-white"
-          />
+          <div className="hidden md:block">
+            <CricleButton
+              onClick={() => handlePre()}
+              className="absolute left-[5%] top-1/2 -translate-y-1/2 z-10 !border-white "
+              icon={<PrevIconElm color={colors.white} />}
+            />
+            <CricleButton
+              icon={<NextIcon color={colors.white} />}
+              onClick={() => handleNext()}
+              className="absolute right-[5%] top-1/2 -translate-y-1/2 z-10 !border-white"
+            />
+          </div>
           {NavigationElement}
         </>
       )}

@@ -31,6 +31,14 @@
   --black01: #313131;
   --aqua01: #0FB7A3;
   --aqua02: #00C3AB;
+  --aqua03: #DAF1E7;
+
+  /* plustMark */
+  --neutral80: #C4C4C4;
+  --neutral20: #313131;
+  --white: #FFF;
+  --orange400: #FF6D03;
+  --red500: #E60E00;
 }
 
 @import url('./tailwind.css');
