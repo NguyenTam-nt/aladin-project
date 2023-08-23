@@ -13,84 +13,97 @@ import { SwiperSlide } from "swiper/react";
 interface Props {
   size?: number;
   row?: number;
+  classPaginate?: string;
+  is1280?: boolean;
 }
-const SlideProductPaginate = memo(({ size = 4, row = 1 }: Props) => {
-  const [listproducts, setListProducts] = useState<ProductItem[]>([]);
-  const [totalElements, setTotalElements] = useState<number>(0);
-  const [totalPage, setTotalPage] = useState<number>(0);
-  const [currentPage, setCurrentPage] = useState<number>(0);
-  const [loading, setLoading] = useState<boolean>(false);
+const SlideProductPaginate = memo(
+  ({ size, row, classPaginate, is1280 = true }: Props) => {
+    const [listproducts, setListProducts] = useState<ProductItem[]>([]);
+    const [totalElements, setTotalElements] = useState<number>(0);
+    const [totalPage, setTotalPage] = useState<number>(0);
+    const [currentPage, setCurrentPage] = useState<number>(0);
+    const [loading, setLoading] = useState<boolean>(false);
 
-  const {
-    navigationPrevRef,
-    navigationNextRef,
-    handleNext,
-    handlePre,
-    NavigationElement,
-    currentIndex,
-    onActiveIndexChange,
-    activeThumb,
-    setThumbActive,
-  } = useSwiperNavigationRef();
-  const callApi = async () => {
-    try {
-      setLoading(true);
-      const result = await ProductServices.getListNewProducts({
-        page: currentPage,
-        size: size,
-      });
-      setListProducts(result.data);
-      setTotalPage(Math.ceil(result.total / 4));
-      setLoading(false);
-    } catch (error) {}
-  };
+    const {
+      navigationPrevRef,
+      navigationNextRef,
+      handleNext,
+      handlePre,
+      NavigationElement,
+      currentIndex,
+      onActiveIndexChange,
+      activeThumb,
+      setThumbActive,
+    } = useSwiperNavigationRef();
+    const callApi = async () => {
+      try {
+        setLoading(true);
+        const result = await ProductServices.getListNewProducts({
+          page: currentPage,
+          size: size,
+        });
+        setListProducts(result.data);
+        setTotalPage(Math.ceil(result.total / 4));
+        setLoading(false);
+      } catch (error) {}
+    };
 
-  useEffect(() => {
-    callApi();
-  }, [currentPage]);
+    useEffect(() => {
+      callApi();
+    }, [currentPage]);
 
-  return (
-    <div className="relative product_box">
-      <div className="flex sc480:flex-row flex-col sc480:items-center w-full justify-between gap-5 mb-6">
-        <TitleSession text="text.section.new" className="text-white" />
-        <PaginationCompt
-          currentPage={currentPage}
-          // totalPages={totalPage}
-          totalPages={20}
-          setCurrentPage={setCurrentPage}
-        />
-      </div>
-      <SwiperComponent
-        onActiveIndexChange={onActiveIndexChange}
-        navigationNextRef={navigationNextRef}
-        navigationPrevRef={navigationPrevRef}
-        breakpoints={{
-          768: {
-            slidesPerView: 3,
-            spaceBetween: 24,
-          },
-          1280: {
-            slidesPerView: 4,
-            spaceBetween: 24,
-          },
-        }}
-        slidesPerView={2}
-        modules={[Autoplay, Pagination, Navigation]}
-        className={clsx("w-full h-full", {})}
-        spaceBetween={8}
-      >
-        {listproducts.map((item: any, index: number) => {
-          return (
-            <SwiperSlide key={index}>
-              <CartISlideImage key={index} item={{ name: "Sức khỏe" }} />
-            </SwiperSlide>
-          );
+    return (
+      <div
+        className={clsx("relative", {
+          " product_box": is1280,
         })}
-      </SwiperComponent>
+      >
+        <div
+          className={clsx(
+            "flex sc480:flex-row flex-col sc480:items-center w-full justify-between gap-5 mb-6",
+            { classPaginate }
+          )}
+        >
+          <TitleSession text="text.section.new" className="text-white" />
+          <PaginationCompt
+            currentPage={currentPage}
+            // totalPages={totalPage}
+            totalPages={20}
+            setCurrentPage={setCurrentPage}
+          />
+        </div>
+        <SwiperComponent
+          onActiveIndexChange={onActiveIndexChange}
+          navigationNextRef={navigationNextRef}
+          navigationPrevRef={navigationPrevRef}
+          breakpoints={{
+            768: {
+              slidesPerView: 3,
+              spaceBetween: 26,
+            },
+            1280: {
+              slidesPerView: size ? size : 4,
+              spaceBetween: 26,
+            },
+          }}
+          slidesPerView={2}
+          modules={[Autoplay, Pagination, Navigation]}
+          className={clsx("w-full h-full", {})}
+          spaceBetween={12}
+        >
+          {listproducts.map((item: any, index: number) => {
+            return (
+              <SwiperSlide key={index}>
+                <CartISlideImage key={index} item={{ name: "Sức khỏe" }} />
+              </SwiperSlide>
+            );
+          })}
+        </SwiperComponent>
 
-      {totalPage > 0 && <>{NavigationElement}</>}
-    </div>
-  );
-});
+        {totalPage > 0 && <>{NavigationElement}</>}
+      </div>
+    );
+  }
+);
 
 export default SlideProductPaginate;
