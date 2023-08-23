@@ -111,8 +111,16 @@ function PaymentForm({ formik }: Props) {
                     onBlur={formik.handleBlur}
                 />
             </div>
+            <div className="mb-2"><label className="text-text font-bold">{t("payment.info_delivery.form.email")} <span className="text-red-500">*</span></label></div>
+            <div className="h-10 mb-4">
+                <InputPayment className="border border-gray-300 " name="email"
+                    value={formik.values.email} setValue={formik.handleChange}
+                    label={t("payment.info_delivery.form.email")} required
+                    onBlur={formik.handleBlur}
+                />
+            </div>
             <div className="mb-2"><label className="text-text font-bold">{t("payment.info_delivery.form.address")} <span className="text-red-500">*</span></label></div>
-            <div className="lg:flex lg:flex-wrap justify-between ">
+            <div className="lg:flex lg:flex-wrap justify-between">
                 <div className="h-10 mb-4 lg:w-[49%]">
                     <InputPayment className="border border-gray-300 " name="address"
                         value={formik.values.address} setValue={formik.handleChange}
