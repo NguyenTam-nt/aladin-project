@@ -106,13 +106,12 @@ const PaymentNew = () => {
     },
   });
 
-  const handlePaymentCart = () => {
+  const handlePaymentCard = () => {
     let error = formik.errors.fullname || formik.errors.phoneNumber ||
       formik.errors.email || formik.errors.address ||
-      formik.errors.province || formik.errors.district || formik.errors.commune 
+      formik.errors.province || formik.errors.district || formik.errors.commune
 
     if (error) {
-      // console.log("error:", error);
       onAddToast({ type: "warn", message: error });
       return
     }
@@ -142,9 +141,8 @@ const PaymentNew = () => {
 
     let error = formik.errors.fullname || formik.errors.phoneNumber ||
       formik.errors.email || formik.errors.address ||
-      formik.errors.province || formik.errors.district || formik.errors.commune 
+      formik.errors.province || formik.errors.district || formik.errors.commune
     if (error) {
-      // console.log("error:", error);
       onAddToast({ type: "warn", message: error });
       return
     }
@@ -165,8 +163,6 @@ const PaymentNew = () => {
       }
     }
 
-    // console.log(request);
-
     setIsLoading(true)
     try {
       // CartServices.paymentOrderApi(request).then(res => {
@@ -178,7 +174,7 @@ const PaymentNew = () => {
       //   setIsLoading(false)
       // })
       // !checkedPaymentCard ? alert("person") : alert("card")
-      
+
       setContentModal(<PaymentModal />);
       setShowModal(true);
       setIsLoading(false)
@@ -198,7 +194,10 @@ const PaymentNew = () => {
   return (
     <div className="container px-4 lg:px-8" >
       <div className="mt-6">
-        <BreakCrumb data={breakcrumData} normalClass="" activeClass=" text-main" />
+        {/* <BreakCrumb data={breakcrumData} normalClass="" activeClass=" text-main" /> */}
+        <div className="mt-6 font-['Nunito_Sans']">
+          Giỏ mua hàng
+        </div>
       </div>
       <div className="rounded-lg flex-1 pb-12 pt-6 flex flex-col lg:flex-row lg:gap-4 xl:gap-10">
         <div className="flex-1 mb-2">
@@ -232,7 +231,7 @@ const PaymentNew = () => {
             </div>
           </div>
         </div>
-        {/* <div className="p-8 w-full lg:w-[70%] rounded-lg h-fit bg-white">
+        <div className="p-8 w-full lg:w-[70%] rounded-lg h-fit bg-white">
           <div className="">
             <h3 className="text-normal2 font-bold">{t("payment.info_delivery.index")}</h3>
           </div>
@@ -241,26 +240,25 @@ const PaymentNew = () => {
           </div>
           <div className="">
             <h3 className="text-normal2 font-bold">{t("payment.info_delivery_method.title")}</h3>
-            <div className="my-4 xl:mt-7 flex flex-col gap-3 w-full">
+            <div className="my-2 xl:mt-5 flex flex-col gap-3 w-full">
               <ShipmentMethod method="person" checked={checked} setChecked={setChecked} />
-              <ShipmentMethod checked={!checked} setChecked={(c: boolean) => setChecked(!c)} />
             </div>
           </div>
-          <div className="mt-6 lg:mt-12">
+          <div className="mt-4 lg:mt-8">
             <BtnLoading className={clsx("btn text-normal font-medium rounded-lg bg-header w-full h-9 text-center text-white my-3", {
               "opacity-60 cursor-default": cartQuantity <= 0
             })} onClick={handleOrder}
               isLoading={isLoading}
             >
-              {checked ? t("payment.payment") : t("payment.continue")}
+              {t("payment.payment")}
             </BtnLoading>
             <Link to={"/"} className="btn text-main font-semibold rounded-lg border-[#00c3ab] border-2 w-full h-9 text-center text-black ">
               {t("cart.payment_info.btn_buy_more")}
             </Link>
           </div>
-        </div> */}
-
-        <div className="w-full lg:w-[70%] rounded-lg h-fit bg-white">
+        </div>
+        {/*Payment with Visa / Master Card*/}
+        {/* <div className="w-full lg:w-[70%] rounded-lg h-fit bg-white">
           <div className="w-full shadow-[4px_2px_8px_0px_rgba(0,_0,_0,_0.2)] bg-[#00c3ab] flex flex-col justify-center items-end px-10 py-3 rounded-tl-[20px] rounded-tr-[20px]">
             <Logo className="xl:w-[74px] w-[55px]" fill="white" />
           </div>
@@ -284,7 +282,7 @@ const PaymentNew = () => {
             <div className="mt-6 lg:mt-12">
               <BtnLoading className={clsx("btn text-normal font-medium rounded-lg bg-header w-full h-9 text-center text-white my-3", {
                 "opacity-60 cursor-default": cartQuantity <= 0
-              })} onClick={checked ? handleOrder : handlePaymentCart}
+              })} onClick={checked ? handleOrder : handlePaymentCard}
                 isLoading={isLoading}
               >
                 {checked ? t("payment.payment") : t("payment.continue")}
@@ -294,7 +292,7 @@ const PaymentNew = () => {
               </Link>
             </div>
           </div>
-        </div>
+        </div> */}
       </div>
     </div>
   );

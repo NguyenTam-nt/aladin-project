@@ -51,7 +51,7 @@ const CartPage = () => {
     const updatedCartItems = cartItems.map((cartItem) => {
       return {
         ...cartItem,
-        choose: checked,
+        choose: cartItem.size.total > 0 ? checked : false,
       };
     });
     setCartItems(updatedCartItems);
@@ -63,6 +63,10 @@ const CartPage = () => {
     } else {
       callApiCheckVoucher(true)
     }
+  }
+
+  const handleRemoveCart = () => {
+    setCartItems([])
   }
 
   const callApiCheckVoucher = (noti?: boolean) => {
@@ -87,7 +91,6 @@ const CartPage = () => {
     setIsLoading(true)
     try {
       CartServices.checkVoucherApi(request).then(res => {
-        console.log(res);
         let m = res.moneyVoucher || 0
         setmoneyVoucher(m)
         setIsLoading(false)
@@ -107,6 +110,8 @@ const CartPage = () => {
       }
     }
   }
+
+
 
   return (
     <div className="container  px-4 lg:px-8" >
@@ -134,7 +139,7 @@ const CartPage = () => {
             <div className="hidden lg:block">{t("cart.payment_info.title_total_quantity")}</div>
             <div className="hidden lg:block">{t("cart.payment_info.title_total_price_per_product")}</div>
             <div className="pr-3">
-              <RemoveCartIcon />
+              <RemoveCartIcon onClick={handleRemoveCart} />
             </div>
           </div>
 
