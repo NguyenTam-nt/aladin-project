@@ -2,7 +2,7 @@ import { DIMENSION } from '@constants';
 import React from 'react';
 import { View, StyleSheet ,Text } from 'react-native';
 
-import { defaultColors } from 'src/configs';
+import { defaultColors, isTabletDevice } from 'src/configs';
 
 const toastStatus = {
   success: {
@@ -60,26 +60,26 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    marginLeft: isTabletDevice ? -DIMENSION.width / 2 - 200 : 0,
   },
-  content : {
-    width : DIMENSION.width - 32,
-    paddingVertical : 12 ,
-    paddingHorizontal : 14 ,
-    borderRadius : 8,
+  content: {
+    width: isTabletDevice ? 400 : DIMENSION.width - 32,
+    paddingVertical: 12,
+    paddingHorizontal: 14,
+    borderRadius: 8,
   },
-  contentToast : {
-    flexDirection : 'row',
+  contentToast: {
+    flexDirection: 'row',
   },
-  center : {
-    justifyContent : 'center',
-    alignItems : 'center',
+  center: {
+    justifyContent: 'center',
+    alignItems: 'center',
   },
-  textToast : {
-    fontSize  : 14 ,
-  color : defaultColors.c_fff ,
-   marginLeft : 10,
+  textToast: {
+    fontSize: 14,
+    color: defaultColors.c_fff,
+    marginLeft: 10,
   },
-
 });
 
 export default Toast;

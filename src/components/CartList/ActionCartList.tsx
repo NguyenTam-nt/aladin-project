@@ -32,18 +32,18 @@ const ActionCartList = ({
   const postItemToKitChen = async () => {
     if (listItemInCart.length > 0) {
       let checkHotPot = 0;
+      let numberHotpot = 0;
+
       const itemPost = listItemInCart.map(item => {
         if (item.idCategory) {
           switch (item.idCategory) {
             case hotpotId4:
-              if (item.quantity < 4) {
-                checkHotPot = 4;
-              }
+              checkHotPot = 4;
+              numberHotpot += item.quantity;
               break;
             case hotpotId2:
-              if (item.quantity < 2) {
-                checkHotPot = 2;
-              }
+              checkHotPot = 2;
+              numberHotpot += item.quantity;
               break;
             default:
               break;
@@ -56,7 +56,7 @@ const ActionCartList = ({
           state: null,
         };
       });
-      if (checkHotPot !== 0) {
+      if (checkHotPot !== numberHotpot) {
         MessageUtils.showWarningMessage(
           `Vui lòng chọn ${checkHotPot} vị nước lẩu !`,
         );
@@ -67,7 +67,7 @@ const ActionCartList = ({
         dispatch(removeCartList());
         MessageUtils.showSuccessMessage('Thành công!');
       } else {
-        MessageUtils.showErrorMessage(data?.message);
+        MessageUtils.showErrorMessage(data?.message || '');
       }
     }
   };
@@ -103,14 +103,16 @@ const ActionCartList = ({
           </TouchableOpacity>
         </>
       ) : (
-        <>
-          <View
-            style={[styles.buttonCancel, {backgroundColor: 'tranparents'}]}
-          />
-          <View
-            style={[styles.buttonCancel, {backgroundColor: 'tranparents'}]}
-          />
-        </>
+        isTabletDevice ? (
+          <>
+            <View
+              style={[styles.buttonCancel, {backgroundColor: 'tranparents'}]}
+            />
+            <View
+              style={[styles.buttonCancel, {backgroundColor: 'tranparents'}]}
+            />
+          </>
+        ) : <></>
       )}
     </View>
   );

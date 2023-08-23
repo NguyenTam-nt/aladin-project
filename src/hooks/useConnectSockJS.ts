@@ -1,18 +1,18 @@
 import { useEffect, useState } from 'react';
 import SockJS from 'sockjs-client';
-import { SOCK_CLIENNT_URL } from 'src/api/config'
-import useIsInternetReachable from './useIsInternetReachable'
-import { useAppStateVisible } from './useAppStateVisible'
-import { useIsFocused } from '@react-navigation/native'
+import { SOCK_CLIENNT_URL } from 'src/api/config';
+import useIsInternetReachable from './useIsInternetReachable';
+import { useAppStateVisible } from './useAppStateVisible';
+import { useIsFocused } from '@react-navigation/native';
 
-// eslint-disable-next-line @typescript-eslint/no-var-requires
+
 const Stomp = require('stompjs/lib/stomp.js').Stomp;
 
 export function useConnectSocketJS<T>(id: string) {
   const [dataSocket, setDataSocket] = useState<T>();
-  const isInternetReachable = useIsInternetReachable()
-  const {appStateVisible} = useAppStateVisible()
-  const isFocus = useIsFocused()
+  const isInternetReachable = useIsInternetReachable();
+  const {appStateVisible} = useAppStateVisible();
+  const isFocus = useIsFocused();
   useEffect(() => {
     let stompClienTime: any;
     const connectWebSocket = () => {
@@ -29,7 +29,7 @@ export function useConnectSocketJS<T>(id: string) {
                 stompClienTime = stompClient.subscribe(id, function (messageOutput: any) {
                   const data1 = JSON.parse(messageOutput.body);
                   setDataSocket(data1);
-                  // const autio = new Audio('aa');
+
                 });
               }, 500);
             },
@@ -38,7 +38,7 @@ export function useConnectSocketJS<T>(id: string) {
           }
         }
       }
-    }
+    };
 
     var stompFailureCallback = function (error: any) {
       console.log('STOMP error: ' + error);
@@ -55,7 +55,7 @@ export function useConnectSocketJS<T>(id: string) {
         stompClienTime.unsubscribe();
       }
     };
-  }, [id, isInternetReachable, appStateVisible]);
+  }, [id, isInternetReachable, appStateVisible ,isFocus]);
 
   return { dataSocket, setDataSocket };
 }

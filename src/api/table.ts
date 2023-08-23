@@ -168,6 +168,26 @@ export const postDetechedProduct = async (
 };
 
 
+export const completeBillApi = async (
+  idBill: number,
+): Promise<IResponseApi<any>> => {
+  try {
+    const result = await request().post(`${APIs.COMPLETE_BILL}/${idBill}`);
+
+    const {data} = await result;
+    return {
+      success: true,
+      data: data,
+    };
+  } catch (e) {
+
+     console.log('eeee' ,e);
+
+    return handleError(e);
+  }
+};
+
+
 
 
 

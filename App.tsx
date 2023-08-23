@@ -6,7 +6,7 @@
  * @format
  */
 import { isTabletDevice } from '@configs';
-import React, { useLayoutEffect } from 'react';
+import React, { useEffect, useLayoutEffect } from 'react';
 import Orientation from 'react-native-orientation-locker';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { PersistGate } from 'redux-persist/integration/react';
@@ -16,6 +16,8 @@ import Toast from 'react-native-toast-message';
 import ToastMessage from 'src/components/Toast';
 
 function App() {
+
+
    useLayoutEffect(() => {
     if (isTabletDevice) {
       Orientation.lockToLandscape();
@@ -31,7 +33,7 @@ function App() {
     <PersistGate persistor={persistor}>
       <SafeAreaProvider>
         <MainStack />
-        <Toast config={toastConfig} position="bottom" />
+        <Toast config={toastConfig} position="bottom"  />
       </SafeAreaProvider>
     </PersistGate>
   );

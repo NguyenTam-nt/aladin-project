@@ -1,6 +1,7 @@
 import { defaultColors, isTabletDevice } from '@configs';
+import { useIsFocused } from '@react-navigation/native';
 import { IHistoryCompoumd } from '@typeRules';
-import React, { useCallback, useEffect, useMemo } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import {
   FlatList,
   ListRenderItemInfo,
@@ -11,15 +12,14 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { IHistoryDay, getHistories, getHistories3, getHistoriesContent } from 'src/api/history';
+import { IHistoryDay, getHistories3, getHistoriesContent } from 'src/api/history';
 import { IResponseApi } from 'src/api/types';
 import { ICAddOrder } from 'src/assets/icons/ICAddOrder';
+import { ICDoubleArrowDown } from 'src/assets/icons/ICDoubleArrowDown';
 import { useHandleResponsePagination } from 'src/commons/useHandleResponsePagination';
 import DropDownView from 'src/components/DropDownView/DropDownView';
-import { useGetCategotyType } from '../useGetCategotyType';
 import { Html } from 'src/components/Html';
-import { ICDoubleArrowDown } from 'src/assets/icons/ICDoubleArrowDown';
-import { useIsFocused } from '@react-navigation/native';
+import { useGetCategotyType } from '../useGetCategotyType';
 
 const TableCartItem = ({item}: {item: IHistoryCompoumd}) => {
   return (
@@ -39,7 +39,9 @@ const TableCartItem = ({item}: {item: IHistoryCompoumd}) => {
               gap: 6,
             }}>
             <ICAddOrder color={defaultColors.bg_5F5F61} />
-            <Text>Đặt đơn hàng này cho tôi</Text>
+            <Text style={styles.textTable}>
+              {item.note ? item.note : 'Đặt đơn hàng này cho tôi'}
+            </Text>
           </View>
         </View>
         <View style={styles.col3Item}>

@@ -22,6 +22,7 @@ export const MessageUtils = {
     this.show({
       type: 'tomatoToast',
       props: { status: 'error', uuid: message ?? '' },
+
     });
   },
 
