@@ -116,64 +116,63 @@ const CartProductNew = ({ className, itemCart, change, size, border, payment }: 
   }, [sizeChoose, colorChoose])
 
   return (
-    <div className={`${className} ${size == 'sm' && 'py-6'} ${size == 'cart' && 'py-4'} py-5 flex items-center `}>
-      {change && (
-        <div>
-          <label>
-            <input
-              className="hidden"
-              type="checkbox"
-              checked={itemChoose}
-              onChange={handleChecked}
-            />
-            <div
-              className={`w-6 sm:w-7 lg:mt-7 aspect-square p-1 border-2 flex items-center justify-center rounded-sm ${itemChoose ? "bg-main" : ""
-                }`}
-            >
-              {itemCart.size.total > 0 && itemChoose && <TickIcon />}
-            </div>
-          </label>
-        </div>
-      )}
-      <div
-        className={clsx({
-          "gap-6": size == 'sm',
-          "gap-4": size == 'cart',
-          "gap-8": size == 'normal',
+    <div className={`${itemCart.size.total == 0 ? "opacity-[0.4]" : ""}`} >
+      <div className={`${className} ${size == 'sm' && 'py-6'} ${size == 'cart' && 'py-4'} py-5 flex items-center `}>
+        {change && (
+          <div>
+            <label>
+              <input
+                className="hidden"
+                type="checkbox"
+                checked={itemChoose}
+                onChange={handleChecked}
+              />
+              <div
+                className={`w-6 sm:w-7 lg:mt-7 aspect-square p-1 border-2 flex items-center justify-center rounded-sm ${itemChoose ? "bg-main" : ""
+                  }`}
+              >
+                {<TickIcon />}
+              </div>
+            </label>
+          </div>
+        )}
+        <div
+          className={clsx({
+            "gap-6": size == 'sm',
+            "gap-4": size == 'cart',
+            "gap-8": size == 'normal',
 
-        }, `flex-1 flex flex-row ${change ? "pl-2 ssm:pl-3 sm:pl-6" : ""
-        }`)}
-      >
-        <img
-          className={` 
+          }, `flex-1 flex flex-row ${change ? "pl-2 ssm:pl-3 sm:pl-6" : ""
+          }`)}
+        >
+          <img
+            className={` 
           false 
           max-w-[64px]
-           max-h-[64px]  
-          lg:w-[240px] aspect-square object-contain lg:mt-7`
-          }
-          src={itemCart.image}
-          alt=""
-        />
+          lg:w-[240px] aspect-square object-contain mt-7 pr-2 border-r-2`
+            }
+            src={itemCart.image}
+            alt=""
+          />
 
-        <div className="flex-1 min-h-full flex flex-col justify-between">
-          <div className="flex justify-between gap-3">
-            <div className="flex-1 relative">
-              <div className="flex gap-3 justify-between items-center pt-9">
-                <div className={`flex flex-wrap ${payment ? "" : "lg:w-1/4"} border-l-2`}>
-                  <Link to={ROUTES.product.detail(itemCart.id)} className={clsx("hover:cursor-pointer text-normal text-black mb-2 line-clamp-2 pl-1", { "mb-1 text-wap-regular2": size == 'cart' })}>
-                    {itemCart.name}
-                  </Link>
-                  <div className={`w-full`}>
-                    <div className="flex justify-between">
-                      <label className={`font-bold text-main pl-1 mb-2 ${payment ? "block" : "hidden"} `}>x{itemCart.quantity}</label>
-                      <div className={`text-main pl-1 font-bold ${payment ? "block" : "block lg:hidden"} `}>{formatMoney(itemCart.price)}</div>
+          <div className="flex-1 min-h-full flex flex-col justify-between">
+            <div className="flex justify-between gap-3">
+              <div className="flex-1 relative">
+                <div className="flex gap-3 justify-between items-center pt-9">
+                  <div className={`flex flex-wrap ${payment ? "" : "lg:w-1/4"}`}>
+                    <Link to={ROUTES.product.detail(itemCart.id)} className={clsx("hover:cursor-pointer text-normal text-black mb-2 line-clamp-2", { "mb-1 text-wap-regular2": size == 'cart' })}>
+                      {itemCart.name}
+                    </Link>
+                    <div className={`w-full`}>
+                      <div className="flex justify-between">
+                        <label className={`font-bold text-main mb-2 ${payment ? "block" : "hidden"} `}>x{itemCart.quantity}</label>
+                        <div className={`text-main pl-1 font-bold ${payment ? "block" : "block lg:hidden"} `}>{formatMoney(itemCart.price * itemCart.quantity)}</div>
+                      </div>
                     </div>
                   </div>
-                </div>
-                {size == 'normal' &&
-                  <>
-                    <div className="text-main text-text font-bold">{formatMoney(itemCart.price)}</div>
-                    {itemCart.size.total == 0 ? <span>Đã hết hàng</span> :
+                  {size == 'normal' &&
+                    <>
+                      <div className="text-main text-text font-bold">{formatMoney(itemCart.price)}</div>
                       <AmountChange
                         className="text-normal2"
                         quantity={quantity}
@@ -181,22 +180,20 @@ const CartProductNew = ({ className, itemCart, change, size, border, payment }: 
                         ascActive={quantityAscActive}
                         handleIncrease={handleIncrease}
                         handleDecrease={handleDecrease}
-                      />}
-                    <div className="text-[#FF7D03] font-bold pr-8">{formatMoney(itemCart.price * itemCart.quantity)}</div>
-                    <div className="min-h-full flex">
-                      <RemoveCartIcon onClick={handleRemoveFromCart}>
-                      </RemoveCartIcon>
-                    </div>
-                  </>
-                }
+                      />
+                      <div className="text-main font-bold pr-8">{formatMoney(itemCart.price * itemCart.quantity)}</div>
+                      <div className="min-h-full flex">
+                        <RemoveCartIcon onClick={handleRemoveFromCart} className={`${itemCart.size.total <= 0 ? "stroke-red-500" : ""}`}/>
+                      </div>
+                    </>
+                  }
+                </div>
               </div>
             </div>
-          </div>
-          <div>
-            {change && size == 'cart' &&
-              <div className="mt-2 sm:mt-4">
-                <div className="flex justify-between items-center mt-2 sm:mt-4">
-                  {itemCart.size.total == 0 ? <span>Đã hết hàng</span> :
+            <div>
+              {change && size == 'cart' &&
+                <div className="mt-2 sm:mt-4">
+                  <div className="flex justify-between items-center mt-2 sm:mt-4">
                     <AmountChange
                       className="text-wap-regular2 mt-4"
                       quantity={quantity}
@@ -204,17 +201,18 @@ const CartProductNew = ({ className, itemCart, change, size, border, payment }: 
                       ascActive={quantityAscActive}
                       handleIncrease={handleIncrease}
                       handleDecrease={handleDecrease}
-                    />}
-                  <div className="min-h-full flex">
-                    <RemoveCartIcon onClick={handleRemoveFromCart}>
-                    </RemoveCartIcon>
+                    />
+                    <div className="min-h-full flex">
+                      <RemoveCartIcon onClick={handleRemoveFromCart} className={`${itemCart.size.total <= 0 ? "stroke-red-500" : ""}`}/>
+                    </div>
                   </div>
                 </div>
-              </div>
-            }
+              }
+            </div>
           </div>
         </div>
       </div>
+      {itemCart.size.total <= 0 && <div>Hết hàng</div>}
     </div>
   );
 };

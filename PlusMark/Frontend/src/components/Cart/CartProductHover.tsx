@@ -16,7 +16,7 @@ function CartProductHover() {
       <div className="flex-1 overflow-y-auto -mx-4 px-4">
           {
             cartItems.map((item, i) => {
-                  return <CartProductNew itemCart={item} key={i} className="py-4"  change={false} border={i != 1} size="cart"/>
+                  return <CartProductNew itemCart={item} key={i} className="py-4"  change={false} border={i != 1} size="cart" payment={true}/>
               })
           }
       </div>
