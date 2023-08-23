@@ -20,6 +20,7 @@ import { ICArrowLeft } from '../../assets/icons/ICArrowLeft';
 import { ICMenubar } from '../../assets/icons/ICMenubar';
 import { setShowDrawerFloor } from '../../redux/infoDrawer/slice';
 import { deleteBillApi } from 'src/api/products';
+import { setIdBill, setItemProductInCart, updateItemProductInCart } from 'src/redux/cartOrder/slice';
 
 export const Header = ({
   isCheckbox,
@@ -77,8 +78,12 @@ export const Header = ({
   );
 
   const deleteBill = useCallback(async () => {
+
+
     if (idBill && itemProduce.length === 0 && tableId) {
       const dataDelete = await deleteBillApi(idBill);
+      dispatch(setIdBill(undefined));
+      dispatch(setItemProductInCart([]));
       if (dataDelete.success) {
         //@ts-ignore
         navigation.navigate('mainDrawer', {
@@ -92,6 +97,8 @@ export const Header = ({
     } else {
       //@ts-ignore
       navigation.navigate('mainDrawer');
+      dispatch(setIdBill(undefined));
+      dispatch(setItemProductInCart([]));
     }
   }, [idBill, itemProduce, tableId]);
 
@@ -102,7 +109,6 @@ export const Header = ({
           <TouchableOpacity
             onPress={() => {
               deleteBill();
-              //@ts-ignore
 
             }}
             style={styles.buttonBack}>

@@ -1,5 +1,5 @@
 import {View, StyleSheet, FlatList, RefreshControl} from 'react-native';
-import React, {useCallback} from 'react';
+import React, {useCallback, useEffect} from 'react';
 import {defaultColors} from '@configs';
 import {Notice} from './components/Notice';
 import KitchenLinks from '../components/KitchenLinks';
@@ -15,6 +15,7 @@ import {IOrderKitchen, OrderType} from 'src/typeRules/product';
 import DropDownFilter from 'src/components/Filter/DropDownFilter';
 import {HeaderListBillFood} from './components/HeaderListBillFood';
 import {BillItemFood} from './components/BillItemFood';
+import NotificationSound from 'src/components/Toast/SoundNotification';
 
 export const WaitProcees = React.memo(() => {
   const {
@@ -31,7 +32,7 @@ export const WaitProcees = React.memo(() => {
     handlePressCompelete,
     currentDataSelect,
     notices,
-    handleDeleteNotice
+    handleDeleteNotice,
   } = useWaitProcess();
   const {keyExtractor} = useKeyArray();
 
@@ -56,6 +57,9 @@ export const WaitProcees = React.memo(() => {
     },
     [handleShowModalAction, isTable, handlePressCompelete],
   );
+
+
+
 
   return (
     <View style={styles.container}>

@@ -3,6 +3,7 @@ import { IMenuItem, IProductInCart } from 'src/api/products';
 
 export interface IITemCart extends IMenuItem  {
   quantity: number
+  note? : string
 }
 
 interface IPopupState {
@@ -70,7 +71,7 @@ export const cartOrderSlice = createSlice({
         state.itemInCart = dataCheck;
       }
     },
-    setIdBill: (state, action: PayloadAction<number>) => {
+    setIdBill: (state, action: PayloadAction<number | undefined>) => {
       state.idBill = action.payload;
     },
   },

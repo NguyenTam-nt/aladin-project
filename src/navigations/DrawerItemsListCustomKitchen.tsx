@@ -38,8 +38,10 @@ export function DrawerItemListCustomKitchen({
     const {drawerLabel} = descriptors[route.key].options;
 
     const focused = i === state.index;
-
     const color = focused ? defaultColors.c_0000 : defaultColors.c_fff;
+
+  const focusChild = state.routes[i].state?.routes[state.routes[i].state?.index || 0].name || routerKitchens[i].childs[0].slug;
+
 
     return (
       <DrawerItemWithICArrowDown
@@ -52,7 +54,7 @@ export function DrawerItemListCustomKitchen({
         route={route}
         children={null}
         key={i}
-
+        focusChild={focusChild}
       />
     );
   }) as React.ReactNode as React.ReactElement;
@@ -100,6 +102,7 @@ export const DrawerItemWithICArrowDown = React.memo(
     i,
     navigation,
     state,
+    focusChild,
     ...rest
   }: Omit<React.ComponentProps<typeof PlatformPressable>, 'style'> & {
     route: Route<string>
@@ -115,31 +118,11 @@ export const DrawerItemWithICArrowDown = React.memo(
     const buildLink = useLinkBuilder();
     const [isOpen, setIsOpen] = React.useState(true);
     const toggleOpen = () => {
-      // onPress?.()
       setIsOpen(value => !value);
       LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
     };
-    const [initIndexChild, setInitIndexChild] = React.useState<number | null>(
-      null,
-    );
-    const [newArrayChild, setNewArrayChild] = React.useState(
-      routerKitchens[i].childs.map(child => child.slug),
-    );
 
-    const arr = routerKitchens[i].childs.map(child => child.slug);
 
-    if (initIndexChild) {
-      for (let i = 0; i < initIndexChild; i++) {
-        const element = arr.shift();
-        if (element !== undefined) {
-          arr.push(element);
-        }
-      }
-    }
-
-    
-
-    const focusChild = arr[state.routes[i]?.state?.index];
 
     return (
       <View>
@@ -171,9 +154,7 @@ export const DrawerItemWithICArrowDown = React.memo(
                 canPreventDefault: true,
               });
               if (!event.defaultPrevented) {
-                if (!initIndexChild) {
-                  setInitIndexChild(index);
-                }
+
                 if (focused) {
                   navigation.dispatch({
                     ...CommonActions.navigate(route.name, {
@@ -197,7 +178,7 @@ export const DrawerItemWithICArrowDown = React.memo(
                 route={route}
                 href={buildLink(route.name, route.params)}
                 label={item.name}
-                focused={focused && item.slug === focusChild}
+                focused={focused && item.slug === focusChild }
                 onPress={onPressItem}
               />
             );

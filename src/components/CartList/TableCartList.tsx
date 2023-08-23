@@ -1,25 +1,28 @@
 import { defaultColors, isTabletDevice } from '@configs';
-import React, { useCallback } from 'react';
-import { FlatList, ListRenderItemInfo, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import React, { useCallback, useState } from 'react';
+import { FlatList, ListRenderItemInfo, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { ICDeleteProduct } from 'src/assets/icons/ICDeleteProduct';
 import { formatNumberDotSlice } from 'src/commons/formatMoney';
 import { useListItemInCart } from 'src/redux/cartOrder/hooks';
-import { IITemCart, removeItemById } from 'src/redux/cartOrder/slice';
+import { IITemCart, addItemToCart, removeItemById, setItemProductInCart } from 'src/redux/cartOrder/slice';
 import { ICAddOrder } from '../../assets/icons/ICAddOrder';
 import { Thumb } from '../Thumb/Thumb';
 import ItemCardMobile from './ItemCardMobile';
 import { getLinkImageUrl } from 'src/commons';
 import { IProductInCart } from 'src/api/products';
 import { useDispatch } from 'react-redux';
+import { useModal } from 'src/hooks/useModal';
+import ModalCustom from '../ModalCustom';
+import { ICCloseModal } from 'src/assets/icons/ICCloseModal';
+import ButtonAction from '../ButtonAction/ButtonAction';
+import { DIMENSION } from '@constants';
 
 export  enum ProductState {
   COMPLETE ='COMPLETE', CANCEL ='CANCEL', PROCESSING ='PROCESSING', PROCESSING_CANCEL='PROCESSING_CANCEL'
 }
 
 export const StatusOrderItem = React.memo(({checkstatus , id } : {checkstatus: string | null ; id : number}) => {
-
   const dispatch = useDispatch();
-
   const {
     colorBackground,
     textStatus,
@@ -108,6 +111,22 @@ export const StatusOrderItem = React.memo(({checkstatus , id } : {checkstatus: s
   );});
 
 const TableCartItem = ( {checkstatus , data } : {checkstatus: string | null ; data : IITemCart & IProductInCart}) => {
+  const modalEditInventory = useModal();
+  const dispatch = useDispatch();
+
+
+  const [newNote, setNewNote] = useState<string>('');
+
+  const updateItem = () => {
+    dispatch(addItemToCart({...data , note :newNote  }));
+    modalEditInventory.handleHidden();
+  };
+
+  const openModal = () => {
+    if (data.quantity) {
+      modalEditInventory.handleShow();
+    }
+  };
   return (
     <View>
       <View style={styles.itemContainer} />
@@ -129,10 +148,14 @@ const TableCartItem = ( {checkstatus , data } : {checkstatus: string | null ; da
             <Text style={styles.textPriceItem}>
               {formatNumberDotSlice(data.price)}
             </Text>
-            <View style={styles.textAddOrderItem}>
+            <TouchableOpacity
+              onPress={openModal}
+              style={styles.textAddOrderItem}>
               <ICAddOrder />
-              <Text style={styles.textNotiITem}>Đặt cho tôi đơn hàng này</Text>
-            </View>
+              <Text style={styles.textNotiITem}>
+                {data.note ? data.note : 'Đặt cho tôi đơn hàng này'}
+              </Text>
+            </TouchableOpacity>
           </View>
         </View>
         <View style={styles.col3}>
@@ -143,7 +166,7 @@ const TableCartItem = ( {checkstatus , data } : {checkstatus: string | null ; da
         <View style={styles.col4}>
           <Text style={styles.textTable}>
             {formatNumberDotSlice(
-              (data.quantity || data.numProduct) * data.price,
+              (data.quantity || data.numProduct) * data.pricePromotion,
             )}
           </Text>
         </View>
@@ -151,6 +174,38 @@ const TableCartItem = ( {checkstatus , data } : {checkstatus: string | null ; da
           <StatusOrderItem checkstatus={checkstatus} id={data.id} />
         </View>
       </View>
+      <ModalCustom
+        onBackdropPress={modalEditInventory.handleHidden}
+        ref={modalEditInventory.refModal}>
+        <View style={styles.modalEdit}>
+          <View style={styles.contentHeaderModal}>
+            <Text style={styles.textHeaderModal}>Tạo ghi chú</Text>
+            <TouchableOpacity
+              style={{padding: 10}}
+              onPress={modalEditInventory.handleHidden}>
+              <ICCloseModal color={defaultColors.c_0000} />
+            </TouchableOpacity>
+          </View>
+          <View style={{marginTop: 32}}>
+            <Text style={styles.textNumber}>Nội dung ghi chú</Text>
+            <TextInput
+              style={styles.textInputEdit}
+              placeholder={'Nhập nội dung ghi chú'}
+              maxLength={100}
+              value={newNote}
+              onChangeText={(value: any) => {
+                setNewNote(value);
+              }}
+            />
+          </View>
+          <View style={{marginTop: 20}}>
+            <ButtonAction
+              onPressCancel={modalEditInventory.handleHidden}
+              onPressDone={updateItem}
+            />
+          </View>
+        </View>
+      </ModalCustom>
     </View>
   );
 };
@@ -275,6 +330,37 @@ const styles = StyleSheet.create({
     color: defaultColors.c_fff,
     fontSize: 12,
     marginLeft: 4,
+  },
+  modalEdit: {
+    height: 270,
+    width: isTabletDevice ? 500 : DIMENSION.width,
+    backgroundColor: defaultColors.c_fff,
+    borderRadius: 10,
+    padding: 24,
+  },
+  textHeaderModal: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: defaultColors.c_222124,
+  },
+  textNumber: {
+    fontSize: 14,
+    fontWeight: 'bold',
+    color: defaultColors.c_222124,
+  },
+  contentHeaderModal: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  textInputEdit: {
+    width: ' 80%',
+    height: 40,
+    borderWidth: 1,
+    marginTop: 12,
+    borderRadius: 8,
+    borderColor: defaultColors.bg_EFEFEF,
+    padding: 10,
   },
 });
 
