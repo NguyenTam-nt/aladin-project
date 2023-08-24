@@ -14,10 +14,21 @@ interface Props {
   size?: number;
   row?: number;
   classPaginate?: string;
-  is1280?: boolean;
+  breackPoin?: any;
+  slideItems: ProductItem[];
 }
+const breack = {
+  768: {
+    slidesPerView: 3,
+    spaceBetween: 26,
+  },
+  1280: {
+    slidesPerView: 4,
+    spaceBetween: 26,
+  },
+};
 const SlideProductPaginate = memo(
-  ({ size, row, classPaginate, is1280 = true }: Props) => {
+  ({ size, row, breackPoin, classPaginate, slideItems }: Props) => {
     const [listproducts, setListProducts] = useState<ProductItem[]>([]);
     const [totalElements, setTotalElements] = useState<number>(0);
     const [totalPage, setTotalPage] = useState<number>(0);
@@ -33,65 +44,20 @@ const SlideProductPaginate = memo(
       currentIndex,
       onActiveIndexChange,
       activeThumb,
-      setThumbActive,
     } = useSwiperNavigationRef();
-    const callApi = async () => {
-      try {
-        setLoading(true);
-        const result = await ProductServices.getListNewProducts({
-          page: currentPage,
-          size: size,
-        });
-        setListProducts(result.data);
-        setTotalPage(Math.ceil(result.total / 4));
-        setLoading(false);
-      } catch (error) {}
-    };
-
-    useEffect(() => {
-      callApi();
-    }, [currentPage]);
-
     return (
-      <div
-        className={clsx("relative", {
-          " product_box": is1280,
-        })}
-      >
-        <div
-          className={clsx(
-            "flex sc480:flex-row flex-col sc480:items-center w-full justify-between gap-5 mb-6",
-            { classPaginate }
-          )}
-        >
-          <TitleSession text="text.section.new" className="text-white" />
-          <PaginationCompt
-            currentPage={currentPage}
-            // totalPages={totalPage}
-            totalPages={20}
-            setCurrentPage={setCurrentPage}
-          />
-        </div>
+      <div className={clsx("relative")}>
         <SwiperComponent
           onActiveIndexChange={onActiveIndexChange}
           navigationNextRef={navigationNextRef}
           navigationPrevRef={navigationPrevRef}
-          breakpoints={{
-            768: {
-              slidesPerView: 3,
-              spaceBetween: 26,
-            },
-            1280: {
-              slidesPerView: size ? size : 4,
-              spaceBetween: 26,
-            },
-          }}
+          breakpoints={breackPoin ? breackPoin : breack}
           slidesPerView={2}
           modules={[Autoplay, Pagination, Navigation]}
           className={clsx("w-full h-full", {})}
           spaceBetween={12}
         >
-          {listproducts.map((item: any, index: number) => {
+          {slideItems.map((item: any, index: number) => {
             return (
               <SwiperSlide key={index}>
                 <CartISlideImage key={index} item={{ name: "Sức khỏe" }} />
@@ -100,7 +66,7 @@ const SlideProductPaginate = memo(
           })}
         </SwiperComponent>
 
-        {totalPage > 0 && <>{NavigationElement}</>}
+        {slideItems.length > 0 && <>{NavigationElement}</>}
       </div>
     );
   }

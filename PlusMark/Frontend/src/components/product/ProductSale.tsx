@@ -1,10 +1,7 @@
 import TitleSession from "@components/common/TitleSession";
-import React, { memo } from "react";
-import SlideProducts from "./SlideProducts";
-import DynamicButton from "@components/Buttons/DynamicButton";
-import KakaoTalkIcon from "@assets/iconElements/KakaoTalkIcon";
-import ZaloIcon from "@assets/iconElements/ZaloIcon";
 import SocialHelpBox from "commons/components/SocialHelpBox";
+import { memo } from "react";
+import SlideProducts from "./SlideProducts";
 
 interface Props {
   isBtn?: boolean;
