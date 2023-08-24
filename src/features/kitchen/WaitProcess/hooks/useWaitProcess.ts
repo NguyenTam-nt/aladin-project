@@ -18,6 +18,7 @@ import {useAreaId} from 'src/redux/infoDrawer/hooks';
 import { INotice } from '@typeRules';
 import { useConnectSocketJS } from 'src/hooks/useConnectSockJS';
 import NotificationSound from 'src/components/Toast/SoundNotification';
+import { useIsFocused } from '@react-navigation/native'
 
 export enum TypeModalWaitProcess {
   cancelbill = 'CANCELBILL',
@@ -47,14 +48,15 @@ export const useWaitProcess = () => {
   const {currentType} = useGetCategotyType();
   const [notices, setNotices] = useState<INotice[]>([]);
   const {playNotificationSound  } = NotificationSound();
+  const isFocus = useIsFocused()
 
   const [fileterItem, setFilterItem] = useState(dataFilter[0]);
   const refAll = useRef<boolean>(false);
   const getOrderKitchenMethod = useCallback(
     async (page: number, size: number) => {
-      return getOrerKitchen({page, size, menu: currentType}, fileterItem.value);
+      return getOrerKitchen({page, size, menu: currentType}, TypeFilter.area);
     },
-    [currentType, fileterItem],
+    [currentType],
   );
 
   const IdArea = useAreaId();
@@ -69,57 +71,12 @@ export const useWaitProcess = () => {
   const {dataSocket, setDataSocket} = useConnectSocketJS<IOrderSocket[]>(IdArea ? `/topic/kitchen/${IdArea}` : '');
   const {dataSocket:dataNotification, setDataSocket:setDataSocketNotification} = useConnectSocketJS<INotice>(IdArea ? `/topic/kitchen/noti/${IdArea}` : '');
 
-  const hanldeDataAfterUpdate = useCallback(
-    (result: IOrderItem[], item: IOrderItem) => {
-      console.log({result});
-      // if(item.state === OrderType.cancel || item.state === OrderType.complete) {
-      if (isTable) {
-        const index = data.findIndex(
-          _item => _item.idInvoice === item?.idInvoice,
-        );
-        if (index !== -1) {
-          const newData = [...data];
-          newData[index].list = result;
-          setData(newData);
-        }
-      } else {
-        const indexProduct = data.findIndex(
-          _item => _item.idProduct === item.idProduct,
-        );
-        if (indexProduct !== -1) {
-          const newData = [...data];
-          const indexChild = data[indexProduct].list.findIndex(
-            _item => _item.id === item.id,
-          );
-          if (indexChild !== -1) {
-            const elementResult = result.find(
-              (_item: IOrderItem) => _item.id === item.id,
-            );
-            if (elementResult) {
-              newData[indexProduct].list[indexChild] = elementResult;
-            } else {
-              newData[indexProduct].list.splice(indexChild, 1);
-            }
-          }
-          setData([...newData]);
-        }
-      }
-
-      // }
-      MessageUtils.showSuccessMessageWithTimeout(
-        'Cập nhật trạng thái thành công',
-      );
-    },
-    [data, isTable],
-  );
 
   const handleDataSocker = useCallback((result: IOrderSocket[]) => {
     if (result) {
       const listData = result.find(
         item => item.menu === currentType,
       );
-
-
       const newDataConvert: IOrderSocket = {
         menu: listData?.menu ?? currentType,
         kitchen:
@@ -132,7 +89,6 @@ export const useWaitProcess = () => {
       };
 
       const newData = [...data];
-      if (isTable) {
         newDataConvert?.kitchen.forEach(item => {
           const index = newData.findIndex(
             _item => _item.idInvoice === item.idInvoice,
@@ -143,66 +99,13 @@ export const useWaitProcess = () => {
             newData.splice(index, 1, item);
           }
         });
-      } else {
-        const result1: IOrderItem[] = newDataConvert.kitchen.reduce(
-          (currentList, item) => {
-            return [...currentList, ...item.list];
-          },
-          [] as IOrderItem[],
-        );
-
-        const outputArray: IOrderKitchen[] = [];
-        const groupedMap: Map<number, IOrderItem[]> = new Map();
-
-        for (const obj of result1) {
-          const key = obj.idProduct;
-          if (groupedMap.has(key)) {
-            // @ts-ignore
-            groupedMap.get(key).push(obj);
-          } else {
-            groupedMap.set(key, [obj]);
-          }
-        }
-
-        groupedMap.forEach((value, key) => {
-          const num = value.reduce((count, item) => {
-            return count + item.numProduct;
-          }, 0);
-          outputArray.push({
-            list: value as IOrderItem[],
-            idProduct: key,
-            nameProduct: value.length ? value[0].name : '',
-            num,
-          });
-        });
-
-        outputArray.forEach(item => {
-          const index = newData.findIndex(
-            _item => _item.idProduct === item.idProduct,
-          );
-          if (index === -1) {
-            newData.unshift(item);
-          } else {
-            item.list.forEach(i => {
-              const _index = newData[index].list.findIndex(
-                _i => _i.id === i.id,
-              );
-              if (_index === -1) {
-                newData[index].list.unshift(i);
-              } else {
-                newData[index].list.splice(_index, 1, i);
-              }
-            });
-          }
-        });
-      }
       setData([...newData]);
     }
   }, [currentType, data, isTable]);
 
   useEffect(() => {
     if (dataSocket) {
-      console.log('socket ----------------------------------------------------------------', dataSocket);
+      console.log('socket ----------------------------------------------------------------', dataSocket?.[0]?.kitchen?.[0]?.list);
       playNotificationSound();
       handleDataSocker(dataSocket);
       setDataSocket(undefined);
@@ -242,9 +145,7 @@ export const useWaitProcess = () => {
     (item: IOrderItem, reason = '', state: OrderType) => {
       updateOrerKitchenAllState(state, item.idInvoice, item.id, reason)
         .then(result => {
-          console.log({data: result.data});
           if (data) {
-            // hanldeDataAfterUpdate(result.data.list ?? [], item);
             MessageUtils.showSuccessMessageWithTimeout(
               'Cập nhật trạng thái thành công',
             );
@@ -254,22 +155,19 @@ export const useWaitProcess = () => {
         })
         .catch(error => {
           MessageUtils.showErrorMessageWithTimeout('Đã có lỗi xảy ra');
-          console.log({error});
         })
         .finally(() => {
           handleClear();
         });
     },
-    [hanldeDataAfterUpdate],
+    [],
   );
 
   const handlePressCompeleteOnly = useCallback(
     (item: IOrderItem, reason = '', state: OrderType) => {
       updateOrerKitchenOnlyState(state, item.idInvoice, item.id, reason)
         .then(result => {
-          console.log({data: result, item});
           if (data) {
-            // hanldeDataAfterUpdate(result.data, item);
             MessageUtils.showSuccessMessageWithTimeout(
               'Cập nhật trạng thái thành công',
             );
@@ -279,13 +177,12 @@ export const useWaitProcess = () => {
         })
         .catch(error => {
           MessageUtils.showErrorMessageWithTimeout('Đã có lỗi xảy ra');
-          console.log({error});
         })
         .finally(() => {
           handleClear();
         });
     },
-    [hanldeDataAfterUpdate],
+    [],
   );
 
   const handlePressCompelete = useCallback(
@@ -307,8 +204,10 @@ export const useWaitProcess = () => {
   }, []);
 
   useEffect(() => {
-    refresh();
-  }, [refresh]);
+    if(isFocus) {
+      refresh();
+    }
+  }, [refresh, isFocus]);
 
   const handleDeleteNotice = useCallback(
     (index: number) => {
@@ -319,10 +218,49 @@ export const useWaitProcess = () => {
     [notices],
   );
 
+  const newData1 = useMemo(() => {
+      if(isTable) return [...data]
+    const newDataConvert = [...data];
+        const result1: IOrderItem[] = newDataConvert.reduce(
+          (currentList, item) => {
+            return [...currentList, ...item.list];
+          },
+          [] as IOrderItem[],
+        );
+
+        const outputArray: IOrderKitchen[] = [];
+        const groupedMap: Map<number, IOrderItem[]> = new Map();
+
+        for (const obj of result1) {
+          const key = obj.idProduct;
+          if (groupedMap.has(key)) {
+            // @ts-ignore
+            groupedMap.get(key).push(obj);
+          } else {
+            groupedMap.set(key, [obj]);
+          }
+        }
+
+        groupedMap.forEach((value, key) => {
+          const num = value.reduce((count, item) => {
+            return count + item.numProduct;
+          }, 0);
+          outputArray.push({
+            list: value as IOrderItem[],
+            idProduct: key,
+            nameProduct: value.length ? value[0].name : '',
+            num,
+          });
+        });
+
+        return [...outputArray]
+      
+  }, [isTable, data])
+
 
   const newData = useMemo(() => {
-    return data.filter(item => item.list.length);
-  }, [data]);
+    return newData1.filter(item => item.list.length);
+  }, [newData1]);
 
   return {
     modalConfirmCancel,
