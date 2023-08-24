@@ -63,6 +63,7 @@ module.exports = {
         '1.5xl': '1320px',
         // 2xl: 1536px
         '2.5xl': '1648px',
+        'sc1510': '1510px',
         '3xl': '1920px'
       },
       zIndex: {

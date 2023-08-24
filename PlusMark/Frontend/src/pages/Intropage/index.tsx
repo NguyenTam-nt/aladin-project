@@ -2,11 +2,20 @@ import { Logo } from "@assets/icons";
 import Banner from "@components/Banner/Banner";
 import BreakCrumb, { BreadcrumbType } from "@components/Breadcrumb";
 import LoadingPage from "@components/LoadingPage";
+import ProductNew from "@components/product/ProductNew";
+import ProductSale from "@components/product/ProductSale";
+import ProductSpecial from "@components/product/ProductSpecial";
 import SlideProductPaginate from "@components/product/SlideProductPaginate";
 import useI18n from "@hooks/useI18n";
+import { useSwiperNavigationRef } from "@hooks/useSwiperNavigationRef";
 import IntroServices from "@services/IntroServices";
+import ProductServices, { ProductItem } from "@services/ProductServices";
 import convertToHtml from "@utility/convertoHtml";
-import React, { useEffect, useState } from "react";
+import clsx from "clsx";
+import SwiperComponent from "commons/SwiperComponent";
+import { useEffect, useState } from "react";
+import { Autoplay, Navigation, Pagination } from "swiper";
+import { SwiperSlide } from "swiper/react";
 
 export const Intropage = () => {
   const { t } = useI18n();
@@ -43,6 +52,39 @@ export const Intropage = () => {
       link: "/",
     },
   ];
+  const [listproducts, setListProducts] = useState<ProductItem[]>([]);
+  const [totalElements, setTotalElements] = useState<number>(0);
+  const [totalPage, setTotalPage] = useState<number>(0);
+  const [currentPage, setCurrentPage] = useState<number>(0);
+  const [loading, setLoading] = useState<boolean>(false);
+
+  const {
+    navigationPrevRef,
+    navigationNextRef,
+    handleNext,
+    handlePre,
+    NavigationElement,
+    currentIndex,
+    onActiveIndexChange,
+    activeThumb,
+    setThumbActive,
+  } = useSwiperNavigationRef();
+  // const callApi = async () => {
+  //   try {
+  //     setLoading(true);
+  //     const result = await ProductServices.getListNewProducts({
+  //       page: currentPage,
+  //       size: 4,
+  //     });
+  //     setListProducts(result.data);
+  //     setTotalPage(Math.ceil(result.total / 4));
+  //     setLoading(false);
+  //   } catch (error) {}
+  // };
+
+  useEffect(() => {
+    // callApi();
+  }, [currentPage]);
 
   useEffect(() => {
     try {
@@ -62,6 +104,8 @@ export const Intropage = () => {
     }
   }, []);
 
+  console.log(listproducts, "jkldsfjkahsdjkfahsdj");
+
   const fetchData = async () => {
     return await IntroServices.get();
   };
@@ -75,13 +119,13 @@ export const Intropage = () => {
         ]}
       />
       <div className="xl:py-spc80 py-8">
-        <div className="product_box grid xl:grid-cols-2 grid-cols-1 xl:gap-[87px] gap-8">
+        <div className="product_box grid xl:grid-cols-2 grid-cols-1 xl:gap-[87px] gap-9">
           <img
             src={aboutContent.introduce.image}
             alt=""
-            className="xl:rounded-lg text-base h-full w-full min-h-spc280"
+            className="xl:rounded-lg text-base h-full min-h-spc280 object-cover xl:order-1 order-2"
           />
-          <div>
+          <div className="xl:order-2 order-1">
             <p className="text-2xl font-semibold text-main mb-2 uppercase">
               {t("text.title.about_us")}
             </p>
@@ -95,11 +139,36 @@ export const Intropage = () => {
         </div>
       </div>
 
-      {/* <div className="pl-[173px]">
-        <div className="relative">
-          <div className="h-[390px] bg-footer absolute top-0 left-0 w-full z-0"></div>
+      <div className=" 2xl:pl-0 min-h-[340px]">
+        <div className="product_box relative !p-0">
+          <div className="h-2/3 min-h-[340px] bg-aqua-aq03 absolute top-0 left-0 z-1 w-screen rounded-lg"></div>
+          <div className="flex flex-wrap justify-between relative z-10 gap-10 2xl:px-0 lg:px-[130px] sm:px-12 px-4">
+            <div className="xl:pl-1 xl:w-[350px] w-full pt-4">
+              <p className="text-2xl font-bold text-main mb-5">
+                모아밥솥 12A032 1.2L
+              </p>
+              <ul className="flex flex-col gap-3 list-disc pl-6">
+                <li>1.2L 용량으로 2~4인이 사용하기에 적합합니다</li>
+                <li>
+                  건강을 위해 안전한 고품질 붙지 않는 입히는 알루미늄 합금 남비.
+                </li>
+                <li>
+                  모던하고 고급스러운 디자인, 우아한 색상, 심플하고 편리한
+                  컨트롤 버튼.
+                </li>
+                <li>
+                  다방면의 보온으로 밥맛이 좋아지고 더 오래 보온됩니 다방면의
+                  보온으로 밥맛이 좋아지고 더 오래 보온됩니
+                </li>
+                <li>일본 기술 - 베트남산!</li>
+              </ul>
+            </div>
+            <div className="xl:w-[calc(100%_-_430px)] w-full">
+              <ProductSpecial isbg={false} />
+            </div>
+          </div>
         </div>
-      </div> */}
+      </div>
 
       <div className="product_box xl:pb-28 pb-6 pt-6">
         <p className="xl:text-40 text-title font-bold mb-5 uppercase">
