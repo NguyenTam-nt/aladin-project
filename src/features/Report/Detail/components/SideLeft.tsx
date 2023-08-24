@@ -215,6 +215,7 @@ const styles = StyleSheet.create({
   },
   styleBoxCalendar: {
     position: 'absolute',
+    zIndex: 10,
     top: '110%',
     left: 0,
     transform: [

@@ -105,7 +105,7 @@ export const WaitProcees = React.memo(() => {
         ref={modalConfirmCancel.refModal}>
         <ModalConfirmCancel
           titleInput="Lý do hủy món"
-          placeholder="Hủy món từ thu ngân"
+          placeholder="Hủy món từ bếp"
           message={`Hủy món ${currentDataSelect?.name}?`}
           onPress={handlePressCompelete}
           data={currentDataSelect}
