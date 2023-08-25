@@ -1,21 +1,10 @@
-import { ArrowDownIcon, ArrowDownManageIcon, DeleteIcon } from "@assets/icons";
-import Banner from "@components/Banner/Banner";
 import BreakCrumb, { BreadcrumbType } from "@components/Breadcrumb";
+import DynamicButton from "@components/Buttons/DynamicButton";
 import CardItem from "@components/Card/CardItem";
-import ProductCard from "@components/Card/ProductCard";
 import ContactSession from "@components/Home/ContactSession";
-import LoadingPage from "@components/LoadingPage";
-import LoadingScreen from "@components/LoadingScreen";
 import TitleSession from "@components/common/TitleSession";
-import BrandFilter from "@components/filters/brand";
-import FilteringItem from "@components/filters/filtering";
-import PriceFilter from "@components/filters/price";
-import ProductFilter from "@components/filters/product";
-import ProductItemFilter from "@components/filters/product-item";
-import ProductNew from "@components/product/ProductNew";
 import ProductSale from "@components/product/ProductSale";
 import ProductSpecial from "@components/product/ProductSpecial";
-import ShipmentMethod from "@components/shipment/ShipmentMethod";
 import useI18n from "@hooks/useI18n";
 import useViewport from "@hooks/useViewPort";
 import BannerServices from "@services/BannerServices";
@@ -24,16 +13,15 @@ import CategoryProductServices, {
   ProductCategoryHeaderItem,
   ProductTrademarkHeader,
 } from "@services/CategoryProductServices";
-import ProductServices, { ProductItem } from "@services/ProductServices";
+import { ProductItem } from "@services/ProductServices";
 import categoryServices from "@services/categoryService";
-import { BANNERS, SIZE_PRODUCT_LOADMORE } from "@utility/constants";
+import { SIZE_PRODUCT_LOADMORE } from "@utility/constants";
 import { some } from "@utility/helper";
-import clsx from "clsx";
 import InputChecked from "commons/InputChecked";
 import { debounce } from "lodash";
-import React, { useEffect, useState, useRef, useCallback } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useInView } from "react-intersection-observer";
-import { useLocation, useParams, useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 
 const MIN_PRICE_DEFAULT = 0;
 const MAX_PRICE_DEFAULT = 20000000;
@@ -41,7 +29,7 @@ const STEP_PRICE_DEFAULT = 100000;
 const MIN_DISCOUNT_DEFAULT = 0;
 const MAX_DISCOUNT_DEFAULT = 100;
 
-function FilterPage() {
+function FilterPageEndLevel() {
   let controller = new AbortController();
   const { width } = useViewport();
   const [searchParams, setSearchParams] = useSearchParams();
@@ -842,14 +830,9 @@ function FilterPage() {
         }
       }
     }
-
-    // console.log(breakCrumb);
-
     setbreakcrumData(breakCrumb);
   };
-  // console.log(breakcrumData);
 
-  // console.log(productData);
   return (
     <div className="pt-spc30">
       <div className="product_box  flex flex-col gap-5">
@@ -913,196 +896,18 @@ function FilterPage() {
             return <CardItem description={`${i}`} key={i} />;
           })}
         </div>
+        <div>
+          <DynamicButton
+            text="button.see_more"
+            className="w-spc136"
+            onClick={() => {
+              //   currentPage < totalPage && setCurrentPage(currentPage + 1);
+            }}
+          />
+        </div>
       </div>
-      <ContactSession />
-      {/* <div className="mt-4 lg:mt-6">
-        <h3 className="text-normal lg:text-normal2 font-medium lg:font-bold">
-          {t("search_page.filter")}
-        </h3>
-        <div className="mt-3 lg:mt-4 flex flex-wrap gap-4 z-10 relative">
-          <PriceFilter
-            type="price"
-            title="Giá"
-            minValue={minPriceChoose}
-            maxValue={maxPriceChoose}
-            min={MIN_PRICE_DEFAULT}
-            max={MAX_PRICE_DEFAULT}
-            step={STEP_PRICE_DEFAULT}
-            onChange={onChangeFilterPrice}
-          />
-          <PriceFilter
-            type="discount"
-            title="Giảm giá"
-            minValue={minDiscountChoose}
-            maxValue={maxDiscountChoose}
-            min={MIN_DISCOUNT_DEFAULT}
-            max={MAX_DISCOUNT_DEFAULT}
-            step={1}
-            onChange={onChangeFilterDiscount}
-          />
-          {brandList.length &&
-          ((navbarParam == "Thương hiệu khác" && categoryParam.length == 0) ||
-            navbarParam == "male" ||
-            navbarParam == "female") ? (
-            <BrandFilter
-              title="Thương hiệu"
-              selected={brandSelected}
-              items={brandList}
-              onChange={onChangeFilterBranch}
-            />
-          ) : (
-            <></>
-          )}
-          {categoryList?.length > 0 &&
-          detailParam?.length == 0 &&
-          (categoryParam?.length == 0 ||
-            (categoryParam?.length != 0 &&
-              (categoryParam == "male" ||
-                categoryParam == "female" ||
-                navbarParam == "Thương hiệu khác"))) ? (
-            <ProductFilter
-              title="Loại sản phẩm"
-              selected={productFilterSelected}
-              items={categoryList}
-              onChange={onChangeFilterProduct}
-            />
-          ) : (
-            <></>
-          )}
-          {categorydetailList?.length > 0 &&
-          ((detailParam?.length > 0 &&
-            (categoryParam == "male" || categoryParam == "female")) ||
-            (detailParam?.length == 0 &&
-              categoryParam?.length != 0 &&
-              categoryParam != "male" &&
-              categoryParam != "female" &&
-              navbarParam != "Thương hiệu khác")) ? (
-            <ProductItemFilter
-              title="Loại sản phẩm chi tiết"
-              selected={productItemFilterSelected}
-              items={categorydetailList}
-              onChange={onChangeFilterProductItem}
-            />
-          ) : (
-            <></>
-          )}
-        </div>
-      </div> */}
-
-      {/* <div className="container px-4">
-        {filterBytexts && filterBytexts.length > 0 && (
-          <div className="mt-4 lg:mt-6">
-            <h3 className="text-normal lg:text-normal2 font-medium lg:font-bold">
-              {t("search_page.filtering")}
-            </h3>
-            <div className="mt-3 lg:mt-4 flex flex-wrap gap-4 z-10">
-              {filterBytexts.map((item, i) => {
-                return (
-                  <FilteringItem
-                    data={item}
-                    onRemove={onRemoveFilteringItem}
-                    key={i}
-                  />
-                );
-              })}
-              <div
-                className="hover:cursor-pointer border border-gray-100 rounded-md px-4 py-2 text-wap-regular2 lg:text-normal1 font-bold text-main"
-                onClick={handleRemoveAllFiltering}
-              >
-                {t("search_page.remove_all_filtering")}
-              </div>
-            </div>
-          </div>
-        )}
-
-        <div className="mt-4 lg:mt-6">
-          <h3 className="text-normal lg:text-normal2 font-medium lg:font-bold">
-            {t("search_page.sort_by")}
-          </h3>
-          <div className="mt-3 lg:mt-4 flex gap-4 ">
-            <div
-              className={clsx(
-                " border rounded-md px-3 py-2 flex items-center gap-2 text-wap-regular2 lg:text-normal1  hover:cursor-pointer",
-                {
-                  "text-main border-main bg-icon": sortDesc,
-                  "text-text border-gray-100": !sortDesc,
-                }
-              )}
-              onClick={() => setSortDesc(true)}
-            >
-              <ArrowDownManageIcon
-                className={clsx("rotate-180", {
-                  "fill-main ": sortDesc,
-                  "fill-black ": !sortDesc,
-                })}
-              />{" "}
-              Giá cao - thấp
-            </div>
-            <div
-              className={clsx(
-                "border-gray-100 border rounded-md px-3 py-2 flex items-center gap-2 text-wap-regular2 lg:text-normal1 hover:cursor-pointer",
-                {
-                  "text-main border-main bg-icon": !sortDesc,
-                  "text-text border-gray-100": sortDesc,
-                }
-              )}
-              onClick={() => setSortDesc(false)}
-            >
-              <ArrowDownManageIcon
-                className={clsx("", {
-                  "fill-main ": !sortDesc,
-                  "fill-black ": sortDesc,
-                })}
-              />{" "}
-              Giá thấp - cao
-            </div>
-          </div>
-        </div>
-
-        {keywordParam ? (
-          <div className="mt-4 lg:mt-6">
-            <h3 className="text-normal lg:text-normal2 font-bold">
-              {t("search_page.search")}{" "}
-              <span className="text-main">"{keywordParam}"</span>
-            </h3>
-            <div className="mt-3 lg:mt-4 text-wap-regular2 lg:text-normal1">
-              {t("search_page.search_res1")}
-              <span className="font-bold">
-                {productData?.length || 0} {t("search_page.search_res2")}{" "}
-              </span>
-              {t("search_page.search_res3")}
-            </div>
-          </div>
-        ) : (
-          <></>
-        )}
-
-        {isLoading ? (
-          <div className="h-48 flex justify-center items-center">
-            <LoadingPage />
-          </div>
-        ) : (
-          <>
-            <div className="mt-4 lg:mt-6 grid grid-cols-2 ssm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-2 lg:gap-4">
-              {productData &&
-                productData.length > 0 &&
-                productData.map((item, i) => {
-                  return <ProductCard product={item} hover key={item.id} />;
-                })}
-            </div>
-            {isLoadingMore ? (
-              <div className="h-48 min-h-full w-full flex justify-center items-center">
-                <LoadingPage />
-              </div>
-            ) : (
-              <></>
-            )}
-          </>
-        )}
-        <div className="" ref={ref}></div>
-      </div> */}
     </div>
   );
 }
 
-export default FilterPage;
+export default FilterPageEndLevel;

@@ -19,7 +19,7 @@ const HeaderSearch = () => {
   const [keyword, setkeyword] = useState("");
 
   return (
-    <div className="relative" ref={searchRef}>
+    <div className="relative flex justify-end" ref={searchRef}>
       {clickShow && (
         <SearchDropdown keyword={keyword} close={() => setClickShow(false)} />
       )}
@@ -27,15 +27,16 @@ const HeaderSearch = () => {
         <input
           value={keyword}
           onChange={(e: any) => setkeyword(e.target.value)}
-          className={`w-full h-8 rounded-full outline-none border-main focus:border text-wap-regular2 pl-5 pr-20`}
+          className={`w-full  hidden h-8 rounded-full outline-none border-main focus:border text-wap-regular2 pl-5 pr-20`}
           placeholder={t("placeholder.key_search") as string}
           onFocus={() => setClickShow(true)}
         />
         <Link
           to={`${ROUTES.search.index}?keyword=${keyword}`}
-          className="flex justify-center items-center top-0 h-full absolute right-0 px-5 bg-transparent"
+          className="flex justify-center items-center top-0 h-full xl:absolute right-0 pl-5 sc480:pr-5 pr-0 bg-transparent"
         >
-          <SearchIcon className="" stroke={"var(--main-color)"} />
+          {/* <SearchIcon className="" stroke={"var(--main-color) "} /> */}
+          <SearchIcon className="" stroke={"white"} />
         </Link>
       </div>
     </div>

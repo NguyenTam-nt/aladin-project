@@ -18,12 +18,16 @@ interface Props {
   slideItems: ProductItem[];
 }
 const breack = {
+  390: {
+    slidesPerView: 2.5,
+    spaceBetween: 8,
+  },
   768: {
-    slidesPerView: 3,
+    slidesPerView: 3.5,
     spaceBetween: 26,
   },
   1280: {
-    slidesPerView: 4,
+    slidesPerView: 3.5,
     spaceBetween: 26,
   },
 };
@@ -52,7 +56,7 @@ const SlideProductPaginate = memo(
           navigationNextRef={navigationNextRef}
           navigationPrevRef={navigationPrevRef}
           breakpoints={breackPoin ? breackPoin : breack}
-          slidesPerView={2}
+          slidesPerView={1}
           modules={[Autoplay, Pagination, Navigation]}
           className={clsx("w-full h-full", {})}
           spaceBetween={12}

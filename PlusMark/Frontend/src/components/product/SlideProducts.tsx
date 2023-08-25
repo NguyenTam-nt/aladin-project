@@ -20,8 +20,28 @@ interface Props {
   breackPoin?: any;
 }
 const initialBreak = {
+  480: {
+    slidesPerView: 2,
+    spaceBetween: 12,
+  },
+  // 768: {
+  //   slidesPerView: 4,
+  //   spaceBetween: 26,
+  // },
+  // 768: {
+  //   slidesPerView: 4,
+  //   spaceBetween: 26,
+  // },
   768: {
     slidesPerView: 4,
+    spaceBetween: 26,
+  },
+  1024: {
+    slidesPerView: 4,
+    spaceBetween: 26,
+  },
+  1536: {
+    slidesPerView: 5,
     spaceBetween: 26,
   },
 };
@@ -83,7 +103,7 @@ const SlideProducts = memo(
     if (width < 1280)
       return (
         <>
-          <div className="grid grid-cols-2 md:grid-cols-3 md:gap-6 gap-3">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:gap-6 sc480:gap-5 gap-3">
             {listproducts.map((item: any, index: number) => {
               return <CardItem key={index} description={`${index}`} />;
             })}
