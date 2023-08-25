@@ -139,36 +139,15 @@ export const Intropage = () => {
         </div>
       </div>
 
-      <div className=" 2xl:pl-0 min-h-[340px]">
+      <ProductSpecial isbg={false} />
+      {/* <div className=" 2xl:pl-0 min-h-[340px]">
         <div className="product_box relative !p-0">
           <div className="h-2/3 min-h-[340px] bg-aqua-aq03 absolute top-0 left-0 z-1 w-screen rounded-lg"></div>
           <div className="flex flex-wrap justify-between relative z-10 gap-10 2xl:px-0 lg:px-[130px] sm:px-12 px-4">
-            <div className="xl:pl-1 xl:w-[350px] w-full pt-4">
-              <p className="text-2xl font-bold text-main mb-5">
-                모아밥솥 12A032 1.2L
-              </p>
-              <ul className="flex flex-col gap-3 list-disc pl-6">
-                <li>1.2L 용량으로 2~4인이 사용하기에 적합합니다</li>
-                <li>
-                  건강을 위해 안전한 고품질 붙지 않는 입히는 알루미늄 합금 남비.
-                </li>
-                <li>
-                  모던하고 고급스러운 디자인, 우아한 색상, 심플하고 편리한
-                  컨트롤 버튼.
-                </li>
-                <li>
-                  다방면의 보온으로 밥맛이 좋아지고 더 오래 보온됩니 다방면의
-                  보온으로 밥맛이 좋아지고 더 오래 보온됩니
-                </li>
-                <li>일본 기술 - 베트남산!</li>
-              </ul>
-            </div>
-            <div className="xl:w-[calc(100%_-_430px)] w-full">
-              <ProductSpecial isbg={false} />
-            </div>
+            <div className="xl:w-[calc(100%_-_430px)] w-full"></div>
           </div>
         </div>
-      </div>
+      </div> */}
 
       <div className="product_box xl:pb-28 pb-6 pt-6">
         <p className="xl:text-40 text-title font-bold mb-5 uppercase">

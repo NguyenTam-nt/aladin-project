@@ -338,8 +338,3 @@
   display: flex;
 }
 
-
-.header-scrollbar::-webkit-scrollbar {
-  width: 4px !important;
-  height: 4px !important;
-}

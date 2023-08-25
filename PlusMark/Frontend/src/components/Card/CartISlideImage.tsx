@@ -31,20 +31,21 @@ const CartISlideImage = memo(({ item }: Props) => {
   } = useSwiperNavigationRef();
 
   return (
-    <div className="p-3 pt-6 bg-white flex flex-col gap-4 rounded-lg">
-      <div className="flex items-center justify-between">
-        <span className="font-bold text-header2 text-gray-400">
+    <div className="p-3 lg:pt-6 bg-white flex flex-col sm:gap-4 gap-2 lg:rounded-lg rounded-sm">
+      <div className="flex items-center justify-between xl:my-1 ">
+        <span className="font-bold xl:text-header2 text-xl text-gray-400">
           {currentIndex + 1 < 10 && "0"}
           {currentIndex + 1}
         </span>
         <CricleButton
           // disabled={loading || currentPage >= totalPage}
+          className="xl:w-12 xl:h-12 w-spc30 h-spc30"
           onClick={() => handleNext()}
           icon={<RightArrow />}
         />
       </div>
-      <p className="text-lg font-bold">{item.name}</p>
-      <div className="min-h-spc280">
+      <p className="xl:text-lg text-lg font-bold">{item.name}</p>
+      <div className="xl:h-[280px] lg:h-[200px] md:h-[200px] sm:h-[140px] h-[105px]">
         <SwiperComponent
           onActiveIndexChange={onActiveIndexChange}
           navigationNextRef={navigationNextRef}
@@ -57,7 +58,11 @@ const CartISlideImage = memo(({ item }: Props) => {
           {images.map((item, index) => {
             return (
               <SwiperSlide key={index}>
-                <img src={item} alt="" className="rounded-[12px]" />
+                <img
+                  src={item}
+                  alt=""
+                  className="rounded-[12px] w-full h-full"
+                />
               </SwiperSlide>
             );
           })}

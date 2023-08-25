@@ -9,7 +9,16 @@ interface Props {
 }
 const TitleSession = memo(({ isBox = false, text, className = "" }: Props) => {
   const { t } = useI18n();
-  return (
+  return isBox ? (
+    <h3
+      className={clsx(
+        " font-bold md:text-title text-lg leading-normal text-text-main text-left",
+        className
+      )}
+    >
+      {t(text || "")}
+    </h3>
+  ) : (
     <div className="">
       <div
         className={clsx("relative sc480:hidden block mt-3 w-full", className)}
@@ -24,7 +33,7 @@ const TitleSession = memo(({ isBox = false, text, className = "" }: Props) => {
       </div>
       <h3
         className={clsx(
-          "sc480:block hidden font-bold md:text-title text-xl leading-normal text-text-main text-left",
+          "sc480:block hidden font-bold md:text-title text-lg leading-normal text-text-main text-left",
           className
         )}
       >

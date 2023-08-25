@@ -1,43 +1,30 @@
+import CartIcon from "@assets/iconElements/CartIcon";
 import {
-  GuaranteIcon,
   KoreaFlag,
   Logo,
   MenuMobileIconIcon,
-  NewIcon,
-  PhoneContactIcon,
   PhoneIcon,
-  PhoneOutlineIcon,
-  UnitedSateIcon,
   UserIcon,
 } from "@assets/icons";
-import HeaderSearch from "@components/common/HeaderSearch";
-import { Link, useNavigate } from "react-router-dom";
-import { ROLES, ROUTES } from "@utility/constants";
-import CategoryItem from "./CategoryItem";
-import i18next from "i18next";
-import CartProductNew from "@components/Cart/CartProductNew";
 import CartProductHover from "@components/Cart/CartProductHover";
-import useI18n from "@hooks/useI18n";
-import { memo, useContext, useEffect, useState } from "react";
-import { ModalContext } from "@contexts/contextModal";
-import HeaderMenuMobile from "./HeaderMenuMobile";
+import LocationBox from "@components/LocationComponent/LocationBox";
+import HeaderSearch from "@components/common/HeaderSearch";
 import { useCart } from "@contexts/CartContext";
-import FooterServices, {
-  ContentFooter,
-  ResponseFooter,
-} from "@services/FooterService";
+import { ModalContext } from "@contexts/contextModal";
+import useFocusOut from "@hooks/useFocusOut";
+import useI18n from "@hooks/useI18n";
+import AuthService from "@services/AuthServices";
 import CategoryProductServices, {
   ProductCategoryHeader,
-  ProductCategoryHeaderItem,
   ProductTrademarkHeader,
 } from "@services/CategoryProductServices";
-import { some } from "@utility/helper";
-import AuthService from "@services/AuthServices";
+import FooterServices, { ContentFooter } from "@services/FooterService";
+import { ROLES, ROUTES } from "@utility/constants";
 import clsx from "clsx";
-import { useTranslation } from "react-i18next";
-import CartIcon from "@assets/iconElements/CartIcon";
-import useFocusOut from "@hooks/useFocusOut";
-import LocationBox from "@components/LocationComponent/LocationBox";
+import { memo, useContext, useEffect, useRef, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import CategoryItem from "./CategoryItem";
+import HeaderMenuMobile from "./HeaderMenuMobile";
 
 const mapped = [
   {
@@ -106,7 +93,8 @@ const Header = () => {
   const { t } = useI18n();
   const navigate = useNavigate();
   const { setContentModal, setShowModal } = useContext(ModalContext);
-  const { clickShow, setClickShow, ref: locationRef } = useFocusOut();
+  const { clickShow, setClickShow, ref: locationRef, refClose } = useFocusOut();
+  const padingRef = useRef(null);
   const cartContext = useCart();
   const [footerInfo, setFooterInfo] = useState<ContentFooter>();
   const [maleCategory, setMaleCategory] = useState<ProductCategoryHeader[]>();
@@ -271,30 +259,29 @@ const Header = () => {
 
   return (
     <div className="sticky top-0 z-50 bg-gray-100 xl:h-header xl:shadow ">
-      <div className=" bg-header flex items-center justify-between px-[14px] lg:px-[130px] xl:px-[110px] 1.5xl:px-[130px] h-spc80 lg:gap-[50px] gap-3">
+      <div className=" bg-header flex items-center justify-between px-[14px] relative lg:px-[130px] xl:px-[110px] 1.5xl:px-[130px] h-spc80 lg:gap-[50px] gap-3">
         <Link to={ROUTES["homepage"]}>
           <Logo className="xl:w-[74px] w-[60px]" fill="white" />
         </Link>
         <div
+          ref={padingRef}
           onClick={() => setClickShow(true)}
-          className="rounded-[6px] relative cursor-pointer xl:block hidden py-1 px-2 w-[147px] break-words text-sm text-white bg-aqua-aq02"
+          className="rounded-[6px] relative cursor-pointer py-1 px-2 sc480:w-[147px] w-[84px] break-words sc480:text-sm text-[8px] text-white bg-aqua-aq02"
         >
-          {t("global.see_Price")} {t("global.hanoi")}
-          {clickShow && (
-            <div ref={locationRef} className="absolute left-0 top-spc132%">
-              <LocationBox onClose={() => setClickShow(false)} />
-            </div>
-          )}
+          {t("global.see_Price")}
+          <span className="font-bold sm:text-sm text-[10px] ml-1">
+            {t("global.hanoi")}
+          </span>
         </div>
-        <div className="items-center w-2/4">
+        <div className="items-center sm:w-1/2 w-fit">
           <HeaderSearch />
         </div>
         <div className="xl:block hidden">
           <NavHeader phoneNumber={footerInfo?.phoneNumber[0]} />
         </div>
-        <div className="xl:flex hidden items-center gap-5">
+        <div className="flex items-center gap-5">
           <div
-            className="relative  group hover:cursor-pointer"
+            className="relative group hover:cursor-pointer"
             onClick={() => navigate(ROUTES["cart"]["index"])}
           >
             <CartIcon />
@@ -309,7 +296,7 @@ const Header = () => {
             </>
             {/* )} */}
           </div>
-          <div className="group relative">
+          <div className="group xl:block hidden relative">
             <UserIcon
               className={clsx(" fill-gray-300 ", {
                 "cursor-pointer": !AuthService.isLoggedIn(),
@@ -341,6 +328,19 @@ const Header = () => {
         {/* <div className="block lg:hidden container px-4 flex-1 lg:pr-4 xl:pr-14">
           <HeaderSearch />
         </div> */}
+        {clickShow && (
+          <div
+            ref={locationRef}
+            className={clsx(
+              "absolute 2.5xl:left-[15%] 2xl:left-[254px] xl:left-[250px] lg:left-[240px] sm:left-[13%] left-0 top-full sm:w-[510px] w-full"
+            )}
+          >
+            <LocationBox
+              onClose={() => setClickShow(false)}
+              closeRef={refClose}
+            />
+          </div>
+        )}
       </div>
 
       <div className="hidden xl:flex lg:px-[130px] xl:px-[110px] 1.5xl:px-[130px] px-4 justify-between gap-5 text-wap-regular1">

@@ -76,7 +76,13 @@
     -webkit-text-fill-color: transparent;
   }
   .product_box{
-    @apply sm:px-12 px-4 lg:px-[130px] 2xl:px-0 2xl:w-1280 2xl:mx-auto
+    @apply 2xl:px-[15%] xl:px-[135px] lg:px-[82px] sm:px-12 px-4
+  }
+  .product_left {
+    @apply 2xl:pl-[15%] xl:pl-[135px] lg:pl-[82px] sm:pl-12 pl-4
+  }
+  .product_right {
+    @apply 2xl:pr-[15%] xl:pr-[135px] lg:pr-[82px] sm:pr-12 pr-4
   }
 }
 
