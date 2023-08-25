@@ -129,7 +129,6 @@ const ItemDayList = ({
 const TableCompound = React.memo(() => {
   const {currentType} = useGetCategotyType();
   const IsFocus = useIsFocused();
-
   const getHistoryMethod = useCallback(
     async (page: number, size: number) :Promise<IResponseApi<IHistoryDay>> => {
       return getHistories3({
@@ -141,9 +140,6 @@ const TableCompound = React.memo(() => {
     },
     [currentType],
   );
-
-
-
   const {data, isRefreshing, pullToRefresh, refresh, handleLoadMore} =
     useHandleResponsePagination<IHistoryDay>(getHistoryMethod);
 

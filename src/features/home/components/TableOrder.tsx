@@ -107,7 +107,7 @@ const TableOrder = ({item}: {item: IFloorInfo}) => {
     async (itemTable: ITable, isPin?: boolean) => {
       currentTable.current = itemTable;
       if (
-        (idTable === undefined && itemTable.state === DinnerTableState.EMPTY) ||
+        (itemTable.state === DinnerTableState.EMPTY) ||
         idTable === currentTable.current.id ||
         isPin ||
         isOrderUser
@@ -126,7 +126,10 @@ const TableOrder = ({item}: {item: IFloorInfo}) => {
           }
           //@ts-ignore
           dispatch(setIdBill(getId.data));
-          if ((idTable === undefined || isPin) && !isOrderUser) {
+          if (
+            (isPin || itemTable.state === DinnerTableState.EMPTY) &&
+            !isOrderUser
+          ) {
             dispatch(setGetTable(itemTable.id));
           }
           //@ts-ignore

@@ -8,7 +8,7 @@ import { useIsFocused } from '@react-navigation/native';
 
 const Stomp = require('stompjs/lib/stomp.js').Stomp;
 
-export function useConnectSocketJS<T>(id: string) {
+export function useConnectSocketJS<T>(id: string , callBackApi?: () => void) {
   const [dataSocket, setDataSocket] = useState<T>();
   const isInternetReachable = useIsInternetReachable();
   const {appStateVisible} = useAppStateVisible();
@@ -17,6 +17,7 @@ export function useConnectSocketJS<T>(id: string) {
     let stompClienTime: any;
     const connectWebSocket = () => {
       if (isInternetReachable) {
+        callBackApi?.();
         const sockClient = new SockJS(SOCK_CLIENNT_URL);
         const stompClient = Stomp.over(sockClient);
         stompClient.heartbeat.outgoing = 5000;
@@ -42,11 +43,13 @@ export function useConnectSocketJS<T>(id: string) {
 
     var stompFailureCallback = function (error: any) {
       console.log('STOMP error: ' + error);
+
       setTimeout(connectWebSocket, 5000);
       console.log('STOMP: Reconecting in 5 seconds');
     };
 
     if (id && isFocus && appStateVisible === 'active') {
+      callBackApi?.();
       connectWebSocket();
     }
 
@@ -55,7 +58,7 @@ export function useConnectSocketJS<T>(id: string) {
         stompClienTime.unsubscribe();
       }
     };
-  }, [id, isInternetReachable, appStateVisible ,isFocus]);
+  }, [id, isInternetReachable, appStateVisible ,isFocus ,callBackApi]);
 
   return { dataSocket, setDataSocket };
 }

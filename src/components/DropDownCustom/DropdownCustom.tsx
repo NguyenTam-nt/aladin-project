@@ -417,7 +417,7 @@ const DropdownComponent: <T>(
           accessibilityLabel={accessibilityLabel}
           onPress={showOrClose}>
           <View style={[styles.dropdown]}>
-            {isFilter && !isTablet ? (
+            {(isFilter && !isTablet && leftPosition) ? (
               renderLeftIcon?.(visible)
             ) : (
               <>
@@ -803,7 +803,7 @@ const DropdownComponent: <T>(
         style={StyleSheet.flatten([
           styles.mainWrap,
           style,
-          isFilter && !isTablet ? {maxWidth: 40} : undefined,
+          (isFilter && !isTablet && leftPosition)  ? {maxWidth: 40} : undefined,
         ])}
         ref={ref}
         onLayout={_measure}>
