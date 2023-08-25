@@ -185,19 +185,24 @@ export const BillItemMenu = ({
           color={defaultColors.c_222124}>
           {data?.name}
         </TextCustom>
-        <View>
-          <View
-            style={{flexDirection: 'row', columnGap: 4, alignItems: 'stretch'}}>
-            <ICAddOrder color={defaultColors.bg_A1A0A3} />
-            <TextCustom
-              lineHeight={18}
-              fontSize={12}
-              weight="400"
-              color={defaultColors.bg_A1A0A3}>
-              Đặt cho tôi đơn hàng này
-            </TextCustom>
-          </View>
-        </View>
+        {
+          data?.note ? (
+              <View>
+                <View
+                  style={{flexDirection: 'row', columnGap: 4, alignItems: 'stretch'}}>
+                  <ICAddOrder color={defaultColors.bg_A1A0A3} />
+                  <TextCustom
+                    lineHeight={18}
+                    fontSize={12}
+                    weight="400"
+                    color={defaultColors.bg_A1A0A3}>
+                   {data?.note}
+                  </TextCustom>
+                </View>
+              </View>
+          ) : null
+          
+        }
       </View>
       <View
         style={getValueForDevice(
