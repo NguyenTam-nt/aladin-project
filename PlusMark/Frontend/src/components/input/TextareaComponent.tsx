@@ -10,8 +10,8 @@ export const TextareaComponent = memo(
     return (
       <div
         className={clsx(
-          "h-[48px] placeholder:text-gray-_A1A0A3 placeholder:text-_14 min-h-[96px] max-h-[200px] w-full flex items-center py-[13px] pr-4 border-[1px] border-solid border-gray-_A1A0A3 focus-within:border-TrueBlue_500 " +
-            className
+          'h-[90px] placeholder:text-neutra-neutral60 placeholder:text-wap-regular2 w-full flex items-center py-[13px] px-[13px] border-[1px] border-solid border-neutra-neutra80 rounded-[20px]',
+          className
         )}
       >
         <textarea
@@ -19,7 +19,7 @@ export const TextareaComponent = memo(
           value={value}
           maxLength={maxLength}
           {...props}
-          className="flex-1 h-full resize-none outline-none bg-transparent text-black02"
+          className="flex-1 h-full bg-transparent text-black-bl0 font-normal text-wap-regular2"
           placeholder={t(placeholder || "") || ""}
         />
         {maxLength && (

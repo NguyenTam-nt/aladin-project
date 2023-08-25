@@ -8,7 +8,7 @@ export const TableItem = (props: { text?: string | number, className?: string })
     return (
         <>
             <div className={
-                clsx('flex h-full text-neutra-neutra20 font-normal text-normal font-NunitoSans',
+                clsx('flex h-full text-neutra-neutra20 font-normal 2lg:text-normal ssm:text-wap-regular2 font-NunitoSans',
                     className
                 )}>
                 {text}
@@ -44,13 +44,13 @@ const Specifications = () => {
     function isOdd(num: number): number { return num % 2; }
     return (
         <>
-            <div className="border border-neutra-neutra80 rounded-[20px]">
-                <div className="flex flex-col">
+            <div className="border border-neutra-neutra80 rounded-[20px] ">
+                <div className="flex flex-col ">
                     <div className="flex flex-row">
-                        <div className="h-[50px] flex-1 items-center justify-center grid grid-cols-[100px_1fr_1fr] bg-neutra-neutra98">
-                            <div className="font-bold font-NunitoSans text-normal1 text-neutra-neutra20 text-center flex h-full border-r-[1px] items-center justify-center">{t('product.table.stt')}</div>
-                            <div className="font-bold font-NunitoSans text-normal1 text-neutra-neutra20 pl-6">{t('product.table.specifications')}</div>
-                            <div className="font-bold font-NunitoSans text-normal1 text-neutra-neutra20">{t('product.table.model')}:</div>
+                        <div className="h-[50px] flex-1 items-center justify-center grid 2lg:grid-cols-[100px_1fr_1fr] ssm:grid-cols-[35px_80px_1fr] bg-neutra-neutra98">
+                            <div className="font-bold font-NunitoSans 2lg:text-normal1 ssm:text-wap-regular2 text-neutra-neutra20 text-center flex h-full border-r-[1px] items-center justify-center">{t('product.table.stt')}</div>
+                            <div className="font-bold font-NunitoSans 2lg:text-normal1 ssm:text-wap-regular2 text-neutra-neutra20 text-center flex h-full items-center justify-start 2lg:pl-6 ssm:pl-[5px] ssm:border-r-[1px] 2lg:border-r-[0px]">{t('product.table.specifications')}</div>
+                            <div className="font-bold font-NunitoSans 2lg:text-normal1 ssm:text-wap-regular2 text-neutra-neutra20 2lg:pl-0 ssm:pl-[5px]">{t('product.table.model')}:</div>
                         </div>
                     </div>
                     <div>
@@ -59,7 +59,7 @@ const Specifications = () => {
                                 return (
                                     <div
                                         key={idx}
-                                        className={clsx('h-[50px] flex-1 items-center justify-center grid grid-cols-[100px_1fr_1fr]',
+                                        className={clsx('h-[50px] flex-1 items-center justify-center grid 2lg:grid-cols-[100px_1fr_1fr] ssm:grid-cols-[35px_80px_1fr]',
                                             {
                                                 'bg-white': isOdd(idx + 1) == 1,
                                                 'bg-neutra-neutral98': isOdd(idx + 1) == 0,
@@ -67,9 +67,9 @@ const Specifications = () => {
                                             }
                                         )}
                                     >
-                                        <TableItem text={idx + 1} className="text-center items-center justify-center border-r-[1px] " />
-                                        <TableItem text={it.title} className="pl-6 items-center" />
-                                        <TableItem text={it.content} className="pr-4 items-center" />
+                                        <TableItem text={idx + 1} className="text-center items-center justify-center border-r-[1px]" />
+                                        <TableItem text={it.title} className="2lg:pl-6 ssm:pl-[5px] ssm:pr-[3px] items-center ssm:border-r-[1px] 2lg:border-r-[0px]" />
+                                        <TableItem text={it.content} className="2lg:pr-4 ssm:pl-[2px] 2lg:pl-0 items-center" />
                                     </div>
                                 )
                             })
