@@ -20,7 +20,7 @@ import { ICArrowLeft } from '../../assets/icons/ICArrowLeft';
 import { ICMenubar } from '../../assets/icons/ICMenubar';
 import { setShowDrawerFloor } from '../../redux/infoDrawer/slice';
 import { deleteBillApi } from 'src/api/products';
-import { setIdBill, setItemProductInCart, updateItemProductInCart } from 'src/redux/cartOrder/slice';
+import { setIdBill, setItemProductInCart } from 'src/redux/cartOrder/slice';
 
 export const Header = ({
   isCheckbox,
