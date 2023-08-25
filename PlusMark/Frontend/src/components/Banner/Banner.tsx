@@ -51,7 +51,6 @@ const Banner = ({ className, images, ...props }: any) => {
       <SwiperComponent
         navigationNextRef={navigationNextRef}
         navigationPrevRef={navigationPrevRef}
-        // spaceBetween={24}
         slidesPerView={1}
         loop={true}
         autoplay={{

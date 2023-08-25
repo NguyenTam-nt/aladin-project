@@ -1,27 +1,28 @@
-import { NextArrowIcon } from '@assets/icons'
-import { PrevIcon } from '@assets/icons/plust-mark/PrevIcon'
-import { firstUpper, some } from '@utility/helper'
-import clsx from 'clsx'
-import React, { Fragment, useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
+import NextIcon from "@assets/iconElements/NextIcon";
+import { NextArrowIcon } from "@assets/icons";
+import { PrevIcon } from "@assets/icons/plust-mark/PrevIcon";
+import { colors } from "@utility/colors";
+import { firstUpper, some } from "@utility/helper";
+import clsx from "clsx";
+import React, { Fragment, useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 export type BreadcrumbType = {
-    name: string,
-    link: string,
-    active: boolean,
-    clickable: boolean
-}
+  name: string;
+  link: string;
+  active: boolean;
+  clickable: boolean;
+};
 
 type Props = {
-    data: BreadcrumbType[],
-    lastData?: BreadcrumbType,
-    normalClass: string,
-    activeClass: string
-}
+  data: BreadcrumbType[];
+  lastData?: BreadcrumbType;
+  normalClass: string;
+  activeClass: string;
+};
 
 function BreakCrumb({ data, lastData, normalClass, activeClass }: Props) {
-
-    const [breakcrumData, setbreakcrumData] = useState(data)
+  const [breakcrumData, setbreakcrumData] = useState(data);
 
     useEffect(() => {
         setbreakcrumData(data)
@@ -61,4 +62,4 @@ function BreakCrumb({ data, lastData, normalClass, activeClass }: Props) {
     )
 }
 
-export default BreakCrumb
+export default BreakCrumb;

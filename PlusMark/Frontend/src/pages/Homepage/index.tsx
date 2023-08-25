@@ -62,7 +62,6 @@ const bannerImages = [
   "https://daotaodigitalmarketing.vn/wp-content/uploads/2021/09/cong-cu-tao-banner-shopee.jpg",
   "https://atpsoftware.vn/wp-content/uploads//2022/03/banner-shopee-0.png",
   "https://treobangron.com.vn/wp-content/uploads/2023/01/banner-shopee-12.jpg",
-  "https://hellosagano.com/wp-content/uploads/2022/01/hellosagano-cach-tao-bo-banner-trang-tri-shopee-sieu-dep-01.jpg",
 ];
 function HomePage() {
   const { t } = useI18n();
