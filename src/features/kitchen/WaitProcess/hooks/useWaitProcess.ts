@@ -54,7 +54,7 @@ export const useWaitProcess = () => {
   const refAll = useRef<boolean>(false);
   const getOrderKitchenMethod = useCallback(
     async (page: number, size: number) => {
-      return getOrerKitchen({page, size, menu: currentType}, TypeFilter.area);
+      return getOrerKitchen({page, size, menu: currentType, sort: 'id,asc'}, TypeFilter.area);
     },
     [currentType],
   );
@@ -94,7 +94,7 @@ export const useWaitProcess = () => {
             _item => _item.idInvoice === item.idInvoice,
           );
           if (index === -1) {
-            newData.unshift(item);
+            newData.push(item);
           } else {
             newData.splice(index, 1, item);
           }
