@@ -11,7 +11,6 @@ export interface IReportAll {
   revenue: number
   quantityOld : number
   revenueOld : number
-
 }
 
 export const getReportAll = async (

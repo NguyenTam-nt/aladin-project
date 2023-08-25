@@ -67,7 +67,7 @@ const styles = StyleSheet.create({
   imageStyle: {
     width: 168,
     height: 168,
-    maxWidth : isTabletDevice ? ((DIMENSION.width - 216) / 3 ) - 125  : undefined,
+    maxWidth: isTabletDevice ? (DIMENSION.width - 216) / 3 - 125 : undefined,
   },
   textItemStyle: {
     margin: 16,

@@ -230,6 +230,12 @@ const CartItem = React.memo(() => {
 
   useEffect(() => {
     if (dataSocket) {
+
+      if (dataSocket.list.length === 0) {
+        //@ts-ignore
+        navigation.navigate('mainDrawer');
+        MessageUtils.showSuccessMessage('Hoá đơn của bạn đã đưọc thanh toán.');
+      }
       dispatch(setItemProductInCart(dataSocket.list));
       setDataSocket(undefined);
     }

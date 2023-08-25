@@ -66,7 +66,7 @@ const ItemCardMobile = ({checkstatus , data } : {checkstatus: string  | null; da
           <Text style={styles.textTitleInfo}>Thành tiền</Text>
           <Text style={styles.textPrice}>
             {formatNumberDotSlice(
-              data.price * (data.quantity || data.numProduct),
+              data.pricePromotion * (data.quantity || data.numProduct),
             )}
           </Text>
         </View>

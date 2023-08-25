@@ -64,7 +64,7 @@ const TableCartItem = ({
           <View style={styles.textItemCol2}>
             <Text style={styles.textNameItem}>{data.name}</Text>
             <Text style={styles.textPriceItem}>
-              {formatNumberDotSlice(data.numProduct * data.price)}
+              {formatNumberDotSlice(data.numProduct * data.pricePromotion)}
             </Text>
             <View style={styles.textAddOrderItem}>
               <ICAddOrder />
