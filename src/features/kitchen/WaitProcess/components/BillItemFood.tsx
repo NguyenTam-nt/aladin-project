@@ -213,18 +213,20 @@ export const BillItemMenu = ({
           color={defaultColors.c_222124}>
           {data?.name}
         </TextCustom>
-        <View>
-          <View style={styles.styleGroupNote}>
-            <ICAddOrder color={defaultColors.bg_A1A0A3} />
-            <TextCustom
-              lineHeight={18}
-              fontSize={12}
-              weight="400"
-              color={defaultColors.bg_A1A0A3}>
-              Đặt cho tôi đơn hàng này
-            </TextCustom>
+        {data?.note ? (
+          <View>
+            <View style={styles.styleGroupNote}>
+              <ICAddOrder color={defaultColors.bg_A1A0A3} />
+              <TextCustom
+                lineHeight={18}
+                fontSize={12}
+                weight="400"
+                color={defaultColors.bg_A1A0A3}>
+               {data?.note}
+              </TextCustom>
+            </View>
           </View>
-        </View>
+        ) : null}
       </View>
       <View
         style={getValueForDevice(
