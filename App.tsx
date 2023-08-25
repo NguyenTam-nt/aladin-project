@@ -18,13 +18,14 @@ import ToastMessage from 'src/components/Toast';
 function App() {
 
 
-   useLayoutEffect(() => {
-    if (isTabletDevice) {
-      Orientation.lockToLandscape();
-    } else {
-      Orientation.lockToPortrait();
-    }
-  }, []);
+  //  useLayoutEffect(() => {
+  //   if (isTabletDevice) {
+  //     Orientation.lockToLandscape();
+  //   } else {
+  //     Orientation.lockToPortrait();
+  //   }
+  // }, []);
+
   const toastConfig = {
     tomatoToast: ({ props }: any) => <ToastMessage status={props.status} title={props.uuid} />,
   };

@@ -172,7 +172,7 @@ export const completeBillApi = async (
   idBill: number,
 ): Promise<IResponseApi<any>> => {
   try {
-    const result = await request().post(`${APIs.COMPLETE_BILL}/${idBill}`);
+    const result = await request().patch(`${APIs.COMPLETE_BILL}/${idBill}`);
 
     const {data} = await result;
     return {
@@ -180,9 +180,6 @@ export const completeBillApi = async (
       data: data,
     };
   } catch (e) {
-
-     console.log('eeee' ,e);
-
     return handleError(e);
   }
 };
