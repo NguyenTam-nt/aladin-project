@@ -13,7 +13,6 @@ export interface IDataNoti {
 }
 
 export const NoticeCancelItem = memo(() => {
-
   const {playNotificationSound  } = NotificationSound();
   const IdArea = useAreaId();
   const billId = useIdBill();

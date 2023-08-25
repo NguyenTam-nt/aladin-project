@@ -1,6 +1,7 @@
 import { DIMENSION } from '@constants';
 import React from 'react';
 import { View, StyleSheet ,Text } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { defaultColors, isTabletDevice } from 'src/configs';
 
@@ -37,6 +38,7 @@ const Toast = ({ status = 'success', title }: ToastProps) => {
     return null;
   }
 
+
   return (
     <View style={styles.container}>
       <View
@@ -57,16 +59,15 @@ const Toast = ({ status = 'success', title }: ToastProps) => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    marginLeft: isTabletDevice ? -DIMENSION.width / 2 - 200 : 0,
   },
   content: {
     width: isTabletDevice ? 400 : DIMENSION.width - 32,
     paddingVertical: 12,
     paddingHorizontal: 14,
     borderRadius: 8,
+    height : 40,
   },
   contentToast: {
     flexDirection: 'row',

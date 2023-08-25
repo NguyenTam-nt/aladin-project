@@ -211,7 +211,7 @@ export const Header = ({
       </View>
       {goBack && !isTabletDevice && (
         <View style={styles.notiContainer}>
-          <View style={{flex: 1, flexDirection: 'row'}}>
+          <View style={{flex: 1, flexDirection: 'row' }}>
             <View style={styles.icCircle} />
             <Text style={styles.textCheckBox2} numberOfLines={1}>
               Mã hóa đơn: <Text style={styles.textBold}>{idBill || ''}</Text>
@@ -291,6 +291,7 @@ const styles = StyleSheet.create({
     width: 12,
     backgroundColor : defaultColors._F1BA42,
     borderRadius : 6,
+    marginTop : 2,
    },
    textBold : {
     fontWeight :'bold',
