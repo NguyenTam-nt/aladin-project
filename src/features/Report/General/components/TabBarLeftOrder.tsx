@@ -188,6 +188,9 @@ const styles = StyleSheet.create({
     width: 226,
     backgroundColor: defaultColors.bg_FAFAFA,
     height: '100%',
+    position: 'relative',
+    zIndex: 100
+    
   },
   content: {
     marginLeft: 24,
