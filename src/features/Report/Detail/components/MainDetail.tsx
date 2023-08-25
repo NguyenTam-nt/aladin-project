@@ -84,16 +84,16 @@ export const MainDetail = ({setIsOpenTab ,dataReport}: Props) => {
     dataReport.forEach(item => {
       const _item = [
         `${item.id}`,
-        item.name,
-        `${item.quantitySuccess}`,
-        `${item.quantityCancel}`,
+        item?.name ?? "",
+        `${item?.quantitySuccess ?? 0}`,
+        `${item?.quantityCancel ?? 0}`,
       ];
       data_sheet.push(_item);
       item.list.forEach(_i => {
         data_sheet.push([
           `${_i.id}`,
           _i.name,
-          `${_i.quantitySuccess}`,
+          `${_i?.quantitySuccess}`,
           `${_i.quantitySuccess}`,
         ]);
         _i.list?.forEach(_j => {
