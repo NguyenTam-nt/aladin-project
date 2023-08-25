@@ -68,6 +68,7 @@ export interface IOrderItem {
   pricePromotion: number
   state: OrderType
   guide: null
+  note?: string
 }
 
 export type IOrderKitchen = {
