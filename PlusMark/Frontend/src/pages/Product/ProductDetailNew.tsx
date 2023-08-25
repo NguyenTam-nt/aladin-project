@@ -45,6 +45,9 @@ import Specifications from "./Specifications";
 import { useTranslation } from "react-i18next";
 import ProductInTheSameCtegory from "./ProductInTheSameCtegory";
 import GetFreeConsulationModal from "./modal/GetFreeConsultationModal";
+import useViewport from "@hooks/useViewPort";
+import PrevIconElm from "@assets/iconElements/PrevIconElm";
+import { useSwiperNavigationRef } from "@hooks/useSwiperNavigationRef";
 
 const breakcrumData: BreadcrumbType[] = [
   {
@@ -107,7 +110,7 @@ export const Outstanding = memo((props: { content: string }) => {
     <>
       <div className="flex flex-row gap-x-1 items-start">
         <span>&#x2022;</span>
-        <div className="text-normal font-normal font-NunitoSans text-neutra-neutra20">{props.content}</div>
+        <div className="2lg:text-normal ssm:text-wap-regular2 font-normal font-NunitoSans text-neutra-neutra20">{props.content}</div>
       </div>
     </>
   )
@@ -158,6 +161,7 @@ const ProductDetailNew = () => {
   const [currentTab, setCurrentTab] = useState<ExploreTabKey>("product-info");
   const [currentTabProducts, setCurrentTabProducts] = useState<ExploreTabKeyProducts>("products-in-the-same-category");
 
+  const { width } = useViewport();
   const slideRef = useRef<any>(null);
   const nextSlide = useCallback(() => {
     if (slideRef.current) {
@@ -329,13 +333,212 @@ const ProductDetailNew = () => {
   };
 
   return (
-    <div className="pt-6 pb-10">
+    <div className="2lg:pt-6 2lg:pb-10 ssm:pb-6">
       {/* <div className="container px-4 lg:px-8">
         <BreakCrumb data={breakcrumData} lastData={lastBreakCrumb} normalClass="text-normal1" activeClass="font-bold"  />
       </div> */}
-      <div className="px-[172px]">
-        <BreakCrumb data={breakcrumData} lastData={lastBreakCrumb} normalClass="text-normal1" activeClass="font-bold" />
-        <div className="pt-5 flex-1 grid grid-cols-[1fr_380px] justify-between gap-x-5">
+      <div className="3xl:px-[172px] 2xl:px-[150px] lg:px-10 ssm:px-0">
+        {
+          width >= 1024 && (
+            <BreakCrumb data={breakcrumData} lastData={lastBreakCrumb} normalClass="text-normal1" activeClass="font-bold" />
+          )
+        }
+        <div className="layout lg:pt-5 ssm:pt-0">
+          <div className="desc">
+            <div className="flex-1 site lg:gap-x-5 ssm:gap-y-4">
+              <div className="lg:px-0 ssm:px-3 section1 w-full 2xl:h-[636px] flex 2xl:flex-col ssm:flex-row items-center lg:gap-y-3 ssm:gap-x-[7px]">
+                <div className="lg:w-12 lg:h-12 ssm:w-[30px] ssm:h-[30px]">
+                  <button
+                    className="w-full h-full flex items-center justify-center border border-neutra-neutra80 rounded-full"
+                    onClick={prevSlide}
+                  >
+                    <div className="2xl:rotate-0 ssm:-rotate-90">
+                      <PrevIcon />
+                    </div>
+                  </button>
+                </div>
+                <Swiper
+                  modules={[Autoplay, Navigation]}
+                  direction={width >= 1536 ? "vertical" : "horizontal"}
+                  ref={slideRef}
+                  // loop={true}
+                  slidesPerView={4}
+                  spaceBetween={10}
+                  className="ssm:w-[80%] sm:w-[90%] lg:w-[80%] xl:w-[90%]  2xl:w-full 2xl:h-[516px] ssm:h-[66px] lg:h-[100px] flex items-center justify-center -z-1"
+                  autoplay={{
+                    delay: 3000,
+                    disableOnInteraction: false,
+                  }}
+                >
+                  {productData && productData?.images && productData?.images.length > 0 && productData?.images.map((it, idx) => (
+                    <SwiperSlide key={idx}>
+                      <img
+                        onClick={() => setimageView(it)}
+                        className={clsx('object-cover rounded-md w-full h-full ',
+                          { 'border-[1px] border-aqua-aq02': imageView === it }
+                        )}
+                        src={it}
+                        alt="product-image"
+                      />
+                    </SwiperSlide>
+                  ))}
+                </Swiper>
+                <button
+                  className="section2 flex items-center justify-center lg:w-12 lg:h-12 ssm:w-[30px] ssm:h-[30px] border border-neutra-neutra80 rounded-full"
+                  onClick={nextSlide}
+                >
+                  <div className="2xl:rotate-180 ssm:rotate-90">
+                    <PrevIcon />
+                  </div>
+                </button>
+              </div>
+              <div
+                // onClick={handleShowGallery}
+                className="w-full 2xl:h-[640px] lg:h-[460px] xl:h-[550px] ssm:h-[370px] relative lg:rounded-lg shadow-shd020"
+              >
+                <img
+                  className="w-full h-full object-cover lg:rounded-lg"
+                  src={imageView}
+                  alt="product-img"
+                />
+              </div>
+            </div>
+          </div>
+          <div className="toc ssm:px-4 lg:px-0 ssm:pt-6 lg:pt-0">
+            <div className="w-full h-auto bg-white rounded-lg relative">
+              <DiscountElement content="-30%" widthIcon={97} heightIcon={34} className="text-white text-[20px] leading-normal font-NunitoSans font-extrabold" />
+              <div className="pt-[50px] ssm:px-1 lg:px-[13px] 2xl:px-4 2lg:pb-6 ssm:pb-[18px]">
+                <p className="font-NunitoSans 2lg:text-normal2 ssm:text-normal1 text-text-main font-bold">Hộp trà tắc giảm cân an toàn Jẹu Hàn Quốc</p>
+                <div className="pt-3 flex flex-row items-center gap-x-4 border-b-[2px] border-aqua-aq02">
+                  <TextGradient title={sizeSelected ? formatMoney(400000) : formatMoney(productData?.price || 0)} clssName="2lg:text-title ssm:text-[20px] ssm:leading-normal font-bold " />
+                  <p className="line-through font-NunitoSans 2lg:text-normal1 ssm:text-wap-regular2 font-normal text-gray-600">{formatMoney(430000)}</p>
+                </div>
+
+                <div className="lg:pt-4 2xl:pt-6 ssm:pt-[34px] lg:pl-0 ssm:pl-3 flex flex-row gap-x-3 items-center">
+                  <p className="font-NunitoSans font-normal 2lg:text-normal ssm:text-wap-regular2 text-black-bl0">{t('product.size')}:</p>
+                  <div className="flex w-fit flex-wrap gap-x-2">
+                    {colorSelected && colorSelected?.sizes && colorSelected?.sizes.map((s, i) => {
+                      return (
+                        <>
+                          {i < 3 && (
+                            <SizePicker
+                              selected={sizeSelected}
+                              data={s}
+                              handleClick={setsizeSelected}
+                              key={i}
+                            />
+                          )}
+                        </>
+                      );
+                    })}
+                  </div>
+                </div>
+                <div className="pt-3 lg:pl-0 ssm:pl-3 flex flex-row gap-x-3 items-center">
+                  <p className="font-NunitoSans font-normal 2lg:text-normal ssm:text-wap-regular2 text-black-bl0">{t('product.quantity')}:</p>
+                  <AmountChange
+                    quantity={quantity}
+                    descActive={quantityDescActive}
+                    ascActive={quantityAscActive}
+                    handleIncrease={handleIncrease}
+                    handleDecrease={handleDecrease}
+                  />
+                </div>
+                <div className="pt-4">
+                  <div className="px-3 pt-2 2xl:pb-3 ssm:pb-[2px] bg-aqua-aq03 rounded-lg">
+                    <div className="pb-3">
+                      <h1 className="font-NunitoSans text-normal font-bold text-neutra-neutra20">{t('product.faith')}</h1>
+                    </div>
+                    <div className="flex flex-col gap-y-2">
+                      {
+                        SERVICES.map((it, idx) => {
+                          return (
+                            <ServiceItem key={idx} icon={it.icon} content={it.content} />
+                          )
+                        })
+                      }
+                    </div>
+                  </div>
+                </div>
+                <div className="2lg:pt-3 ssm:pt-6 flex flex-row gap-x-1">
+                  <DynamicButton
+                    onClick={handleAddToCart}
+                    text={t('product.add-to-cart')}
+                    textGradient={true}
+                    iconLeft={<ShoppingCart />}
+                    className="flex-1 !rounded-[20px] !px-[6px] !py-2 !min-w-[83px] text-[16px] leading-normal font-bold font-NunitoSans"
+                  />
+                  <DynamicButton
+                    onClick={showGetFreeConsulation}
+                    text={t('product.head-phone')}
+                    textGradient={true}
+                    iconLeft={<HeadPhone />}
+                    className="flex-1 !rounded-[20px] !px-[6px] !py-2 !min-w-[83px] text-[16px] leading-normal font-bold font-NunitoSans"
+                  />
+                </div>
+                <div className="2lg:pt-3 ssm:pt-[22px]">
+                  <DynamicButton
+                    onClick={handleBuyNow}
+                    text={t('product.buy-now')}
+                    gradien={true}
+                    iconLeft={<Cart />}
+                    className="w-full !rounded-[20px] !px-[6px] !py-2 !min-w-[83px] text-[16px] leading-normal font-bold font-NunitoSans"
+                  />
+                </div>
+                <div className="2lg:pt-3 ssm:pt-4 2lg:px-0 ssm:px-[11px]">
+                  <p className="2lg:text-normal2 ssm:text-normal ssm:font-bold font-NunitoSans text-neutra-neutra20">{t('product.outstanding-features')}</p>
+                  <div className="2lg:px-1 ssm:px-2 pt-3 flex flex-col gap-y-1">
+                    <Outstanding content="Dung tích 1.2L phù hợp sử dụng cho 2 - 4 người." />
+                    <Outstanding content="Lòng nồi hợp kim nhôm phủ chống dính cao cấp, an toàn cho sức khỏe." />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="body">
+            <div className="2lg:pt-[60px] ssm:pt-[30px] flex-1 flex flex-row lg:px-0 ssm:px-4">
+              {
+                exploreTabs.map((it, idx) => {
+                  return (
+                    <button
+                      key={idx}
+                      onClick={() => setCurrentTab(it.key)}
+                      className={clsx('flex-1 flex items-center justify-center ',
+                        {
+                          'border-b-[3px] border-orange-lightPink': currentTab === it.key,
+                          'mb-[1px] border-b-[1px] border-aqua-aq02': currentTab !== it.key
+                        }
+                      )}>
+                      <ButtonTabGradient
+                        keyTab={it.key}
+                        title={it.text}
+                        currentTab={currentTab}
+                        gradient={true}
+                        clssName="2xl:text-normal2 lg:text-normal1 ssm:text-wap-regular2 font-bold"
+                      />
+                    </button>
+                  )
+                })
+              }
+            </div>
+            <div className="2lg:pt-[34px] ssm:pt-7">
+              <>
+                {currentTab === 'product-info' && (
+                  <div className="lg:px-0 ssm:px-4">
+                    <ProductInfo content={productData?.detail} />
+                  </div>
+                )}
+              </>
+              <>
+                {currentTab === 'specifications' && (
+                  <div className="lg:px-0 ssm:px-4">
+                    <Specifications />
+                  </div>
+                )}
+              </>
+            </div>
+          </div>
+        </div>
+        {/* <div className="pt-5 flex-1 grid grid-cols-[1fr_380px] justify-between gap-x-5">
           <div className="flex flex-col">
             <div className="flex-1 grid grid-cols-[120px_1fr] gap-x-5">
               <div className="w-full h-[636px] flex flex-col items-center gap-y-3">
@@ -522,10 +725,9 @@ const ProductDetailNew = () => {
               </div>
             </div>
           </div>
-        </div>
-
+        </div> */}
       </div>
-      <div className="px-[155px]">
+      <div className="3xl:px-[155px] 2xl:px-[140px] ssm:px-4">
         <div className="pt-[34px] flex-1 flex flex-row">
           {
             exploreTabsProducts.map((it, idx) => {
@@ -533,7 +735,7 @@ const ProductDetailNew = () => {
                 <button
                   key={idx}
                   onClick={() => setCurrentTabProducts(it.key)}
-                  className={clsx('flex-1 flex items-center justify-start',
+                  className={clsx('flex-1 flex items-center justify-start ',
                     {
                       'border-b-[3px] border-orange-lightPink': currentTabProducts === it.key,
                       'mb-[1px] border-b-[1px] border-aqua-aq02': currentTabProducts !== it.key
@@ -544,14 +746,14 @@ const ProductDetailNew = () => {
                     title={it.text}
                     currentTab={currentTabProducts}
                     gradient={true}
-                    clssName="text-normal2 font-bold"
+                    clssName="2xl:text-normal2 lg:text-normal1 ssm:text-wap-regular2 font-bold"
                   />
                 </button>
               )
             })
           }
         </div>
-        <div className="pt-[34px]">
+        <div className="2xl:pt-[34px] lg:pt-6 ssm:pt-3">
           <>
             {currentTabProducts === 'products-in-the-same-category' && (
               productRelated && productRelated.length > 0 && (

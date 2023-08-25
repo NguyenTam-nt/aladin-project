@@ -114,9 +114,7 @@ export { ReactComponent as PaymentCartIcon} from "./cart-payment-icon.svg";
 export { ReactComponent as KoreaFlag } from "./koreaFlag.svg";
 export { ReactComponent as TooltipSale } from "./toltipSale.svg";
 export { ReactComponent as CricleContactSvg } from "./cricle-contact.svg";
-
-
-
+export { ReactComponent as LineIcon } from "./line-icon.svg";
 
 export {
     FaceRound,
