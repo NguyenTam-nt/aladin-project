@@ -57,11 +57,11 @@ module.exports = {
         sc480: '480px',
         sm: "640px",
         // md: 768px
-        // lg: 1024px
+        lg: '1024px',
         '2lg': '1100px',
         xl: "1280px",
         '1.5xl': '1320px',
-        // 2xl: 1536px
+        '2xl': '1536px',
         '2.5xl': '1648px',
         'sc1510': '1510px',
         '3xl': '1920px'
@@ -106,7 +106,8 @@ module.exports = {
         },
         red: {
           r01: 'var(--red01)',
-          red500: 'var(--red500)'
+          red500: 'var(--red500)',
+          r03: 'var(--red03)',
         },
         aqua: {
           aq01: 'var(--aqua01)',
@@ -123,7 +124,9 @@ module.exports = {
         neutra: {
           neutra80: 'var(--neutral80)',
           neutra20: 'var(--neutral20)',
-          neutral98: 'var(--neutral98)'
+          neutral98: 'var(--neutral98)',
+          neutral60: 'var(--neutral60)',
+          neutral2: 'var(--neutral2)',
         },
         orange: {
           orange400: 'var(--orange400)',
