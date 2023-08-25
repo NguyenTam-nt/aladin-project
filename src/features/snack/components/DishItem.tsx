@@ -14,6 +14,7 @@ export enum ProductState {
   PROCESSING = 'PROCESSING',
   PROCESSING_CANCEL = 'PROCESSING',
 }
+
 const DishItem = React.memo(({item}: {item: IMenuItem}) => {
   return (
     <View style={styles.container}>

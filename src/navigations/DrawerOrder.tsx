@@ -67,8 +67,6 @@ const DrawerOrderNavigation = () => {
     }
   }, [isFocused]);
 
-
-
   return (
     <View style={{flex: 1}}>
       <Drawer.Navigator
