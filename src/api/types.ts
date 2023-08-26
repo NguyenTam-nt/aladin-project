@@ -10,6 +10,7 @@ export interface IResponseApi<T> {
   }
   count?: number
   code? : number
+  [key: string]: any
 }
 export interface IParamBase {
   authen?: string

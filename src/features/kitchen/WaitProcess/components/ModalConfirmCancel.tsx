@@ -74,6 +74,7 @@ export const ModalConfirmCancel = memo(
 
     return (
       <KeyboardAwareScrollView
+      keyboardShouldPersistTaps="handled"
         style={styleSizeModal}
       //   behavior="position"
       //  enabled
