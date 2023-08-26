@@ -14,6 +14,7 @@ export enum ProductState {
   PROCESSING = 'PROCESSING',
   PROCESSING_CANCEL = 'PROCESSING',
 }
+
 const DishItem = React.memo(({item}: {item: IMenuItem}) => {
   return (
     <View style={styles.container}>
@@ -66,6 +67,7 @@ const styles = StyleSheet.create({
   imageStyle: {
     width: 168,
     height: 168,
+    maxWidth : ((DIMENSION.width - 216) / 3 ) - 125 ,
   },
   textItemStyle: {
     margin: 16,

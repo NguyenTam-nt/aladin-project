@@ -150,7 +150,7 @@ const styles = StyleSheet.create({
     color: defaultColors.c_fff,
     fontSize: 16,
     fontWeight: '600',
-    width: 50,
+    width: 40,
     textAlign: 'center',
     maxHeight : 30,
     padding : 5,

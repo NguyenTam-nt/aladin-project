@@ -30,7 +30,7 @@ export const useKitChenProduct = (
     useHandleResponsePagination<IItemProductKitchen>(handleRequest);
   const onRefresh = useCallback(() => {
     dataProducts.pullToRefresh();
-  }, []);
+  }, [handleRequest]);
 
   useEffect(() => {
     dataProducts.refresh();

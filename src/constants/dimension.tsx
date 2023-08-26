@@ -2,7 +2,7 @@ import {Dimensions, Platform, StatusBar} from 'react-native';
 import deviceInfoModule from 'react-native-device-info';
 
 export const DIMENSION = {
-  width: Dimensions.get('window').width,
+  width:  Dimensions.get('window').width,
   height: Dimensions.get('window').height,
   scale: Dimensions.get('window').scale,
   avoidStatusBarDistance: Platform.select({

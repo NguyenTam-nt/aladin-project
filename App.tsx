@@ -14,17 +14,12 @@ import { MainStack } from './src/navigations/MainStack';
 import { persistor } from './src/redux';
 import Toast from 'react-native-toast-message';
 import ToastMessage from 'src/components/Toast';
+import { View  ,StyleSheet} from 'react-native';
 
 function App() {
 
 
-   useLayoutEffect(() => {
-    if (isTabletDevice) {
-      Orientation.lockToLandscape();
-    } else {
-      Orientation.lockToPortrait();
-    }
-  }, []);
+
   const toastConfig = {
     tomatoToast: ({ props }: any) => <ToastMessage status={props.status} title={props.uuid} />,
   };
@@ -33,9 +28,20 @@ function App() {
     <PersistGate persistor={persistor}>
       <SafeAreaProvider>
         <MainStack />
-        <Toast config={toastConfig} position="bottom"  />
+        <View
+          style={styles.container}>
+          <Toast config={toastConfig} position="bottom" />
+        </View>
       </SafeAreaProvider>
     </PersistGate>
   );
 }
+
+const styles = StyleSheet.create({
+  container : {
+    position: 'absolute',
+    left: isTabletDevice ? 200 : 0,
+    bottom: 0,
+  },
+});
 export default App;
