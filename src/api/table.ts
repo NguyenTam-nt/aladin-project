@@ -61,8 +61,8 @@ export const getTable = async (
     const result = await request().get(
       `${APIs.TABLE}/${areaId}${
         stateCheckbox.length > 0
-          ? `?id,asc&state=${stateCheckbox.join('&state=')}`
-          : '?id,asc'
+          ? `?state=${stateCheckbox.join('&state=')}&sort=id,asc`
+          : '?sort=id,asc'
       }`,
     );
     const {data} = await result;

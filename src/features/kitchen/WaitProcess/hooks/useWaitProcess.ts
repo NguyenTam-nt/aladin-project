@@ -19,6 +19,7 @@ import { INotice } from '@typeRules';
 import { useConnectSocketJS } from 'src/hooks/useConnectSockJS';
 import NotificationSound from 'src/components/Toast/SoundNotification';
 import { useIsFocused } from '@react-navigation/native'
+import { useAppStateVisible } from 'src/hooks/useAppStateVisible'
 
 export enum TypeModalWaitProcess {
   cancelbill = 'CANCELBILL',
@@ -49,6 +50,7 @@ export const useWaitProcess = () => {
   const [notices, setNotices] = useState<INotice[]>([]);
   const {playNotificationSound  } = NotificationSound();
   const isFocus = useIsFocused()
+  const {appStateVisible} = useAppStateVisible();
 
   const [fileterItem, setFilterItem] = useState(dataFilter[0]);
   const refAll = useRef<boolean>(false);
@@ -105,7 +107,6 @@ export const useWaitProcess = () => {
 
   useEffect(() => {
     if (dataSocket) {
-      console.log('socket ----------------------------------------------------------------', dataSocket?.[0]?.kitchen?.[0]?.list);
       playNotificationSound();
       handleDataSocker(dataSocket);
       setDataSocket(undefined);
@@ -114,7 +115,6 @@ export const useWaitProcess = () => {
 
   useEffect(() => {
     if (dataNotification) {
-      console.log('dataNotification-------',dataNotification );
       setNotices(oldData => {
         const newData = [dataNotification, ...oldData];
         return newData.slice(0, 3);
@@ -204,10 +204,10 @@ export const useWaitProcess = () => {
   }, []);
 
   useEffect(() => {
-    if(isFocus) {
+    if (isFocus && appStateVisible === 'active') {
       refresh();
     }
-  }, [refresh, isFocus]);
+  }, [refresh, isFocus, appStateVisible]);
 
   const handleDeleteNotice = useCallback(
     (index: number) => {

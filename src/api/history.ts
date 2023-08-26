@@ -45,7 +45,7 @@ import { IResponseApi } from './types';
       const result = await request().get(`${APIs.HISTORY}/kitchen/v3`, {
         params: {...params},
       });
-      const data = await result.data.list;
+      const data = await result.data;
       return {
         success: true,
         data: data,
