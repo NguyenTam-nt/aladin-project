@@ -7,6 +7,7 @@ import  MessageContact from './mesageContact.png'
 // import BocongthuonIcon from './bct.png'
 import VisaCard from './visa_img.png'
 import MasterCard from './master_card_img.png'
+import VietNamFlag from './viet_nam_rounded_flag.png'
 
 export { ReactComponent as ArrowDownIcon } from "./arrow-down.svg";
 export { ReactComponent as CartFilledIcon } from "./cart-filled.svg";
@@ -127,6 +128,7 @@ export {
     MessageContact,
     VisaCard,
     MasterCard,
+    VietNamFlag
 }
 
 

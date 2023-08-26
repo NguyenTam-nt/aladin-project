@@ -6,6 +6,7 @@ import { some } from '@utility/helper'
 import React, { useState, useRef, useEffect } from 'react'
 
 import province_data from './province_date.json';
+import { VietNamFlag } from '@assets/icons'
 
 export type WardType = {
     Level: string,
@@ -105,11 +106,15 @@ function PaymentForm({ formik }: Props) {
             </div>
             <div className="mb-2"><label className="text-text font-bold">{t("payment.info_delivery.form.phone")} <span className="text-red-500">*</span></label></div>
             <div className="h-10 mb-4">
-                <InputPayment className="border border-gray-300 " name="phoneNumber"
-                    value={formik.values.phoneNumber} setValue={formik.handleChange}
-                    label={t("payment.info_delivery.form.phone")} required
-                    onBlur={formik.handleBlur}
-                />
+                <div className='flex justify-start items-center border border-gray-300 rounded-lg'>
+                    <img className='px-2 h-[50%]' src={VietNamFlag} />
+                    <label>+84</label>
+                    <InputPayment className="" name="phoneNumber"
+                        value={formik.values.phoneNumber} setValue={formik.handleChange}
+                        label={t("payment.info_delivery.form.phone")} required
+                        onBlur={formik.handleBlur} phone={true}
+                    />
+                </div>
             </div>
             <div className="mb-2"><label className="text-text font-bold">{t("payment.info_delivery.form.email")} <span className="text-red-500">*</span></label></div>
             <div className="h-10 mb-4">
