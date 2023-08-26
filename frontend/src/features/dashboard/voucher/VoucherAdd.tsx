@@ -52,7 +52,7 @@ function VoucherAdd() {
         formik.setFieldValue("valueDiscount", data.value);
         formik.setFieldValue("minPriceOrder", data.minBill);
         formik.setFieldValue("amount", data.numBill);
-        formik.setFieldValue("maxPriceLimit", data.minPrice);
+        formik.setFieldValue("maxPriceLimit", data.typePercent == VOUCHER_PERCENT_TYPE.limit ? data.minPrice : 1);
 
         setType(data.typeVoucher)
         setIsLimit(data.typePercent == VOUCHER_PERCENT_TYPE.limit)
@@ -92,6 +92,8 @@ function VoucherAdd() {
       amount: Yup.number().required("message.form.required").typeError('message.form.number').min(voucher?.used ? voucher.used  : 1, "message.form.minNumEqual"),
     }),
     onSubmit: async (data) => {
+      console.log({data});
+      
       try {
 
         let request: IVoucher = {
@@ -100,11 +102,11 @@ function VoucherAdd() {
           code: data.code.trim(),
           startDate: new Date(data.start).toISOString(),
           endDate: new Date(data.endDate).toISOString(),
-          value: +data.valueDiscount.trim(),
+          value: +`${data.valueDiscount}`.trim(),
           typeVoucher: type,
           typePercent: type == VOUCHER_TYPE.money ? VOUCHER_PERCENT_TYPE.none : isLimit ? VOUCHER_PERCENT_TYPE.limit : VOUCHER_PERCENT_TYPE.unlimit,
-          minBill: +data.minPriceOrder.trim(),
-          numBill: +data.amount.trim(),
+          minBill: +`${data.minPriceOrder}`.trim(),
+          numBill: +`${data.amount}`.trim(),
           minPrice: type == VOUCHER_TYPE.percent && isLimit ? + data.maxPriceLimit : 0
         }
         // console.log(request);
@@ -125,7 +127,9 @@ function VoucherAdd() {
               showError("adminVoucher.notification.updateError");
             });
         }
-      } catch (error) {}
+      } catch (error) {
+        console.log({error});
+      }
     },
   });
 
@@ -180,6 +184,8 @@ function VoucherAdd() {
     }
 
   }, [formik.values.valueDiscount, type])
+
+  console.log(formik.errors)
 
 
   return (
@@ -322,7 +328,7 @@ function VoucherAdd() {
                 value={formik.values.maxPriceLimit}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur} disabled={isView}/>}
-            {formik.errors.maxPriceLimit && formik.touched.maxPriceLimit && (
+            {formik.errors.maxPriceLimit && formik.touched.maxPriceLimit && isLimit && (
               <TextError message={formik.errors.maxPriceLimit} option={{min: 1}} />
             )}
           </div>
