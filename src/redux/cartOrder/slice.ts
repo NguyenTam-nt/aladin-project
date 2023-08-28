@@ -54,7 +54,9 @@ export const cartOrderSlice = createSlice({
       }
     },
     setItemProductInCart: (state, action: PayloadAction<IProductInCart[]>) => {
-      state.itemCartOrder = action.payload;
+      if (action.payload !== state.itemCartOrder) {
+        state.itemCartOrder = action.payload;
+      }
     },
     removeCartList: state => {
       if (state.itemInCart.length > 0) {

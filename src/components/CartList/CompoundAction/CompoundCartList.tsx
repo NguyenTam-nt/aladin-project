@@ -22,7 +22,7 @@ import { useIdBill } from 'src/redux/cartOrder/hooks';
     parentId?: number
   }
 
-const CompoundCartList = ({dataItemCart ,setActionChoose} : { dataItemCart: IProductInCart[]
+const CompoundCartList = React.memo(({dataItemCart ,setActionChoose} : { dataItemCart: IProductInCart[]
   setActionChoose: React.Dispatch<React.SetStateAction<ActionCartListChoose>> }) => {
   const idBill = useIdBill();
   const [isCompound , setIsCompound] = useState<boolean>(true);
@@ -119,7 +119,7 @@ const CompoundCartList = ({dataItemCart ,setActionChoose} : { dataItemCart: IPro
       />
     </View>
   );
-};
+});
 
 const styles = StyleSheet.create({
   container : {

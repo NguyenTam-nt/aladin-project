@@ -54,6 +54,7 @@ const ActionCartList = ({
           numProduct: item.quantity,
           linkMedia: item.linkMedia,
           state: null,
+          note : item.note,
         };
       });
       if (checkHotPot !== numberHotpot) {

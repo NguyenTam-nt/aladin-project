@@ -34,7 +34,6 @@ const CartList = React.memo(
     useEffect(() => {
       dispatch(setShowActionCart(actionChoose !== ActionCartListChoose.empty));
     }, [actionChoose]);
-
     const styleContainer = useMemo(() => {
       return [
         styles.container,

@@ -1,4 +1,4 @@
-import {Dimensions, Platform, StatusBar} from 'react-native';
+import { Dimensions, Platform, StatusBar } from 'react-native';
 import deviceInfoModule from 'react-native-device-info';
 
 export const DIMENSION = {
@@ -21,3 +21,5 @@ export const DIMENSION = {
   }),
   flatlistPaddingBottom: 64,
 };
+
+
