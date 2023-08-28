@@ -91,65 +91,6 @@ function PaymentForm({ formik }: Props) {
     });
   };
 
-  // return (
-  //     <div>
-  //         <div className="mb-2"><label className="text-text font-bold">{t("payment.info_delivery.form.name")} <span className="text-red-500">*</span></label></div>
-  //         <div className="h-10 mb-4">
-  //             <InputPayment className="border border-gray-300 " name="fullname"
-  //                 value={formik.values.fullname} setValue={formik.handleChange}
-  //                 label={t("payment.info_delivery.form.name")} required
-  //                 onBlur={formik.handleBlur}
-  //                 autoFocus={true}
-  //             />
-  //         </div>
-  //         <div className="mb-2"><label className="text-text font-bold">{t("payment.info_delivery.form.phone")} <span className="text-red-500">*</span></label></div>
-  //         <div className="h-10 mb-4">
-  //             <div className='flex justify-start items-center border border-gray-300 rounded-lg'>
-  //                 <img className='px-2 h-[50%]' src={VietNamFlag} />
-  //                 <label>+84</label>
-  //                 <InputPayment className="" name="phoneNumber"
-  //                     value={formik.values.phoneNumber} setValue={formik.handleChange}
-  //                     label={t("payment.info_delivery.form.phone")} required
-  //                     onBlur={formik.handleBlur} phone={true}
-  //                 />
-  //             </div>
-  //         </div>
-  //         <div className="mb-2"><label className="text-text font-bold">{t("payment.info_delivery.form.email")} <span className="text-red-500">*</span></label></div>
-  //         <div className="h-10 mb-4">
-  //             <InputPayment className="border border-gray-300 " name="email"
-  //                 value={formik.values.email} setValue={formik.handleChange}
-  //                 label={t("payment.info_delivery.form.email")} required
-  //                 onBlur={formik.handleBlur}
-  //             />
-  //         </div>
-  //         <div className="mb-2"><label className="text-text font-bold">{t("payment.info_delivery.form.address")} <span className="text-red-500">*</span></label></div>
-  //         <div className="lg:flex lg:flex-wrap justify-between">
-  //             <div className="h-10 mb-4 lg:w-[49%]">
-  //                 <InputPayment className="border border-gray-300 " name="address"
-  //                     value={formik.values.address} setValue={formik.handleChange}
-  //                     label={t("payment.info_delivery.form.address")} required
-  //                     onBlur={formik.handleBlur}
-  //                 />
-  //             </div>
-  //             <div className="h-10 mb-4 lg:w-[49%]">
-  //                 <SelectInputPayment
-  //                     name="province" setValue={onchangeProvince}
-  //                     options={provinceOptions} value={province}
-  //                     label={t("payment.info_delivery.form.province")} required />
-  //             </div>
-  //             <div className="h-10 mb-4 lg:w-[49%]">
-  //                 <SelectInputPayment
-  //                     name="district" setValue={onchangeDistrict}
-  //                     options={districtOptions} value={district}
-  //                     label={t("payment.info_delivery.form.district")} required />
-  //             </div>
-  //             <div className="h-10 mb-4 lg:w-[49%]">
-  //                 <SelectInputPayment
-  //                     name="commune" setValue={onchangeCommune}
-  //                     options={communeOptions} value={commune}
-  //                     label={t("payment.info_delivery.form.commune")} required />
-  //             </div>
-  //         </div>
   const onchangeCommune = (s: any) => {
     setCommune(s);
     formik.setValues({
@@ -185,15 +126,15 @@ function PaymentForm({ formik }: Props) {
         </label>
       </div>
       <div className="h-10 mb-4">
-        <InputPayment
-          className="border border-gray-300 "
-          name="phoneNumber"
-          value={formik.values.phoneNumber}
-          setValue={formik.handleChange}
-          label={t("payment.info_delivery.form.phone")}
-          required
-          onBlur={formik.handleBlur}
-        />
+        <div className='flex justify-start items-center border border-gray-300 rounded-lg'>
+          <img className='px-2 h-[50%]' src={VietNamFlag} />
+          <label>+84</label>
+          <InputPayment className="" name="phoneNumber"
+            value={formik.values.phoneNumber} setValue={formik.handleChange}
+            label={t("payment.info_delivery.form.phone")} required
+            onBlur={formik.handleBlur} phone={true}
+          />
+        </div>
       </div>
       <div className="mb-2">
         <label className="text-text font-bold">
