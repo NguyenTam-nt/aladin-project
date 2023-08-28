@@ -1,7 +1,8 @@
+import { VietNamFlag } from '@assets/icons'
 import { some } from '@utility/helper'
 
 function InputPayment({
-    name, value, setValue, onBlur, label, required, className, background, error, autoFocus
+    name, value, setValue, onBlur, label, required, className, background, error, autoFocus, phone
   }: some) {
 
   return (

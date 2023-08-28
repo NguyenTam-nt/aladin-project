@@ -1,6 +1,6 @@
 import { some } from "@utility/helper";
 import Select from "react-select";
-import {useState} from "react";
+import { useState } from "react";
 import { v4 as uuidv4 } from 'uuid';
 
 function SelectInputPayment({
@@ -13,10 +13,6 @@ function SelectInputPayment({
 }: some) {
   const id = uuidv4();
 
-  // console.log(value);
-  
-
-
   const styles = {
     option: (base: any, state: any) => ({
       ...base,
@@ -26,8 +22,9 @@ function SelectInputPayment({
           ? "var(--main-color)"
           : "var(--icon-color)",
       },
+      borderBottom: "1px solid #C4C4C4",
       cursor: "pointer",
-      zIndex: 99999
+      zIndex: 99999,
     }),
     control: (provided: any) => ({
       ...provided,
@@ -35,23 +32,31 @@ function SelectInputPayment({
       border: "0px solid var(--gray-003)",
       borderRadius: "10px",
       background: "transparent",
-      zIndex: 2
+      zIndex: 2,
     }),
     singleValue: (provided: any, state: any) => ({
       ...provided,
       color: "var(--text)",
       border: "0px solid var(--gray-003)",
     }),
-    menuPortal: (base:any) => ({ ...base, zIndex: 9999 }),
-    menu: (provided:any) => ({ ...provided, zIndex: "9999 !important" })
+    menuPortal: (base: any) => ({
+      ...base,
+      zIndex: 9999,
+    }),
+    menu: (provided: any) => ({
+      ...provided,
+      zIndex: "9999 !important",
+      paddingLeft: "10px",
+      backgroundColor: "#EFEFEF"
+    }),
   };
 
 
   return (
     <label
       htmlFor={id}
-      className=" w-full h-full flex relative border border-gray-300 rounded-lg hover:cursor-pointer"
-      
+      className=" w-full h-full flex relative  border-[1px] border-solid border-neutra-neutra80 rounded-lg hover:cursor-pointer"
+
     >
       <Select
         inputId={id}
