@@ -55,7 +55,7 @@ function SelectInputPayment({
   return (
     <label
       htmlFor={id}
-      className=" w-full h-full flex relative border border-gray-300 rounded-lg hover:cursor-pointer"
+      className=" w-full h-full flex relative  border-[1px] border-solid border-neutra-neutra80 rounded-lg hover:cursor-pointer"
 
     >
       <Select
