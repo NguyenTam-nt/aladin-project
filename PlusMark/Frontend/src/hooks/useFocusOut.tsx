@@ -4,6 +4,7 @@ const useFocusOut = (intialState: boolean = false) => {
   const [clickShow, setClickShow] = useState<boolean>(intialState);
   const [hoverShow, setHoverShow] = useState<boolean>(intialState);
   const ref = useRef<any>(null);
+  const refClose = useRef<any>(null);
 
   const handleClickInside = (callback?: () => void) => {
     if (callback) {
@@ -14,7 +15,12 @@ const useFocusOut = (intialState: boolean = false) => {
   };
 
   const handleClick = (e: any) => {
-    if (ref.current && !ref.current.contains(e.target)) setClickShow(false);
+    if (
+      (ref.current && !ref.current.contains(e.target)) ||
+      (refClose.current && refClose.current.contains(e.target))
+    ) {
+      setClickShow(false);
+    }
   };
 
   const handleHover = (e: any) => {
@@ -30,7 +36,7 @@ const useFocusOut = (intialState: boolean = false) => {
       document.removeEventListener("click", handleClick, true);
       document.removeEventListener("mouseover", handleHover);
     };
-  }, [ref]);
+  }, [ref, refClose]);
 
   return {
     clickShow,
@@ -39,6 +45,7 @@ const useFocusOut = (intialState: boolean = false) => {
     hoverShow,
     setHoverShow,
     ref,
+    refClose,
   };
 };
 

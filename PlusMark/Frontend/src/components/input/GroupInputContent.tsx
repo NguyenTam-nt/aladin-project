@@ -25,13 +25,13 @@ export const GroupInputContent = memo(({ title, content, contentError, onChange,
             <div className="grid grid-cols-1 gap-y-[16px]">
                 <div>
                     <TitleInput isRequired={true} name={"adminHome.form.title"} />
-                    <InputComponent value={title} name={nameTitle} onChange={onChange} onBlur={onBlur} placeholder="adminHome.form.title_placeholder" maxLength={40} />
+                    <InputComponent value={title} name={nameTitle} onChange={onChange} onBlur={onBlur} placeholder="adminHome.form.title_placeholder"  />
                     <TextError message={titleError ?? ""} option={{ max: 40 }} />
                 </div>
 
                 <div>
                     <TitleInput isRequired={true} name={"adminHome.form.content"} />
-                    <TextareaComponent name={nameContent} value={content} onChange={onChange} onBlur={onBlur} placeholder="adminHome.form.content_placeholder" maxLength={350} />
+                    <TextareaComponent name={nameContent} value={content} onChange={onChange} onBlur={onBlur} placeholder="adminHome.form.content_placeholder"/>
                     <TextError message={contentError ?? ""} option={{ max: 350 }} />
                 </div>
             </div>

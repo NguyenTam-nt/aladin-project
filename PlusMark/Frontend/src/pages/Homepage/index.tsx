@@ -29,6 +29,7 @@ import ProductServices, { ProductItem } from "@services/ProductServices";
 import { BANNERS } from "@utility/constants";
 import { some } from "@utility/helper";
 import clsx from "clsx";
+import { PaginationCompt } from "commons/Paginnation";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
@@ -154,79 +155,8 @@ function HomePage() {
         className="h-spc230 lg:min-h-[490px] sm:h-[50vh]"
         images={bannerImages}
       />
-      {/* <div className="px-4 lg:px-[130px] xl:px-[110px] 1.5xl:px-[130px]">
-        <Banner className="h-auto lg:h-[50vh]" images={bannerHomepage} />
-
-        <div className="grid xl:grid-cols-4 grid-cols-2  mt-4 sm:mt-9 shadow-md rounded-lg ">
-          {utilShops.map((u, i) => {
-            return (
-              <div
-                className={clsx(
-                  "flex-1 px-4 sm:px-6 flex flex-col items-center justify-center gap-1 sm:gap-3 pt-4 pb-4  border border-gray-100   ",
-                  {
-                    "rounded-tl-lg xl:rounded-s-lg": i == 0,
-                    "rounded-tr-lg xl:rounded-none": i == 1,
-                    "rounded-bl-lg xl:rounded-none": i == 2,
-                    "rounded-br-lg xl:rounded-e-lg": i == 3,
-                  }
-                )}
-                key={i}
-              >
-                <div className="flex lg:flex-col items-center justify-center gap-2 sm:gap-4">
-                  <div className="w-1/4 lg:w-auto">{u.icon}</div>
-                  <h3 className="flex-1 text-center text-normal lg:text-normal1 font-medium ">
-                    {u.title}
-                  </h3>
-                </div>
-                <h4 className="text-center text-wap-regular2 lg:text-normal1">
-                  {u.content}
-                </h4>
-              </div>
-            );
-          })}
-        </div>
-
-        <HotSaleProductNew />
-
-        <div className="border-b-[1px]">
-          <OneSpecialProduct
-            banner={bannerRecentlyHomepage}
-            data={newProducts}
-            name={t("homepage.recently_product.title")}
-          />
-        </div>
-
-        <div className="border-b-[1px]">
-          <OneSpecialProduct
-            banner={bannerHotsoldHomepage}
-            data={hotSold}
-            name={t("homepage.best_sale.title")}
-          />
-        </div>
-
-        <div className="">
-          <h3 className="mt-10 mb-5 lg:mb-10 text-title font-semibold uppercase">
-            {t("homepage.news.title")}
-          </h3>
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-24 2git xl:gap-x-48">
-            {newsData &&
-              newsData.length > 0 &&
-              newsData.map((n: any, i: any) => {
-                return <NewsItemHome news={n} key={i} />;
-              })}
-          </div>
-          <div className="flex justify-center mt-4 lg:mt-0">
-            <Link
-              to="/about-us/news"
-              className="mx-auto text-normal lg:text-normal2 uppercase rounded-md px-6 py-3 border-main border-[2px] w-fit "
-            >
-              {t("homepage.news.see_more")}
-            </Link>
-          </div>
-        </div>
-      </div> */}
       <ProductSale />
-      <ProductSpecial />
+      <ProductSpecial isbg={false} />
       <ProductNew />
       <ContactSession />
       <DistributorSession />

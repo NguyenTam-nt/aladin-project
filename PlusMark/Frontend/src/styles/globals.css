@@ -89,6 +89,16 @@ img {
   background: #555;
 }
 
+.aqua_scroll::-webkit-scrollbar-thumb {
+  background: var(--aqua02);
+  width: 18px;
+}
+
+.header-scrollbar::-webkit-scrollbar {
+  width: 4px !important;
+  height: 4px !important;
+}
+
 /* disable Hide Arrows From Input Number */
 /* Chrome, Safari, Edge, Opera */
 input::-webkit-outer-spin-button,
