@@ -7,7 +7,7 @@ import {
   LayoutAnimation,
   Text,
 } from 'react-native';
-import React, { useCallback, useEffect } from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {defaultColors} from '@configs';
 import {TextCustom} from '@components';
 import {ICAddOrder} from '../../../../assets/icons/ICAddOrder';
@@ -17,11 +17,11 @@ import {getValueForDevice} from 'src/commons/formatMoney';
 import {IHistory, IHistoryCompoumd} from '@typeRules';
 import {OrderType} from 'src/typeRules/product';
 import DropDownView from 'src/components/DropDownView/DropDownView';
-import { IHistoryDay, getHistoriesContent } from 'src/api/history';
-import { useIsFocused } from '@react-navigation/native';
-import { IResponseApi } from 'src/api/types';
-import { useHandleResponsePagination } from 'src/commons/useHandleResponsePagination';
-import { ICDoubleArrowDown } from 'src/assets/icons/ICDoubleArrowDown';
+import {IHistoryDay, getHistoriesContent} from 'src/api/history';
+import {useIsFocused} from '@react-navigation/native';
+import {IResponseApi} from 'src/api/types';
+import {useHandleResponsePagination} from 'src/commons/useHandleResponsePagination';
+import {ICDoubleArrowDown} from 'src/assets/icons/ICDoubleArrowDown';
 
 if (
   Platform.OS === 'android' &&
@@ -31,30 +31,43 @@ if (
 }
 
 type Props = {
-  dataPage:IHistoryDay
-  currentType : string
-}
+  dataPage: IHistoryDay;
+  currentType: string;
+};
 
-export const HistoryItem = ({dataPage ,currentType}: Props) => {
+export const HistoryItem = ({dataPage, currentType}: Props) => {
   const IsFocus = useIsFocused();
+  const [totalElemts, setTotalElement] = useState(0);
   const getHistoryMethod = useCallback(
-    async (
-      page: number,
-      size: number,
-    ): Promise<IResponseApi<IHistory>> => {
-      return getHistoriesContent({
-        page,
-        size,
-        menu: currentType,
-        status: true,
-        day: dataPage.day,
-      }) as any;
+    async (page: number, size: number): Promise<IResponseApi<IHistory>> => {
+      return new Promise((re, rj) => {
+        getHistoriesContent({
+          page,
+          size,
+          menu: currentType,
+          status: true,
+          day: dataPage.day,
+        })
+          .then(data => {
+            setTimeout(() => {
+              re({data: data.data?.list, success: true});
+              setTotalElement(data?.data?.totalElementPage ?? 0);
+            }, 300);
+          })
+          .catch(error => {
+            setTimeout(() => {
+              rj(error);
+            }, 300);
+          });
+      });
     },
     [currentType, dataPage],
   );
 
-  const {data, refresh ,handleLoadMore} =
+  const {data, refresh, handleLoadMore} =
     useHandleResponsePagination<IHistory>(getHistoryMethod);
+
+  console.log({data});
 
   useEffect(() => {
     if (IsFocus) {
@@ -76,14 +89,16 @@ export const HistoryItem = ({dataPage ,currentType}: Props) => {
             {data.map((item, index) => {
               return <HistoryItemMenu key={index} data={item} />;
             })}
-            <View style={styles.buttonShowMore}>
-              <TouchableOpacity
-                style={styles.buttonShowMoreItem}
-                onPress={() => handleLoadMore()}>
-                <Text style={styles.buttonShowMoreText}>Hiển thị thêm</Text>
-                <ICDoubleArrowDown />
-              </TouchableOpacity>
-            </View>
+            {data.length < totalElemts ? (
+              <View style={styles.buttonShowMore}>
+                <TouchableOpacity
+                  style={styles.buttonShowMoreItem}
+                  onPress={() => handleLoadMore()}>
+                  <Text style={styles.buttonShowMoreText}>Hiển thị thêm</Text>
+                  <ICDoubleArrowDown />
+                </TouchableOpacity>
+              </View>
+            ) : null}
           </View>
         }
         headerButtonStyle={styles.styleGoupItem}
@@ -98,8 +113,8 @@ export const HistoryItem = ({dataPage ,currentType}: Props) => {
 };
 
 type PropsItem = {
-  data: IHistory
-}
+  data: IHistory;
+};
 
 const dataStatus = {
   [OrderType.complete]: {
@@ -124,10 +139,7 @@ const dataStatus = {
   },
 };
 
-
-
 export const HistoryItemMenu = ({data}: PropsItem) => {
-
   return (
     <View style={styles.styleItemProduct}>
       <View style={[styles.styleViewItem, styles.pl_16]}>
@@ -275,18 +287,18 @@ const styles = StyleSheet.create({
   pl_16: {
     paddingLeft: 16,
   },
-  buttonShowMore : {
+  buttonShowMore: {
     alignItems: 'center',
     justifyContent: 'center',
-    marginTop : 12,
-  } ,
-  buttonShowMoreItem : {
+    marginTop: 12,
+  },
+  buttonShowMoreItem: {
     alignItems: 'center',
     justifyContent: 'center',
     flexDirection: 'row',
     gap: 8,
   },
-  buttonShowMoreText : {
+  buttonShowMoreText: {
     color: defaultColors._EA222A,
     fontSize: 18,
     fontWeight: 'bold',
