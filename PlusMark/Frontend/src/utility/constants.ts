@@ -86,6 +86,7 @@ export const BANNERS = {
   SEARCH: "SEARCH",
   NEWS: "NEWS",
   PRODUCT: "PRODUCT",
+  ABOUT_US: "ABOUT_US"
 }
 
 export const SUPPORT_ONLINE = {

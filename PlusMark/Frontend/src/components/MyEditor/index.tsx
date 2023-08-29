@@ -74,7 +74,7 @@ const MyEditor = forwardRef<any, props>((props, ref) => {
       <Editor
         editorState={editorState}
         editorStyle={{
-          height: '900px'
+          height: '260px',
         }}
         onEditorStateChange={setEditorState}
         onContentStateChange={(content) => {

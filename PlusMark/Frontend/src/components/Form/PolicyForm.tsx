@@ -1,8 +1,10 @@
 import BtnLoading from "@components/btn-loading/BtnLoading";
 import MyEditor from "@components/MyEditor";
 import { ToastContex } from "@contexts/ToastContex";
+import useI18n from "@hooks/useI18n";
 import { Policy } from "@pages/AdminPage/ManagePolicy";
 import PolicyServices from "@services/PolicyServices";
+import TranslateService from "@services/TranslateService";
 import { ROUTES } from "@utility/constants";
 import { getEntityMap } from "@utility/editor";
 import yup from "custom/yup/yupInstance";
@@ -11,6 +13,7 @@ import { useContext, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 export default function PolicyForm({ policy }: { policy?: Policy }) {
+  const { lang } = useI18n();
   const defaultContent =
     '{"entityMap": {}, "blocks": [{ "key": "637gr", "text": "", "type": "unstyled", "depth": 0, "inlineStyleRanges": [], "entityRanges": [], "data": {} }]}';
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -23,6 +26,23 @@ export default function PolicyForm({ policy }: { policy?: Policy }) {
     }[]
   >([]);
   const navigate = useNavigate();
+
+  const translateObjectContent = (contentObj: any, type: string) => {
+    var blocksReturn: any = [];
+    contentObj.blocks.forEach(async (block: any) => {
+      if (type == 'ksl') {
+        block.text = await TranslateService.translateToKorea({ content: block.text })
+      }
+      if (type == 'vi') {
+        block.text = await TranslateService.translateToVietNam({ content: block.text })
+      }
+      blocksReturn.push(block);
+    });
+    return contentObj = {
+      ...contentObj,
+      blocks: blocksReturn
+    }
+  }
 
   const { handleSubmit, handleChange, setFieldValue, values, errors, touched } =
     useFormik({
@@ -50,11 +70,28 @@ export default function PolicyForm({ policy }: { policy?: Policy }) {
               entityMap: newEntityMap,
             };
           }
-          const dataSubmit = {
-            title: values.title,
-            describe: values.describe,
-            content: JSON.stringify(contentObj),
+          const contentDefault = JSON.stringify(contentObj);
+
+          contentObj = (lang === 'ksl') ? await translateObjectContent(contentObj, 'vi') : await translateObjectContent(contentObj, 'ksl');
+
+          const dataSubmit = (lang === 'ksl') ? {
+            titleVn: await TranslateService.translateToVietNam({ content: values.title }),
+            titleKr: values.title,
+            describeVn: await TranslateService.translateToVietNam({ content: values.describe }),
+            describeKr: values.describe,
+            contentKr: contentDefault,
+            contentVn: JSON.stringify(contentObj),
+          } : {
+            titleVn: values.title,
+            titleKr: await TranslateService.translateToKorea({ content: values.title }),
+            describeVn: values.describe,
+            describeKr: await TranslateService.translateToKorea({ content: values.describe }),
+            contentVn: contentDefault,
+            contentKr: JSON.stringify(contentObj),
           };
+
+          console.log(dataSubmit)
+
           let response;
           if (policy) {
             response = await PolicyServices.put(policy.id, dataSubmit);
@@ -80,16 +117,16 @@ export default function PolicyForm({ policy }: { policy?: Policy }) {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} className="px-10">
       <div className="flex flex-col gap-4">
         <div className="flex flex-col gap-5">
-          <label className="text-lg font-bold text-[#F45538]">
-            Tiêu đề chính sách*
+          <label className="text-lg font-bold ">
+            Tiêu đề <span className="text-[#F45538]">*</span>
           </label>
           <div>
             <input
               name="title"
-              className="w-full p-4 textInput"
+              className="w-full p-4 border-2 bg-inherit"
               onChange={handleChange}
               value={values.title}
             />
@@ -101,17 +138,16 @@ export default function PolicyForm({ policy }: { policy?: Policy }) {
           </div>
         </div>
         <div className="flex flex-col gap-5">
-          <label className="text-lg font-bold text-[#F45538]">
-            Mô tả chính sách*
+          <label className="text-lg font-bold">
+            Mô tả <span className="text-[#F45538]">*</span>
           </label>
           <div>
-            <textarea
-              className="w-full p-4 textInput resize-none"
+            <input
+              className="w-full p-4 border-2 bg-inherit"
               name="describe"
-              rows={5}
               onChange={handleChange}
               value={values.describe}
-            ></textarea>
+            />
             {errors.describe && touched.describe && (
               <small className="text-[14px] leading-3 mt-1 text-[#F31A1A]">
                 {errors.describe}
@@ -120,8 +156,8 @@ export default function PolicyForm({ policy }: { policy?: Policy }) {
           </div>
         </div>
         <div className="flex flex-col gap-5">
-          <label className="text-lg font-bold text-[#F45538]">
-            Nội dung chính sách*
+          <label className="text-lg font-bold">
+            Nội dung <span className="text-[#F45538]">*</span>
           </label>
           <div>
             <MyEditor
@@ -143,14 +179,14 @@ export default function PolicyForm({ policy }: { policy?: Policy }) {
       <div className="flex item-center justify-end mt-[70px] mb-[155px] gap-10px">
         <button
           type="button"
-          className="rounded-md py-2 px-3 border border-main flex items-center text-main text-smal font-normal bg-icon"
+          className="w-[8%] py-4 border border-[#0073E5] flex justify-center items-center  text-[#0073E5]  font-bold bg-white"
           onClick={() => handleCancel()}
         >
           Hủy
         </button>
         <BtnLoading
           type="submit"
-          className="btn-normal text-sm leading-18"
+          className="w-[8%] py-4 border border-[#0073E5] flex justify-center items-center  text-[#0073E5]  font-bold bg-white"
           isLoading={isLoading}
         >
           Lưu

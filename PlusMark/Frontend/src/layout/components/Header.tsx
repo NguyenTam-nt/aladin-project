@@ -47,7 +47,7 @@ export type CategoryHeader = {
 export const LanguageBox = memo(() => {
   const { lang, t, i18n } = useI18n();
 
-  const handleSetLanguage = (language: "vi" | "en") => {
+  const handleSetLanguage = (language: "vi" | "kr") => {
     i18n.changeLanguage(language);
   };
   return (
