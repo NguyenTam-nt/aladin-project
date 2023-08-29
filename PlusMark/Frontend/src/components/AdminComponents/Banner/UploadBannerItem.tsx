@@ -9,7 +9,7 @@ import {
 } from "@utility/constants";
 import ConfirmBox from "commons/ConfirmBox";
 import { url } from "inspector";
-import { ChangeEvent, useContext, useRef } from "react";
+import { ChangeEvent, useContext, useRef, useState } from "react";
 import { Navigation } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
 
@@ -19,12 +19,14 @@ export default function UploadBannerItem({
   max,
   id,
   index,
+  name,
 }: {
-  images: Array<{ id?: number; url: string }>;
+  images: Array<any>;
   label: string;
   max: number;
   id: string;
   index: number;
+  name: string;
 }) {
   const { setShowModal, setContentModal } = useContext(ModalContext);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -75,9 +77,10 @@ export default function UploadBannerItem({
         formData.append("file", file);
         const image = await UploadImage.uploadImage(formData);
         if (image) {
-          images.push({ url: image });
+          images.push(image);
           const response = await BannerServices.put(id, {
             id: id,
+            name: name,
             images: images,
           });
           if (response.status == 200) {
@@ -112,6 +115,7 @@ export default function UploadBannerItem({
       images.splice(index, 1);
       const response = await BannerServices.put(id, {
         id: id,
+        name: name,
         images: images,
       });
       if (response.status == 200) {
@@ -128,17 +132,18 @@ export default function UploadBannerItem({
 
   return (
     <div>
-      <p className="mb-5 text-lg leading-6 font-bold">{label}</p>
+      <p className="mb-5 text-[24px] leading-6 font-bold">{label} <span className="text-[#EA222A]">*</span></p>
+      <p className="font-bold mb-2">Tải ảnh lên <span className="text-[#EA222A]">*</span> (tối đa {images?.length}/{max} ảnh) </p>
       <div className="mb-[42px] flex gap-18px">
         <div
-          className={`w-[274px] h-[148px] border-[2px] border-dashed rounded flex flex-col justify-end items-center pb-8
+          className={`w-fit h-[190px] border-[2px] border-dashed rounded flex flex-row justify-center items-center px-5
             ${images?.length < max ? "cursor-pointer" : ""}
           `}
           onClick={onClick}
         >
           <AddImage />
-          <p className="text-normal text-gray-300 mt-10px">
-            Tải lên banner ({images?.length}/{max})
+          <p className="text-normal text-gray-300 pl-3">
+            Chọn hình ảnh tải lên <span className="font-bold text-[#0073E5]">tại đây</span> 
           </p>
           <input
             ref={inputRef}
@@ -184,7 +189,7 @@ export default function UploadBannerItem({
                 images.map((item, key) => {
                   return (
                     <SwiperSlide key={key}>
-                      <div className="text-center w-full h-[148px] rounded border-[2px] relative">
+                      <div className="text-center w-fit h-[190px] rounded border-[2px] relative">
                         <img
                           src={item?.url}
                           className="w-full h-full rounded object-cover"

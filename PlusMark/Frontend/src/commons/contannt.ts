@@ -220,3 +220,7 @@ export interface listContactType {
     total: number
 }
 
+export interface TranslateType {
+    result: string
+}
+
