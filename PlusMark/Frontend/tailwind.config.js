@@ -144,6 +144,9 @@ module.exports = {
         footer: "linear-gradient(180deg, #FE7D29 0%, #F9849E 100%)",
         title: "linear-gradient(227deg, #FE7D29 0%, #F9849E 100%)"
       },
+      border: {
+        linear: "linear-gradient(52deg, #FF6D03 0%, #E60E00 100%)",
+      },
       fontSize: {
         // follow figma
         'wap-regular1': ['12px', '15px'],

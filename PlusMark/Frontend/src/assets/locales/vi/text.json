@@ -5,7 +5,12 @@
             "history_search": "Lịch sử tìm kiếm",
             "get_location": "Quý khách vui lòng cho biết Địa Chỉ Nhận Hàng để biết chính xác thời gian giao hàng",
             "chose_city_or_province": "Hoặc chọn tỉnh, thành phố",
-            "about_us":"Giới thiệu"
+            "about_us":"Giới thiệu",
+            "category":"Danh mục phân loại hàng hóa",
+            "add_category":"Thêm phân loại hàng hóa",
+            "edit_category":"Sửa phân loại hàng hóa"
+          
+         
         },
         "section": {
             "special_product": "Sản đặc biệt",
@@ -18,6 +23,12 @@
         },
         "descrition": {
             "a": "Sản phẩm được nhập khẩu từ korea"
+        },
+        "table": {
+            "category_name": "Tên phân loại",
+            "detail_category": "Phân loại chi tiết hàng hóa",
+            "func": "Chức năng"
         }
     }
+
 }

@@ -7,6 +7,7 @@ import ProductEditComponent from "@components/AdminComponents/ProductEditCompone
 import TradeMarkComponent from "@components/AdminComponents/TradeMarkComponent";
 import VoucherEditComponent from "@components/AdminComponents/VoucherEditComponent";
 import LayoutAdminPage from "@layout/LayoutAdminPage";
+import ManagerCategory from "@pages/AdminPage/Category/ManagerCategory";
 import ManagerAccounts from "@pages/AdminPage/ManageAccounts";
 import ManagerBanner from "@pages/AdminPage/ManageBanner";
 import ManageContenFooter from "@pages/AdminPage/ManageContenFooter";
@@ -16,7 +17,6 @@ import ManagerOrder from "@pages/AdminPage/ManageOrder";
 import ManagePolicy from "@pages/AdminPage/ManagePolicy";
 import ManagerPopupContact from "@pages/AdminPage/ManagePopupContact";
 import ManageProduct from "@pages/AdminPage/ManageProduct";
-import ManagerCategory from "@pages/AdminPage/ManagerCategory";
 import ManagerIntroduce from "@pages/AdminPage/ManagerIntroduce";
 import ManagerVoucher from "@pages/AdminPage/ManageVoucher";
 import CartPage from "@pages/CartPage/CartPage";
@@ -73,7 +73,7 @@ const AppRoutes = () => {
       <Route path={ROUTES.admin.index} element={<LayoutAdminPage />}>
         {/* new changes 22/4 2022*/}
         {/* <Route index path={ROUTES.admin.order.index} element={<OrderPage />} /> */}
-        <Route index element={<ManagerOrder />} />
+        <Route path={ROUTES.admin.order.index} element={<ManagerOrder />} />
         <Route path={ROUTES.admin.products.index} element={<ManageProduct />} />
         <Route
           path={ROUTES.admin.products.add}
@@ -89,21 +89,21 @@ const AppRoutes = () => {
           path={ROUTES.admin.cartegory.index}
           element={<ManagerCategory />}
         />
-        <Route path={ROUTES.admin.cartegory.add} element={<CategoryEdit />} />
-        <Route path={ROUTES.admin.cartegory.edit} element={<CategoryEdit />} />
+        {/* <Route path={ROUTES.admin.cartegory.add} element={<CategoryEdit />} />
+        <Route path={ROUTES.admin.cartegory.edit} element={<CategoryEdit />} /> */}
 
         {/* tradeManager */}
-        <Route
+        {/* <Route
           path={ROUTES.admin.cartegory.tradeMarkAdd}
           element={<TradeMarkComponent />}
         />
         <Route
           path={ROUTES.admin.cartegory.tradeMarkEdit}
           element={<TradeMarkComponent />}
-        />
+        /> */}
 
         {/* VoucherManager */}
-        <Route path={ROUTES.admin.voucher.index} element={<ManagerVoucher />} />
+        {/* <Route path={ROUTES.admin.voucher.index} element={<ManagerVoucher />} />
         <Route
           path={ROUTES.admin.voucher.add}
           element={<VoucherEditComponent />}
@@ -111,14 +111,14 @@ const AppRoutes = () => {
         <Route
           path={ROUTES.admin.voucher.view}
           element={<VoucherEditComponent />}
-        />
+        /> */}
 
         {/* IntroduceManager */}
 
-        <Route
+        {/* <Route
           path={ROUTES.admin.introduce.index}
           element={<ManagerIntroduce />}
-        />
+        /> */}
 
         {/* NewManager */}
         <Route path={ROUTES.admin.news.index} element={<ManageNews />} />

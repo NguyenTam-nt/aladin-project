@@ -1,0 +1,13 @@
+{
+    "router": {
+        "banner": "Quản lý banner",
+        "policy": "Quản lý chính sách",
+        "introduce": "Quản lý giới thiệu",
+        "request": "Quản lý yêu cầu tư vấn",
+        "category": "Quản lý danh mục sản phẩm",
+        "products": "Quản lý sản phẩm",
+        "voucher": "Quản lý voucher",
+        "order": "Quản lý đơn hàng",
+        "logout": "Đăng xuất"
+    }
+}

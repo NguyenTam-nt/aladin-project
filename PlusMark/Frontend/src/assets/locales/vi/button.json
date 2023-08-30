@@ -2,6 +2,12 @@
     "button": {
         "byNow": "Mua ngay",
         "see_more": "Xem thêm",
-        "hide_away": "Ẩn bớt"
+        "hide_away": "Ẩn bớt",
+        "add_category": "Thêm danh mục",
+        "cancel": "Hủy",
+        "confirm": "Xác nhận",
+        "here": "Tại đây",
+        "chosse_video":"Chọn video tải lên tại đây",
+        "chosse_image":"Chọn hình ảnh tải lên tại đây"
     }
 }

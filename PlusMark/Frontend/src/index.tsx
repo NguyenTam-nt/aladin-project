@@ -24,22 +24,22 @@ declare global {
 }
 
 const root = ReactDOM.createRoot(document.getElementById("root")!);
-// const onAuthenticatedCallback = () => {
-root.render(
-  <Provider store={store}>
-    <BrowserRouter>
-      <App />
-      <ScrollToTop
-        smooth
-        component={<ScrollToTopElement />}
-        className="bottom-10"
-      />
-    </BrowserRouter>
-  </Provider>
-);
-// };
+const onAuthenticatedCallback = () => {
+  root.render(
+    <Provider store={store}>
+      <BrowserRouter>
+        <App />
+        <ScrollToTop
+          smooth
+          component={<ScrollToTopElement />}
+          className="bottom-10"
+        />
+      </BrowserRouter>
+    </Provider>
+  );
+};
 
-// AuthService.initKeycloak(onAuthenticatedCallback);
+AuthService.initKeycloak(onAuthenticatedCallback);
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
 // Learn more about service workers: https://bit.ly/CRA-PWA
