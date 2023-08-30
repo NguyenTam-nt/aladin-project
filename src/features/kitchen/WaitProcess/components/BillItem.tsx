@@ -186,7 +186,7 @@ export const BillItemMenu = ({
           {data?.name}
         </TextCustom>
         {
-          data?.note ? (
+          data?.note && data?.note !== 'null' ? (
               <View>
                 <View
                   style={{flexDirection: 'row', columnGap: 4, alignItems: 'stretch'}}>
