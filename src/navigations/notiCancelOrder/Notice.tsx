@@ -4,6 +4,8 @@ import { useConnectSocketJS } from 'src/hooks/useConnectSockJS';
 import { useIdBill } from 'src/redux/cartOrder/hooks';
 import { useAreaId } from 'src/redux/infoDrawer/hooks';
 import { NoticeItem } from './NoticeItem';
+import { isTabletDevice } from '@configs';
+import { MessageUtils } from 'src/commons/messageUtils';
 export interface IDataNoti {
   state: boolean
   idInfrastructure: number
@@ -16,7 +18,9 @@ export const NoticeCancelItem = memo(() => {
   const {playNotificationSound  } = NotificationSound();
   const IdArea = useAreaId();
   const billId = useIdBill();
-  const {dataSocket, setDataSocket} = useConnectSocketJS<IDataNoti>(IdArea &&  billId ?  `/topic/order/noti/${IdArea}/${billId}` : '');
+  const {dataSocket, setDataSocket} = useConnectSocketJS<IDataNoti>(
+    IdArea && billId ? `/topic/order/noti/${IdArea}/${billId}` : '',
+  );
   const [data, setData] = useState<IDataNoti[]>([]);
   const currentIndex = useRef<number>(1);
 
@@ -35,10 +39,12 @@ export const NoticeCancelItem = memo(() => {
   useEffect(() => {
     if (dataSocket) {
       playNotificationSound();
-      pushItem(dataSocket);
+      console.log('Notification' , dataSocket);
+      MessageUtils.showWarningMessage('Từ chối huỷ : ' + dataSocket?.reason);
+      // pushItem(dataSocket);
       setDataSocket(undefined);
     }
-  }, [dataSocket, pushItem]);
+  }, [dataSocket ,MessageUtils]);
 
   return (
       <NoticeItem data={data} removeItem={removeItem} />

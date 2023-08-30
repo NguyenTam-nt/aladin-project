@@ -38,10 +38,10 @@ const TableCartItem = ({item}: {item: IHistoryCompoumd}) => {
               marginTop: 6,
               gap: 6,
             }}>
-            <ICAddOrder color={defaultColors.bg_5F5F61} />
-            <Text style={styles.textTable}>
+            {/* <ICAddOrder color={defaultColors.bg_5F5F61} /> */}
+            {/* <Text style={styles.textTable}>
               {item.note && item.note !== 'null' ? item.note : 'Đặt đơn hàng này cho tôi'}
-            </Text>
+            </Text> */}
           </View>
         </View>
         <View style={styles.col3Item}>
@@ -76,7 +76,7 @@ const ItemDayList = ({
           page,
           size,
           menu: currentType,
-          status: true,
+          status: false,
           day: dataPage.day,
         })
           .then(data => {
@@ -117,7 +117,7 @@ const ItemDayList = ({
             {data?.map((e, index) => {
               return <TableCartItem item={e} key={index} />;
             })}
-           {data.length < totalElemts ? (
+            {data.length < totalElemts ? (
               <View style={styles.buttonShowMore}>
                 <TouchableOpacity
                   style={styles.buttonShowMoreItem}

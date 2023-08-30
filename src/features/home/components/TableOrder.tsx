@@ -167,7 +167,7 @@ const TableOrder = ({item}: {item: IFloorInfo}) => {
     <View>
       <View style={styles.contentTextFloor}>
         <ICTagFloor />
-        <Text style={styles.textFloor}> Phòng/bàn - {item.nameArea}</Text>
+        <Text style={styles.textFloor}> Tầng/bàn - {item.nameArea}</Text>
       </View>
       <View style={styles.contentTextFloor}>
         {item?.tables?.map((item: ITable, index: number) => {

@@ -31,7 +31,6 @@ const HeaderContentRight = (props: HeaderContentRight & TabBarOrder) => {
     setValueSearch,
   } = props;
 
-
   return (
     <View
       style={[
