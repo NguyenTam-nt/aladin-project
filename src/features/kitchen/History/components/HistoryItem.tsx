@@ -159,18 +159,6 @@ export const HistoryItemMenu = ({data}: PropsItem) => {
           color={defaultColors.c_222124}>
           {data?.nameProduct}
         </TextCustom>
-        <View>
-          <View style={{flexDirection: 'row', columnGap: 4}}>
-            <ICAddOrder color={defaultColors.bg_A1A0A3} />
-            <TextCustom
-              lineHeight={18}
-              fontSize={12}
-              weight="400"
-              color={defaultColors.bg_A1A0A3}>
-              Đặt cho tôi đơn hàng này
-            </TextCustom>
-          </View>
-        </View>
       </View>
       <View style={styles.styleViewItem}>
         <TextCustom fontSize={14} weight="400" color={defaultColors.c_222124}>

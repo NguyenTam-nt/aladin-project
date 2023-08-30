@@ -30,7 +30,7 @@ type Props = {
 
 export const BillItemFood = memo(
   ({onShowModal, onHideModal, data, onPress}: Props) => {
-    const [isOpen, setIsOpen] = React.useState(true)
+    const [isOpen, setIsOpen] = React.useState(false)
     const toggleOpen = useCallback(() => {
       setIsOpen(value => !value)
     }, [])
@@ -213,7 +213,7 @@ export const BillItemMenu = ({
           color={defaultColors.c_222124}>
           {data?.name}
         </TextCustom>
-        {data?.note ? (
+        {data?.note && data?.note !== 'null' ? (
           <View>
             <View style={styles.styleGroupNote}>
               <ICAddOrder color={defaultColors.bg_A1A0A3} />
