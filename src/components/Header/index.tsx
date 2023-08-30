@@ -77,23 +77,25 @@ export const Header = ({
     [valueCheckBox, updateCheckbox],
   );
 
+  const deleteBillAction = async () => {
+    const dataDelete = await deleteBillApi(idBill);
+    dispatch(setIdBill(undefined));
+    dispatch(setItemProductInCart([]));
+    if (dataDelete.success) {
+      //@ts-ignore
+      navigation.navigate('mainDrawer', {
+        screen: 'all',
+        params: {tableId: tableId},
+      });
+    } else {
+      //@ts-ignore
+      navigation.navigate('mainDrawer');
+    }
+  };
+
   const deleteBill = useCallback(async () => {
-
-
     if (idBill && itemProduce.length === 0 && tableId) {
-      const dataDelete = await deleteBillApi(idBill);
-      dispatch(setIdBill(undefined));
-      dispatch(setItemProductInCart([]));
-      if (dataDelete.success) {
-        //@ts-ignore
-        navigation.navigate('mainDrawer', {
-          screen: 'all',
-          params: {tableId: tableId},
-        });
-      } else {
-        //@ts-ignore
-        navigation.navigate('mainDrawer');
-      }
+      deleteBillAction();
     } else {
       //@ts-ignore
       navigation.navigate('mainDrawer');

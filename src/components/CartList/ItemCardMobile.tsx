@@ -50,7 +50,7 @@ const ItemCardMobile = ({checkstatus , data } : {checkstatus: string  | null; da
           <TouchableOpacity onPress={openModal} style={styles.viewNotiContent}>
             <ICAddOrder />
             <Text style={styles.textNoti}>
-              {data.note ? data.note : 'Đặt cho tôi đơn hàng này'}
+              {data.note && data.note !== 'null' ? data.note : 'Đặt cho tôi đơn hàng này'}
             </Text>
           </TouchableOpacity>
         </View>

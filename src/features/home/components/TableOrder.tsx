@@ -90,6 +90,8 @@ const TableItem = React.memo(
 
 const TableOrder = ({item}: {item: IFloorInfo}) => {
   const modalEditInventory = useModal();
+
+  const modalConfirm = useModal();
   const userInfo = useUserInfo();
   const idTable = useIsGetTable();
   const navigation = useNavigation();
@@ -107,16 +109,25 @@ const TableOrder = ({item}: {item: IFloorInfo}) => {
     async (itemTable: ITable, isPin?: boolean) => {
       currentTable.current = itemTable;
       if (
-        (itemTable.state === DinnerTableState.EMPTY) ||
+        itemTable.state === DinnerTableState.EMPTY ||
         idTable === currentTable.current.id ||
         isPin ||
         isOrderUser
       ) {
+        if (
+          isOrderUser &&
+          itemTable.state === DinnerTableState.BOOK &&
+          !isPin
+        ) {
+          modalConfirm.handleShow();
+          return;
+        }
+        modalConfirm.handleHidden();
         //@ts-ignore
         navigation.navigate('orderTab', {
           screen: 'hotpot',
           item: `${item.nameArea}/${itemTable.name}`,
-          tableId : itemTable.id,
+          tableId: itemTable.id,
         });
         const getId = await getTableID(currentTable.current.id);
         if (getId.success) {
@@ -163,7 +174,7 @@ const TableOrder = ({item}: {item: IFloorInfo}) => {
           if (idTable === item.id && item.state === DinnerTableState.EMPTY) {
             dispatch(setGetTable(undefined));
           }
-          return <TableItem key={index}  item={item} pressTable={pressTable} />;
+          return <TableItem key={index} item={item} pressTable={pressTable} />;
         })}
       </View>
       <ModalCustom
@@ -200,6 +211,36 @@ const TableOrder = ({item}: {item: IFloorInfo}) => {
               ICCancel={<ICDelete />}
               onPressCancel={hiddenModal}
               onPressDone={confirmPinAction}
+            />
+          </View>
+        </View>
+      </ModalCustom>
+      <ModalCustom
+        onBackdropPress={modalConfirm.handleHidden}
+        ref={modalConfirm.refModal}>
+        <View style={styles.modalConfirm}>
+          <TouchableOpacity
+            style={{padding: 10, position: 'absolute', top: 15, right: 10}}
+            onPress={modalConfirm.handleHidden}>
+            <ICCloseModal color={defaultColors.c_fff} />
+          </TouchableOpacity>
+          <View style={styles.contentHeaderModal}>
+            <Text style={styles.textHeaderModal}>Xác nhận</Text>
+          </View>
+          <View style={{marginTop: 24}}>
+            <Text style={styles.textNumber}>
+              Bàn này đã được đặt trước, bạn có muốn tiếp tục thực hiện gọi món?
+            </Text>
+          </View>
+          <View style={{marginTop: 40}}>
+            <ButtonAction
+              textCancel="Huỷ bỏ"
+              textSuccess="Đồng ý"
+              ICCancel={<ICDelete />}
+              onPressCancel={modalConfirm.handleHidden}
+              onPressDone={() => {
+                currentTable.current && pressTable(currentTable.current, true);
+              }}
             />
           </View>
         </View>
@@ -245,6 +286,14 @@ const styles = StyleSheet.create({
   },
   modalEdit: {
     height: 296,
+    width: isTabletDevice ? 558 : DIMENSION.width,
+    backgroundColor: defaultColors._26272C,
+    borderRadius: 16,
+    padding: 24,
+    alignItems: 'center',
+  },
+  modalConfirm: {
+    height: 200,
     width: isTabletDevice ? 558 : DIMENSION.width,
     backgroundColor: defaultColors._26272C,
     borderRadius: 16,

@@ -50,7 +50,6 @@ export const dataItemFilterItem2 = [
     label: 'Giá giảm dần',
     value: 'pricePromotion,desc',
   },
-
 ];
 
 export interface IValueFilter {

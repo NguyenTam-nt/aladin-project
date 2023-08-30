@@ -120,7 +120,7 @@ export const getSearchProductKitchenApi = async (
         page,
         size,
         menu,
-        sort,
+        // sort: sort?.replace('pricePromotion', 'price_promotion'),
         state,
         query,
       },
@@ -178,8 +178,8 @@ export const updateOrerKitchenOnlyState = async (
 console.log({
  api: `${
     APIs.ORDER_KITCHEN
-  }/${state}/${idOrder}/${id}?answer=${!reason}&reason=${reason}`
-})
+  }/${state}/${idOrder}/${id}?answer=${!reason}&reason=${reason}`,
+});
     const result = await request().patch(
       `${
         APIs.ORDER_KITCHEN
@@ -204,8 +204,8 @@ export const updateOrerKitchenAllState = async (
   console.log({
     api:  `${
       APIs.ORDER_KITCHEN
-    }/all/${state}/${idOrder}/${id}?answer=${!reason}&reason=${reason}`
-   })
+    }/all/${state}/${idOrder}/${id}?answer=${!reason}&reason=${reason}`,
+   });
   try {
     const result = await request().patch(
       `${

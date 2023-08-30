@@ -236,7 +236,7 @@ const CartItem = React.memo(() => {
       if (dataSocket.list.length === 0) {
         //@ts-ignore
         navigation.navigate('mainDrawer');
-        MessageUtils.showSuccessMessage('Hoá đơn của bạn đã đưọc thanh toán.');
+        MessageUtils.showSuccessMessage('Hoàn thành bữa ăn.');
       }
       dispatch(setItemProductInCart(dataSocket.list));
       setDataSocket(undefined);

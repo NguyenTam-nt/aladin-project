@@ -60,7 +60,7 @@ const HeaderContentRight = (props: HeaderContentRight & TabBarOrder) => {
           setValue={setValueField1}
           placeholder="Lọc sản phẩm"
         />
-        <DropDownFilter
+        {/* <DropDownFilter
           dataItem={dataItem2}
           labelField="label"
           valueField="value"
@@ -69,7 +69,7 @@ const HeaderContentRight = (props: HeaderContentRight & TabBarOrder) => {
           placeholder="Sắp xếp"
           styleDropdown={{width: 160}}
           isSort
-        />
+        /> */}
       </View>
     </View>
   );

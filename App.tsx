@@ -37,7 +37,7 @@ function App() {
 const styles = StyleSheet.create({
   container : {
     position: 'absolute',
-    left: isTabletDevice ? 200 : 0,
+    left: isTabletDevice ? 255 : 0,
     bottom: 0,
   },
 });

@@ -64,7 +64,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   content: {
-    width: isTabletDevice ? 400 : DIMENSION.width - 32,
+    width: isTabletDevice ? 500 : DIMENSION.width - 32,
     paddingHorizontal: 14,
     borderRadius: 8,
     height: 40,
