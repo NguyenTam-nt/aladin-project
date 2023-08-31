@@ -16,10 +16,7 @@ export const TextError = ({
     }
   }, []);
   return (
-    <span
-      ref={ref}
-      className=" text-xs left-0 text-__red absolute bottom-[-16px] "
-    >
+    <span ref={ref} className=" text-xs text-red-r03 ">
       {t(message)}
     </span>
   );

@@ -4,9 +4,9 @@
             "category_name": "Nhập tên phân loại",
             "detail_category": "Phân loại chi tiết hàng hóa",
             "banner_category": "Banner của phân loại",
-            "imageNumber": "Banner của phân loại {{number}}",
+            "imageNumber": "Hình ảnh phân loại chi tiết {{number}}",
             "detail_sub_category": "Phân loại chi tiết {{number}}",
-            "category_note": "Lưu ý khi sử dụng phân loại chi tiết"
+            "category_note": "Lưu ý khi sử dụng phân loại chi tiết {{number}}"
         },
         "placeholder": {
             "category_name": "Nhập tên danh mục lớn",

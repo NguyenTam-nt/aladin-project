@@ -1,5 +1,6 @@
 import { ICUploadImage } from "@assets/iconElements/ICUploadImage";
 import useI18n from "@hooks/useI18n";
+import clsx from "clsx";
 import React, { ChangeEvent, InputHTMLAttributes } from "react";
 import { boolean } from "yup";
 
@@ -14,6 +15,7 @@ type Props = {
   rounded?: boolean;
   justImage?: boolean;
   disabled?: boolean;
+  className?: string;
 } & InputHTMLAttributes<HTMLInputElement>;
 
 export const InputUploadFile = React.forwardRef(
@@ -29,6 +31,7 @@ export const InputUploadFile = React.forwardRef(
       disabled = false,
       rounded = true,
       justImage = false,
+      className,
       ...props
     }: Props,
     ref: React.LegacyRef<HTMLInputElement>
@@ -41,7 +44,12 @@ export const InputUploadFile = React.forwardRef(
     };
 
     return (
-      <div className="flex flex-1 flex-col text-sm items-center w-full border-2 border-dashed border-gray-_A1A0A3 h-full justify-center cursor-pointer">
+      <div
+        className={clsx(
+          "flex flex-1 flex-col text-sm items-center w-full border-2 border-dashed border-gray-_A1A0A3 h-full justify-center cursor-pointer",
+          className
+        )}
+      >
         {!justImage ? (
           <div className="flex items-center flex-row flex-wrap">
             <ICUploadImage width={32} height={32} />
@@ -74,7 +82,9 @@ export const InputUploadFile = React.forwardRef(
         ) : (
           <label
             htmlFor={htmlFor}
-            className=" text-blue01 font-bold underline ml-1 text-wap-regular"
+            className={clsx(
+              " text-blue01 font-bold underline ml-1 text-wap-regular"
+            )}
           >
             <ICUploadImage width={32} height={32} />
             <input

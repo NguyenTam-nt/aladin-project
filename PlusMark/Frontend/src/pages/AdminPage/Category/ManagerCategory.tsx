@@ -9,7 +9,7 @@ import LinearButton from "@components/Buttons/LinearButton";
 import { useShowMessage } from "@components/Modal/DialogMessage";
 import { ModalContext } from "@contexts/contextModal";
 import EditCategory from "./EditCategory";
-const Size = 12;
+
 const ManagerCategory = () => {
   const [categories, setCategories] = useState<CategoryType[]>([]);
   const { showConfirm } = useShowConfirm();
@@ -28,7 +28,7 @@ const ManagerCategory = () => {
       const deleted = await categoryServices.deleteCategory(id);
       showSuccess("success.deleted");
     } catch (error) {
-      showError("error.update_error");
+      showError("error.deleted_error");
     }
   };
   const handleDelete = async (id: number) => {

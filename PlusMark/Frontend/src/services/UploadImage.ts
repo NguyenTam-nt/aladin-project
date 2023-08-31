@@ -4,8 +4,7 @@ const pathMutiple = '/images';
 const pathsingle = '/image';
 const UploadImage = {
     uploadImage: async(data:any): Promise<string> => {
-        const result =  await api.post(pathsingle, data)
-        return result.data
+       return await api.post(pathsingle, data)
     },
     uploadImages: async(data:any): Promise<string[]>=> {
         const result =  await api.post(pathMutiple, data)

@@ -7,6 +7,7 @@ type Props = {
   url: string;
   onDelete?: () => void;
   className?: string;
+  position?: boolean;
   isVideoYotube?: boolean;
   optionVideo?: {
     width?: number;
@@ -23,6 +24,7 @@ export const ImagePreview = memo(
     url,
     isVideos = false,
     className = "",
+    position = false,
     optionVideo,
     isVideoYotube = true,
     rounded = true,
@@ -36,13 +38,14 @@ export const ImagePreview = memo(
           {
             "rounded-sm": rounded,
             "!w-[288px]": multiple,
-          }
+          },
+          className
         )}
       >
         <img
           alt={alt}
           src={url}
-          className={clsx("w-full h-full object-cover " + className, {
+          className={clsx("w-full h-full object-cover ", {
             "!w-[288px]": multiple,
           })}
         />
@@ -50,7 +53,13 @@ export const ImagePreview = memo(
           <button
             type="button"
             onClick={onDelete}
-            className="absolute w-[40px] h-[40px]  flex justify-center items-center top-[17px] right-[17px]"
+            className={clsx(
+              "absolute w-[40px] h-[40px]  flex justify-center items-center ",
+              {
+                "top-[17px] right-[17px]": !position,
+                "top-0 right-0": position,
+              }
+            )}
           >
             <ICDeleteTrashLight />
           </button>

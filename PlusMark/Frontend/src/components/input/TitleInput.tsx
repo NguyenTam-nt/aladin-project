@@ -7,6 +7,7 @@ type Props = {
   isRequired?: boolean;
   name: string;
   isNormal?: boolean;
+  option?: any;
 };
 
 const TitleInput = ({
@@ -14,6 +15,7 @@ const TitleInput = ({
   isRequired = true,
   isNormal = false,
   name,
+  option,
 }: Props) => {
   const { t } = useTranslation();
   return (
@@ -26,7 +28,7 @@ const TitleInput = ({
         }
       )}
     >
-      <label htmlFor={forId}>{t(name)}</label>
+      <label htmlFor={forId}>{t(name, { number: option })}</label>
       {isRequired ? <span className="text-red-r03 ml-1">*</span> : null}
     </div>
   );

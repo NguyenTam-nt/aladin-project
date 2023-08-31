@@ -33,10 +33,10 @@ const  categoryServices = {
     addOrEditCategory: async(data:any, id?:string): Promise<any>=> {
         if(id){
             const result= await api.put(`${pathName}/${id}`,data)
-            return result.data
+            return result
         }
         const result= await api.post(`${pathName}`,data)
-        return result.data
+        return result
     },
 }
 

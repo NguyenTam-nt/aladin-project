@@ -5,6 +5,8 @@ export interface SubCategory {
     id?: number,
     subCategoryNameVn: string,
     subCategoryNameKr?: string,
+    noteSubVn: string,
+    noteSubKr: string,
     imagesSubcategory:Image[]
 }
 

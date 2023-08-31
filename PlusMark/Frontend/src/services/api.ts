@@ -6,6 +6,17 @@ const api = axios.create();
 api.interceptors.request.use(
   function (config:any) {
     const urlConfig =BASE_URL + config.url;
+    let newConfig = {
+      ...config,
+      url:urlConfig
+    }
+    if(urlConfig.includes('image')){
+      newConfig.headers = {
+        ...config.headers,
+        'Content-Type': 'multipart/form-data'
+      }
+    
+  }
     
     // Do something before request is sent
     
@@ -23,7 +34,7 @@ api.interceptors.request.use(
       config.responseType = "blob"
     }
 
-    return {...config,url: urlConfig}
+    return {...newConfig}
   },
   function (error) {
     // Do something with request error
