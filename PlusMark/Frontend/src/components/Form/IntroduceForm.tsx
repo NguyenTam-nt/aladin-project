@@ -207,25 +207,26 @@ export default function IntroduceForm(
           content2Kr: await TranslateService.translateToVietNam({ content: values.intro_second_content_2 }),
           images: [{ url: imageUrlIntroSecond }]
         };
+        
         if (intro.id == 0) {
-          const res = await IntroServices.post(dataSubmitIntro)
+          const res : any = await IntroServices.post(dataSubmitIntro)
           const introInserted = {
             ...dataSubmitIntro,
-            id: res.data.id
+            id: res.id
           }
           setIntro(introInserted)
         } else {
-          const res = await IntroServices.put(intro.id, dataSubmitIntro)
+          await IntroServices.put(intro.id, dataSubmitIntro)
         }
         if (introSecond.id == 0) {
-          const res = await IntroServices.post(dataSubmitIntroSecond)
+          const res : any  = await IntroServices.post(dataSubmitIntroSecond)
           const introInserted = {
             ...dataSubmitIntro,
-            id: res.data.id
+            id: res.id
           }
           setIntroSecond(introInserted)
         } else {
-          const res = await IntroServices.put(introSecond.id, dataSubmitIntroSecond)
+          await IntroServices.put(introSecond.id, dataSubmitIntroSecond)
         }
         onAddToast({ type: "success", message: `Cập nhật thành công` });
       } catch (ex) {
@@ -288,7 +289,7 @@ export default function IntroduceForm(
           </div>
         </div>
         <div className="flex flex-col gap-5">
-          <label className="text-lg font-bold">
+          <label className="text-lg font-bold  mt-2">
             Nội dung <span className="text-[#F45538]">*</span>
           </label>
           <div>
@@ -357,7 +358,7 @@ export default function IntroduceForm(
           </div>
         </div>
         <div className="flex flex-col gap-5">
-          <label className="text-lg font-bold">
+          <label className="text-lg font-bold  mt-2">
             Nội dung 1<span className="text-[#F45538]">*</span>
           </label>
           <div>
@@ -376,7 +377,7 @@ export default function IntroduceForm(
           </div>
         </div>
         <div className="flex flex-col gap-5">
-          <label className="text-lg font-bold">
+          <label className="text-lg font-bold  mt-2">
             Nội dung 2<span className="text-[#F45538]">*</span>
           </label>
           <div>

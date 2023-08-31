@@ -4,13 +4,13 @@ import { TranslateType } from "commons/contannt";
 const pathName = '/translate';
 
 const TranslateService = {
-    translateToKorea: async (content: any) : Promise<string> => {
+    translateToKorea: async (content: any) : Promise<any> => {
         const result = await api.post(`${pathName}?type=2`, content);
-        return result.data
+        return result
     },
-    translateToVietNam: async (content: any): Promise<string> => {
+    translateToVietNam: async (content: any): Promise<any> => {
         const result = await api.post(`${pathName}?type=1`, content);
-        return result.data
+        return result
     },
 }
 

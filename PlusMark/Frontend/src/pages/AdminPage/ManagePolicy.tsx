@@ -35,30 +35,28 @@ function ManagePolicy() {
         params["sort"] = sort;
       }
       const response = await PolicyServices.get(params);
-      if (response.status == 200) {
-        const data = response.data.data;
-        let transformedPolicies = data.map((policyData: any) => {
-          if (lang === 'ksl') {
-            const policy: Policy = {
-              id: policyData.id,
-              title: policyData.titleKr,
-              describe: policyData.describeKr,
-              content: policyData.contentKr,
-            };
-            return policy;
-          } else {
-            const policy: Policy = {
-              id: policyData.id,
-              title: policyData.titleVn,
-              describe: policyData.describeVn,
-              content: policyData.contentVn,
-            };
-            return policy;
-          }
-        });
+      const data = response.data;
+      let transformedPolicies = data.map((policyData: any) => {
+        if (lang === 'ksl') {
+          const policy: Policy = {
+            id: policyData.id,
+            title: policyData.titleKr,
+            describe: policyData.describeKr,
+            content: policyData.contentKr,
+          };
+          return policy;
+        } else {
+          const policy: Policy = {
+            id: policyData.id,
+            title: policyData.titleVn,
+            describe: policyData.describeVn,
+            content: policyData.contentVn,
+          };
+          return policy;
+        }
+      });
 
-        setPolicies(transformedPolicies);
-      }
+      setPolicies(transformedPolicies);
     } catch (ex) {
       console.log(ex);
     } finally {

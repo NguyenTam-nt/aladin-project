@@ -20,14 +20,10 @@ function ManagePolicyItem(props: Props) {
 
   const handleDeletePolicys = async () => {
     try {
-      const response = await PolicyServices.delete(policy.id)
-      if (response.status == 200) {
-        const newPolicies = policies.filter(item => item.id != policy.id)
-        setPolicies(newPolicies)
-        onAddToast({ type: "success", message: `Xoá thành công` });
-        return
-      }
-      return onAddToast({ type: "error", message: `Có lỗi xảy ra` });
+      await PolicyServices.delete(policy.id)
+      const newPolicies = policies.filter(item => item.id != policy.id)
+      setPolicies(newPolicies)
+      return onAddToast({ type: "success", message: `Xoá thành công` });
     } catch (ex) {
       console.log(ex)
       return onAddToast({ type: "error", message: `Có lỗi xảy ra` });

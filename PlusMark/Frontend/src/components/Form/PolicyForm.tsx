@@ -89,23 +89,17 @@ export default function PolicyForm({ policy }: { policy?: Policy }) {
             contentVn: contentDefault,
             contentKr: JSON.stringify(contentObj),
           };
-
-          console.log(dataSubmit)
-
-          let response;
+          
           if (policy) {
-            response = await PolicyServices.put(policy.id, dataSubmit);
+            await PolicyServices.put(policy.id, dataSubmit);
           } else {
-            response = await PolicyServices.post(dataSubmit);
+            await PolicyServices.post(dataSubmit);
           }
-          if (response.status == 200) {
-            onAddToast({ type: "success", message: `Lưu thành công` });
-            return navigate(`/admin/${ROUTES.admin.policy.index}`);
-          }
-          return onAddToast({ type: "error", message: `Có lỗi xảy ra` });
+          onAddToast({ type: "success", message: `Lưu thành công` });
+          return navigate(`/admin/${ROUTES.admin.policy.index}`);
         } catch (ex) {
           console.log(ex);
-          onAddToast({ type: "error", message: `Có lỗi xảy ra` });
+          return onAddToast({ type: "error", message: `Có lỗi xảy ra` });
         } finally {
           setIsLoading(false);
         }

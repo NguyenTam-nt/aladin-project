@@ -78,20 +78,17 @@ export default function UploadBannerItem({
         const image = await UploadImage.uploadImage(formData);
         if (image) {
           images.push(image);
-          const response = await BannerServices.put(id, {
+          await BannerServices.put(id, {
             id: id,
             name: name,
             images: images,
           });
-          if (response.status == 200) {
-            return onAddToast({ type: "success", message: `Thêm thành công` });
-          }
-          return onAddToast({ type: "error", message: `Có lỗi xảy ra` });
+          return onAddToast({ type: "success", message: `Thêm thành công` });
         }
       }
     } catch (ex) {
       console.log(ex);
-      onAddToast({ type: "error", message: `Có lỗi xảy ra` });
+      return onAddToast({ type: "error", message: `Có lỗi xảy ra` });
     } finally {
       if (inputRef.current) {
         inputRef.current.value = "";
@@ -118,13 +115,10 @@ export default function UploadBannerItem({
         name: name,
         images: images,
       });
-      if (response.status == 200) {
-        return onAddToast({ type: "success", message: `Xoá thành công` });
-      }
-      return onAddToast({ type: "error", message: `Có lỗi xảy ra` });
+      return onAddToast({ type: "success", message: `Xoá thành công` });
     } catch (ex) {
       console.log(ex);
-      onAddToast({ type: "error", message: `Có lỗi xảy ra` });
+      return onAddToast({ type: "error", message: `Có lỗi xảy ra` });
     } finally {
       setShowModal(false);
     }
@@ -143,7 +137,7 @@ export default function UploadBannerItem({
         >
           <AddImage />
           <p className="text-normal text-gray-300 pl-3">
-            Chọn hình ảnh tải lên <span className="font-bold text-[#0073E5]">tại đây</span> 
+            Chọn hình ảnh tải lên <span className="font-bold text-[#0073E5]">tại đây</span>
           </p>
           <input
             ref={inputRef}
