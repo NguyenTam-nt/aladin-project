@@ -1,12 +1,12 @@
-{ 
-    "lang": "Tiếng Việt" ,
+{
+    "lang": "Tiếng Việt",
     "header": {
         "search": "Tìm kiếm tại đây",
         "search_notfound": "Không tìm thấy sản phẩm nào",
         "search_see_more": "Xem thêm {{amount}} sản phẩm",
         "hotline": "Hotline",
         "cart": {
-            "title": "Giỏ hàng", 
+            "title": "Giỏ hàng",
             "total_price": "Tổng tiền",
             "buy_now": "Mua ngay"
         },
@@ -34,50 +34,53 @@
     },
     "cart": {
         "payment_info": {
-            "title": "Đừng quên chọn ưu đãi tốt nhất",
-            "placehoder_promotion": "Nhập mã ưu đãi",
-            "promotion_btn": "Áp dụng",
-            "total_price_title": "Giá trị sản phẩm:",
-            "total_discount": "Giảm:",
-            "total_price": "Tổng tiền",
-            "btn_process_payment": "Tiến hành đặt hàng",
-            "btn_buy_more": "Mua thêm sản phẩm",
-            "label_total_items": "Tất cả ({{total}} sản phẩm)",
-            "title_price_per_unit": "Đơn giá",
-            "title_total_quantity": "Số lượng",
-            "title_total_price_per_product": "Thành tiền"
-        }
+            "title": "최고의 제안을 선택하는 것을 잊지 마세요!",
+            "placehoder_promotion": "프로모션 코드 입력하기",
+            "promotion_btn": "적용하다",
+            "total_price_title": "제품 가치",
+            "total_discount": "할인",
+            "total_price": "총액",
+            "btn_process_payment": "주문",
+            "btn_buy_more": "더 많은 제품 보기",
+            "label_total_items": "전체({{total}}개 제품)",
+            "title_price_per_unit": "단가",
+            "title_total_quantity": "수량",
+            "title_total_price_per_product": "돈으로"
+        },
+        "cart_title": "쇼핑 카트"
     },
     "payment": {
         "info_delivery": {
-            "index": "Thông tin giao hàng",
+            "index": "발송내역",
             "form": {
-                "name": "Họ và tên ",
-                "phone": "Số điện thoại",
-                "email": "Email",
-                "address": "Địa chỉ",
-                "province": "Chọn tỉnh / thành",
-                "district": "Chọn quận / huyện",
-                "commune": "Chọn phường / xã ",
+                "name": "이름과 성",
+                "name_place_holder": "이름",
+                "phone": "전화 번호",
+                "email": "이메일",
+                "address": "주소",
+                "address_place_holder": "특정 주소",
+                "province": "주/시 선택",
+                "district": "지구/지구 선택",
+                "commune": "병동/코뮌 선택",
                 "card_number_title": "Số thẻ",
                 "card_number_place_holder": "Nhập số thẻ của bạn",
-                "card_number_type_title" : "Loại thẻ",
-                "expired_date_card_title" : "Ngày hết hạn",
-                "month" : "Tháng",
-                "year" : "Năm",
+                "card_number_type_title": "Loại thẻ",
+                "expired_date_card_title": "Ngày hết hạn",
+                "month": "Tháng",
+                "year": "Năm",
                 "zip_code": "Mã bưu điện",
                 "country_code": "Mã quốc gia"
             }
         },
         "info_delivery_method": {
-            "title": "Phương thức thanh toán",
-            "mothod_title_1": "Thanh toán khi giao hàng (COD)",
-            "mothod_title_2": "Thanh toán bằng thẻ ATM / chuyển khoản"
+            "title": "지불 방법",
+            "mothod_title_1": "대금 상환(COD)",
+            "mothod_title_2": "를 통한 결제 VISA / MASTERCARD"
         },
-        "total_price_title": "Giá trị sản phẩm",
-        "total_discount": "Giảm giá",
-        "total_price": "Tổng tiền",
-        "payment": "Đặt hàng",
+        "total_price_title": "제품 가치",
+        "total_discount": "할인",
+        "total_price": "총액",
+        "payment": "주문하다",
         "continue": "Tiếp tục",
         "success_modal": {
             "title": "Đặt hàng thành công",
@@ -108,7 +111,7 @@
         "contact_title": "Liên hệ",
         "contact": {
             "address": "Địa chỉ",
-            "email": "Email", 
+            "email": "Email",
             "phone": "Điện thoại",
             "work_time": "Thời gian làm việc",
             "form": {

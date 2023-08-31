@@ -73,7 +73,7 @@ function FormFeedBackContact(props: Props) {
 
   return (
     <form onSubmit={handleSubmit}>
-      <div className="w-[888px]  bg-white h-auto p-6 pb-5 relative">
+      <div className="w-[888px]  bg-white h-auto p-6 pb-5 relative mt-8">
         {/* <CancelWhite
           className="absolute bottom-[100%] -right-3 z-10 cursor-pointer"
           onClick={() => setShowModal(false)}

@@ -116,7 +116,7 @@ const CartPage = () => {
   return (
     <div className="container  px-4 lg:px-8" >
       <div className="mt-6 font-['Nunito_Sans']">
-        Giỏ mua hàng
+        {t("cart.cart_title")}
       </div>
 
       <div className="rounded-lg pb-12 pt-6 flex flex-col xl:flex-row xl:gap-10">
@@ -162,7 +162,7 @@ const CartPage = () => {
         </div>
         <div className="py-4 px-3 w-full xl:w-1/4 bg-white rounded-md h-fit mt-8 lg:mt-0">
           <div className="bg-[#DAF1E7] rounded-md p-3 mb-4">
-            <p className="text-wap-regular2 text-text mb-2">{t("cart.payment_info.title")}</p>
+            <p className="text-wap-regular2 text-text mb-2 font-bold">{t("cart.payment_info.title")}</p>
             <div className="h-8 flex gap-1">
               <div className="flex-1">
                 <input type="text" value={voucher} onChange={e => setVoucher(e.target.value)} name="promotion" className="w-full h-full text-text rounded-lg border bg-[#DAF1E7] placeholder:text-[#626262] text-wap-regular2 px-2" placeholder={t("cart.payment_info.placehoder_promotion") || ""} />
@@ -224,7 +224,7 @@ const CartPage = () => {
             <PaymentCartIcon />
             {t("cart.payment_info.btn_process_payment")}
           </button>
-          <Link to={"/"} className="btn text-main font-semibold rounded-lg border-[#00c3ab] border-2 w-full h-9 text-center text-black ">
+          <Link to={"/"} className="btn text-main font-bold rounded-lg border-[#00c3ab] border-2 w-full h-9 text-center text-black ">
             {t("cart.payment_info.btn_buy_more")}
           </Link>
         </div>

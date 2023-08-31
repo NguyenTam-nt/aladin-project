@@ -182,7 +182,7 @@ function PaymentForm({ formik }: Props) {
           name="fullname"
           value={formik.values.fullname}
           setValue={formik.handleChange}
-          label={t("payment.info_delivery.form.name")}
+          label={t("payment.info_delivery.form.name_place_holder")}
           required
           onBlur={formik.handleBlur}
           autoFocus={true}
@@ -241,7 +241,7 @@ function PaymentForm({ formik }: Props) {
             name="address"
             value={formik.values.address}
             setValue={formik.handleChange}
-            label={t("payment.info_delivery.form.address")}
+            label={t("payment.info_delivery.form.address_place_holder")}
             required
             onBlur={formik.handleBlur}
           />

@@ -134,7 +134,7 @@ function ManageContact() {
     const result = await ContactServices.getContactFilter(param);
     const { total, data, status } : any = result;
     setListContact(data);
-    setTotalPage(Math.ceil(total / 7));
+    setTotalPage(Math.ceil(total / 10));
     return result;
   };
   const changeStatusContact = async (data: ContactType) => {
@@ -258,14 +258,14 @@ function ManageContact() {
                     <path d="M22 3H2L10 12.46V19L14 21V12.46L22 3Z" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                   </svg>
 
-                  <div className="w-[50%] border-main absolute top-[150%] z-40 bg-white statusBox right-2/4 translate-x-[50%]">
+                  <div className="w-[100%] border-main absolute top-[150%] z-40 bg-white statusBox right-2/4 translate-x-[50%]">
                     <div
                       onClick={() => {
                         setStatusFilter("REPLIED");
                         handleFilterByStatus();
                       }}
                       className={clsx(
-                        "w-auto hauto py-3 px-3 text-small cursor-pointer  text-black",
+                        "w-full h-auto py-3 px-3 text-small cursor-pointer  text-black",
                         { "bg-main text-white": statusFilter == "REPLIED" }
                       )}
                     >
@@ -277,7 +277,7 @@ function ManageContact() {
                         handleFilterByStatus();
                       }}
                       className={clsx(
-                        "w-full hauto py-3 px-3 text-small cursor-pointer  text-black",
+                        "w-full h-auto py-3 px-3 text-small cursor-pointer  text-black",
                         { "bg-main text-white": statusFilter == "WAITING" }
                       )}
                     >
