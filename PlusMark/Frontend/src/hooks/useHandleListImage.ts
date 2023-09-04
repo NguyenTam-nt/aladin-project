@@ -5,12 +5,12 @@ import { ChangeEvent, useCallback, useEffect, useRef, useState } from "react";
 
 interface FileContent {
   index: number;
-  imagePrev: string;
+  imagePrev?: string;
   file?: File;
 }
 export const useHandleListImage = (
   images?: string[],
-  onChange?: (file: File) => void,
+  onChange?: (file: File) => void
 ) => {
   const [files, setFiles] = useState<FileContent[]>([]);
   const [messageError, setMessageError] = useState("");
@@ -21,34 +21,49 @@ export const useHandleListImage = (
     }
   }, [images]);
 
-
-//   useEffect(() => {
-//     return () => {
-//       listPreviewImage.forEach((item) => {
-//         URL.revokeObjectURL(item);
-//       });
-//     };
-//   }, []);
+  //   useEffect(() => {
+  //     return () => {
+  //       listPreviewImage.forEach((item) => {
+  //         URL.revokeObjectURL(item);
+  //       });
+  //     };
+  //   }, []);
 
   const handleChangeImages = (
     e: ChangeEvent<HTMLInputElement>,
     index: number
   ) => {
     const indexFile = e.target.files![0];
-    setFiles((prevState)=> {
-        return [...prevState, {
-            index,
-            imagePrev: URL.createObjectURL(indexFile),
-            file: indexFile
-        }]
-    })
+    if (files.length > 0 && !files[index]) {
+      setMessageError("Vui lòng chọn ảnh theo thứ tự");
+      return;
+    }
+    setFiles((prevState) => {
+      return [
+        ...prevState,
+        {
+          index,
+          imagePrev: URL.createObjectURL(indexFile),
+          file: indexFile,
+        },
+      ];
+    });
   };
 
-  const handleDelete = (index: number)=> {
-    setFiles((prevState)=> {
-        return prevState.filter((item)=> item.index != index)
-    })
-  }
+  const handleDeleteImgPreview = (index: number) => {
+    setFiles((prevState) => {
+      return prevState.map((item) => {
+        if (item.index == index) {
+          URL.revokeObjectURL(item.imagePrev!);
+          item = { ...item, imagePrev: undefined, file: undefined };
+        }
+        return item;
+      });
+    });
+  };
+  const hanldeDelete = (indexDel: number) => {
+    setFiles((prevState) => prevState.filter((item) => item.index != indexDel));
+  };
 
   const handleRemoveByIndex = (index: number) => {
     setPlainFiles((previousPlainFiles) => [
@@ -57,14 +72,13 @@ export const useHandleListImage = (
     ]);
   };
 
-
-  const resetImage = () => {
-  };
+  const resetImage = () => {};
 
   return {
     files,
     messageError,
-    handleDelete,
+    hanldeDelete,
+    handleDeleteImgPreview,
     resetImage,
     handleRemoveByIndex,
     handleChangeImages,

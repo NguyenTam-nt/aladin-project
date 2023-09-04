@@ -40,7 +40,7 @@ const ManagerCategory = () => {
     setShowModal(true);
   };
   useEffect(() => {
-    getCategory();
+    // getCategory();
   }, []);
   return (
     <div className="py-14">

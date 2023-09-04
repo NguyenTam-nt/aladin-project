@@ -7,13 +7,13 @@ import HeaderAdmin from "./components/HeaderAdmin";
 
 function LayoutAdminPage() {
   const navigator = useNavigate();
-  const isLogin = AuthService.isLoggedIn();
-  useEffect(() => {
-    if (!isLogin) {
-      navigator("/");
-    }
-    return () => {};
-  }, [isLogin]);
+  // const isLogin = AuthService.isLoggedIn();
+  // useEffect(() => {
+  //   if (!isLogin) {
+  //     navigator("/");
+  //   }
+  //   return () => {};
+  // }, [isLogin]);
   return (
     <div>
       <div className=" flex">
