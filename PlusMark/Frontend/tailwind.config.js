@@ -137,6 +137,7 @@ module.exports = {
       boxShadow: {
         DEFAULT: '0px 4px 4px rgba(0, 0, 0, 0.25)',
         shd020: `4p 2px 8px 0px rgba(0, 0, 0, 0.20)`,
+        linear: `4px 4px 8px 0px linear-gradient(180deg, #FF8B03 0%, #F90000 100%)`
       },
       backgroundImage: {
         header: "linear-gradient(225deg, #FF6B00 0%, #E0000D 100%)",

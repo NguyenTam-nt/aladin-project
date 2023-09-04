@@ -16,7 +16,7 @@ import ManageInfoHome from "@pages/AdminPage/ManageInfoHome";
 import ManagerOrder from "@pages/AdminPage/ManageOrder";
 import ManagePolicy from "@pages/AdminPage/ManagePolicy";
 import ManagerPopupContact from "@pages/AdminPage/ManagePopupContact";
-import ManageProduct from "@pages/AdminPage/ManageProduct";
+import ManageProduct from "@pages/AdminPage/Products/ManageProduct";
 import ManagerIntroduce from "@pages/AdminPage/ManagerIntroduce";
 import ManagerVoucher from "@pages/AdminPage/ManageVoucher";
 import CartPage from "@pages/CartPage/CartPage";

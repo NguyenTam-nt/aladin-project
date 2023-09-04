@@ -15,8 +15,10 @@ import {
   ThunkProduclist,
   ThunkProduclistFilter,
 } from "redux/thunk/productAction";
-import ProducSizeItem from "./ProducSizeItem";
+import ProducSizeItem from "../ProducSizeItem";
 import { some } from "@utility/helper";
+import LinearButton from "@components/Buttons/LinearButton";
+import PlusLinerIcon from "@assets/iconElements/PlusLinerIcon";
 
 interface ButtonFilterProps {
   name: string;
@@ -215,12 +217,13 @@ function ManageProduct() {
               className="py-[9px] px-5"
             />
           </div>
-          <button
-            className="btn-normal text-sm leading-18"
+          <LinearButton
+            text="button.add_category"
+            iconLeft={<PlusLinerIcon />}
+            className="w-[170px] h-10 !rounded !text-sm overflow-hidden"
+            className_child="rounded !text-sm "
             onClick={() => navigator("add")}
-          >
-            Thêm sản phẩm
-          </button>
+          />
         </div>
       </div>
       <div>

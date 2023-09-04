@@ -665,22 +665,7 @@ function ProductEditComponent(props: Props) {
     }
   }, [id]);
   return (
-    <div className="flex">
-      <div className="w-[300px] border-t-4 border-t-main pt-9 border-r pl-8 border-r-gray-200">
-        <div className="flex items-center mb-[30px]">
-          <div className="w-5 h-5 rounded-[50%] bg-gray-100 mr-3"></div>
-          <p className="text-main text-base font-medium leading-5 tracking-[.03]">
-            Thông tin cơ bản
-          </p>
-        </div>
-        <div className="flex items-center ">
-          <div className="w-5 h-5 rounded-[50%] bg-gray-100 mr-3"></div>
-          <p className="text-main text-base font-medium leading-5 tracking-[.03]">
-            Thông tin bán hàng
-          </p>
-        </div>
-      </div>
-      <div className="pt-9 pb-10px flex-1 xl:pl-8">
+      <div className="pt-9 pb-10px flex-1">
         <h2 className="titlePage mb-5">Thông tin cơ bản</h2>
 
         <div>
@@ -1266,7 +1251,6 @@ function ProductEditComponent(props: Props) {
           </div>
         </div>
       </div>
-    </div>
   );
 }
 

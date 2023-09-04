@@ -60,8 +60,8 @@ const EditCategory = () => {
       subCategoryList: [
         {
           id: undefined,
-          subCategoryNameVn: "buithitao",
-          subCategoryNameKr: "kho",
+          subCategoryNameVn: "tiếng việt",
+          subCategoryNameKr: "tiếng hàn",
           noteSubVn: "",
           noteSubKr: "",
           imagesSubcategory: [],
@@ -91,8 +91,8 @@ const EditCategory = () => {
           ),
         })
       : Yup.object({
-          categoryNameEn: Yup.string()
-            .required("Không được để trống tên phân loại")
+          categoryNameKr: Yup.string()
+            .required("Không được để trống tên phân loại tiếng hàn")
             .max(40, "Không được nhập quá 40 kí tự"),
           imagesCategory: Yup.array()
             .min(1, "Không được để trống ảnh")
@@ -103,7 +103,7 @@ const EditCategory = () => {
             ),
           subCategoryList: Yup.array().of(
             Yup.object().shape({
-              subCategoryNameEn: Yup.string().required(
+              subCategoryNameKr: Yup.string().required(
                 "Không được để trống tên danh mục con"
               ),
             })
@@ -111,6 +111,7 @@ const EditCategory = () => {
         }),
     onSubmit: async (value) => {
       try {
+        console.log(value, "jkahjfkhs")
         if (file) {
           const categoryFormData = new FormData();
           categoryFormData.append("file", file);
@@ -185,17 +186,6 @@ const EditCategory = () => {
         file: null,
       },
     ]);
-    // setFieldValue("subCategoryList", [
-    //   ...values.subCategoryList,
-    //   {
-    //     id: undefined,
-    //     subCategoryNameVn: "",
-    //     subCategoryNameKr: "",
-    //     noteSubVn: "",
-    //     noteSubKr: "",
-    //     imagesSubcategory: [],
-    //   },
-    // ]);
   };
   const handleChangeFile = (
     e: ChangeEvent<HTMLInputElement>,
@@ -231,7 +221,7 @@ const EditCategory = () => {
       setFieldValue("imagesCategory", []);
     }
   }, [preViewImage]);
-  console.log(errors, "error");
+  console.log(errors, values, "error");
   return (
     <div className="w-[50vw] max-h-[70vh] min-h-[50vh] overflow-y-scroll hidden_scroll bg-white p-10">
       <TitlePage
@@ -241,13 +231,16 @@ const EditCategory = () => {
         <div>
           <TitleInput isRequired name="form.lable.category_name" />
           <InputComponent
-            name={isVn ? "categoryNameVn" : "categoryNameEn"}
+            name={isVn ? "categoryNameVn" : "categoryNameKr"}
             onChange={handleChangFormik}
             placeholder="form.placeholder.category_name"
             rounded={false}
           />
           {isVn && errors.categoryNameVn && touched.categoryNameVn && (
             <TextError message={errors.categoryNameVn} />
+          )}
+          {!isVn && errors.categoryNameKr && touched.categoryNameKr && (
+            <TextError message={errors.categoryNameKr} />
           )}
         </div>
         <div>
@@ -270,80 +263,6 @@ const EditCategory = () => {
         </div>
         <TitleInput isRequired={false} name="form.lable.detail_category" />
         <div className="flex flex-col gap-6">
-          {/* {values.subCategoryList.map((item, index) => {
-            return (
-              <div key={index} className="grid grid-cols-[1fr_35px] gap-5">
-                <div className="grid grid-cols-[200px_1fr] gap-6">
-                  <div>
-                    <TitleInput
-                      isNormal={true}
-                      isRequired={false}
-                      name="form.lable.imageNumber"
-                    />
-                    <InputUploadFile
-                      onChange={(e) => {
-                        handleChangeImages(e, index);
-                      }}
-                      justImage={true}
-                      className={clsx("!h-12", {
-                        hidden: files[index] && files[index]!.imagePrev,
-                      })}
-                    />
-                    <ImagePreview
-                      url={files[index] ? files[index]!.imagePrev! : ""}
-                      // url=""
-                      position={true}
-                      onDelete={() => handleDeleteImgPreview(index)}
-                      className={clsx("!h-12", {
-                        hidden: files[index] && !files[index]!.imagePrev,
-                      })}
-                    />
-                  </div>
-                  <div>
-                    <TitleInput
-                      isNormal={true}
-                      isRequired={false}
-                      name="form.lable.detail_sub_category"
-                      option={index + 1}
-                    />
-                    <InputComponent
-                      onChange={(e) =>
-                        handleChangeSubCategory(e, index, "name")
-                      }
-                      placeholder="form.placeholder.detail_sub_category"
-                      rounded={false}
-                    />
-                  </div>
-                  <div className="col-span-full">
-                    <TitleInput
-                      isNormal={true}
-                      isRequired={false}
-                      name="form.lable.category_note"
-                      option={index + 1}
-                    />
-                    <InputComponent
-                      onChange={(e) =>
-                        handleChangeSubCategory(e, index, "note")
-                      }
-                      placeholder="form.placeholder.category_note"
-                      rounded={false}
-                    />
-                  </div>
-                </div>
-                <div
-                  className="flex items-center justify-center mt-7 bg-[#DAF1E7] cursor-pointer"
-                  onClick={() => {
-                    handleDeleteSub(index);
-                    handleDeletedImage(index);
-                  }}
-                >
-                  <ICDeleteTrashLight />
-                </div>
-              </div>
-            );
-          })}
-          {messageError && <TextError message={messageError} />} */}
-
           {values.subCategoryList.map((item, index) => {
             return (
               <div key={index} className="grid grid-cols-[1fr_35px] gap-5">
@@ -379,13 +298,13 @@ const EditCategory = () => {
                   <div>
                     <TitleInput
                       isNormal={true}
-                      isRequired={false}
+                      isRequired
                       name="form.lable.detail_sub_category"
                       option={index + 1}
                     />
                     <InputComponent
-                      name={"subCategoryNameVn"}
-                      value={item.subCategoryNameVn}
+                      name= {isVn ? "subCategoryNameVn" : "subCategoryNameKr"}
+                      value={isVn ? item.subCategoryNameVn : item.subCategoryNameKr}
                       onChange={(e) =>
                         handleChangeSubCategory(e, index, "name")
                       }
@@ -411,8 +330,8 @@ const EditCategory = () => {
                       option={index + 1}
                     />
                     <InputComponent
-                      name={"noteSubVn"}
-                      value={item.noteSubVn}
+                      name= {isVn ? "noteSubVn" : "noteSubKr"}
+                      value={isVn ? item.noteSubVn : item.noteSubVn}
                       onChange={(e) =>
                         handleChangeSubCategory(e, index, "note")
                       }

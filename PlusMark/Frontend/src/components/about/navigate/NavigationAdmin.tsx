@@ -1,6 +1,7 @@
 import { LogOut } from "@assets/icons";
 import useI18n from "@hooks/useI18n";
 import AuthService from "@services/AuthServices";
+import { colors } from "@utility/colors";
 import { ROUTES } from "@utility/constants";
 import { RouterManage } from "@utility/routers";
 import { NavLink, useMatch, useResolvedPath } from "react-router-dom";
@@ -18,7 +19,7 @@ interface Props {
 const RenderLink = (props: Props) => {
   const { t } = useI18n();
 
-  const resolved = useResolvedPath(`${ROUTES.admin.index}/${props.item.path}`);
+  const resolved = useResolvedPath(`${props.item.path}`);
   const match = useMatch({ path: resolved.pathname, end: false });
   return (
     <NavLink
@@ -34,7 +35,7 @@ const RenderLink = (props: Props) => {
     >
       <div className="w-7">
         <props.item.icon
-        //  color={match ? colors.main : colors.black02}
+           color={match ? colors.darkOrange : colors.black02}
         />
       </div>
       {t(props.item?.name || "")}

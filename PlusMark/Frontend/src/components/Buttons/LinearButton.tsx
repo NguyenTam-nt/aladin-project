@@ -6,10 +6,11 @@ interface Props {
   iconLeft?: ReactNode;
   text: string;
   className?: string;
+  className_child?: string;
   onClick: () => void;
 }
 const LinearButton = memo(
-  ({ icon, iconLeft, text, className, onClick }: Props) => {
+  ({ icon, iconLeft, text, className,className_child, onClick }: Props) => {
     const { t } = useI18n();
     return (
       <div
@@ -18,10 +19,10 @@ const LinearButton = memo(
           className
         )}
       >
-        <div className="bg-white w-full h-full">
+        <div className={clsx("bg-white w-full h-full",className_child)}>
           <button
             onClick={onClick}
-            className="w-full h-full text-base font-semibold flex items-center justify-center text_linear"
+            className="w-full h-full r text-base font-semibold flex items-center justify-center text_linear"
           >
             {iconLeft}
             {t(text || "")}
