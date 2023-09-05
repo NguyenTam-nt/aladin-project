@@ -186,7 +186,7 @@ export default function PolicyForm({ policy }: { policy?: Policy }) {
         </button>
         <BtnLoading
           type="submit"
-          className="w-[8%] py-4 border border-[#0073E5] flex justify-center items-center  text-[#0073E5]  font-bold bg-white"
+          className="w-[8%] py-4 border border-[#0073E5] flex justify-center items-center  text-white  font-bold bg-[#0073E5]"
           isLoading={isLoading}
         >
           Lưu
