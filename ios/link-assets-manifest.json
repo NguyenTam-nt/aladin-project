@@ -1,0 +1,69 @@
+{
+  "migIndex": 1,
+  "data": [
+    {
+      "path": "src/assets/fonts/static/NunitoSans_10pt-Black.ttf",
+      "sha1": "b5920e7324121e9dc2a4d65cbedac76a07cc0e82"
+    },
+    {
+      "path": "src/assets/fonts/static/NunitoSans_10pt-BlackItalic.ttf",
+      "sha1": "386c6255a3a76d322f98965eaff7c7ffa6493699"
+    },
+    {
+      "path": "src/assets/fonts/static/NunitoSans_10pt-Bold.ttf",
+      "sha1": "1a43f6ab652eb0c71cd0d748bd8d4bf360903fe1"
+    },
+    {
+      "path": "src/assets/fonts/static/NunitoSans_10pt-BoldItalic.ttf",
+      "sha1": "10b9a1894ae213dd9bf6a744cf91deb035dfe79b"
+    },
+    {
+      "path": "src/assets/fonts/static/NunitoSans_10pt-ExtraBold.ttf",
+      "sha1": "3571966fb4ccf35b881822e8a0a9fa024c5c6ace"
+    },
+    {
+      "path": "src/assets/fonts/static/NunitoSans_10pt-ExtraBoldItalic.ttf",
+      "sha1": "c4762fd60b8b08779269b7b7efbf2200ba1b954b"
+    },
+    {
+      "path": "src/assets/fonts/static/NunitoSans_10pt-ExtraLight.ttf",
+      "sha1": "f78df45b995c53a52192cce9e2e920fcfaf8247a"
+    },
+    {
+      "path": "src/assets/fonts/static/NunitoSans_10pt-ExtraLightItalic.ttf",
+      "sha1": "27144eebad7f14d7975bebd1fb0619507a62607b"
+    },
+    {
+      "path": "src/assets/fonts/static/NunitoSans_10pt-Italic.ttf",
+      "sha1": "00c1cc40c8dba5d484702ad17f83d525b33955d3"
+    },
+    {
+      "path": "src/assets/fonts/static/NunitoSans_10pt-Light.ttf",
+      "sha1": "32f3cecd9b6c0f67c1a6bec6886e2b8f160617f1"
+    },
+    {
+      "path": "src/assets/fonts/static/NunitoSans_10pt-LightItalic.ttf",
+      "sha1": "eee5a118a0b65c300be14f18bae8bff89f32679b"
+    },
+    {
+      "path": "src/assets/fonts/static/NunitoSans_10pt-Medium.ttf",
+      "sha1": "947e59a8d3586d17a5f8698ae2f371e580411cdb"
+    },
+    {
+      "path": "src/assets/fonts/static/NunitoSans_10pt-MediumItalic.ttf",
+      "sha1": "afe10ea2839b540ba3b2bf5ae2426f9c5d9978f2"
+    },
+    {
+      "path": "src/assets/fonts/static/NunitoSans_10pt-Regular.ttf",
+      "sha1": "c4bc36919dfa9ee086b71d7b2796fafc22249b97"
+    },
+    {
+      "path": "src/assets/fonts/static/NunitoSans_10pt-SemiBold.ttf",
+      "sha1": "0ec94b38226fe45cb85bad4cb5f884512bae6eb7"
+    },
+    {
+      "path": "src/assets/fonts/static/NunitoSans_10pt-SemiBoldItalic.ttf",
+      "sha1": "16890643d41d8cb28d9b3df3ae584dacb102e188"
+    }
+  ]
+}
