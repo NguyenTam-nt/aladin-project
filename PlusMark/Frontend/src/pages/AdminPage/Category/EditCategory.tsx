@@ -1,6 +1,7 @@
 import { ICDeleteTrashLight } from "@assets/iconElements/ICDeleteTrashLight";
 import DynamicButton from "@components/Buttons/DynamicButton";
 import GroupButton from "@components/Buttons/GroupButton";
+import { useShowMessage } from "@components/Modal/DialogMessage";
 import { ImagePreview } from "@components/input/ImagePreview";
 import { InputComponent } from "@components/input/InputComponent";
 import { InputUploadFile } from "@components/input/InputUploadFile";
@@ -8,6 +9,7 @@ import TitleInput from "@components/input/TitleInput";
 import { useHandleImage } from "@hooks/useHandleImage";
 import { useHandleListImage } from "@hooks/useHandleListImage";
 import useI18n from "@hooks/useI18n";
+import TranslateService from "@services/TranslateService";
 import { CategoryType, ImageType } from "@services/Types/category";
 import UploadImage from "@services/UploadImage";
 import categoryServices from "@services/categoryService";
@@ -15,7 +17,7 @@ import clsx from "clsx";
 import { TextError } from "commons/TextError";
 import TitlePage from "commons/TitlePage";
 import { useFormik } from "formik";
-import { ChangeEvent, useEffect } from "react";
+import { ChangeEvent, memo, useEffect } from "react";
 import * as Yup from "yup";
 
 type FormikProps = {
@@ -33,25 +35,16 @@ type FormikProps = {
   }[];
   imagesCategory: ImageType[];
 };
-const EditCategory = () => {
+interface Props {
+  onCreated?: () => void;
+  onEdit?: () => void;
+  item?: CategoryType;
+}
+const EditCategory = memo(({ onCreated, onEdit, item }: Props) => {
   const { isVn, t } = useI18n();
-  const {
-    preViewImage,
-    file,
-    listPreviewImage,
-    message,
-    handleChange,
-    handleDelete,
-  } = useHandleImage();
-  const {
-    files,
-    messageError,
-    hanldeDelete: handleDeletedImage,
-    handleDeleteImgPreview,
-    resetImage,
-    handleRemoveByIndex,
-    handleChangeImages,
-  } = useHandleListImage();
+  const { showError } = useShowMessage();
+  const { preViewImage, file, message, handleChange, handleDelete } =
+    useHandleImage(item?.imagesCategory[0].url || "");
   const fomik = useFormik<FormikProps>({
     initialValues: {
       id: undefined,
@@ -60,8 +53,8 @@ const EditCategory = () => {
       subCategoryList: [
         {
           id: undefined,
-          subCategoryNameVn: "tiếng việt",
-          subCategoryNameKr: "tiếng hàn",
+          subCategoryNameVn: "",
+          subCategoryNameKr: "",
           noteSubVn: "",
           noteSubKr: "",
           imagesSubcategory: [],
@@ -73,73 +66,101 @@ const EditCategory = () => {
     validationSchema: isVn
       ? Yup.object({
           categoryNameVn: Yup.string()
-            .required("Không được để trống tên phân loại")
-            .max(40, "Không được nhập quá 40 kí tự"),
+            .required("error.require.category_name")
+            .max(40, "error.max.max_40"),
           imagesCategory: Yup.array()
-            .min(1, "Không được để trống ảnh")
+            .min(1, "error.require.image_category")
             .of(
               Yup.object().shape({
-                url: Yup.string().required("Không được để trống ảnh"),
+                url: Yup.string().required("error.require.image_category"),
               })
             ),
           subCategoryList: Yup.array().of(
             Yup.object().shape({
               subCategoryNameVn: Yup.string().required(
-                "Không được để trống tên danh mục con"
+                "error.require.subcategory_name"
               ),
+              noteSubVn: Yup.string().max(255, "error.max.max"),
             })
           ),
         })
       : Yup.object({
           categoryNameKr: Yup.string()
-            .required("Không được để trống tên phân loại tiếng hàn")
-            .max(40, "Không được nhập quá 40 kí tự"),
+            .required("error.require.category_name")
+            .max(40, "error.max.max_40"),
           imagesCategory: Yup.array()
-            .min(1, "Không được để trống ảnh")
+            .min(1, "error.require.image_category")
             .of(
               Yup.object().shape({
-                url: Yup.string().required("Không được để trống ảnh"),
+                url: Yup.string().required("error.require.image_category"),
               })
             ),
           subCategoryList: Yup.array().of(
             Yup.object().shape({
               subCategoryNameKr: Yup.string().required(
-                "Không được để trống tên danh mục con"
+                "error.require.subcategory_name"
               ),
+              noteSubKr: Yup.string().max(255, "error.max.max"),
             })
           ),
         }),
     onSubmit: async (value) => {
+      setSubmitting(true);
       try {
-        console.log(value, "jkahjfkhs")
         if (file) {
           const categoryFormData = new FormData();
           categoryFormData.append("file", file);
-          // const imageCate = await UploadImage.uploadImage(categoryFormData);
-          // console.log(imageCate);
+          const imageCate = await UploadImage.uploadImage(categoryFormData);
+          value.imagesCategory = [imageCate];
         }
-        let subCategoryData;
-        subCategoryData = value.subCategoryList.map((item, index) => {
-          if (item.file) {
-            const imageForm = new FormData();
-            imageForm.append("file", item.file);
-            console.log(imageForm, "formdata");
-            item.imagesSubcategory = [{ url: `anhrminh hoaj ${index + 1}` }];
-          }
-          return {
-            id: item.id,
-            subCategoryNameVn: item.subCategoryNameVn,
-            subCategoryNameKr: item.subCategoryNameKr,
-            noteSubVn: item.noteSubVn,
-            noteSubKr: item.noteSubKr,
-            imagesSubcategory: item.imagesSubcategory,
-          };
-        });
-        console.log(subCategoryData, "dataMois");
+        const PromiseModifySub = Promise.all(
+          value.subCategoryList.map(async (item, index) => {
+            if (item.file) {
+              const imageForm = new FormData();
+              imageForm.append("file", item.file);
+              const paths = await UploadImage.uploadImage(imageForm);
+              item.imagesSubcategory = [paths];
+            }
+            return {
+              id: item.id,
+              subCategoryNameVn: item.subCategoryNameVn,
+              subCategoryNameKr: item.subCategoryNameKr,
+              noteSubVn: item.noteSubVn,
+              noteSubKr: item.noteSubKr,
+              imagesSubcategory: item.imagesSubcategory,
+            };
+          })
+        );
+        const subCategoryData = await PromiseModifySub;
 
-        // const result = await categoryServices.addOrEditCategory(value);
-        // console.log(result, "keets quar");
-      } catch (error) {}
+        let dataUpload = { ...value, subCategoryList: subCategoryData };
+        const translated = isVn
+          ? await TranslateService.tranSlateKr(dataUpload)
+          : await TranslateService.tranSlateVn(dataUpload);
+        translated.id = value.id;
+        translated.subCategoryList = translated.subCategoryList.map(
+          (item: any, index: number) => {
+            return { ...item, id: subCategoryData[index].id };
+          }
+        );
+        const result = await categoryServices.addOrEditCategory(
+          translated,
+          value?.id
+        );
+        if (value.id) {
+          onEdit!();
+        } else {
+          onCreated!();
+        }
+        setSubmitting(false);
+      } catch (error) {
+        if (value.id) {
+          showError("error.update_error");
+        } else {
+          showError("error.post_error");
+        }
+        setSubmitting(false);
+      }
     },
   });
   const {
@@ -147,6 +168,7 @@ const EditCategory = () => {
     setSubmitting,
     handleChange: handleChangFormik,
     setFieldValue,
+    setValues,
     handleSubmit,
     handleReset,
     values,
@@ -161,19 +183,21 @@ const EditCategory = () => {
   ) => {
     const newValue = [...values.subCategoryList];
     if (type == "name") {
-      newValue[index].subCategoryNameVn = e.target.value;
+      if (isVn) {
+        newValue[index].subCategoryNameVn = e.target.value;
+      } else {
+        newValue[index].subCategoryNameKr = e.target.value;
+      }
     } else {
-      newValue[index].noteSubVn = e.target.value;
+      if (isVn) {
+        newValue[index].noteSubVn = e.target.value;
+      } else {
+        newValue[index].noteSubKr = e.target.value;
+      }
     }
     setFieldValue("subCategoryList", newValue);
   };
-  const handleDeleteSub = (index: number) => {
-    const newValue = [...values.subCategoryList];
-    newValue.splice(index, 1);
-    setFieldValue("subCategoryList", newValue);
-  };
   const handleAddSub = () => {
-    const newSub = [...values.subCategoryList];
     setFieldValue("subCategoryList", [
       ...values.subCategoryList,
       {
@@ -221,17 +245,22 @@ const EditCategory = () => {
       setFieldValue("imagesCategory", []);
     }
   }, [preViewImage]);
-  console.log(errors, values, "error");
+  useEffect(() => {
+    if (item) {
+      setValues(item);
+    }
+  }, [item]);
   return (
     <div className="w-[50vw] max-h-[70vh] min-h-[50vh] overflow-y-scroll hidden_scroll bg-white p-10">
       <TitlePage
-        text={isVn ? "text.title.add_category" : "text.title.edit_category"}
+        text={!item ? "text.title.add_category" : "text.title.edit_category"}
       />
       <div className="py-10 flex flex-col gap-3">
         <div>
           <TitleInput isRequired name="form.lable.category_name" />
           <InputComponent
             name={isVn ? "categoryNameVn" : "categoryNameKr"}
+            value={isVn ? values.categoryNameVn : values.categoryNameKr}
             onChange={handleChangFormik}
             placeholder="form.placeholder.category_name"
             rounded={false}
@@ -303,8 +332,10 @@ const EditCategory = () => {
                       option={index + 1}
                     />
                     <InputComponent
-                      name= {isVn ? "subCategoryNameVn" : "subCategoryNameKr"}
-                      value={isVn ? item.subCategoryNameVn : item.subCategoryNameKr}
+                      name={isVn ? "subCategoryNameVn" : "subCategoryNameKr"}
+                      value={
+                        isVn ? item.subCategoryNameVn : item.subCategoryNameKr
+                      }
                       onChange={(e) =>
                         handleChangeSubCategory(e, index, "name")
                       }
@@ -315,11 +346,7 @@ const EditCategory = () => {
                   {errors.subCategoryList?.[index]! &&
                     touched.subCategoryList?.[index] && (
                       <div className="col-span-full">
-                        <TextError
-                          message={`Không được để trống tên danh mục con ${
-                            index + 1
-                          }`}
-                        />
+                        <TextError message={`error.require.subcategory_name`} />
                       </div>
                     )}
                   <div className="col-span-full">
@@ -330,8 +357,8 @@ const EditCategory = () => {
                       option={index + 1}
                     />
                     <InputComponent
-                      name= {isVn ? "noteSubVn" : "noteSubKr"}
-                      value={isVn ? item.noteSubVn : item.noteSubVn}
+                      name={isVn ? "noteSubVn" : "noteSubKr"}
+                      value={isVn ? item.noteSubVn : item.noteSubKr}
                       onChange={(e) =>
                         handleChangeSubCategory(e, index, "note")
                       }
@@ -357,11 +384,11 @@ const EditCategory = () => {
         />
 
         <div className="flex items-center justify-center mt-16">
-          <GroupButton onSubmit={handleSubmit} />
+          <GroupButton isLoading={isSubmitting} onSubmit={handleSubmit} />
         </div>
       </div>
     </div>
   );
-};
+});
 
 export default EditCategory;

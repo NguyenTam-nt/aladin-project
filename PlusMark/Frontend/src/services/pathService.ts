@@ -1,3 +1,4 @@
 export const pathService = {
-    category: '/categories'
+    category: '/categories',
+    translateObj: "/translate-object"
 }

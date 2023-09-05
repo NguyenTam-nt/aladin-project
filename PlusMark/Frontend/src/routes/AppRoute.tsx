@@ -1,4 +1,3 @@
-import CategoryEdit from "@components/AdminComponents/category/CategoryEdit";
 import NewAdd from "@components/AdminComponents/New/NewAdd";
 import NewEdit from "@components/AdminComponents/New/NewEdit";
 import PolicyAdd from "@components/AdminComponents/Policy/PolicyAdd";
@@ -89,21 +88,19 @@ const AppRoutes = () => {
           path={ROUTES.admin.cartegory.index}
           element={<ManagerCategory />}
         />
-        {/* <Route path={ROUTES.admin.cartegory.add} element={<CategoryEdit />} />
-        <Route path={ROUTES.admin.cartegory.edit} element={<CategoryEdit />} /> */}
 
         {/* tradeManager */}
-        {/* <Route
+        <Route
           path={ROUTES.admin.cartegory.tradeMarkAdd}
           element={<TradeMarkComponent />}
         />
         <Route
           path={ROUTES.admin.cartegory.tradeMarkEdit}
           element={<TradeMarkComponent />}
-        /> */}
+        />
 
         {/* VoucherManager */}
-        {/* <Route path={ROUTES.admin.voucher.index} element={<ManagerVoucher />} />
+        <Route path={ROUTES.admin.voucher.index} element={<ManagerVoucher />} />
         <Route
           path={ROUTES.admin.voucher.add}
           element={<VoucherEditComponent />}
@@ -111,14 +108,14 @@ const AppRoutes = () => {
         <Route
           path={ROUTES.admin.voucher.view}
           element={<VoucherEditComponent />}
-        /> */}
+        />
 
         {/* IntroduceManager */}
 
-        {/* <Route
+        <Route
           path={ROUTES.admin.introduce.index}
           element={<ManagerIntroduce />}
-        /> */}
+        />
 
         {/* NewManager */}
         <Route path={ROUTES.admin.news.index} element={<ManageNews />} />

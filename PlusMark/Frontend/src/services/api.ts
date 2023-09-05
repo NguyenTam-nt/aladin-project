@@ -15,20 +15,9 @@ api.interceptors.request.use(
         ...config.headers,
         'Content-Type': 'multipart/form-data'
       }
-    
   }
-    
-    // Do something before request is sent
-    
-    
     if (AuthService.isLoggedIn()) {
       config.headers.Authorization = `Bearer ${AuthService.getToken()}`;
-      // const cb = () => {
-      //   config.headers.Authorization = `Bearer {AuthService.getToken()}`;
-      //   return Promise.resolve(config);
-      // };
-
-      // return AuthService.updateToken(cb);??
     }
     if(config.url.includes('/excelpayment')){
       config.responseType = "blob"
@@ -37,7 +26,6 @@ api.interceptors.request.use(
     return {...newConfig}
   },
   function (error) {
-    // Do something with request error
     return Promise.reject(error);
   }
 );

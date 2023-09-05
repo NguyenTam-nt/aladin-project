@@ -3,7 +3,7 @@ import api from "./api";
 const pathMutiple = '/images';
 const pathsingle = '/image';
 const UploadImage = {
-    uploadImage: async(data:any): Promise<string> => {
+    uploadImage: async(data:any): Promise<any> => {
        return await api.post(pathsingle, data)
     },
     uploadImages: async(data:any): Promise<string[]>=> {

@@ -27,6 +27,7 @@ const ManagerCategory = () => {
     try {
       const deleted = await categoryServices.deleteCategory(id);
       showSuccess("success.deleted");
+      getCategory();
     } catch (error) {
       showError("error.deleted_error");
     }
@@ -36,11 +37,23 @@ const ManagerCategory = () => {
   };
 
   const handleAddCategory = () => {
-    setContentModal(<EditCategory />);
+    const handleAddCategory = () => {
+      showSuccess("success.posted");
+      getCategory();
+    };
+    setContentModal(<EditCategory onCreated={handleAddCategory} />);
+    setShowModal(true);
+  };
+  const handleEditCategory = (item: CategoryType) => {
+    const handleEdited = () => {
+      showSuccess("success.updated");
+      getCategory();
+    };
+    setContentModal(<EditCategory onEdit={handleEdited} item={item} />);
     setShowModal(true);
   };
   useEffect(() => {
-    // getCategory();
+    getCategory();
   }, []);
   return (
     <div className="py-14">
@@ -58,7 +71,11 @@ const ManagerCategory = () => {
 
       <div className="pt-10">
         {categories.length > 0 ? (
-          <CategoryList category={categories} onDelete={handleDelete} />
+          <CategoryList
+            category={categories}
+            handleEdit={handleEditCategory}
+            onDelete={handleDelete}
+          />
         ) : (
           <div>Không có dữ liệu</div>
         )}

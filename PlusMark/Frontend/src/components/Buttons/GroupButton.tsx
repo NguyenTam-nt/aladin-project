@@ -1,17 +1,20 @@
 import DynamicButton from "@components/Buttons/DynamicButton";
 import LinearButton from "@components/Buttons/LinearButton";
 import { ModalContext } from "@contexts/contextModal";
+import clsx from "clsx";
 import React, { memo, useContext } from "react";
 interface Props {
   textCancel?: string;
   text?: string;
   onCancel?: () => void;
   onSubmit: () => void;
+  isLoading?: boolean;
 }
 const GroupButton = memo(
   ({
     text = "button.add",
     textCancel = "button.cancel",
+    isLoading = false,
     onCancel,
     onSubmit,
   }: Props) => {
@@ -29,9 +32,10 @@ const GroupButton = memo(
         <DynamicButton
           normal={false}
           gradien={true}
+          disabled={isLoading}
           text={text}
           onClick={onSubmit}
-          className="!rounded-none"
+          className={"!rounded-none " + (isLoading && "!cursor-not-allowed")}
         />
       </div>
     );

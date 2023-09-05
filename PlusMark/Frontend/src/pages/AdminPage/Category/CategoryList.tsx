@@ -7,8 +7,9 @@ import React, { memo } from "react";
 interface Props {
   category: CategoryType[];
   onDelete: (id: number) => void;
+  handleEdit: (item: CategoryType) => void;
 }
-const CategoryList = memo(({ category, onDelete }: Props) => {
+const CategoryList = memo(({ category, onDelete, handleEdit }: Props) => {
   const { t, isVn } = useI18n();
   return (
     <div>
@@ -48,14 +49,14 @@ const CategoryList = memo(({ category, onDelete }: Props) => {
                 </td>
                 <td className="py-4">
                   {item.subCategoryList.map((sub, index) => {
-                    return isVn ? sub.subCategoryNameVn : sub.subCategoryNameKr;
+                    return `${
+                      isVn ? sub.subCategoryNameVn : sub.subCategoryNameKr
+                    } ${index + 1 != item.subCategoryList.length ? " - " : ""}`;
                   })}
                 </td>
                 <td className="text-right py-4">
                   <div className="flex items-center justify-end gap-2 cursor-pointer">
-                    <div
-                    // onClick={() => handleShowEdit(item)}
-                    >
+                    <div onClick={() => handleEdit(item)}>
                       <EditIcon />
                     </div>
                     <div onClick={() => onDelete(item.id!)}>

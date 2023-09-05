@@ -1,10 +1,16 @@
 {
     "error": {
         "require": {
-            "title": "Không được ..."
+            "title": "Không được ...",
+            "category_name": "카테고리 이름은 비워둘 수 없습니다",
+            "image_category": "사진은 비워둘 수 없습니다",
+            "subcategory_name": "하위 카테고리 이름은 비워둘 수 없습니다"
+            
         },
         "max": {
-            "title": "Title không được quá .."
+            "title": "Title không được quá ..",
+            "max": "255 자를 초과할 수 없습니다",
+            "max_40": "40 자를 초과할 수 없습니다"
         },
         "post_error": "데이터를 추가할 수 없는 오류가 발생했습니다.",
         "deleted_error": "데이터를 삭제할 수 없다는 오류가 있습니다.",

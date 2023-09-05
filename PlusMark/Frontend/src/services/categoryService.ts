@@ -30,7 +30,7 @@ const  categoryServices = {
     deleteCategory: async(id:number): Promise<any>=> {
        return await api.delete(`${pathName}/${id}`)
     },
-    addOrEditCategory: async(data:any, id?:string): Promise<any>=> {
+    addOrEditCategory: async(data:any, id:number | undefined ): Promise<any>=> {
         if(id){
             const result= await api.put(`${pathName}/${id}`,data)
             return result

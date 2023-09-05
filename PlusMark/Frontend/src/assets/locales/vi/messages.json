@@ -1,10 +1,16 @@
 {
     "error": {
         "require": {
-            "title": "Không được ..."
+            "title": "Không được ...",
+            "category_name": "Không được để trống tên phân loại",
+            "image_category": "Không được để trống ảnh",
+            "subcategory_name": "Không được để trống tên danh mục con"
+            
         },
         "max": {
-            "title": "Title không được quá .."
+            "title": "Title không được quá ..",
+            "max": "Không được quá 255 ký tự",
+            "max_40": "Không được nhập quá 40 kí tự"
         },
         "post_error": "Có lỗi không thêm được dữ liệu.",
         "deleted_error": "Có lỗi không xóa được dữ liệu.",
