@@ -18,6 +18,8 @@ import BoxChoseColor from "./BoxChoseColor";
 import BoxTradeMark from "./BoxTradeMark";
 import ChooseProducCategory from "./ChooseProducCategory";
 import SliderPreviewImages from "./SliderPreviewImages";
+import TitleInput from "@components/input/TitleInput";
+import { InputComponent } from "@components/input/InputComponent";
 
 interface Props {}
 function ProductEditComponent(props: Props) {
@@ -668,6 +670,7 @@ function ProductEditComponent(props: Props) {
     <div className="pt-9 pb-10px flex-1">
       <h2 className="titlePage mb-5">Thông tin cơ bản</h2>
 
+    <div className="flex gap-x-14 gap-y-5 flex-row flex-wrap mb-3">
       <div>
         <p className="text-small">
           Hình ảnh sản phẩm <span className="text-main">*</span>
@@ -716,10 +719,10 @@ function ProductEditComponent(props: Props) {
         </div>
       </div>
 
-      <div className="mt-8 flex gap-24">
-        <div>
-          <p className="text-small mb-3">Video sản phẩm</p>
-          <label className="w-[100px] h-[100px] p-2 rounded-md border-[2px] border-dashed flex items-center flex-col justify-end cursor-pointer">
+      <div className="flex flex-col gap-3 ">
+        <p className="text-small">Video sản phẩm</p>
+        <div className="flex items-center gap-3 w-fit rounded-md  border-[2px] border-dashed h-[100px] px-3">
+          <label className="w-[100px] px-2 flex items-center flex-col justify-center cursor-pointer">
             <input
               type="file"
               name="video"
@@ -731,21 +734,22 @@ function ProductEditComponent(props: Props) {
               Thêm video ({formValue.video ? 1 : videoFile ? 1 : 0}/1)
             </p>
           </label>
-        </div>
-        <div>
-          <p className="max-w-[200px] text-left font-normal text-small text-gray-300 mt-8">
+          <p className="max-w-[200px] text-left font-normal text-small text-gray-300">
             Tải video dạng mp4 Độ dài từ 10s-60s Kích thước tối đa 30MB
           </p>
         </div>
       </div>
-
-      <div className="border-b border-b-gray-200 pb-12">
-        <div className="w-2/3">
-          <div className="mb-25">
-            <p className="text-small mb-3">
-              Mã sản phẩm <span className="text-main">*</span>
-            </p>
-            <InputTextElement
+    </div>
+    
+    <div className="grid grid-cols-2 gap-x-[34px] gap-y-3">
+          <div>
+            <TitleInput
+              isNormal={true}
+              isRequired={false}
+              name="Mã sản phẩm"
+            />
+            <InputComponent name="sku" className="!rounded-sm" />
+            {/* <InputTextElement
               isRequired={true}
               name="sku"
               value={formValue.sku}
@@ -753,13 +757,16 @@ function ProductEditComponent(props: Props) {
               classWidth="w-full mr-3"
               onChangeInput={handleValueInput}
               className="py-3 px-5"
-            />
+            /> */}
           </div>
-          <div className="mb-25">
-            <p className="text-small mb-3">
-              Tên sản phẩm <span className="text-main">*</span>
-            </p>
-            <InputTextElement
+          <div>
+            <TitleInput
+              isNormal={true}
+              isRequired={false}
+              name="Tên sản phẩm"
+            />
+            <InputComponent name="sku" className="!rounded-sm" />
+            {/* <InputTextElement
               isRequired={true}
               name="name"
               className="py-3 px-5"
@@ -768,8 +775,45 @@ function ProductEditComponent(props: Props) {
               maxNumber={120}
               value={formValue.name}
               onChangeInput={handleValueInput}
-            />
+            /> */}
           </div>
+          
+          <div>
+            <TitleInput
+              isNormal={true}
+              isRequired={false}
+              name="Mã sản phẩm"
+            />
+            <InputComponent name="sku" className="!rounded-sm" /> 
+          </div>
+          <div>
+            <TitleInput
+              isNormal={true}
+              isRequired={false}
+              name="Mã sản phẩm"
+            />
+            <InputComponent name="sku" className="!rounded-sm" /> 
+          </div>
+          <div>
+            <TitleInput
+              isNormal={true}
+              isRequired={false}
+              name="Mã sản phẩm"
+            />
+            <InputComponent name="sku" className="!rounded-sm" /> 
+          </div>
+          <div>
+            <TitleInput
+              isNormal={true}
+              isRequired={false}
+              name="Mã sản phẩm"
+            />
+            <InputComponent name="sku" className="!rounded-sm" /> 
+          </div>
+    </div>
+      <div className="border-b border-b-gray-200 pb-12">
+        <div className="w-2/3">
+        
           <ChooseProducCategory
             itemCategory={formValue.category}
             onHandleAddCategory={onChoseCategory}

@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useEffect, useState } from "react";
+import React, { ChangeEvent, ReactElement, ReactNode, useEffect, useState } from "react";
 interface Props {
   type?: string;
   isVND?: boolean;
@@ -10,6 +10,7 @@ interface Props {
   className?: string;
   classWidth?: string;
   placehoderText?: string;
+  icon?:ReactNode,
   onChangeInput?: (value: any) => void;
   onBlurInput?: (value: any) => void;
 }
@@ -20,6 +21,7 @@ function InputTextElement(props: Props) {
     isVND = false,
     value,
     name,
+    icon,
     type = "text",
     className = "",
     classWidth = "w-full",
@@ -68,7 +70,7 @@ function InputTextElement(props: Props) {
 
   return (
     <>
-      <div className={classWidth + " " + (maxNumber ? "relative" : undefined)}>
+      <div className={classWidth + " relative " + (maxNumber ? "relative" : undefined)}>
         <input
           maxLength={maxNumber && maxNumber}
           type={type}
@@ -91,6 +93,11 @@ function InputTextElement(props: Props) {
             handleBlur();
           }}
         />
+        {
+          icon && <div className="flex justify-center h-full cursor-pointer items-center absolute top-0 right-0 w-10">
+            {icon}
+          </div>
+        }
         {maxNumber && (
           <div className="w-[70px] h-full absolute top-0 right-0 border-l border-l-borderGray bg-transparent flex items-center justify-center text-gray-300">
             {isVND ? "đ" : inputValue.toString().length + "/" + maxNumber}
