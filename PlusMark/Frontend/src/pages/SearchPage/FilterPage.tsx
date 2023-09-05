@@ -753,15 +753,13 @@ function FilterPage() {
 
   const handleSetBreakCrummb = async (nav: any, cate: any, detail: any) => {
     if (cate.length > 0 && cate != "male" && cate != "female") {
-      cate = await categoryServices
-        .getCategoryById(cate)
-        .then((data) => data.categoryName);
+      cate = await categoryServices.getCategoryById(cate).then((data) => data);
     }
 
     if (detail.length > 0 && detail != "male" && detail != "female") {
       detail = await categoryServices
         .getCategoryById(detail)
-        .then((data) => data.categoryName);
+        .then((data) => data);
     }
 
     let breakCrumb = [

@@ -665,592 +665,590 @@ function ProductEditComponent(props: Props) {
     }
   }, [id]);
   return (
-      <div className="pt-9 pb-10px flex-1">
-        <h2 className="titlePage mb-5">Thông tin cơ bản</h2>
+    <div className="pt-9 pb-10px flex-1">
+      <h2 className="titlePage mb-5">Thông tin cơ bản</h2>
 
-        <div>
-          <p className="text-small">
-            Hình ảnh sản phẩm <span className="text-main">*</span>
-          </p>
-          <div className="flex gap-[10px] mt-3">
-            {imagePreview.map((itemPreview, indexPreview) => {
-              return (
+      <div>
+        <p className="text-small">
+          Hình ảnh sản phẩm <span className="text-main">*</span>
+        </p>
+        <div className="flex gap-[10px] mt-3">
+          {imagePreview.map((itemPreview, indexPreview) => {
+            return (
+              <div
+                key={indexPreview}
+                className="w-[100px] h-[100px] rounded-md bg-slate-400 relative"
+              >
+                <img
+                  src={itemPreview}
+                  alt=""
+                  className="w-full h-full rounded-md"
+                />
                 <div
-                  key={indexPreview}
-                  className="w-[100px] h-[100px] rounded-md bg-slate-400 relative"
+                  onClick={() => {
+                    handleDeleteImage(itemPreview, indexPreview);
+                  }}
+                  className="absolute top-2 cursor-pointer right-1 z-50"
                 >
-                  <img
-                    src={itemPreview}
-                    alt=""
-                    className="w-full h-full rounded-md"
-                  />
-                  <div
-                    onClick={() => {
-                      handleDeleteImage(itemPreview, indexPreview);
-                    }}
-                    className="absolute top-2 cursor-pointer right-1 z-50"
-                  >
-                    <TrashCanIcon width={15} height={15} />
-                  </div>
+                  <TrashCanIcon width={15} height={15} />
                 </div>
-              );
-            })}
-            <label
-              className={
-                "w-[100px] h-[100px] p-2 rounded-md border-[2px] border-dashed flex items-center flex-col justify-end cursor-pointer " +
-                (validForm?.file && "border-main")
-              }
-            >
-              <input
-                type="file"
-                multiple
-                className="hidden"
-                onChange={(event) => handleChoseFile(event)}
-              />
-              <AddImage width={36} />
-              <p className="text-xs tracking-[.03] text-gray-300 text-center">
-                Thêm hình ảnh ({id ? imagePreview.length : imageProducts.length}
-                /9)
-              </p>
-            </label>
-          </div>
-        </div>
-
-        <div className="mt-8 flex gap-24">
-          <div>
-            <p className="text-small mb-3">Video sản phẩm</p>
-            <label className="w-[100px] h-[100px] p-2 rounded-md border-[2px] border-dashed flex items-center flex-col justify-end cursor-pointer">
-              <input
-                type="file"
-                name="video"
-                className="hidden"
-                onChange={(event) => handleChoseVideo(event)}
-              />
-              <AddImage width={36} />
-              <p className="text-xs tracking-[.03] text-gray-300 text-center">
-                Thêm video ({formValue.video ? 1 : videoFile ? 1 : 0}/1)
-              </p>
-            </label>
-          </div>
-          <div>
-            <p className="max-w-[200px] text-left font-normal text-small text-gray-300 mt-8">
-              Tải video dạng mp4 Độ dài từ 10s-60s Kích thước tối đa 30MB
+              </div>
+            );
+          })}
+          <label
+            className={
+              "w-[100px] h-[100px] p-2 rounded-md border-[2px] border-dashed flex items-center flex-col justify-end cursor-pointer " +
+              (validForm?.file && "border-main")
+            }
+          >
+            <input
+              type="file"
+              multiple
+              className="hidden"
+              onChange={(event) => handleChoseFile(event)}
+            />
+            <AddImage width={36} />
+            <p className="text-xs tracking-[.03] text-gray-300 text-center">
+              Thêm hình ảnh ({id ? imagePreview.length : imageProducts.length}
+              /9)
             </p>
-          </div>
+          </label>
         </div>
+      </div>
 
-        <div className="border-b border-b-gray-200 pb-12">
-          <div className="w-2/3">
-            <div className="mb-25">
-              <p className="text-small mb-3">
-                Mã sản phẩm <span className="text-main">*</span>
-              </p>
-              <InputTextElement
-                isRequired={true}
-                name="sku"
-                value={formValue.sku}
-                placehoderText="Nhập mã sản phẩm"
-                classWidth="w-full mr-3"
-                onChangeInput={handleValueInput}
-                className="py-3 px-5"
-              />
-            </div>
-            <div className="mb-25">
-              <p className="text-small mb-3">
-                Tên sản phẩm <span className="text-main">*</span>
-              </p>
-              <InputTextElement
-                isRequired={true}
-                name="name"
-                className="py-3 px-5"
-                placehoderText="Nhập tên sản phẩm"
-                classWidth="w-full mr-3"
-                maxNumber={120}
-                value={formValue.name}
-                onChangeInput={handleValueInput}
-              />
-            </div>
-            <ChooseProducCategory
-              itemCategory={formValue.category}
-              onHandleAddCategory={onChoseCategory}
+      <div className="mt-8 flex gap-24">
+        <div>
+          <p className="text-small mb-3">Video sản phẩm</p>
+          <label className="w-[100px] h-[100px] p-2 rounded-md border-[2px] border-dashed flex items-center flex-col justify-end cursor-pointer">
+            <input
+              type="file"
+              name="video"
+              className="hidden"
+              onChange={(event) => handleChoseVideo(event)}
             />
-            <BoxTradeMark
-              iTemTrade={formValue.trademark}
-              onSelectTrade={handleTrade}
-            />
-
-            <div>
-              <p className="text-small mb-3">Đối tượng</p>
-              <div className="mt-3 flex items-center gap-12">
-                <InputChecboxElement
-                  onHandleChange={() => handleGender("male")}
-                  isCheck={
-                    Array.isArray(formValue.gender) &&
-                    formValue.gender.includes("male")
-                  }
-                  lable="Nam"
-                  name="female"
-                />
-                <InputChecboxElement
-                  onHandleChange={() => handleGender("female")}
-                  isCheck={
-                    Array.isArray(formValue.gender) &&
-                    formValue.gender.includes("female")
-                  }
-                  lable="Nữ"
-                  name="female"
-                />
-              </div>
-            </div>
-
-            <div className="mt-7">
-              <p className="text-small mb-3">
-                Thông tin <span className="text-main">*</span>
-              </p>
-              <div className="relative mb-7">
-                <textarea
-                  name="detail"
-                  maxLength={3000}
-                  value={formValue.detail}
-                  onChange={(event) => handleTextInput(event)}
-                  onBlur={(event) => {
-                    if (event.target.value === "") {
-                      setValid({
-                        ...validForm,
-                        [event.target.name]: true,
-                      });
-                    }
-                  }}
-                  className={
-                    "border rounded-md border-gray-200 resize-none w-full p-4 pr-12 text-small overflow-y-auto " +
-                    (validForm?.detail && "border-main")
-                  }
-                  rows={8}
-                />
-                <div className="absolute right-9 bottom-[20%] font-normal text-xs text-gray-300">
-                  {formValue?.detail?.length || 0}/3000
-                </div>
-                {validForm.detail && (
-                  <p className="w-auto text-left text-main text-xs mt-1">
-                    Không được để trống
-                  </p>
-                )}
-              </div>
-
-              <p className="text-small mb-3">Chính sách bảo hành sản phẩm</p>
-              <div className="relative">
-                <textarea
-                  name="policy"
-                  onChange={(event) => handleTextInput(event)}
-                  maxLength={3000}
-                  value={formValue.policy}
-                  className="border rounded-md border-gray-200 resize-none w-full p-4 pr-12 text-small mb-7 overflow-y-auto"
-                  rows={8}
-                />
-                <div className="absolute right-9 bottom-[20%] font-normal text-xs text-gray-300">
-                  {formValue?.policy?.length || 0}/3000
-                </div>
-              </div>
-            </div>
-          </div>
+            <AddImage width={36} />
+            <p className="text-xs tracking-[.03] text-gray-300 text-center">
+              Thêm video ({formValue.video ? 1 : videoFile ? 1 : 0}/1)
+            </p>
+          </label>
         </div>
-
-        <div className="w-2/3">
-          <p className="titlePage text-2xl mb-6 mt-1">Thông tin bán hàng</p>
-          <div>
-            <p className="text-small font-semibold mb-5">Phân loại hàng</p>
-            <div className="grid grid-cols-6">
-              <div className="col-span-1">
-                <p className="text-small">
-                  Màu sắc <span className="text-main">*</span>
-                </p>
-              </div>
-              <div className="col-span-5 mb-8">
-                {formValue.colors.length > 0 &&
-                  formValue.colors.map((itemColor, indexColor) => {
-                    return (
-                      <div
-                        className="flex items-center gap-10px mb-10px"
-                        key={indexColor}
-                      >
-                        <InputTextElement
-                          // isReadOnly={true}
-                          maxNumber={20}
-                          name="colorName"
-                          value={itemColor.colorName}
-                          onChangeInput={(value: any) =>
-                            handleChangeInputColor(value, indexColor)
-                          }
-                          placehoderText="Nhập mã sản phẩm"
-                          classWidth="w-full  mr-3"
-                          className="py-3 px-5"
-                        />
-                        <div
-                          className="w-10 h-10 rounded-md bg-gray-100 flex items-center justify-center cursor-pointer"
-                          onClick={() => handleDeleteColor("COLOR", indexColor)}
-                        >
-                          <TrashCanIcon fill="#8E8E8E" width={14} />
-                        </div>
-                      </div>
-                    );
-                  })}
-
-                <InputTextElement
-                  maxNumber={20}
-                  name="codeId"
-                  isRequired
-                  value={""}
-                  placehoderText="Nhập loại màu"
-                  classWidth="w-full max-w-[93%] mr-3"
-                  onBlurInput={handleAddColor}
-                  className="py-3 px-5"
-                />
-              </div>
-              <div className="col-span-1">
-                <p className="text-small">
-                  Size <span className="text-main">*</span>
-                </p>
-              </div>
-              <div className="col-span-5 mb-8">
-                {formValue.colors.length > 0 &&
-                  listSize.length > 0 &&
-                  listSize.map((itemSize, indexSize) => {
-                    return (
-                      <div
-                        className="flex items-center gap-10px mb-10px"
-                        key={indexSize}
-                      >
-                        <InputTextElement
-                          // isReadOnly={true}
-                          maxNumber={20}
-                          name="sizeName"
-                          value={itemSize}
-                          onChangeInput={(value: any) =>
-                            handleChangeSize(value, indexSize)
-                          }
-                          placehoderText="Nhập mã sản phẩm"
-                          classWidth="w-full  mr-3"
-                          className="py-3 px-5"
-                        />
-                        <div
-                          className="w-10 h-10 rounded-md bg-gray-100 flex items-center justify-center cursor-pointer"
-                          onClick={() =>
-                            handleDeleteColor("SIZE", indexSize, itemSize)
-                          }
-                        >
-                          <TrashCanIcon fill="#8E8E8E" width={14} />
-                        </div>
-                      </div>
-                    );
-                  })}
-                <InputTextElement
-                  name="sku"
-                  maxNumber={20}
-                  isRequired
-                  value={""}
-                  placehoderText="Nhập size sản phẩm"
-                  classWidth="w-full max-w-[93%] mr-3"
-                  onBlurInput={handleAddSize}
-                  className="py-3 px-5"
-                />
-              </div>
-
-              <div className="col-span-1 text-small">
-                <p className="text-small">
-                  Giá bán <span className="text-main">*</span>
-                </p>
-              </div>
-              <div className="col-span-5 mb-8">
-                <InputTextElement
-                  type="number"
-                  isRequired
-                  isVND={true}
-                  name="price"
-                  maxNumber={20}
-                  value={formValue.price == 0 ? "" : formValue.price}
-                  onChangeInput={handleValueInput}
-                  placehoderText="Nhập giá bán"
-                  classWidth="w-full max-w-[93%] mr-3"
-                  className="py-3 px-5"
-                />
-              </div>
-              <div className="col-span-1 text-small">
-                <p className="text-small">
-                  Giá vốn <span className="text-main">*</span>
-                </p>
-              </div>
-              <div className="col-span-5 mb-8">
-                <InputTextElement
-                  type="number"
-                  isRequired
-                  isVND={true}
-                  name="cost"
-                  maxNumber={20}
-                  value={formValue.cost == 0 ? "" : formValue.cost}
-                  onChangeInput={handleValueInput}
-                  placehoderText="Nhập giá vốn"
-                  classWidth="w-full max-w-[93%] mr-3"
-                  className="py-3 px-5"
-                />
-              </div>
-            </div>
-          </div>
-
-          <p className="text-small font-semibold mb-5">
-            Danh sách phân loại hàng
+        <div>
+          <p className="max-w-[200px] text-left font-normal text-small text-gray-300 mt-8">
+            Tải video dạng mp4 Độ dài từ 10s-60s Kích thước tối đa 30MB
           </p>
-          <div className="w-full flex gap-10px mb-5">
-            <div className="border rounded-md h-10 pt-3 px-3 pb-2 flex items-center w-[70%] 2xl:w-[78%]">
-              <input
-                type="number"
-                className="placeholder:text-gray-200 h-full p-2 text-small border-r border-gray-200 font-normal px-10px w-2/4"
-                placeholder="Số lượng"
-                name="countSale"
-                value={applySale.countSale}
-                onChange={(event) =>
-                  setApplySale({
-                    ...applySale,
-                    [event.target.name]: event.target.value,
-                  })
-                }
-              />
-              <input
-                type="number"
-                min={0}
-                className="placeholder:text-gray-200 h-full p-2 text-small font-normal px-10px w-2/4"
-                placeholder="Giảm giá"
-                name="salePrice"
-                value={applySale.salePrice}
-                onChange={(event) =>
-                  setApplySale({
-                    ...applySale,
-                    [event.target.name]: event.target.value,
-                  })
-                }
-              />
-            </div>
-            <button
-              className="btn-normal justify-center px-0 items-center w-[30%] 2xl:w-[22%] text-sm leading-18"
-              onClick={handleApplyPrice}
-            >
-              Áp dụng cho tất cả
-            </button>
-          </div>
+        </div>
+      </div>
 
-          {/* bảng chọn size và giá */}
-          <div className="mb-4">
-            {formValue.colors.length > 0 &&
-              formValue.colors[0].sizes &&
-              formValue.colors[0].sizes.length > 0 && (
-                <table className="w-full">
-                  <thead>
-                    <tr>
-                      {nameTable.map((itemName, index) => {
-                        return (
-                          <th
-                            key={index}
-                            className="text-small font-normal py-3 text-center min-w-[128px]"
-                          >
-                            {itemName}
-                          </th>
-                        );
-                      })}
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {formValue.colors.map((items, index) => {
-                      return (
-                        <Fragment key={index}>
-                          <tr>
-                            <td rowSpan={items.sizes.length + 1}>
-                              <div className="flex flex-col justify-center items-center p-2 relative">
-                                <p className="text-small font-semibold text-center mb-3">
-                                  {items.colorName}
-                                </p>
-                                <div
-                                  style={{
-                                    backgroundColor: items.colorCode || "",
-                                  }}
-                                  className="w-10 h-10 rounded-[50%] cursor-pointer border-2 chose-color"
-                                >
-                                  <BoxChoseColor
-                                    handleChoseColor={(value) =>
-                                      handleChoseColor(value, index)
-                                    }
-                                  />
-                                </div>
-                              </div>
-                            </td>
-                          </tr>
-                          {items.sizes.map((itemSize, indexSize) => {
-                            return (
-                              <tr key={indexSize + "Size"} className="relative">
-                                <td className="py-6 text-center text-small font-semibold uppercase max-w-[170px]">
-                                  {itemSize.sizeName}
-                                </td>
-                                <td>
-                                  <div className="flex max-w-[170px]">
-                                    <div className="border-r text-gray-300 border-r-gray-200 p-2">
-                                      %
-                                    </div>
-                                    <input
-                                      value={itemSize.sale}
-                                      name="sale"
-                                      onChange={(event) => {
-                                        handleChangeItemSize(
-                                          event,
-                                          index,
-                                          indexSize
-                                        );
-                                      }}
-                                      type="number"
-                                      placeholder="--"
-                                      className="text-small text-center font-semibold px-6 placeholder:text-gray-200 w-full"
-                                    />
-                                  </div>
-                                </td>
-                                <td>
-                                  <div className="max-w-[170px]">
-                                    <input
-                                      name="total"
-                                      value={itemSize.total}
-                                      onChange={(event) => {
-                                        handleChangeItemSize(
-                                          event,
-                                          index,
-                                          indexSize
-                                        );
-                                      }}
-                                      type="number"
-                                      placeholder="--"
-                                      className="text-small text-center font-semibold px-6 placeholder:text-gray-200 w-full"
-                                    />
-                                  </div>
-                                </td>
-                                <td>
-                                  <div className="">
-                                    <input
-                                      readOnly
-                                      value={(
-                                        formValue.price -
-                                        (formValue.price / 100) * itemSize.sale
-                                      ).toLocaleString("vi", {
-                                        style: "currency",
-                                        currency: "VND",
-                                      })}
-                                      onChange={(event) => {}}
-                                      type="text"
-                                      placeholder="--"
-                                      className="text-small text-center cursor-not-allowed font-semibold px-6 placeholder:text-gray-200 w-full"
-                                    />
-                                  </div>
-                                </td>
-                                {items.sizes.length > 1 && (
-                                  <div
-                                    onClick={() =>
-                                      handleDeleteSize(index, indexSize)
-                                    }
-                                    className="absolute -right-5 top-2/4 -translate-y-[50%] cursor-pointer"
-                                  >
-                                    <TrashCanIcon fill="#8E8E8E" width={14} />
-                                  </div>
-                                )}
-                              </tr>
-                            );
-                          })}
-                        </Fragment>
-                      );
-                    })}
-                  </tbody>
-                </table>
-              )}
-          </div>
-          {/* chọn màu */}
-          <div className="mb-9">
-            <p className="text-small font-semibold mb-5">Chọn màu</p>
-            {imagePreview.length > 0 && formValue.colors.length > 0 && (
-              <div className="border border-gray-200 rounded-md">
-                {formValue.colors.map((item, index) => {
-                  return (
-                    <SliderPreviewImages
-                      key={index}
-                      classNavigate={"slideProduct" + index}
-                      codeColor={item.colorCode}
-                      nameColor={item.colorName}
-                      indexSlide={index}
-                      lisImages={imagePreview}
-                      listImageActived={listImageActived}
-                      imageActived={item.image}
-                      handleActiveImage={handleSetColorIntoImage}
-                    />
-                  );
-                })}
-              </div>
-            )}
-          </div>
-
-          {/* bảng đổi kích cỡ ảnh */}
-          <div className="mb-5">
-            <p className="text-small font-semibold mb-5">
-              Bảng quy đổi kích cỡ
+      <div className="border-b border-b-gray-200 pb-12">
+        <div className="w-2/3">
+          <div className="mb-25">
+            <p className="text-small mb-3">
+              Mã sản phẩm <span className="text-main">*</span>
             </p>
-            <div className="border-2 border-dashed rounded-md cursor-pointer ">
-              <label className=" h-195px flex flex-col items-center justify-center">
-                {formValue.imageCheck && formValue.imageCheck != "" ? (
-                  <img
-                    src={formValue.imageCheck}
-                    alt=""
-                    className="max-w-full max-h-full border-dashed cursor-pointer rounded-md"
-                  />
-                ) : (
-                  <>
-                    <AddImage className="m-0" />
-                    <p className="text-xs tracking-[.03] text-gray-300 text-center">
-                      Tải ảnh lên
-                    </p>
-                  </>
-                )}
+            <InputTextElement
+              isRequired={true}
+              name="sku"
+              value={formValue.sku}
+              placehoderText="Nhập mã sản phẩm"
+              classWidth="w-full mr-3"
+              onChangeInput={handleValueInput}
+              className="py-3 px-5"
+            />
+          </div>
+          <div className="mb-25">
+            <p className="text-small mb-3">
+              Tên sản phẩm <span className="text-main">*</span>
+            </p>
+            <InputTextElement
+              isRequired={true}
+              name="name"
+              className="py-3 px-5"
+              placehoderText="Nhập tên sản phẩm"
+              classWidth="w-full mr-3"
+              maxNumber={120}
+              value={formValue.name}
+              onChangeInput={handleValueInput}
+            />
+          </div>
+          <ChooseProducCategory
+            itemCategory={formValue.category}
+            onHandleAddCategory={onChoseCategory}
+          />
+          <BoxTradeMark
+            iTemTrade={formValue.trademark}
+            onSelectTrade={handleTrade}
+          />
 
-                <input
-                  id="fileSize"
-                  name=""
-                  type="file"
-                  className="hidden"
-                  onChange={(event) => {
-                    setFormValue({
-                      ...formValue,
-                      imageCheck: URL.createObjectURL(event?.target.files![0]),
-                    });
-                    setImgExchangeFile(event?.target.files![0]);
-                    event.target.value = "";
-                  }}
-                />
-              </label>
+          <div>
+            <p className="text-small mb-3">Đối tượng</p>
+            <div className="mt-3 flex items-center gap-12">
+              <InputChecboxElement
+                onHandleChange={() => handleGender("male")}
+                isCheck={
+                  Array.isArray(formValue.gender) &&
+                  formValue.gender.includes("male")
+                }
+                lable="Nam"
+                name="female"
+              />
+              <InputChecboxElement
+                onHandleChange={() => handleGender("female")}
+                isCheck={
+                  Array.isArray(formValue.gender) &&
+                  formValue.gender.includes("female")
+                }
+                lable="Nữ"
+                name="female"
+              />
             </div>
           </div>
 
-          <div className="flex item-center mt-7">
-            <button
-              disabled={!handleCheckValidate() || isDisable}
-              className={
-                "btn-normal text-sm leading-18 mr-10px " +
-                (!handleCheckValidate() || isDisable
-                  ? "bg-gray-300 text-white cursor-not-allowed"
-                  : "")
-              }
-              onClick={() => handleSubmit()}
-            >
-              Lưu
-            </button>
-            <button
-              className="rounded-md py-2 px-3 border border-main flex items-center text-main text-smal font-normal bg-icon"
-              onClick={() => navigate("/admin/product")}
-            >
-              Hủy
-            </button>
+          <div className="mt-7">
+            <p className="text-small mb-3">
+              Thông tin <span className="text-main">*</span>
+            </p>
+            <div className="relative mb-7">
+              <textarea
+                name="detail"
+                maxLength={3000}
+                value={formValue.detail}
+                onChange={(event) => handleTextInput(event)}
+                onBlur={(event) => {
+                  if (event.target.value === "") {
+                    setValid({
+                      ...validForm,
+                      [event.target.name]: true,
+                    });
+                  }
+                }}
+                className={
+                  "border rounded-md border-gray-200 resize-none w-full p-4 pr-12 text-small overflow-y-auto " +
+                  (validForm?.detail && "border-main")
+                }
+                rows={8}
+              />
+              <div className="absolute right-9 bottom-[20%] font-normal text-xs text-gray-300">
+                {formValue?.detail?.length || 0}/3000
+              </div>
+              {validForm.detail && (
+                <p className="w-auto text-left text-main text-xs mt-1">
+                  Không được để trống
+                </p>
+              )}
+            </div>
+
+            <p className="text-small mb-3">Chính sách bảo hành sản phẩm</p>
+            <div className="relative">
+              <textarea
+                name="policy"
+                onChange={(event) => handleTextInput(event)}
+                maxLength={3000}
+                value={formValue.policy}
+                className="border rounded-md border-gray-200 resize-none w-full p-4 pr-12 text-small mb-7 overflow-y-auto"
+                rows={8}
+              />
+              <div className="absolute right-9 bottom-[20%] font-normal text-xs text-gray-300">
+                {formValue?.policy?.length || 0}/3000
+              </div>
+            </div>
           </div>
         </div>
       </div>
+
+      <div className="w-2/3">
+        <p className="titlePage text-2xl mb-6 mt-1">Thông tin bán hàng</p>
+        <div>
+          <p className="text-small font-semibold mb-5">Phân loại hàng</p>
+          <div className="grid grid-cols-6">
+            <div className="col-span-1">
+              <p className="text-small">
+                Màu sắc <span className="text-main">*</span>
+              </p>
+            </div>
+            <div className="col-span-5 mb-8">
+              {formValue.colors.length > 0 &&
+                formValue.colors.map((itemColor, indexColor) => {
+                  return (
+                    <div
+                      className="flex items-center gap-10px mb-10px"
+                      key={indexColor}
+                    >
+                      <InputTextElement
+                        // isReadOnly={true}
+                        maxNumber={20}
+                        name="colorName"
+                        value={itemColor.colorName}
+                        onChangeInput={(value: any) =>
+                          handleChangeInputColor(value, indexColor)
+                        }
+                        placehoderText="Nhập mã sản phẩm"
+                        classWidth="w-full  mr-3"
+                        className="py-3 px-5"
+                      />
+                      <div
+                        className="w-10 h-10 rounded-md bg-gray-100 flex items-center justify-center cursor-pointer"
+                        onClick={() => handleDeleteColor("COLOR", indexColor)}
+                      >
+                        <TrashCanIcon fill="#8E8E8E" width={14} />
+                      </div>
+                    </div>
+                  );
+                })}
+
+              <InputTextElement
+                maxNumber={20}
+                name="codeId"
+                isRequired
+                value={""}
+                placehoderText="Nhập loại màu"
+                classWidth="w-full max-w-[93%] mr-3"
+                onBlurInput={handleAddColor}
+                className="py-3 px-5"
+              />
+            </div>
+            <div className="col-span-1">
+              <p className="text-small">
+                Size <span className="text-main">*</span>
+              </p>
+            </div>
+            <div className="col-span-5 mb-8">
+              {formValue.colors.length > 0 &&
+                listSize.length > 0 &&
+                listSize.map((itemSize, indexSize) => {
+                  return (
+                    <div
+                      className="flex items-center gap-10px mb-10px"
+                      key={indexSize}
+                    >
+                      <InputTextElement
+                        // isReadOnly={true}
+                        maxNumber={20}
+                        name="sizeName"
+                        value={itemSize}
+                        onChangeInput={(value: any) =>
+                          handleChangeSize(value, indexSize)
+                        }
+                        placehoderText="Nhập mã sản phẩm"
+                        classWidth="w-full  mr-3"
+                        className="py-3 px-5"
+                      />
+                      <div
+                        className="w-10 h-10 rounded-md bg-gray-100 flex items-center justify-center cursor-pointer"
+                        onClick={() =>
+                          handleDeleteColor("SIZE", indexSize, itemSize)
+                        }
+                      >
+                        <TrashCanIcon fill="#8E8E8E" width={14} />
+                      </div>
+                    </div>
+                  );
+                })}
+              <InputTextElement
+                name="sku"
+                maxNumber={20}
+                isRequired
+                value={""}
+                placehoderText="Nhập size sản phẩm"
+                classWidth="w-full max-w-[93%] mr-3"
+                onBlurInput={handleAddSize}
+                className="py-3 px-5"
+              />
+            </div>
+
+            <div className="col-span-1 text-small">
+              <p className="text-small">
+                Giá bán <span className="text-main">*</span>
+              </p>
+            </div>
+            <div className="col-span-5 mb-8">
+              <InputTextElement
+                type="number"
+                isRequired
+                isVND={true}
+                name="price"
+                maxNumber={20}
+                value={formValue.price == 0 ? "" : formValue.price}
+                onChangeInput={handleValueInput}
+                placehoderText="Nhập giá bán"
+                classWidth="w-full max-w-[93%] mr-3"
+                className="py-3 px-5"
+              />
+            </div>
+            <div className="col-span-1 text-small">
+              <p className="text-small">
+                Giá vốn <span className="text-main">*</span>
+              </p>
+            </div>
+            <div className="col-span-5 mb-8">
+              <InputTextElement
+                type="number"
+                isRequired
+                isVND={true}
+                name="cost"
+                maxNumber={20}
+                value={formValue.cost == 0 ? "" : formValue.cost}
+                onChangeInput={handleValueInput}
+                placehoderText="Nhập giá vốn"
+                classWidth="w-full max-w-[93%] mr-3"
+                className="py-3 px-5"
+              />
+            </div>
+          </div>
+        </div>
+
+        <p className="text-small font-semibold mb-5">
+          Danh sách phân loại hàng
+        </p>
+        <div className="w-full flex gap-10px mb-5">
+          <div className="border rounded-md h-10 pt-3 px-3 pb-2 flex items-center w-[70%] 2xl:w-[78%]">
+            <input
+              type="number"
+              className="placeholder:text-gray-200 h-full p-2 text-small border-r border-gray-200 font-normal px-10px w-2/4"
+              placeholder="Số lượng"
+              name="countSale"
+              value={applySale.countSale}
+              onChange={(event) =>
+                setApplySale({
+                  ...applySale,
+                  [event.target.name]: event.target.value,
+                })
+              }
+            />
+            <input
+              type="number"
+              min={0}
+              className="placeholder:text-gray-200 h-full p-2 text-small font-normal px-10px w-2/4"
+              placeholder="Giảm giá"
+              name="salePrice"
+              value={applySale.salePrice}
+              onChange={(event) =>
+                setApplySale({
+                  ...applySale,
+                  [event.target.name]: event.target.value,
+                })
+              }
+            />
+          </div>
+          <button
+            className="btn-normal justify-center px-0 items-center w-[30%] 2xl:w-[22%] text-sm leading-18"
+            onClick={handleApplyPrice}
+          >
+            Áp dụng cho tất cả
+          </button>
+        </div>
+
+        {/* bảng chọn size và giá */}
+        <div className="mb-4">
+          {formValue.colors.length > 0 &&
+            formValue.colors[0].sizes &&
+            formValue.colors[0].sizes.length > 0 && (
+              <table className="w-full">
+                <thead>
+                  <tr>
+                    {nameTable.map((itemName, index) => {
+                      return (
+                        <th
+                          key={index}
+                          className="text-small font-normal py-3 text-center min-w-[128px]"
+                        >
+                          {itemName}
+                        </th>
+                      );
+                    })}
+                  </tr>
+                </thead>
+                <tbody>
+                  {formValue.colors.map((items, index) => {
+                    return (
+                      <Fragment key={index}>
+                        <tr>
+                          <td rowSpan={items.sizes.length + 1}>
+                            <div className="flex flex-col justify-center items-center p-2 relative">
+                              <p className="text-small font-semibold text-center mb-3">
+                                {items.colorName}
+                              </p>
+                              <div
+                                style={{
+                                  backgroundColor: items.colorCode || "",
+                                }}
+                                className="w-10 h-10 rounded-[50%] cursor-pointer border-2 chose-color"
+                              >
+                                <BoxChoseColor
+                                  handleChoseColor={(value) =>
+                                    handleChoseColor(value, index)
+                                  }
+                                />
+                              </div>
+                            </div>
+                          </td>
+                        </tr>
+                        {items.sizes.map((itemSize, indexSize) => {
+                          return (
+                            <tr key={indexSize + "Size"} className="relative">
+                              <td className="py-6 text-center text-small font-semibold uppercase max-w-[170px]">
+                                {itemSize.sizeName}
+                              </td>
+                              <td>
+                                <div className="flex max-w-[170px]">
+                                  <div className="border-r text-gray-300 border-r-gray-200 p-2">
+                                    %
+                                  </div>
+                                  <input
+                                    value={itemSize.sale}
+                                    name="sale"
+                                    onChange={(event) => {
+                                      handleChangeItemSize(
+                                        event,
+                                        index,
+                                        indexSize
+                                      );
+                                    }}
+                                    type="number"
+                                    placeholder="--"
+                                    className="text-small text-center font-semibold px-6 placeholder:text-gray-200 w-full"
+                                  />
+                                </div>
+                              </td>
+                              <td>
+                                <div className="max-w-[170px]">
+                                  <input
+                                    name="total"
+                                    value={itemSize.total}
+                                    onChange={(event) => {
+                                      handleChangeItemSize(
+                                        event,
+                                        index,
+                                        indexSize
+                                      );
+                                    }}
+                                    type="number"
+                                    placeholder="--"
+                                    className="text-small text-center font-semibold px-6 placeholder:text-gray-200 w-full"
+                                  />
+                                </div>
+                              </td>
+                              <td>
+                                <div className="">
+                                  <input
+                                    readOnly
+                                    value={(
+                                      formValue.price -
+                                      (formValue.price / 100) * itemSize.sale
+                                    ).toLocaleString("vi", {
+                                      style: "currency",
+                                      currency: "VND",
+                                    })}
+                                    onChange={(event) => {}}
+                                    type="text"
+                                    placeholder="--"
+                                    className="text-small text-center cursor-not-allowed font-semibold px-6 placeholder:text-gray-200 w-full"
+                                  />
+                                </div>
+                              </td>
+                              {items.sizes.length > 1 && (
+                                <div
+                                  onClick={() =>
+                                    handleDeleteSize(index, indexSize)
+                                  }
+                                  className="absolute -right-5 top-2/4 -translate-y-[50%] cursor-pointer"
+                                >
+                                  <TrashCanIcon fill="#8E8E8E" width={14} />
+                                </div>
+                              )}
+                            </tr>
+                          );
+                        })}
+                      </Fragment>
+                    );
+                  })}
+                </tbody>
+              </table>
+            )}
+        </div>
+        {/* chọn màu */}
+        <div className="mb-9">
+          <p className="text-small font-semibold mb-5">Chọn màu</p>
+          {imagePreview.length > 0 && formValue.colors.length > 0 && (
+            <div className="border border-gray-200 rounded-md">
+              {formValue.colors.map((item, index) => {
+                return (
+                  <SliderPreviewImages
+                    key={index}
+                    classNavigate={"slideProduct" + index}
+                    codeColor={item.colorCode}
+                    nameColor={item.colorName}
+                    indexSlide={index}
+                    lisImages={imagePreview}
+                    listImageActived={listImageActived}
+                    imageActived={item.image}
+                    handleActiveImage={handleSetColorIntoImage}
+                  />
+                );
+              })}
+            </div>
+          )}
+        </div>
+
+        {/* bảng đổi kích cỡ ảnh */}
+        <div className="mb-5">
+          <p className="text-small font-semibold mb-5">Bảng quy đổi kích cỡ</p>
+          <div className="border-2 border-dashed rounded-md cursor-pointer ">
+            <label className=" h-195px flex flex-col items-center justify-center">
+              {formValue.imageCheck && formValue.imageCheck != "" ? (
+                <img
+                  src={formValue.imageCheck}
+                  alt=""
+                  className="max-w-full max-h-full border-dashed cursor-pointer rounded-md"
+                />
+              ) : (
+                <>
+                  <AddImage className="m-0" />
+                  <p className="text-xs tracking-[.03] text-gray-300 text-center">
+                    Tải ảnh lên
+                  </p>
+                </>
+              )}
+
+              <input
+                id="fileSize"
+                name=""
+                type="file"
+                className="hidden"
+                onChange={(event) => {
+                  setFormValue({
+                    ...formValue,
+                    imageCheck: URL.createObjectURL(event?.target.files![0]),
+                  });
+                  setImgExchangeFile(event?.target.files![0]);
+                  event.target.value = "";
+                }}
+              />
+            </label>
+          </div>
+        </div>
+
+        <div className="flex item-center mt-7">
+          <button
+            disabled={!handleCheckValidate() || isDisable}
+            className={
+              "btn-normal text-sm leading-18 mr-10px " +
+              (!handleCheckValidate() || isDisable
+                ? "bg-gray-300 text-white cursor-not-allowed"
+                : "")
+            }
+            onClick={() => handleSubmit()}
+          >
+            Lưu
+          </button>
+          <button
+            className="rounded-md py-2 px-3 border border-main flex items-center text-main text-smal font-normal bg-icon"
+            onClick={() => navigate("/admin/product")}
+          >
+            Hủy
+          </button>
+        </div>
+      </div>
+    </div>
   );
 }
 

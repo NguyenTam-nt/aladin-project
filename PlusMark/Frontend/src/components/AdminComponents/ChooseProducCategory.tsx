@@ -3,8 +3,6 @@ import InputTextElement from "commons/components/InputComponent/InputTextElement
 import { RootCategory } from "commons/contannt";
 import { initial } from "lodash";
 import { UIEvent, useEffect, useRef, useState } from "react";
-import { setInital } from "redux/reducer/categorySlice";
-import { ThunkgetAllCategory } from "redux/thunk/categoryAction";
 
 interface Props {
   itemCategory?: {
@@ -20,10 +18,6 @@ interface Props {
 function ChooseProducCategory(props: Props) {
   const { itemCategory, onHandleAddCategory } = props;
   const dispatch = useAppDispatch();
-  const categories = useAppSelector((state) => state.categories.categorylist);
-  const { categorylist, totalElement } = useAppSelector(
-    (state) => state.categories
-  );
   const [page, setPage] = useState<number>(0);
   const [isShowBox, setShowBox] = useState<boolean>(false);
   const [categoryItem, setCategoryItem] = useState<RootCategory[] | null>(null);
@@ -110,20 +104,20 @@ function ChooseProducCategory(props: Props) {
       }
     }
   };
-  const handleScroolGetApi = (event: UIEvent<HTMLDivElement>) => {
-    const scroolTop = event.currentTarget.scrollTop;
-    const clientHeight = event.currentTarget.clientHeight;
-    const scrollHeight = event.currentTarget.scrollHeight;
-    if (
-      scroolTop + clientHeight >= scrollHeight &&
-      categorylist.length < totalElement
-    ) {
-      if (categorylist.length < totalElement) {
-        setPage((prevState) => prevState + 1);
-        dispatch(ThunkgetAllCategory({ page: page + 1, size: 10, sort: null }));
-      }
-    }
-  };
+  // const handleScroolGetApi = (event: UIEvent<HTMLDivElement>) => {
+  //   const scroolTop = event.currentTarget.scrollTop;
+  //   const clientHeight = event.currentTarget.clientHeight;
+  //   const scrollHeight = event.currentTarget.scrollHeight;
+  //   if (
+  //     scroolTop + clientHeight >= scrollHeight &&
+  //     categorylist.length < totalElement
+  //   ) {
+  //     if (categorylist.length < totalElement) {
+  //       setPage((prevState) => prevState + 1);
+  //       dispatch(ThunkgetAllCategory({ page: page + 1, size: 10, sort: null }));
+  //     }
+  //   }
+  // };
   useEffect(() => {
     window.addEventListener("click", (event) => enableBox(event));
     if (itemCategory) {
@@ -133,10 +127,7 @@ function ChooseProducCategory(props: Props) {
       window.removeEventListener("click", (event) => enableBox(event));
     };
   }, [itemCategory]);
-  useEffect(() => {
-    dispatch(setInital());
-    dispatch(ThunkgetAllCategory({ page: 0, size: 10, sort: null }));
-  }, []);
+  useEffect(() => {}, []);
   return (
     <div className="mb-25">
       <p className="text-small mb-3">
@@ -154,7 +145,7 @@ function ChooseProducCategory(props: Props) {
         />
       </div>
 
-      {isShowBox && categories.length > 0 && (
+      {/* {isShowBox && categories.length > 0 && (
         <div
           ref={cRef}
           className="rounded-md mt-2 py-4 px-18px w-fit flex gap-10px border border-gray-200 shadow max-h-[200px]"
@@ -187,7 +178,7 @@ function ChooseProducCategory(props: Props) {
           {categoryItem && showSubCategory(categoryItem, true)}
           {categoryItem2 && showSubCategory(categoryItem2)}
         </div>
-      )}
+      )} */}
     </div>
   );
 }
