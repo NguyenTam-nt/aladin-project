@@ -61,15 +61,7 @@
                 "address_place_holder": "특정 주소",
                 "province": "주/시 선택",
                 "district": "지구/지구 선택",
-                "commune": "병동/코뮌 선택",
-                "card_number_title": "Số thẻ",
-                "card_number_place_holder": "Nhập số thẻ của bạn",
-                "card_number_type_title": "Loại thẻ",
-                "expired_date_card_title": "Ngày hết hạn",
-                "month": "Tháng",
-                "year": "Năm",
-                "zip_code": "Mã bưu điện",
-                "country_code": "Mã quốc gia"
+                "commune": "병동/코뮌 선택"
             }
         },
         "info_delivery_method": {

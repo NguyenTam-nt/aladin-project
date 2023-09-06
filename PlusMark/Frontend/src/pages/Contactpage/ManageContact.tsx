@@ -3,6 +3,7 @@ import FormFeedBackContact from "@components/AdminComponents/FormFeedBackContact
 import Pagination from "@components/Pagination";
 import { ToastContex } from "@contexts/ToastContex";
 import { ModalContext } from "@contexts/contextModal";
+import useI18n from "@hooks/useI18n";
 import ContactServices from "@services/ContactServices";
 import { some } from "@utility/helper";
 import clsx from "clsx";
@@ -20,6 +21,7 @@ function ManageContact() {
   const [listIdDelete, setListIdDelete] = useState<string[]>([]);
   const [totalPage, setTotalPage] = useState<number>(0);
   const [currenPage, setCurrenPage] = useState<number>(1);
+  const { t } = useI18n();
   const [statusFilter, setStatusFilter] = useState<"WAITING" | "REPLIED" | null>(
     null
   );
@@ -132,7 +134,7 @@ function ManageContact() {
   };
   const getListContact = async (param: some) => {
     const result = await ContactServices.getContactFilter(param);
-    const { total, data, status } : any = result;
+    const { total, data, status }: any = result;
     setListContact(data);
     setTotalPage(Math.ceil(total / 10));
     return result;
@@ -140,7 +142,7 @@ function ManageContact() {
   const changeStatusContact = async (data: ContactType) => {
     try {
       const newData = { ...data, status: !data.status };
-      const putted : any = await ContactServices.put(data.id, newData);
+      const putted: any = await ContactServices.put(data.id, newData);
       if (putted) {
         const newContact = listContact.map((item) => {
           if (item.id == putted.id) {
@@ -185,7 +187,7 @@ function ManageContact() {
 
       <div className="flex justify-between items-center h-[40px] gap-4 my-2 mt-20">
         <h3 className="text-title font-semibold text-main">
-          Danh sách yêu cầu tư vấn
+          {t("text.title.title_consultant")}
         </h3>
         <div className="flex items-center gap-2">
           <div>
@@ -199,20 +201,20 @@ function ManageContact() {
                   : "cursor-pointer bg-white")
               }
             >
-              <TrashIconAdvice  /> Xóa
+              <TrashIconAdvice /> {t("text.button.delete")}
             </button>
           </div>
           <div
             onClick={() => handleFilter("desc")}
             className="w-fit h-full hover:cursor-pointer text-main text-normal1 px-5 py-3 border-main border-[1px] font-bold flex items-center gap-1"
           >
-            <IconArrowUp /> Mới nhất
+            <IconArrowUp /> {t("text.button.newest")}
           </div>
           <div
             onClick={() => handleFilter("asc")}
             className="w-fit h-full hover:cursor-pointer text-main text-normal1 px-5 py-3  border-main border-[1px] font-bold flex items-center gap-1"
           >
-            <IconArrowDown  /> Cũ nhất
+            <IconArrowDown /> {t("text.button.latest")}
           </div>
         </div>
       </div>
@@ -235,23 +237,23 @@ function ManageContact() {
                 </div>
               </th>
               <th className="text-start text-black text-wap-regular2 px-4 py-4 whitespace-nowrap">
-                Họ và tên
+                {t("text.table.full_name")}
               </th>
               <th className="text-start text-black text-wap-regular2 px-4 py-4 whitespace-nowrap">
-                Số điện thoại
+                {t("text.table.phone")}
               </th>
               <th className="text-start text-black text-wap-regular2 px-4 py-4 whitespace-nowrap">
                 Email
               </th>
               <th className="text-start text-black text-wap-regular2 px-4 py-4 whitespace-nowrap">
-                Địa chỉ
+                {t("text.table.address")}
               </th>
               <th className="text-start text-black text-wap-regular2 px-4 py-4 whitespace-nowrap max-w-[300px]">
-                Nội dung
+                {t("text.table.content")}
               </th>
               <th className="text-center text-black text-wap-regular2 px-4 py-4 whitespace-nowrap status-icon cursor-pointer">
                 <div className="flex items-center gap-2 justify-center relative ">
-                  Trạng thái
+                  {t("text.table.status")}
 
                   {/*Icon filter*/}
                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill={statusFilter ? "black" : "none"}>

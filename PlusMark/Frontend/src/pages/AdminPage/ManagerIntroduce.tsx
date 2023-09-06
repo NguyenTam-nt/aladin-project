@@ -81,7 +81,7 @@ function ManagerIntroduce() {
         setLoading(true);
         const response = await IntroServices.get();
         const data: any = response;
-
+        
         let transformedIntros = data.map((introData: any) => {
           const intro: Introduce = {
             id: introData.id,
@@ -96,6 +96,8 @@ function ManagerIntroduce() {
           };
           return intro;
         });
+        transformedIntros.sort((a:any, b:any) => a.name.localeCompare(b.name));
+        console.log(transformedIntros)
 
         const objIntros = transformedIntros.reduce(
           (obj: Introduce, item: Introduce) => Object.assign(obj, { [item.name]: item }), {})

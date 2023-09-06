@@ -1,6 +1,7 @@
 import { AddImage, SwiperSlideButton, TrashCanIcon } from "@assets/icons";
 import { ModalContext } from "@contexts/contextModal";
 import { ToastContex } from "@contexts/ToastContex";
+import useI18n from "@hooks/useI18n";
 import BannerServices from "@services/BannerServices";
 import UploadImage from "@services/UploadImage";
 import {
@@ -12,6 +13,7 @@ import { url } from "inspector";
 import { ChangeEvent, useContext, useRef, useState } from "react";
 import { Navigation } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
+
 
 export default function UploadBannerItem({
   images,
@@ -31,6 +33,7 @@ export default function UploadBannerItem({
   const { setShowModal, setContentModal } = useContext(ModalContext);
   const inputRef = useRef<HTMLInputElement>(null);
   const { onAddToast } = useContext(ToastContex);
+  const { t } = useI18n();
 
   const onClick = (e: any) => {
     if (images && images?.length >= max) {
@@ -126,8 +129,8 @@ export default function UploadBannerItem({
 
   return (
     <div>
-      <p className="mb-5 text-[24px] leading-6 font-bold">{label} <span className="text-[#EA222A]">*</span></p>
-      <p className="font-bold mb-2">Tải ảnh lên <span className="text-[#EA222A]">*</span> (tối đa {images?.length}/{max} ảnh) </p>
+      <p className="mb-5 text-[24px] leading-6 font-bold">{name === 'HOMEPAGE'? t("text.title.title_banner_home") : t("text.title.title_banner_intro")}<span className="text-[#EA222A]">*</span></p>
+      <p className="font-bold mb-2">{t("text.title.title_upload_image", {total: images?.length, max: max})} <span className="text-[#EA222A]">*</span></p>
       <div className="mb-[42px] flex gap-18px">
         <div
           className={`w-fit h-[190px] border-[2px] border-dashed rounded flex flex-row justify-center items-center px-5
@@ -137,7 +140,7 @@ export default function UploadBannerItem({
         >
           <AddImage />
           <p className="text-normal text-gray-300 pl-3">
-            Chọn hình ảnh tải lên <span className="font-bold text-[#0073E5]">tại đây</span>
+            {t("text.image.title")} <span className="font-bold text-[#0073E5]">{t("text.image.title_here")}</span>
           </p>
           <input
             ref={inputRef}

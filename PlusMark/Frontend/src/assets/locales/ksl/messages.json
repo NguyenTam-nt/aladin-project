@@ -42,7 +42,8 @@
         "title": "cảnh báo title bị trùng khớp"
     },
     "confirm": {
-        "delete_category" : "카테고리를 삭제하시겠습니까?"
+        "delete_category" : "카테고리를 삭제하시겠습니까?",
+        "delete_policy" : "시스템에서 이 정책을 제거하시겠습니까?"
     }
 
 }

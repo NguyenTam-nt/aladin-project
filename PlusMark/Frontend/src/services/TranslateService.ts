@@ -7,11 +7,11 @@ const pathObj = pathService.translateObj;
 
 const TranslateService = {
     translateToKorea: async (content: any) : Promise<any> => {
-        const result = await api.post(`${pathName}?type=2`, content);
+        const result = await api.post(`${pathName}?type=1`, content);
         return result
     },
     translateToVietNam: async (content: any): Promise<any> => {
-        const result = await api.post(`${pathName}?type=1`, content);
+        const result = await api.post(`${pathName}?type=2`, content);
         return result
     },
     tranSlateKr: async (data:any) : Promise<any> => {

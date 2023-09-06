@@ -15,10 +15,20 @@ export interface Policy {
   content: string,
 }
 
+export interface PolicyWithLang {
+  id: string,
+  titleVn: string,
+  describeVn: string,
+  contentVn: string,
+  titleKr: string,
+  describeKr: string,
+  contentKr: string,
+}
+
 function ManagePolicy() {
-  const { lang } = useI18n();
+  const { lang, t } = useI18n();
   const [searchKey, setsearchKey] = useState("");
-  const [policies, setPolicies] = useState<Array<Policy>>([])
+  const [policies, setPolicies] = useState<Array<PolicyWithLang>>([])
   const [loading, setLoading] = useState<boolean>(false)
 
   const fetchData = async (key?: string, sort?: string) => {
@@ -37,23 +47,16 @@ function ManagePolicy() {
       const response = await PolicyServices.get(params);
       const data = response.data;
       let transformedPolicies = data.map((policyData: any) => {
-        if (lang === 'ksl') {
-          const policy: Policy = {
-            id: policyData.id,
-            title: policyData.titleKr,
-            describe: policyData.describeKr,
-            content: policyData.contentKr,
-          };
-          return policy;
-        } else {
-          const policy: Policy = {
-            id: policyData.id,
-            title: policyData.titleVn,
-            describe: policyData.describeVn,
-            content: policyData.contentVn,
-          };
-          return policy;
-        }
+        const policy: PolicyWithLang = {
+          id: policyData.id,
+          titleKr: policyData.titleKr,
+          describeKr: policyData.describeKr,
+          contentKr: policyData.contentKr,
+          titleVn: policyData.titleVn,
+          describeVn: policyData.describeVn,
+          contentVn: policyData.contentVn,
+        };
+        return policy;
       });
 
       setPolicies(transformedPolicies);
@@ -89,9 +92,9 @@ function ManagePolicy() {
     <div className="p-[50px]">
       <div className="flex justify-between items-center">
         <div className="flex justify-between ">
-          <h3 className="titlePage">Chính sách hỗ trợ</h3>
+          <h3 className="titlePage">{t("text.title.title_policy")}</h3>
           <p className="text-gray-300 text-normal ml-3 mt-5 italic">
-            Tối đa 8 chính sách
+            {t("text.title.title_policy_support", { max: 8 })}
           </p>
         </div>
         <div className="mb-7 mt-3 flex justify-between items-center h-[40px] gap-4">
@@ -103,7 +106,7 @@ function ManagePolicy() {
               ${policies && policies.length == 8 ? 'pointer-events-none' : ''}
             `}
               >
-                <PlusIcon /> Thêm chính sách
+                <PlusIcon /> {t("text.title.title_add_policy")}
               </Link>
             }
           </div>
@@ -120,7 +123,7 @@ function ManagePolicy() {
             />
           ))
         ) : (
-          <div className="">Không có dữ liệu</div>
+          <div className="">{t("text.title.title_no_data")}</div>
         )}
       </div>
     </div>
