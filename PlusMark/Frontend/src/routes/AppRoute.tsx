@@ -2,7 +2,7 @@ import NewAdd from "@components/AdminComponents/New/NewAdd";
 import NewEdit from "@components/AdminComponents/New/NewEdit";
 import PolicyAdd from "@components/AdminComponents/Policy/PolicyAdd";
 import PolicyEdit from "@components/AdminComponents/Policy/PolicyEdit";
-import ProductEditComponent from "@components/AdminComponents/ProductEditComponent";
+import ProductEditComponent from "@pages/AdminPage/Products/ProductEditComponent";
 import TradeMarkComponent from "@components/AdminComponents/TradeMarkComponent";
 import VoucherEditComponent from "@components/AdminComponents/VoucherEditComponent";
 import LayoutAdminPage from "@layout/LayoutAdminPage";
