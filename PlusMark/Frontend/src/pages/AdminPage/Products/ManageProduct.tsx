@@ -15,8 +15,11 @@ import {
   ThunkProduclist,
   ThunkProduclistFilter,
 } from "redux/thunk/productAction";
-import ProducSizeItem from "./ProducSizeItem";
+import ProducSizeItem from "../ProducSizeItem";
 import { some } from "@utility/helper";
+import LinearButton from "@components/Buttons/LinearButton";
+import PlusLinerIcon from "@assets/iconElements/PlusLinerIcon";
+import ManyfingIcon from "@assets/iconElements/ManyfingIcon";
 
 interface ButtonFilterProps {
   name: string;
@@ -204,23 +207,25 @@ function ManageProduct() {
       </div>
       <div className="flex items-center justify-between mb-5">
         <p className="text-normal font-medium">{totalElement} sản phẩm</p>
-        <div className="flex items-center justify-end gap-3">
-          <div>
+        <div className="flex items-center justify-end gap-6">
+          <div className="bg-btn p-[1px] h-10 rounded w-[300px]">
             <InputTextElement
+              icon={<ManyfingIcon />}
               name="keySearch"
               value={keySearch}
               placehoderText="Tìm kiếm sản phẩm"
               classWidth="w-full w-[300px] "
               onChangeInput={handleSearch}
-              className="py-[9px] px-5"
+              className="py-[9px] px-5 rounded"
             />
           </div>
-          <button
-            className="btn-normal text-sm leading-18"
+          <LinearButton
+            text="button.add_product"
+            iconLeft={<PlusLinerIcon />}
+            className="w-[170px] h-10 !rounded !text-sm overflow-hidden"
+            className_child="rounded !text-sm "
             onClick={() => navigator("add")}
-          >
-            Thêm sản phẩm
-          </button>
+          />
         </div>
       </div>
       <div>

@@ -137,12 +137,16 @@ module.exports = {
       boxShadow: {
         DEFAULT: '0px 4px 4px rgba(0, 0, 0, 0.25)',
         shd020: `4p 2px 8px 0px rgba(0, 0, 0, 0.20)`,
+        linear: `4px 4px 8px 0px linear-gradient(180deg, #FF8B03 0%, #F90000 100%)`
       },
       backgroundImage: {
         header: "linear-gradient(225deg, #FF6B00 0%, #E0000D 100%)",
         btn: "linear-gradient(52deg, #FF6D03 0%, #E60E00 100%)",
         footer: "linear-gradient(180deg, #FE7D29 0%, #F9849E 100%)",
         title: "linear-gradient(227deg, #FE7D29 0%, #F9849E 100%)"
+      },
+      border: {
+        linear: "linear-gradient(52deg, #FF6D03 0%, #E60E00 100%)",
       },
       fontSize: {
         // follow figma

@@ -1,0 +1,13 @@
+{
+    "router": {
+        "banner": "banner 관리하다",
+        "policy": "정책관리",
+        "introduce": "추천 관리자",
+        "request": "컨설팅 요청 관리",
+        "category": "제품 카탈로그 관리",
+        "products": "제품 관리",
+        "voucher": "Voucher 관리하다",
+        "order": "주문 관리",
+        "logout": "로그 아웃"
+    }
+}

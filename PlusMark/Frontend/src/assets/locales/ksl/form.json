@@ -1,0 +1,17 @@
+{
+    "form": {
+        "lable" : {
+            "category_name": "카테고리 이름을 입력하세요",
+            "detail_category": "상품의 상세한 분류",
+            "banner_category": "분류배너",
+            "imageNumber": "상세 분류 이미지 {{number}}",
+            "detail_sub_category": "세부분류 {{number}}",
+            "category_note": "상세분류 이용시 참고사항 {{number}}"
+        },
+        "placeholder": {
+            "category_name": "카테고리 이름을 크게 입력하세요",
+            "detail_sub_category": "상세한 분류명을 입력하세요",
+            "category_note": "상품의 상세한 분류 설명을 입력하세요"
+        }
+    }
+}
