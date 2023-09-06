@@ -1,7 +1,13 @@
 {
     "button": {
-        "byNow": "Mua ngay",
+        "byNow": "지금 구매",
         "see_more": "더보기",
-        "hide_away": "숨다"
+        "hide_away": "숨다",
+        "add": "더",
+        "add_category": "카테고리 추가",
+        "add_product": "제품 추가",
+        "add_sub_cate": "세부 분류 추가",
+        "cancel": "취소",
+        "confirm": "확인하다"
     }
 }

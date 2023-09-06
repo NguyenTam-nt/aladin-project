@@ -1,4 +1,3 @@
-import CategoryEdit from "@components/AdminComponents/category/CategoryEdit";
 import NewAdd from "@components/AdminComponents/New/NewAdd";
 import NewEdit from "@components/AdminComponents/New/NewEdit";
 import PolicyAdd from "@components/AdminComponents/Policy/PolicyAdd";
@@ -7,6 +6,7 @@ import ProductEditComponent from "@components/AdminComponents/ProductEditCompone
 import TradeMarkComponent from "@components/AdminComponents/TradeMarkComponent";
 import VoucherEditComponent from "@components/AdminComponents/VoucherEditComponent";
 import LayoutAdminPage from "@layout/LayoutAdminPage";
+import ManagerCategory from "@pages/AdminPage/Category/ManagerCategory";
 import ManagerAccounts from "@pages/AdminPage/ManageAccounts";
 import ManagerBanner from "@pages/AdminPage/ManageBanner";
 import ManageContenFooter from "@pages/AdminPage/ManageContenFooter";
@@ -15,8 +15,7 @@ import ManageInfoHome from "@pages/AdminPage/ManageInfoHome";
 import ManagerOrder from "@pages/AdminPage/ManageOrder";
 import ManagePolicy from "@pages/AdminPage/ManagePolicy";
 import ManagerPopupContact from "@pages/AdminPage/ManagePopupContact";
-import ManageProduct from "@pages/AdminPage/ManageProduct";
-import ManagerCategory from "@pages/AdminPage/ManagerCategory";
+import ManageProduct from "@pages/AdminPage/Products/ManageProduct";
 import ManagerIntroduce from "@pages/AdminPage/ManagerIntroduce";
 import ManagerVoucher from "@pages/AdminPage/ManageVoucher";
 import CartPage from "@pages/CartPage/CartPage";
@@ -73,7 +72,7 @@ const AppRoutes = () => {
       <Route path={ROUTES.admin.index} element={<LayoutAdminPage />}>
         {/* new changes 22/4 2022*/}
         {/* <Route index path={ROUTES.admin.order.index} element={<OrderPage />} /> */}
-        <Route index element={<ManagerOrder />} />
+        <Route path={ROUTES.admin.order.index} element={<ManagerOrder />} />
         <Route path={ROUTES.admin.products.index} element={<ManageProduct />} />
         <Route
           path={ROUTES.admin.products.add}
@@ -89,8 +88,6 @@ const AppRoutes = () => {
           path={ROUTES.admin.cartegory.index}
           element={<ManagerCategory />}
         />
-        <Route path={ROUTES.admin.cartegory.add} element={<CategoryEdit />} />
-        <Route path={ROUTES.admin.cartegory.edit} element={<CategoryEdit />} />
 
         {/* tradeManager */}
         <Route

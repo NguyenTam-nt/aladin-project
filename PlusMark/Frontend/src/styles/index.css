@@ -1,7 +1,7 @@
 :root {
   --main-color: #FF7D03;
   --main-color-2: #009245;
-  --main-background: #EFEFEF;
+  --main-background: #FFFFFF;
   --gray-001: #EFEFEF;
   --gray-002: #D9D9D9;
   --gray-002-60: #d9d9d999;
@@ -14,14 +14,14 @@
   --textLinear: linear-gradient(180deg, #FF6B00 0%, #E0000D 100%);
   --text-1: rgba(48, 48, 48, 1);
   /* --text-1: #303030; */
-  --border-color: #DADADA;
+  --border-color: #E9ECEF;
   --bgBtnSuccess: #1D9A28;
   --background1: #8E8E8E;
   --background2: #E4E4E4;
   --background3: #F8F8F8;
   --button-color: #B0BC92;
   --icon-color: #FFEDE1;
-  --cancel-color: #F31A1A;
+  --cancel-color: #EA222A;
   --h-header: 140px;
   --ml-search-header: 220px;
   --blue01: #0037C1;

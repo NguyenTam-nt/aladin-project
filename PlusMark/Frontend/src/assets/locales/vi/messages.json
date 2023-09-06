@@ -1,16 +1,32 @@
 {
     "error": {
         "require": {
-            "title": "Không được ..."
+            "title": "Không được ...",
+            "category_name": "Không được để trống tên phân loại",
+            "image_category": "Không được để trống ảnh",
+            "subcategory_name": "Không được để trống tên danh mục con"
+            
         },
         "max": {
-            "title": "Title không được quá .."
-        }
+            "title": "Title không được quá ..",
+            "max": "Không được quá 255 ký tự",
+            "max_40": "Không được nhập quá 40 kí tự"
+        },
+        "post_error": "Có lỗi không thêm được dữ liệu.",
+        "deleted_error": "Có lỗi không xóa được dữ liệu.",
+        "update_error": "Có lỗi cập nhật dữ liệu thất bại"
     },
     "success": {
-        "title": "Gửi tiêu đề thành công"
+        "title": "Gửi tiêu đề thành công",
+        "posted": "Thêm dữ liệu thành công",
+        "deleted": "Xóa dữ liệu thành công",
+        "updated": "Cập nhật dữ liệu thành công"
     },
     "warning": {
         "title" : "cảnh báo title bị trùng khớp"
+    }, 
+     "confirm": {
+        "delete_category" : "Bạn có chắc chắn muốn xóa danh mục ?"
     }
+
 }

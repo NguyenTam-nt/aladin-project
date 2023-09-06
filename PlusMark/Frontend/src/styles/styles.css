@@ -427,3 +427,17 @@ tbody>tr {
 .section2:nth-of-type(2) {
   grid-area: section2;
 }
+
+
+.hidden_scroll::-webkit-scrollbar {
+  display: none
+}
+
+.box_gradient{
+  width: 100%;
+  height: 100%;
+  position: relative;
+  z-index: 10;
+  padding: 1px;
+  background-image:linear-gradient(to bottom,#FF8B03 , green)
+}

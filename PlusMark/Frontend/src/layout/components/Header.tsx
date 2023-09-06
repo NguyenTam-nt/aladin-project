@@ -5,6 +5,7 @@ import {
   MenuMobileIconIcon,
   PhoneIcon,
   UserIcon,
+  VNFlag,
 } from "@assets/icons";
 import CartProductHover from "@components/Cart/CartProductHover";
 import LocationBox from "@components/LocationComponent/LocationBox";
@@ -45,28 +46,30 @@ export type CategoryHeader = {
 };
 // "i18next": "^22.4.14",
 export const LanguageBox = memo(() => {
-  const { lang, t, i18n } = useI18n();
-
-  const handleSetLanguage = (language: "vi" | "kr") => {
-    i18n.changeLanguage(language);
-  };
+  const { isVn, changeLanguage } = useI18n();
   return (
-    <div className="cursor-pointer group relative w-full">
-      <div>{lang == "vi" ? <KoreaFlag /> : <KoreaFlag />}</div>
+    <div className="cursor-pointer group relative w-16 h-9">
+      <div className="w-full h-full">
+        {isVn ? (
+          <img src={VNFlag} alt="" className="w-full h-full " />
+        ) : (
+          <KoreaFlag />
+        )}
+      </div>
 
-      {/* {lang == "vi" ? (
+      {isVn ? (
         <KoreaFlag
-          onClick={() => handleSetLanguage("ksl")}
+          onClick={() => changeLanguage("ksl")}
           className="w-full absolute top-full left-0 group-hover:block hidden"
         />
       ) : (
         <div
-          className="w-full absolute top-full left-0 group-hover:block hidden"
-          onClick={() => handleSetLanguage("vi")}
+          className="w-full h-full absolute top-full left-0 group-hover:block hidden"
+          onClick={() => changeLanguage("vi")}
         >
-          <KoreaFlag />
+          <img src={VNFlag} alt="" className="w-full h-full" />
         </div>
-      )} */}
+      )}
     </div>
   );
 });
@@ -304,16 +307,16 @@ const Header = () => {
               onClick={userLogin}
               stroke="white"
             />
-            {/* {AuthService.isLoggedIn() && ( */}
-            <div className="group-hover:block hidden absolute top-full -right-3 z-10">
-              <p
-                className="rounded-md px-4 py-2 whitespace-nowrap cursor-pointer bg-icon hover:text-main transition-all"
-                onClick={userLogout}
-              >
-                đăng xuất
-              </p>
-            </div>
-            {/* )} */}
+            {AuthService.isLoggedIn() && (
+              <div className="group-hover:block hidden absolute top-full -right-3 z-10">
+                <p
+                  className="rounded-md px-4 py-2 whitespace-nowrap cursor-pointer bg-icon hover:text-main transition-all"
+                  onClick={userLogout}
+                >
+                  đăng xuất
+                </p>
+              </div>
+            )}
           </div>
         </div>
         <div className="xl:block hidden">

@@ -13,6 +13,7 @@ type Props = {
   renderRight?: () => React.ReactElement;
   renderLeft?: () => React.ReactElement;
   icon?: boolean;
+  rounded?: boolean;
 } & InputHTMLAttributes<HTMLInputElement>;
 
 export const InputComponent = memo(
@@ -26,6 +27,7 @@ export const InputComponent = memo(
         renderLeft,
         className,
         value,
+        rounded = true,
         maxLength,
         icon,
         type = "text",
@@ -37,7 +39,8 @@ export const InputComponent = memo(
       return (
         <div
           className={clsx(
-            'h-[40px] placeholder:text-neutra-neutral60 placeholder:text-wap-regular2 w-full flex items-center py-[13px] px-[13px] border-[1px] border-solid border-neutra-neutra80 rounded-[50px]',
+            " placeholder:text-neutra-neutral60 placeholder:text-wap-regular2 w-full flex items-center py-[13px] px-[13px] border-[1px] border-solid border-neutra-neutra80",
+            { "h-[40px] rounded-[50px]": rounded, "h-12": !rounded },
             className
           )}
         >
