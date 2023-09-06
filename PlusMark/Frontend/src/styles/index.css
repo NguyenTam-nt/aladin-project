@@ -8,8 +8,8 @@
   --gray-003: #8E8E8E;
   --gray-006: #939393;
   --gray-004: #C4C4C4;
-  --text-main:#313131;
-  --text-disable:#626262;
+  --text-main: #313131;
+  --text-disable: #626262;
   --gray--004: linear-gradient(0deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), #303030;
   --textLinear: linear-gradient(180deg, #FF6B00 0%, #E0000D 100%);
   --text-1: rgba(48, 48, 48, 1);
@@ -38,12 +38,18 @@
   --neutral80: #C4C4C4;
   --neutral20: #313131;
   --neutral98: #EFEFEF;
+  --neutral95: #E9E9E9;
   --neutral60: #939393;
   --neutral2: #3B3D43;
   --white: #FFF;
   --orange400: #FF6D03;
   --red500: #E60E00;
   --light-pink-orange: #FE7D29;
+  --grey-222124: #222124;
+  --grey-A1A0A3: #A1A0A3;
+  --error500: #E73F3F;
+  --content: #272E35;
+  --green-319F43: #319F43;
 }
 
 @import url('./tailwind.css');

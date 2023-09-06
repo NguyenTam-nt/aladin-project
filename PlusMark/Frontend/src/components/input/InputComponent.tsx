@@ -13,6 +13,7 @@ type Props = {
   renderRight?: () => React.ReactElement;
   renderLeft?: () => React.ReactElement;
   icon?: boolean;
+  unit?: any;
   rounded?: boolean;
 } & InputHTMLAttributes<HTMLInputElement>;
 
@@ -31,6 +32,7 @@ export const InputComponent = memo(
         maxLength,
         icon,
         type = "text",
+        unit,
         ...props
       }: Props,
       ref: React.LegacyRef<HTMLInputElement>
@@ -39,7 +41,7 @@ export const InputComponent = memo(
       return (
         <div
           className={clsx(
-            " placeholder:text-neutra-neutral60 placeholder:text-wap-regular2 w-full flex items-center py-[13px] px-[13px] border-[1px] border-solid border-neutra-neutra80",
+            " placeholder:text-neutra-neutral60 placeholder:text-wap-regular2 w-full flex items-center border-[1px] border-solid border-neutra-neutra80",
             { "h-[40px] rounded-[50px]": rounded, "h-12": !rounded },
             className
           )}
@@ -52,9 +54,11 @@ export const InputComponent = memo(
             value={value}
             maxLength={maxLength}
             {...props}
-            className="flex-1 h-full bg-transparent text-black-bl0 font-normal text-wap-regular2"
+            className="flex-1 h-full bg-transparent text-black-bl0 font-normal text-wap-regular2 py-[13px] px-[13px]"
             placeholder={t(placeholder) || ""}
           />
+          {unit && (<div className={clsx('py-[13px]')}><p className="pl-[10px] pr-4 border-l-[1px] border-neutra-neutra80 font-normal text-wap-regular2 ">{unit}</p></div>)}
+          {renderRight ? renderRight() : null}
         </div>
       );
     }

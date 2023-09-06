@@ -3,7 +3,8 @@ export const ThVoucher = [
     'Mã voucher',
     'Tên chương trình',
     'Giảm giá',
-    'Tổng số mã giảm giá có thể sử dụng',
+    'Tổng voucher',
+    'Lượt đã sử dụng',
     'Trạng thái',
     'Thao tác'
 ]
