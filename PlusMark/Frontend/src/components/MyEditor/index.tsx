@@ -1,6 +1,6 @@
 import { convertFromRaw, EditorState } from "draft-js";
 import { FormikErrors } from "formik/dist/types";
-import { forwardRef, lazy, Suspense, useImperativeHandle, useState } from "react";
+import { forwardRef, lazy, Suspense, useEffect, useImperativeHandle, useState } from "react";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 
 interface props {
@@ -29,6 +29,8 @@ const Editor = lazy(() => import('react-draft-wysiwyg').then((method) => ({
   default: method.Editor
 })))
 
+
+
 const MyEditor = forwardRef<any, props>((props, ref) => {
   const { name, value, listImageFiles, setValue } = props;
   const [editorState, setEditorState] = useState(() => {
@@ -46,6 +48,7 @@ const MyEditor = forwardRef<any, props>((props, ref) => {
       ? EditorState.createWithContent(content)
       : EditorState.createEmpty();
   });
+
   const handleUpload = (file: File) =>
     new Promise((resolve, reject) => {
       if (file.size > 26675200) {
@@ -68,6 +71,18 @@ const MyEditor = forwardRef<any, props>((props, ref) => {
       setEditorState(EditorState.createEmpty());
     },
   }));
+
+  // Update editorState when the value prop changes (e.g., when the language changes)
+  useEffect(() => {
+    try {
+      const contentRaw = JSON.parse(value);
+      const contentState = convertFromRaw(contentRaw);
+      const newEditorState = EditorState.createWithContent(contentState);
+      setEditorState(newEditorState);
+    } catch (ex) {
+      // Handle parsing errors if necessary
+    }
+  }, [value]);
 
   return (
     <Suspense fallback={'loading'}>

@@ -1,12 +1,12 @@
-{ 
-    "lang": "Tiếng Việt" ,
+{
+    "lang": "Tiếng Việt",
     "header": {
         "search": "Tìm kiếm tại đây",
         "search_notfound": "Không tìm thấy sản phẩm nào",
         "search_see_more": "Xem thêm {{amount}} sản phẩm",
         "hotline": "Hotline",
         "cart": {
-            "title": "Giỏ hàng", 
+            "title": "Giỏ hàng",
             "total_price": "Tổng tiền",
             "buy_now": "Mua ngay"
         },
@@ -42,17 +42,23 @@
             "total_price": "Tổng tiền",
             "btn_process_payment": "Tiến hành đặt hàng",
             "btn_buy_more": "Xem thêm sản phẩm",
-            "label_total_items": "Tất cả ({{total}} sản phẩm)"
-        }
+            "label_total_items": "Tất cả ({{total}} sản phẩm)",
+            "title_price_per_unit": "Đơn giá",
+            "title_total_quantity": "Số lượng",
+            "title_total_price_per_product": "Thành tiền"
+        },
+        "cart_title": "Giỏ mua hàng"
     },
     "payment": {
         "info_delivery": {
             "index": "Thông tin giao hàng",
             "form": {
                 "name": "Họ và tên ",
+                "name_place_holder": "Họ và tên của bạn",
                 "phone": "Số điện thoại",
                 "email": "Email",
                 "address": "Địa chỉ",
+                "address_place_holder": "Địa chỉ cụ thể",
                 "province": "Chọn tỉnh / thành",
                 "district": "Chọn quận / huyện",
                 "commune": "Chọn phường / xã "
@@ -96,7 +102,7 @@
         "contact_title": "Liên hệ",
         "contact": {
             "address": "Địa chỉ",
-            "email": "Email", 
+            "email": "Email",
             "phone": "Điện thoại",
             "work_time": "Thời gian làm việc",
             "form": {

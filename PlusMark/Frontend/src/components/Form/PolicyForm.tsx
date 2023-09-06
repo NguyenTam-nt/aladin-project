@@ -2,20 +2,20 @@ import BtnLoading from "@components/btn-loading/BtnLoading";
 import MyEditor from "@components/MyEditor";
 import { ToastContex } from "@contexts/ToastContex";
 import useI18n from "@hooks/useI18n";
-import { Policy } from "@pages/AdminPage/ManagePolicy";
+import { Policy, PolicyWithLang } from "@pages/AdminPage/ManagePolicy";
 import PolicyServices from "@services/PolicyServices";
 import TranslateService from "@services/TranslateService";
 import { ROUTES } from "@utility/constants";
 import { getEntityMap } from "@utility/editor";
 import yup from "custom/yup/yupInstance";
 import { useFormik } from "formik";
-import { useContext, useRef, useState } from "react";
+import { t } from "i18next";
+import { useContext, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-export default function PolicyForm({ policy }: { policy?: Policy }) {
+export default function PolicyForm({ policy }: { policy?: PolicyWithLang }) {
   const { lang } = useI18n();
-  const defaultContent =
-    '{"entityMap": {}, "blocks": [{ "key": "637gr", "text": "", "type": "unstyled", "depth": 0, "inlineStyleRanges": [], "entityRanges": [], "data": {} }]}';
+  const [defaultContent, setDefaultContent] = useState<string>('{"entityMap": {}, "blocks": [{ "key": "637gr", "text": "", "type": "unstyled", "depth": 0, "inlineStyleRanges": [], "entityRanges": [], "data": {} }]}');
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const { onAddToast } = useContext(ToastContex);
   const editorRef = useRef<any>();
@@ -26,6 +26,30 @@ export default function PolicyForm({ policy }: { policy?: Policy }) {
     }[]
   >([]);
   const navigate = useNavigate();
+
+  // Use the useEffect hook to update initial values when the language changes
+  useEffect(() => {
+    const initialValues = {
+      title: "",
+      describe: "",
+      content: defaultContent,
+    };
+
+    // Check the language and update initial values accordingly
+    if (lang === 'ksl') {
+      initialValues.title = policy?.titleKr || "";
+      initialValues.describe = policy?.describeKr || "";
+      initialValues.content = policy?.contentKr || defaultContent;
+    } else {
+      initialValues.title = policy?.titleVn || "";
+      initialValues.describe = policy?.describeVn || "";
+      initialValues.content = policy?.contentVn || defaultContent;
+    }
+
+    setFieldValue("title", initialValues.title);
+    setFieldValue("describe", initialValues.describe);
+    setFieldValue("content", initialValues.content);
+  }, [lang, policy]);
 
   const translateObjectContent = (contentObj: any, type: string) => {
     var blocksReturn: any = [];
@@ -46,10 +70,14 @@ export default function PolicyForm({ policy }: { policy?: Policy }) {
 
   const { handleSubmit, handleChange, setFieldValue, values, errors, touched } =
     useFormik({
-      initialValues: {
-        title: policy?.title || "",
-        describe: policy?.describe || "",
-        content: policy?.content || defaultContent,
+      initialValues: lang === 'ksl' ? {
+        title: policy?.titleKr || "",
+        describe: policy?.describeKr || "",
+        content: policy?.contentKr || defaultContent,
+      } : {
+        title: policy?.titleVn || "",
+        describe: policy?.describeVn || "",
+        content: policy?.contentVn || defaultContent,
       },
       validationSchema: yup.object({
         title: yup.string().trim().required("Vui lòng điền tiêu đề"),
@@ -90,22 +118,16 @@ export default function PolicyForm({ policy }: { policy?: Policy }) {
             contentKr: JSON.stringify(contentObj),
           };
 
-          console.log(dataSubmit)
-
-          let response;
           if (policy) {
-            response = await PolicyServices.put(policy.id, dataSubmit);
+            await PolicyServices.put(policy.id, dataSubmit);
           } else {
-            response = await PolicyServices.post(dataSubmit);
+            await PolicyServices.post(dataSubmit);
           }
-          if (response.status == 200) {
-            onAddToast({ type: "success", message: `Lưu thành công` });
-            return navigate(`/admin/${ROUTES.admin.policy.index}`);
-          }
-          return onAddToast({ type: "error", message: `Có lỗi xảy ra` });
+          onAddToast({ type: "success", message: `Lưu thành công` });
+          return navigate(`/admin/${ROUTES.admin.policy.index}`);
         } catch (ex) {
           console.log(ex);
-          onAddToast({ type: "error", message: `Có lỗi xảy ra` });
+          return onAddToast({ type: "error", message: `Có lỗi xảy ra` });
         } finally {
           setIsLoading(false);
         }
@@ -121,7 +143,7 @@ export default function PolicyForm({ policy }: { policy?: Policy }) {
       <div className="flex flex-col gap-4">
         <div className="flex flex-col gap-5">
           <label className="text-lg font-bold ">
-            Tiêu đề <span className="text-[#F45538]">*</span>
+            {t("text.section.title")} <span className="text-[#F45538]">*</span>
           </label>
           <div>
             <input
@@ -139,7 +161,7 @@ export default function PolicyForm({ policy }: { policy?: Policy }) {
         </div>
         <div className="flex flex-col gap-5">
           <label className="text-lg font-bold">
-            Mô tả <span className="text-[#F45538]">*</span>
+          {t("text.section.description")} <span className="text-[#F45538]">*</span>
           </label>
           <div>
             <input
@@ -157,7 +179,7 @@ export default function PolicyForm({ policy }: { policy?: Policy }) {
         </div>
         <div className="flex flex-col gap-5">
           <label className="text-lg font-bold">
-            Nội dung <span className="text-[#F45538]">*</span>
+          {t("text.section.content")} <span className="text-[#F45538]">*</span>
           </label>
           <div>
             <MyEditor
@@ -182,14 +204,14 @@ export default function PolicyForm({ policy }: { policy?: Policy }) {
           className="w-[8%] py-4 border border-[#0073E5] flex justify-center items-center  text-[#0073E5]  font-bold bg-white"
           onClick={() => handleCancel()}
         >
-          Hủy
+          {t("text.button.cancel")}
         </button>
         <BtnLoading
           type="submit"
           className="w-[8%] py-4 border border-[#0073E5] flex justify-center items-center  text-white  font-bold bg-[#0073E5]"
           isLoading={isLoading}
         >
-          Lưu
+           {t("text.button.save")}
         </BtnLoading>
       </div>
     </form>
