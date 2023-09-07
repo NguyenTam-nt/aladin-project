@@ -10,12 +10,13 @@ const VoucherServices = {
         const result = await api.get(`${path}?${queryString.stringify(param, { skipNull: true })}`)
         return result.data
     },
-    getVoucherById: async (id: string): Promise<VoucherType> => {
-        const result = await api.get(`${path}/${id}`)
-        return result.data
+    getVoucherById: async (id: string): Promise<any> => {
+        // const result = await api.get(`${path}/${id}`)
+        // return result.data
+        return await api.get(`${path}/${id}`);
     },
     deleteVoucher: async (id: string): Promise<any> => {
-        return await api.delete(`${path}/${id}`)
+        return api.delete(`${path}/${id}`)
     },
     addOrUpdateVoucher: async (data: any, id?: string): Promise<any> => {
         if (id) {
@@ -27,6 +28,12 @@ const VoucherServices = {
     },
     getAllVoucher: async (params: paramVoucher): Promise<IRespone> => {
         return await api.get(path, { params });
+    },
+    getProductByVoucherCode: async (code?: any): Promise<any> => {
+        return api.get(`${path}/search_products?voucherCode=${code}`);
+    },
+    postVoucher: async (data: any) => {
+        return api.post(path, data);
     }
 }
 

@@ -47,9 +47,11 @@
   --light-pink-orange: #FE7D29;
   --grey-222124: #222124;
   --grey-A1A0A3: #A1A0A3;
+  --grey-CBCBCB:#CBCBCB;
   --error500: #E73F3F;
   --content: #272E35;
   --green-319F43: #319F43;
+
 }
 
 @import url('./tailwind.css');

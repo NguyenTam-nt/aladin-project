@@ -19,6 +19,7 @@ import { Checkbox } from "./ComponentVoucher/CheckBox";
 import { useTranslation } from "react-i18next";
 import TableVoucher from "./ComponentVoucher/TableVoucher";
 import { ICFilter } from "@assets/iconElements/ICFIlter";
+import clsx from "clsx";
 
 interface Props {
   refCheckboxAll?: Ref<HTMLInputElement>;
@@ -34,6 +35,34 @@ export const ColumnHeaders = (props: { title: string, icon?: ReactNode }) => {
   )
 }
 
+export const ItemTable = (props: { isProduct?: boolean, img?: string, title?: string, isPriece: boolean, prieceOld?: any, prieceNew?: any }) => {
+  const { isProduct = false, img, isPriece, prieceNew, prieceOld, title } = props;
+  return (
+    <div className={clsx('flex justify-center items-center text-wap-regular2 font-normal text-aqua-aq02',
+      {
+        '!text-grey-222124': isProduct,
+        '!font-bold': !isProduct
+      }
+    )}>
+      {
+        isProduct && (
+          <div className="flex flex-row gap-x-[18px]">
+            <img src={img} alt="product" className="w-[46px] h-10 object-cover" />
+            <p>{title}</p>
+          </div>
+        )
+      }
+      {
+        isPriece && (
+          <div className="flex flex-row">
+            <p>{prieceNew}</p>
+            <p className="!text-wap-regular1 font-normal">/{prieceOld}</p>
+          </div>
+        )
+      }
+    </div>
+  )
+}
 function ManageVoucher(props: Props) {
   const { refCheckboxAll } = props;
   const [searchParams] = useSearchParams();

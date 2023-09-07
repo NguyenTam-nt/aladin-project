@@ -137,7 +137,8 @@ module.exports = {
         },
         grey: {
           222124: 'var(--grey-222124)',
-          A1A0A3: 'var(--grey-A1A0A3)'
+          A1A0A3: 'var(--grey-A1A0A3)',
+          CBCBCB:'var(--grey-CBCBCB)'
         },
         green: {
           '319F43': 'var(--green-319F43)'
