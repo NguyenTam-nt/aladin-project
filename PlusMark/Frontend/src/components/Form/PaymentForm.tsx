@@ -234,48 +234,31 @@ function PaymentForm({ formik }: Props) {
           <span className="text-red-500">*</span>
         </label>
       </div>
-      <div className="lg:flex lg:flex-wrap justify-between">
-        <div className="h-10 mb-4 lg:w-[49%]">
-          <InputPayment
-            className="border-[1px] border-solid border-neutra-neutra80 "
-            name="address"
-            value={formik.values.address}
-            setValue={formik.handleChange}
-            label={t("payment.info_delivery.form.address_place_holder")}
-            required
-            onBlur={formik.handleBlur}
-          />
-        </div>
-        <div className="h-10 mb-4 lg:w-[49%]">
-          <SelectInputPayment
-            name="province"
-            setValue={onchangeProvince}
-            options={provinceOptions}
-            value={province}
-            label={t("payment.info_delivery.form.province")}
-            required
-          />
-        </div>
-        <div className="h-10 mb-4 lg:w-[49%]">
-          <SelectInputPayment
-            name="district"
-            setValue={onchangeDistrict}
-            options={districtOptions}
-            value={district}
-            label={t("payment.info_delivery.form.district")}
-            required
-          />
-        </div>
-        <div className="h-10 mb-4 lg:w-[49%]">
-          <SelectInputPayment
-            name="commune"
-            setValue={onchangeCommune}
-            options={communeOptions}
-            value={commune}
-            label={t("payment.info_delivery.form.commune")}
-            required
-          />
-        </div>
+      <div className="h-10 mb-4">
+        <InputPayment
+          className="border-[1px] border-solid border-neutra-neutra80 "
+          name="address"
+          value={formik.values.address}
+          setValue={formik.handleChange}
+          label={t("payment.info_delivery.form.address_place_holder")}
+          required
+          onBlur={formik.handleBlur}
+        />
+      </div>
+      <div className="mb-2">
+        <label className="text-text font-bold">
+          {t("payment.info_delivery.form.note")}
+        </label>
+      </div>
+      <div className="h-10 mb-4">
+        <InputPayment
+          className="border-[1px] border-solid border-neutra-neutra80 "
+          name="note"
+          value={formik.values.note}
+          setValue={formik.handleChange}
+          label={t("payment.info_delivery.form.note_placeholder")}
+          onBlur={formik.handleBlur}
+        />
       </div>
     </div>
   );

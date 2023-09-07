@@ -59,31 +59,32 @@ function ManageBanner() {
       try {
         setLoading(true)
         const response = await BannerServices.get()
-          const data = response.data
 
-          const objBanners = data.reduce(
-            (obj: Banner, item: Banner) => Object.assign(obj, { [item.name]: item }), {})
-          const newBanners = Object.keys(activedBanner).map((item) => {
-            const idx = Object.keys(objBanners).indexOf(item)
-            if (idx !== -1) {
-              return {
-                ...activedBanner[item],
-                images: objBanners[item].images,
-                id: objBanners[item].id
-              }
+        const data: any = response
+        const objBanners = data.content.reduce(
+          (obj: Banner, item: Banner) => Object.assign(obj, { [item.name]: item }), {})
+
+        const newBanners = Object.keys(activedBanner).map((item) => {
+          const idx = Object.keys(objBanners).indexOf(item)
+          if (idx !== -1) {
+            return {
+              ...activedBanner[item],
+              images: objBanners[item].images,
+              id: objBanners[item].id
             }
-            return activedBanner[item]
-          })
-          newBanners.forEach(async (newBanner: Banner) => {
-            if (typeof newBanner.id !== 'number') {
-              const newBannerData = {
-                name: newBanner.name,
-                images: []
-              };
-              await BannerServices.post(newBannerData);
-            }
-          });
-          setBanners(newBanners)
+          }
+          return activedBanner[item]
+        })
+        newBanners.forEach(async (newBanner: Banner) => {
+          if (typeof newBanner.id !== 'number') {
+            const newBannerData = {
+              name: newBanner.name,
+              images: []
+            };
+            await BannerServices.post(newBannerData);
+          }
+        });
+        setBanners(newBanners)
       } catch (ex) {
         console.log(ex)
       } finally {

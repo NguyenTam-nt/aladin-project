@@ -80,9 +80,9 @@ export default function PolicyForm({ policy }: { policy?: PolicyWithLang }) {
         content: policy?.contentVn || defaultContent,
       },
       validationSchema: yup.object({
-        title: yup.string().trim().required("Vui lòng điền tiêu đề"),
-        describe: yup.string().trim().required("Vui lòng điền mô tả"),
-        content: yup.string().trim().isEditorRequired("Vui lòng điền nội dung"),
+        title: yup.string().trim().required(t("text.form.policy.required_title")),
+        describe: yup.string().trim().required(t("text.form.policy.required_description")),
+        content: yup.string().trim().isEditorRequired(t("text.form.policy.required_content")),
       }),
       onSubmit: async (values) => {
         try {
@@ -120,14 +120,15 @@ export default function PolicyForm({ policy }: { policy?: PolicyWithLang }) {
 
           if (policy) {
             await PolicyServices.put(policy.id, dataSubmit);
+            onAddToast({ type: "success", message: t("success.updated") });
           } else {
             await PolicyServices.post(dataSubmit);
+            onAddToast({ type: "success", message: t("success.posted") });
           }
-          onAddToast({ type: "success", message: `Lưu thành công` });
           return navigate(`/admin/${ROUTES.admin.policy.index}`);
         } catch (ex) {
           console.log(ex);
-          return onAddToast({ type: "error", message: `Có lỗi xảy ra` });
+          return  onAddToast({ type: "error", message: t("error.post_error") });
         } finally {
           setIsLoading(false);
         }

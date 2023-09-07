@@ -90,14 +90,13 @@ function ManagerIntroduce() {
             titleKr: introData.titleKr,
             content1_Vn: introData.content1Vn,
             content1_Kr: introData.content1Kr,
-            content2_Vn: introData.content1Vn,
+            content2_Vn: introData.content2Vn,
             content2_Kr: introData.content2Kr,
             introductionImage: introData.images
           };
           return intro;
         });
         transformedIntros.sort((a:any, b:any) => a.name.localeCompare(b.name));
-        console.log(transformedIntros)
 
         const objIntros = transformedIntros.reduce(
           (obj: Introduce, item: Introduce) => Object.assign(obj, { [item.name]: item }), {})

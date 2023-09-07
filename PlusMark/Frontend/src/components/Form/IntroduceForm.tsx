@@ -1,4 +1,6 @@
 import { AddImage } from "@assets/icons";
+import { useShowMessage } from "@components/Modal/DialogMessage";
+import { useShowConfirm } from "@components/Modal/DiglogComfirm";
 import BtnLoading from "@components/btn-loading/BtnLoading";
 import { ToastContex } from "@contexts/ToastContex";
 import useI18n from "@hooks/useI18n";
@@ -19,13 +21,17 @@ export default function IntroduceForm(
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const { onAddToast } = useContext(ToastContex);
   const { lang } = useI18n();
-  const [imageUrlIntro, setImageUrlIntro] = useState<string>()
-  const [imageUrlIntroSecond, setImageUrlIntroSecond] = useState<string>()
+  const [imageUrlIntro, setImageUrlIntro] = useState<any>()
+  const [imageUrlIntroSecond, setImageUrlIntroSecond] = useState<any>()
+  const [displayImage, setDisplayImage] = useState<any>()
+  const [displayImageSecond, setDisplayImageSecond] = useState<any>()
   const inputRef = useRef<HTMLInputElement>(null);
   const inputRefSecond = useRef<HTMLInputElement>(null);
   const [intro, setIntro] = useState<any>();
   const [introSecond, setIntroSecond] = useState<any>();
   const navigate = useNavigate();
+  const { showConfirm } = useShowConfirm();
+  const { showError, showSuccess, showWarning } = useShowMessage();
 
   const onClick = (e: any) => {
     if (inputRef.current) {
@@ -48,6 +54,8 @@ export default function IntroduceForm(
     setIntro(intros[0])
     setIntroSecond(intros[1])
     try {
+      setDisplayImage(intros[0].introductionImage[0].url)
+      setDisplayImageSecond(intros[1].introductionImage[0].url)
       setImageUrlIntro(intros[0].introductionImage[0].url)
       setImageUrlIntroSecond(intros[1].introductionImage[0].url)
       if (lang === 'ksl') {
@@ -83,19 +91,22 @@ export default function IntroduceForm(
         }
 
         if (ALLOW_IMAGE_FILE_TYPE.indexOf(file.type) === -1) {
-          onAddToast({
-            type: "success",
-            message: "Yêu cầu định dạng ảnh: jpg, png",
-          });
+          showWarning("warning.image_type");
           inputRef.current.value = "";
           return;
         }
 
         if (file.size > MAX_IMAGE_BANNER_SIZE) {
-          onAddToast({ type: "success", message: "Kích thước tối đa 20MB" });
+          showWarning("warning.image_size");
           inputRef.current.value = "";
           return;
         }
+
+        const reader = new FileReader();
+        reader.onload = () => {
+          setDisplayImage(reader.result);
+        };
+        reader.readAsDataURL(file);
 
         const formData = new FormData();
         formData.append("file", file);
@@ -104,7 +115,7 @@ export default function IntroduceForm(
         setImageUrlIntro(jsonImage.url);
       }
     } catch (ex) {
-      onAddToast({ type: "error", message: `Có lỗi xảy ra` });
+      showError("error.post_error");
     } finally {
       if (inputRef.current) {
         inputRef.current.value = "";
@@ -122,19 +133,21 @@ export default function IntroduceForm(
         }
 
         if (ALLOW_IMAGE_FILE_TYPE.indexOf(file.type) === -1) {
-          onAddToast({
-            type: "success",
-            message: "Yêu cầu định dạng ảnh: jpg, png",
-          });
+          showWarning("warning.image_type");
           inputRefSecond.current.value = "";
           return;
         }
 
         if (file.size > MAX_IMAGE_BANNER_SIZE) {
-          onAddToast({ type: "success", message: "Kích thước tối đa 20MB" });
+          showWarning("warning.image_size");
           inputRefSecond.current.value = "";
           return;
         }
+        const reader = new FileReader();
+        reader.onload = () => {
+          setDisplayImageSecond(reader.result);
+        };
+        reader.readAsDataURL(file);
 
         const formData = new FormData();
         formData.append("file", file);
@@ -143,7 +156,7 @@ export default function IntroduceForm(
         setImageUrlIntroSecond(jsonImage.url);
       }
     } catch (ex) {
-      onAddToast({ type: "error", message: `Có lỗi xảy ra` });
+      showError("error.post_error");
     } finally {
       if (inputRefSecond.current) {
         inputRefSecond.current.value = "";
@@ -245,17 +258,17 @@ export default function IntroduceForm(
         if (introSecond.id == 0) {
           const res: any = await IntroServices.post(dataSubmitIntroSecond)
           const introInserted = {
-            ...dataSubmitIntro,
+            ...dataSubmitIntroSecond,
             id: res.id
           }
           setIntroSecond(introInserted)
         } else {
           await IntroServices.put(introSecond.id, dataSubmitIntroSecond)
         }
-        onAddToast({ type: "success", message: `Cập nhật thành công` });
+        showSuccess("success.updated");
       } catch (ex) {
         console.log(ex)
-        onAddToast({ type: "error", message: `Có lỗi xảy ra` });
+        showError("error.update_error");
       } finally {
         setIsLoading(false)
       }
@@ -287,9 +300,9 @@ export default function IntroduceForm(
 
           </div>
           {
-            imageUrlIntro &&
+            displayImage &&
             <div className="w-fit h-[190px] border-[2px] border-dashed rounded flex flex-row justify-center items-center ml-10">
-              <img src={imageUrlIntro} className="w-fit h-[190px] rounded p-2" />
+              <img src={displayImage} className="w-fit h-[190px] rounded p-2" />
             </div>
           }
         </div>
@@ -356,9 +369,9 @@ export default function IntroduceForm(
 
           </div>
           {
-            imageUrlIntroSecond &&
+            displayImageSecond &&
             <div className="w-fit h-[190px] border-[2px] border-dashed rounded flex flex-row justify-center items-center ml-10">
-              <img src={imageUrlIntroSecond} className="w-fit h-[190px] rounded p-2" />
+              <img src={displayImageSecond} className="w-fit h-[190px] rounded p-2" />
             </div>
           }
         </div>
@@ -421,13 +434,13 @@ export default function IntroduceForm(
         </div>
       </div>
       <div onClick={handleCancel} className="flex item-center justify-end mt-[20px] mb-[155px] gap-10px">
-        <button
+        {/* <button
           type="button"
           className="w-[8%] min-w-[40px] py-4 border border-main flex justify-center items-center  text-main  font-bold bg-white"
 
         >
           {t("text.button.cancel")}
-        </button>
+        </button> */}
         <BtnLoading
           type="submit"
           className="w-[8%] min-w-[40px] py-4 border border-header flex justify-center items-center  text-white  font-bold bg-header"

@@ -81,7 +81,8 @@ const PaymentNew = () => {
       year: "",
       card_number: "",
       zip_code: "",
-      country_code: ""
+      country_code: "",
+      note: ""
     },
     validationSchema: Yup.object({
       fullname: Yup.string().required("Vui lòng điền họ và tên."),
@@ -196,15 +197,17 @@ const PaymentNew = () => {
       <div className="mt-6">
         {/* <BreakCrumb data={breakcrumData} normalClass="" activeClass=" text-main" /> */}
         <div className="mt-6 font-['Nunito_Sans']">
-        {t("cart.cart_title")}
+          {t("cart.cart_title")}
         </div>
       </div>
       <div className="rounded-lg flex-1 pb-12 pt-6 flex flex-col lg:flex-row lg:gap-4 xl:gap-10">
         <div className="flex-1 mb-2">
-          <div className="bg-white rounded-lg px-5">
-            {cartItems.filter(cartItem => cartItem.choose).map((it, idx) => (
-              <CartProductNew itemCart={it} key={idx} change={false} border={idx != 1} payment={true} size="sm" />
-            ))}
+          <div className="bg-white px-5 border rounded-lg">
+            <div className="overflow-y-auto max-h-[350px] hiddenScroll">
+              {cartItems.filter(cartItem => cartItem.choose).map((it, idx) => (
+                <CartProductNew itemCart={it} key={idx} change={false} border={idx != 1} payment={true} size="sm" />
+              ))}
+            </div>
             <div className="flex justify-between pb-2 mt-4 ">
               <h1 className="text-normal text-text">
                 {t("payment.total_price_title")}

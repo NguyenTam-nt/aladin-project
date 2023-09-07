@@ -61,7 +61,9 @@
                 "address_place_holder": "Địa chỉ cụ thể",
                 "province": "Chọn tỉnh / thành",
                 "district": "Chọn quận / huyện",
-                "commune": "Chọn phường / xã "
+                "commune": "Chọn phường / xã ",
+                "note": "Ghi chú",
+                "note_placeholder": "Nhập ghi chú cho đơn hàng"
             }
         },
         "info_delivery_method": {
