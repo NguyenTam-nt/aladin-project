@@ -5,6 +5,12 @@ export interface Atribuite {
     attributeNameVn:string,
     attributeNameKr:string
  }
+export interface ListAtribuite {
+    valueVn:string[],
+    valueKr:string[],
+    attributeNameVn:string,
+    attributeNameKr:string
+ }
 export interface ProductDetails {
     priceDetail: number,
     promoDetail: number,
@@ -35,6 +41,7 @@ export interface ProductItem {
    warehouse: {
     address: string
  }[],
+ atributies?:ListAtribuite[] 
    productDetails: ProductDetails[]
 }
 

@@ -1,12 +1,24 @@
+import PlusLinerIcon from "@assets/iconElements/PlusLinerIcon";
 import { AddImage, TrashCanIcon } from "@assets/icons";
+import GroupButton from "@components/Buttons/GroupButton";
+import LinearButton from "@components/Buttons/LinearButton";
+import { useShowMessage } from "@components/Modal/DialogMessage";
+import { InputComponent } from "@components/input/InputComponent";
+import TitleInput from "@components/input/TitleInput";
 import { ToastContex } from "@contexts/ToastContex";
+import useI18n from "@hooks/useI18n";
 import ProductServices from "@services/ProductServices";
+import TranslateService from "@services/TranslateService";
+import { CategoryType } from "@services/Types/category";
+import { ListAtribuite, ProductItem } from "@services/Types/product";
 import UploadImage from "@services/UploadImage";
-import InputChecboxElement from "commons/components/InputComponent/InputChecboxElement";
-import InputTextElement from "commons/components/InputComponent/InputTextElement";
+import categoryServices from "@services/categoryService";
+import clsx from "clsx";
+import Editor from "commons/Editor";
+import { TextError } from "commons/TextError";
+import DropdowBox from "commons/components/DropdowBox";
 import { Product } from "commons/contannt";
-import province_data from "../../../utility/province_date.json";
-import * as Yup from "yup";
+import { useFormik } from "formik";
 import {
   ChangeEvent,
   Fragment,
@@ -16,32 +28,24 @@ import {
   useState,
 } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import * as Yup from "yup";
 import BoxChoseColor from "../../../components/AdminComponents/BoxChoseColor";
-import BoxTradeMark from "../../../components/AdminComponents/BoxTradeMark";
-import ChooseProducCategory from "../../../components/AdminComponents/ChooseProducCategory";
 import SliderPreviewImages from "../../../components/AdminComponents/SliderPreviewImages";
-import TitleInput from "@components/input/TitleInput";
-import { InputComponent } from "@components/input/InputComponent";
-import Editor from "commons/Editor";
-import { ICDeleteTrashLight } from "@assets/iconElements/ICDeleteTrashLight";
-import { useFormik } from "formik";
-import GroupButton from "@components/Buttons/GroupButton";
-import { TextError } from "commons/TextError";
-import DropdowBox from "commons/components/DropdowBox";
-import InfiniteScroll from "react-infinite-scroll-component";
-import LoadingPage from "@components/LoadingPage";
-import categoryServices from "@services/categoryService";
-import { CategoryType } from "@services/Types/category";
-import clsx from "clsx";
-import useI18n from "@hooks/useI18n";
+import province_data from "../../../utility/province_date.json";
 import ChoseCategory from "./ChoseCategory";
-import { ProductItem } from "@services/Types/product";
+import AtributeItem from "./component/AtributeItem";
+import { ModalContext } from "@contexts/contextModal";
+import AddAtributeForm from "./component/AddAtributeForm";
+import { ICDeleteTrashLight } from "@assets/iconElements/ICDeleteTrashLight";
 
 interface Props {}
 function ProductEditComponent(props: Props) {
   const { id } = useParams();
   const navigate = useNavigate();
   const { onAddToast } = useContext(ToastContex);
+  const { setShowModal, closeModal, setContentModal } =
+    useContext(ModalContext);
+  const { showError, showSuccess, showWarning } = useShowMessage();
   const { isVn } = useI18n();
   const [categories, setCategories] = useState<CategoryType[]>([]);
   const [categoryName, setCategoryName] = useState<string>("Chọn Phân loại");
@@ -51,12 +55,19 @@ function ProductEditComponent(props: Props) {
   const [videoFile, setFileVideo] = useState<File | null>(null);
   const [imgExchangFile, setImgExchangeFile] = useState<File | null>(null);
   const [isDisable, setDisable] = useState<boolean>(false);
-  const nameTable = ["Màu sắc", "Size", "Giảm giá", "Số lượng", "Giá bán"];
+  const nameTable = [
+    "Kho còn hàng",
+    "Tên thuộc tính",
+    "Giá bán",
+    " Khuyến mại",
+    "Tồn kho",
+  ];
   const [applySale, setApplySale] = useState({
     countSale: "",
     salePrice: "",
   });
   const [listSize, setListSize] = useState<string[]>([]);
+
   const [formValue, setFormValue] = useState<Product>({
     sku: "",
     name: "",
@@ -111,7 +122,47 @@ function ProductEditComponent(props: Props) {
       featured: 0,
       createAt: null,
       warehouse: [],
-      productDetails: [],
+      atributies: [
+        {
+          valueVn: ["đỏ", "xanh"],
+          valueKr: ["빨간색", "빨간색"],
+          attributeNameVn: "Màu",
+          attributeNameKr: "색상",
+        },
+        {
+          valueVn: ["1lit", "2lit"],
+          valueKr: ["1빨간색", "2빨간색"],
+          attributeNameVn: "thể tích",
+          attributeNameKr: "색상",
+        },
+      ],
+      productDetails: [
+        {
+          priceDetail: 10,
+          promoDetail: 10,
+          stockQuantity: 10,
+          addressWarehouse: "Hà Nội",
+          images: [
+            {
+              url: "https://example.com/image3.jpg",
+            },
+          ],
+          attributes: [
+            {
+              valueVn: "đỏ",
+              valueKr: "빨간색",
+              attributeNameVn: "Màu",
+              attributeNameKr: "색상",
+            },
+            {
+              valueVn: "1L",
+              valueKr: "1L",
+              attributeNameVn: "Thể tích",
+              attributeNameKr: "용량",
+            },
+          ],
+        },
+      ],
     },
     validationSchema: Yup.object({
       productCode: Yup.string().trim().required("Không được để trống"),
@@ -150,7 +201,134 @@ function ProductEditComponent(props: Props) {
     setFieldValue("subCategoryId", subId);
     setFieldError("categoryId", undefined);
   };
+  const formatAtribute = () => {
+    const listAtributeList: any = [];
+    values.atributies!.forEach((atr, index) => {
+      atr.valueVn.forEach((item, index) => {
+        listAtributeList.push({
+          valueVn: item,
+          valueKr: atr.valueKr[index],
+          attributeNameVn: atr.attributeNameVn,
+          attributeNameKr: atr.attributeNameKr,
+        });
+      });
+    });
+    return listAtributeList;
+  };
+  // modal thêm hoặc sửa thuộc tính
+  const handleShowAtributeEdit = (data?: ListAtribuite, index?: number) => {
+    setContentModal(
+      <AddAtributeForm
+        handleEdit={handleAddAtribute}
+        attibute={data}
+        indexEdit={index}
+      />
+    );
+    setShowModal(true);
+  };
+  // thêm hoặc sửa thuộc tính
+  const handleAddAtribute = (data: ListAtribuite, index: number) => {
+    const attributeList = [...values.atributies!];
+    let productDetails = [...values.productDetails];
+    if (index >= 0) {
+      productDetails = productDetails.map((detail, index) => {
+        const listAtb = detail.attributes.map((subDetail, index) => {
+          if (
+            subDetail.attributeNameVn.includes(
+              attributeList[index as number].attributeNameVn
+            )
+          ) {
+            subDetail = {
+              ...subDetail,
+              attributeNameVn: data.attributeNameVn,
+              attributeNameKr: data.attributeNameKr,
+            };
+          }
+          return subDetail;
+        });
+        return { ...detail, attributes: listAtb };
+      });
+      attributeList[index as number] = data;
+      setFieldValue("atributies", attributeList);
+      setFieldValue("productDetails", productDetails);
+      closeModal();
+      return;
+    }
 
+    const checkName = attributeList.findIndex(
+      (item) => item.attributeNameVn == data.attributeNameVn
+    );
+    if (checkName < 0) {
+      attributeList.push(data);
+      setFieldValue("atributies", attributeList);
+      closeModal();
+    } else {
+      showError("tên giá trị đã tồn tại");
+    }
+  };
+  const handleDeleteAtb = (index: number, indexSub: number = -1) => {
+    const attributeList = [...values.atributies!];
+    let productDetails = [...values.productDetails];
+    const nameDeleteSub = attributeList[index].valueVn[indexSub];
+    const nameDeleteItem = attributeList[index].attributeNameVn;
+    if (indexSub > -1) {
+      attributeList[index].valueVn.splice(indexSub, 1);
+      attributeList[index].valueKr.splice(indexSub, 1);
+      productDetails = productDetails.map((detail) => {
+        const newAtrb = detail.attributes.filter((item) => {
+          return item.valueVn != nameDeleteSub;
+        });
+        return {
+          ...detail,
+          attributes: newAtrb,
+        };
+      });
+    } else {
+      attributeList.splice(index, 1);
+      productDetails = productDetails.map((detail) => {
+        const newAtrb = detail.attributes.filter((item) => {
+          return item.attributeNameVn != nameDeleteItem;
+        });
+        return {
+          ...detail,
+          attributes: newAtrb,
+        };
+      });
+    }
+    setFieldValue("atributies", attributeList);
+    setFieldValue("productDetails", productDetails);
+  };
+  const handleAddValueAtribute = async (value: string, index: number) => {
+    const attributeList = [...values.atributies!];
+    let productDetails = [...values.productDetails];
+    const checkDupicate = attributeList[index]
+      ? isVn
+        ? attributeList[index].valueVn.includes(value)
+        : attributeList[index].valueKr.includes(value)
+      : false;
+    if (checkDupicate) {
+      return showError("tên giá trị đã tồn tại");
+    }
+    const translated = isVn
+      ? await TranslateService.tranSlateKr({ nameVn: value, nameKr: "" })
+      : await TranslateService.tranSlateVn({ nameVn: "", nameKr: value });
+    attributeList[index].valueVn.push(translated.nameVn);
+    attributeList[index].valueKr.push(translated.nameKr);
+    productDetails = productDetails.map((detail, index) => {
+      const newAtrb = (detail.attributes = [
+        ...detail.attributes,
+        {
+          valueVn: translated.nameVn,
+          valueKr: translated.nameKr,
+          attributeNameVn: attributeList[index].attributeNameVn,
+          attributeNameKr: attributeList[index].attributeNameKr,
+        },
+      ]);
+      return { ...detail, attributes: newAtrb };
+    });
+    setFieldValue("atributies", attributeList);
+    setFieldValue("productDetails", productDetails);
+  };
   const getCategory = async () => {
     try {
       const result = await categoryServices.getAllCategory();
@@ -163,13 +341,33 @@ function ProductEditComponent(props: Props) {
   };
   const handleAddWarehowse = (province: string) => {
     const newListAddress = [...values.warehouse];
+    let newDetails = [...values.productDetails];
     const checkProvince = newListAddress.findIndex(
       (item) => item.address === province
     );
-    checkProvince < 0
-      ? newListAddress.push({ address: province })
-      : newListAddress.splice(checkProvince, 1);
+    if (checkProvince < 0) {
+      newListAddress.push({ address: province });
+      const itemDetail = {
+        priceDetail: 10,
+        promoDetail: 10,
+        stockQuantity: 10,
+        addressWarehouse: province,
+        images: [
+          {
+            url: "",
+          },
+        ],
+        attributes: formatAtribute(),
+      };
+      newDetails.push(itemDetail);
+    } else {
+      newListAddress.splice(checkProvince, 1);
+      newDetails = newDetails.filter(
+        (item) => item.addressWarehouse != province
+      );
+    }
     setFieldValue("warehouse", newListAddress);
+    setFieldValue("productDetails", newDetails);
   };
   const checkProvinceActive = (province: string) => {
     const checkProvince = values.warehouse.findIndex(
@@ -782,8 +980,6 @@ function ProductEditComponent(props: Props) {
     }
   }, [values.categoryId, categories]);
 
-  console.log(errors, values, "kjaksd");
-
   return (
     <div className="pt-9 pb-10px flex-1">
       <h2 className="titlePage mb-5">Thông tin cơ bản</h2>
@@ -1015,259 +1211,43 @@ function ProductEditComponent(props: Props) {
             <TextError message={errors.specVn} />
           )}
         </div>
-        {/* <div className="w-2/3">
-          <ChooseProducCategory
-            itemCategory={formValue.category}
-            onHandleAddCategory={onChoseCategory}
-          />
-          <BoxTradeMark
-            iTemTrade={formValue.trademark}
-            onSelectTrade={handleTrade}
-          />
-
-          <div>
-            <p className="text-small mb-3">Đối tượng</p>
-            <div className="mt-3 flex items-center gap-12">
-              <InputChecboxElement
-                onHandleChange={() => handleGender("male")}
-                isCheck={
-                  Array.isArray(formValue.gender) &&
-                  formValue.gender.includes("male")
-                }
-                lable="Nam"
-                name="female"
-              />
-              <InputChecboxElement
-                onHandleChange={() => handleGender("female")}
-                isCheck={
-                  Array.isArray(formValue.gender) &&
-                  formValue.gender.includes("female")
-                }
-                lable="Nữ"
-                name="female"
-              />
-            </div>
-          </div>
-
-          <div className="mt-7">
-            <p className="text-small mb-3">
-              Thông tin <span className="text-main">*</span>
-            </p>
-            <div className="relative mb-7">
-              <textarea
-                name="detail"
-                maxLength={3000}
-                value={formValue.detail}
-                onChange={(event) => handleTextInput(event)}
-                onBlur={(event) => {
-                  if (event.target.value === "") {
-                    setValid({
-                      ...validForm,
-                      [event.target.name]: true,
-                    });
-                  }
-                }}
-                className={
-                  "border rounded-md border-gray-200 resize-none w-full p-4 pr-12 text-small overflow-y-auto " +
-                  (validForm?.detail && "border-main")
-                }
-                rows={8}
-              />
-              <div className="absolute right-9 bottom-[20%] font-normal text-xs text-gray-300">
-                {formValue?.detail?.length || 0}/3000
-              </div>
-              {validForm.detail && (
-                <p className="w-auto text-left text-main text-xs mt-1">
-                  Không được để trống
-                </p>
-              )}
-            </div>
-
-            <p className="text-small mb-3">Chính sách bảo hành sản phẩm</p>
-            <div className="relative">
-              <textarea
-                name="policy"
-                onChange={(event) => handleTextInput(event)}
-                maxLength={3000}
-                value={formValue.policy}
-                className="border rounded-md border-gray-200 resize-none w-full p-4 pr-12 text-small mb-7 overflow-y-auto"
-                rows={8}
-              />
-              <div className="absolute right-9 bottom-[20%] font-normal text-xs text-gray-300">
-                {formValue?.policy?.length || 0}/3000
-              </div>
-            </div>
-          </div>
-        </div> */}
       </div>
-      <div>
-        <p className="text-title font-semibold text-main">Thuộc tính</p>
-        <div className="flex flex-row flex-wrap items-center gap-3 my-5">
-          <div className="h-10 border flex items-center justify-center px-5 rounded-sm">
-            chọn thuộc tính
-          </div>
-          <div className="ml-spc50"></div>
-          <InputComponent
-            name=""
-            placeholder="nhập giá trị và enter"
-            className="!rounded-sm !w-[300px]"
-          />
-          <div className="cursor-pointer">
-            <ICDeleteTrashLight />
-          </div>
-        </div>
+      <div className="mb-10">
+        <p className="text-title font-semibold text-main mb-5">Thuộc tính</p>
+        {values.atributies &&
+          values.atributies.map((item, index) => {
+            return (
+              <AtributeItem
+                key={index}
+                indexAtribute={index}
+                handleAddValue={handleAddValueAtribute}
+                atribute={item}
+                handleDelete={handleDeleteAtb}
+                handleEditAtb={() => {
+                  handleShowAtributeEdit(item, index);
+                }}
+              />
+            );
+          })}
+        <LinearButton
+          text="button.add_product"
+          iconLeft={<PlusLinerIcon />}
+          className="w-[170px] h-10 !rounded !text-sm overflow-hidden"
+          className_child="rounded !text-sm "
+          onClick={() => handleShowAtributeEdit()}
+        />
       </div>
 
       <div className="w-2/3">
-        {/* <p className="titlePage text-2xl mb-6 mt-1">Thông tin bán hàng</p>
-        <div>
-          <p className="text-small font-semibold mb-5">Phân loại hàng</p>
-          <div className="grid grid-cols-6">
-            <div className="col-span-1">
-              <p className="text-small">
-                Màu sắc <span className="text-main">*</span>
-              </p>
-            </div>
-            <div className="col-span-5 mb-8">
-              {formValue.colors.length > 0 &&
-                formValue.colors.map((itemColor, indexColor) => {
-                  return (
-                    <div
-                      className="flex items-center gap-10px mb-10px"
-                      key={indexColor}
-                    >
-                      <InputTextElement
-                        // isReadOnly={true}
-                        maxNumber={20}
-                        name="colorName"
-                        value={itemColor.colorName}
-                        onChangeInput={(value: any) =>
-                          handleChangeInputColor(value, indexColor)
-                        }
-                        placehoderText="Nhập mã sản phẩm"
-                        classWidth="w-full  mr-3"
-                        className="py-3 px-5"
-                      />
-                      <div
-                        className="w-10 h-10 rounded-md bg-gray-100 flex items-center justify-center cursor-pointer"
-                        onClick={() => handleDeleteColor("COLOR", indexColor)}
-                      >
-                        <TrashCanIcon fill="#8E8E8E" width={14} />
-                      </div>
-                    </div>
-                  );
-                })}
-
-              <InputTextElement
-                maxNumber={20}
-                name="codeId"
-                isRequired
-                value={""}
-                placehoderText="Nhập loại màu"
-                classWidth="w-full max-w-[93%] mr-3"
-                onBlurInput={handleAddColor}
-                className="py-3 px-5"
-              />
-            </div>
-            <div className="col-span-1">
-              <p className="text-small">
-                Size <span className="text-main">*</span>
-              </p>
-            </div>
-            <div className="col-span-5 mb-8">
-              {formValue.colors.length > 0 &&
-                listSize.length > 0 &&
-                listSize.map((itemSize, indexSize) => {
-                  return (
-                    <div
-                      className="flex items-center gap-10px mb-10px"
-                      key={indexSize}
-                    >
-                      <InputTextElement
-                        // isReadOnly={true}
-                        maxNumber={20}
-                        name="sizeName"
-                        value={itemSize}
-                        onChangeInput={(value: any) =>
-                          handleChangeSize(value, indexSize)
-                        }
-                        placehoderText="Nhập mã sản phẩm"
-                        classWidth="w-full  mr-3"
-                        className="py-3 px-5"
-                      />
-                      <div
-                        className="w-10 h-10 rounded-md bg-gray-100 flex items-center justify-center cursor-pointer"
-                        onClick={() =>
-                          handleDeleteColor("SIZE", indexSize, itemSize)
-                        }
-                      >
-                        <TrashCanIcon fill="#8E8E8E" width={14} />
-                      </div>
-                    </div>
-                  );
-                })}
-              <InputTextElement
-                name="sku"
-                maxNumber={20}
-                isRequired
-                value={""}
-                placehoderText="Nhập size sản phẩm"
-                classWidth="w-full max-w-[93%] mr-3"
-                onBlurInput={handleAddSize}
-                className="py-3 px-5"
-              />
-            </div>
-
-            <div className="col-span-1 text-small">
-              <p className="text-small">
-                Giá bán <span className="text-main">*</span>
-              </p>
-            </div>
-            <div className="col-span-5 mb-8">
-              <InputTextElement
-                type="number"
-                isRequired
-                isVND={true}
-                name="price"
-                maxNumber={20}
-                value={formValue.price == 0 ? "" : formValue.price}
-                onChangeInput={handleValueInput}
-                placehoderText="Nhập giá bán"
-                classWidth="w-full max-w-[93%] mr-3"
-                className="py-3 px-5"
-              />
-            </div>
-            <div className="col-span-1 text-small">
-              <p className="text-small">
-                Giá vốn <span className="text-main">*</span>
-              </p>
-            </div>
-            <div className="col-span-5 mb-8">
-              <InputTextElement
-                type="number"
-                isRequired
-                isVND={true}
-                name="cost"
-                maxNumber={20}
-                value={formValue.cost == 0 ? "" : formValue.cost}
-                onChangeInput={handleValueInput}
-                placehoderText="Nhập giá vốn"
-                classWidth="w-full max-w-[93%] mr-3"
-                className="py-3 px-5"
-              />
-            </div>
-          </div>
-        </div> */}
-
         <p className="text-small font-semibold mb-5">
           Danh sách phân loại hàng
         </p>
-        <div className="w-full flex gap-10px mb-5">
+        <div className="w-full flex gap-spc30 mb-10">
           <div className="border rounded-md h-10 pt-3 px-3 pb-2 flex items-center w-[70%] 2xl:w-[78%]">
             <input
               type="number"
               className="placeholder:text-gray-200 h-full p-2 text-small border-r border-gray-200 font-normal px-10px w-2/4"
-              placeholder="Số lượng"
+              placeholder="Khuyến mãi"
               name="countSale"
               value={applySale.countSale}
               onChange={(event) =>
@@ -1281,7 +1261,7 @@ function ProductEditComponent(props: Props) {
               type="number"
               min={0}
               className="placeholder:text-gray-200 h-full p-2 text-small font-normal px-10px w-2/4"
-              placeholder="Giảm giá"
+              placeholder="Tồn kho"
               name="salePrice"
               value={applySale.salePrice}
               onChange={(event) =>
@@ -1302,148 +1282,124 @@ function ProductEditComponent(props: Props) {
 
         {/* bảng chọn size và giá */}
         <div className="mb-4">
-          {formValue.colors.length > 0 &&
-            formValue.colors[0].sizes &&
-            formValue.colors[0].sizes.length > 0 && (
-              <table className="w-full">
-                <thead>
-                  <tr>
-                    {nameTable.map((itemName, index) => {
+          <table className="w-full border-collapse border border-neutra-neutra80">
+            <thead>
+              <tr className="">
+                {nameTable.map((itemName, index) => {
+                  return (
+                    <th
+                      key={index}
+                      className={clsx(
+                        "text-sm font-normal py-3 text-center min-w-[128px] border border-neutra-neutra80"
+                      )}
+                    >
+                      {itemName}
+                    </th>
+                  );
+                })}
+              </tr>
+            </thead>
+            <tbody>
+              {values.productDetails.map((items, index) => {
+                return (
+                  <Fragment key={index}>
+                    <tr>
+                      <td
+                        rowSpan={items.attributes.length + 1}
+                        className="border border-neutra-neutra80"
+                      >
+                        <p className="text-small font-semibold text-center mb-3">
+                          {items.addressWarehouse}
+                        </p>
+                      </td>
+                    </tr>
+                    {items.attributes.map((atb, indexAtb) => {
                       return (
-                        <th
-                          key={index}
-                          className="text-small font-normal py-3 text-center min-w-[128px]"
-                        >
-                          {itemName}
-                        </th>
-                      );
-                    })}
-                  </tr>
-                </thead>
-                <tbody>
-                  {formValue.colors.map((items, index) => {
-                    return (
-                      <Fragment key={index}>
-                        <tr>
-                          <td rowSpan={items.sizes.length + 1}>
-                            <div className="flex flex-col justify-center items-center p-2 relative">
-                              <p className="text-small font-semibold text-center mb-3">
-                                {items.colorName}
-                              </p>
-                              <div
-                                style={{
-                                  backgroundColor: items.colorCode || "",
-                                }}
-                                className="w-10 h-10 rounded-[50%] cursor-pointer border-2 chose-color"
-                              >
-                                <BoxChoseColor
-                                  handleChoseColor={(value) =>
-                                    handleChoseColor(value, index)
-                                  }
-                                />
-                              </div>
+                        <tr key={indexAtb} className="relative">
+                          <td className="py-6 text-center text-sm font-semibold uppercase min-w-[170px] border border-neutra-neutra80">
+                            {isVn ? atb.attributeNameVn : atb.attributeNameKr} -{" "}
+                            {isVn ? atb.valueVn : atb.valueKr}
+                          </td>
+                          <td className="border border-neutra-neutra80">
+                            <input
+                              value={items.priceDetail}
+                              name="sale"
+                              type="number"
+                              placeholder="--"
+                              className="text-sm text-center font-semibold px-6 placeholder:text-gray-200 w-full"
+                            />
+                          </td>
+                          <td className="border border-neutra-neutra80">
+                            <div className="max-w-[170px]">
+                              <input
+                                name="total"
+                                value={items.stockQuantity}
+                                // onChange={(event) => {
+                                //   handleChangeItemSize(event, index, indexSize);
+                                // }}
+                                type="number"
+                                placeholder="--"
+                                className="text-small text-center font-semibold px-6 placeholder:text-gray-200 w-full"
+                              />
                             </div>
                           </td>
+                          <td className="border border-neutra-neutra80">
+                            <div className="">
+                              <input
+                                readOnly
+                                value={10}
+                                // value={(
+                                //   formValue.price -
+                                //   (formValue.price / 100) * itemSize.sale
+                                // ).toLocaleString("vi", {
+                                //   style: "currency",
+                                //   currency: "VND",
+                                // })}
+                                // onChange={(event) => {}}
+                                type="text"
+                                placeholder="--"
+                                className="text-small text-center cursor-not-allowed font-semibold px-6 placeholder:text-gray-200 w-full"
+                              />
+                            </div>
+                          </td>
+                          {items.attributes.length > 1 && (
+                            <div
+                              // onClick={() => handleDeleteSize(index, indexSize)}
+                              className="absolute -right-[5%] top-2/4 -translate-y-[50%] cursor-pointer"
+                            >
+                              <ICDeleteTrashLight />
+                            </div>
+                          )}
                         </tr>
-                        {items.sizes.map((itemSize, indexSize) => {
-                          return (
-                            <tr key={indexSize + "Size"} className="relative">
-                              <td className="py-6 text-center text-small font-semibold uppercase max-w-[170px]">
-                                {itemSize.sizeName}
-                              </td>
-                              <td>
-                                <div className="flex max-w-[170px]">
-                                  <div className="border-r text-gray-300 border-r-gray-200 p-2">
-                                    %
-                                  </div>
-                                  <input
-                                    value={itemSize.sale}
-                                    name="sale"
-                                    onChange={(event) => {
-                                      handleChangeItemSize(
-                                        event,
-                                        index,
-                                        indexSize
-                                      );
-                                    }}
-                                    type="number"
-                                    placeholder="--"
-                                    className="text-small text-center font-semibold px-6 placeholder:text-gray-200 w-full"
-                                  />
-                                </div>
-                              </td>
-                              <td>
-                                <div className="max-w-[170px]">
-                                  <input
-                                    name="total"
-                                    value={itemSize.total}
-                                    onChange={(event) => {
-                                      handleChangeItemSize(
-                                        event,
-                                        index,
-                                        indexSize
-                                      );
-                                    }}
-                                    type="number"
-                                    placeholder="--"
-                                    className="text-small text-center font-semibold px-6 placeholder:text-gray-200 w-full"
-                                  />
-                                </div>
-                              </td>
-                              <td>
-                                <div className="">
-                                  <input
-                                    readOnly
-                                    value={(
-                                      formValue.price -
-                                      (formValue.price / 100) * itemSize.sale
-                                    ).toLocaleString("vi", {
-                                      style: "currency",
-                                      currency: "VND",
-                                    })}
-                                    onChange={(event) => {}}
-                                    type="text"
-                                    placeholder="--"
-                                    className="text-small text-center cursor-not-allowed font-semibold px-6 placeholder:text-gray-200 w-full"
-                                  />
-                                </div>
-                              </td>
-                              {items.sizes.length > 1 && (
-                                <div
-                                  onClick={() =>
-                                    handleDeleteSize(index, indexSize)
-                                  }
-                                  className="absolute -right-5 top-2/4 -translate-y-[50%] cursor-pointer"
-                                >
-                                  <TrashCanIcon fill="#8E8E8E" width={14} />
-                                </div>
-                              )}
-                            </tr>
-                          );
-                        })}
-                      </Fragment>
-                    );
-                  })}
-                </tbody>
-              </table>
-            )}
+                      );
+                    })}
+                  </Fragment>
+                );
+              })}
+            </tbody>
+          </table>
+          {/* )} */}
         </div>
         {/* chọn màu */}
         <div className="mb-9">
-          <p className="text-small font-semibold mb-5">Chọn màu</p>
-          {imagePreview.length > 0 && formValue.colors.length > 0 && (
+          <TitleInput
+            isNormal={true}
+            isRequired={false}
+            name="Chọn ảnh phân loại hàng"
+          />
+          {imagePreview.length > 0 && values.productDetails.length > 0 && (
             <div className="border border-gray-200 rounded-md">
-              {formValue.colors.map((item, index) => {
+              {values.productDetails.map((item, index) => {
                 return (
                   <SliderPreviewImages
                     key={index}
                     classNavigate={"slideProduct" + index}
-                    codeColor={item.colorCode}
-                    nameColor={item.colorName}
+                    // codeColor={item.colorCode}
+                    nameColor={item.attributes[0].attributeNameVn}
                     indexSlide={index}
                     lisImages={imagePreview}
                     listImageActived={listImageActived}
-                    imageActived={item.image}
+                    imageActived={item.images[0].url}
                     handleActiveImage={handleSetColorIntoImage}
                   />
                 );
@@ -1491,25 +1447,10 @@ function ProductEditComponent(props: Props) {
         </div>
       </div>
       <div className="flex item-center justify-end my-7">
-        <GroupButton onSubmit={handleSubmitFomik} />
-        {/* <button
-            disabled={!handleCheckValidate() || isDisable}
-            className={
-              "btn-normal text-sm leading-18 mr-10px " +
-              (!handleCheckValidate() || isDisable
-                ? "bg-gray-300 text-white cursor-not-allowed"
-                : "")
-            }
-            onClick={() => handleSubmit()}
-          >
-            Lưu
-          </button>
-          <button
-            className="rounded-md py-2 px-3 border border-main flex items-center text-main text-smal font-normal bg-icon"
-            onClick={() => navigate("/admin/product")}
-          >
-            Hủy
-          </button> */}
+        <GroupButton
+          onSubmit={handleSubmitFomik}
+          onCancel={() => navigate("/admin/product")}
+        />
       </div>
     </div>
   );
