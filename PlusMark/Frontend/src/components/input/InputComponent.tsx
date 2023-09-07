@@ -39,7 +39,7 @@ export const InputComponent = memo(
       return (
         <div
           className={clsx(
-            " placeholder:text-neutra-neutral60 placeholder:text-wap-regular2 w-full flex items-center py-[13px] px-[13px] border-[1px] border-solid border-neutra-neutra80",
+            " placeholder:text-neutra-neutral60 placeholder:text-wap-regular2 w-full flex items-center px-[13px] border-[1px] border-solid border-neutra-neutra80",
             { "h-[40px] rounded-[50px]": rounded, "h-12": !rounded },
             className
           )}

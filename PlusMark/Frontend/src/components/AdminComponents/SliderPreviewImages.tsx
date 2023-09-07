@@ -6,7 +6,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 interface Props {
   indexSlide: number;
   nameColor: string;
-  codeColor: string;
+  // codeColor: string;
   classNavigate: string;
   lisImages: string[];
   imageActived: string | null;
@@ -17,7 +17,7 @@ function SliderPreviewImages(props: Props) {
   const {
     indexSlide,
     nameColor,
-    codeColor,
+    // codeColor,
     classNavigate,
     lisImages,
     imageActived,
@@ -37,16 +37,8 @@ function SliderPreviewImages(props: Props) {
   };
   return (
     <div className="grid grid-cols-5 border-b border-gray-200">
-      <div className="col-span-1 border-r border-r-gray-200 pt-4 pb-12">
-        <div className="flex flex-col justify-center items-center ">
-          <p className="text-small font-semibold text-center mb-3">
-            {nameColor}
-          </p>
-          <div
-            className="w-10 h-10 rounded-[50%] border"
-            style={{ backgroundColor: codeColor }}
-          ></div>
-        </div>
+      <div className="col-span-1 flex items-center justify-center border-r border-r-gray-200 text-sm uppercase font-semibold">
+        {nameColor}
       </div>
       <div className="col-span-4">
         {lisImages.length > 0 && (

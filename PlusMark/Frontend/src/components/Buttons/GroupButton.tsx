@@ -26,10 +26,11 @@ const GroupButton = memo(
           text={textCancel}
           className="h-12"
           onClick={() => {
-            onCancel || closeModal();
+            (onCancel && onCancel()) || closeModal();
           }}
         />
         <DynamicButton
+          type="submit"
           normal={false}
           gradien={true}
           disabled={isLoading}
