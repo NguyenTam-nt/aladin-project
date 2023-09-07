@@ -18,6 +18,7 @@ import { useShowMessage } from '../components/DiglogMessage';
 import moment from 'moment';
 import { useSearchParams } from 'react-router-dom';
 import { debounce } from 'lodash';
+import { FomatDateDDMMYYHHMM } from '@constants/formatDateY_M_D'
 
 function VoucherAdd() {
   const { t } = useTranslation();
@@ -47,8 +48,8 @@ function VoucherAdd() {
         setVoucher(data);
         formik.setFieldValue("name", data.name);
         formik.setFieldValue("code", data.code);
-        formik.setFieldValue("start", new Date(data.startDate).toISOString().slice(0, -1));
-        formik.setFieldValue("endDate", new Date(data.endDate).toISOString().slice(0, -1));
+        formik.setFieldValue("start", FomatDateDDMMYYHHMM(data.startDate));
+        formik.setFieldValue("endDate", FomatDateDDMMYYHHMM(data.endDate));
         formik.setFieldValue("valueDiscount", data.value);
         formik.setFieldValue("minPriceOrder", data.minBill);
         formik.setFieldValue("amount", data.numBill);

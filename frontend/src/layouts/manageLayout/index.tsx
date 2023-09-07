@@ -25,7 +25,8 @@ const LayoutManager = () => {
     doLogin()
     return
   } else {
-    if (user?.authorities?.[0].name !== RoleUser.ADMIN) {
+    const isAdmin = user?.authorities.some((i) => i.name === RoleUser.ADMIN)
+    if (!isAdmin) {
       // navigate("/")
       return <Navigate to="/" />
     }
