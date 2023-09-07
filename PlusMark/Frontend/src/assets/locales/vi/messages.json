@@ -26,7 +26,8 @@
         "title" : "cảnh báo title bị trùng khớp"
     }, 
      "confirm": {
-        "delete_category" : "Bạn có chắc chắn muốn xóa danh mục ?"
+        "delete_category" : "Bạn có chắc chắn muốn xóa danh mục ?",
+        "delete_policy" : "Bạn có chắc chắn xóa chính sách này khỏi hệ thống?"
     }
 
 }

@@ -59,8 +59,7 @@ function ManageBanner() {
       try {
         setLoading(true)
         const response = await BannerServices.get()
-        if (response.status == 200) {
-          const data = response.data.data
+          const data = response.data
 
           const objBanners = data.reduce(
             (obj: Banner, item: Banner) => Object.assign(obj, { [item.name]: item }), {})
@@ -85,7 +84,6 @@ function ManageBanner() {
             }
           });
           setBanners(newBanners)
-        }
       } catch (ex) {
         console.log(ex)
       } finally {

@@ -51,7 +51,7 @@ const ContactServices = {
         return api.delete(apiContact + `/${id}`)
     },
     deleteManyContact : async(data: any) => {
-        return await api.delete(`${apiContact}s?${queryString.stringify({ids: data},{ arrayFormat: "comma", skipNull: true })}`)
+        return await api.delete(`${apiContact}?${queryString.stringify({ids: data},{ arrayFormat: "comma", skipNull: true })}`)
     },
     getInfo: async (): Promise<ResponseContactStoreInfo> => {
         return api.get("/contactstore").then(data => data)

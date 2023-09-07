@@ -1,9 +1,9 @@
 import FaceRound from './face-round.png'
 import YtbRound from './ytbRound.png'
-import  Bct from './bct.png'
-import  ImgHomeContact from './homecontac-img.png'
-import  DistributorImage from './distributor.png'
-import  MessageContact from './mesageContact.png'
+import Bct from './bct.png'
+import ImgHomeContact from './homecontac-img.png'
+import DistributorImage from './distributor.png'
+import MessageContact from './mesageContact.png'
 // import BocongthuonIcon from './bct.png'
 import VisaCard from './visa_img.png'
 import MasterCard from './master_card_img.png'
@@ -111,12 +111,15 @@ export { ReactComponent as ArrowForward } from "./arrowFoward.svg";
 export { ReactComponent as SendIcon } from "./send-icon.svg";
 export { ReactComponent as LocationIcon } from "./location-icon.svg";
 export { ReactComponent as HotlineIcon } from "./advise-icon.svg";
-export { ReactComponent as RemoveCartIcon} from "./icon-remove-cart.svg";
-export { ReactComponent as PaymentCartIcon} from "./cart-payment-icon.svg";
+export { ReactComponent as RemoveCartIcon } from "./icon-remove-cart.svg";
+export { ReactComponent as PaymentCartIcon } from "./cart-payment-icon.svg";
 export { ReactComponent as KoreaFlag } from "./koreaFlag.svg";
 export { ReactComponent as TooltipSale } from "./toltipSale.svg";
 export { ReactComponent as CricleContactSvg } from "./cricle-contact.svg";
 export { ReactComponent as LineIcon } from "./line-icon.svg";
+export { ReactComponent as TrashIconAdvice } from "./TrashIconAdvice.svg"
+export { ReactComponent as IconArrowUp } from "./u_top-arrow-from-top.svg"
+export { ReactComponent as IconArrowDown } from "./u_arrow-from-top.svg"
 
 export {
     FaceRound,

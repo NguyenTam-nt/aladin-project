@@ -6,13 +6,13 @@ const pathName = '/translate';
 const pathObj = pathService.translateObj;
 
 const TranslateService = {
-    translateToKorea: async (content: any) : Promise<string> => {
-        const result = await api.post(`${pathName}?type=2`, content);
-        return result.data
-    },
-    translateToVietNam: async (content: any): Promise<string> => {
+    translateToKorea: async (content: any) : Promise<any> => {
         const result = await api.post(`${pathName}?type=1`, content);
-        return result.data
+        return result
+    },
+    translateToVietNam: async (content: any): Promise<any> => {
+        const result = await api.post(`${pathName}?type=2`, content);
+        return result
     },
     tranSlateKr: async (data:any) : Promise<any> => {
         return await api.post(`${pathObj}?type=1`, data);
