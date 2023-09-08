@@ -8,6 +8,7 @@ import clsx from "clsx";
 import { formatDate } from "commons/dayfomat";
 import moment from "moment";
 import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from 'react';
 
 export const ItemText = (props: { text?: string }) => {
     const { text } = props;
@@ -21,32 +22,41 @@ export const ItemText = (props: { text?: string }) => {
 };
 
 interface IProps {
-    data?: IVoucher
+    data: IVoucher,
 }
 const TableVoucher = (props: IProps) => {
     const { data } = props;
     const navigate = useNavigate();
     const { showConfirm } = useShowConfirm();
-    const {showSuccess,showError,showWarning } = useShowMessage();
+    const { showSuccess, showError, showWarning } = useShowMessage();
+    const [status, setStatus] = useState<string>();
     const checkStatus = (status?: string): string => {
         return status == "HAPPENING" ? 'Đang diễn ra' : status == "NOT_HAPPEN" ? 'Sắp diễn ra ' : 'Đã kết thúc';
     }
-    const showConfirmStatusVoucher = () => {
-        showConfirm("Bạn có muốn kết thúc voucher này không?", updateStatusVoucher);
+  
+    const handleConfirmStopVoucher = (data: IVoucher) => {
+        showConfirm("voucher.message.confirm.stop-voucher", () => { handleStopVoucher(data) })
     }
-    const updateStatusVoucher = async () => {
+
+    const handleStopVoucher = async (data: IVoucher) => {
         try {
             const newData = {
                 ...data,
                 voucherState: 'FINISHED'
             }
-            const res = await VoucherServices.addOrUpdateVoucher(newData, data?.id?.toString());
-            showSuccess('Voucher đã được kết thúc.')
+            const res = await VoucherServices.putVoucher(newData.id, newData);
+            if (res) {
+                showSuccess("voucher.form.message.success.stop-voucher");
+                setStatus("FINISHED")
+            }
         } catch (error) {
             console.log(error);
-            showError('Kết thúc voucher thất bại.')
+            showError("voucher.form.message.error.stop-voucher")
         }
     }
+    useEffect(() => {
+        setStatus(data?.voucherState);
+    }, [data])
     return (
         <>
             <div className="ml-[9px] h-10 flex-1 items-start justify-between grid grid-cols-[100px_1.5fr_90px_1fr_1fr_2fr_1.5fr] gap-x-2 font-semibold">
@@ -59,18 +69,18 @@ const TableVoucher = (props: IProps) => {
                     <div className="text-wap-regular2 font-normal font-PublicSans flex flex-col">
                         <p className={clsx('',
                             {
-                                'text-error-500': data?.voucherState === 'FINISHED',
-                                'text-green-319F43': data?.voucherState === 'NOT_HAPPEN',
-                                'text-aqua-aq02': data?.voucherState === 'HAPPENING',
-                            })}>{checkStatus(data?.voucherState)}</p>
+                                'text-error-500': status === 'FINISHED',
+                                'text-green-319F43': status === 'NOT_HAPPEN',
+                                'text-aqua-aq02': status === 'HAPPENING',
+                            })}>{checkStatus(status)}</p>
                         <p className="text-content line-clamp-1 ">{`${formatDate(data?.startDate)} - ${formatDate(data?.endDate)}`}</p>
                     </div>
 
                 </div>
                 <div>
-                    {data?.voucherState == "FINISHED" && <ItemText text="Đã kết thúc" />}
+                    {status == "FINISHED" && <ItemText text="Đã kết thúc" />}
                     {
-                        (data?.voucherState == "NOT_HAPPEN" || data?.voucherState == "HAPPENING") && (
+                        (status == "NOT_HAPPEN" || status == "HAPPENING") && (
                             <div className="flex flex-row gap-x-7">
                                 <button
                                     onClick={() => navigate(`edit/${data?.id?.toString()}`)}
@@ -79,7 +89,9 @@ const TableVoucher = (props: IProps) => {
                                     <p className="text-wap-regular2 font-normal font-PublicSans">Chỉnh sửa</p>
                                 </button>
                                 <button
-                                    onClick={showConfirmStatusVoucher}
+                                    onClick={() => {
+                                        handleConfirmStopVoucher(data);
+                                    }}
                                     className="flex flex-row gap-x-2 justify-center items-center">
                                     <ICReduced />
                                     <p className="text-wap-regular2 font-normal font-PublicSans">Kết thúc</p>

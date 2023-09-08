@@ -30,7 +30,7 @@ function InputChecboxElement(props: Props) {
         />
         <div
           className={
-            "flex items-center justify-center border border-gray-300 bg-white mr-[18px] " +
+            "flex items-center justify-center border border-gray-300 bg-white " +
             sizeBox
           }
         >

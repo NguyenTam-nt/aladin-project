@@ -29,11 +29,20 @@ const VoucherServices = {
     getAllVoucher: async (params: paramVoucher): Promise<IRespone> => {
         return await api.get(path, { params });
     },
-    getProductByVoucherCode: async (code?: any): Promise<any> => {
-        return api.get(`${path}/search_products?voucherCode=${code}`);
+    getProductNotBeenAddVoucherAddkeyWork: async (keyWord?: any, code?: any): Promise<any> => {
+        return api.get(`${path}/search/products?keyWord=${keyWord}&voucherCode=${code}`);
+    },
+    getProductNotBeenAddVoucher: async (code?: any): Promise<any> => {
+        return api.get(`${path}/products?voucherCode=${code}`);
     },
     postVoucher: async (data: any) => {
         return api.post(path, data);
+    },
+    putVoucher: async (id: any, data: any) => {
+        return api.put(`${path}/${id}`, data);
+    },
+    removeListVoucher: async (data: any) => {
+        return api.delete(`${path}?${queryString.stringify({ ids: data }, { skipNull: true })}`)
     }
 }
 

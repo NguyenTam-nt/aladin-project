@@ -1,0 +1,75 @@
+{
+    "voucher": {
+        "form": {
+            "title": "Thông tin cơ bản",
+            "voucher-name": "Tên chương trình giảm giá",
+            "voucher-code": "Mã Voucher",
+            "time": "Thời gian sử dụng mã",
+            "discount-code": "Thiết lập mã giảm giá",
+            "type-voucher": "Loại giảm giá | Mức giảm",
+            "max-value": "Mức giảm giá tối đa",
+            "by-money": "Theo số tiền",
+            "percent": "Phần trăm",
+            "minbill": "Giá trị hóa đơn tối thiểu",
+            "total": "Lượt sử dụng tối đa",
+            "user-limit": "Lượt sử dụng tối đa / Người mua",
+            "product-voucher": "Hiển thị mã giảm giá và các sản phẩm áp dụng",
+            "applicable-products": "Mã sản phẩm được áp dụng",
+            "all-product": "Toàn bộ sản phẩm",
+            "partial": "Một số sản phẩm",
+            "choosse-product": "Chọn sản phẩm",
+            "search": "Tìm",
+            "product-name": "Tên sản phẩm",
+            "selected-product": "Sản phẩm đã chọn",
+            "total-note": "Tổng số Mã giảm giá có thể sử dụng",
+            "user-limit-note": "Lượt sử dụng tối đa mỗi Người mua không được lớn hơn tổng lượt sử dụng tối đa của voucher",
+            "placeholder": {
+                "voucher-name": "Tên voucher chỉ hiển thị trong màn quản lý",
+                "voucher-code": "Nhập mã Voucher",
+                "type-voucher-percent": "Nhập phần trăm giảm giá",
+                "type-voucher-money": "Nhập số tiền giảm giá",
+                "minbill": "Nhập số tiền",
+                "total": "Nhập số lượng voucher sử dụng tối đa",
+                "product-name": "Nhập tên"
+            },
+            "table": {
+                "product": "Sản phẩm",
+                "unit-price": "Đơn giá (VNĐ)",
+                "in-stock": "Kho còn hàng",
+                "Inventory": "Tồn kho"
+            },
+            "required": {
+                "voucher-name": "Tên chương trình giảm giá không được để trống.",
+                "voucher-code": "Mã voucher không được để trống.",
+                "value": "Loại giảm giá không được để trống.",
+                "minbill": "Gía trị hóa đơn không được để trống.",
+                "total": "Lượt sử dụng voucher tối đa không được để trống.",
+                "user-limit": "Lượt sử dụng voucher tối đa/ người không được để trống."
+            },
+            "regex": {
+                "number": "Bắt buộc phải là ký tự số."
+            },
+            "max": {
+                "message": "Tối đa {{max}} ký tự."
+            },
+            "message": {
+                "success": {
+                    "post": "Tạo voucher thành công.",
+                    "put": "Câp nhật voucher thành công.",
+                    "stop-voucher": "Kết thúc chương trình thành công."
+                },
+                "error": {
+                    "post": "Tạo voucher thất bại.",
+                    "put": "Câp nhật voucher thất bại.",
+                    "stop-voucher": "Kết thúc chương trình thất bại."
+                }
+            }
+        },
+        "message": {
+            "confirm": {
+                "delete": "Bạn có chắc chắn xóa voucher này khỏi hệ thống?",
+                "stop-voucher": "Bạn có chắc chắn muốn kết thúc chương trình này không?"
+            }
+        }
+    }
+}

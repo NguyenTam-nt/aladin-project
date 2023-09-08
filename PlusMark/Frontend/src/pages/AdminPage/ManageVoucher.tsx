@@ -20,6 +20,10 @@ import { useTranslation } from "react-i18next";
 import TableVoucher from "./ComponentVoucher/TableVoucher";
 import { ICFilter } from "@assets/iconElements/ICFIlter";
 import clsx from "clsx";
+import InputChecboxElement from "commons/components/InputComponent/InputChecboxElement";
+import { useShowConfirm } from "@components/Modal/DiglogComfirm";
+import { useShowMessage } from "@components/Modal/DialogMessage";
+import queryString from "query-string";
 
 interface Props {
   refCheckboxAll?: Ref<HTMLInputElement>;
@@ -65,12 +69,19 @@ export const ItemTable = (props: { isProduct?: boolean, img?: string, title?: st
 }
 function ManageVoucher(props: Props) {
   const { refCheckboxAll } = props;
+  const SIZE = 20;
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { currentPage, listVoucher, totalElement, isloading, error } =
     useAppSelector((state) => state.vouchers);
   const { setShowModal, setContentModal } = useContext(ModalContext);
+  const [totalPage, setTotalPage] = useState<number>(0);
+  const [listIdAddvoucher, setListIdAddvoucher] = useState<any[]>([]);
+  const [listVoucherId, setListVoucherId] = useState<any[]>([]);
+  const [checkAll, setCheckAll] = useState<boolean>(false);
+  const { showConfirm } = useShowConfirm();
+  const { showError, showSuccess, showWarning } = useShowMessage();
   const [filterVoucher, setFilterVoucher] = useState<
     null | "FINISHED" | "HAPPENING" | "NOT_HAPPEN"
   >(null);
@@ -117,33 +128,59 @@ function ManageVoucher(props: Props) {
       />
     );
   };
+
+
+
   useEffect(() => {
     if (searchParams.get("page")) {
       setCurrentPage(Number(searchParams.get("page")));
     }
   }, [searchParams]);
 
-  // useEffect(() => {
-  //   const paramApi = {
-  //     page: currentPage - 1,
-  //     size: 5,
-  //     status: filterVoucher,
-  //   };
-  //   dispatch(ThunkGetvoucher(paramApi));
-  //   return () => {};
-  // }, [currentPage, filterVoucher]);
+  const handleAddListItem = (id: any) => {
+    let newListId = [...listIdAddvoucher];
+    const indexItem = listIdAddvoucher.findIndex((item) => {
+      return item === id;
+    });
+    if (indexItem > -1) {
+      newListId.splice(indexItem, 1);
+    } else {
+      newListId.push(id);
+    }
+    setListIdAddvoucher(newListId);
+  }
 
-  const getAllVoucher = async () => {
+  const handleCheckAll = (check: boolean) => {
+    if (check) {
+      setListIdAddvoucher(dataVoucher.map((item) => item.id ?? 0));
+    } else {
+      setListIdAddvoucher([]);
+    }
+    setCheckAll(check)
+  }
+
+  const getAllVoucher = async (currentPage: number) => {
     const params = {
       page: currentPage - 1,
-      size: 10,
+      size: 20,
       status: filterVoucher,
     };
     try {
       const res = await VoucherServices.getAllVoucher(params);
       if (res) {
-        setDataVoucher(res.content)
+        setDataVoucher(res.content);
+        setTotalPage(res.totalPages);
       }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  const handleRemoveVoucher = async () => {
+   
+    try {
+      const res = await VoucherServices.removeListVoucher(listIdAddvoucher);
+      console.log({ res });
 
     } catch (error) {
       console.log(error);
@@ -152,8 +189,8 @@ function ManageVoucher(props: Props) {
   }
 
   useEffect(() => {
-    getAllVoucher();
-  }, [])
+    getAllVoucher(currentPage);
+  }, [currentPage])
 
   return (
     <div className="pt-9">
@@ -176,6 +213,7 @@ function ManageVoucher(props: Props) {
           </p>
           <div className="flex gap-x-6">
             <button
+              onClick={handleRemoveVoucher}
               className="flex justify-center items-center gap-x-[10px] px-4 py-3 border-[1px] border-error-500 text-error-500 font-bold text-wap-regular2"
             >
               <ICDeleteTrashLight color={colors.error500} />
@@ -197,7 +235,12 @@ function ManageVoucher(props: Props) {
           <button
             className="flex items-start"
           >
-            <Checkbox onChange={() => { }} ref={refCheckboxAll} htmlFor="check-all" />
+            <InputChecboxElement
+              isCheck={checkAll}
+              name="check-all"
+              onHandleChange={() => handleCheckAll(!checkAll)}
+              sizeBox="w-5 h-5 mr-1"
+            />
           </button>
           <div className="ml-[9px] h-10 flex-1 items-start justify-between grid grid-cols-[100px_1.5fr_90px_1fr_1fr_2fr_1.5fr] gap-x-2 font-semibold">
             <ColumnHeaders title="Mã voucher" />
@@ -209,7 +252,7 @@ function ManageVoucher(props: Props) {
             <ColumnHeaders title="Thao tác" />
           </div>
         </div>
-        <div className="flex flex-col gap-y-7">
+        <div className="flex flex-col gap-y-7 max-h-[680px] h-[680px] overflow-y-auto">
           {(dataVoucher ?? []).map((it, idx) => {
             return (
               <div className="flex flex-row" key={idx}>
@@ -217,7 +260,17 @@ function ManageVoucher(props: Props) {
                   <button
                     className="flex items-start"
                   >
-                    <Checkbox onChange={() => { }} ref={refCheckboxAll} htmlFor="check-all" />
+                    <InputChecboxElement
+                      isCheck={listIdAddvoucher.includes(
+                        it.id
+                      )}
+                      name={it.voucherName}
+                      onHandleChange={() => {
+                        it.id && handleAddListItem(it.id);
+                        // checkAll && setCheckAll(false);
+                      }}
+                      sizeBox="w-5 h-5 mr-1"
+                    />
                   </button>
                 </>
                 <TableVoucher
@@ -226,6 +279,13 @@ function ManageVoucher(props: Props) {
               </div>
             )
           })}
+        </div>
+        <div className="pt-[30px] pb-[53px] flex justify-end">
+          <Pagination
+            currenPage={currentPage}
+            setCurrentPage={(page: number) => dispatch(setCurrentPage(page))}
+            total={totalPage}
+          />
         </div>
       </div>
     </div >
