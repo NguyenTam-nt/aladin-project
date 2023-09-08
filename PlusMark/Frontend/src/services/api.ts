@@ -17,7 +17,7 @@ api.interceptors.request.use(
       }
   }
     if (AuthService.isLoggedIn()) {
-      config.headers.Authorization = `Bearer ${AuthService.getToken()}`;
+      // config.headers.Authorization = `Bearer ${AuthService.getToken()}`;
     }
     if(config.url.includes('/excelpayment')){
       config.responseType = "blob"
