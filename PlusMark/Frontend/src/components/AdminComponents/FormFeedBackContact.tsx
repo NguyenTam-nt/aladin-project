@@ -6,6 +6,7 @@ import yup from "custom/yup/yupInstance";
 import { ContactType } from "commons/contannt";
 import ContactServices from "@services/ContactServices";
 import { ToastContex } from "@contexts/ToastContex";
+import useI18n from "@hooks/useI18n";
 
 interface Props {
   item: ContactType;
@@ -16,6 +17,7 @@ function FormFeedBackContact(props: Props) {
   const { onAddToast } = useContext(ToastContex);
   const { setShowModal } = useContext(ModalContext);
   const [isDisable, setDisable] = useState<boolean>(false);
+  const {t} = useI18n();
   const { handleSubmit, handleChange, values, errors, setValues } = useFormik({
     initialValues: {
       reply: item.replyContent || "",
@@ -26,12 +28,12 @@ function FormFeedBackContact(props: Props) {
       address: item.address
     },
     validationSchema: yup.object({
-      reply: yup.string().trim().required("Vui lòng nhập nội dung tư vấn"),
+      reply: yup.string().required(t("text.form.advice.required")),
     }),
     onSubmit: async (values) => {
       try {
         if (item.status === "REPLIED") {
-          onAddToast({ type: "warn", message: "Mục đã phản hồi" });
+          onAddToast({ type: "warn", message: t("warning.status_contact") });
           setShowModal(false);
           return;
         }
@@ -47,12 +49,12 @@ function FormFeedBackContact(props: Props) {
         const responsed : any = await ContactServices.put(item.id, requestData);
         if (responsed) {
           handleForm(responsed);
-          onAddToast({ type: "success", message: "Gửi phản hồi thành công." });
+          onAddToast({ type: "success", message: t("success.posted") });
         }
         setDisable(false);
         setShowModal(false);
       } catch (error) {
-        onAddToast({ type: "error", message: "Có lỗi thử lại sau" });
+        onAddToast({ type: "error", message: t("error.post_error") });
         setDisable(false);
         setShowModal(false);
       }
@@ -79,13 +81,13 @@ function FormFeedBackContact(props: Props) {
           onClick={() => setShowModal(false)}
         /> */}
         <h3 className="text-main text-center text-2xl font-semibold l tracking-[.03] mb-9">
-          PHẢN HỒI YÊU CẦU TƯ VẤN
+          {t("text.form.advice.title")}
         </h3>
 
-        <h4 className="font-bold py-4">Nội dung khách hàng yêu cầu tư vấn</h4>
+        <h4 className="font-bold py-4">{t("text.form.advice.content_title")}</h4>
         <div className="w-full flex items-center justify-between gap-6 mb-6">
           <div className="flex flex-col  items-start w-1/2">
-            <label className="font-bold mb-2">Họ và tên <span className="text-[#C53434]">*</span></label>
+            <label className="font-bold mb-2">{t("text.form.advice.full_name")} <span className="text-[#C53434]">*</span></label>
             <input
               type="fullName"
               value={values.fullName}
@@ -94,7 +96,7 @@ function FormFeedBackContact(props: Props) {
             />
           </div>
           <div className="flex flex-col items-start w-1/2">
-            <label className="font-bold mb-2">Số điện thoại <span className="text-[#C53434]">*</span></label>
+            <label className="font-bold mb-2">{t("text.form.advice.phone")} <span className="text-[#C53434]">*</span></label>
             <input
               type="phoneNumber"
               value={values.phoneNumber}
@@ -114,7 +116,7 @@ function FormFeedBackContact(props: Props) {
             />
           </div>
           <div className="flex flex-col items-start w-1/2">
-            <label className="font-bold mb-2">Địa chỉ <span className="text-[#C53434]">*</span></label>
+            <label className="font-bold mb-2">{t("text.form.advice.address")} <span className="text-[#C53434]">*</span></label>
             <input
               type="address"
               value={values.address}
@@ -124,7 +126,7 @@ function FormFeedBackContact(props: Props) {
           </div>
         </div>
         <div className="mb-6">
-          <label className="font-bold">Nội dung <span className="text-[#C53434]">*</span></label>
+          <label className="font-bold">{t("text.form.advice.content")} <span className="text-[#C53434]">*</span></label>
           <input
             name="content"
             value={values.content}
@@ -132,15 +134,15 @@ function FormFeedBackContact(props: Props) {
             className="border py-3 px-5 w-full font-normal"
           />
         </div>
-        <h4 className="font-bold py-4">Nội dung phản hồi tới khách hàng</h4>
+        <h4 className="font-bold py-4">{t("text.form.advice.content_reply_title")}</h4>
         <div className="my-6">
-          <label className="font-bold">Phản hồi khách hàng <span className="text-[#C53434]">*</span></label>
+          <label className="font-bold">{t("text.form.advice.reply_title")} <span className="text-[#C53434]">*</span></label>
           <textarea
             name="reply"
             value={values.reply}
             readOnly={item.status === "REPLIED"}
             onChange={handleChange}
-            placeholder="Nhập nội dung tư vấn khách hàng"
+            placeholder={t("text.form.advice.reply_title_placeholder")}
             rows={8}
             className={
               "border py-3 px-5 w-full resize-none font-normal placeholder:text-gray-300 " +
@@ -156,14 +158,14 @@ function FormFeedBackContact(props: Props) {
               onClick={() => setShowModal(false)}
               className="py-3 px-10 border border-main flex items-center text-main text-small font-bold bg-inherit"
             >
-              Hủy
+              {t("text.button.cancel")}
             </button>
             <button
               type="submit"
               disabled={isDisable}
               className={"py-3 px-10 bg-header text-white font-bold "}
             >
-              Gửi
+              {t("text.button.save")}
             </button>
           </div>
         )}

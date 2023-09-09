@@ -39,11 +39,18 @@
         "updated": "데이터가 성공적으로 업데이트되었습니다."
     },
     "warning": {
-        "title": "cảnh báo title bị trùng khớp"
+        "title": "cảnh báo title bị trùng khớp",
+        "image_size": "사진은 20MB를 초과할 수 없습니다.",
+        "image_type": "필수 이미지 형식: jpg, png",
+        "note_change_status": "참고: 응답됨에서 응답 없음으로 변경되지 않습니다.",
+        "status_contact": "항목이 응답했습니다."
     },
     "confirm": {
         "delete_category" : "카테고리를 삭제하시겠습니까?",
-        "delete_policy" : "시스템에서 이 정책을 제거하시겠습니까?"
+        "delete_policy" : "시스템에서 이 정책을 제거하시겠습니까?",
+        "delete_image_banner": "이 사진을 시스템에서 삭제하시겠습니까?",
+        "delete_contacts": "선택한 상담요청을 시스템에서 삭제하시겠습니까?",
+        "contact_change_status": "상태를 응답됨으로 변경하시겠습니까?"
     }
 
 }

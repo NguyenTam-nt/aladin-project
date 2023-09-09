@@ -43,7 +43,9 @@
             "phone": "Số điện thoại",
             "address": "Địa chỉ",
             "content": "Nội dung",
-            "status": "Trạng thái"
+            "status": "Trạng thái",
+            "status_data_replied": "Đã phản hồi",
+            "status_data_waiting": "Chưa phản hồi"
         },
         "image": {
             "title": "Chọn hình ảnh tải lên ",
@@ -55,6 +57,25 @@
             "delete": "Xóa",
             "newest": "Mới nhất",
             "latest": "Cũ nhất"
+        },
+        "form": {
+            "advice": {
+                "title": "PHẢN HỒI YÊU CẦU TƯ VẤN",
+                "content_title": "Nội dung khách hàng yêu cầu tư vấn",
+                "full_name": "Họ và tên",
+                "phone": "Số điện thoại",
+                "address": "Địa chỉ",
+                "content": "Nội dung",
+                "content_reply_title": "Nội dung phản hồi tới khách hàng",
+                "reply_title": "Phản hồi khách hàng",
+                "reply_title_placeholder": "Nhập nội dung tư vấn khách hàng",
+                "required": "Vui lòng nhập nội dung tư vấn"
+            },
+            "policy": {
+                "required_title": "Vui lòng điền tiêu đề",
+                "required_description": "Vui lòng điền mô tả",
+                "required_content": "Vui lòng điền nội dung"
+            }
         }
     }
 

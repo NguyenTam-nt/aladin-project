@@ -1,4 +1,7 @@
+import { ICDeleteTrashLight } from "@assets/iconElements/ICDeleteTrashLight";
 import { AddImage, SwiperSlideButton, TrashCanIcon } from "@assets/icons";
+import { useShowMessage } from "@components/Modal/DialogMessage";
+import { useShowConfirm } from "@components/Modal/DiglogComfirm";
 import { ModalContext } from "@contexts/contextModal";
 import { ToastContex } from "@contexts/ToastContex";
 import useI18n from "@hooks/useI18n";
@@ -34,6 +37,8 @@ export default function UploadBannerItem({
   const inputRef = useRef<HTMLInputElement>(null);
   const { onAddToast } = useContext(ToastContex);
   const { t } = useI18n();
+  const { showConfirm } = useShowConfirm();
+  const { showError, showSuccess, showWarning } = useShowMessage();
 
   const onClick = (e: any) => {
     if (images && images?.length >= max) {
@@ -62,16 +67,13 @@ export default function UploadBannerItem({
         }
 
         if (ALLOW_IMAGE_FILE_TYPE.indexOf(file.type) === -1) {
-          onAddToast({
-            type: "success",
-            message: "Yêu cầu định dạng ảnh: jpg, png",
-          });
+          showWarning("warning.image_type");
           inputRef.current.value = "";
           return;
         }
 
         if (file.size > MAX_IMAGE_BANNER_SIZE) {
-          onAddToast({ type: "success", message: "Kích thước tối đa 20MB" });
+          showWarning("warning.image_size");
           inputRef.current.value = "";
           return;
         }
@@ -86,12 +88,12 @@ export default function UploadBannerItem({
             name: name,
             images: images,
           });
-          return onAddToast({ type: "success", message: `Thêm thành công` });
+          showSuccess("success.posted");
         }
       }
     } catch (ex) {
       console.log(ex);
-      return onAddToast({ type: "error", message: `Có lỗi xảy ra` });
+      showError("error.post_error");
     } finally {
       if (inputRef.current) {
         inputRef.current.value = "";
@@ -100,37 +102,28 @@ export default function UploadBannerItem({
   };
 
   const handleDeleteImage = (index: number) => {
-    setShowModal(true);
-    setContentModal(
-      <ConfirmBox
-        message="Bạn có chắc chắn muốn xóa ảnh này khỏi hệ thống?"
-        typeBox="WARNING"
-        handleConfirm={() => handleConfirm(index)}
-      />
-    );
+    showConfirm("confirm.delete_image_banner", () => handleConfirm(index));
   };
 
   const handleConfirm = async (index: number) => {
     try {
       images.splice(index, 1);
-      const response = await BannerServices.put(id, {
+      await BannerServices.put(id, {
         id: id,
         name: name,
         images: images,
       });
-      return onAddToast({ type: "success", message: `Xoá thành công` });
+      showSuccess("success.deleted");
     } catch (ex) {
       console.log(ex);
-      return onAddToast({ type: "error", message: `Có lỗi xảy ra` });
-    } finally {
-      setShowModal(false);
+      showError("error.deleted_error");
     }
   };
 
   return (
     <div>
-      <p className="mb-5 text-[24px] leading-6 font-bold">{name === 'HOMEPAGE'? t("text.title.title_banner_home") : t("text.title.title_banner_intro")}<span className="text-[#EA222A]">*</span></p>
-      <p className="font-bold mb-2">{t("text.title.title_upload_image", {total: images?.length, max: max})} <span className="text-[#EA222A]">*</span></p>
+      <p className="mb-5 text-[24px] leading-6 font-bold">{name === 'HOMEPAGE' ? t("text.title.title_banner_home") : t("text.title.title_banner_intro")}<span className="text-[#EA222A]">*</span></p>
+      <p className="font-bold mb-2">{t("text.title.title_upload_image", { total: images?.length, max: max })} <span className="text-[#EA222A]">*</span></p>
       <div className="mb-[42px] flex gap-18px">
         <div
           className={`w-fit h-[190px] border-[2px] border-dashed rounded flex flex-row justify-center items-center px-5
@@ -192,11 +185,9 @@ export default function UploadBannerItem({
                           className="w-full h-full rounded object-cover"
                           loading="lazy"
                         />
-                        <TrashCanIcon
-                          onClick={() => handleDeleteImage(key)}
-                          width={18}
-                          className="absolute top-3 right-4 cursor-pointer"
-                        />
+                        <div className="absolute top-3 right-4 cursor-pointer" onClick={() => handleDeleteImage(key)}>
+                          <ICDeleteTrashLight />
+                        </div>
                       </div>
                     </SwiperSlide>
                   );

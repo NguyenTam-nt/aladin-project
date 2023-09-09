@@ -23,11 +23,18 @@
         "updated": "Cập nhật dữ liệu thành công"
     },
     "warning": {
-        "title" : "cảnh báo title bị trùng khớp"
+        "title" : "cảnh báo title bị trùng khớp",
+        "image_size": "Ảnh không được vượt quá 20MB",
+        "image_type": "Yêu cầu định dạng ảnh: jpg, png",
+        "note_change_status": "Lưu ý: Bạn sẽ không đổi từ trạng thái Đã phản hồi sang Chưa phản hồi.",
+        "status_contact": "Mục đã phản hồi"
     }, 
      "confirm": {
         "delete_category" : "Bạn có chắc chắn muốn xóa danh mục ?",
-        "delete_policy" : "Bạn có chắc chắn xóa chính sách này khỏi hệ thống?"
+        "delete_policy" : "Bạn có chắc chắn xóa chính sách này khỏi hệ thống?",
+        "delete_image_banner": "Bạn có muốn xóa ảnh này khỏi hệ thống?",
+        "delete_contacts": "Bạn có muốn xóa các yêu cầu tư vấn đã chọn khỏi hệ thống?",
+        "contact_change_status": "Bạn có chắc chắn chuyển trạng thái sang Đã phản hồi?"
     }
 
 }
