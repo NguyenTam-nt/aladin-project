@@ -121,8 +121,8 @@ const CartPage = () => {
 
       <div className="rounded-lg pb-12 pt-6 flex flex-col xl:flex-row xl:gap-10">
         <div className="flex-1 rounded-[20px] mb-2 fit">
-          {cartItems.length > 0 && <div className="flex justify-between items-center rounded-lg mb-5 bg-white">
-            <label className="flex p-3 lg:w-1/3 item-center justify-start">
+          {cartItems.length > 0 && <div className="flex justify-between items-center rounded-lg mb-5 bg-white border">
+            <label className="flex py-3 lg:w-1/3 item-center justify-start ml-2">
               <input
                 className="hidden"
                 type="checkbox"
@@ -138,26 +138,29 @@ const CartPage = () => {
             <div className="hidden lg:block">{t("cart.payment_info.title_price_per_unit")}</div>
             <div className="hidden lg:block">{t("cart.payment_info.title_total_quantity")}</div>
             <div className="hidden lg:block">{t("cart.payment_info.title_total_price_per_product")}</div>
-            <div className="pr-3">
+            <div className="pr-4">
               <RemoveCartIcon onClick={handleRemoveCart} />
             </div>
           </div>
 
           }
-          <div className="flex-1 rounded-lg mb-2 fit bg-white">
-            {cartQuantity > 0 ? cartItems.map((it, idx) => (
-              <div key={it.id + idx} className="rounded-[20px] p-3">
-                <div className="hidden lg:block">
-                  <CartProductNew itemCart={it} change={it.size.total > 0} size="normal" />
-                </div>
-                <div className="block lg:hidden">
-                  <CartProductNew itemCart={it} change={it.size.total > 0} size="cart" />
-                </div>
-              </div>
-            )) : <div className="w-full flex justify-center mt-8">
-              <img src="/images-raw/empty-cart.png" alt="empty-cart" />
+          <div className="flex-1 rounded-lg mb-2 bg-white border relative">
+              <div className="overflow-y-auto max-h-[500px] rounded-lg" >
+                {cartQuantity > 0 ? cartItems.map((it, idx) => (
+                  <div key={it.id + idx} className="mx-2">
+                    <div className="hidden lg:block">
+                      <CartProductNew itemCart={it} change={it.size.total > 0} size="normal" />
+                    </div>
+                    <div className="block lg:hidden">
+                      <CartProductNew itemCart={it} change={it.size.total > 0} size="cart" />
+                    </div>
+                  </div>
+                )) : (
+                  <div className="w-full flex justify-center mt-8">
+                    <img src="/images-raw/empty-cart.png" alt="empty-cart" />
+                  </div>
+                )}
             </div>
-            }
           </div>
         </div>
         <div className="py-4 px-3 w-full xl:w-1/4 bg-white rounded-md h-fit mt-8 lg:mt-0">

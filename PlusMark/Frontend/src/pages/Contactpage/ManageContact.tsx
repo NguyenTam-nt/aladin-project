@@ -1,5 +1,8 @@
+import { ICRequest } from "@assets/iconElements/ICRequest";
 import { ArrowDownManageIcon, IconArrowDown, IconArrowUp, TrashCanIcon, TrashIconAdvice } from "@assets/icons";
 import FormFeedBackContact from "@components/AdminComponents/FormFeedBackContact";
+import { useShowMessage } from "@components/Modal/DialogMessage";
+import { useShowConfirm } from "@components/Modal/DiglogComfirm";
 import Pagination from "@components/Pagination";
 import { ToastContex } from "@contexts/ToastContex";
 import { ModalContext } from "@contexts/contextModal";
@@ -15,6 +18,8 @@ import { useNavigate } from "react-router-dom";
 
 function ManageContact() {
   const navigator = useNavigate();
+  const { showConfirm } = useShowConfirm();
+  const { showError, showSuccess, showWarning } = useShowMessage();
   const { onAddToast } = useContext(ToastContex);
   const { setShowModal, setContentModal } = useContext(ModalContext);
   const [listContact, setListContact] = useState<ContactType[]>([]);
@@ -64,7 +69,7 @@ function ManageContact() {
         await ContactServices.deleteManyContact(listIdDelete);
         onAddToast({
           type: "success",
-          message: `Đã xóa ${listIdDelete.length} mục tư vấn.`,
+          message: t("success.deleted"),
         });
         navigator("");
         setListIdDelete([]);
@@ -82,7 +87,7 @@ function ManageContact() {
     } catch (error) {
       onAddToast({
         type: "error",
-        message: "Có lỗi không thể xóa tư vấn",
+        message: t("error.deleted_error"),
       });
       setShowModal(false);
     }
@@ -105,43 +110,24 @@ function ManageContact() {
     );
   };
   const handleShowConfirmDelete = () => {
-    setShowModal(true);
-    setContentModal(
-      <ConfirmBox
-        handleConfirm={onDeletConcats}
-        enableIcon={true}
-        typeBox="WARNING"
-        message="Bạn có chắc chắn xóa yêu cầu tư vấn này khỏi hệ thống?"
-      />
-    );
+    showConfirm("confirm.delete_contacts", () => onDeletConcats());
   };
 
   const showModalConfirm = async (data: ContactType) => {
-    setShowModal(true);
-    setContentModal(
-      <ConfirmBox
-        handleConfirm={() => {
-          changeStatusContact(data);
-        }}
-        enableIcon={false}
-        typeBox="SUCCESS"
-        message="Bạn có chắc chắn chuyển trạng thái  yêu cầu tư vấn này sang"
-        messageHightLight={"Đã phản hồi"}
-        noteMessage="Lưu ý: Bạn sẽ không đổi từ trạng thái Đã phản hồi sang Chưa phản hồi."
-      />
-    );
-    // setShowModal(false);
+    showConfirm("confirm.contact_change_status", () => {
+      changeStatusContact(data);
+    }, <ICRequest width={106} height={106} />, "warning.note_change_status");
   };
   const getListContact = async (param: some) => {
     const result = await ContactServices.getContactFilter(param);
-    const { total, data, status }: any = result;
-    setListContact(data);
-    setTotalPage(Math.ceil(total / 10));
+    const { totalElements, content, status }: any = result;
+    setListContact(content);
+    setTotalPage(Math.ceil(totalElements / 10));
     return result;
   };
   const changeStatusContact = async (data: ContactType) => {
     try {
-      const newData = { ...data, status: !data.status };
+      const newData = { ...data, status: "REPLIED" };
       const putted: any = await ContactServices.put(data.id, newData);
       if (putted) {
         const newContact = listContact.map((item) => {
@@ -154,15 +140,14 @@ function ManageContact() {
         setShowModal(false);
         onAddToast({
           type: "success",
-          message: "Đã thay đổi trạng thái phản hồi.",
+          message: t("success.updated"),
         });
       }
     } catch (error) {
       setShowModal(false);
-      console.log("putted", "error");
       onAddToast({
         type: "error",
-        message: "Có lỗi thử lại sau.",
+        message: t("error.update_error"),
       });
     }
   };
@@ -271,7 +256,7 @@ function ManageContact() {
                         { "bg-main text-white": statusFilter == "REPLIED" }
                       )}
                     >
-                      Đã phản hồi
+                      {t("text.table.status_data_replied")}
                     </div>
                     <div
                       onClick={() => {
@@ -283,7 +268,7 @@ function ManageContact() {
                         { "bg-main text-white": statusFilter == "WAITING" }
                       )}
                     >
-                      Chưa phản hồi
+                      {t("text.table.status_data_waiting")}
                     </div>
                   </div>
                 </div>
@@ -358,7 +343,7 @@ function ManageContact() {
                           "cursor-pointer underline underline-offset-[1px]": !(itemContact.status === "REPLIED"),
                         })}
                       >
-                        {itemContact.status === "REPLIED" ? "Đã phản hồi" : "Chưa phản hồi"}
+                        {itemContact.status === "REPLIED" ? t("text.table.status_data_replied") : t("text.table.status_data_waiting")}
                       </p>
                     </div>
                     {(itemContact.status === "REPLIED") &&

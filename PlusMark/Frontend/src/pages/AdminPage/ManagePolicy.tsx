@@ -30,7 +30,7 @@ function ManagePolicy() {
   const [searchKey, setsearchKey] = useState("");
   const [policies, setPolicies] = useState<Array<PolicyWithLang>>([])
   const [loading, setLoading] = useState<boolean>(false)
-
+  
   const fetchData = async (key?: string, sort?: string) => {
     try {
       setLoading(true);
@@ -45,8 +45,8 @@ function ManagePolicy() {
         params["sort"] = sort;
       }
       const response = await PolicyServices.get(params);
-      const data = response.data;
-      let transformedPolicies = data.map((policyData: any) => {
+      const data : any = response;
+      let transformedPolicies = data.content.map((policyData: any) => {
         const policy: PolicyWithLang = {
           id: policyData.id,
           titleKr: policyData.titleKr,

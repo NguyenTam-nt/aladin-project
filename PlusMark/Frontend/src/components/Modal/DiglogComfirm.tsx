@@ -11,12 +11,12 @@ interface Props {
   message: string;
   messageBold?: string;
   messageEnd?: string;
-  onClick?: ({}) => void;
+  onClick?: ({ }) => void;
   onClear?: () => void;
 }
 
 export const DiglogComfirm = (props: Props) => {
-  const { message, onClear, onClick } = props;
+  const { message, icon, onClear, onClick, messageEnd } = props;
   const { setShowModal, closeModal, setContentModal } =
     useContext(ModalContext);
   const { t } = useI18n();
@@ -30,11 +30,14 @@ export const DiglogComfirm = (props: Props) => {
           <ICClear />
         </button>
         <div>
-          <ICDeleteTrashLight width={120} height={120} />
+          {icon ? icon : <ICDeleteTrashLight width={120} height={120} />}
         </div>
         <span className="mt-6 mb-[46px] text-center text-black02 text-normal1 font-semibold">
           {t(message)}
         </span>
+        {messageEnd && <span className="mb-6 text-center text-[13px]">
+          {t(messageEnd)}
+        </span>}
         <div className="flex flex-row justify-center gap-x-[24px]">
           <LinearButton
             text="button.cancel"
@@ -57,8 +60,8 @@ export const DiglogComfirm = (props: Props) => {
 export const useShowConfirm = () => {
   const { setShowModal, setContentModal } = useContext(ModalContext);
 
-  const showConfirm = (message: string, onClick: () => void) => {
-    setContentModal(<DiglogComfirm message={message} onClick={onClick} />);
+  const showConfirm = (message: string, onClick: () => void, icon?: ReactNode, messageEnd? : string) => {
+    setContentModal(<DiglogComfirm message={message} onClick={onClick} icon={icon} messageEnd={messageEnd}/>);
     setShowModal(true);
   };
   return {

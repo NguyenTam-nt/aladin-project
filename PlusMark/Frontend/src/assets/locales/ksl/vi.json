@@ -61,7 +61,9 @@
                 "address_place_holder": "특정 주소",
                 "province": "주/시 선택",
                 "district": "지구/지구 선택",
-                "commune": "병동/코뮌 선택"
+                "commune": "병동/코뮌 선택",
+                "note": "메모",
+                "note_placeholder": "주문에 대한 메모를 입력하세요."
             }
         },
         "info_delivery_method": {
