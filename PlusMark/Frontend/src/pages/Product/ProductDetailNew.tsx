@@ -191,49 +191,63 @@ const ProductDetailNew = () => {
   }, [colorSelected]);
 
   useEffect(() => {
-    if (param.productId) {
-      try {
-        setIsLoading(true);
-        ProductServices.getProductDetail(param.productId)
-          .then((data) => {
-            // console.log(data.data)
-            setproductData(data);
-            setcolorSelected(data.colors[0]);
-            setSize();
-            setTimeout(() => {
-              setimageView(data.video || data.images[0]);
-            }, 0);
+    // if (param.productId) {
+    //   try {
+    //     setIsLoading(true);
+    //     ProductServices.getProductDetail(param.productId)
+    //       .then((data) => {
+    //         // console.log(data.data)
+    //         setproductData(data);
+    //         setcolorSelected(data.colors[0]);
+    //         setSize();
+    //         setTimeout(() => {
+    //           setimageView(data.video || data.images[0]);
+    //         }, 0);
 
-            setQuantityDescActive(false);
-            setQuantityAscActive(true);
+    //         setQuantityDescActive(false);
+    //         setQuantityAscActive(true);
 
-            setlastBreakCrumb({
-              name: data.name,
-              clickable: false,
-              active: true,
-              link: "",
-            });
+    //         setlastBreakCrumb({
+    //           name: data.name,
+    //           clickable: false,
+    //           active: true,
+    //           link: "",
+    //         });
 
-            setIsLoading(false);
-            ProductServices.getProductRelated(data.category.categorySId).then(
-              (data) => {
-                setproductRelated(data.data);
-              }
-            );
+    //         setIsLoading(false);
+    //         ProductServices.getProductRelated(data.category.categorySId).then(
+    //           (data) => {
+    //             setproductRelated(data.data);
+    //           }
+    //         );
 
-            ProductServices.getProductSeenMost().then((data) => {
-              setproductSeen(data.data);
-            });
-          })
-          .catch((error) => {
-            setIsLoading(false);
-          });
-      } catch (error) {
-        setIsLoading(false);
-      }
+    //         ProductServices.getProductSeenMost().then((data) => {
+    //           setproductSeen(data.data);
+    //         });
+    //       })
+    //       .catch((error) => {
+    //         setIsLoading(false);
+    //       });
+    //   } catch (error) {
+    //     setIsLoading(false);
+    //   }
+    // }
+    const productId = param.productId;
+    if (productId) {
+      getProductId(productId);
     }
   }, [param, param.productId]);
 
+  const getProductId = async (id: any) => {
+    try {
+      const res = await ProductServices.findProductById(id);
+      console.log({ res });
+
+    } catch (error) {
+      console.log(error);
+
+    }
+  }
   const handleIncrease = () => {
     let total = sizeSelected?.total || 0;
     if (total == quantity + 1) {
