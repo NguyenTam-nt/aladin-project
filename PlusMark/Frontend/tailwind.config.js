@@ -122,16 +122,29 @@ module.exports = {
         'cancel': 'var(--cancel-color)',
         'icon-active': '#F45538',
         'white': 'var(--white)',
+        'content': 'var(--content)',
         neutra: {
           neutra80: 'var(--neutral80)',
           neutra20: 'var(--neutral20)',
           neutral98: 'var(--neutral98)',
           neutral60: 'var(--neutral60)',
           neutral2: 'var(--neutral2)',
+          neutral95: 'var(--neutral95)',
         },
         orange: {
           orange400: 'var(--orange400)',
           lightPink: 'var(--light-pink-orange)',
+        },
+        grey: {
+          222124: 'var(--grey-222124)',
+          A1A0A3: 'var(--grey-A1A0A3)',
+          CBCBCB:'var(--grey-CBCBCB)'
+        },
+        green: {
+          '319F43': 'var(--green-319F43)'
+        },
+        error: {
+          500: 'var(--error500)'
         }
       },
       boxShadow: {

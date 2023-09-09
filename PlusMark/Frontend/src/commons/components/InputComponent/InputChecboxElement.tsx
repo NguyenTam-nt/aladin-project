@@ -17,11 +17,11 @@ function InputChecboxElement(props: Props) {
   return (
     <div>
       <label
-        htmlFor={lable + name}
+        // htmlFor={lable + name}
         className="text-smal checkbox-Active flex items-center cursor-pointer"
       >
         <input
-          id={lable + name}
+          // id={lable + name}
           name={name}
           checked={isCheck}
           onChange={(event) => onHandleChange && onHandleChange()}
@@ -30,7 +30,7 @@ function InputChecboxElement(props: Props) {
         />
         <div
           className={
-            "flex items-center justify-center border border-gray-300 bg-white mr-[18px] " +
+            "flex items-center justify-center border border-gray-300 bg-white " +
             sizeBox
           }
         >

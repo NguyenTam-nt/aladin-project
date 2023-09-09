@@ -10,7 +10,7 @@ export const TextError = ({ message, option }: { message: string; option?: { [ke
         }
     }, [])
     return (
-        <span ref={ref} className=" text-xs left-0 text-__red">
+        <span ref={ref} className=" text-xs left-0 text-red-r01 absolute bottom-[-16px] ">
             {t(message, {...option})}
         </span>
     )

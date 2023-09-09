@@ -191,49 +191,63 @@ const ProductDetailNew = () => {
   }, [colorSelected]);
 
   useEffect(() => {
-    if (param.productId) {
-      try {
-        setIsLoading(true);
-        ProductServices.getProductDetail(param.productId)
-          .then((data) => {
-            // console.log(data.data)
-            setproductData(data);
-            setcolorSelected(data.colors[0]);
-            setSize();
-            setTimeout(() => {
-              setimageView(data.video || data.images[0]);
-            }, 0);
+    // if (param.productId) {
+    //   try {
+    //     setIsLoading(true);
+    //     ProductServices.getProductDetail(param.productId)
+    //       .then((data) => {
+    //         // console.log(data.data)
+    //         setproductData(data);
+    //         setcolorSelected(data.colors[0]);
+    //         setSize();
+    //         setTimeout(() => {
+    //           setimageView(data.video || data.images[0]);
+    //         }, 0);
 
-            setQuantityDescActive(false);
-            setQuantityAscActive(true);
+    //         setQuantityDescActive(false);
+    //         setQuantityAscActive(true);
 
-            setlastBreakCrumb({
-              name: data.name,
-              clickable: false,
-              active: true,
-              link: "",
-            });
+    //         setlastBreakCrumb({
+    //           name: data.name,
+    //           clickable: false,
+    //           active: true,
+    //           link: "",
+    //         });
 
-            setIsLoading(false);
-            ProductServices.getProductRelated(data.category.categorySId).then(
-              (data) => {
-                setproductRelated(data.data);
-              }
-            );
+    //         setIsLoading(false);
+    //         ProductServices.getProductRelated(data.category.categorySId).then(
+    //           (data) => {
+    //             setproductRelated(data.data);
+    //           }
+    //         );
 
-            ProductServices.getProductSeenMost().then((data) => {
-              setproductSeen(data.data);
-            });
-          })
-          .catch((error) => {
-            setIsLoading(false);
-          });
-      } catch (error) {
-        setIsLoading(false);
-      }
+    //         ProductServices.getProductSeenMost().then((data) => {
+    //           setproductSeen(data.data);
+    //         });
+    //       })
+    //       .catch((error) => {
+    //         setIsLoading(false);
+    //       });
+    //   } catch (error) {
+    //     setIsLoading(false);
+    //   }
+    // }
+    const productId = param.productId;
+    if (productId) {
+      getProductId(productId);
     }
   }, [param, param.productId]);
 
+  const getProductId = async (id: any) => {
+    try {
+      const res = await ProductServices.findProductById(id);
+      console.log({ res });
+
+    } catch (error) {
+      console.log(error);
+
+    }
+  }
   const handleIncrease = () => {
     let total = sizeSelected?.total || 0;
     if (total == quantity + 1) {
@@ -404,7 +418,7 @@ const ProductDetailNew = () => {
               </div>
             </div>
           </div>
-          <div className="toc ssm:px-4 lg:px-0 ssm:pt-6 lg:pt-0">
+          <div className="toc ssm:px-[15px] lg:px-0 ssm:pt-6 lg:pt-0">
             <div className="w-full h-auto bg-white rounded-lg relative">
               <DiscountElement content="-30%" widthIcon={97} heightIcon={34} className="text-white text-[20px] leading-normal font-NunitoSans font-extrabold" />
               <div className="pt-[50px] ssm:px-1 lg:px-[13px] 2xl:px-4 2lg:pb-6 ssm:pb-[18px]">
@@ -465,14 +479,14 @@ const ProductDetailNew = () => {
                     text={t('product.add-to-cart')}
                     textGradient={true}
                     iconLeft={<ShoppingCart />}
-                    className="flex-1 !rounded-[20px] !px-[6px] !py-2 !min-w-[83px] text-[16px] leading-normal font-bold font-NunitoSans"
+                    className="!rounded-[20px] !px-[6px] !py-2 !min-w-[83px] text-[16px] leading-normal font-bold font-NunitoSans"
                   />
                   <DynamicButton
                     onClick={showGetFreeConsulation}
                     text={t('product.head-phone')}
                     textGradient={true}
                     iconLeft={<HeadPhone />}
-                    className="flex-1 !rounded-[20px] !px-[6px] !py-2 !min-w-[83px] text-[16px] leading-normal font-bold font-NunitoSans"
+                    className="flex-1 !rounded-[20px]  !min-w-[83px] text-[16px] leading-normal font-bold font-NunitoSans"
                   />
                 </div>
                 <div className="2lg:pt-3 ssm:pt-[22px]">

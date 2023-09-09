@@ -1,3 +1,5 @@
+import moment from "moment";
+
 export const dayFormat = (dateTime?: number, isHour?: boolean) => {
     const date = dateTime ? new Date(dateTime) : new Date();
     const year = date.getFullYear();
@@ -18,3 +20,8 @@ export const dayFormat = (dateTime?: number, isHour?: boolean) => {
     }
     return today;
   };
+
+  export const formatDate = (time?: any)=>{
+    const date = time ? new Date(time) : new Date();
+    return moment(date).format('HH:mm DD/MM/YYYY');
+  }
