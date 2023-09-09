@@ -212,8 +212,9 @@ export interface ContactType {
     phoneNumber: string,
     email:string,
     content: string,
-    status: boolean,
-    reply:  null | string
+    status: string,
+    replyContent:  null | string,
+    address: string
 }
 export interface listContactType {
     status: string,

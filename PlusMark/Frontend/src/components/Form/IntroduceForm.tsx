@@ -6,9 +6,11 @@ import { Introduce, IntroductionImage } from "@pages/AdminPage/ManagerIntroduce"
 import IntroServices from "@services/IntroServices";
 import TranslateService from "@services/TranslateService";
 import UploadImage from "@services/UploadImage";
-import { ALLOW_IMAGE_FILE_TYPE, MAX_IMAGE_BANNER_SIZE } from "@utility/constants";
+import { ALLOW_IMAGE_FILE_TYPE, MAX_IMAGE_BANNER_SIZE, ROUTES } from "@utility/constants";
 import { useFormik } from "formik";
+import { t } from "i18next";
 import { useContext, useRef, useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import * as yup from 'yup';
 
 export default function IntroduceForm(
@@ -23,6 +25,7 @@ export default function IntroduceForm(
   const inputRefSecond = useRef<HTMLInputElement>(null);
   const [intro, setIntro] = useState<any>();
   const [introSecond, setIntroSecond] = useState<any>();
+  const navigate = useNavigate();
 
   const onClick = (e: any) => {
     if (inputRef.current) {
@@ -37,17 +40,38 @@ export default function IntroduceForm(
     }
   }
 
+  const handleCancel = () => {
+    navigate(`/admin/${ROUTES.admin.introduce.index}`);
+  };
+
   useEffect(() => {
     setIntro(intros[0])
     setIntroSecond(intros[1])
     try {
       setImageUrlIntro(intros[0].introductionImage[0].url)
       setImageUrlIntroSecond(intros[1].introductionImage[0].url)
+      if (lang === 'ksl') {
+        setValues({
+          intro_title: intros[0].titleKr || "",
+          intro_content: intros[0].content1_Kr || "",
+          intro_second_title: intros[1].titleKr || "",
+          intro_second_content_1: intros[1].content1_Kr || "",
+          intro_second_content_2: intros[1].content2_Kr || "",
+        })
+      } else {
+        setValues({
+          intro_title: intros[0].titleVn || "",
+          intro_content: intros[0].content1_Vn || "",
+          intro_second_title: intros[1].titleVn || "",
+          intro_second_content_1: intros[1].content1_Vn || "",
+          intro_second_content_2: intros[1].content2_Vn || "",
+        })
+      }
     } catch (ex) {
       setImageUrlIntro("")
       setImageUrlIntroSecond("")
     }
-  }, []);
+  }, [lang]);
 
   const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
     try {
@@ -133,7 +157,7 @@ export default function IntroduceForm(
     handleChange,
     errors,
     values,
-    touched
+    touched, setValues
   } = useFormik({
     initialValues: (lang === 'ksl') ? {
       intro_title: intros[0].titleKr || "",
@@ -202,30 +226,31 @@ export default function IntroduceForm(
           titleVn: values.intro_second_title,
           titleKr: await TranslateService.translateToKorea({ content: values.intro_second_title }),
           content1Vn: values.intro_second_content_1,
-          content1Kr: await TranslateService.translateToVietNam({ content: values.intro_second_content_1 }),
+          content1Kr: await TranslateService.translateToKorea({ content: values.intro_second_content_1 }),
           content2Vn: values.intro_second_content_2,
-          content2Kr: await TranslateService.translateToVietNam({ content: values.intro_second_content_2 }),
+          content2Kr: await TranslateService.translateToKorea({ content: values.intro_second_content_2 }),
           images: [{ url: imageUrlIntroSecond }]
         };
+
         if (intro.id == 0) {
-          const res = await IntroServices.post(dataSubmitIntro)
+          const res: any = await IntroServices.post(dataSubmitIntro)
           const introInserted = {
             ...dataSubmitIntro,
-            id: res.data.id
+            id: res.id
           }
           setIntro(introInserted)
         } else {
-          const res = await IntroServices.put(intro.id, dataSubmitIntro)
+          await IntroServices.put(intro.id, dataSubmitIntro)
         }
         if (introSecond.id == 0) {
-          const res = await IntroServices.post(dataSubmitIntroSecond)
+          const res: any = await IntroServices.post(dataSubmitIntroSecond)
           const introInserted = {
             ...dataSubmitIntro,
-            id: res.data.id
+            id: res.id
           }
           setIntroSecond(introInserted)
         } else {
-          const res = await IntroServices.put(introSecond.id, dataSubmitIntroSecond)
+          await IntroServices.put(introSecond.id, dataSubmitIntroSecond)
         }
         onAddToast({ type: "success", message: `Cập nhật thành công` });
       } catch (ex) {
@@ -239,7 +264,7 @@ export default function IntroduceForm(
 
   return (
     <form onSubmit={handleSubmit} className="mb-20">
-      <p className="text-xl font-bold">Giới thiệu <span className="text-[#F45538]">*</span></p>
+      <p className="text-xl font-bold">{t("text.title.about_us")} <span className="text-[#F45538]">*</span></p>
       <div className="mt-5">
         <div className="flex justify-start">
           <div
@@ -249,7 +274,7 @@ export default function IntroduceForm(
           >
             <AddImage />
             <p className="text-normal text-gray-300 pl-3">
-              Chọn hình ảnh tải lên <span className="font-bold text-[#0073E5]">tại đây</span>
+              {t("text.image.title")} <span className="font-bold text-[#0073E5]">{t("text.image.title_here")}</span>
             </p>
             <input
               ref={inputRef}
@@ -270,7 +295,7 @@ export default function IntroduceForm(
         </div>
         <div className="flex flex-col gap-5 mt-5">
           <label className="text-lg font-bold ">
-            Tiêu đề <span className="text-[#F45538]">*</span>
+            {t("text.section.title")} <span className="text-[#F45538]">*</span>
           </label>
           <div>
             <input
@@ -288,8 +313,8 @@ export default function IntroduceForm(
           </div>
         </div>
         <div className="flex flex-col gap-5">
-          <label className="text-lg font-bold">
-            Nội dung <span className="text-[#F45538]">*</span>
+          <label className="text-lg font-bold  mt-2">
+            {t("text.section.content")} <span className="text-[#F45538]">*</span>
           </label>
           <div>
             <textarea
@@ -318,7 +343,7 @@ export default function IntroduceForm(
           >
             <AddImage />
             <p className="text-normal text-gray-300 pl-3">
-              Chọn hình ảnh tải lên <span className="font-bold text-[#0073E5]">tại đây</span>
+              {t("text.image.title")} <span className="font-bold text-[#0073E5]">{t("text.image.title_here")}</span>
             </p>
             <input
               ref={inputRefSecond}
@@ -339,7 +364,7 @@ export default function IntroduceForm(
         </div>
         <div className="flex flex-col gap-5 mt-5">
           <label className="text-lg font-bold ">
-            Tiêu đề <span className="text-[#F45538]">*</span>
+            {t("text.section.title")} <span className="text-[#F45538]">*</span>
           </label>
           <div>
             <input
@@ -357,8 +382,8 @@ export default function IntroduceForm(
           </div>
         </div>
         <div className="flex flex-col gap-5">
-          <label className="text-lg font-bold">
-            Nội dung 1<span className="text-[#F45538]">*</span>
+          <label className="text-lg font-bold  mt-2">
+            {t("text.section.content")} 1<span className="text-[#F45538]">*</span>
           </label>
           <div>
             <textarea
@@ -376,8 +401,8 @@ export default function IntroduceForm(
           </div>
         </div>
         <div className="flex flex-col gap-5">
-          <label className="text-lg font-bold">
-            Nội dung 2<span className="text-[#F45538]">*</span>
+          <label className="text-lg font-bold  mt-2">
+            {t("text.section.content")} 2<span className="text-[#F45538]">*</span>
           </label>
           <div>
             <textarea
@@ -395,13 +420,13 @@ export default function IntroduceForm(
           </div>
         </div>
       </div>
-      <div className="flex item-center justify-end mt-[20px] mb-[155px] gap-10px">
+      <div onClick={handleCancel} className="flex item-center justify-end mt-[20px] mb-[155px] gap-10px">
         <button
           type="button"
           className="w-[8%] min-w-[40px] py-4 border border-main flex justify-center items-center  text-main  font-bold bg-white"
 
         >
-          Hủy
+          {t("text.button.cancel")}
         </button>
         <BtnLoading
           type="submit"
@@ -409,7 +434,7 @@ export default function IntroduceForm(
           isLoading={isLoading}
           onClick={handleSubmit}
         >
-          Lưu
+          {t("text.button.save")}
         </BtnLoading>
       </div>
 

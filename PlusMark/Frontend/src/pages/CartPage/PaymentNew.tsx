@@ -196,7 +196,7 @@ const PaymentNew = () => {
       <div className="mt-6">
         {/* <BreakCrumb data={breakcrumData} normalClass="" activeClass=" text-main" /> */}
         <div className="mt-6 font-['Nunito_Sans']">
-          Giỏ mua hàng
+        {t("cart.cart_title")}
         </div>
       </div>
       <div className="rounded-lg flex-1 pb-12 pt-6 flex flex-col lg:flex-row lg:gap-4 xl:gap-10">

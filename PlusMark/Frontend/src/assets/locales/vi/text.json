@@ -8,14 +8,25 @@
             "about_us":"Giới thiệu",
             "category":"Danh mục phân loại hàng hóa",
             "add_category":"Thêm phân loại hàng hóa",
-            "edit_category":"Sửa phân loại hàng hóa"
-          
-         
+            "edit_category":"Sửa phân loại hàng hóa",
+            "title_banner_home": "Quản lý banner Trang chủ",
+            "title_banner_intro": "Quản lý banner Giới thiệu",
+            "title_upload_image" : "Tải ảnh lên (tối đa {{total}}/{{max}} ảnh)",
+            "title_policy": "Chính sách hỗ trợ",
+            "title_policy_support": "Tối đa {{max}} chính sách",
+            "title_add_policy": "Thêm chính sách",
+            "title_edit_policy": "Sửa chính sách",
+            "title_delete_policy": "Xóa chính sách",
+            "title_no_data": "Không có dữ liệu",
+            "title_consultant": "Danh sách yêu cầu tư vấn"
         },
         "section": {
             "special_product": "Sản đặc biệt",
             "sale": "Sản phẩm sale",
-            "new": "Sản phẩm mơi"
+            "new": "Sản phẩm mơi",
+            "title": "Tiêu đề",
+            "description": "Mô tả",
+            "content": "Nội dung"
         },
         "constact": {
             "help": "Hãy để MArKET MOA hỗ trợ bạn.",
@@ -27,7 +38,23 @@
         "table": {
             "category_name": "Tên phân loại",
             "detail_category": "Phân loại chi tiết hàng hóa",
-            "func": "Chức năng"
+            "func": "Chức năng",
+            "full_name": "Họ và tên",
+            "phone": "Số điện thoại",
+            "address": "Địa chỉ",
+            "content": "Nội dung",
+            "status": "Trạng thái"
+        },
+        "image": {
+            "title": "Chọn hình ảnh tải lên ",
+            "title_here": "tại đây"
+        },
+        "button": {
+            "save": "Lưu",
+            "cancel": "Hủy",
+            "delete": "Xóa",
+            "newest": "Mới nhất",
+            "latest": "Cũ nhất"
         }
     }
 

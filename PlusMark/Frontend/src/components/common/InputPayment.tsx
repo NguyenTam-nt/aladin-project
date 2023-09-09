@@ -6,8 +6,8 @@ function InputPayment({
   }: some) {
 
   return (
-    <label className={`w-full h-full rounded-lg px-3 py-2 flex flex-col relative  ${className} ${background}`}>
-        <p className="text-normal1  text-gray-300  absolute">
+    <label className={`w-full h-full rounded-lg px-3 py-2 flex flex-col relative   ${className} ${background}`}>
+        <p className="text-gray-300  absolute text-sm">
             {value == '' ? <>{label} {required}</>  : ''}
         </p>
         <input autoFocus={autoFocus} name={name} className={`h-full w-full text-text text-normal1 ${background}`} 

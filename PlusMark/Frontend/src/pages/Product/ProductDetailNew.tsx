@@ -404,7 +404,7 @@ const ProductDetailNew = () => {
               </div>
             </div>
           </div>
-          <div className="toc ssm:px-4 lg:px-0 ssm:pt-6 lg:pt-0">
+          <div className="toc ssm:px-[15px] lg:px-0 ssm:pt-6 lg:pt-0">
             <div className="w-full h-auto bg-white rounded-lg relative">
               <DiscountElement content="-30%" widthIcon={97} heightIcon={34} className="text-white text-[20px] leading-normal font-NunitoSans font-extrabold" />
               <div className="pt-[50px] ssm:px-1 lg:px-[13px] 2xl:px-4 2lg:pb-6 ssm:pb-[18px]">
@@ -465,14 +465,14 @@ const ProductDetailNew = () => {
                     text={t('product.add-to-cart')}
                     textGradient={true}
                     iconLeft={<ShoppingCart />}
-                    className="flex-1 !rounded-[20px] !px-[6px] !py-2 !min-w-[83px] text-[16px] leading-normal font-bold font-NunitoSans"
+                    className="!rounded-[20px] !px-[6px] !py-2 !min-w-[83px] text-[16px] leading-normal font-bold font-NunitoSans"
                   />
                   <DynamicButton
                     onClick={showGetFreeConsulation}
                     text={t('product.head-phone')}
                     textGradient={true}
                     iconLeft={<HeadPhone />}
-                    className="flex-1 !rounded-[20px] !px-[6px] !py-2 !min-w-[83px] text-[16px] leading-normal font-bold font-NunitoSans"
+                    className="flex-1 !rounded-[20px]  !min-w-[83px] text-[16px] leading-normal font-bold font-NunitoSans"
                   />
                 </div>
                 <div className="2lg:pt-3 ssm:pt-[22px]">

@@ -56,5 +56,5 @@
 
 @import url('./tailwind.css');
 @import url('./globals.css');
-
 @import url('./styles.css');
+@import url('./ckeditor.css');
