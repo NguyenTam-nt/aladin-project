@@ -16,5 +16,6 @@ export const colors ={
     warring:"#EA222A",
     error:"#FFE600",
     blue01: "#0073E5",
-    error500: "#E73F3F"
+    error500: "#E73F3F",
+    green99b: "#99BC20"
 }

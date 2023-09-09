@@ -27,15 +27,15 @@ interface IProps {
 const TableVoucher = (props: IProps) => {
     const { data } = props;
     const navigate = useNavigate();
-    const { showConfirm } = useShowConfirm();
+    const { showConfirm, showQuestion } = useShowConfirm();
     const { showSuccess, showError, showWarning } = useShowMessage();
     const [status, setStatus] = useState<string>();
     const checkStatus = (status?: string): string => {
         return status == "HAPPENING" ? 'Đang diễn ra' : status == "NOT_HAPPEN" ? 'Sắp diễn ra ' : 'Đã kết thúc';
     }
-  
+
     const handleConfirmStopVoucher = (data: IVoucher) => {
-        showConfirm("voucher.message.confirm.stop-voucher", () => { handleStopVoucher(data) })
+        showQuestion("voucher.message.confirm.stop-voucher", () => { handleStopVoucher(data) })
     }
 
     const handleStopVoucher = async (data: IVoucher) => {

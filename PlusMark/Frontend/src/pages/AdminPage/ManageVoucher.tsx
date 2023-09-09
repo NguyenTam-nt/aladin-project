@@ -24,6 +24,7 @@ import InputChecboxElement from "commons/components/InputComponent/InputChecboxE
 import { useShowConfirm } from "@components/Modal/DiglogComfirm";
 import { useShowMessage } from "@components/Modal/DialogMessage";
 import queryString from "query-string";
+import { type } from "os";
 
 interface Props {
   refCheckboxAll?: Ref<HTMLInputElement>;
@@ -67,6 +68,7 @@ export const ItemTable = (props: { isProduct?: boolean, img?: string, title?: st
     </div>
   )
 }
+export type STATUS = null | "FINISHED" | "HAPPENING" | "NOT_HAPPEN";
 function ManageVoucher(props: Props) {
   const { refCheckboxAll } = props;
   const SIZE = 20;
@@ -82,10 +84,8 @@ function ManageVoucher(props: Props) {
   const [checkAll, setCheckAll] = useState<boolean>(false);
   const { showConfirm } = useShowConfirm();
   const { showError, showSuccess, showWarning } = useShowMessage();
-  const [filterVoucher, setFilterVoucher] = useState<
-    null | "FINISHED" | "HAPPENING" | "NOT_HAPPEN"
-  >(null);
-  const ListVoucherFilter = [
+  const [filterVoucher, setFilterVoucher] = useState<STATUS>(null);
+  const ListVoucherFilter: { name: string, activeKey: STATUS }[] = [
     {
       name: "Tất cả",
       activeKey: null,
@@ -110,7 +110,7 @@ function ManageVoucher(props: Props) {
     navigate(`edit/${id.toString()}`);
   };
 
-  const handleFilter = (value: null | "HAPPENING" | "NOT_HAPPEN" | "FINISHED") => {
+  const handleFilter = (value: STATUS) => {
     navigate("");
     dispatch(setCurrentPage(1));
     setFilterVoucher(value);
@@ -128,8 +128,6 @@ function ManageVoucher(props: Props) {
       />
     );
   };
-
-
 
   useEffect(() => {
     if (searchParams.get("page")) {
@@ -159,11 +157,11 @@ function ManageVoucher(props: Props) {
     setCheckAll(check)
   }
 
-  const getAllVoucher = async (currentPage: number) => {
+  const getAllVoucher = async (currentPage: number, status: STATUS) => {
     const params = {
       page: currentPage - 1,
       size: 20,
-      status: filterVoucher,
+      status: status,
     };
     try {
       const res = await VoucherServices.getAllVoucher(params);
@@ -176,21 +174,23 @@ function ManageVoucher(props: Props) {
     }
   }
 
+  const handleConfirmRemove = () => {
+    showConfirm("voucher.message.confirm.delete", handleRemoveVoucher);
+  }
   const handleRemoveVoucher = async () => {
-   
     try {
       const res = await VoucherServices.removeListVoucher(listIdAddvoucher);
       console.log({ res });
-
+      showSuccess("voucher.form.message.success.remove")
     } catch (error) {
       console.log(error);
-
+      showSuccess("voucher.form.message.error.remove")
     }
   }
 
   useEffect(() => {
-    getAllVoucher(currentPage);
-  }, [currentPage])
+    getAllVoucher(currentPage, filterVoucher);
+  }, [currentPage, filterVoucher])
 
   return (
     <div className="pt-9">
@@ -213,7 +213,8 @@ function ManageVoucher(props: Props) {
           </p>
           <div className="flex gap-x-6">
             <button
-              onClick={handleRemoveVoucher}
+              disabled={listIdAddvoucher.length == 0}
+              onClick={handleConfirmRemove}
               className="flex justify-center items-center gap-x-[10px] px-4 py-3 border-[1px] border-error-500 text-error-500 font-bold text-wap-regular2"
             >
               <ICDeleteTrashLight color={colors.error500} />
@@ -267,7 +268,7 @@ function ManageVoucher(props: Props) {
                       name={it.voucherName}
                       onHandleChange={() => {
                         it.id && handleAddListItem(it.id);
-                        // checkAll && setCheckAll(false);
+                        checkAll && setCheckAll(false);
                       }}
                       sizeBox="w-5 h-5 mr-1"
                     />

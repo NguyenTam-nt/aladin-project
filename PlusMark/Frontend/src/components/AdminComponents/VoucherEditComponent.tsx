@@ -17,6 +17,7 @@ import { ProductItem } from "@services/Types/product";
 import { IProductVoucher, IVoucher } from "@services/Types/voucher";
 import VoucherServices from "@services/voucherService";
 import { colors } from "@utility/colors";
+import { ROUTES } from "@utility/constants";
 import { DatePicker } from "antd";
 import clsx from "clsx";
 import InputChecboxElement from "commons/components/InputComponent/InputChecboxElement";
@@ -209,6 +210,8 @@ function VoucherEditComponent(props: Props) {
     itemsIdList: [],
   });
 
+  console.log({voucher});
+  
   const [listIdAddvoucher, setListIdAddvoucher] = useState<any[]>([]);
   const [listProductId, setListProductId] = useState<any[]>([]);
   var regNumber = /^\d+$/;
@@ -259,7 +262,7 @@ function VoucherEditComponent(props: Props) {
           statusVoucher == "running" ||
           statusVoucher == "before")
       ) {
-        if (voucher) {
+        if (voucher && id) {
           const newData = {
             ...value,
             id: voucher.id,
@@ -267,12 +270,11 @@ function VoucherEditComponent(props: Props) {
             maxValue: maximumDiscount,
             startDate: new Date(startDate),
             endDate: new Date(endDate),
-            voucherState: "FINISHED",
+            voucherState: voucher.voucherState,
             typeApply: typeApplyProduct,
             productVouchers: typeApplyProduct == "ALL" ? [] : newListProductId,
             usedTotal: 0
           }
-          console.log({ newData });
           putVoucher(newData);
         } else {
           const newData = {
@@ -286,7 +288,6 @@ function VoucherEditComponent(props: Props) {
             productVouchers: typeApplyProduct == "ALL" ? [] : newListProductId,
             usedTotal: 0
           }
-          console.log({ newData });
           postVoucher(newData)
         }
       } else {
@@ -296,24 +297,25 @@ function VoucherEditComponent(props: Props) {
         });
         return;
       }
-      console.log(statusVoucher);
     }
   });
 
   const postVoucher = async (data: any) => {
     try {
       const res = await VoucherServices.postVoucher(data);
-      showSuccess("voucher.form.message.success.post")
+      showSuccess("voucher.form.message.success.post");
+      navigate(`/${ROUTES.admin.index}/${ROUTES.admin.voucher.index}`);
     } catch (error) {
       console.log(error);
-      showError("voucher.form.message.error.post")
+      showError("voucher.form.message.error.post");
     }
   }
 
   const putVoucher = async (data: any) => {
     try {
       const res = await VoucherServices.putVoucher(data.id, data);
-      showSuccess("voucher.form.message.success.put")
+      showSuccess("voucher.form.message.success.put");
+      navigate(`/${ROUTES.admin.index}/${ROUTES.admin.voucher.index}`);
     } catch (error) {
       console.log(error);
       showError("voucher.form.message.error.put")
@@ -518,6 +520,7 @@ function VoucherEditComponent(props: Props) {
               titleError={formik.touched.voucherCode && formik.errors.voucherCode ? formik.errors.voucherCode : ""}
               optionInut={{ max: 20 }}
               maxLength={20}
+              showMaxLangth={true}
             />
           </div>
           <div className="flex-1">
@@ -532,7 +535,7 @@ function VoucherEditComponent(props: Props) {
                   handleChangeStartDate(date)
                 }
                 onOk={onOk}
-                className="textInput py-2 px-4 w-full h-12 font-semibold text-black ant-picker"
+                className="textInput py-2 px-4 w-full h-12 font-semibold text-grey-A1A0A3 ant-picker"
                 size="small"
                 id="startTime"
                 name="startTime"
@@ -784,6 +787,6 @@ function VoucherEditComponent(props: Props) {
       </div>
     </>
   )
-  }
+}
 
 export default VoucherEditComponent;

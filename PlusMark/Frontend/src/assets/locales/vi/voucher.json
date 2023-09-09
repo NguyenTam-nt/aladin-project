@@ -56,11 +56,13 @@
                 "success": {
                     "post": "Tạo voucher thành công.",
                     "put": "Câp nhật voucher thành công.",
+                    "remove":"Xóa voucher thành công.",
                     "stop-voucher": "Kết thúc chương trình thành công."
                 },
                 "error": {
                     "post": "Tạo voucher thất bại.",
                     "put": "Câp nhật voucher thất bại.",
+                    "remove": "Xóa voucher thất bại.",
                     "stop-voucher": "Kết thúc chương trình thất bại."
                 }
             }
