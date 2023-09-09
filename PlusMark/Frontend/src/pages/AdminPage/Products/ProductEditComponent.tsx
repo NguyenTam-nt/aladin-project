@@ -10,7 +10,7 @@ import useI18n from "@hooks/useI18n";
 import ProductServices from "@services/ProductServices";
 import TranslateService from "@services/TranslateService";
 import { CategoryType } from "@services/Types/category";
-import { ListAtribuite, ProductItem } from "@services/Types/product";
+import { Atribuite, ListAtribuite, ProductDetails, ProductItem } from "@services/Types/product";
 import UploadImage from "@services/UploadImage";
 import categoryServices from "@services/categoryService";
 import clsx from "clsx";
@@ -38,7 +38,7 @@ import { ModalContext } from "@contexts/contextModal";
 import AddAtributeForm from "./component/AddAtributeForm";
 import { ICDeleteTrashLight } from "@assets/iconElements/ICDeleteTrashLight";
 
-interface Props {}
+interface Props { }
 function ProductEditComponent(props: Props) {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -123,45 +123,8 @@ function ProductEditComponent(props: Props) {
       createAt: null,
       warehouse: [],
       atributies: [
-        {
-          valueVn: ["đỏ", "xanh"],
-          valueKr: ["빨간색", "빨간색"],
-          attributeNameVn: "Màu",
-          attributeNameKr: "색상",
-        },
-        {
-          valueVn: ["1lit", "2lit"],
-          valueKr: ["1빨간색", "2빨간색"],
-          attributeNameVn: "thể tích",
-          attributeNameKr: "색상",
-        },
       ],
       productDetails: [
-        {
-          priceDetail: 10,
-          promoDetail: 10,
-          stockQuantity: 10,
-          addressWarehouse: "Hà Nội",
-          images: [
-            {
-              url: "https://example.com/image3.jpg",
-            },
-          ],
-          attributes: [
-            {
-              valueVn: "đỏ",
-              valueKr: "빨간색",
-              attributeNameVn: "Màu",
-              attributeNameKr: "색상",
-            },
-            {
-              valueVn: "1L",
-              valueKr: "1L",
-              attributeNameVn: "Thể tích",
-              attributeNameKr: "용량",
-            },
-          ],
-        },
       ],
     },
     validationSchema: Yup.object({
@@ -181,7 +144,7 @@ function ProductEditComponent(props: Props) {
       categoryId: Yup.number().required("Phải chọn danh mục"),
       warehouse: Yup.array().min(1, "tối thiểu 1 địa điểm"),
     }),
-    onSubmit: async (value) => {},
+    onSubmit: async (value) => { },
   });
   const {
     values,
@@ -195,6 +158,8 @@ function ProductEditComponent(props: Props) {
     handleChange,
     handleSubmit: handleSubmitFomik,
   } = formik;
+
+
 
   const handleChoseCategory = (id: number, subId?: number) => {
     setFieldValue("categoryId", id);
@@ -215,6 +180,7 @@ function ProductEditComponent(props: Props) {
     });
     return listAtributeList;
   };
+
   // modal thêm hoặc sửa thuộc tính
   const handleShowAtributeEdit = (data?: ListAtribuite, index?: number) => {
     setContentModal(
@@ -226,34 +192,83 @@ function ProductEditComponent(props: Props) {
     );
     setShowModal(true);
   };
+
   // thêm hoặc sửa thuộc tính
   const handleAddAtribute = (data: ListAtribuite, index: number) => {
     const attributeList = [...values.atributies!];
     let productDetails = [...values.productDetails];
-    if (index >= 0) {
+
+    if (index > 0) {
       productDetails = productDetails.map((detail, index) => {
-        const listAtb = detail.attributes.map((subDetail, index) => {
-          if (
-            subDetail.attributeNameVn.includes(
-              attributeList[index as number].attributeNameVn
-            )
-          ) {
-            subDetail = {
-              ...subDetail,
-              attributeNameVn: data.attributeNameVn,
-              attributeNameKr: data.attributeNameKr,
-            };
-          }
-          return subDetail;
-        });
-        return { ...detail, attributes: listAtb };
-      });
+        if (detail.attributes.length > 0) {
+          const listAtb = detail.attributes.map((subDetail, index) => {
+            if (
+              subDetail.attributeNameVn.includes(
+                attributeList[index as number].attributeNameVn
+              )
+            ) {
+              subDetail = {
+                ...subDetail,
+                attributeNameVn: data.attributeNameVn,
+                attributeNameKr: data.attributeNameKr,
+              };
+            }
+            return subDetail;
+          });
+          return { ...detail, attributes: listAtb };
+        } else {
+          detail.attributes.push({
+            attributeNameVn: data.attributeNameVn,
+            attributeNameKr: data.attributeNameKr,
+            valueVn: "",
+            valueKr: ""
+          })
+          return detail;
+        }
+      })
+
       attributeList[index as number] = data;
       setFieldValue("atributies", attributeList);
       setFieldValue("productDetails", productDetails);
       closeModal();
       return;
     }
+
+
+    // console.log(data)
+    // if(index) {
+
+    // } else {
+    //   attributeList.push(data)
+    // }
+    // console.log(attributeList)
+
+
+
+    // if (index >= 0) {
+    //   productDetails = productDetails.map((detail, index) => {
+    //     const listAtb = detail.attributes.map((subDetail, index) => {
+    //       if (
+    //         subDetail.attributeNameVn.includes(
+    //           attributeList[index as number].attributeNameVn
+    //         )
+    //       ) {
+    //         subDetail = {
+    //           ...subDetail,
+    //           attributeNameVn: data.attributeNameVn,
+    //           attributeNameKr: data.attributeNameKr,
+    //         };
+    //       }
+    //       return subDetail;
+    //     });
+    //     return { ...detail, attributes: listAtb };
+    //   });
+    //   attributeList[index as number] = data;
+    //   setFieldValue("atributies", attributeList);
+    //   setFieldValue("productDetails", productDetails);
+    //   closeModal();
+    //   return;
+    // }
 
     const checkName = attributeList.findIndex(
       (item) => item.attributeNameVn == data.attributeNameVn
@@ -266,6 +281,7 @@ function ProductEditComponent(props: Props) {
       showError("tên giá trị đã tồn tại");
     }
   };
+
   const handleDeleteAtb = (index: number, indexSub: number = -1) => {
     const attributeList = [...values.atributies!];
     let productDetails = [...values.productDetails];
@@ -298,34 +314,118 @@ function ProductEditComponent(props: Props) {
     setFieldValue("atributies", attributeList);
     setFieldValue("productDetails", productDetails);
   };
-  const handleAddValueAtribute = async (value: string, index: number) => {
+
+  function generateAttr(attributeValues: any[][]): any[][] {
+    const attributes: any[][] = [];
+  
+    function generateProductsRecursive(currentAttributes: any[], currentIdx: number) {
+      if (currentIdx === attributeValues.length) {
+        attributes.push([...currentAttributes]);
+        return;
+      }
+  
+      const values = attributeValues[currentIdx];
+      for (const value of values) {
+        currentAttributes.push(value);
+  
+        generateProductsRecursive(currentAttributes, currentIdx + 1);
+  
+        currentAttributes.pop();
+      }
+    }
+  
+    generateProductsRecursive([], 0);
+  
+    return attributes;
+  }
+
+  //TO_DO
+  function convertToAttributes(item: any): Atribuite[] {
+    const listAtt: Atribuite[] = [];
+    let idx = 0;
+    item.map((i: any) => {
+      const att : Atribuite = (isVn) ? {
+        valueVn: i,
+        valueKr: i,
+        attributeNameVn: values.atributies![idx].attributeNameVn,
+        attributeNameKr: values.atributies![idx].attributeNameKr
+      } : {
+        valueVn: i,
+        valueKr: i,
+        attributeNameVn: values.atributies![idx].attributeNameVn,
+        attributeNameKr: values.atributies![idx].attributeNameKr
+      }
+      listAtt.push(att)
+      idx++;
+    })
+
+    return listAtt
+  }
+
+  const handleAddValueAtribute = async (value: string, idx: number) => {
     const attributeList = [...values.atributies!];
     let productDetails = [...values.productDetails];
-    const checkDupicate = attributeList[index]
+    const checkDupicate = attributeList[idx]
       ? isVn
-        ? attributeList[index].valueVn.includes(value)
-        : attributeList[index].valueKr.includes(value)
+        ? attributeList[idx].valueVn.includes(value)
+        : attributeList[idx].valueKr.includes(value)
       : false;
     if (checkDupicate) {
       return showError("tên giá trị đã tồn tại");
     }
+
     const translated = isVn
       ? await TranslateService.tranSlateKr({ nameVn: value, nameKr: "" })
       : await TranslateService.tranSlateVn({ nameVn: "", nameKr: value });
-    attributeList[index].valueVn.push(translated.nameVn);
-    attributeList[index].valueKr.push(translated.nameKr);
-    productDetails = productDetails.map((detail, index) => {
-      const newAtrb = (detail.attributes = [
-        ...detail.attributes,
-        {
-          valueVn: translated.nameVn,
-          valueKr: translated.nameKr,
-          attributeNameVn: attributeList[index].attributeNameVn,
-          attributeNameKr: attributeList[index].attributeNameKr,
-        },
-      ]);
-      return { ...detail, attributes: newAtrb };
-    });
+    attributeList[idx].valueVn.push(translated.nameVn);
+    attributeList[idx].valueKr.push(translated.nameKr);
+
+    // console.log(productDetails)
+    // console.log(attributeList)
+    // console.log(values.warehouse)
+    const listOfValueVn = attributeList.map(item => item.valueVn);
+    const listOfValueKr = attributeList.map(item => item.valueKr);
+
+
+    const listAttVn = generateAttr(listOfValueVn)
+    const listAttKr = generateAttr(listOfValueKr)
+
+
+    const listProductDetails: ProductDetails[] = [];
+
+    listAttVn.map((item: any, index: number) => {
+      const productDetail: ProductDetails = {
+        priceDetail: 50,
+        promoDetail: 10,
+        stockQuantity: 100,
+        addressWarehouse: "",
+        images: [],
+        attributes: convertToAttributes(item),
+      };
+      listProductDetails.push(productDetail)
+    })
+
+    
+
+    console.log(listProductDetails)
+
+
+
+
+    // productDetails = productDetails.map((detail, index) => {
+    //   const newAtrb = (detail.attributes = [
+    //     ...detail.attributes,
+    //     {
+    //       valueVn: translated.nameVn,
+    //       valueKr: translated.nameKr,
+    //       attributeNameVn: attributeList[idx].attributeNameVn,
+    //       attributeNameKr: attributeList[idx].attributeNameKr,
+    //     },
+    //   ]);
+    //   return { ...detail, attributes: newAtrb };
+    // });
+
+
     setFieldValue("atributies", attributeList);
     setFieldValue("productDetails", productDetails);
   };
@@ -333,7 +433,7 @@ function ProductEditComponent(props: Props) {
     try {
       const result = await categoryServices.getAllCategory();
       setCategories(result);
-    } catch (error) {}
+    } catch (error) { }
   };
   const handlechangeContentEditor = (content: any, filed: string) => {
     const data = JSON.stringify(content);
@@ -357,7 +457,7 @@ function ProductEditComponent(props: Props) {
             url: "",
           },
         ],
-        attributes: formatAtribute(),
+        attributes: [],
       };
       newDetails.push(itemDetail);
     } else {
@@ -367,7 +467,7 @@ function ProductEditComponent(props: Props) {
       );
     }
     setFieldValue("warehouse", newListAddress);
-    setFieldValue("productDetails", newDetails);
+    // setFieldValue("productDetails", newDetails);
   };
   const checkProvinceActive = (province: string) => {
     const checkProvince = values.warehouse.findIndex(
@@ -904,8 +1004,8 @@ function ProductEditComponent(props: Props) {
         newValueForm.imageCheck = newImageCheck
           ? newImageCheck[0]
           : id
-          ? formValue.imageCheck
-          : "";
+            ? formValue.imageCheck
+            : "";
         if (id) {
           const result = await ProductServices.putProducById(id, newValueForm);
           onAddToast({ type: "success", message: "Sửa sản phẩm thành công." });
@@ -1317,7 +1417,7 @@ function ProductEditComponent(props: Props) {
                       return (
                         <tr key={indexAtb} className="relative">
                           <td className="py-6 text-center text-sm font-semibold uppercase min-w-[170px] border border-neutra-neutra80">
-                            {isVn ? atb.attributeNameVn : atb.attributeNameKr} -{" "}
+                            {isVn ? atb.attributeNameVn : atb.attributeNameKr} - {" "}
                             {isVn ? atb.valueVn : atb.valueKr}
                           </td>
                           <td className="border border-neutra-neutra80">
