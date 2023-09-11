@@ -55,6 +55,9 @@ function ProductEditComponent(props: Props) {
   const [videoFile, setFileVideo] = useState<File | null>(null);
   const [imgExchangFile, setImgExchangeFile] = useState<File | null>(null);
   const [isDisable, setDisable] = useState<boolean>(false);
+  const [listProducts, setListProducts] = useState<ProductDetails[]>([]);
+  useEffect(() => { console.log(listProducts) }, [listProducts])
+  // const [atributies]
   const nameTable = [
     "Kho còn hàng",
     "Tên thuộc tính",
@@ -234,42 +237,6 @@ function ProductEditComponent(props: Props) {
       return;
     }
 
-
-    // console.log(data)
-    // if(index) {
-
-    // } else {
-    //   attributeList.push(data)
-    // }
-    // console.log(attributeList)
-
-
-
-    // if (index >= 0) {
-    //   productDetails = productDetails.map((detail, index) => {
-    //     const listAtb = detail.attributes.map((subDetail, index) => {
-    //       if (
-    //         subDetail.attributeNameVn.includes(
-    //           attributeList[index as number].attributeNameVn
-    //         )
-    //       ) {
-    //         subDetail = {
-    //           ...subDetail,
-    //           attributeNameVn: data.attributeNameVn,
-    //           attributeNameKr: data.attributeNameKr,
-    //         };
-    //       }
-    //       return subDetail;
-    //     });
-    //     return { ...detail, attributes: listAtb };
-    //   });
-    //   attributeList[index as number] = data;
-    //   setFieldValue("atributies", attributeList);
-    //   setFieldValue("productDetails", productDetails);
-    //   closeModal();
-    //   return;
-    // }
-
     const checkName = attributeList.findIndex(
       (item) => item.attributeNameVn == data.attributeNameVn
     );
@@ -284,73 +251,51 @@ function ProductEditComponent(props: Props) {
 
   const handleDeleteAtb = (index: number, indexSub: number = -1) => {
     const attributeList = [...values.atributies!];
-    let productDetails = [...values.productDetails];
-    const nameDeleteSub = attributeList[index].valueVn[indexSub];
-    const nameDeleteItem = attributeList[index].attributeNameVn;
     if (indexSub > -1) {
       attributeList[index].valueVn.splice(indexSub, 1);
       attributeList[index].valueKr.splice(indexSub, 1);
-      productDetails = productDetails.map((detail) => {
-        const newAtrb = detail.attributes.filter((item) => {
-          return item.valueVn != nameDeleteSub;
-        });
-        return {
-          ...detail,
-          attributes: newAtrb,
-        };
-      });
     } else {
       attributeList.splice(index, 1);
-      productDetails = productDetails.map((detail) => {
-        const newAtrb = detail.attributes.filter((item) => {
-          return item.attributeNameVn != nameDeleteItem;
-        });
-        return {
-          ...detail,
-          attributes: newAtrb,
-        };
-      });
     }
-    setFieldValue("atributies", attributeList);
-    setFieldValue("productDetails", productDetails);
+    setFieldValue("attributes", attributeList)
+    handleAddValueAtribute("", -1, attributeList);
   };
 
   function generateAttr(attributeValues: any[][]): any[][] {
     const attributes: any[][] = [];
-  
+
     function generateProductsRecursive(currentAttributes: any[], currentIdx: number) {
       if (currentIdx === attributeValues.length) {
         attributes.push([...currentAttributes]);
         return;
       }
-  
+
       const values = attributeValues[currentIdx];
       for (const value of values) {
         currentAttributes.push(value);
-  
+
         generateProductsRecursive(currentAttributes, currentIdx + 1);
-  
+
         currentAttributes.pop();
       }
     }
-  
+
     generateProductsRecursive([], 0);
-  
+
     return attributes;
   }
 
-  //TO_DO
   function convertToAttributes(item: any): Atribuite[] {
     const listAtt: Atribuite[] = [];
     let idx = 0;
-    item.map((i: any) => {
-      const att : Atribuite = (isVn) ? {
+    item.map(async (i: any) => {
+      const att: Atribuite = (isVn) ? {
         valueVn: i,
-        valueKr: i,
+        valueKr: await TranslateService.translateToKorea({ content: i }),
         attributeNameVn: values.atributies![idx].attributeNameVn,
         attributeNameKr: values.atributies![idx].attributeNameKr
       } : {
-        valueVn: i,
+        valueVn: await TranslateService.translateToVietNam({ content: i }),
         valueKr: i,
         attributeNameVn: values.atributies![idx].attributeNameVn,
         attributeNameKr: values.atributies![idx].attributeNameKr
@@ -358,77 +303,70 @@ function ProductEditComponent(props: Props) {
       listAtt.push(att)
       idx++;
     })
-
     return listAtt
   }
 
-  const handleAddValueAtribute = async (value: string, idx: number) => {
-    const attributeList = [...values.atributies!];
-    let productDetails = [...values.productDetails];
-    const checkDupicate = attributeList[idx]
-      ? isVn
-        ? attributeList[idx].valueVn.includes(value)
-        : attributeList[idx].valueKr.includes(value)
-      : false;
-    if (checkDupicate) {
-      return showError("tên giá trị đã tồn tại");
+  const handleAddValueAtribute = async (value: string, idx: number, attributes?: ListAtribuite[], warehouses?: any) => {
+    const attributeList = attributes && attributes.length == 0 ? attributes : [...values.atributies!];
+    if (value != "" && idx != -1) {
+      const checkDupicate = attributeList[idx]
+        ? isVn
+          ? attributeList[idx].valueVn.includes(value)
+          : attributeList[idx].valueKr.includes(value)
+        : false;
+      if (checkDupicate) {
+        return showError("tên giá trị đã tồn tại");
+      }
+
+      const translated = isVn
+        ? await TranslateService.tranSlateKr({ nameVn: value, nameKr: "" })
+        : await TranslateService.tranSlateVn({ nameVn: "", nameKr: value });
+      attributeList[idx].valueVn.push(translated.nameVn);
+      attributeList[idx].valueKr.push(translated.nameKr);
+      // attributeList[idx].valueVn.push(translated);
+      // attributeList[idx].valueKr.push(translated);
+      console.log({ attributeList });
+
     }
 
-    const translated = isVn
-      ? await TranslateService.tranSlateKr({ nameVn: value, nameKr: "" })
-      : await TranslateService.tranSlateVn({ nameVn: "", nameKr: value });
-    attributeList[idx].valueVn.push(translated.nameVn);
-    attributeList[idx].valueKr.push(translated.nameKr);
-
-    // console.log(productDetails)
-    // console.log(attributeList)
-    // console.log(values.warehouse)
     const listOfValueVn = attributeList.map(item => item.valueVn);
-    const listOfValueKr = attributeList.map(item => item.valueKr);
-
 
     const listAttVn = generateAttr(listOfValueVn)
-    const listAttKr = generateAttr(listOfValueKr)
 
 
     const listProductDetails: ProductDetails[] = [];
 
-    listAttVn.map((item: any, index: number) => {
+    listAttVn.map((item: any) => {
       const productDetail: ProductDetails = {
         priceDetail: 50,
         promoDetail: 10,
         stockQuantity: 100,
         addressWarehouse: "",
         images: [],
-        attributes: convertToAttributes(item),
+        attributes: convertToAttributes(item)
       };
       listProductDetails.push(productDetail)
     })
 
-    
+    const listProductDetailsWareHouse: ProductDetails[] = [];
 
-    console.log(listProductDetails)
+    const whs = warehouses ? warehouses : values.warehouse;
 
-
-
-
-    // productDetails = productDetails.map((detail, index) => {
-    //   const newAtrb = (detail.attributes = [
-    //     ...detail.attributes,
-    //     {
-    //       valueVn: translated.nameVn,
-    //       valueKr: translated.nameKr,
-    //       attributeNameVn: attributeList[idx].attributeNameVn,
-    //       attributeNameKr: attributeList[idx].attributeNameKr,
-    //     },
-    //   ]);
-    //   return { ...detail, attributes: newAtrb };
-    // });
-
+    whs.forEach((wh: any) => {
+      const listPrds = listProductDetails.map((prd: any) => ({
+        ...prd,
+        addressWarehouse: wh.address
+      }));
+      listProductDetailsWareHouse.push(...listPrds);
+    });
 
     setFieldValue("atributies", attributeList);
-    setFieldValue("productDetails", productDetails);
+    setFieldValue("productDetails", listProductDetailsWareHouse);
+    setListProducts(listProductDetailsWareHouse);
   };
+
+  console.log({ listProducts });
+
   const getCategory = async () => {
     try {
       const result = await categoryServices.getAllCategory();
@@ -441,40 +379,25 @@ function ProductEditComponent(props: Props) {
   };
   const handleAddWarehowse = (province: string) => {
     const newListAddress = [...values.warehouse];
-    let newDetails = [...values.productDetails];
     const checkProvince = newListAddress.findIndex(
       (item) => item.address === province
     );
     if (checkProvince < 0) {
       newListAddress.push({ address: province });
-      const itemDetail = {
-        priceDetail: 10,
-        promoDetail: 10,
-        stockQuantity: 10,
-        addressWarehouse: province,
-        images: [
-          {
-            url: "",
-          },
-        ],
-        attributes: [],
-      };
-      newDetails.push(itemDetail);
     } else {
       newListAddress.splice(checkProvince, 1);
-      newDetails = newDetails.filter(
-        (item) => item.addressWarehouse != province
-      );
     }
     setFieldValue("warehouse", newListAddress);
-    // setFieldValue("productDetails", newDetails);
+    handleAddValueAtribute("", -1, [], newListAddress);
   };
+  setListProducts
   const checkProvinceActive = (province: string) => {
     const checkProvince = values.warehouse.findIndex(
       (item) => item.address === province
     );
     return checkProvince >= 0 ? true : false;
   };
+
   /* plust*/
   const handleChoseFile = (event: ChangeEvent<HTMLInputElement>) => {
     const files = event.target.files!;
@@ -1400,85 +1323,66 @@ function ProductEditComponent(props: Props) {
               </tr>
             </thead>
             <tbody>
-              {values.productDetails.map((items, index) => {
+              {listProducts.map((items, index) => {
+                // console.log("check", items)
+                // console.log("check1", [...  items?.attributes])
+                // console.log("check2",items?.attributes?.map(it=> it))
+                // const item = items;
+                // // const _atb = item.attributes.map((atb) => atb.valueVn).join("-")
+
+                // console.log("a", item);
+
                 return (
                   <Fragment key={index}>
-                    <tr>
-                      <td
-                        rowSpan={items.attributes.length + 1}
-                        className="border border-neutra-neutra80"
-                      >
-                        <p className="text-small font-semibold text-center mb-3">
-                          {items.addressWarehouse}
-                        </p>
+                    <tr className="relative">
+                      <td className="py-6 text-center text-sm font-semibold uppercase min-w-[170px] border border-neutra-neutra80">
+                        {items.addressWarehouse}
                       </td>
+                      <td className="py-6 text-center text-sm font-semibold uppercase min-w-[170px] border border-neutra-neutra80">
+                        {items.attributes.map((atb) => (isVn ? atb.valueVn : atb.valueKr)).join(" - ")}
+                      </td>
+                      <td className="border border-neutra-neutra80">
+                        <input
+                          value={items.priceDetail}
+                          name="sale"
+                          type="number"
+                          placeholder="--"
+                          className="text-sm text-center font-semibold px-6 placeholder:text-gray-200 w-full"
+                        />
+                      </td>
+                      <td className="border border-neutra-neutra80">
+                        <input
+                          value={items.promoDetail}
+                          name="sale"
+                          type="number"
+                          placeholder="--"
+                          className="text-sm text-center font-semibold px-6 placeholder:text-gray-200 w-full"
+                        />
+                      </td>
+                      <td className="border border-neutra-neutra80">
+                        <div className="max-w-[170px]">
+                          <input
+                            name="total"
+                            value={items.stockQuantity}
+                            type="number"
+                            placeholder="--"
+                            className="text-small text-center font-semibold px-6 placeholder:text-gray-200 w-full"
+                          />
+                        </div>
+                      </td>
+                      {items.attributes.length > 1 && (
+                        <div
+                          className="absolute -right-[5%] top-2/4 -translate-y-[50%] cursor-pointer"
+                        >
+                          <ICDeleteTrashLight />
+                        </div>
+                      )}
                     </tr>
-                    {items.attributes.map((atb, indexAtb) => {
-                      return (
-                        <tr key={indexAtb} className="relative">
-                          <td className="py-6 text-center text-sm font-semibold uppercase min-w-[170px] border border-neutra-neutra80">
-                            {isVn ? atb.attributeNameVn : atb.attributeNameKr} - {" "}
-                            {isVn ? atb.valueVn : atb.valueKr}
-                          </td>
-                          <td className="border border-neutra-neutra80">
-                            <input
-                              value={items.priceDetail}
-                              name="sale"
-                              type="number"
-                              placeholder="--"
-                              className="text-sm text-center font-semibold px-6 placeholder:text-gray-200 w-full"
-                            />
-                          </td>
-                          <td className="border border-neutra-neutra80">
-                            <div className="max-w-[170px]">
-                              <input
-                                name="total"
-                                value={items.stockQuantity}
-                                // onChange={(event) => {
-                                //   handleChangeItemSize(event, index, indexSize);
-                                // }}
-                                type="number"
-                                placeholder="--"
-                                className="text-small text-center font-semibold px-6 placeholder:text-gray-200 w-full"
-                              />
-                            </div>
-                          </td>
-                          <td className="border border-neutra-neutra80">
-                            <div className="">
-                              <input
-                                readOnly
-                                value={10}
-                                // value={(
-                                //   formValue.price -
-                                //   (formValue.price / 100) * itemSize.sale
-                                // ).toLocaleString("vi", {
-                                //   style: "currency",
-                                //   currency: "VND",
-                                // })}
-                                // onChange={(event) => {}}
-                                type="text"
-                                placeholder="--"
-                                className="text-small text-center cursor-not-allowed font-semibold px-6 placeholder:text-gray-200 w-full"
-                              />
-                            </div>
-                          </td>
-                          {items.attributes.length > 1 && (
-                            <div
-                              // onClick={() => handleDeleteSize(index, indexSize)}
-                              className="absolute -right-[5%] top-2/4 -translate-y-[50%] cursor-pointer"
-                            >
-                              <ICDeleteTrashLight />
-                            </div>
-                          )}
-                        </tr>
-                      );
-                    })}
                   </Fragment>
                 );
               })}
             </tbody>
           </table>
-          {/* )} */}
         </div>
         {/* chọn màu */}
         <div className="mb-9">
