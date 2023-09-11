@@ -3,7 +3,7 @@ import queryString from "query-string";
 import api from "./api";
 import { Params } from "@utility/typeService";
 
-const apiItems = "/items"
+const apiItems = "/products"
 const pathRemainning = '/filterremaining'
 
 export type ProductTrademark = {
@@ -103,7 +103,7 @@ const ProductServices = {
     },
     addProduct: async(data:any):Promise<any> => {
         const result = (await api.post(apiItems, data))
-        return result.data
+        return result
     },
     getProductById: async (id:string):Promise<Product> => {
         const result = await api.get(apiItems + "/id/" + id)

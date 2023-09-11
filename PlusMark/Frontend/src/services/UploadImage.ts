@@ -13,6 +13,12 @@ const UploadImage = {
     uploadVideo: async(data:any): Promise<string>=> {
         const result =  await api.post('/video', data)
         return result.data
+    },
+    uploadListImages: async(data:any): Promise<any>=> {
+        return await api.post(pathMutiple, data)
+    },
+    uploadVideos: async(data:any): Promise<string>=> {
+        return await api.post('/video', data)
     }
 }
 
