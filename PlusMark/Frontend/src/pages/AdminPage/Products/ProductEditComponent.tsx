@@ -53,8 +53,6 @@ function ProductEditComponent(props: Props) {
   const [imagePreview, setImagePreview] = useState<string[]>([]);
   const [listImageActived, setListImageActived] = useState<string[]>([]);
   const [videoFile, setFileVideo] = useState<File | null>(null);
-  const [imgExchangFile, setImgExchangeFile] = useState<File | null>(null);
-  const [isDisable, setDisable] = useState<boolean>(false);
   const [listProducts, setListProducts] = useState<ProductDetails[]>([]);
   const nameTable = [
     "Kho còn hàng",
@@ -535,193 +533,10 @@ function ProductEditComponent(props: Props) {
       setImageProducts(newListFiles);
     }
   };
-  const handleValidateColor = useCallback(() => {
-    const lengths = formValue.colors.length > 0;
-    const checkColorAndSize = formValue.colors.every((item, index) => {
-      if (
-        item.colorName &&
-        item.colorCode &&
-        // item.image &&
-        item.sizes.length > 0
-      ) {
-        return true;
-      } else {
-        return false;
-      }
-    });
-    if (lengths && checkColorAndSize) {
-      return true;
-    }
-    return false;
-  }, [formValue.colors]);
 
-  const handleCheckValidate = () => {
-    let checkImage;
-    if (id) {
-      checkImage = imageProducts.length > 0 || imagePreview.length > 0;
-    } else {
-      checkImage = imageProducts.length > 0;
-    }
-    const isCheckAll =
-      checkImage &&
-      formValue &&
-      formValue.sku &&
-      formValue.sku &&
-      formValue.name &&
-      formValue.detail &&
-      formValue.price > 0 &&
-      formValue.cost > 0 &&
-      formValue.category.categorySId != null &&
-      formValue.category.categoryName != "" &&
-      formValue.trademark.id != "" &&
-      handleValidateColor();
-    if (isCheckAll) {
-      return true;
-    }
-    return false;
-  };
-  const handleDeleteSize = (indexColor: number, indexSize: number) => {
-    const name = formValue.colors[indexColor].sizes[indexSize].sizeName;
-    const newColor = formValue.colors;
-    newColor[indexColor].sizes.splice(indexSize, 1);
-
-    const checkIView = newColor.some((item) => {
-      return item.sizes.some((itemS) => {
-        return itemS.sizeName == name;
-      });
-    });
-
-    if (!checkIView) {
-      setListSize(
-        listSize.filter((item) => {
-          return item != name;
-        })
-      );
-    }
-    setFormValue({
-      ...formValue,
-      colors: newColor,
-    });
-  };
-
-  const handleReset = () => {
-    setImageProducts([]);
-    setImagePreview([]);
-    setFormValue({
-      sku: "",
-      name: "",
-      images: [],
-      video: "",
-      detail: "",
-      policy: "",
-      price: 0,
-      cost: 0,
-      imageCheck: "",
-      seen: 0,
-      sold: 0,
-      remaining: 0,
-      saleMin: 0,
-      saleMax: 0,
-      gender: ["male", "female"],
-      category: {
-        categoryId: null,
-        categorySId: null,
-        categoryName: "",
-        parentId: null,
-        parentSId: null,
-      },
-      trademark: {
-        id: "",
-        name: "",
-        images: [],
-        menuShow: true,
-      },
-      colors: [],
-    });
-    setListImageActived([]);
-    setFileVideo(null);
-    setImgExchangeFile(null);
-    setListSize([]);
-    setApplySale({
-      countSale: "",
-      salePrice: "",
-    });
-    setValid({ file: false, detail: false });
-  };
 
   const handleSubmit = async () => {
     try {
-      // const validate = handleCheckValidate();
-      // setDisable(true);
-      // if (validate) {
-      //   let newValueForm = { ...formValue };
-      //   newValueForm.gender = (
-      //     newValueForm.gender!.length === 2 ? null : newValueForm.gender![0]
-      //   ) as any;
-
-      //   const formData = new FormData();
-      //   const formExchangdata = new FormData();
-      //   const formVideodata = new FormData();
-
-      //   for (let i = 0; i < imageProducts.length; i++) {
-      //     formData.append("file", imageProducts[i]);
-      //   }
-
-      //   formExchangdata.append("file", imgExchangFile!);
-      //   formVideodata.append("file", videoFile!);
-
-      //   const listImageproducts =
-      //     imageProducts.length > 0
-      //       ? await UploadImage.uploadImages(formData)
-      //       : [];
-      //   const videoUrl =
-      //     videoFile && (await UploadImage.uploadVideo(formVideodata));
-
-      //   const newImageCheck =
-      //     imgExchangFile && (await UploadImage.uploadImages(formExchangdata));
-
-      //   newValueForm.images = (
-      //     id ? [...formValue.images, ...listImageproducts] : listImageproducts
-      //   ) as any;
-      //   newValueForm.colors.map((item, indexC) => {
-      //     const index = imagePreview.findIndex((itemPre) => {
-      //       return itemPre === item.image;
-      //     });
-      //     item.image = index > -1 ? newValueForm.images[index] : "";
-      //   });
-
-      //   newValueForm.video = videoUrl ? videoUrl : id ? formValue.video : "";
-      //   newValueForm.imageCheck = newImageCheck
-      //     ? newImageCheck[0]
-      //     : id
-      //       ? formValue.imageCheck
-      //       : "";
-      //   if (id) {
-      //     const result = await ProductServices.putProducById(id, newValueForm);
-      //     onAddToast({ type: "success", message: "Sửa sản phẩm thành công." });
-      //     const listImage = result.images.map((item) => item);
-      //     if (result.gender === null) {
-      //       result.gender = ["male", "female"];
-      //     } else {
-      //       result.gender = [result.gender] as any;
-      //     }
-      //     setImagePreview(listImage);
-      //     setFormValue(result);
-      //   } else {
-      //     const result = await ProductServices.addProduct(newValueForm);
-      //     if (result) {
-      //       handleReset();
-      //       onAddToast({
-      //         type: "success",
-      //         message: "Thêm sản phẩm thành công.",
-      //       });
-      //     }
-      //   }
-      // } else {
-      //   onAddToast({ type: "warn", message: "bạn chưa nhập đúng dữ liệu" });
-      // }
-      // setDisable(false);
-
       const formData = new FormData();
       const formVideodata = new FormData();
 
@@ -780,7 +595,6 @@ function ProductEditComponent(props: Props) {
       navigate("/admin/product")
     } catch (error) {
       onAddToast({ type: "error", message: "Có lỗi." });
-      setDisable(false);
     }
   };
 
@@ -1227,7 +1041,7 @@ function ProductEditComponent(props: Props) {
         </div>
 
         {/* bảng đổi kích cỡ ảnh */}
-        <div className="mb-5">
+        {/* <div className="mb-5">
           <p className="text-small font-semibold mb-5">Bảng quy đổi kích cỡ</p>
           <div className="border-2 border-dashed rounded-md cursor-pointer ">
             <label className=" h-195px flex flex-col items-center justify-center">
@@ -1262,7 +1076,7 @@ function ProductEditComponent(props: Props) {
               />
             </label>
           </div>
-        </div>
+        </div> */}
       </div>
       <div className="flex item-center justify-end my-7">
         <GroupButton
