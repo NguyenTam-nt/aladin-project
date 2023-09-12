@@ -7,6 +7,7 @@ import button from './button.json'
 import product from './product.json'
 import router from './router.json'
 import form from './form.json'
+import voucher from './voucher.json'
 export default {
     ...vi,
     ...global,
@@ -16,5 +17,6 @@ export default {
     ...button,
     ...product,
     ...router,
-    ...form
+    ...form,
+    ...voucher
 }

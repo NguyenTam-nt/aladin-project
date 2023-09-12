@@ -5,7 +5,7 @@ import { Fragment, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 interface Props {
-  item: Product;
+  item: any;
   isCheck: boolean;
   handleDelete: (id: number) => void;
   showEditLink?: boolean;
@@ -15,7 +15,7 @@ function ProducSizeItem(props: Props) {
   const { item, isCheck, showEditLink = true, handleDelete } = props;
   const navigator = useNavigate();
   const [listPrItem, setListPrItem] = useState<ProductItemSize[]>(
-    item ? [item.colors[0]] : []
+    item ? [item?.colors[0]] : []
   );
   const [lengthItem, setLengItem] = useState<number>(
     item ? item.colors.length : 0
@@ -80,7 +80,7 @@ function ProducSizeItem(props: Props) {
               <div>
                 <div className="flex items-center">
                   <img
-                    src={item.images[0] || "/images-raw/imageTshirt.jpg"}
+                    src={ "/images-raw/imageTshirt.jpg"}
                     alt={item.name}
                     className="w-[52px] h-[52px] border border-gray-200 rounded-[10px] mr-3"
                   />

@@ -45,7 +45,7 @@
     line-height: 18px;
     border-radius: 10px;
     border: 1px solid var(--border-color);
-    @apply focus:outline-none placeholder:text-[var(--gray-003)];
+    @apply focus:outline-none placeholder:text-[var(--gray-003)] text-grey-A1A0A3;
   }
   .text-small{
     font-size: 14px;

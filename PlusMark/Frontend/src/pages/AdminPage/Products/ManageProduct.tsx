@@ -42,7 +42,7 @@ export const ButtonFilter = (props: ButtonFilterProps) => {
     <button
       className={
         "text-small font-semibold " +
-        (isActive ? "text-main" : "") +
+        (isActive ? "text-main border-b-[3px] border-main mt-[1px]" : "") +
         " " +
         className
       }

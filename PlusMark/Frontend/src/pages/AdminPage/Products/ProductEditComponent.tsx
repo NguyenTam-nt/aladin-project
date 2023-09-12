@@ -918,6 +918,7 @@ function ProductEditComponent(props: Props) {
                 })
               }
             />
+            {/* aaa */}
             <input
               type="number"
               min={0}

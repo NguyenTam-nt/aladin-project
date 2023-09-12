@@ -2,9 +2,11 @@ import { ListProductType, Product, SomeType } from "commons/contannt";
 import queryString from "query-string";
 import api from "./api";
 import { Params } from "@utility/typeService";
+import { IRespone } from "./Types/respone";
 
-const apiItems = "/products"
-const pathRemainning = '/filterremaining'
+const apiItems = "/items";
+const pathRemainning = '/filterremaining';
+const apiProduct = "/products";
 
 export type ProductTrademark = {
     id: string,
@@ -39,7 +41,7 @@ export type ProductColor = {
     sizes: ProductSize[]
 }
 
-export type ProductItem =  {
+export type ProductItem = {
     id: string,
     images: string[],
     video: string,
@@ -87,49 +89,58 @@ const ProductServices = {
         return api.get(apiItems + "?sort=createdAt,desc&gender=nam,nữ").then(data => data.data)
     },
     getListNewProducts: async (params: Params): Promise<ResponseProductItems> => {
-        const result = (await api.get(apiItems, {params: params})).data;
+        const result = (await api.get(apiItems, { params: params })).data;
         return result
         // return (await api.get(apiItems + "?sort=createdAt,desc&gender=nam,nữ", {params: {page: page, size}})).data.data
     },
-   
+
     getProductSeenMost: async (): Promise<ResponseProductItems> => {
         return api.get(apiItems + "?sort=seen,desc").then(data => data.data)
     },
     getProductRelated: async (categorySId: number): Promise<ResponseProductItems> => {
         return api.get("/itemsrelate?categorySId=" + categorySId).then(data => data.data)
     },
-    searchHeader: async (params: {keyword: string, page: number, size: number}): Promise<ResponseProductItems> => {
-        return api.get(apiItems + "/search", {params: params}).then(data => data.data)
+    searchHeader: async (params: { keyword: string, page: number, size: number }): Promise<ResponseProductItems> => {
+        return api.get(apiItems + "/search", { params: params }).then(data => data.data)
     },
-    addProduct: async(data:any):Promise<any> => {
-        const result = (await api.post(apiItems, data))
+    addProduct: async (data: any): Promise<any> => {
+        const result = (await api.post(apiProduct, data))
         return result
     },
-    getProductById: async (id:string):Promise<Product> => {
+    getProductById: async (id: string): Promise<Product> => {
         const result = await api.get(apiItems + "/id/" + id)
-        return result.data   
-  },
-  putProducById: async(id: string,data:any):Promise<Product> => {
-      const result = await api.put(`${apiItems}/${id}`, data)
-      return result.data
-  },
-  getListProduct: async(param: SomeType): Promise<ListProductType> => {
-      const result = await api.get(`${apiItems}?${queryString.stringify(param,{ arrayFormat: "comma" })}`)
-      return result.data
-  },
-  getListProductFilter: async(param:SomeType)=> {
-      const result = await api.get(`${pathRemainning}?${queryString.stringify(param)}`)
-      return result.data;
-  },
-  getProductInVoucher : async(data: number[]):Promise<ListProductType>=> {
-      const result = await api.post('/itemslistid', data);
-      return result.data
-  },
-  deleteProducts: async (arr: number[]):Promise<any> => {
-      const result = await api.delete(`${apiItems}?${queryString.stringify({ids: arr},{ arrayFormat: "comma", skipNull: true })}`)
-      return result
-  }
+        return result.data
+    },
+    putProducById: async (id: string, data: any): Promise<ProductItem> => {
+        return  await api.put(`${apiProduct}/${id}`, data)
+    },
+    getListProduct: async (param: SomeType): Promise<IRespone> => {
+        return await api.get(`${apiProduct}?${queryString.stringify(param, { arrayFormat: "comma" })}`)
+    },
     
+    getListProductFilter: async (param: SomeType) => {
+        const result = await api.get(`${pathRemainning}?${queryString.stringify(param)}`)
+        return result.data;
+    },
+    getProductInVoucher: async (data: number[]): Promise<ListProductType> => {
+        const result = await api.post('/itemslistid', data);
+        return result.data
+    },
+    deleteProducts: async (arr: string[]): Promise<any> => {
+        const result = await api.delete(`${apiProduct}?${queryString.stringify({ ids: arr }, { arrayFormat: "comma", skipNull: true })}`)
+        return result
+    },
+    getAllProducts: async (params?: any): Promise<IRespone> => {
+        return api.get(apiProduct, { params })
+    },
+    findProductById: async (id: any): Promise<IRespone> => {
+        return api.get(`${apiProduct}/${id}`);
+    },
+    searchProducts: async (params: { keyword: string, page: number, size: number }): Promise<IRespone> => {
+        return api.get(apiProduct + "/search", { params: params })
+    },
+
+
 }
 
 
