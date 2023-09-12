@@ -252,7 +252,7 @@ function ProductEditComponent(props: Props) {
     handleAddValueAtribute("", -1, attributeList, values.warehouse);
   };
 
-  function generateAttr(attributeValues: any[][]): any[][] {
+  const generateAttr = (attributeValues: any[][]): any[][] => {
     const attributes: any[][] = [];
 
     function generateProductsRecursive(currentAttributes: any[], currentIdx: number) {
@@ -550,7 +550,7 @@ function ProductEditComponent(props: Props) {
         imageProducts.length > 0
           ? await UploadImage.uploadListImages(formData)
           : [];
-      const videoUrl : any =
+      const videoUrl: any =
         videoFile && (await UploadImage.uploadVideos(formVideodata));
 
       const convertedAttributeFes = values.atributies && values.atributies.map((item) => {
@@ -678,6 +678,7 @@ function ProductEditComponent(props: Props) {
                 (validForm?.file && "border-main")
               }
             >
+
               <input
                 type="file"
                 multiple
@@ -1039,44 +1040,6 @@ function ProductEditComponent(props: Props) {
             </div>
           )}
         </div>
-
-        {/* bảng đổi kích cỡ ảnh */}
-        {/* <div className="mb-5">
-          <p className="text-small font-semibold mb-5">Bảng quy đổi kích cỡ</p>
-          <div className="border-2 border-dashed rounded-md cursor-pointer ">
-            <label className=" h-195px flex flex-col items-center justify-center">
-              {formValue.imageCheck && formValue.imageCheck != "" ? (
-                <img
-                  src={formValue.imageCheck}
-                  alt=""
-                  className="max-w-full max-h-full border-dashed cursor-pointer rounded-md"
-                />
-              ) : (
-                <>
-                  <AddImage className="m-0" />
-                  <p className="text-xs tracking-[.03] text-gray-300 text-center">
-                    Tải ảnh lên
-                  </p>
-                </>
-              )}
-
-              <input
-                id="fileSize"
-                name=""
-                type="file"
-                className="hidden"
-                onChange={(event) => {
-                  setFormValue({
-                    ...formValue,
-                    imageCheck: URL.createObjectURL(event?.target.files![0]),
-                  });
-                  setImgExchangeFile(event?.target.files![0]);
-                  event.target.value = "";
-                }}
-              />
-            </label>
-          </div>
-        </div> */}
       </div>
       <div className="flex item-center justify-end my-7">
         <GroupButton
