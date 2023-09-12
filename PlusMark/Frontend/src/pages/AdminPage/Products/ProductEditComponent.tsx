@@ -51,9 +51,11 @@ function ProductEditComponent(props: Props) {
   const [categoryName, setCategoryName] = useState<string>("Chọn Phân loại");
   const [imageProducts, setImageProducts] = useState<File[] | []>([]);
   const [imagePreview, setImagePreview] = useState<string[]>([]);
+  const [imagesUpdate, setImagesUpdate] = useState<string[]>([]);
   const [listImageActived, setListImageActived] = useState<string[]>([]);
   const [videoFile, setFileVideo] = useState<File | null>(null);
   const [listProducts, setListProducts] = useState<ProductDetails[]>([]);
+  const [videoUrl, setVideoUrl] = useState<string>();
   const nameTable = [
     "Kho còn hàng",
     "Tên thuộc tính",
@@ -61,10 +63,6 @@ function ProductEditComponent(props: Props) {
     " Khuyến mại",
     "Tồn kho",
   ];
-  const [applySale, setApplySale] = useState({
-    countSale: "",
-    salePrice: "",
-  });
 
 
   const [applyList, setApplyList] = useState({
@@ -72,59 +70,30 @@ function ProductEditComponent(props: Props) {
     stockQuantity: 0
   })
 
-  const [listSize, setListSize] = useState<string[]>([]);
-
-  const [formValue, setFormValue] = useState<Product>({
-    sku: "",
-    name: "",
+  const [formValue, setFormValue] = useState<any>({
     images: [],
-    video: "",
-    detail: "",
-    policy: "",
-    price: 0,
-    cost: 0,
-    imageCheck: "",
-    seen: 0,
-    sold: 0,
-    remaining: 0,
-    saleMin: 0,
-    saleMax: 0,
-    gender: ["male", "female"],
-    category: {
-      categoryId: null,
-      categorySId: null,
-      categoryName: "",
-      parentId: null,
-      parentSId: null,
-    },
-    trademark: {
-      id: "",
-      name: "",
-      images: [],
-      menuShow: true,
-    },
-    colors: [],
+    video: ""
   });
 
   const [validForm, setValid] = useState<any>({ file: false, detail: false });
 
   const formik = useFormik<ProductItem>({
     initialValues: {
-      productCode: "",
-      productNameVn: "",
-      productNameKr: "",
+      productCode: '',
+      productNameVn: '',
+      productNameKr: '',
       categoryId: null,
       subCategoryId: 0,
       cost: 0,
       price: 0,
       promo: 0,
       stockQuantity: 0,
-      salientFeaturesVn: "",
-      salientFeaturesKr: "",
-      detailVn: "",
-      detailKr: "",
-      specVn: "",
-      specKr: "",
+      salientFeaturesVn: '',
+      salientFeaturesKr: '',
+      detailVn: '',
+      detailKr: '',
+      specVn: '',
+      specKr: '',
       featured: 0,
       createAt: null,
       warehouse: [],
@@ -134,23 +103,32 @@ function ProductEditComponent(props: Props) {
       ],
     },
     validationSchema: Yup.object({
-      productCode: Yup.string().trim().required("Không được để trống"),
+      productCode: Yup.string().trim().required(isVn ? "Không được để trống" : "비워둘 수 없습니다."),
       productNameVn: Yup.string().trim().required("Không được để trống"),
-      price: Yup.number().required("Không được để trống").min(1, "Quá nhỏ"),
-      promo: Yup.number().required("Không được để trống").min(0, "Quá nhỏ"),
+      productNameKr: Yup.string().trim().required("비워둘 수 없습니다."),
+      price: Yup.number().required(isVn ? "Không được để trống" : "비워둘 수 없습니다.").min(1, isVn ? "Quá nhỏ" : "너무 작은"),
+      promo: Yup.number().required(isVn ? "Không được để trống" : "비워둘 수 없습니다.").min(0, isVn ? "Quá nhỏ" : "너무 작은"),
       salientFeaturesVn: Yup.string()
+        .required("비워둘 수 없습니다."),
+      salientFeaturesKr: Yup.string()
         .required("Không được để trống")
         .max(500, "Không quá 500 kí tự"),
       detailVn: Yup.string()
         .required("Không được để trống")
-        .max(500, "Không quá 500 kí tự"),
+        .max(3000, "Không quá 3000 kí tự"),
+      detailKr: Yup.string()
+        .required("비워둘 수 없습니다.")
+        .max(3000, "3000자 이내"),
       specVn: Yup.string()
         .required("Không được để trống")
-        .max(500, "Không quá 500 kí tự"),
-      categoryId: Yup.number().required("Phải chọn danh mục"),
-      warehouse: Yup.array().min(1, "tối thiểu 1 địa điểm"),
+        .max(3000, "Không quá 3000 kí tự"),
+      specKr: Yup.string()
+        .required("비워둘 수 없습니다.")
+        .max(3000, "3000자 이내"),
+      categoryId: Yup.number().required(isVn ? "Phải chọn danh mục" : "카테고리를 선택해야 합니다."),
+      warehouse: Yup.array().min(1, isVn ? "Tối thiểu 1 địa điểm" : "최소 1개 위치"),
     }),
-    onSubmit: async () => {
+    onSubmit: async (values) => {
 
     },
   });
@@ -158,15 +136,12 @@ function ProductEditComponent(props: Props) {
     values,
     errors,
     touched,
-    isSubmitting,
-    setSubmitting,
     setFieldValue,
     setFieldError,
     setValues,
-    handleChange
+    handleChange,
+    handleSubmit,
   } = formik;
-
-
 
   const handleChoseCategory = (id: number, subId?: number) => {
     setFieldValue("categoryId", id);
@@ -326,6 +301,8 @@ function ProductEditComponent(props: Props) {
         priceDetail: values.price,
         promoDetail: values.promo,
         stockQuantity: 0,
+        soldQuantity: 0,
+        imageDetailUrl: "",
         addressWarehouse: "",
         images: [],
         attributes: await convertToAttributes(it)
@@ -357,8 +334,12 @@ function ProductEditComponent(props: Props) {
   };
 
   const handlechangeContentEditor = (content: any, filed: string) => {
-    const data = JSON.stringify(content);
-    setFieldValue(filed, data != '""' ? data : "");
+    try {
+      console.log(JSON.stringify(content))
+      setFieldValue(filed, JSON.stringify(content));
+    } catch (error) {
+
+    }
   };
 
   const handleAddWarehowse = (province: string) => {
@@ -435,7 +416,6 @@ function ProductEditComponent(props: Props) {
         stockQuantity: applyList.stockQuantity
       }
     })
-    console.log(listPrds)
     setListProducts(listPrds)
   };
 
@@ -453,6 +433,17 @@ function ProductEditComponent(props: Props) {
     prd = {
       ...prd,
       promoDetail: value
+    }
+    listProducts[index] = prd;
+    const prds = [...listProducts]
+    setListProducts(prds)
+  }
+
+  const handleEditPriceProductDetail = (index: number, value: number) => {
+    let prd = listProducts[index];
+    prd = {
+      ...prd,
+      priceDetail: value
     }
     listProducts[index] = prd;
     const prds = [...listProducts]
@@ -478,15 +469,16 @@ function ProductEditComponent(props: Props) {
     index: number,
     isUnActive: boolean
   ) => {
-    if (formValue.colors.length > 0) {
-      let newColor = [...formValue.colors];
+    if (listProducts.length > 0) {
+      let productDetails = [...listProducts];
       if (isUnActive) {
         setListImageActived(
           [...listImageActived].filter((items) => {
             return items != item;
           })
         );
-        newColor[index].image = "";
+        productDetails[index].imageDetailUrl = "";
+        productDetails[index].images = []
       } else {
         let newImageActived = [...listImageActived];
         if (listImageActived[index]) {
@@ -495,29 +487,29 @@ function ProductEditComponent(props: Props) {
           newImageActived.push(item);
         }
         setListImageActived([...newImageActived]);
-        newColor[index].image = item;
+        productDetails[index].imageDetailUrl = item;
+        productDetails[index].images = [{url: item}]
       }
-      setFormValue((prev) => {
-        return {
-          ...prev,
-          colors: newColor,
-        };
-      });
+      setListProducts(productDetails)
     }
   };
 
-  // xoa anh
   const handleDeleteImage = (pathImg: string, index: number) => {
     const isExist = formValue.images.includes(pathImg);
     if (isExist) {
       setFormValue({
         ...formValue,
-        images: formValue.images.filter((item) => {
+        images: formValue.images.filter((item: any) => {
           return item != pathImg;
         }),
       });
       setImagePreview(
         imagePreview.filter((item) => {
+          return item != pathImg;
+        })
+      );
+      setImagesUpdate(
+        imagesUpdate.filter((item) => {
           return item != pathImg;
         })
       );
@@ -530,12 +522,17 @@ function ProductEditComponent(props: Props) {
           return item != pathImg;
         })
       );
+      setImagesUpdate(
+        imagesUpdate.filter((item) => {
+          return item != pathImg;
+        })
+      );
       setImageProducts(newListFiles);
     }
   };
 
 
-  const handleSubmit = async () => {
+  const handleSubmitForm = async () => {
     try {
       const formData = new FormData();
       const formVideodata = new FormData();
@@ -546,12 +543,22 @@ function ProductEditComponent(props: Props) {
 
       formVideodata.append("file", videoFile!);
 
-      const listImageproducts =
-        imageProducts.length > 0
-          ? await UploadImage.uploadListImages(formData)
-          : [];
-      const videoUrl: any =
+      const listImageproducts = imageProducts.length > 0
+        ? await UploadImage.uploadListImages(formData)
+        : [];
+
+      if (id) {
+        imagesUpdate.map((img) => {
+          listImageproducts.push({ url: img })
+        })
+      }
+
+      const video: any =
         videoFile && (await UploadImage.uploadVideos(formVideodata));
+
+
+      const videoLink = id ? (videoUrl == "" ? video?.url : videoUrl) : video?.url;
+
 
       const convertedAttributeFes = values.atributies && values.atributies.map((item) => {
         const attributeFeValues = item.valueKr.map((valueKr, index) => ({
@@ -566,10 +573,10 @@ function ProductEditComponent(props: Props) {
         };
       });
 
-      const dataSubmit = {
+      const dataSubmit = isVn ? {
         productCode: values.productCode,
         productNameVn: values.productNameVn,
-        productNameKr: values.productNameKr,
+        productNameKr: await TranslateService.translateToKorea({ content: values.productNameVn }),
         categoryId: values.categoryId,
         subCategoryId: values.subCategoryId,
         cost: 0,
@@ -577,23 +584,54 @@ function ProductEditComponent(props: Props) {
         promo: values.promo,
         stockQuantity: values.stockQuantity,
         salientFeaturesVn: values.salientFeaturesVn,
-        salientFeaturesKr: values.salientFeaturesKr,
+        salientFeaturesKr: await TranslateService.translateToKorea({ content: values.salientFeaturesVn }),
         detailVn: values.detailVn,
-        detailKr: values.detailKr,
+        detailKr: await TranslateService.translateToKorea({ content: values.detailVn }),
         specVn: values.specVn,
+        specKr: await TranslateService.translateToKorea({ content: values.specVn }),
+        featured: 0,
+        warehouse: values.warehouse,
+        attributeFes: convertedAttributeFes,
+        productDetails: listProducts,
+        images: listImageproducts,
+        videoUrl: videoLink
+      } : {
+        productCode: values.productCode,
+        productNameVn: await TranslateService.translateToVietNam({ content: values.productNameKr }),
+        productNameKr: values.productNameKr,
+        categoryId: values.categoryId,
+        subCategoryId: values.subCategoryId,
+        cost: 0,
+        price: values.price,
+        promo: values.promo,
+        stockQuantity: values.stockQuantity,
+        salientFeaturesVn: await TranslateService.translateToVietNam({ content: values.salientFeaturesKr }),
+        salientFeaturesKr: values.salientFeaturesKr,
+        detailVn: await TranslateService.translateToVietNam({ content: values.detailKr }),
+        detailKr: values.detailKr,
+        specVn: await TranslateService.translateToVietNam({ content: values.specKr }),
         specKr: values.specKr,
         featured: 0,
         warehouse: values.warehouse,
         attributeFes: convertedAttributeFes,
         productDetails: listProducts,
         images: listImageproducts,
-        videoUrl: videoUrl.url
+        videoUrl: videoLink
       }
 
-      await ProductServices.addProduct(dataSubmit)
-      onAddToast({ type: "success", message: "Thêm sản phẩm thành công" });
-      navigate("/admin/product")
+      console.log(dataSubmit)
+
+      // if (id) {
+      //   await ProductServices.putProducById(id, dataSubmit);
+      //   onAddToast({ type: "success", message: "Cập nhật phẩm thành công" });
+      //   navigate("/admin/product")
+      // } else {
+      //   await ProductServices.addProduct(dataSubmit)
+      //   onAddToast({ type: "success", message: "Thêm sản phẩm thành công" });
+      //   navigate("/admin/product")
+      // }
     } catch (error) {
+      console.log(error)
       onAddToast({ type: "error", message: "Có lỗi." });
     }
   };
@@ -607,25 +645,57 @@ function ProductEditComponent(props: Props) {
   }, []);
 
   const getProducbyId = async (id: string) => {
-    const product = await ProductServices.getProductById(id);
-    let newProduct = product;
-    const newListActived = product.colors.map((item) => {
-      return item.image;
-    });
-    if (product.gender === null) {
-      newProduct.gender = ["male", "female"];
-    } else {
-      newProduct.gender = [product.gender] as any;
-    }
-    const detailModify = product.detail.replaceAll("<p>", " ");
-    const newDetail = detailModify.replaceAll("</p>", "\n");
-    setFormValue({
-      ...product,
-      detail: newDetail,
+    const product: any = await ProductServices.findProductById(id);
+    const listImagesUrl: string[] = [];
+    product.images.map((img: any) => {
+      listImagesUrl.push(img.url)
+    })
+
+    const productDetails = product.productDetails;
+
+
+    const reversedAttributes = product.attributeFes?.map((atb: any) => {
+      const { attributeFeValues, attributeFeNameKr, attributeFeNameVn } = atb;
+
+      const valueKr = attributeFeValues.map((attributeValue: any) => attributeValue.valueKr);
+      const valueVn = attributeFeValues.map((attributeValue: any) => attributeValue.valueVn);
+
+      return {
+        attributeNameKr: attributeFeNameKr,
+        attributeNameVn: attributeFeNameVn,
+        valueKr,
+        valueVn,
+      };
     });
 
-    setImagePreview(product.images);
-    setListImageActived(newListActived);
+
+    setValues({
+      productCode: product.productCode,
+      productNameVn: product.productNameVn,
+      productNameKr: product.productNameKr,
+      categoryId: product.categoryId,
+      subCategoryId: product.subcategoryId,
+      cost: product.cost,
+      price: product.price,
+      promo: product.promo,
+      stockQuantity: product.stockQuantity,
+      salientFeaturesVn: product.salientFeaturesVn,
+      salientFeaturesKr: product.salientFeaturesKr,
+      detailVn: product.detailVn,
+      detailKr: product.detailKr,
+      specVn: product.specVn,
+      specKr: product.spectKr,
+      featured: product.featured,
+      createAt: product.createAt,
+      warehouse: product.warehouse,
+      atributies: reversedAttributes,
+      productDetails: [
+      ],
+    })
+    setVideoUrl(product.videoUrl || "")
+    setImagePreview(listImagesUrl);
+    setImagesUpdate(listImagesUrl)
+    setListProducts(productDetails)
   };
   useEffect(() => {
     if (id) {
@@ -721,6 +791,7 @@ function ProductEditComponent(props: Props) {
           <TitleInput isNormal={true} isRequired={true} name="Mã sản phẩm" />
           <InputComponent
             name="productCode"
+            value={values.productCode}
             onChange={handleChange}
             className="!rounded-sm"
           />
@@ -731,13 +802,18 @@ function ProductEditComponent(props: Props) {
         <div>
           <TitleInput isNormal={true} isRequired={true} name="Tên sản phẩm" />
           <InputComponent
-            name="productNameVn"
+            name={isVn ? "productNameVn" : "productNameKr"}
+            value={isVn ? values.productNameVn : values.productNameKr}
             onChange={handleChange}
             className="!rounded-sm"
           />
-          {errors.productNameVn && touched.productNameVn && (
-            <TextError message={errors.productNameVn} />
-          )}
+          {
+            isVn ? (errors.productNameVn && touched.productNameVn && (
+              <TextError message={errors.productNameVn} />
+            )) : errors.productNameKr && touched.productNameKr && (
+              <TextError message={errors.productNameKr} />
+            )
+          }
         </div>
 
         <div>
@@ -811,6 +887,7 @@ function ProductEditComponent(props: Props) {
           <InputComponent
             name="price"
             type="number"
+            value={values.price}
             onChange={handleChange}
             className="!rounded-sm"
           />
@@ -823,6 +900,7 @@ function ProductEditComponent(props: Props) {
           <InputComponent
             name="promo"
             type="number"
+            value={values.promo}
             onChange={handleChange}
             className="!rounded-sm"
           />
@@ -837,27 +915,28 @@ function ProductEditComponent(props: Props) {
           <TitleInput isNormal={true} isRequired name="Đặc điểm nổi bật" />
           <Editor
             content={
-              values.salientFeaturesVn
-                ? JSON.parse(values.salientFeaturesVn)
-                : ""
+              isVn ? (values?.salientFeaturesVn || "")
+                : (values?.salientFeaturesKr || "")
             }
-            onChange={(data) =>
-              handlechangeContentEditor(data, "salientFeaturesVn")
-            }
+            onChange={(data) => setFieldValue(isVn ? "salientFeaturesVn" : "salientFeaturesKr", data)}
           />
-          {errors.salientFeaturesVn && touched.salientFeaturesVn && (
+          {isVn ? (errors.salientFeaturesVn && touched.salientFeaturesVn && (
             <TextError message={errors.salientFeaturesVn} />
-          )}
+          )) : (errors.salientFeaturesKr && touched.salientFeaturesKr && (
+            <TextError message={errors.salientFeaturesKr} />
+          ))}
         </div>
         <div>
           <TitleInput isNormal={true} isRequired name="Thông tin sản phẩm" />
           <Editor
-            content={values.detailVn ? JSON.parse(values.detailVn) : ""}
-            onChange={(data) => handlechangeContentEditor(data, "detailVn")}
+            content={isVn ? (values?.detailVn || "") : (values?.detailKr || "")}
+            onChange={(data) => setFieldValue(isVn ? "detailVn" : "detailKr", data)}
           />
-          {errors.detailVn && touched.detailVn && (
+          {isVn ? (errors.detailVn && touched.detailVn && (
             <TextError message={errors.detailVn} />
-          )}
+          )) : (errors.detailKr && touched.detailKr && (
+            <TextError message={errors.detailKr} />
+          ))}
         </div>
         <div>
           <TitleInput
@@ -866,12 +945,16 @@ function ProductEditComponent(props: Props) {
             name="Thông số kĩ thuật"
           />
           <Editor
-            content={values.specVn ? JSON.parse(values.specVn) : ""}
-            onChange={(data) => handlechangeContentEditor(data, "specVn")}
+            content={isVn ? (values?.specVn || "") : (values?.specKr || "")}
+            onChange={(data) => setFieldValue(isVn ? "specVn" : "specKr", data)}
           />
-          {errors.specVn && touched.specVn && (
-            <TextError message={errors.specVn} />
-          )}
+          {
+            isVn ? (errors.specVn && touched.specVn && (
+              <TextError message={errors.specVn} />
+            )) : errors.specKr && touched.specKr && (
+              <TextError message={errors.specKr} />
+            )
+          }
         </div>
       </div>
       <div className="mb-10">
@@ -900,7 +983,7 @@ function ProductEditComponent(props: Props) {
         />
       </div>
 
-      <div className="w-2/3">
+      <div className="w-4/5">
         <p className="text-small font-semibold mb-5">
           Danh sách phân loại hàng
         </p>
@@ -918,7 +1001,6 @@ function ProductEditComponent(props: Props) {
                 })
               }
             />
-            {/* aaa */}
             <input
               type="number"
               min={0}
@@ -942,7 +1024,7 @@ function ProductEditComponent(props: Props) {
         </div>
 
         {/* bảng chọn size và giá */}
-        <div className="mb-4 overflow-y-auto h-[600px]">
+        <div className="mb-4 overflow-y-auto max-h-[600px]">
           <table className="w-full border-collapse border border-neutra-neutra80">
             <thead>
               <tr className="">
@@ -961,7 +1043,7 @@ function ProductEditComponent(props: Props) {
               </tr>
             </thead>
             <tbody >
-              {listProducts.map((items, index) => {
+              {listProducts && listProducts.map((items, index) => {
                 return (
                   <Fragment key={index}>
                     <tr className="relative">
@@ -974,17 +1056,14 @@ function ProductEditComponent(props: Props) {
                       <td className="border border-neutra-neutra80">
                         <input
                           value={items.priceDetail}
-                          name="sale"
                           type="number"
-                          placeholder="--"
-                          readOnly
+                          onChange={(e) => handleEditPriceProductDetail(index, Number(e.target.value))}
                           className="text-sm text-center font-semibold px-6 placeholder:text-gray-200 w-full"
                         />
                       </td>
                       <td className="border border-neutra-neutra80 p-3">
                         <input
                           value={items.promoDetail}
-                          name="sale"
                           type="number"
                           min={0}
                           max={100}
@@ -994,7 +1073,6 @@ function ProductEditComponent(props: Props) {
                       </td>
                       <td className="border border-neutra-neutra80 p-3">
                         <input
-                          name="total"
                           value={items.stockQuantity}
                           type="number"
                           min={0}
@@ -1021,19 +1099,20 @@ function ProductEditComponent(props: Props) {
             isRequired={false}
             name="Chọn ảnh phân loại hàng"
           />
-          {imagePreview.length > 0 && values.productDetails.length > 0 && (
+          {imagePreview.length > 0 && listProducts.length > 0 && (
             <div className="border border-gray-200 rounded-md">
-              {values.productDetails.map((item, index) => {
+              {listProducts.map((item, index) => {
+                const firstImage = item.images && item.images.length > 0 ? item.images[0]?.url : null;
+                const nameColor = item.attributes.map((it) => isVn ? it.valueVn : it.valueKr).join(" - ");
                 return (
                   <SliderPreviewImages
                     key={index}
                     classNavigate={"slideProduct" + index}
-                    // codeColor={item.colorCode}
-                    nameColor={item.attributes[0].attributeNameVn}
                     indexSlide={index}
+                    nameColor={nameColor}
                     lisImages={imagePreview}
                     listImageActived={listImageActived}
-                    imageActived={item.images[0].url}
+                    imageActived={firstImage}
                     handleActiveImage={handleSetColorIntoImage}
                   />
                 );
@@ -1044,7 +1123,7 @@ function ProductEditComponent(props: Props) {
       </div>
       <div className="flex item-center justify-end my-7">
         <GroupButton
-          onSubmit={handleSubmit}
+          onSubmit={handleSubmitForm}
           onCancel={() => navigate("/admin/product")}
         />
       </div>

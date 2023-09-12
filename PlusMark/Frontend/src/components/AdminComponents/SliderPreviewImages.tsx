@@ -35,6 +35,7 @@ function SliderPreviewImages(props: Props) {
     }
     handleActiveImage(item, indexSlide, false);
   };
+
   return (
     <div className="grid grid-cols-5 border-b border-gray-200">
       <div className="col-span-1 flex items-center justify-center border-r border-r-gray-200 text-sm uppercase font-semibold">
