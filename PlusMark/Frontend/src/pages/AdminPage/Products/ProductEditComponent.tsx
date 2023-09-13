@@ -56,6 +56,9 @@ function ProductEditComponent(props: Props) {
   const [videoFile, setFileVideo] = useState<File | null>(null);
   const [listProducts, setListProducts] = useState<ProductDetails[]>([]);
   const [videoUrl, setVideoUrl] = useState<string>();
+  const [listAttributesImage, setListAttributesImage] = useState<ListAtribuite[]>([])
+  const [listAttributesSelectImage, setListAttributesSelectImage] = useState<Atribuite[][]>([])
+  const [listImageProducts, setListImageProducts] = useState<any>()
   const nameTable = [
     "Kho còn hàng",
     "Tên thuộc tính",
@@ -253,23 +256,35 @@ function ProductEditComponent(props: Props) {
 
   const convertToAttributes = async (item: any) => {
     const listAtt: Atribuite[] = [];
-    let idx = 0;
-    await Promise.all(item.map(async (i: any) => {
-      const att: Atribuite = (isVn) ? {
-        valueVn: i,
-        valueKr: await TranslateService.translateToKorea({ content: i }),
-        attributeNameVn: values.atributies![idx].attributeNameVn,
-        attributeNameKr: values.atributies![idx].attributeNameKr
-      } : {
-        valueVn: await TranslateService.translateToVietNam({ content: i }),
-        valueKr: i,
-        attributeNameVn: values.atributies![idx].attributeNameVn,
-        attributeNameKr: values.atributies![idx].attributeNameKr
+    await Promise.all(
+      item.map(async (i: any, index: number) => {
+        const att: Atribuite = (isVn) ? {
+          valueVn: i,
+          valueKr: await TranslateService.translateToKorea({ content: i }),
+          attributeNameVn: values.atributies![index].attributeNameVn,
+          attributeNameKr: values.atributies![index].attributeNameKr
+        } : {
+          valueVn: await TranslateService.translateToVietNam({ content: i }),
+          valueKr: i,
+          attributeNameVn: values.atributies![index].attributeNameVn,
+          attributeNameKr: values.atributies![index].attributeNameKr
+        }
+        listAtt.push(att)
+      }))
+
+
+    return listAtt.sort((a, b) => {
+      const nameA = a.attributeNameVn.toLowerCase();
+      const nameB = b.attributeNameVn.toLowerCase();
+
+      if (nameA < nameB) {
+        return -1;
+      } else if (nameA > nameB) {
+        return 1;
+      } else {
+        return 0;
       }
-      listAtt.push(att)
-      idx++;
-    }))
-    return listAtt
+    });
   }
 
   const handleAddValueAtribute = async (value: string, idx: number, attributes?: ListAtribuite[], warehouses?: any) => {
@@ -291,12 +306,16 @@ function ProductEditComponent(props: Props) {
       attributeList[idx].valueKr.push(translated.nameKr);
     }
 
+    setListAttributesImage(attributeList)
+
     const listOfValueVn = attributeList.map(item => item.valueVn);
+
 
     const listAttVn = generateAttr(listOfValueVn)
 
 
     const listProductDetails: ProductDetails[] = await Promise.all(listAttVn.map(async (it) => {
+      const listAttributes = await convertToAttributes(it)
       return {
         priceDetail: values.price,
         promoDetail: values.promo,
@@ -305,7 +324,7 @@ function ProductEditComponent(props: Props) {
         imageDetailUrl: "",
         addressWarehouse: "",
         images: [],
-        attributes: await convertToAttributes(it)
+        attributes: listAttributes
       };
     }))
 
@@ -331,15 +350,6 @@ function ProductEditComponent(props: Props) {
       const result = await categoryServices.getAllCategory();
       setCategories(result);
     } catch (error) { }
-  };
-
-  const handlechangeContentEditor = (content: any, filed: string) => {
-    try {
-      console.log(JSON.stringify(content))
-      setFieldValue(filed, JSON.stringify(content));
-    } catch (error) {
-
-    }
   };
 
   const handleAddWarehowse = (province: string) => {
@@ -380,19 +390,37 @@ function ProductEditComponent(props: Props) {
     }
 
     if (files) {
+      const formData = new FormData();
       let listFile: File[] = [];
       let listPrew: string[] = [];
       for (let i = 0; i < files.length; i++) {
-        let urlImage = URL.createObjectURL(files[i]);
+        formData.append("file", files[i]);
+        // let urlImage = URL.createObjectURL(files[i]);
         listFile.push(files[i]);
-        listPrew.push(urlImage);
+        // listPrew.push(urlImage);
       }
+
+      const listImageproducts = files.length > 0
+        ? await UploadImage.uploadListImages(formData)
+        : [];
+
+      if (id) {
+        imagesUpdate.map((img) => {
+          listImageproducts.push({ url: img })
+        })
+      }
+
+      await Promise.all(
+        listImageproducts.map(async (img: any) => {
+        listPrew.push(img.url);
+      }));
+
+      setListImageProducts(listImageproducts)
+
       setImageProducts((prevState) => {
         return [...prevState, ...listFile];
       });
-      setImagePreview((prevState) => {
-        return [...prevState, ...listPrew];
-      });
+      setImagePreview(listPrew);
       setValid({ ...validForm, file: false });
     }
     event.target.value = "";
@@ -467,9 +495,11 @@ function ProductEditComponent(props: Props) {
   const handleSetColorIntoImage = (
     item: string,
     index: number,
+    nameAttribute: string,
     isUnActive: boolean
   ) => {
-    if (listProducts.length > 0) {
+
+    if (listAttributesSelectImage.length > 0) {
       let productDetails = [...listProducts];
       if (isUnActive) {
         setListImageActived(
@@ -477,8 +507,12 @@ function ProductEditComponent(props: Props) {
             return items != item;
           })
         );
-        productDetails[index].imageDetailUrl = "";
-        productDetails[index].images = []
+        productDetails
+          .filter((item) => item.attributes.map((it) => isVn ? it.valueVn : it.valueKr).join(" - ") === nameAttribute)
+          .forEach((filteredItem) => {
+            filteredItem.imageDetailUrl = "";
+            filteredItem.images = []
+          });
       } else {
         let newImageActived = [...listImageActived];
         if (listImageActived[index]) {
@@ -487,9 +521,14 @@ function ProductEditComponent(props: Props) {
           newImageActived.push(item);
         }
         setListImageActived([...newImageActived]);
-        productDetails[index].imageDetailUrl = item;
-        productDetails[index].images = [{url: item}]
+        productDetails
+          .filter((item) => item.attributes.map((it) => isVn ? it.valueVn : it.valueKr).join(" - ") === nameAttribute)
+          .forEach((filteredItem) => {
+            filteredItem.imageDetailUrl = item;
+            filteredItem.images = [{ url: item }]
+          });
       }
+      console.log(productDetails)
       setListProducts(productDetails)
     }
   };
@@ -534,24 +573,25 @@ function ProductEditComponent(props: Props) {
 
   const handleSubmitForm = async () => {
     try {
-      const formData = new FormData();
+      // const formData = new FormData();
       const formVideodata = new FormData();
 
-      for (let i = 0; i < imageProducts.length; i++) {
-        formData.append("file", imageProducts[i]);
-      }
+      // for (let i = 0; i < imageProducts.length; i++) {
+      //   formData.append("file", imageProducts[i]);
+      // }
 
       formVideodata.append("file", videoFile!);
 
-      const listImageproducts = imageProducts.length > 0
-        ? await UploadImage.uploadListImages(formData)
-        : [];
+      // const listImageproducts = imageProducts.length > 0
+      //   ? await UploadImage.uploadListImages(formData)
+      //   : [];
 
-      if (id) {
-        imagesUpdate.map((img) => {
-          listImageproducts.push({ url: img })
-        })
-      }
+      // if (id) {
+      //   imagesUpdate.map((img) => {
+      //     listImageproducts.push({ url: img })
+      //   })
+      // }
+
 
       const video: any =
         videoFile && (await UploadImage.uploadVideos(formVideodata));
@@ -573,6 +613,8 @@ function ProductEditComponent(props: Props) {
         };
       });
 
+
+
       const dataSubmit = isVn ? {
         productCode: values.productCode,
         productNameVn: values.productNameVn,
@@ -593,7 +635,7 @@ function ProductEditComponent(props: Props) {
         warehouse: values.warehouse,
         attributeFes: convertedAttributeFes,
         productDetails: listProducts,
-        images: listImageproducts,
+        images: listImageProducts,
         videoUrl: videoLink
       } : {
         productCode: values.productCode,
@@ -615,21 +657,19 @@ function ProductEditComponent(props: Props) {
         warehouse: values.warehouse,
         attributeFes: convertedAttributeFes,
         productDetails: listProducts,
-        images: listImageproducts,
+        images: listImageProducts,
         videoUrl: videoLink
       }
 
-      console.log(dataSubmit)
-
-      // if (id) {
-      //   await ProductServices.putProducById(id, dataSubmit);
-      //   onAddToast({ type: "success", message: "Cập nhật phẩm thành công" });
-      //   navigate("/admin/product")
-      // } else {
-      //   await ProductServices.addProduct(dataSubmit)
-      //   onAddToast({ type: "success", message: "Thêm sản phẩm thành công" });
-      //   navigate("/admin/product")
-      // }
+      if (id) {
+        await ProductServices.putProducById(id, dataSubmit);
+        onAddToast({ type: "success", message: "Cập nhật phẩm thành công" });
+        navigate("/admin/product")
+      } else {
+        await ProductServices.addProduct(dataSubmit)
+        onAddToast({ type: "success", message: "Thêm sản phẩm thành công" });
+        navigate("/admin/product")
+      }
     } catch (error) {
       console.log(error)
       onAddToast({ type: "error", message: "Có lỗi." });
@@ -640,18 +680,18 @@ function ProductEditComponent(props: Props) {
     imagePreview.forEach((item) => {
       URL.revokeObjectURL(item);
     });
-    URL.revokeObjectURL(formValue.imageCheck);
     getCategory();
   }, []);
 
   const getProducbyId = async (id: string) => {
     const product: any = await ProductServices.findProductById(id);
     const listImagesUrl: string[] = [];
-    product.images.map((img: any) => {
+    product.images?.map((img: any) => {
       listImagesUrl.push(img.url)
     })
 
     const productDetails = product.productDetails;
+
 
 
     const reversedAttributes = product.attributeFes?.map((atb: any) => {
@@ -668,6 +708,7 @@ function ProductEditComponent(props: Props) {
       };
     });
 
+    setListAttributesImage(reversedAttributes)
 
     setValues({
       productCode: product.productCode,
@@ -710,6 +751,19 @@ function ProductEditComponent(props: Props) {
       setCategoryName("Chọn Phân loại sản phẩm");
     }
   }, [values.categoryId, categories]);
+
+  useEffect(() => {
+    const fetchListAttributeSelectImage = async () => {
+      const listOfValueVn = listAttributesImage.map(item => item.valueVn);
+      const listAttVn = generateAttr(listOfValueVn)
+
+      const listAttributes = await Promise.all(listAttVn.map(async (it) => {
+        return await convertToAttributes(it)
+      }));
+      setListAttributesSelectImage(listAttributes)
+    }
+    fetchListAttributeSelectImage()
+  }, [listAttributesImage]);
 
   return (
     <div className="pt-9 pb-10px flex-1">
@@ -959,8 +1013,8 @@ function ProductEditComponent(props: Props) {
       </div>
       <div className="mb-10">
         <p className="text-title font-semibold text-main mb-5">Thuộc tính</p>
-        {values.atributies &&
-          values.atributies.map((item, index) => {
+        {values.atributies && values.atributies!.length > 0 &&
+          values.atributies!.map((item, index) => {
             return (
               <AtributeItem
                 key={index}
@@ -1099,11 +1153,11 @@ function ProductEditComponent(props: Props) {
             isRequired={false}
             name="Chọn ảnh phân loại hàng"
           />
-          {imagePreview.length > 0 && listProducts.length > 0 && (
+          {imagePreview.length > 0 && listAttributesSelectImage.length > 0 && (
             <div className="border border-gray-200 rounded-md">
-              {listProducts.map((item, index) => {
-                const firstImage = item.images && item.images.length > 0 ? item.images[0]?.url : null;
-                const nameColor = item.attributes.map((it) => isVn ? it.valueVn : it.valueKr).join(" - ");
+              {listAttributesSelectImage.map((item, index) => {
+                const nameColor = item.map((it) => isVn ? it.valueVn : it.valueKr).join(" - ");
+                const imageActive = listProducts.find((item) => item.attributes.map((it) => isVn ? it.valueVn : it.valueKr).join(" - ") === nameColor)!?.imageDetailUrl || ""
                 return (
                   <SliderPreviewImages
                     key={index}
@@ -1112,7 +1166,7 @@ function ProductEditComponent(props: Props) {
                     nameColor={nameColor}
                     lisImages={imagePreview}
                     listImageActived={listImageActived}
-                    imageActived={firstImage}
+                    imageActived={imageActive}
                     handleActiveImage={handleSetColorIntoImage}
                   />
                 );

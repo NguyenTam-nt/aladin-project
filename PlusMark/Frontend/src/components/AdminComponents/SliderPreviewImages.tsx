@@ -11,7 +11,7 @@ interface Props {
   lisImages: string[];
   imageActived: string | null;
   listImageActived: string[];
-  handleActiveImage: (data: string, index: number, isUnActive: boolean) => void;
+  handleActiveImage: (data: string, index: number, nameAttribute: string, isUnActive: boolean) => void;
 }
 function SliderPreviewImages(props: Props) {
   const {
@@ -28,12 +28,12 @@ function SliderPreviewImages(props: Props) {
     const checkActived = listImageActived.includes(item);
     if (checkActived) {
       if (item === imageActived) {
-        handleActiveImage(item, indexSlide, true);
+        handleActiveImage(item, indexSlide, nameColor,true);
         return;
       }
       return;
     }
-    handleActiveImage(item, indexSlide, false);
+    handleActiveImage(item, indexSlide, nameColor, false);
   };
 
   return (

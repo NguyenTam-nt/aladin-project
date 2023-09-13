@@ -15,7 +15,7 @@ const UploadImage = {
         return result.data
     },
     uploadListImages: async(data:any): Promise<any>=> {
-        return await api.post(pathMutiple, data)
+        return await api.post(`${pathMutiple}?delay=1`, data )
     },
     uploadVideos: async(data:any): Promise<string>=> {
         return await api.post('/video', data)
