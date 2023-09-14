@@ -10,7 +10,7 @@ import useI18n from "@hooks/useI18n";
 import ProductServices from "@services/ProductServices";
 import TranslateService from "@services/TranslateService";
 import { CategoryType } from "@services/Types/category";
-import { ListAtribuite, ProductItem } from "@services/Types/product";
+import { Atribuite, ListAtribuite, ProductDetails, ProductItem } from "@services/Types/product";
 import UploadImage from "@services/UploadImage";
 import categoryServices from "@services/categoryService";
 import clsx from "clsx";
@@ -38,7 +38,7 @@ import { ModalContext } from "@contexts/contextModal";
 import AddAtributeForm from "./component/AddAtributeForm";
 import { ICDeleteTrashLight } from "@assets/iconElements/ICDeleteTrashLight";
 
-interface Props {}
+interface Props { }
 function ProductEditComponent(props: Props) {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -51,10 +51,14 @@ function ProductEditComponent(props: Props) {
   const [categoryName, setCategoryName] = useState<string>("Chọn Phân loại");
   const [imageProducts, setImageProducts] = useState<File[] | []>([]);
   const [imagePreview, setImagePreview] = useState<string[]>([]);
+  const [imagesUpdate, setImagesUpdate] = useState<string[]>([]);
   const [listImageActived, setListImageActived] = useState<string[]>([]);
   const [videoFile, setFileVideo] = useState<File | null>(null);
-  const [imgExchangFile, setImgExchangeFile] = useState<File | null>(null);
-  const [isDisable, setDisable] = useState<boolean>(false);
+  const [listProducts, setListProducts] = useState<ProductDetails[]>([]);
+  const [videoUrl, setVideoUrl] = useState<string>();
+  const [listAttributesImage, setListAttributesImage] = useState<ListAtribuite[]>([])
+  const [listAttributesSelectImage, setListAttributesSelectImage] = useState<Atribuite[][]>([])
+  const [listImageProducts, setListImageProducts] = useState<any>()
   const nameTable = [
     "Kho còn hàng",
     "Tên thuộc tính",
@@ -62,138 +66,84 @@ function ProductEditComponent(props: Props) {
     " Khuyến mại",
     "Tồn kho",
   ];
-  const [applySale, setApplySale] = useState({
-    countSale: "",
-    salePrice: "",
-  });
-  const [listSize, setListSize] = useState<string[]>([]);
 
-  const [formValue, setFormValue] = useState<Product>({
-    sku: "",
-    name: "",
+
+  const [applyList, setApplyList] = useState({
+    promo: 0,
+    stockQuantity: 0
+  })
+
+  const [formValue, setFormValue] = useState<any>({
     images: [],
-    video: "",
-    detail: "",
-    policy: "",
-    price: 0,
-    cost: 0,
-    imageCheck: "",
-    seen: 0,
-    sold: 0,
-    remaining: 0,
-    saleMin: 0,
-    saleMax: 0,
-    gender: ["male", "female"],
-    category: {
-      categoryId: null,
-      categorySId: null,
-      categoryName: "",
-      parentId: null,
-      parentSId: null,
-    },
-    trademark: {
-      id: "",
-      name: "",
-      images: [],
-      menuShow: true,
-    },
-    colors: [],
+    video: ""
   });
 
   const [validForm, setValid] = useState<any>({ file: false, detail: false });
 
   const formik = useFormik<ProductItem>({
     initialValues: {
-      productCode: "",
-      productNameVn: "",
-      productNameKr: "",
+      productCode: '',
+      productNameVn: '',
+      productNameKr: '',
       categoryId: null,
       subCategoryId: 0,
       cost: 0,
       price: 0,
       promo: 0,
       stockQuantity: 0,
-      salientFeaturesVn: "",
-      salientFeaturesKr: "",
-      detailVn: "",
-      detailKr: "",
-      specVn: "",
-      specKr: "",
+      salientFeaturesVn: '',
+      salientFeaturesKr: '',
+      detailVn: '',
+      detailKr: '',
+      specVn: '',
+      specKr: '',
       featured: 0,
       createAt: null,
       warehouse: [],
       atributies: [
-        {
-          valueVn: ["đỏ", "xanh"],
-          valueKr: ["빨간색", "빨간색"],
-          attributeNameVn: "Màu",
-          attributeNameKr: "색상",
-        },
-        {
-          valueVn: ["1lit", "2lit"],
-          valueKr: ["1빨간색", "2빨간색"],
-          attributeNameVn: "thể tích",
-          attributeNameKr: "색상",
-        },
       ],
       productDetails: [
-        {
-          priceDetail: 10,
-          promoDetail: 10,
-          stockQuantity: 10,
-          addressWarehouse: "Hà Nội",
-          images: [
-            {
-              url: "https://example.com/image3.jpg",
-            },
-          ],
-          attributes: [
-            {
-              valueVn: "đỏ",
-              valueKr: "빨간색",
-              attributeNameVn: "Màu",
-              attributeNameKr: "색상",
-            },
-            {
-              valueVn: "1L",
-              valueKr: "1L",
-              attributeNameVn: "Thể tích",
-              attributeNameKr: "용량",
-            },
-          ],
-        },
       ],
     },
     validationSchema: Yup.object({
-      productCode: Yup.string().trim().required("Không được để trống"),
+      productCode: Yup.string().trim().required(isVn ? "Không được để trống" : "비워둘 수 없습니다."),
       productNameVn: Yup.string().trim().required("Không được để trống"),
-      price: Yup.number().required("Không được để trống").min(1, "Quá nhỏ"),
-      promo: Yup.number().required("Không được để trống").min(1, "Quá nhỏ"),
+      productNameKr: Yup.string().trim().required("비워둘 수 없습니다."),
+      price: Yup.number().required(isVn ? "Không được để trống" : "비워둘 수 없습니다.").min(1, isVn ? "Quá nhỏ" : "너무 작은"),
+      promo: Yup.number().required(isVn ? "Không được để trống" : "비워둘 수 없습니다.").min(0, isVn ? "Quá nhỏ" : "너무 작은"),
       salientFeaturesVn: Yup.string()
+        .required("비워둘 수 없습니다."),
+      salientFeaturesKr: Yup.string()
         .required("Không được để trống")
         .max(500, "Không quá 500 kí tự"),
       detailVn: Yup.string()
         .required("Không được để trống")
-        .max(500, "Không quá 500 kí tự"),
+        .max(3000, "Không quá 3000 kí tự"),
+      detailKr: Yup.string()
+        .required("비워둘 수 없습니다.")
+        .max(3000, "3000자 이내"),
       specVn: Yup.string()
         .required("Không được để trống")
-        .max(500, "Không quá 500 kí tự"),
-      categoryId: Yup.number().required("Phải chọn danh mục"),
-      warehouse: Yup.array().min(1, "tối thiểu 1 địa điểm"),
+        .max(3000, "Không quá 3000 kí tự"),
+      specKr: Yup.string()
+        .required("비워둘 수 없습니다.")
+        .max(3000, "3000자 이내"),
+      categoryId: Yup.number().required(isVn ? "Phải chọn danh mục" : "카테고리를 선택해야 합니다."),
+      warehouse: Yup.array().min(1, isVn ? "Tối thiểu 1 địa điểm" : "최소 1개 위치"),
     }),
-    onSubmit: async (value) => {},
+    onSubmit: async (values) => {
+
+    },
   });
   const {
     values,
     errors,
     touched,
-    isSubmitting,
-    setSubmitting,
     setFieldValue,
     setFieldError,
     setValues,
     handleChange,
-    handleSubmit: handleSubmitFomik,
+    handleSubmit,
   } = formik;
 
   const handleChoseCategory = (id: number, subId?: number) => {
@@ -201,20 +151,7 @@ function ProductEditComponent(props: Props) {
     setFieldValue("subCategoryId", subId);
     setFieldError("categoryId", undefined);
   };
-  const formatAtribute = () => {
-    const listAtributeList: any = [];
-    values.atributies!.forEach((atr, index) => {
-      atr.valueVn.forEach((item, index) => {
-        listAtributeList.push({
-          valueVn: item,
-          valueKr: atr.valueKr[index],
-          attributeNameVn: atr.attributeNameVn,
-          attributeNameKr: atr.attributeNameKr,
-        });
-      });
-    });
-    return listAtributeList;
-  };
+
   // modal thêm hoặc sửa thuộc tính
   const handleShowAtributeEdit = (data?: ListAtribuite, index?: number) => {
     setContentModal(
@@ -226,28 +163,41 @@ function ProductEditComponent(props: Props) {
     );
     setShowModal(true);
   };
+
   // thêm hoặc sửa thuộc tính
   const handleAddAtribute = (data: ListAtribuite, index: number) => {
     const attributeList = [...values.atributies!];
     let productDetails = [...values.productDetails];
-    if (index >= 0) {
+
+    if (index > 0) {
       productDetails = productDetails.map((detail, index) => {
-        const listAtb = detail.attributes.map((subDetail, index) => {
-          if (
-            subDetail.attributeNameVn.includes(
-              attributeList[index as number].attributeNameVn
-            )
-          ) {
-            subDetail = {
-              ...subDetail,
-              attributeNameVn: data.attributeNameVn,
-              attributeNameKr: data.attributeNameKr,
-            };
-          }
-          return subDetail;
-        });
-        return { ...detail, attributes: listAtb };
-      });
+        if (detail.attributes.length > 0) {
+          const listAtb = detail.attributes.map((subDetail, index) => {
+            if (
+              subDetail.attributeNameVn.includes(
+                attributeList[index as number].attributeNameVn
+              )
+            ) {
+              subDetail = {
+                ...subDetail,
+                attributeNameVn: data.attributeNameVn,
+                attributeNameKr: data.attributeNameKr,
+              };
+            }
+            return subDetail;
+          });
+          return { ...detail, attributes: listAtb };
+        } else {
+          detail.attributes.push({
+            attributeNameVn: data.attributeNameVn,
+            attributeNameKr: data.attributeNameKr,
+            valueVn: "",
+            valueKr: ""
+          })
+          return detail;
+        }
+      })
+
       attributeList[index as number] = data;
       setFieldValue("atributies", attributeList);
       setFieldValue("productDetails", productDetails);
@@ -266,117 +216,165 @@ function ProductEditComponent(props: Props) {
       showError("tên giá trị đã tồn tại");
     }
   };
+
   const handleDeleteAtb = (index: number, indexSub: number = -1) => {
     const attributeList = [...values.atributies!];
-    let productDetails = [...values.productDetails];
-    const nameDeleteSub = attributeList[index].valueVn[indexSub];
-    const nameDeleteItem = attributeList[index].attributeNameVn;
     if (indexSub > -1) {
       attributeList[index].valueVn.splice(indexSub, 1);
       attributeList[index].valueKr.splice(indexSub, 1);
-      productDetails = productDetails.map((detail) => {
-        const newAtrb = detail.attributes.filter((item) => {
-          return item.valueVn != nameDeleteSub;
-        });
-        return {
-          ...detail,
-          attributes: newAtrb,
-        };
-      });
     } else {
       attributeList.splice(index, 1);
-      productDetails = productDetails.map((detail) => {
-        const newAtrb = detail.attributes.filter((item) => {
-          return item.attributeNameVn != nameDeleteItem;
-        });
-        return {
-          ...detail,
-          attributes: newAtrb,
-        };
-      });
     }
-    setFieldValue("atributies", attributeList);
-    setFieldValue("productDetails", productDetails);
+
+    setFieldValue("attributes", attributeList)
+    handleAddValueAtribute("", -1, attributeList, values.warehouse);
   };
-  const handleAddValueAtribute = async (value: string, index: number) => {
-    const attributeList = [...values.atributies!];
-    let productDetails = [...values.productDetails];
-    const checkDupicate = attributeList[index]
-      ? isVn
-        ? attributeList[index].valueVn.includes(value)
-        : attributeList[index].valueKr.includes(value)
-      : false;
-    if (checkDupicate) {
-      return showError("tên giá trị đã tồn tại");
+
+  const generateAttr = (attributeValues: any[][]): any[][] => {
+    const attributes: any[][] = [];
+
+    function generateProductsRecursive(currentAttributes: any[], currentIdx: number) {
+      if (currentIdx === attributeValues.length) {
+        attributes.push([...currentAttributes]);
+        return;
+      }
+
+      const values = attributeValues[currentIdx];
+      for (const value of values) {
+        currentAttributes.push(value);
+
+        generateProductsRecursive(currentAttributes, currentIdx + 1);
+
+        currentAttributes.pop();
+      }
     }
-    const translated = isVn
-      ? await TranslateService.tranSlateKr({ nameVn: value, nameKr: "" })
-      : await TranslateService.tranSlateVn({ nameVn: "", nameKr: value });
-    attributeList[index].valueVn.push(translated.nameVn);
-    attributeList[index].valueKr.push(translated.nameKr);
-    productDetails = productDetails.map((detail, index) => {
-      const newAtrb = (detail.attributes = [
-        ...detail.attributes,
-        {
-          valueVn: translated.nameVn,
-          valueKr: translated.nameKr,
-          attributeNameVn: attributeList[index].attributeNameVn,
-          attributeNameKr: attributeList[index].attributeNameKr,
-        },
-      ]);
-      return { ...detail, attributes: newAtrb };
+
+    generateProductsRecursive([], 0);
+
+    return attributes;
+  }
+
+  const convertToAttributes = async (item: any) => {
+    const listAtt: Atribuite[] = [];
+    await Promise.all(
+      item.map(async (i: any, index: number) => {
+        const att: Atribuite = (isVn) ? {
+          valueVn: i,
+          valueKr: await TranslateService.translateToKorea({ content: i }),
+          attributeNameVn: values.atributies![index].attributeNameVn,
+          attributeNameKr: values.atributies![index].attributeNameKr
+        } : {
+          valueVn: await TranslateService.translateToVietNam({ content: i }),
+          valueKr: i,
+          attributeNameVn: values.atributies![index].attributeNameVn,
+          attributeNameKr: values.atributies![index].attributeNameKr
+        }
+        listAtt.push(att)
+      }))
+
+
+    return listAtt.sort((a, b) => {
+      const nameA = a.attributeNameVn.toLowerCase();
+      const nameB = b.attributeNameVn.toLowerCase();
+
+      if (nameA < nameB) {
+        return -1;
+      } else if (nameA > nameB) {
+        return 1;
+      } else {
+        return 0;
+      }
     });
+  }
+
+  const handleAddValueAtribute = async (value: string, idx: number, attributes?: ListAtribuite[], warehouses?: any) => {
+    const attributeList = attributes ? attributes : [...values.atributies!];
+    if (value != "" && idx != -1) {
+      const checkDupicate = attributeList[idx]
+        ? isVn
+          ? attributeList[idx].valueVn.includes(value)
+          : attributeList[idx].valueKr.includes(value)
+        : false;
+      if (checkDupicate) {
+        return showError("tên giá trị đã tồn tại");
+      }
+
+      const translated = isVn
+        ? await TranslateService.tranSlateKr({ nameVn: value, nameKr: "" })
+        : await TranslateService.tranSlateVn({ nameVn: "", nameKr: value });
+      attributeList[idx].valueVn.push(translated.nameVn);
+      attributeList[idx].valueKr.push(translated.nameKr);
+    }
+
+    setListAttributesImage(attributeList)
+
+    const listOfValueVn = attributeList.map(item => item.valueVn);
+
+
+    const listAttVn = generateAttr(listOfValueVn)
+
+
+    const listProductDetails: ProductDetails[] = await Promise.all(listAttVn.map(async (it) => {
+      const listAttributes = await convertToAttributes(it)
+      return {
+        priceDetail: values.price,
+        promoDetail: values.promo,
+        stockQuantity: 0,
+        soldQuantity: 0,
+        imageDetailUrl: "",
+        addressWarehouse: "",
+        images: [],
+        attributes: listAttributes
+      };
+    }))
+
+    const listProductDetailsWareHouse: ProductDetails[] = [];
+
+    const whs = warehouses ? warehouses : values.warehouse;
+
+    whs.forEach((wh: any) => {
+      const listPrds = listProductDetails.map((prd: any) => ({
+        ...prd,
+        addressWarehouse: wh.address
+      }));
+      listProductDetailsWareHouse.push(...listPrds);
+    });
+
     setFieldValue("atributies", attributeList);
-    setFieldValue("productDetails", productDetails);
+    setListProducts(listProductDetailsWareHouse);
   };
+
+
   const getCategory = async () => {
     try {
       const result = await categoryServices.getAllCategory();
       setCategories(result);
-    } catch (error) {}
+    } catch (error) { }
   };
-  const handlechangeContentEditor = (content: any, filed: string) => {
-    const data = JSON.stringify(content);
-    setFieldValue(filed, data != '""' ? data : "");
-  };
+
   const handleAddWarehowse = (province: string) => {
     const newListAddress = [...values.warehouse];
-    let newDetails = [...values.productDetails];
     const checkProvince = newListAddress.findIndex(
       (item) => item.address === province
     );
     if (checkProvince < 0) {
       newListAddress.push({ address: province });
-      const itemDetail = {
-        priceDetail: 10,
-        promoDetail: 10,
-        stockQuantity: 10,
-        addressWarehouse: province,
-        images: [
-          {
-            url: "",
-          },
-        ],
-        attributes: formatAtribute(),
-      };
-      newDetails.push(itemDetail);
     } else {
       newListAddress.splice(checkProvince, 1);
-      newDetails = newDetails.filter(
-        (item) => item.addressWarehouse != province
-      );
     }
     setFieldValue("warehouse", newListAddress);
-    setFieldValue("productDetails", newDetails);
+    handleAddValueAtribute("", -1, values.atributies, newListAddress);
   };
+
   const checkProvinceActive = (province: string) => {
     const checkProvince = values.warehouse.findIndex(
       (item) => item.address === province
     );
     return checkProvince >= 0 ? true : false;
   };
+
   /* plust*/
-  const handleChoseFile = (event: ChangeEvent<HTMLInputElement>) => {
+  const handleChoseFile = async (event: ChangeEvent<HTMLInputElement>) => {
     const files = event.target.files!;
     if (
       imageProducts.length >= 9 ||
@@ -392,19 +390,37 @@ function ProductEditComponent(props: Props) {
     }
 
     if (files) {
+      const formData = new FormData();
       let listFile: File[] = [];
       let listPrew: string[] = [];
       for (let i = 0; i < files.length; i++) {
-        let urlImage = URL.createObjectURL(files[i]);
+        formData.append("file", files[i]);
+        // let urlImage = URL.createObjectURL(files[i]);
         listFile.push(files[i]);
-        listPrew.push(urlImage);
+        // listPrew.push(urlImage);
       }
+
+      const listImageproducts = files.length > 0
+        ? await UploadImage.uploadListImages(formData)
+        : [];
+
+      if (id) {
+        imagesUpdate.map((img) => {
+          listImageproducts.push({ url: img })
+        })
+      }
+
+      await Promise.all(
+        listImageproducts.map(async (img: any) => {
+        listPrew.push(img.url);
+      }));
+
+      setListImageProducts(listImageproducts)
+
       setImageProducts((prevState) => {
         return [...prevState, ...listFile];
       });
-      setImagePreview((prevState) => {
-        return [...prevState, ...listPrew];
-      });
+      setImagePreview(listPrew);
       setValid({ ...validForm, file: false });
     }
     event.target.value = "";
@@ -419,235 +435,84 @@ function ProductEditComponent(props: Props) {
     event.target.value = "";
   };
 
-  const handleValueInput = (valuInput: { name: string; value: string }) => {
-    const { name, value } = valuInput;
-    setFormValue((prevState) => {
-      return {
-        ...prevState,
-        [name]: value,
-      };
-    });
-  };
-  const handleTextInput = (
-    event: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
-  ) => {
-    setFormValue((prevState) => {
-      return {
-        ...prevState,
-        [event.target.name]: event.target.value,
-      };
-    });
-    setValid({
-      ...validForm,
-      [event.target.name]: false,
-    });
-  };
-  const handleChoseColor = (color: string, index: number) => {
-    const newColor = [...formValue.colors];
-    newColor[index].colorCode = color;
-    setFormValue((prev) => {
-      return {
-        ...prev,
-        colors: newColor,
-      };
-    });
-  };
-  // thêm màu
-  const handleAddColor = (value: string) => {
-    let newItem: any = {
-      colorName: value,
-      colorCode: "",
-      image: "",
-    };
-    if (formValue.colors.length > 0 && formValue.colors[0].sizes) {
-      const checkNameColor = formValue.colors.some((item) => {
-        return item.colorName === value;
-      });
-      if (checkNameColor) {
-        onAddToast({ type: "warn", message: "Tên màu đã được sử dụng!" });
-        return;
-      }
-      const Sizes = [...formValue.colors[0].sizes];
-      const newSizes = Sizes.map((item, index) => {
-        const newPriceSale =
-          formValue.price -
-          (formValue.price / 100) * Number(applySale.salePrice);
-        return {
-          ...item,
-          sale: Number(applySale.countSale),
-          priceSale: newPriceSale,
-          total: Number(applySale.salePrice),
-        };
-      });
-      newItem = {
-        ...newItem,
-        sizes: newSizes,
-      };
-    }
-
-    setFormValue((prevState: any) => {
-      return {
-        ...prevState,
-        colors: [...prevState.colors, newItem],
-      };
-    });
-  };
-  const handleChangeInputColor = (
-    valuInput: { name: string; value: string },
-    index: number
-  ) => {
-    const newColor = [...formValue.colors];
-    newColor[index] = {
-      ...newColor[index],
-      [valuInput.name]: valuInput.value,
-    };
-    setFormValue({
-      ...formValue,
-      colors: newColor,
-    });
-  };
-  // thêm size
-  const handleAddSize = (value: string) => {
-    if (formValue.colors.length > 0) {
-      if (listSize.includes(value)) {
-        onAddToast({ type: "warn", message: "Tên Size đã được thêm!" });
-        return;
-      }
-      setListSize([...listSize, value]);
-      const newPriceSale =
-        Number(formValue.price) -
-        (formValue.price / 100) * Number(applySale.salePrice);
-
-      const newItemSize = {
-        sizeName: value,
-        sale: Number(applySale.salePrice),
-        priceSale: newPriceSale,
-        total: Number(applySale.countSale),
-      };
-      const sizeApply = [...formValue.colors].map((item) => {
-        return {
-          ...item,
-          sizes: item.sizes ? [...item.sizes, newItemSize] : [newItemSize],
-        };
-      });
-
-      setFormValue((prevState: any) => {
-        return {
-          ...prevState,
-          colors: sizeApply,
-        };
-      });
-    } else {
-      return;
-    }
-  };
-  const handleChangeSize = (
-    valuInput: { name: string; value: string },
-    index: number
-  ) => {
-    const newColor = [...formValue.colors].map((itemC, indexC) => {
-      itemC.sizes.map((itemS, indexS) => {
-        if (indexS === index) {
-          itemS.sizeName = valuInput.value;
-        }
-        return itemS;
-      });
-
-      return itemC;
-    });
-
-    setFormValue({
-      ...formValue,
-      colors: newColor,
-    });
-  };
-  // sửa giảm giá và số lượng cho từng size
-  const handleChangeItemSize = (
-    event: ChangeEvent<HTMLInputElement>,
-    indexColor: number,
-    indexSize: number
-  ) => {
-    const newColors = [...formValue.colors];
-    newColors[indexColor].sizes[indexSize] = {
-      ...newColors[indexColor].sizes[indexSize],
-      [event.target.name]: event.target.value,
-    };
-    setFormValue((prev) => {
-      return {
-        ...prev,
-        colors: newColors,
-      };
-    });
-  };
   // áp dụng giảm giá và số lượng cho toàn bộ
   const handleApplyPrice = () => {
-    if (
-      applySale.countSale !== "" &&
-      applySale.salePrice !== "" &&
-      formValue.colors[0].sizes
-    ) {
-      const newPriceSale =
-        Number(formValue.price) -
-        (formValue.price / 100) * Number(applySale.salePrice);
-      const newColorOfPrice = formValue.colors.map((item) => {
-        const newItem = item.sizes.map((itemS) => {
-          return {
-            ...itemS,
-            sale: Number(applySale.salePrice),
-            priceSale: newPriceSale,
-            total: Number(applySale.countSale),
-          };
-        });
-        return {
-          ...item,
-          sizes: newItem,
-        };
-      });
+    const listPrds = listProducts.map((item) => {
+      return {
+        ...item,
+        promoDetail: applyList.promo,
+        stockQuantity: applyList.stockQuantity
+      }
+    })
+    setListProducts(listPrds)
+  };
 
-      setFormValue((prev: any) => {
-        return {
-          ...prev,
-          colors: newColorOfPrice,
-        };
-      });
+  const removeProductDetail = (index: number) => {
+    const prds = [...listProducts];
+    prds.splice(index, 1);
+    setListProducts(prds)
+  }
+
+  const handleEditPromoProductDetail = (index: number, value: number) => {
+    if (value > 100) {
+      value = 100
     }
-    return;
-  };
-  // chọn phân loại giới tính
-  const handleGender = (gender: "male" | "female") => {
-    const genderForm = formValue.gender;
-    if (Array.isArray(genderForm)) {
-      if (genderForm.length === 1 && genderForm.includes(gender)) {
-        return;
-      }
-      if (genderForm.includes(gender)) {
-        setFormValue({
-          ...formValue,
-          gender: genderForm.filter((item) => item !== gender),
-        });
-      } else {
-        setFormValue({
-          ...formValue,
-          gender: genderForm.concat(gender),
-        });
-      }
+    let prd = listProducts[index];
+    prd = {
+      ...prd,
+      promoDetail: value
     }
-  };
+    listProducts[index] = prd;
+    const prds = [...listProducts]
+    setListProducts(prds)
+  }
+
+  const handleEditPriceProductDetail = (index: number, value: number) => {
+    let prd = listProducts[index];
+    prd = {
+      ...prd,
+      priceDetail: value
+    }
+    listProducts[index] = prd;
+    const prds = [...listProducts]
+    setListProducts(prds)
+  }
+
+  const handleEditStockQuantityProductDetail = (index: number, value: any) => {
+    let prd = listProducts[index];
+    prd = {
+      ...prd,
+      stockQuantity: value
+    }
+    listProducts[index] = prd;
+
+    const prds = [...listProducts]
+
+    setListProducts(prds)
+  }
+
   // chọn ảnh tương ứng với màu
   const handleSetColorIntoImage = (
     item: string,
     index: number,
+    nameAttribute: string,
     isUnActive: boolean
   ) => {
-    if (formValue.colors.length > 0) {
-      let newColor = [...formValue.colors];
+
+    if (listAttributesSelectImage.length > 0) {
+      let productDetails = [...listProducts];
       if (isUnActive) {
         setListImageActived(
           [...listImageActived].filter((items) => {
             return items != item;
           })
         );
-        newColor[index].image = "";
+        productDetails
+          .filter((item) => item.attributes.map((it) => isVn ? it.valueVn : it.valueKr).join(" - ") === nameAttribute)
+          .forEach((filteredItem) => {
+            filteredItem.imageDetailUrl = "";
+            filteredItem.images = []
+          });
       } else {
         let newImageActived = [...listImageActived];
         if (listImageActived[index]) {
@@ -656,81 +521,34 @@ function ProductEditComponent(props: Props) {
           newImageActived.push(item);
         }
         setListImageActived([...newImageActived]);
-        newColor[index].image = item;
+        productDetails
+          .filter((item) => item.attributes.map((it) => isVn ? it.valueVn : it.valueKr).join(" - ") === nameAttribute)
+          .forEach((filteredItem) => {
+            filteredItem.imageDetailUrl = item;
+            filteredItem.images = [{ url: item }]
+          });
       }
-      setFormValue((prev) => {
-        return {
-          ...prev,
-          colors: newColor,
-        };
-      });
+      console.log(productDetails)
+      setListProducts(productDetails)
     }
   };
-  const handleDeleteColor = (
-    type: "COLOR" | "SIZE",
-    index: number,
-    name?: string
-  ) => {
-    let newColor = [...formValue.colors];
-    if (type === "COLOR") {
-      const newImageActived = [...listImageActived].filter((item) => {
-        return item != newColor[index].image;
-      });
-      newColor.splice(index, 1);
-      setListImageActived(newImageActived);
-      setFormValue((prevState) => {
-        return {
-          ...prevState,
-          colors: newColor,
-        };
-      });
-    } else if (type === "SIZE" && name) {
-      const newListSize = [...listSize];
-      const newStateColor = newColor.map((item) => {
-        const newSize = item.sizes.filter((itemS) => {
-          return itemS.sizeName != name;
-        });
 
-        item.sizes = newSize as any;
-        return item;
-      });
-      newListSize.splice(index, 1);
-      setListSize(newListSize);
-      setFormValue((prevState) => {
-        return {
-          ...prevState,
-          colors: newStateColor,
-        };
-      });
-    }
-    return;
-  };
-  const handleTrade = (item: any) => {
-    setFormValue((prevState) => {
-      return {
-        ...prevState,
-        trademark: item,
-      };
-    });
-  };
-  const onChoseCategory = (data: any) => {
-    setFormValue({
-      ...formValue,
-      category: data,
-    });
-  };
-  // xoa anh
   const handleDeleteImage = (pathImg: string, index: number) => {
     const isExist = formValue.images.includes(pathImg);
     if (isExist) {
       setFormValue({
         ...formValue,
-        images: formValue.images.filter((item) => {
+        images: formValue.images.filter((item: any) => {
           return item != pathImg;
         }),
       });
       setImagePreview(
         imagePreview.filter((item) => {
+          return item != pathImg;
+        })
+      );
+      setImagesUpdate(
+        imagesUpdate.filter((item) => {
           return item != pathImg;
         })
       );
@@ -743,197 +561,118 @@ function ProductEditComponent(props: Props) {
           return item != pathImg;
         })
       );
+      setImagesUpdate(
+        imagesUpdate.filter((item) => {
+          return item != pathImg;
+        })
+      );
       setImageProducts(newListFiles);
     }
   };
-  const handleValidateColor = useCallback(() => {
-    const lengths = formValue.colors.length > 0;
-    const checkColorAndSize = formValue.colors.every((item, index) => {
-      if (
-        item.colorName &&
-        item.colorCode &&
-        // item.image &&
-        item.sizes.length > 0
-      ) {
-        return true;
-      } else {
-        return false;
-      }
-    });
-    if (lengths && checkColorAndSize) {
-      return true;
-    }
-    return false;
-  }, [formValue.colors]);
 
-  const handleCheckValidate = () => {
-    let checkImage;
-    if (id) {
-      checkImage = imageProducts.length > 0 || imagePreview.length > 0;
-    } else {
-      checkImage = imageProducts.length > 0;
-    }
-    const isCheckAll =
-      checkImage &&
-      formValue &&
-      formValue.sku &&
-      formValue.sku &&
-      formValue.name &&
-      formValue.detail &&
-      formValue.price > 0 &&
-      formValue.cost > 0 &&
-      formValue.category.categorySId != null &&
-      formValue.category.categoryName != "" &&
-      formValue.trademark.id != "" &&
-      handleValidateColor();
-    if (isCheckAll) {
-      return true;
-    }
-    return false;
-  };
-  const handleDeleteSize = (indexColor: number, indexSize: number) => {
-    const name = formValue.colors[indexColor].sizes[indexSize].sizeName;
-    const newColor = formValue.colors;
-    newColor[indexColor].sizes.splice(indexSize, 1);
 
-    const checkIView = newColor.some((item) => {
-      return item.sizes.some((itemS) => {
-        return itemS.sizeName == name;
-      });
-    });
-
-    if (!checkIView) {
-      setListSize(
-        listSize.filter((item) => {
-          return item != name;
-        })
-      );
-    }
-    setFormValue({
-      ...formValue,
-      colors: newColor,
-    });
-  };
-
-  const handleReset = () => {
-    setImageProducts([]);
-    setImagePreview([]);
-    setFormValue({
-      sku: "",
-      name: "",
-      images: [],
-      video: "",
-      detail: "",
-      policy: "",
-      price: 0,
-      cost: 0,
-      imageCheck: "",
-      seen: 0,
-      sold: 0,
-      remaining: 0,
-      saleMin: 0,
-      saleMax: 0,
-      gender: ["male", "female"],
-      category: {
-        categoryId: null,
-        categorySId: null,
-        categoryName: "",
-        parentId: null,
-        parentSId: null,
-      },
-      trademark: {
-        id: "",
-        name: "",
-        images: [],
-        menuShow: true,
-      },
-      colors: [],
-    });
-    setListImageActived([]);
-    setFileVideo(null);
-    setImgExchangeFile(null);
-    setListSize([]);
-    setApplySale({
-      countSale: "",
-      salePrice: "",
-    });
-    setValid({ file: false, detail: false });
-  };
-  const handleSubmit = async () => {
+  const handleSubmitForm = async () => {
     try {
-      const validate = handleCheckValidate();
-      setDisable(true);
-      if (validate) {
-        let newValueForm = { ...formValue };
-        newValueForm.gender = (
-          newValueForm.gender!.length === 2 ? null : newValueForm.gender![0]
-        ) as any;
+      // const formData = new FormData();
+      const formVideodata = new FormData();
 
-        const formData = new FormData();
-        const formExchangdata = new FormData();
-        const formVideodata = new FormData();
+      // for (let i = 0; i < imageProducts.length; i++) {
+      //   formData.append("file", imageProducts[i]);
+      // }
 
-        for (let i = 0; i < imageProducts.length; i++) {
-          formData.append("file", imageProducts[i]);
-        }
+      formVideodata.append("file", videoFile!);
 
-        formExchangdata.append("file", imgExchangFile!);
-        formVideodata.append("file", videoFile!);
+      // const listImageproducts = imageProducts.length > 0
+      //   ? await UploadImage.uploadListImages(formData)
+      //   : [];
 
-        const listImageproducts =
-          imageProducts.length > 0
-            ? await UploadImage.uploadImages(formData)
-            : [];
-        const videoUrl =
-          videoFile && (await UploadImage.uploadVideo(formVideodata));
+      // if (id) {
+      //   imagesUpdate.map((img) => {
+      //     listImageproducts.push({ url: img })
+      //   })
+      // }
 
-        const newImageCheck =
-          imgExchangFile && (await UploadImage.uploadImages(formExchangdata));
 
-        newValueForm.images = (
-          id ? [...formValue.images, ...listImageproducts] : listImageproducts
-        ) as any;
-        newValueForm.colors.map((item, indexC) => {
-          const index = imagePreview.findIndex((itemPre) => {
-            return itemPre === item.image;
-          });
-          item.image = index > -1 ? newValueForm.images[index] : "";
-        });
+      const video: any =
+        videoFile && (await UploadImage.uploadVideos(formVideodata));
 
-        newValueForm.video = videoUrl ? videoUrl : id ? formValue.video : "";
-        newValueForm.imageCheck = newImageCheck
-          ? newImageCheck[0]
-          : id
-          ? formValue.imageCheck
-          : "";
-        if (id) {
-          const result = await ProductServices.putProducById(id, newValueForm);
-          onAddToast({ type: "success", message: "Sửa sản phẩm thành công." });
-          const listImage = result.images.map((item) => item);
-          if (result.gender === null) {
-            result.gender = ["male", "female"];
-          } else {
-            result.gender = [result.gender] as any;
-          }
-          setImagePreview(listImage);
-          setFormValue(result);
-        } else {
-          const result = await ProductServices.addProduct(newValueForm);
-          if (result) {
-            handleReset();
-            onAddToast({
-              type: "success",
-              message: "Thêm sản phẩm thành công.",
-            });
-          }
-        }
-      } else {
-        onAddToast({ type: "warn", message: "bạn chưa nhập đúng dữ liệu" });
+
+      const videoLink = id ? (videoUrl == "" ? video?.url : videoUrl) : video?.url;
+
+
+      const convertedAttributeFes = values.atributies && values.atributies.map((item) => {
+        const attributeFeValues = item.valueKr.map((valueKr, index) => ({
+          valueVn: item.valueVn[index],
+          valueKr,
+        }));
+
+        return {
+          attributeFeValues,
+          attributeFeNameKr: item.attributeNameKr,
+          attributeFeNameVn: item.attributeNameVn,
+        };
+      });
+
+
+
+      const dataSubmit = isVn ? {
+        productCode: values.productCode,
+        productNameVn: values.productNameVn,
+        productNameKr: await TranslateService.translateToKorea({ content: values.productNameVn }),
+        categoryId: values.categoryId,
+        subCategoryId: values.subCategoryId,
+        cost: 0,
+        price: values.price,
+        promo: values.promo,
+        stockQuantity: values.stockQuantity,
+        salientFeaturesVn: values.salientFeaturesVn,
+        salientFeaturesKr: await TranslateService.translateToKorea({ content: values.salientFeaturesVn }),
+        detailVn: values.detailVn,
+        detailKr: await TranslateService.translateToKorea({ content: values.detailVn }),
+        specVn: values.specVn,
+        specKr: await TranslateService.translateToKorea({ content: values.specVn }),
+        featured: 0,
+        warehouse: values.warehouse,
+        attributeFes: convertedAttributeFes,
+        productDetails: listProducts,
+        images: listImageProducts,
+        videoUrl: videoLink
+      } : {
+        productCode: values.productCode,
+        productNameVn: await TranslateService.translateToVietNam({ content: values.productNameKr }),
+        productNameKr: values.productNameKr,
+        categoryId: values.categoryId,
+        subCategoryId: values.subCategoryId,
+        cost: 0,
+        price: values.price,
+        promo: values.promo,
+        stockQuantity: values.stockQuantity,
+        salientFeaturesVn: await TranslateService.translateToVietNam({ content: values.salientFeaturesKr }),
+        salientFeaturesKr: values.salientFeaturesKr,
+        detailVn: await TranslateService.translateToVietNam({ content: values.detailKr }),
+        detailKr: values.detailKr,
+        specVn: await TranslateService.translateToVietNam({ content: values.specKr }),
+        specKr: values.specKr,
+        featured: 0,
+        warehouse: values.warehouse,
+        attributeFes: convertedAttributeFes,
+        productDetails: listProducts,
+        images: listImageProducts,
+        videoUrl: videoLink
       }
-      setDisable(false);
+
+      if (id) {
+        await ProductServices.putProducById(id, dataSubmit);
+        onAddToast({ type: "success", message: "Cập nhật phẩm thành công" });
+        navigate("/admin/product")
+      } else {
+        await ProductServices.addProduct(dataSubmit)
+        onAddToast({ type: "success", message: "Thêm sản phẩm thành công" });
+        navigate("/admin/product")
+      }
     } catch (error) {
+      console.log(error)
       onAddToast({ type: "error", message: "Có lỗi." });
-      setDisable(false);
     }
   };
 
@@ -941,30 +680,63 @@ function ProductEditComponent(props: Props) {
     imagePreview.forEach((item) => {
       URL.revokeObjectURL(item);
     });
-    URL.revokeObjectURL(formValue.imageCheck);
     getCategory();
   }, []);
 
   const getProducbyId = async (id: string) => {
-    const product = await ProductServices.getProductById(id);
-    let newProduct = product;
-    const newListActived = product.colors.map((item) => {
-      return item.image;
-    });
-    if (product.gender === null) {
-      newProduct.gender = ["male", "female"];
-    } else {
-      newProduct.gender = [product.gender] as any;
-    }
-    const detailModify = product.detail.replaceAll("<p>", " ");
-    const newDetail = detailModify.replaceAll("</p>", "\n");
-    setFormValue({
-      ...product,
-      detail: newDetail,
+    const product: any = await ProductServices.findProductById(id);
+    const listImagesUrl: string[] = [];
+    product.images?.map((img: any) => {
+      listImagesUrl.push(img.url)
+    })
+
+    const productDetails = product.productDetails;
+
+
+
+    const reversedAttributes = product.attributeFes?.map((atb: any) => {
+      const { attributeFeValues, attributeFeNameKr, attributeFeNameVn } = atb;
+
+      const valueKr = attributeFeValues.map((attributeValue: any) => attributeValue.valueKr);
+      const valueVn = attributeFeValues.map((attributeValue: any) => attributeValue.valueVn);
+
+      return {
+        attributeNameKr: attributeFeNameKr,
+        attributeNameVn: attributeFeNameVn,
+        valueKr,
+        valueVn,
+      };
     });
 
-    setImagePreview(product.images);
-    setListImageActived(newListActived);
+    setListAttributesImage(reversedAttributes)
+
+    setValues({
+      productCode: product.productCode,
+      productNameVn: product.productNameVn,
+      productNameKr: product.productNameKr,
+      categoryId: product.categoryId,
+      subCategoryId: product.subcategoryId,
+      cost: product.cost,
+      price: product.price,
+      promo: product.promo,
+      stockQuantity: product.stockQuantity,
+      salientFeaturesVn: product.salientFeaturesVn,
+      salientFeaturesKr: product.salientFeaturesKr,
+      detailVn: product.detailVn,
+      detailKr: product.detailKr,
+      specVn: product.specVn,
+      specKr: product.spectKr,
+      featured: product.featured,
+      createAt: product.createAt,
+      warehouse: product.warehouse,
+      atributies: reversedAttributes,
+      productDetails: [
+      ],
+    })
+    setVideoUrl(product.videoUrl || "")
+    setImagePreview(listImagesUrl);
+    setImagesUpdate(listImagesUrl)
+    setListProducts(productDetails)
   };
   useEffect(() => {
     if (id) {
@@ -980,10 +752,22 @@ function ProductEditComponent(props: Props) {
     }
   }, [values.categoryId, categories]);
 
+  useEffect(() => {
+    const fetchListAttributeSelectImage = async () => {
+      const listOfValueVn = listAttributesImage.map(item => item.valueVn);
+      const listAttVn = generateAttr(listOfValueVn)
+
+      const listAttributes = await Promise.all(listAttVn.map(async (it) => {
+        return await convertToAttributes(it)
+      }));
+      setListAttributesSelectImage(listAttributes)
+    }
+    fetchListAttributeSelectImage()
+  }, [listAttributesImage]);
+
   return (
     <div className="pt-9 pb-10px flex-1">
       <h2 className="titlePage mb-5">Thông tin cơ bản</h2>
-
       <div className="flex gap-x-14 gap-y-5 flex-row flex-wrap mb-3">
         <div>
           <p className="text-small">
@@ -1018,6 +802,7 @@ function ProductEditComponent(props: Props) {
                 (validForm?.file && "border-main")
               }
             >
+
               <input
                 type="file"
                 multiple
@@ -1060,6 +845,7 @@ function ProductEditComponent(props: Props) {
           <TitleInput isNormal={true} isRequired={true} name="Mã sản phẩm" />
           <InputComponent
             name="productCode"
+            value={values.productCode}
             onChange={handleChange}
             className="!rounded-sm"
           />
@@ -1070,13 +856,18 @@ function ProductEditComponent(props: Props) {
         <div>
           <TitleInput isNormal={true} isRequired={true} name="Tên sản phẩm" />
           <InputComponent
-            name="productNameVn"
+            name={isVn ? "productNameVn" : "productNameKr"}
+            value={isVn ? values.productNameVn : values.productNameKr}
             onChange={handleChange}
             className="!rounded-sm"
           />
-          {errors.productNameVn && touched.productNameVn && (
-            <TextError message={errors.productNameVn} />
-          )}
+          {
+            isVn ? (errors.productNameVn && touched.productNameVn && (
+              <TextError message={errors.productNameVn} />
+            )) : errors.productNameKr && touched.productNameKr && (
+              <TextError message={errors.productNameKr} />
+            )
+          }
         </div>
 
         <div>
@@ -1145,10 +936,12 @@ function ProductEditComponent(props: Props) {
         </div>
 
         <div>
+
           <TitleInput isNormal={true} isRequired name="Giá bán" />
           <InputComponent
             name="price"
             type="number"
+            value={values.price}
             onChange={handleChange}
             className="!rounded-sm"
           />
@@ -1161,6 +954,7 @@ function ProductEditComponent(props: Props) {
           <InputComponent
             name="promo"
             type="number"
+            value={values.promo}
             onChange={handleChange}
             className="!rounded-sm"
           />
@@ -1175,27 +969,28 @@ function ProductEditComponent(props: Props) {
           <TitleInput isNormal={true} isRequired name="Đặc điểm nổi bật" />
           <Editor
             content={
-              values.salientFeaturesVn
-                ? JSON.parse(values.salientFeaturesVn)
-                : ""
+              isVn ? (values?.salientFeaturesVn || "")
+                : (values?.salientFeaturesKr || "")
             }
-            onChange={(data) =>
-              handlechangeContentEditor(data, "salientFeaturesVn")
-            }
+            onChange={(data) => setFieldValue(isVn ? "salientFeaturesVn" : "salientFeaturesKr", data)}
           />
-          {errors.salientFeaturesVn && touched.salientFeaturesVn && (
+          {isVn ? (errors.salientFeaturesVn && touched.salientFeaturesVn && (
             <TextError message={errors.salientFeaturesVn} />
-          )}
+          )) : (errors.salientFeaturesKr && touched.salientFeaturesKr && (
+            <TextError message={errors.salientFeaturesKr} />
+          ))}
         </div>
         <div>
           <TitleInput isNormal={true} isRequired name="Thông tin sản phẩm" />
           <Editor
-            content={values.detailVn ? JSON.parse(values.detailVn) : ""}
-            onChange={(data) => handlechangeContentEditor(data, "detailVn")}
+            content={isVn ? (values?.detailVn || "") : (values?.detailKr || "")}
+            onChange={(data) => setFieldValue(isVn ? "detailVn" : "detailKr", data)}
           />
-          {errors.detailVn && touched.detailVn && (
+          {isVn ? (errors.detailVn && touched.detailVn && (
             <TextError message={errors.detailVn} />
-          )}
+          )) : (errors.detailKr && touched.detailKr && (
+            <TextError message={errors.detailKr} />
+          ))}
         </div>
         <div>
           <TitleInput
@@ -1204,18 +999,22 @@ function ProductEditComponent(props: Props) {
             name="Thông số kĩ thuật"
           />
           <Editor
-            content={values.specVn ? JSON.parse(values.specVn) : ""}
-            onChange={(data) => handlechangeContentEditor(data, "specVn")}
+            content={isVn ? (values?.specVn || "") : (values?.specKr || "")}
+            onChange={(data) => setFieldValue(isVn ? "specVn" : "specKr", data)}
           />
-          {errors.specVn && touched.specVn && (
-            <TextError message={errors.specVn} />
-          )}
+          {
+            isVn ? (errors.specVn && touched.specVn && (
+              <TextError message={errors.specVn} />
+            )) : errors.specKr && touched.specKr && (
+              <TextError message={errors.specKr} />
+            )
+          }
         </div>
       </div>
       <div className="mb-10">
         <p className="text-title font-semibold text-main mb-5">Thuộc tính</p>
-        {values.atributies &&
-          values.atributies.map((item, index) => {
+        {values.atributies && values.atributies!.length > 0 &&
+          values.atributies!.map((item, index) => {
             return (
               <AtributeItem
                 key={index}
@@ -1238,7 +1037,7 @@ function ProductEditComponent(props: Props) {
         />
       </div>
 
-      <div className="w-2/3">
+      <div className="w-4/5">
         <p className="text-small font-semibold mb-5">
           Danh sách phân loại hàng
         </p>
@@ -1248,26 +1047,23 @@ function ProductEditComponent(props: Props) {
               type="number"
               className="placeholder:text-gray-200 h-full p-2 text-small border-r border-gray-200 font-normal px-10px w-2/4"
               placeholder="Khuyến mãi"
-              name="countSale"
-              value={applySale.countSale}
+              name="promo"
               onChange={(event) =>
-                setApplySale({
-                  ...applySale,
+                setApplyList({
+                  ...applyList,
                   [event.target.name]: event.target.value,
                 })
               }
             />
-            {/* aaa */}
             <input
               type="number"
               min={0}
               className="placeholder:text-gray-200 h-full p-2 text-small font-normal px-10px w-2/4"
               placeholder="Tồn kho"
-              name="salePrice"
-              value={applySale.salePrice}
+              name="stockQuantity"
               onChange={(event) =>
-                setApplySale({
-                  ...applySale,
+                setApplyList({
+                  ...applyList,
                   [event.target.name]: event.target.value,
                 })
               }
@@ -1282,7 +1078,7 @@ function ProductEditComponent(props: Props) {
         </div>
 
         {/* bảng chọn size và giá */}
-        <div className="mb-4">
+        <div className="mb-4 overflow-y-auto max-h-[600px]">
           <table className="w-full border-collapse border border-neutra-neutra80">
             <thead>
               <tr className="">
@@ -1300,86 +1096,55 @@ function ProductEditComponent(props: Props) {
                 })}
               </tr>
             </thead>
-            <tbody>
-              {values.productDetails.map((items, index) => {
+            <tbody >
+              {listProducts && listProducts.map((items, index) => {
                 return (
                   <Fragment key={index}>
-                    <tr>
-                      <td
-                        rowSpan={items.attributes.length + 1}
-                        className="border border-neutra-neutra80"
-                      >
-                        <p className="text-small font-semibold text-center mb-3">
-                          {items.addressWarehouse}
-                        </p>
+                    <tr className="relative">
+                      <td className="py-6 text-center text-sm font-semibold uppercase min-w-[170px] border border-neutra-neutra80">
+                        {items.addressWarehouse}
+                      </td>
+                      <td className="py-6 text-center text-sm font-semibold uppercase min-w-[170px] border border-neutra-neutra80">
+                        {items.attributes.map((atb) => (isVn ? atb.valueVn : atb.valueKr)).join(" - ")}
+                      </td>
+                      <td className="border border-neutra-neutra80">
+                        <input
+                          value={items.priceDetail}
+                          type="number"
+                          onChange={(e) => handleEditPriceProductDetail(index, Number(e.target.value))}
+                          className="text-sm text-center font-semibold px-6 placeholder:text-gray-200 w-full"
+                        />
+                      </td>
+                      <td className="border border-neutra-neutra80 p-3">
+                        <input
+                          value={items.promoDetail}
+                          type="number"
+                          min={0}
+                          max={100}
+                          onChange={(e) => handleEditPromoProductDetail(index, Number(e.target.value))}
+                          className="text-sm text-center font-semibold placeholder:text-gray-200 w-full"
+                        />
+                      </td>
+                      <td className="border border-neutra-neutra80 p-3">
+                        <input
+                          value={items.stockQuantity}
+                          type="number"
+                          min={0}
+                          onChange={(e) => handleEditStockQuantityProductDetail(index, Number(e.target.value))}
+                          className="text-small text-center font-semibold placeholder:text-gray-200 w-full"
+                        />
+                      </td>
+                      <td className="border border-neutra-neutra80">
+                        {items.attributes.length > 1 && (
+                          <div className="p-5" onClick={() => removeProductDetail(index)}><ICDeleteTrashLight /></div>
+                        )}
                       </td>
                     </tr>
-                    {items.attributes.map((atb, indexAtb) => {
-                      return (
-                        <tr key={indexAtb} className="relative">
-                          <td className="py-6 text-center text-sm font-semibold uppercase min-w-[170px] border border-neutra-neutra80">
-                            {isVn ? atb.attributeNameVn : atb.attributeNameKr} -{" "}
-                            {isVn ? atb.valueVn : atb.valueKr}
-                          </td>
-                          <td className="border border-neutra-neutra80">
-                            <input
-                              value={items.priceDetail}
-                              name="sale"
-                              type="number"
-                              placeholder="--"
-                              className="text-sm text-center font-semibold px-6 placeholder:text-gray-200 w-full"
-                            />
-                          </td>
-                          <td className="border border-neutra-neutra80">
-                            <div className="max-w-[170px]">
-                              <input
-                                name="total"
-                                value={items.stockQuantity}
-                                // onChange={(event) => {
-                                //   handleChangeItemSize(event, index, indexSize);
-                                // }}
-                                type="number"
-                                placeholder="--"
-                                className="text-small text-center font-semibold px-6 placeholder:text-gray-200 w-full"
-                              />
-                            </div>
-                          </td>
-                          <td className="border border-neutra-neutra80">
-                            <div className="">
-                              <input
-                                readOnly
-                                value={10}
-                                // value={(
-                                //   formValue.price -
-                                //   (formValue.price / 100) * itemSize.sale
-                                // ).toLocaleString("vi", {
-                                //   style: "currency",
-                                //   currency: "VND",
-                                // })}
-                                // onChange={(event) => {}}
-                                type="text"
-                                placeholder="--"
-                                className="text-small text-center cursor-not-allowed font-semibold px-6 placeholder:text-gray-200 w-full"
-                              />
-                            </div>
-                          </td>
-                          {items.attributes.length > 1 && (
-                            <div
-                              // onClick={() => handleDeleteSize(index, indexSize)}
-                              className="absolute -right-[5%] top-2/4 -translate-y-[50%] cursor-pointer"
-                            >
-                              <ICDeleteTrashLight />
-                            </div>
-                          )}
-                        </tr>
-                      );
-                    })}
                   </Fragment>
                 );
               })}
             </tbody>
           </table>
-          {/* )} */}
         </div>
         {/* chọn màu */}
         <div className="mb-9">
@@ -1388,19 +1153,20 @@ function ProductEditComponent(props: Props) {
             isRequired={false}
             name="Chọn ảnh phân loại hàng"
           />
-          {imagePreview.length > 0 && values.productDetails.length > 0 && (
+          {imagePreview.length > 0 && listAttributesSelectImage.length > 0 && (
             <div className="border border-gray-200 rounded-md">
-              {values.productDetails.map((item, index) => {
+              {listAttributesSelectImage.map((item, index) => {
+                const nameColor = item.map((it) => isVn ? it.valueVn : it.valueKr).join(" - ");
+                const imageActive = listProducts.find((item) => item.attributes.map((it) => isVn ? it.valueVn : it.valueKr).join(" - ") === nameColor)!?.imageDetailUrl || ""
                 return (
                   <SliderPreviewImages
                     key={index}
                     classNavigate={"slideProduct" + index}
-                    // codeColor={item.colorCode}
-                    nameColor={item.attributes[0].attributeNameVn}
                     indexSlide={index}
+                    nameColor={nameColor}
                     lisImages={imagePreview}
                     listImageActived={listImageActived}
-                    imageActived={item.images[0].url}
+                    imageActived={imageActive}
                     handleActiveImage={handleSetColorIntoImage}
                   />
                 );
@@ -1408,48 +1174,10 @@ function ProductEditComponent(props: Props) {
             </div>
           )}
         </div>
-
-        {/* bảng đổi kích cỡ ảnh */}
-        <div className="mb-5">
-          <p className="text-small font-semibold mb-5">Bảng quy đổi kích cỡ</p>
-          <div className="border-2 border-dashed rounded-md cursor-pointer ">
-            <label className=" h-195px flex flex-col items-center justify-center">
-              {formValue.imageCheck && formValue.imageCheck != "" ? (
-                <img
-                  src={formValue.imageCheck}
-                  alt=""
-                  className="max-w-full max-h-full border-dashed cursor-pointer rounded-md"
-                />
-              ) : (
-                <>
-                  <AddImage className="m-0" />
-                  <p className="text-xs tracking-[.03] text-gray-300 text-center">
-                    Tải ảnh lên
-                  </p>
-                </>
-              )}
-
-              <input
-                id="fileSize"
-                name=""
-                type="file"
-                className="hidden"
-                onChange={(event) => {
-                  setFormValue({
-                    ...formValue,
-                    imageCheck: URL.createObjectURL(event?.target.files![0]),
-                  });
-                  setImgExchangeFile(event?.target.files![0]);
-                  event.target.value = "";
-                }}
-              />
-            </label>
-          </div>
-        </div>
       </div>
       <div className="flex item-center justify-end my-7">
         <GroupButton
-          onSubmit={handleSubmitFomik}
+          onSubmit={handleSubmitForm}
           onCancel={() => navigate("/admin/product")}
         />
       </div>

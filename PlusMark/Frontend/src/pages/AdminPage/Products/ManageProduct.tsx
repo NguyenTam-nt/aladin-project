@@ -29,10 +29,11 @@ interface ButtonFilterProps {
 }
 
 const nameList = [
-  "Tên sản phẩm",
-  "Phân loại",
+  "Hàng hóa",
+  "Thuộc tính",
   "Giá bán",
-  "Kho hàng",
+  "Tồn kho tại",
+  "Tồn kho",
   "Doanh số",
 ];
 
@@ -61,7 +62,7 @@ function ManageProduct() {
   const { isloading, currentPage, totalElement, listProducts, filter, error } =
     useAppSelector((state) => state.products);
 
-  const [itemDeletes, setItemDeletes] = useState<number[]>([]);
+  const [itemDeletes, setItemDeletes] = useState<string[]>([]);
   const [keySearch, setKeySearch] = useState<string>("");
   const sizing = 5;
   const handleFilter = (filter: boolean) => {
@@ -71,12 +72,12 @@ function ManageProduct() {
   };
   const getProductByKeySearch = async (params: { [key: string]: any }) => {
     try {
-      const result = await ProductServices.searchHeader({
+      const result = await ProductServices.searchProducts({
         page: params.page,
         size: sizing,
         keyword: params.keySearch,
       });
-      if (result.data) {
+      if (result) {
         dispatch(setLisProduct(result));
         return;
       }
@@ -98,7 +99,8 @@ function ManageProduct() {
     dispatch(setFilter(true));
     dispatch(setCurrenPage(1));
   };
-  const handleChoseIdDelete = (idProduct: number) => {
+  
+  const handleChoseIdDelete = (idProduct: string) => {
     const checkId = itemDeletes.includes(idProduct);
     let newItemDelete = [...itemDeletes];
     if (checkId) {
@@ -116,15 +118,13 @@ function ManageProduct() {
       if (itemDeletes.length > 0) {
         await ProductServices.deleteProducts(itemDeletes).then((res) => {
           if (res) {
-            if (currentPage === 1) {
-              dispatch(
-                ThunkProduclist({
-                  page: currentPage - 1,
-                  size: sizing,
-                  sort: ["createdAt", "desc"],
-                })
-              );
-            }
+            dispatch(
+              ThunkProduclist({
+                page: currentPage - 1,
+                size: sizing,
+                sort: ["createAt", "desc"],
+              })
+            );
             onAddToast({
               type: "success",
               message: `Xóa thành công ${itemDeletes.length} sản phẩm`,
@@ -164,7 +164,7 @@ function ManageProduct() {
           ThunkProduclist({
             page: currentPage - 1,
             size: sizing,
-            sort: ["createdAt", "desc"],
+            sort: ["createAt", "desc"],
           })
         );
       } else {
@@ -178,7 +178,7 @@ function ManageProduct() {
       }
     }
 
-    return () => {};
+    return () => { };
   }, [filter, currentPage, keySearch]);
 
   useEffect(() => {
@@ -266,7 +266,7 @@ function ManageProduct() {
         </button>
       )}
 
-      <div className="p-8">
+      <div className="p-8 flex justify-end">
         <Pagination
           currenPage={currentPage}
           setCurrentPage={(page: number) => dispatch(setCurrenPage(page))}

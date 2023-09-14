@@ -104,21 +104,20 @@ const ProductServices = {
         return api.get(apiItems + "/search", { params: params }).then(data => data.data)
     },
     addProduct: async (data: any): Promise<any> => {
-        const result = (await api.post(apiItems, data))
-        return result.data
+        const result = (await api.post(apiProduct, data))
+        return result
     },
     getProductById: async (id: string): Promise<Product> => {
         const result = await api.get(apiItems + "/id/" + id)
         return result.data
     },
-    putProducById: async (id: string, data: any): Promise<Product> => {
-        const result = await api.put(`${apiItems}/${id}`, data)
-        return result.data
+    putProducById: async (id: string, data: any): Promise<ProductItem> => {
+        return  await api.put(`${apiProduct}/${id}`, data)
     },
-    getListProduct: async (param: SomeType): Promise<ListProductType> => {
-        const result = await api.get(`${apiItems}?${queryString.stringify(param, { arrayFormat: "comma" })}`)
-        return result.data
+    getListProduct: async (param: SomeType): Promise<IRespone> => {
+        return await api.get(`${apiProduct}?${queryString.stringify(param, { arrayFormat: "comma" })}`)
     },
+    
     getListProductFilter: async (param: SomeType) => {
         const result = await api.get(`${pathRemainning}?${queryString.stringify(param)}`)
         return result.data;
@@ -127,8 +126,8 @@ const ProductServices = {
         const result = await api.post('/itemslistid', data);
         return result.data
     },
-    deleteProducts: async (arr: number[]): Promise<any> => {
-        const result = await api.delete(`${apiItems}?${queryString.stringify({ ids: arr }, { arrayFormat: "comma", skipNull: true })}`)
+    deleteProducts: async (arr: string[]): Promise<any> => {
+        const result = await api.delete(`${apiProduct}?${queryString.stringify({ ids: arr }, { arrayFormat: "comma", skipNull: true })}`)
         return result
     },
     getAllProducts: async (params?: any): Promise<IRespone> => {
@@ -136,7 +135,10 @@ const ProductServices = {
     },
     findProductById: async (id: any): Promise<any> => {
         return api.get(`${apiProduct}/${id}`);
-    }
+    },
+    searchProducts: async (params: { keyword: string, page: number, size: number }): Promise<IRespone> => {
+        return api.get(apiProduct + "/search", { params: params })
+    },
 
 
 }

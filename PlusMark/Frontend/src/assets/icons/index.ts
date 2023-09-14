@@ -120,6 +120,7 @@ export { ReactComponent as LineIcon } from "./line-icon.svg";
 export { ReactComponent as TrashIconAdvice } from "./TrashIconAdvice.svg"
 export { ReactComponent as IconArrowUp } from "./u_top-arrow-from-top.svg"
 export { ReactComponent as IconArrowDown } from "./u_arrow-from-top.svg"
+export { ReactComponent as IconFeaturedProduct } from  "./featured.svg"
 
 export {
     FaceRound,

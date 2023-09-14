@@ -15,6 +15,8 @@ export interface ProductDetails {
     priceDetail: number,
     promoDetail: number,
     stockQuantity: number,
+    soldQuantity: number,
+    imageDetailUrl: string,
     addressWarehouse: string,
     images: ImageType[],
     attributes: Atribuite[]
@@ -43,7 +45,8 @@ export interface ProductItem {
         address: string
     }[],
     atributies?: ListAtribuite[]
-    productDetails: ProductDetails[]
+    productDetails: ProductDetails[],
+    videoUrl?: string
 }
 
 
