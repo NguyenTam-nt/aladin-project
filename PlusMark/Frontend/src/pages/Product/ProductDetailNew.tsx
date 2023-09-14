@@ -3,6 +3,7 @@ import {
   CartIcon,
   CircleFilledIcon,
   GiftOutlineIcon,
+  LineIcon,
   NextArrowIcon,
   PrevArrowIcon,
 } from "@assets/icons";
@@ -48,6 +49,7 @@ import GetFreeConsulationModal from "./modal/GetFreeConsultationModal";
 import useViewport from "@hooks/useViewPort";
 import PrevIconElm from "@assets/iconElements/PrevIconElm";
 import { useSwiperNavigationRef } from "@hooks/useSwiperNavigationRef";
+import NewAdd from "@components/AdminComponents/New/NewAdd";
 
 const breakcrumData: BreadcrumbType[] = [
   {
@@ -115,6 +117,111 @@ export const Outstanding = memo((props: { content: string }) => {
     </>
   )
 })
+
+interface PropsPicker {
+  selected: { key: any, name: any }[],
+  data: IAttributeFes[],
+  handleClick: (keySelected: string, atb: any) => void,
+  keySelected: string,
+  name: string,
+  atb: any,
+  datAatb: IAttributeFes,
+  dataAtbValue: IAttributeFeValues,
+  attributeFe: string,
+  idxs: number,
+  actionKey: { key: any, name: any }
+  // value: string
+}
+
+export const SelectedPicker = (props: PropsPicker) => {
+  const { data, handleClick, selected, name, atb, keySelected, actionKey = { key: null, name: null } } = props;
+  const [atbs, setatbs] = useState<IAttributeFes>();
+  const [atbvalue, setatbvalue] = useState<IAttributeFeValues>();
+  const [select, setSelect] = useState<{ key: any, name: any }>();
+
+  const handleClickATB = (atb: string) => {
+    handleClick(keySelected, name);
+  }
+
+  return (
+    <div className={clsx(
+      "w-auto px-2 h-[30px] text-black-bl0 2lg:text-normal1 cursor-pointer ssm:text-wap-regular2 uppercase flex border border-neutra-neutra80 items-center justify-center rounded relative",
+      {
+        "bg-aqua-aq02 text-white ": actionKey.name == name,
+        "bg-white": actionKey.name != name,
+      })
+    } onClick={() => handleClickATB(atb)}>
+      {atb}
+      {/* {
+        data.total <= 0 && (
+          <div className='absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2'>
+            <LineIcon />
+          </div>
+        )
+      } */}
+    </div>
+  )
+}
+
+interface IAttributeFeValues {
+  valueVn: string,
+  valueKr: string
+}
+interface IAttributeFes {
+  attributeFeValues: IAttributeFeValues[],
+  attributeFeNameKr: string,
+  attributeFeNameVn: string
+}
+interface IAttributes {
+  valueVn: string,
+  valueKr: string,
+  attributeNameVn: string,
+  attributeNameKr: string
+}
+interface IProductDetails {
+  productDetailId: number,
+  priceDetail: number,
+  promoDetail: number,
+  actualPriceDetail: number,
+  stockQuantity: number,
+  soldQuantity: number,
+  addressWarehouse: string,
+  imageDetailUrl: string,
+  attributes: IAttributes[]
+
+}
+
+interface IProduct {
+  id?: number,
+  productCode: string,
+  productNameVn: string,
+  productNameKr: string,
+  categoryId: number,
+  subCategoryId: number,
+  price: number,
+  promo: number,
+  actualPrice: number,
+  stockQuantity: number,
+  salientFeaturesVn: string,
+  salientFeaturesKr: string,
+  detailVn: string,
+  detailKr: string,
+  specVn: string,
+  specKr: string,
+  featured: number,
+  createAt: string,
+  videoUrl: string,
+  warehouse:
+  {
+    address: string
+  }[]
+  ,
+  attributeFes: IAttributeFes[],
+  productDetails: IProductDetails[],
+  images: {
+    url: string
+  }[]
+}
 export const SERVICES = [
   { icon: <PrevIcon />, content: "100% Hàng Việt Nam Chất Lượng Cao" },
   { icon: <PrevIcon />, content: "Cam Kết Giá Tốt Nhất & CTKM Hấp Dẫn" },
@@ -161,6 +268,15 @@ const ProductDetailNew = () => {
   const [currentTab, setCurrentTab] = useState<ExploreTabKey>("product-info");
   const [currentTabProducts, setCurrentTabProducts] = useState<ExploreTabKeyProducts>("products-in-the-same-category");
 
+
+  const [productDetail, setProductDetail] = useState<IProduct>();
+  const [attributes, setAttributes] = useState<IAttributes[]>([]);
+  const [attributeFes, setAttributeFes] = useState<IAttributeFes[]>([]);
+  const [keySelected, setKeySelected] = useState<{ key: string, name: string }[]>([]);
+  const [productDetailItem, setProductDetailItem] = useState<any>();
+  console.log({ productDetailItem });
+
+  const { isVn } = useI18n();
   const { width } = useViewport();
   const slideRef = useRef<any>(null);
   const nextSlide = useCallback(() => {
@@ -191,47 +307,6 @@ const ProductDetailNew = () => {
   }, [colorSelected]);
 
   useEffect(() => {
-    // if (param.productId) {
-    //   try {
-    //     setIsLoading(true);
-    //     ProductServices.getProductDetail(param.productId)
-    //       .then((data) => {
-    //         // console.log(data.data)
-    //         setproductData(data);
-    //         setcolorSelected(data.colors[0]);
-    //         setSize();
-    //         setTimeout(() => {
-    //           setimageView(data.video || data.images[0]);
-    //         }, 0);
-
-    //         setQuantityDescActive(false);
-    //         setQuantityAscActive(true);
-
-    //         setlastBreakCrumb({
-    //           name: data.name,
-    //           clickable: false,
-    //           active: true,
-    //           link: "",
-    //         });
-
-    //         setIsLoading(false);
-    //         ProductServices.getProductRelated(data.category.categorySId).then(
-    //           (data) => {
-    //             setproductRelated(data.data);
-    //           }
-    //         );
-
-    //         ProductServices.getProductSeenMost().then((data) => {
-    //           setproductSeen(data.data);
-    //         });
-    //       })
-    //       .catch((error) => {
-    //         setIsLoading(false);
-    //       });
-    //   } catch (error) {
-    //     setIsLoading(false);
-    //   }
-    // }
     const productId = param.productId;
     if (productId) {
       getProductId(productId);
@@ -240,14 +315,80 @@ const ProductDetailNew = () => {
 
   const getProductId = async (id: any) => {
     try {
-      const res = await ProductServices.findProductById(id);
-      console.log({ res });
-
+      const res: IProduct = await ProductServices.findProductById(id);
+      if (res) {
+        setProductDetail(res);
+        setAttributeFes(res?.attributeFes);
+      }
     } catch (error) {
       console.log(error);
 
     }
   }
+
+  const handleSelected = (key: string, atb: any) => {
+    const keySelectedList = [...keySelected];
+    //&& index[0].name != atb && atb && index[0].key == key
+    const index = keySelectedList.filter((it) => it.key == key);
+    if (index.length > 0 && index[0].name != atb && atb && index[0].key == key) {
+      const data = keySelected.map((it) => {
+        if (it.key == key) {
+          return { ...it, name: atb }
+        }
+        return it
+      });
+      getProductDetailItem(data);
+      setKeySelected(data);
+    } else if (index.length > 0 && index[0].name == atb && index[0].key == key) {
+      const data = keySelected.filter((it) => it.key !== key);
+      getProductDetailItem(data);
+      setKeySelected(data);
+    } else {
+      const newSelected = {
+        key: key,
+        name: atb
+      }
+      getProductDetailItem([...keySelected, newSelected]);
+      setKeySelected([...keySelected, newSelected]);
+    }
+  }
+
+  const getProductDetailItem = (selected: { key: any, name: any }[]) => {
+    const key = selected.map((it) => {
+      return { attributeNameVn: it.key.slice(0, -4), valueVn: it.name.slice(0, -5) }
+    });
+
+    const it_key_sort = key.sort((a, b) => {
+      let fa = a.attributeNameVn.toLowerCase(),
+        fb = b.attributeNameVn.toLowerCase();
+
+      if (fa < fb) {
+        return -1;
+      }
+      if (fa > fb) {
+        return 1;
+      }
+      return 0;
+    });
+
+    const item = productDetail?.productDetails?.map((its, idx) => {
+      return {
+        ...its, attributes: its.attributes.map((it) => {
+          return { attributeNameVn: it.attributeNameVn, valueVn: it.valueVn }
+        })
+      }
+    })
+
+    const result = item?.filter((its) => JSON.stringify(it_key_sort) == JSON.stringify(its.attributes) == true);
+
+    if (result && result?.length > 0) {
+      setProductDetailItem(result[0]);
+    }else{
+      setProductDetailItem(null)
+    }
+    // setProductDetailItem();
+  }
+
   const handleIncrease = () => {
     let total = sizeSelected?.total || 0;
     if (total == quantity + 1) {
@@ -420,18 +561,53 @@ const ProductDetailNew = () => {
           </div>
           <div className="toc ssm:px-[15px] lg:px-0 ssm:pt-6 lg:pt-0">
             <div className="w-full h-auto bg-white rounded-lg relative">
-              <DiscountElement content="-30%" widthIcon={97} heightIcon={34} className="text-white text-[20px] leading-normal font-NunitoSans font-extrabold" />
+              <DiscountElement content={productDetailItem ? productDetailItem.promoDetail : productDetail?.promo} widthIcon={97} heightIcon={34} className="text-white text-[20px] leading-normal font-NunitoSans font-extrabold" />
               <div className="pt-[50px] ssm:px-1 lg:px-[13px] 2xl:px-4 2lg:pb-6 ssm:pb-[18px]">
-                <p className="font-NunitoSans 2lg:text-normal2 ssm:text-normal1 text-text-main font-bold">Hộp trà tắc giảm cân an toàn Jẹu Hàn Quốc</p>
+                <p className="font-NunitoSans 2lg:text-normal2 ssm:text-normal1 text-text-main font-bold">{isVn ? productDetail?.productNameVn : productDetail?.productNameKr}</p>
                 <div className="pt-3 flex flex-row items-center gap-x-4 border-b-[2px] border-aqua-aq02">
-                  <TextGradient title={sizeSelected ? formatMoney(400000) : formatMoney(productData?.price || 0)} clssName="2lg:text-title ssm:text-[20px] ssm:leading-normal font-bold " />
-                  <p className="line-through font-NunitoSans 2lg:text-normal1 ssm:text-wap-regular2 font-normal text-gray-600">{formatMoney(430000)}</p>
+                  <TextGradient title={productDetailItem ? formatMoney(productDetailItem?.actualPriceDetail) : formatMoney(productDetail?.actualPrice || 0)} clssName="2lg:text-title ssm:text-[20px] ssm:leading-normal font-bold " />
+                  <p className="line-through font-NunitoSans 2lg:text-normal1 ssm:text-wap-regular2 font-normal text-gray-600">{productDetailItem ? formatMoney(productDetailItem?.priceDetail) : formatMoney(productDetail?.price || 0)}</p>
                 </div>
 
-                <div className="lg:pt-4 2xl:pt-6 ssm:pt-[34px] lg:pl-0 ssm:pl-3 flex flex-row gap-x-3 items-center">
-                  <p className="font-NunitoSans font-normal 2lg:text-normal ssm:text-wap-regular2 text-black-bl0">{t('product.size')}:</p>
+                <div className="lg:pt-4 2xl:pt-6 ssm:pt-[34px] lg:pl-0 ssm:pl-3 flex flex-col gap-x-3 items-start gap-y-2">
+                  {
+                    (attributeFes ?? []).map((its, idxs) => {
+                      return (
+                        <div className="flex items-center" key={idxs}>
+                          <p className="font-NunitoSans font-normal 2lg:text-normal ssm:text-wap-regular2 text-black-bl0">{isVn ? its.attributeFeNameVn : its.attributeFeNameKr}:</p>
+                          <div className=" pl-3 flex w-fit flex-wrap gap-x-2">
+                            {
+                              its.attributeFeValues.map((it, idx) => {
+                                const actionKey = keySelected.filter((it) => it.key == `${its.attributeFeNameVn}_key`)
+
+                                return (
+                                  <>
+                                    <SelectedPicker
+                                      selected={keySelected}
+                                      data={attributeFes}
+                                      attributeFe={isVn ? its.attributeFeNameVn : its.attributeFeNameKr}
+                                      keySelected={`${its.attributeFeNameVn}_key`}
+                                      name={`${it.valueVn}_name`}
+                                      atb={isVn ? it.valueVn : it.valueKr}
+                                      handleClick={handleSelected}
+                                      key={idx}
+                                      datAatb={its}
+                                      dataAtbValue={it}
+                                      idxs={idxs}
+                                      actionKey={actionKey[0]}
+                                    />
+                                  </>
+                                )
+                              })
+                            }
+                          </div>
+                        </div>
+                      )
+                    })
+                  }
+
                   <div className="flex w-fit flex-wrap gap-x-2">
-                    {colorSelected && colorSelected?.sizes && colorSelected?.sizes.map((s, i) => {
+                    {/* {colorSelected && colorSelected?.sizes && colorSelected?.sizes.map((s, i) => {
                       return (
                         <>
                           {i < 3 && (
@@ -444,7 +620,7 @@ const ProductDetailNew = () => {
                           )}
                         </>
                       );
-                    })}
+                    })} */}
                   </div>
                 </div>
                 <div className="pt-3 lg:pl-0 ssm:pl-3 flex flex-row gap-x-3 items-center">

@@ -134,7 +134,7 @@ const ProductServices = {
     getAllProducts: async (params?: any): Promise<IRespone> => {
         return api.get(apiProduct, { params })
     },
-    findProductById: async (id: any): Promise<IRespone> => {
+    findProductById: async (id: any): Promise<any> => {
         return api.get(`${apiProduct}/${id}`);
     }
 

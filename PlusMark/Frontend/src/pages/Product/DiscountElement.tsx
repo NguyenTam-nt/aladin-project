@@ -10,7 +10,7 @@ export const DiscountElement = memo((props: { content: string, widthIcon?: numbe
             <div className={clsx('absolute top-1/2 left-[40%] transform -translate-x-1/2 -translate-y-1/2',
                 className)}
             >
-                {content}
+                {content}%
             </div>
 
         </div >
