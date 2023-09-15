@@ -1,15 +1,15 @@
-
-export const APP_BASE_URL = 'https://giangmyhotpot.vn';
-export const APP_BASE_URL2 = 'http://192.168.1.24:8090';
+// export const APP_BASE_URL = 'https://giangmyhotpot.vn';
+// export const APP_BASE_URL2 = 'http://192.168.1.24:8090';
+export const APP_BASE_URL = 'http://192.168.1.16:9800';
+export const APP_BASE_URL2 = 'http://192.168.1.16:9800';
 export const baseUrl = APP_BASE_URL;
 export const SOCK_CLIENNT_URL = 'https://giangmyhotpot.vn/websocket/tracker';
 export const OTPCodeValue = '123456';
 
-export type IData<T> =
-   {
-      success: boolean
-      data: T
-    }
+export type IData<T> = {
+  success: boolean;
+  data: T;
+};
 
 export const microServices = {
   home: 'home', // trang chủ
@@ -21,10 +21,26 @@ export const microServices = {
   feedback: 'feedback', // contact
   restaurant: 'restaurant', // restaurant
   recruit: 'recruitment', // tuyển dụng
+  about: 'introduction',
+  product: 'products',
+  categories: 'categories'
 };
 
 export const getMicroService = (api: string, service = microServices.home) => {
   return `/services/${service}/api/${api}`;
+};
+
+export const getMicroServicePlustMark = (service = microServices.home) => {
+  return `/api/${service}`;
+};
+
+export const getMicroServiceProductPlustMark = (api: string, service = microServices.product) => {
+  return `/api/${service}/${api}`;
+};
+
+
+export const getMicroServiceCategoriesPlustMark = (service = microServices.categories) => {
+  return `/api/${service}`;
 };
 
 export const getMicroServiceAdmin = (
@@ -51,10 +67,13 @@ export const getMicroSearchService = (
 export const timeout = 30000;
 
 export const APIs = {
+  ABOUT: getMicroServicePlustMark(microServices.about),
+  PRODUCT_OUT_STANDING: getMicroServiceProductPlustMark('featured'),
+  CATEGORIES: getMicroServiceCategoriesPlustMark(),
   USER: getMicroService('user', microServices.account),
   FLOOR: getMicroService('areas', microServices.restaurant),
   TABLE: getMicroService('table', microServices.restaurant),
-  CATEGORIES: getMicroService('categories/select', microServices.restaurant),
+  // CATEGORIES: getMicroService('categories/select', microServices.restaurant),
   PRODUCTS: getMicroService('products', microServices.restaurant),
   TABLEID: getMicroServiceAdmin('provisional/order', microServices.restaurant),
   HISTORY: getMicroServiceAdmin('histories', microServices.restaurant),

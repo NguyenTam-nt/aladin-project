@@ -12,6 +12,14 @@ export interface IResponseApi<T> {
   code? : number
   [key: string]: any
 }
+
+export interface IResponseApiPM<T> {
+  content: T,
+  totalPages?: number,
+  totalElements?: number,
+  [key: string]: any
+}
+
 export interface IParamBase {
   authen?: string
   page?: number | string
@@ -19,6 +27,12 @@ export interface IParamBase {
   id?: number | string
 }
 
+export interface IPrams{
+  page?: number | string,
+  size?: number |  string,
+  sort?: string,
+  [key:string]: any
+}
 export interface PayloadBase extends IParamBase {
   cancelToken?: CancelTokenSource
   language?: string
@@ -32,4 +46,7 @@ export interface ApiResponse<T> extends IResponseApi<T> {
 
 export interface AddressReq {
   [x: string]: any
+}
+export interface Image {
+  url: string
 }

@@ -1,13 +1,26 @@
 import {FlatList, StyleSheet, View} from 'react-native';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {Thumb} from '@components';
 import {defaultColors} from '@configs';
 import {paddingHorizontalScreen} from '@constants';
 import TextTranslate from 'src/components/TextTranslate';
-import ProductItemOutStanding from './ProductItemOutStanding';
+import CategorytItemOutStanding from './CategorytItemOutStanding';
 import {productImageOutStanding} from 'src/assets/image';
+import {ICategory, getCategoriesApi} from 'src/api/category';
 
-const ProductOutStandingList = () => {
+
+const CategoryOutStandingList = () => {
+  const [categories, setCategories] = useState<ICategory[]>([]);
+   const getCategories =  async () => {
+    const res = await getCategoriesApi();
+    if (res.success) {
+     setCategories(res.data);
+    }
+  };
+  
+  useEffect(()=>{
+    getCategories()
+  },[])
   return (
     <View style={styles.container}>
       <View style={styles.image_banner}>
@@ -26,11 +39,11 @@ const ProductOutStandingList = () => {
           text="home.product_outstanding"
         />
         <FlatList
-          data={[1, 2, 3, 4]}
+          data={categories ?? []}
           style={{marginTop: 12}}
           renderItem={({item, index}) => {
             return (
-              <ProductItemOutStanding index={`00${index + 1}`.slice(-2)} />
+              <CategorytItemOutStanding index={`00${index + 1}`.slice(-2)} data={item}/>
             );
           }}
           keyExtractor={(_, index) => index.toString()}
@@ -42,7 +55,7 @@ const ProductOutStandingList = () => {
   );
 };
 
-export default ProductOutStandingList;
+export default CategoryOutStandingList;
 
 const styles = StyleSheet.create({
   container: {position: 'relative', marginTop: 26},

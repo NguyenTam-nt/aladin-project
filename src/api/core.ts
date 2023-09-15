@@ -8,12 +8,12 @@ import store from 'src/redux';
 import { setRefreshToken, setToken } from 'src/redux/reducers/AuthSlice';
 import { refreshToken, urlLogin } from './login';
 import { MessageUtils } from 'src/commons/messageUtils';
-import { RefNavigationToLoginScreen } from 'src/navigations/DrawerMain';
+// import { RefNavigationToLoginScreen } from 'src/navigations/DrawerMain';
 const {CancelToken} = axios;
 const source = CancelToken.source();
 
 const logout = () => {
-  RefNavigationToLoginScreen?.current?.GotoLoginScreen();
+  // RefNavigationToLoginScreen?.current?.GotoLoginScreen();
 };
 
 const ShowMessageRefreshTokenError = () => {

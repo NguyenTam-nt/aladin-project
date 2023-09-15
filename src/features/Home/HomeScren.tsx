@@ -7,7 +7,7 @@ import {DIMENSION} from '@constants';
 import Banner from './components/Banner';
 import SpaceBottom from 'src/components/SpaceBottom';
 import GroupContact from './components/GroupContact';
-import ProductOutStandingList from './components/ProductOutStandingList';
+import CategoryOutStandingList from './components/CategoryOutStandingList';
 import ProductNewList from './components/ProductNewList';
 import ProductSaleList from './components/ProductSaleList';
 import ContactTopic from './components/ContactTopic'
@@ -20,7 +20,7 @@ const HomeScren = () => {
         <View style={styles.styleBody}>
           <ProductSaleList />
           <GroupContact />
-          <ProductOutStandingList />
+          <CategoryOutStandingList />
           <ProductNewList />
         </View>
         <ContactTopic />

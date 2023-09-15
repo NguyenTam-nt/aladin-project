@@ -63,6 +63,7 @@ export const defaultColors = {
   text_313131: '#313131',
   text_626262: '#626262',
   bg_00C3AB: '#00C3AB',
+  bg_DAF1E7: '#DAF1E7',
   text_C4C4C4: '#C4C4C4',
 };
 

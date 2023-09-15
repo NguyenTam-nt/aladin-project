@@ -18,6 +18,9 @@
             "search": "Nhập tìm kiếm",
             "view_price": "Xem giá, tồn kho tại:",
             "buy_now": "Mua ngay"
+        },
+        "about":{
+            "title": "Giới thiệu"
         }
     }
 }

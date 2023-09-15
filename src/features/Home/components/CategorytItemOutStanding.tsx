@@ -4,12 +4,16 @@ import {defaultColors} from '@configs';
 import {TextCustom, Thumb} from '@components';
 import {ICCircleArrowRight} from 'src/assets/icons/ICCircleArrowRight';
 import {globalStyles} from 'src/commons/globalStyles';
+import {ICategory} from 'src/api/category';
+import useI18n from 'src/hooks/useI18n';
 
 type Props = {
   index: string;
+  data: ICategory;
 };
 
-const ProductItemOutStanding = memo(({index}: Props) => {
+const CategoryItemOutStanding = memo(({index, data}: Props) => {
+  const {isVn} = useI18n();
   return (
     <View style={styles.container}>
       <View
@@ -34,21 +38,21 @@ const ProductItemOutStanding = memo(({index}: Props) => {
           weight="700"
           numberOfLines={1}
           color={defaultColors.text_313131}>
-          Sức khỏe
+          {isVn ? data.categoryNameVn : data.categoryNameKr}
         </TextCustom>
       </View>
       <View style={{flex: 1}}>
         <Thumb
           style={styles.styleImage}
           resizeMode="cover"
-          source={require('../../../assets/image/home/product_outstanding.png')}
+          source={{uri: data.imagesCategory[0].url}}
         />
       </View>
     </View>
   );
 });
 
-export default ProductItemOutStanding;
+export default CategoryItemOutStanding;
 
 const styles = StyleSheet.create({
   container: {

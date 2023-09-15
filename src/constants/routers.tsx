@@ -8,6 +8,7 @@ import {ICContact} from 'src/assets/icons/bottomtab/ICContact';
 import {ICHome} from 'src/assets/icons/bottomtab/ICHome';
 import {ICProduct} from 'src/assets/icons/bottomtab/ICProduct';
 import {Home} from 'src/features/Home';
+import { About } from 'src/features/About';
 
 const routetBottomTab = {
   home: 'home',
@@ -48,7 +49,7 @@ export const routers = [
   {
     name: routetBottomTab.about,
     title: 'navigation.about',
-    component: Home,
+    component: About,
     tabBarLabel: ({focused}: PropsTitle) => (
       <TextCustom
         weight="400"
