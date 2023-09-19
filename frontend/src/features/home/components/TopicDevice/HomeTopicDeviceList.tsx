@@ -10,19 +10,19 @@ import clsx from "clsx";
 
 const data = [
   {
-    name: "Không dầu mỡ, không chiên rán, healthy, tốt cho sức khỏe",
+    name: "Phục vụ tận tình , chu đáo",
     image: device1,
   },
   {
-    name: "Công nghệ hấp số 1 Hồng Kông giúp giữ được nguyên vẹn vitamin và dưỡng chất.",
+    name: "Không gian rộng rãi , độc đáo, hệ thống phòng VIP đẳng cấp",
     image: device2,
   },
   {
-    name: "Không gian phong cách Hồng Kông sang trọng, hiện đại, tha hồ check - in",
+    name: "Luôn mang những điều tốt nhất tới khách hàng",
     image: device3,
   },
   {
-    name: "Phục vụ tận tình: Chu đáo, luôn đặt khách hàng là trung tâm",
+    name: "Món ăn đa dạng mang đậm nét VN",
     image: device4,
   },
 ];

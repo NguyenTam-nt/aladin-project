@@ -43,9 +43,9 @@ export const BannerSliderImages = () => {
                       alt={getLinkImageUrl(
                         item?.linkMedia,
                         windownSizeWidth >= withResponsive._1024
-                          ? 1024
+                          ? 1920
                           : windownSizeWidth,
-                        500
+                          945
                       )}
                     />
                     <BannerText
