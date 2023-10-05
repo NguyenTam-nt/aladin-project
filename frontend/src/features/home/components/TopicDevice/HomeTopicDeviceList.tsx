@@ -10,19 +10,19 @@ import clsx from "clsx";
 
 const data = [
   {
-    name: "Phục vụ tận tình , chu đáo",
+    name: "Phục vụ tận tình , chu đáo.",
     image: device1,
   },
   {
-    name: "Không gian rộng rãi , độc đáo, hệ thống phòng VIP đẳng cấp",
+    name: "Luôn mang những điều tốt nhất tới khách hàng",
     image: device2,
   },
   {
-    name: "Luôn mang những điều tốt nhất tới khách hàng",
+    name: "Không gian rộng rãi , độc đáo, hệ thống phòng VIP đẳng cấp",
     image: device3,
   },
   {
-    name: "Món ăn đa dạng mang đậm nét VN",
+    name: "Món ăn đa dạng mang đậm nét Việt Nam",
     image: device4,
   },
 ];

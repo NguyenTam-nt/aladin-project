@@ -126,9 +126,8 @@ const HeaderMobile = memo(() => {
               </div>
             </div>
           </Link>
-
-          <p className="title-18 text-white ml-[35px]">Giang mỹ Hotpot</p>
         </div>
+          <p className="title-18 text-center text-white">Giang mỹ</p>
         <button onClick={handleShow}>
           <ICMenuBar />
         </button>

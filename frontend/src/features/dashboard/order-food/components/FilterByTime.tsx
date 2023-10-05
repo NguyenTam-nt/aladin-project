@@ -6,7 +6,7 @@ import React, { ChangeEvent, memo, useEffect, useRef } from "react";
 const FilterByTime = memo(({setTimeFilter}: any) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const handleChangeTime = (e: ChangeEvent<HTMLInputElement>) => {
-    console.log(e.target.value, "filer by time");
+    // console.log(e.target.value, "filer by time");
     setTimeFilter(e.target.value)
   };
   const handleClick = () => {

@@ -59,7 +59,7 @@ const ManageNews = () => {
       setListNews(list);
       setTotalPages(Math.ceil(totalElementPage / 12));
     } catch (error) {
-      console.log("Không thể lấy dánh sách tin tức");
+      // console.log("Không thể lấy dánh sách tin tức");
     }
   };
   const searchListNew = async (params: IParams) => {
@@ -69,7 +69,7 @@ const ManageNews = () => {
       setListNews(list);
       setTotalPages(Math.ceil(totalElementPage / 12));
     } catch (error) {
-      console.log("Không thể tìm thấy danh sách tin tức.");
+      // console.log("Không thể tìm thấy danh sách tin tức.");
     }
   };
   const deleteItemNew = () => {

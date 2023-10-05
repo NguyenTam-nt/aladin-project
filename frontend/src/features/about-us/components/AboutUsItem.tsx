@@ -26,8 +26,6 @@ function AboutUsItem({item, idx}: Props) {
     
   }, [collapseMenuRef, collapseMenuRef.current])
 
-  console.log(maxHeight);
-
 
   return (
     <div className='w-rp mb-6 hover:cursor-pointer'>
@@ -82,10 +80,13 @@ function AboutUsItem({item, idx}: Props) {
                   />
 
                 </div>
-
-                <p className="text-_14 text-black pb-4">
-                  {item.description}            
-                </p>
+              <div
+              className="text-_14 text-black pb-4 gm-editor"
+                  dangerouslySetInnerHTML={{
+                    __html: item.description
+                  }}
+              >
+              </div>
               </div>
             })
           }

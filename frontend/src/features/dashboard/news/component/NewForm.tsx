@@ -206,18 +206,13 @@ const NewForm = memo(({ newItemProps }: Props) => {
             <TitleInput name="news.form.content" />
             <div>
               <Editor
-                content={
-                  values.content == ""
-                    ? values.content
-                    : JSON.parse(values.content)
-                }
-                onChange={(value: any) => {
-                  const data = JSON.stringify(value);
-                  if (data === '""') {
+                content={values.content}
+                onBlur={(value: any) => {
+                  if (value === '') {
                     setFieldValue("content", "");
                     return;
                   }
-                  setFieldValue("content", data);
+                  setFieldValue("content", value);
                 }}
               />
               {errors.content && touched.content && (

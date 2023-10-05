@@ -12,7 +12,7 @@ const EditNew = () => {
       const resultNew = await newService.getNewById(id);
       setDataNew(resultNew);
     } catch (error) {
-      console.log("Không thể lấy dược dữ liệu tin tức.");
+      // console.log("Không thể lấy dược dữ liệu tin tức.");
     }
   };
 

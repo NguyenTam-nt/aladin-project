@@ -107,7 +107,7 @@ const ManageTableReserVation = () => {
       setListRequesTable([...list])
       setTotalpage(Math.ceil(totalElementPage / 20))
     } catch (error) {
-      console.log("Không lấy được danh sách yêu cầu đặt bàn.")
+      // console.log("Không lấy được danh sách yêu cầu đặt bàn.")
     }
   }
 
@@ -118,7 +118,7 @@ const ManageTableReserVation = () => {
       setListRequesTable([...listRequetTable, ...list])
       setTotalpage(Math.ceil(totalElementPage / 20))
     } catch (error) {
-      console.log("Không lấy được danh sách yêu cầu đặt bàn.")
+      // console.log("Không lấy được danh sách yêu cầu đặt bàn.")
     }
   }
 
@@ -155,7 +155,7 @@ const ManageTableReserVation = () => {
       setListRequesTable([...listRequetTable, ...list])
       setTotalpage(Math.ceil(totalElementPage / 20))
     } catch (error) {
-      console.log("Không lấy được danh sách yêu cầu đặt bàn.")
+      // console.log("Không lấy được danh sách yêu cầu đặt bàn.")
     }
   }
   const debounceSearch = useCallback(

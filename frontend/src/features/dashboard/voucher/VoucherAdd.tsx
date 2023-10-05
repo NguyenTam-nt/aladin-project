@@ -129,7 +129,7 @@ function VoucherAdd() {
             });
         }
       } catch (error) {
-        console.log({error});
+        // console.log({error});
       }
     },
   });
@@ -186,7 +186,7 @@ function VoucherAdd() {
 
   }, [formik.values.valueDiscount, type])
 
-  console.log(formik.errors)
+  // console.log(formik.errors)
 
 
   return (
