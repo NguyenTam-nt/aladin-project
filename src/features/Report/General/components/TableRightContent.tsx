@@ -76,7 +76,7 @@ const ItemReport = ({index , item}: {index: number ; item : IReportAll}) => {
                     index === 0 ? defaultColors.c_fff : defaultColors._01A63E,
                 },
               ]}>
-              {item.quantityOld * 100}%
+              {(item.quantityOld * 100).toFixed()}%
             </Text>
             {isTabletDevice && ' số lượng bán so với hôm qua'}
           </Text>
@@ -125,7 +125,7 @@ const ItemReport = ({index , item}: {index: number ; item : IReportAll}) => {
                     index === 0 ? defaultColors.c_fff : defaultColors._01A63E,
                 },
               ]}>
-              {item.revenueOld * 100}%
+              {(item.revenueOld * 100).toFixed()}%
             </Text>
             {isTabletDevice && '  doanh thu so với hôm qua'}
           </Text>
