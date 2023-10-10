@@ -17,10 +17,10 @@ const CategoryOutStandingList = () => {
      setCategories(res.data);
     }
   };
-  
+
   useEffect(()=>{
-    getCategories()
-  },[])
+    getCategories();
+  },[]);
   return (
     <View style={styles.container}>
       <View style={styles.image_banner}>
@@ -58,7 +58,7 @@ const CategoryOutStandingList = () => {
 export default CategoryOutStandingList;
 
 const styles = StyleSheet.create({
-  container: {position: 'relative', marginTop: 26},
+  container: {position: 'relative'},
   image_banner: {
     position: 'absolute',
     top: 0,

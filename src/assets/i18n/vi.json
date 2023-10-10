@@ -1,26 +1,29 @@
 {
-    "translation": {
-        "home": {
-            "product_sale": "Sản phẩm sale",
-            "sold": "Đã bán",
-            "product_outstanding": "Sản phẩm nổi bật",
-            "product_new": "Sản phẩm mới",
-            "contact_note": "Đội ngũ hỗ trợ luôn sẵn sàng"
-        },
-        "navigation": {
-            "home": "Trang chủ",
-            "about": "Giới thiệu",
-            "product": "Sản phẩm",
-            "contact": "Tư vấn",
-            "account": "Tài khoản"
-        },
-        "common": {
-            "search": "Nhập tìm kiếm",
-            "view_price": "Xem giá, tồn kho tại:",
-            "buy_now": "Mua ngay"
-        },
-        "about":{
-            "title": "Giới thiệu"
-        }
+  "translation": {
+    "home": {
+      "product_sale": "Sản phẩm sale",
+      "sold": "Đã bán",
+      "product_outstanding": "Sản phẩm nổi bật",
+      "product_new": "Sản phẩm mới",
+      "contact_note": "Đội ngũ hỗ trợ luôn sẵn sàng"
+    },
+    "navigation": {
+      "home": "Trang chủ",
+      "about": "Giới thiệu",
+      "product": "Sản phẩm",
+      "contact": "Tư vấn",
+      "account": "Tài khoản"
+    },
+    "common": {
+      "search": "Nhập tìm kiếm",
+      "view_price": "Xem giá, tồn kho tại:",
+      "buy_now": "Mua ngay"
+    },
+    "about": {
+      "title": "Giới thiệu"
+    },
+    "product": {
+        "product-protfolio": "DANH MỤC SẢN PHẨM"
     }
+  }
 }

@@ -10,9 +10,7 @@ export interface IImagesCategory {
 }
 
 export interface IImagesSubcategory {
-  id: number;
   url: string;
-  subCategoryId: number;
 }
 
 export interface ISubCategoryList {
@@ -43,3 +41,16 @@ export const getCategoriesApi = async (): Promise<IResponseApi<ICategory[]>> => 
     return handleError(e);
   }
 };
+export const getCategororyByIDApi = async (id: number): Promise<IResponseApi<ICategory>> => {
+  try {
+    const result = await request().get(`${APIs.CATEGORIES}/${id}`);
+    const data = await result.data;
+    return {
+      success: true,
+      data: data,
+    };
+  } catch (e) {
+    return handleError(e);
+  }
+};
+

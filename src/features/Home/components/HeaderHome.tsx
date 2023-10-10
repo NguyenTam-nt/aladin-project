@@ -1,5 +1,5 @@
 import {StyleSheet, View} from 'react-native';
-import React from 'react';
+import React, {PropsWithChildren} from 'react';
 import {defaultColors} from '@configs';
 import RadialGradient from 'react-native-radial-gradient';
 import CartButton from 'src/components/CartButton';
@@ -8,7 +8,11 @@ import InputSearch from 'src/components/InputSearch';
 import {globalStyles} from 'src/commons/globalStyles';
 import {Header} from 'src/components/Header';
 
-const HeaderHome = () => {
+interface HeaderProps {
+  headerBase?: boolean;
+}
+const HeaderHome = (props: PropsWithChildren<HeaderProps>) => {
+  const {headerBase = true, children} = props;
   return (
     <Header>
       <RadialGradient
@@ -19,9 +23,14 @@ const HeaderHome = () => {
         radius={250}
       />
       <View style={styles.groupButton}>
-        <InputSearch containerStyle={styles.styleInput} />
-        <CityFilter />
-        <CartButton />
+        {headerBase && (
+          <>
+            <InputSearch containerStyle={styles.styleInput} />
+            <CityFilter />
+            <CartButton />
+          </>
+        )}
+        {children && children}
       </View>
     </Header>
   );

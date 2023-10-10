@@ -3,12 +3,13 @@ import {defaultColors} from '@configs';
 import {LabelPosition} from '@react-navigation/bottom-tabs/src/types';
 import React from 'react';
 import {ICAbout} from 'src/assets/icons/bottomtab/ICAbout';
-import { ICAccount } from 'src/assets/icons/bottomtab/ICAccount'
+import { ICAccount } from 'src/assets/icons/bottomtab/ICAccount';
 import {ICContact} from 'src/assets/icons/bottomtab/ICContact';
 import {ICHome} from 'src/assets/icons/bottomtab/ICHome';
 import {ICProduct} from 'src/assets/icons/bottomtab/ICProduct';
 import {Home} from 'src/features/Home';
 import { About } from 'src/features/About';
+import Products from 'src/features/Products';
 
 const routetBottomTab = {
   home: 'home',
@@ -63,7 +64,7 @@ export const routers = [
   {
     name: routetBottomTab.product,
     title: 'navigation.product',
-    component: Home,
+    component: Products,
     tabBarLabel: ({focused}: PropsTitle) => (
       <TextCustom
         weight="400"

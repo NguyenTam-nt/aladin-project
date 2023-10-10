@@ -43,22 +43,22 @@ import {IOrderItem, IOrderKitchen, OrderType} from 'src/typeRules/product';
 //   note?: string
 // }
 
-interface IAttributeFeValues {
+export interface IAttributeFeValues {
   valueVn: string;
   valueKr: string;
 }
-interface IAttributeFes {
+export interface IAttributeFes {
   attributeFeValues: IAttributeFeValues[];
   attributeFeNameKr: string;
   attributeFeNameVn: string;
 }
-interface IAttributes {
+export interface IAttributes {
   valueVn: string;
   valueKr: string;
   attributeNameVn: string;
   attributeNameKr: string;
 }
-interface IProductDetails {
+export interface IProductDetails {
   productDetailId: number;
   priceDetail: number;
   promoDetail: number;
@@ -70,7 +70,7 @@ interface IProductDetails {
   attributes: IAttributes[];
 }
 
-interface IProduct {
+export interface IProduct {
   id?: number;
   productCode: string;
   productNameVn: string;
@@ -115,8 +115,24 @@ export const getProductsOutStanding = async (
       params,
     });
     const data = await result.data.content;
-    console.log("data", data);
-    
+
+    return {
+      success: true,
+      data: data,
+    };
+  } catch (error) {
+    return handleError(error);
+  }
+};
+
+export const getProductsApi = async (
+  params: IParams,
+): Promise<IResponseApi<IProduct[]>> => {
+  try {
+    const result = await request().get(`${APIs.PRODUCTS}`, {
+      params,
+    });
+    const data = await result.data.content;
     return {
       success: true,
       data: data,

@@ -8,6 +8,9 @@ export const globalStyles = StyleSheet.create({
   row: {
     flexDirection: 'row',
   },
+  col: {
+    flexDirection: 'column',
+  },
   center: {
     alignItems: 'center',
     justifyContent: 'center',

@@ -1,13 +1,13 @@
-import { baseUrl } from './config';
+import {baseUrl} from './config';
 import axios, {
   AxiosRequestConfig,
   AxiosResponse,
   CancelTokenSource,
 } from 'axios';
 import store from 'src/redux';
-import { setRefreshToken, setToken } from 'src/redux/reducers/AuthSlice';
-import { refreshToken, urlLogin } from './login';
-import { MessageUtils } from 'src/commons/messageUtils';
+import {setRefreshToken, setToken} from 'src/redux/reducers/AuthSlice';
+import {refreshToken, urlLogin} from './login';
+import {MessageUtils} from 'src/commons/messageUtils';
 // import { RefNavigationToLoginScreen } from 'src/navigations/DrawerMain';
 const {CancelToken} = axios;
 const source = CancelToken.source();
@@ -32,7 +32,7 @@ axiosInstance.interceptors.response.use(
     const originalRequest = error.config;
 
     if (error.response.status === 401 && originalRequest.baseURL !== urlLogin) {
-    // Nếu có lỗi 401, thực hiện refresh token
+      // Nếu có lỗi 401, thực hiện refresh token
       if (!originalRequest._retry) {
         originalRequest._retry = true;
         const refresh_token = store.getState().appInfoReducer.refreshToken;
@@ -77,6 +77,8 @@ export const createRequest = (baseUrl: string, timeout: number) => {
     authToken?: string | undefined,
     cancelToken?: CancelTokenSource | undefined,
   ) => {
+    console.log('baseurl', baseUrl);
+
     const headers = {
       Accept: 'application/json',
       'Content-Type': 'application/json',
@@ -101,8 +103,7 @@ export const createRequest = (baseUrl: string, timeout: number) => {
         url: string,
         options: AxiosRequestConfig = {},
       ) => {
-
-
+        console.log('url', url);
 
         return axiosInstance.get<T, R>(url, {
           // ...options.params,

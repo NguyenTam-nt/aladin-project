@@ -23,7 +23,7 @@ export const microServices = {
   recruit: 'recruitment', // tuyển dụng
   about: 'introduction',
   product: 'products',
-  categories: 'categories'
+  categories: 'categories',
 };
 
 export const getMicroService = (api: string, service = microServices.home) => {
@@ -34,12 +34,22 @@ export const getMicroServicePlustMark = (service = microServices.home) => {
   return `/api/${service}`;
 };
 
-export const getMicroServiceProductPlustMark = (api: string, service = microServices.product) => {
+export const getMicroServiceProductOutStandingPlustMark = (
+  api: string,
+  service = microServices.product,
+) => {
   return `/api/${service}/${api}`;
 };
 
+export const getMicroServiceProductPlustMark = (
+  service = microServices.product,
+) => {
+  return `/api/${service}`;
+};
 
-export const getMicroServiceCategoriesPlustMark = (service = microServices.categories) => {
+export const getMicroServiceCategoriesPlustMark = (
+  service = microServices.categories,
+) => {
   return `/api/${service}`;
 };
 
@@ -68,13 +78,14 @@ export const timeout = 30000;
 
 export const APIs = {
   ABOUT: getMicroServicePlustMark(microServices.about),
-  PRODUCT_OUT_STANDING: getMicroServiceProductPlustMark('featured'),
+  PRODUCT_OUT_STANDING: getMicroServiceProductOutStandingPlustMark('featured'),
+  PRODUCTS: getMicroServiceProductPlustMark(),
   CATEGORIES: getMicroServiceCategoriesPlustMark(),
   USER: getMicroService('user', microServices.account),
   FLOOR: getMicroService('areas', microServices.restaurant),
   TABLE: getMicroService('table', microServices.restaurant),
   // CATEGORIES: getMicroService('categories/select', microServices.restaurant),
-  PRODUCTS: getMicroService('products', microServices.restaurant),
+  // PRODUCTS: getMicroService('products', microServices.restaurant),
   TABLEID: getMicroServiceAdmin('provisional/order', microServices.restaurant),
   HISTORY: getMicroServiceAdmin('histories', microServices.restaurant),
   PRODUCTS_KITCHEN: getMicroServiceAdmin(

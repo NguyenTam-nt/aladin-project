@@ -10,7 +10,7 @@ import useI18n from 'src/hooks/useI18n';
 
 const ProductOutStanding = () => {
   const [products, setProducts] = useState<IProductOutStanding[]>([]);
-  
+
   const {isVn} = useI18n();
   const getProducts = async () => {
     const params = {
@@ -29,12 +29,12 @@ const ProductOutStanding = () => {
   }, []);
 
   console.log({products});
-  
+
   const mixedStyle: MixedStyleRecord = {
     body: {
-      paddingHorizontal: 16,
+      // paddingHorizontal: 16,
       marginTop: 12,
-      height: 180,
+      height: 100,
     },
   };
 
@@ -54,8 +54,9 @@ const ProductOutStanding = () => {
                 textTransform="uppercase"
                 weight="700"
                 text={isVn ? it.productNameVn : it.productNameKr}
+                numberOfLines={2}
               />
-              <View style={{height: 180}}>
+              <View style={{height: 180, backgroundColor: 'red'}}>
                 <Html
                   tagsStyles={mixedStyle}
                   content={isVn ? it.salientFeaturedVn : it.salientFeaturedKr}
@@ -77,5 +78,8 @@ const styles = StyleSheet.create({
     height: 268,
     width: width,
     borderTopLeftRadius: 20,
+    paddingRight: 16,
+    paddingTop:8,
+    paddingBottom: 14,
   },
 });
