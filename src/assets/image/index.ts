@@ -6,4 +6,5 @@ export const bgContactBanner = require('./bg_banner_contact.png');
 export const contactGroupNote = require('./contact_group_note.png');
 export const introductionImage = require('./about/introduction.png');
 export const introductionImage1 = require('./about/introduction1.jpg');
-export const backgroundAbout = require('./about/background.jpg');
+export const backgroundAbout = require('./about/introduction2.png');
+export const bgSearchBar = require('./products/bgSearchBar.png');

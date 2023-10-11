@@ -90,6 +90,7 @@ export interface IProduct {
   featured: number;
   createAt: string;
   videoUrl: string;
+  totalSoldQuantity: number;
   warehouse: {
     address: string;
   }[];
@@ -106,6 +107,7 @@ export interface IProductOutStanding {
   productNameKr: string;
   salientFeaturedVn: string;
   salientFeaturedKr: string;
+  image: string
 }
 export const getProductsOutStanding = async (
   params: IParams,

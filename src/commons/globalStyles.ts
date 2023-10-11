@@ -43,4 +43,10 @@ export const globalStyles = StyleSheet.create({
   paddingScreenHorizontal: {
     paddingHorizontal: paddingHorizontalScreen,
   },
+  groupProduct: {
+    flexWrap: 'wrap',
+    gap: 15,
+    flexDirection: 'row',
+    marginTop: 28,
+  },
 });

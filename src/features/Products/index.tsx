@@ -25,7 +25,16 @@ import CartButton from 'src/components/CartButton';
 import TextTranslate from 'src/components/TextTranslate';
 import CardSubListCategory from './CardSubListCategory';
 import TextTilte from 'src/components/TextTitle';
-import {IProduct, getProductsApi} from 'src/api/products';
+import {
+  IProduct,
+  IProductOutStanding,
+  getProductsApi,
+  getProductsOutStanding,
+} from 'src/api/products';
+import ProductsList from 'src/components/product/ProductsList';
+import FeaturedComponents from 'src/components/FeaturedComponents';
+import SpaceBottom from 'src/components/SpaceBottom';
+import FilterBy from 'src/components/FilterBy';
 
 const TextHeader = (props: {
   text: string;
@@ -102,8 +111,11 @@ const Products = () => {
     IListTextCategories[]
   >([]);
   const [subListCategories, setSubListCategories] = useState<ICategory>();
-  const [products, setProducts] = useState<IProduct[]>([]);
-
+  const [productsSale, setProductsSale] = useState<IProduct[]>([]);
+  const [productsOutStanding, setProductsOutStanding] = useState<
+    IProductOutStanding[]
+  >([]);
+  const [productsSortBy, setProductsSortBy] = useState<IProduct[]>([]);
   const [idCategory, setIdCategory] = useState<number>();
   const getCategories = async () => {
     try {
@@ -146,11 +158,44 @@ const Products = () => {
         categoryId: 401,
       };
       const res = await getProductsApi(params);
-      console.log('res', res);
+      setProductsSale(res.data);
     } catch (error) {
       console.log(error);
     }
   };
+
+  const getProductOutStanding = async (id: number) => {
+    try {
+      const params = {
+        page: 0,
+        size: 15,
+        sort: 'createAt,desc',
+        categoryId: id,
+      };
+      const res = await getProductsOutStanding(params);
+      if (res.success) {
+        setProductsOutStanding(res.data);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const getProductsSortBy = async () => {
+    try {
+      const params = {
+        page: 0,
+        size: 10,
+        sort: 'promo,desc',
+        categoryId: 401,
+      };
+      const res = await getProductsApi(params);
+      setProductsSale(res.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
     getCategories();
     getProducts();
@@ -158,8 +203,10 @@ const Products = () => {
   useEffect(() => {
     if (idCategory) {
       getSubListCategories(idCategory);
+      getProductOutStanding(idCategory);
     }
   }, [idCategory]);
+  console.log(productsOutStanding, 'products');
 
   return (
     <View style={styles.container}>
@@ -209,9 +256,23 @@ const Products = () => {
         </View>
       </View>
       <ScrollView>
-        <View style={{paddingTop: 27, paddingHorizontal: 14}}>
-          <TextTilte text="home.product_sale" />
+        <View style={{marginTop: 10}}>
+          {productsSale.length > 0 && (
+            <ProductsList
+              products={productsSale}
+              textTile="home.product_sale"
+            />
+          )}
+          <View style={{marginTop: 17}}>
+            {productsOutStanding.length > 0 && (
+              <FeaturedComponents data={productsOutStanding} />
+            )}
+          </View>
+          <View style={{marginTop: 27}}>
+            <FilterBy />
+          </View>
         </View>
+        <SpaceBottom />
       </ScrollView>
     </View>
   );
@@ -242,6 +303,7 @@ const styles = StyleSheet.create({
   product_portfolio: {
     paddingHorizontal: 9,
     paddingTop: 28,
+    paddingBottom: 27,
   },
   styleInput: {
     flex: 1,

@@ -9,8 +9,13 @@ import {formatNumberDotWithVND} from 'src/commons/formatMoney';
 import TextTranslate from 'src/components/TextTranslate';
 import {Button} from 'src/components/Button';
 import {ICCart} from 'src/assets/icons/ICCart';
-
-const ProductItem = () => {
+interface IProps {
+  promo?: number;
+  name?: string;
+  totalSoldQuantity?: number;
+}
+const ProductItem = (props: IProps) => {
+  const {promo, name, totalSoldQuantity} = props;
   return (
     <View style={styles.container}>
       <View style={styles.containerChild}>
@@ -19,7 +24,7 @@ const ProductItem = () => {
             <ICTickerDiscount />
           </View>
           <TextCustom color={defaultColors.c_fff} weight="bold" fontSize={14}>
-            -30%
+            -{promo}%
           </TextCustom>
         </View>
         <View style={styles.styleGroupImage}>
@@ -41,7 +46,7 @@ const ProductItem = () => {
               weight="400"
               numberOfLines={2}
               color={defaultColors.text_313131}>
-              Hộp trà tắc giảm cân an toàn Jeju Hàn Quốc
+              {name}
             </TextCustom>
             <View
               style={[
@@ -67,7 +72,7 @@ const ProductItem = () => {
                   weight="400"
                   color={defaultColors.text_626262}>
                   {' '}
-                  10
+                  {totalSoldQuantity}
                 </TextCustom>
               </View>
             </View>

@@ -4,9 +4,7 @@ import React, {useEffect, useState} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 
 import {
-  contactBanner,
   introductionImage,
-  introductionImage1,
   backgroundAbout,
 } from 'src/assets/image';
 import {globalStyles} from 'src/commons/globalStyles';
