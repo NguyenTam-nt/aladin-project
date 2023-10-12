@@ -3,13 +3,14 @@ import {defaultColors} from '@configs';
 import {LabelPosition} from '@react-navigation/bottom-tabs/src/types';
 import React from 'react';
 import {ICAbout} from 'src/assets/icons/bottomtab/ICAbout';
-import { ICAccount } from 'src/assets/icons/bottomtab/ICAccount';
+import {ICAccount} from 'src/assets/icons/bottomtab/ICAccount';
 import {ICContact} from 'src/assets/icons/bottomtab/ICContact';
 import {ICHome} from 'src/assets/icons/bottomtab/ICHome';
 import {ICProduct} from 'src/assets/icons/bottomtab/ICProduct';
 import {Home} from 'src/features/Home';
-import { About } from 'src/features/About';
+import {About} from 'src/features/About';
 import Products from 'src/features/Products';
+import {ProductStackScreen} from 'src/navigations/ProductStack';
 
 const routetBottomTab = {
   home: 'home',
@@ -19,6 +20,13 @@ const routetBottomTab = {
   account: 'account',
 };
 
+export const productRoute = {
+  prifex: 'product',
+  detail: 'product/detail',
+  categories: {
+    detail: 'category/detail',
+  },
+};
 type PropsTitle = {
   focused: boolean;
   color: string;
@@ -64,7 +72,7 @@ export const routers = [
   {
     name: routetBottomTab.product,
     title: 'navigation.product',
-    component: Products,
+    component: ProductStackScreen,
     tabBarLabel: ({focused}: PropsTitle) => (
       <TextCustom
         weight="400"
@@ -98,7 +106,7 @@ export const routers = [
         weight="400"
         fontSize={12}
         color={focused ? defaultColors.text_111213 : defaultColors.bg_939393}>
-       Tài khoản
+        Tài khoản
       </TextCustom>
     ),
     tabBarIcon: ({color, size}: PropsIcon) => <ICAccount color={color} />,

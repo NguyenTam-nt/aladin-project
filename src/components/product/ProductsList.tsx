@@ -8,18 +8,19 @@ import useI18n from 'src/hooks/useI18n';
 
 interface IProps {
   products: IProduct[];
-  textTile: string;
+  textTile?: string;
 }
 const ProductsList = memo((props: IProps) => {
-  const {products} = props;
+  const {products, textTile} = props;
   const {isVn} = useI18n();
   return (
     <View style={globalStyles.paddingScreenHorizontal}>
-      <TextTilte text="home.product_sale" />
+      {textTile && <TextTilte text={textTile} />}
       <View style={globalStyles.groupProduct}>
         {(products ?? []).map((it, idx) => {
           return (
             <ProductItem
+              id={it.id}
               promo={it.promo}
               name={isVn ? it.productNameVn : it.productNameKr}
               totalSoldQuantity={it.totalSoldQuantity}

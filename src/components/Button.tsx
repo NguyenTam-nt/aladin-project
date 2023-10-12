@@ -1,4 +1,10 @@
-import {StyleSheet, TouchableOpacity, StyleProp, ViewStyle} from 'react-native';
+import {
+  StyleSheet,
+  TouchableOpacity,
+  StyleProp,
+  ViewStyle,
+  View,
+} from 'react-native';
 import React from 'react';
 import {defaultColors} from '@configs';
 import TextTranslate from './TextTranslate';
@@ -19,8 +25,8 @@ export const Button = ({
   onPress,
 }: Props) => {
   return (
-    <TouchableOpacity
-      onPress={onPress}
+    <View
+      // onPress={onPress}
       style={[styles.styleBtn, StyleSheet.flatten(style)]}>
       {renderLeff ? renderLeff : null}
       <TextTranslate
@@ -30,7 +36,7 @@ export const Button = ({
         text={text}
       />
       {renderRight ? renderRight : null}
-    </TouchableOpacity>
+    </View>
   );
 };
 

@@ -1,18 +1,56 @@
-import {StyleSheet, View} from 'react-native';
+import {Pressable, StyleSheet, View} from 'react-native';
 import {globalStyles} from 'src/commons/globalStyles';
-import {TextCustom} from '../Text';
 import React from 'react';
+import TextTranslate from '../TextTranslate';
+import {defaultColors} from '@configs';
+import {ICCheck} from 'src/assets/icons/radio/ICCheck';
+import {ICRound} from 'src/assets/icons/radio/ICRound';
 
-const FilterBy = () => {
+export const FILTER_BY: {slug: string; name: string}[] = [
+  {slug: 'id,desc', name: 'radio.new-product'},
+  {slug: 'totalSoldQuantity,desc', name: 'radio.selling'},
+  {slug: 'promo,desc', name: 'radio.discount'},
+  {slug: 'price,asc', name: 'radio.priece-high-to-low'},
+  {slug: 'price,desc', name: 'radio.priece-low-to-high'},
+];
+interface IProps {
+  setFilterByItem: (value: string) => void;
+  filterByItem: string;
+}
+const FilterBy = (props: IProps) => {
+  const {filterByItem, setFilterByItem} = props;
+  const handleSetFilter = (value: string) => {
+    setFilterByItem(value);
+  };
   return (
-    <View style={styles.container}>
-      {[1, 2, 3, 4, 5].map((it, idx) => {
-        return (
-          <TextCustom numberOfLines={1} weight="400">
-            Sản phẩm m
-          </TextCustom>
-        );
-      })}
+    <View style={{marginTop: 20, paddingHorizontal: 16}}>
+      <TextTranslate
+        color={defaultColors.text_313131}
+        fontSize={14}
+        weight="700"
+        text="radio.rank"
+        style={{}}
+      />
+      <View style={styles.container}>
+        {FILTER_BY.map((it, idx) => {
+          return (
+            <View style={styles.radioButton}>
+              <Pressable
+                onPress={() => {
+                  handleSetFilter(it.slug);
+                }}>
+                {filterByItem === it.slug ? <ICCheck /> : <ICRound />}
+              </Pressable>
+              <TextTranslate
+                color={defaultColors.text_313131}
+                fontSize={14}
+                weight="400"
+                text={it.name}
+              />
+            </View>
+          );
+        })}
+      </View>
     </View>
   );
 };
@@ -24,6 +62,12 @@ const styles = StyleSheet.create({
     ...globalStyles.flexWrap,
     flexDirection: 'row',
     gap: 10,
-    marginTop: 20,
+    marginTop: 15,
+  },
+  radioButton: {
+    flexDirection: 'row',
+    columnGap: 4,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });

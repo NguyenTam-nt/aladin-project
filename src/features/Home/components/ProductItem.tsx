@@ -9,24 +9,29 @@ import {formatNumberDotWithVND} from 'src/commons/formatMoney';
 import TextTranslate from 'src/components/TextTranslate';
 import {Button} from 'src/components/Button';
 import {ICCart} from 'src/assets/icons/ICCart';
+import {NavLink} from 'src/constants/links';
+import {productRoute} from 'src/constants/routers';
 interface IProps {
+  id?: any;
   promo?: number;
   name?: string;
   totalSoldQuantity?: number;
 }
 const ProductItem = (props: IProps) => {
-  const {promo, name, totalSoldQuantity} = props;
+  const {promo, name, totalSoldQuantity, id} = props;
   return (
     <View style={styles.container}>
       <View style={styles.containerChild}>
-        <View style={styles.ticker}>
-          <View style={[StyleSheet.absoluteFillObject]}>
-            <ICTickerDiscount />
+        {promo !== 0 && (
+          <View style={styles.ticker}>
+            <View style={[StyleSheet.absoluteFillObject]}>
+              <ICTickerDiscount />
+            </View>
+            <TextCustom color={defaultColors.c_fff} weight="bold" fontSize={14}>
+              -{promo}%
+            </TextCustom>
           </View>
-          <TextCustom color={defaultColors.c_fff} weight="bold" fontSize={14}>
-            -{promo}%
-          </TextCustom>
-        </View>
+        )}
         <View style={styles.styleGroupImage}>
           <Thumb
             style={styles.styleImage}
@@ -44,6 +49,7 @@ const ProductItem = (props: IProps) => {
             <TextCustom
               fontSize={12}
               weight="400"
+              height={32}
               numberOfLines={2}
               color={defaultColors.text_313131}>
               {name}
@@ -82,9 +88,15 @@ const ProductItem = (props: IProps) => {
                 globalStyles.justifyContentBetween,
                 {marginTop: 9},
               ]}>
-              <View>
+              <NavLink
+                to={{
+                  screen: productRoute.detail,
+                  params: {
+                    idProduct: id,
+                  },
+                }}>
                 <Button text="common.buy_now" />
-              </View>
+              </NavLink>
               <TouchableOpacity style={styles.styleCart}>
                 <ICCart
                   width={18}

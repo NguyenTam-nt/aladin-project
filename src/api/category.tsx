@@ -19,7 +19,7 @@ export interface ISubCategoryList {
   subCategoryNameKr: string;
   noteSubVn: string;
   noteSubKr: string;
-  categoryId: number;
+  categoryId?: number;
   imagesSubcategory: IImagesSubcategory[];
 }
 export interface ICategory {

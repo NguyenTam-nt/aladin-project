@@ -23,7 +23,17 @@
       "title": "Giới thiệu"
     },
     "product": {
-        "product-protfolio": "DANH MỤC SẢN PHẨM"
+      "product-protfolio": "DANH MỤC SẢN PHẨM",
+      "viewed-product": "SẢN PHẨM ĐÃ XEM",
+      "note-when-using": "Lưu ý khi sử dụng:"
+    },
+    "radio": {
+      "rank": "Xếp theo:",
+      "new-product": "Sản phẩm mới",
+      "selling": "Bán chạy",
+      "discount": "Giảm giá",
+      "priece-high-to-low": "Giá cao đến thấp",
+      "priece-low-to-high": "Giá thấp đến cao"
     }
   }
 }

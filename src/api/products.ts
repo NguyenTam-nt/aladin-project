@@ -107,7 +107,7 @@ export interface IProductOutStanding {
   productNameKr: string;
   salientFeaturedVn: string;
   salientFeaturedKr: string;
-  image: string
+  image: string;
 }
 export const getProductsOutStanding = async (
   params: IParams,
@@ -135,6 +135,24 @@ export const getProductsApi = async (
       params,
     });
     const data = await result.data.content;
+    return {
+      success: true,
+      data: data,
+    };
+  } catch (error) {
+    return handleError(error);
+  }
+};
+
+export const getProductsDetailApi = async (
+  id: any,
+  address: string,
+): Promise<IResponseApi<IProduct>> => {
+  try {
+    const result = await request().get(
+      `${APIs.PRODUCTS}/${id}?address=${address}`,
+    );
+    const data = await result.data;
     return {
       success: true,
       data: data,

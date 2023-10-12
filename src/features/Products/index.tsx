@@ -34,7 +34,10 @@ import {
 import ProductsList from 'src/components/product/ProductsList';
 import FeaturedComponents from 'src/components/FeaturedComponents';
 import SpaceBottom from 'src/components/SpaceBottom';
-import FilterBy from 'src/components/FilterBy';
+import FilterBy, {FILTER_BY} from 'src/components/FilterBy';
+import ContactTopic from '../Home/components/ContactTopic';
+import {NavLink} from 'src/constants/links';
+import {productRoute} from 'src/constants/routers';
 
 const TextHeader = (props: {
   text: string;
@@ -58,16 +61,16 @@ interface IListTextCategories {
 }
 interface PropsHeader {
   listTextCategories: IListTextCategories[];
-  setIdCategory: (id: number) => void;
+  setCategoryItem: (id: any) => void;
 }
 
 const HeaderProduct = memo((props: PropsHeader) => {
-  const {listTextCategories, setIdCategory} = props;
+  const {listTextCategories, setCategoryItem} = props;
   const {isVn} = useI18n();
   const [itemAction, setItemAction] = useState<IListTextCategories>();
   const handleAction = (item: IListTextCategories) => {
     setItemAction(item);
-    setIdCategory(item.id);
+    setCategoryItem(item);
   };
   useEffect(() => {
     if (listTextCategories.length > 0) {
@@ -106,6 +109,7 @@ const HeaderProduct = memo((props: PropsHeader) => {
 });
 
 const Products = () => {
+  const {isVn} = useI18n();
   const [categories, setCategories] = useState<ICategory[]>([]);
   const [listTextCategories, setListTextCategories] = useState<
     IListTextCategories[]
@@ -116,13 +120,18 @@ const Products = () => {
     IProductOutStanding[]
   >([]);
   const [productsSortBy, setProductsSortBy] = useState<IProduct[]>([]);
-  const [idCategory, setIdCategory] = useState<number>();
+  const [categoryItem, setCategoryItem] = useState<{
+    id: number;
+    name: string;
+    nameKr: string;
+  }>();
+  const [filterByItem, setFilterByItem] = useState<string>(FILTER_BY[0].slug);
   const getCategories = async () => {
     try {
       const res = await getCategoriesApi();
       if (res) {
         const data = res.data;
-        setCategories(data);
+        // setCategories(data);
         const listTextCate = data.map(it => {
           return {
             id: it.id,
@@ -130,8 +139,10 @@ const Products = () => {
             nameKr: it.categoryNameKr,
           };
         });
-
-        setListTextCategories(listTextCate);
+        if (listTextCate.length > 0) {
+          setListTextCategories(listTextCate);
+          setCategoryItem(listTextCate[0]);
+        }
       }
     } catch (error) {
       console.log(error);
@@ -149,13 +160,13 @@ const Products = () => {
     }
   };
 
-  const getProducts = async () => {
+  const getProductsSale = async (idCategory: number) => {
     try {
       const params = {
         page: 0,
         size: 10,
         sort: 'promo,desc',
-        categoryId: 401,
+        categoryId: idCategory,
       };
       const res = await getProductsApi(params);
       setProductsSale(res.data);
@@ -181,16 +192,22 @@ const Products = () => {
     }
   };
 
-  const getProductsSortBy = async () => {
+  const getProductsSortBy = async (
+    idCategory: number,
+    keyfilterByItem: string,
+  ) => {
     try {
       const params = {
         page: 0,
         size: 10,
-        sort: 'promo,desc',
-        categoryId: 401,
+        sort: keyfilterByItem,
+        categoryId: idCategory,
       };
       const res = await getProductsApi(params);
-      setProductsSale(res.data);
+      if (res) {
+        setProductsSortBy(res.data);
+      }
+      // setProductsSale(res.data);
     } catch (error) {
       console.log(error);
     }
@@ -198,15 +215,20 @@ const Products = () => {
 
   useEffect(() => {
     getCategories();
-    getProducts();
   }, []);
   useEffect(() => {
-    if (idCategory) {
-      getSubListCategories(idCategory);
-      getProductOutStanding(idCategory);
+    if (categoryItem) {
+      getSubListCategories(categoryItem.id);
+      getProductOutStanding(categoryItem.id);
+      getProductsSale(categoryItem.id);
     }
-  }, [idCategory]);
-  console.log(productsOutStanding, 'products');
+  }, [categoryItem]);
+
+  useEffect(() => {
+    if (categoryItem) {
+      getProductsSortBy(categoryItem.id, filterByItem);
+    }
+  }, [categoryItem, filterByItem]);
 
   return (
     <View style={styles.container}>
@@ -215,7 +237,7 @@ const Products = () => {
         children={
           <HeaderProduct
             listTextCategories={listTextCategories}
-            setIdCategory={setIdCategory}
+            setCategoryItem={setCategoryItem}
           />
         }
       />
@@ -225,34 +247,39 @@ const Products = () => {
           <CityFilter />
           <CartButton />
         </View>
-        <TextTranslate
-          color={defaultColors.bg_00C3AB}
-          fontSize={18}
-          textTransform="uppercase"
-          weight="700"
-          text="product.product-protfolio"
-        />
-        <View style={{marginTop: 7}}>
-          <FlatList
-            data={subListCategories?.subCategoryList ?? []}
-            // style={{...globalStyles.row, columnGap: 8}}
-            renderItem={({item, index}) => {
-              return (
-                <TouchableOpacity
-                  onPress={() => {
-                    // handleAction(item);
-                  }}
-                  style={{
-                    paddingHorizontal: 8,
-                  }}>
-                  <CardSubListCategory subCatewgoryItem={item} />
-                </TouchableOpacity>
-              );
-            }}
-            keyExtractor={(_, index) => index.toString()}
-            horizontal
-            showsHorizontalScrollIndicator={false}
+        <View>
+          <TextTranslate
+            color={defaultColors.bg_00C3AB}
+            fontSize={18}
+            textTransform="uppercase"
+            weight="700"
+            text="product.product-protfolio"
           />
+          <View style={{marginTop: 7}}>
+            <FlatList
+              data={subListCategories?.subCategoryList ?? []}
+              renderItem={({item, index}) => {
+                return (
+                  <NavLink
+                    to={{
+                      screen: productRoute.categories.detail,
+                      params: {
+                        idSubCategory: item.id,
+                        idCategory: categoryItem?.id,
+                      },
+                    }}
+                    style={{
+                      paddingHorizontal: 8,
+                    }}>
+                    <CardSubListCategory subCatewgoryItem={item} />
+                  </NavLink>
+                );
+              }}
+              keyExtractor={(_, index) => index.toString()}
+              horizontal
+              showsHorizontalScrollIndicator={false}
+            />
+          </View>
         </View>
       </View>
       <ScrollView>
@@ -268,9 +295,19 @@ const Products = () => {
               <FeaturedComponents data={productsOutStanding} />
             )}
           </View>
-          <View style={{marginTop: 27}}>
-            <FilterBy />
+          <View style={{marginTop: 27, paddingHorizontal: 18}}>
+            <TextTilte
+              text={isVn ? categoryItem?.name : categoryItem?.nameKr}
+            />
+            <FilterBy
+              setFilterByItem={setFilterByItem}
+              filterByItem={filterByItem}
+            />
           </View>
+          {productsSortBy.length > 0 && (
+            <ProductsList products={productsSortBy} />
+          )}
+          <ContactTopic />
         </View>
         <SpaceBottom />
       </ScrollView>
