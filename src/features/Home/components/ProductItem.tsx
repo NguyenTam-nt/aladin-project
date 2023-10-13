@@ -7,10 +7,10 @@ import {defaultColors} from '@configs';
 import {globalStyles} from 'src/commons/globalStyles';
 import {formatNumberDotWithVND} from 'src/commons/formatMoney';
 import TextTranslate from 'src/components/TextTranslate';
-import {Button} from 'src/components/Button';
 import {ICCart} from 'src/assets/icons/ICCart';
 import {NavLink} from 'src/constants/links';
 import {productRoute} from 'src/constants/routers';
+import {ButtonNavigate} from 'src/components/Buttons/ButtonNavigate';
 interface IProps {
   id?: any;
   promo?: number;
@@ -95,7 +95,7 @@ const ProductItem = (props: IProps) => {
                     idProduct: id,
                   },
                 }}>
-                <Button text="common.buy_now" />
+                <ButtonNavigate text="common.buy_now" />
               </NavLink>
               <TouchableOpacity style={styles.styleCart}>
                 <ICCart

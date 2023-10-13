@@ -59,6 +59,7 @@ export interface IAttributes {
   attributeNameKr: string;
 }
 export interface IProductDetails {
+  id: any;
   productDetailId: number;
   priceDetail: number;
   promoDetail: number;

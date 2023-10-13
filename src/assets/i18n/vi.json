@@ -17,7 +17,8 @@
     "common": {
       "search": "Nhập tìm kiếm",
       "view_price": "Xem giá, tồn kho tại:",
-      "buy_now": "Mua ngay"
+      "buy_now": "Mua ngay",
+      "see-more": "Xem thêm"
     },
     "about": {
       "title": "Giới thiệu"
@@ -25,7 +26,20 @@
     "product": {
       "product-protfolio": "DANH MỤC SẢN PHẨM",
       "viewed-product": "SẢN PHẨM ĐÃ XEM",
-      "note-when-using": "Lưu ý khi sử dụng:"
+      "note-when-using": "Lưu ý khi sử dụng:",
+      "quanlity": "Số lượng:",
+      "policy": {
+        "title": "Yên tâm mua hàng tại Market Moa",
+        "hight-quanlity": "100% Hàng Việt Nam Chất Lượng Cao",
+        "best-priece": "Cam Kết Giá Tốt Nhất & CTKM Hấp Dẫn",
+        "service": "Dịch Vụ Bảo Hành Chuyên Nghiệp",
+        "nationwide-delivery": "Giao Hàng Toàn Quốc"
+      },
+      "features": "Đặc điểm nổi bật",
+      "descriptions": {
+        "product-info": "Thông tin sản phẩm",
+        "spec": "Thông số kỹ thuật"
+      }
     },
     "radio": {
       "rank": "Xếp theo:",

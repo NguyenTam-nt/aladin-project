@@ -7,7 +7,7 @@ import {
 } from 'react-native';
 import React from 'react';
 import {defaultColors} from '@configs';
-import TextTranslate from './TextTranslate';
+import TextTranslate from '../TextTranslate';
 
 type Props = {
   renderLeff?: JSX.Element;
@@ -17,17 +17,14 @@ type Props = {
   onPress?: () => void;
 };
 
-export const Button = ({
+export const ButtonNavigate = ({
   renderLeff,
   renderRight,
   text,
   style,
-  onPress,
 }: Props) => {
   return (
-    <View
-      // onPress={onPress}
-      style={[styles.styleBtn, StyleSheet.flatten(style)]}>
+    <View style={[styles.styleBtn, StyleSheet.flatten(style)]}>
       {renderLeff ? renderLeff : null}
       <TextTranslate
         fontSize={14}
