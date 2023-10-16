@@ -17,7 +17,7 @@ const persistConfig = {
   key: 'root',
   storage: AsyncStorage,
   keyPrefix: '',
-  whitelist: ['appInfoReducer', 'multiLangage'],
+  whitelist: ['appInfoReducer', 'multiLangage', 'infoProvice'],
   blacklist: [],
 };
 
@@ -32,7 +32,6 @@ const store = configureStore({
       },
     }),
 });
-
 
 export default store;
 export const persistor = persistStore(store);

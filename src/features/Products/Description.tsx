@@ -103,7 +103,7 @@ const styles = (
     contentStyle: {
       flex: 1,
       marginTop: 17,
-    //   height: '100%',
+      //   height: '100%',
       // actionKey === 'product-info'
       //   ? seeMore
       //     ? '100%'
@@ -114,6 +114,6 @@ const styles = (
     },
     buttomGroup: {
       marginTop: 17,
-      height: '100%',
+      // height: '100%',
     },
   });

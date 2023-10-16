@@ -11,12 +11,19 @@ export const NavLink = ({
   to,
   action,
   children,
+  handleOnPress,
   ...rest
 }: PropsWithChildren<any>) => {
   const {onPress, ...props} = useLinkProps({to, action});
 
   return (
-    <TouchableOpacity onPress={onPress} {...props} {...rest}>
+    <TouchableOpacity
+      onPress={() => {
+        onPress();
+        handleOnPress?.();
+      }}
+      {...props}
+      {...rest}>
       {children}
     </TouchableOpacity>
   );

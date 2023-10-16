@@ -22,8 +22,14 @@ const ProductsList = memo((props: IProps) => {
             <ProductItem
               id={it.id}
               promo={it.promo}
-              name={isVn ? it.productNameVn : it.productNameKr}
+              name={it.productNameVn}
+              nameKr={it.productNameKr}
               totalSoldQuantity={it.totalSoldQuantity}
+              // @ts-ignore
+              images={it.images}
+              categoryId={it.categoryId}
+              subCategoryId={it.subCategoryId}
+              price={it.price}
             />
           );
         })}

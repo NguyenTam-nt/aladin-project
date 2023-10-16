@@ -1,4 +1,4 @@
-import {StyleSheet, View} from 'react-native';
+import {StyleSheet, TouchableOpacity, View} from 'react-native';
 import React, {PropsWithChildren} from 'react';
 import {defaultColors} from '@configs';
 import RadialGradient from 'react-native-radial-gradient';
@@ -10,9 +10,11 @@ import {Header} from 'src/components/Header';
 
 interface HeaderProps {
   headerBase?: boolean;
+  setShowProvice?: (value: boolean) => void;
+  showProvice?: boolean;
 }
 const HeaderHome = (props: PropsWithChildren<HeaderProps>) => {
-  const {headerBase = true, children} = props;
+  const {headerBase = true, setShowProvice, showProvice, children} = props;
   return (
     <Header>
       <RadialGradient
@@ -26,10 +28,13 @@ const HeaderHome = (props: PropsWithChildren<HeaderProps>) => {
         {headerBase && (
           <>
             <InputSearch containerStyle={styles.styleInput} />
-            <CityFilter />
+            <TouchableOpacity onPress={() => setShowProvice?.(!showProvice)}>
+              <CityFilter />
+            </TouchableOpacity>
             <CartButton />
           </>
         )}
+
         {children && children}
       </View>
     </Header>
@@ -55,5 +60,29 @@ const styles = StyleSheet.create({
   styleInput: {
     flex: 1,
     height: '100%',
+  },
+  showProvice: {
+    // position: 'absolute',
+    // flex: 1,
+    // top: 10,
+    // // left: 0,
+    // right: -10,
+    width: '100%',
+    backgroundColor: defaultColors._FFDB9E,
+    zIndex: 3,
+    elevation: 3,
+  },
+  styleBackgroudOpacity: {
+    position: 'absolute',
+    right: 0,
+    bottom: 0,
+    top: 100,
+    left: 0,
+    // opacity: 0.99,
+    // zIndex: 100,
+    // justifyContent: getValueForDevice('center','flex-end') ,
+    alignItems: 'center',
+    margin: 0,
+    zIndex: 1,
   },
 });

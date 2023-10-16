@@ -11,14 +11,72 @@ import {ICCart} from 'src/assets/icons/ICCart';
 import {NavLink} from 'src/constants/links';
 import {productRoute} from 'src/constants/routers';
 import {ButtonNavigate} from 'src/components/Buttons/ButtonNavigate';
+import {
+  getArrayToAsyncStorage,
+  setArrayToAsyncStorage,
+} from 'src/constants/ayncStorage';
+import {storegeKey} from 'src/constants/defines';
+import useI18n from 'src/hooks/useI18n';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 interface IProps {
   id?: any;
   promo?: number;
   name?: string;
+  nameKr?: string;
   totalSoldQuantity?: number;
+  images: {
+    url: string;
+  }[];
+  categoryId?: any;
+  subCategoryId?: any;
+  price: any;
 }
 const ProductItem = (props: IProps) => {
-  const {promo, name, totalSoldQuantity, id} = props;
+  const {isVn} = useI18n();
+  const {
+    promo,
+    name,
+    nameKr,
+    totalSoldQuantity,
+    id,
+    images,
+    categoryId,
+    subCategoryId,
+    price,
+  } = props;
+  const handleAddStorage = async () => {
+    const newData = {
+      id: id,
+      promo: promo,
+      productNameVn: name,
+      productNameKr: nameKr,
+      totalSoldQuantity: totalSoldQuantity,
+      images: images,
+      categoryId: categoryId,
+      subCategoryId: subCategoryId,
+      price: price,
+      createAt: new Date(),
+    };
+
+    // await AsyncStorage.clear();
+    try {
+      const datas = await getArrayToAsyncStorage(storegeKey.PRODUCTS);
+
+      if (datas === null || datas === undefined) {
+        const viewedProducts = [];
+        viewedProducts.push(newData);
+        setArrayToAsyncStorage(storegeKey.PRODUCTS, viewedProducts);
+      } else if (datas) {
+        const viewedProducts = datas.filter((it: any) => it.id !== id);
+
+        viewedProducts.unshift(newData);
+        setArrayToAsyncStorage(storegeKey.PRODUCTS, viewedProducts);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <View style={styles.container}>
       <View style={styles.containerChild}>
@@ -35,7 +93,8 @@ const ProductItem = (props: IProps) => {
         <View style={styles.styleGroupImage}>
           <Thumb
             style={styles.styleImage}
-            source={require('../../../assets/image/home/product.png')}
+            //@ts-ignore
+            source={{uri: images?.length > 0 && images?.[0].url}}
             resizeMode="cover"
           />
         </View>
@@ -52,7 +111,7 @@ const ProductItem = (props: IProps) => {
               height={32}
               numberOfLines={2}
               color={defaultColors.text_313131}>
-              {name}
+              {isVn ? name : nameKr}
             </TextCustom>
             <View
               style={[
@@ -64,7 +123,7 @@ const ProductItem = (props: IProps) => {
                 fontSize={18}
                 weight="800"
                 color={defaultColors.primary}>
-                {formatNumberDotWithVND(400000)}
+                {formatNumberDotWithVND(price)}
               </TextCustom>
               <View style={[globalStyles.row]}>
                 <TextTranslate
@@ -93,8 +152,13 @@ const ProductItem = (props: IProps) => {
                   screen: productRoute.detail,
                   params: {
                     idProduct: id,
+                    categoryId: categoryId,
+                    subCategoryId: subCategoryId,
                   },
-                }}>
+                }}
+                handleOnPress={() => handleAddStorage()}
+                // onPress={() => console.log('product item')}
+              >
                 <ButtonNavigate text="common.buy_now" />
               </NavLink>
               <TouchableOpacity style={styles.styleCart}>

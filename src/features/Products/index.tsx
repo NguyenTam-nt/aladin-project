@@ -95,6 +95,7 @@ const HeaderProduct = memo((props: PropsHeader) => {
               <TextHeader
                 text={isVn ? item.name : item.nameKr}
                 idx={item.id}
+                // @ts-ignore
                 itemAction={itemAction}
               />
             </TouchableOpacity>
@@ -297,6 +298,7 @@ const Products = () => {
           </View>
           <View style={{marginTop: 27, paddingHorizontal: 18}}>
             <TextTilte
+              //@ts-ignore
               text={isVn ? categoryItem?.name : categoryItem?.nameKr}
             />
             <FilterBy

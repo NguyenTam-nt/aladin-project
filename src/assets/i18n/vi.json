@@ -18,7 +18,8 @@
       "search": "Nhập tìm kiếm",
       "view_price": "Xem giá, tồn kho tại:",
       "buy_now": "Mua ngay",
-      "see-more": "Xem thêm"
+      "see-more": "Xem thêm",
+      "choose-provice": "Hoặc chọn tỉnh, thành phố"
     },
     "about": {
       "title": "Giới thiệu"
@@ -39,6 +40,10 @@
       "descriptions": {
         "product-info": "Thông tin sản phẩm",
         "spec": "Thông số kỹ thuật"
+      },
+      "related": {
+        "product-same-category": "Sản phẩm cùng danh mục",
+        "viewed-products": "Sản phẩm đã xem"
       }
     },
     "radio": {
@@ -48,6 +53,24 @@
       "discount": "Giảm giá",
       "priece-high-to-low": "Giá cao đến thấp",
       "priece-low-to-high": "Giá thấp đến cao"
+    },
+    "contact": {
+      "title": "Nhận tư vấn miễn phí",
+      "description": "Chúng tôi rất vui khi được nhận thông tin từ bạn. Bạn có thể điền đầy đủ thông tin vào form bên dưới, SME Store sẽ phản hồi lại bạn trong thời gian sớm nhất.",
+      "full-name": "Họ và tên",
+      "planhoder-full-name": "Họ và tên của bạn",
+      "phone-number": "Số điện thoại",
+      "planhoder-phone-number": "Nhập số điện thoại của bạn",
+      "address": "Địa chỉ",
+      "planhoder-address": "Địa chỉ của bạn",
+      "email": "Email",
+      "planhoder-email": "Nhập email của bạn",
+      "content": "Nội dung",
+      "planhoder-content": "Nội dung cần được tư vấn"
+    },
+    "button": {
+      "required-contact": "Yêu cầu tư vấn",
+      "see-more-product": "Xem thêm sản phẩm"
     }
   }
 }

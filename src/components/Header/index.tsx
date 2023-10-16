@@ -40,6 +40,6 @@ export const Header: React.FC<HeaderProps> = memo(props => {
 
 const styles = StyleSheet.create({
   container: {
-    paddingHorizontal: paddingHorizontalScreen
+    paddingHorizontal: paddingHorizontalScreen,
   },
 });

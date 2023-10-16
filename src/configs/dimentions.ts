@@ -67,6 +67,7 @@ export const defaultColors = {
   text_C4C4C4: '#C4C4C4',
   _00D2B8: '#00D2B8',
   bg_FF6B00: '#FF6B00',
+  text_EE0000: '#EE0000',
 };
 
 export const heightHeader = 56;

@@ -5,21 +5,21 @@ import {KeyboardAvoidingView, StyleSheet} from 'react-native';
 import {isIOS} from '@constants';
 
 export type ModalCustomProps = {
-  children: ReactNode
-  noneClose?: boolean
-  backdropOpacity?: number
-  backdropBg?: string
-  bgColor?: string
-  onClose?: () => void
-  onBackdropPress?: () => void | undefined | boolean
-  swipeDirection?: Direction
-  isCloseOnBackdrop?: boolean
-  isCenter?: boolean
-} & Partial<ModalProps>
+  children: ReactNode;
+  noneClose?: boolean;
+  backdropOpacity?: number;
+  backdropBg?: string;
+  bgColor?: string;
+  onClose?: () => void;
+  onBackdropPress?: () => void | undefined | boolean;
+  swipeDirection?: Direction;
+  isCloseOnBackdrop?: boolean;
+  isCenter?: boolean;
+} & Partial<ModalProps>;
 export type ModalCustomMethod = {
-  show: (isFullScreen: boolean) => void
-  hide: () => void
-  modalIsVisiable: () => boolean
+  show: (isFullScreen: boolean) => void;
+  hide: () => void;
+  modalIsVisiable: () => boolean;
 };
 const ModalCustom = forwardRef<ModalCustomMethod, ModalCustomProps>(
   (
@@ -34,7 +34,7 @@ const ModalCustom = forwardRef<ModalCustomMethod, ModalCustomProps>(
       propagateSwipe = false,
       swipeDirection,
       isCloseOnBackdrop = true,
-      isCenter = true
+      isCenter = true,
     }: ModalCustomProps,
     ref,
   ) => {
@@ -107,15 +107,20 @@ const ModalCustom = forwardRef<ModalCustomMethod, ModalCustomProps>(
         // useNativeDriver
         avoidKeyboard
         propagateSwipe
-        style={[styles.styleBackgroudOpacity, {
-          justifyContent: isCenter ? 'center' : 'flex-end'
-        }]}
+        style={[
+          styles.styleBackgroudOpacity,
+          {
+            justifyContent: isCenter ? 'center' : 'flex-end',
+          },
+        ]}
         swipeThreshold={50}
         onBackButtonPress={() => {
           if (onBackdropPress) {
             const rs = onBackdropPress();
 
-            if (!rs && isCloseOnBackdrop) {setIsVisible(false);}
+            if (!rs && isCloseOnBackdrop) {
+              setIsVisible(false);
+            }
           } else if (isCloseOnBackdrop) {
             setIsVisible(false);
           }
@@ -132,7 +137,7 @@ const ModalCustom = forwardRef<ModalCustomMethod, ModalCustomProps>(
         // coverScreen={!isIOS || false}
         isVisible={isVisible}
         animationIn={animationIn}
-       animationOutTiming={200}
+        animationOutTiming={200}
         animationOut={animationOut}
         // hasBackdrop={false}
         backdropOpacity={backdropOpacity}
@@ -144,13 +149,8 @@ const ModalCustom = forwardRef<ModalCustomMethod, ModalCustomProps>(
           if (onBackdropPress) {
             onBackdropPress();
           }
-        }}
-        >
-        {!isIOS ? (
-          children
-        ) : (
-          children
-        )}
+        }}>
+        {!isIOS ? children : children}
       </Modal>
     );
   },
@@ -164,11 +164,11 @@ const styles = StyleSheet.create({
     right: 0,
     bottom: 0,
     top: 0,
-    left:0,
+    left: 0,
     // opacity: 0.99,
     // zIndex: 100,
     // justifyContent: getValueForDevice('center','flex-end') ,
-    alignItems: 'center' ,
+    alignItems: 'center',
     margin: 0,
   },
   styleChildren: {

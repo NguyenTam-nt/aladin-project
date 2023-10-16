@@ -11,6 +11,7 @@ import {Home} from 'src/features/Home';
 import {About} from 'src/features/About';
 import Products from 'src/features/Products';
 import {ProductStackScreen} from 'src/navigations/ProductStack';
+import { ContactStackScreen } from 'src/navigations/ContactStack';
 
 const routetBottomTab = {
   home: 'home',
@@ -27,6 +28,10 @@ export const productRoute = {
     detail: 'category/detail',
   },
 };
+export const contactRoute = {
+  prifex: '/contact',
+};
+
 type PropsTitle = {
   focused: boolean;
   color: string;
@@ -86,7 +91,7 @@ export const routers = [
   {
     name: routetBottomTab.contact,
     title: 'navigation.contact',
-    component: Home,
+    component: ContactStackScreen,
     tabBarLabel: ({focused}: PropsTitle) => (
       <TextCustom
         weight="400"
