@@ -1,6 +1,6 @@
-import {APIs, IData} from './config';
+import {APIs} from './config';
 import request from './request';
-import {IResponseApi, Image} from './types';
+import {IResponseApi} from './types';
 import {handleError} from './handleError';
 
 export interface IImagesCategory {
@@ -29,7 +29,9 @@ export interface ICategory {
   subCategoryList: ISubCategoryList[];
   imagesCategory: IImagesCategory[];
 }
-export const getCategoriesApi = async (): Promise<IResponseApi<ICategory[]>> => {
+export const getCategoriesApi = async (): Promise<
+  IResponseApi<ICategory[]>
+> => {
   try {
     const result = await request().get(`${APIs.CATEGORIES}`);
     const data = await result.data;
@@ -41,7 +43,9 @@ export const getCategoriesApi = async (): Promise<IResponseApi<ICategory[]>> => 
     return handleError(e);
   }
 };
-export const getCategororyByIDApi = async (id: number): Promise<IResponseApi<ICategory>> => {
+export const getCategororyByIDApi = async (
+  id: number,
+): Promise<IResponseApi<ICategory>> => {
   try {
     const result = await request().get(`${APIs.CATEGORIES}/${id}`);
     const data = await result.data;
@@ -53,4 +57,3 @@ export const getCategororyByIDApi = async (id: number): Promise<IResponseApi<ICa
     return handleError(e);
   }
 };
-

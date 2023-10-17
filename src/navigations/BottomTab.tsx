@@ -3,11 +3,10 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {BottomTabBarProps} from '@react-navigation/bottom-tabs/src/types';
 import {BOTTOM_BAR_HEIGHT, defaultColors} from '@configs';
 import {Pressable, View, StyleSheet} from 'react-native';
-import {TextCustom} from '@components';
 import {DIMENSION, hasBottomNav, isAndroid, isIOS} from '@constants';
 import {routers} from 'src/constants/routers';
 import {IUserInfo} from 'src/redux/reducers/AuthSlice';
-import TextTranslate from 'src/components/TextTranslate'
+import TextTranslate from 'src/components/TextTranslate';
 
 const BottomTabNavigator = createBottomTabNavigator();
 
@@ -170,9 +169,9 @@ const BottomTabItemView = React.memo((props: BottomTabItemViewProps) => {
         // size={fontSize.size10}
         fontSize={12}
         weight="400"
-        marginTop={4} 
+        marginTop={4}
         text={options.title}
-        />
+      />
     </Pressable>
   );
 });

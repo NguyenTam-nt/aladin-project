@@ -8,3 +8,5 @@ export const introductionImage = require('./about/introduction.png');
 export const introductionImage1 = require('./about/introduction1.jpg');
 export const backgroundAbout = require('./about/introduction2.png');
 export const bgSearchBar = require('./products/bgSearchBar.png');
+export const VietnamFlag = require('./flag/VietnamsFlag.png');
+export const koreanFlag = require('./flag/koreanFlag.png');

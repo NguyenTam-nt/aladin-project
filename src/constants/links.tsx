@@ -1,5 +1,5 @@
 import {useLinkProps, useNavigation} from '@react-navigation/native';
-import React, {PropsWithChildren} from 'react';
+import React, {PropsWithChildren, useCallback} from 'react';
 import {TouchableOpacity} from 'react-native';
 
 export type RouteProps = {
@@ -26,5 +26,15 @@ export const NavLink = ({
       {...rest}>
       {children}
     </TouchableOpacity>
+  );
+};
+
+export const useAlert = (params?: {[k: string]: string | null | undefined}) => {
+  const navigation = useNavigation();
+  return useCallback(
+    (extraParams?: {[k: string]: string | null | undefined}) => {
+      navigation.navigate('popup', {...params, ...extraParams});
+    },
+    [navigation, params],
   );
 };

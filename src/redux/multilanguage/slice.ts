@@ -1,16 +1,17 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 
-export enum language {
-  'vi' = 'vi',
-  'ko' = 'ko',
-}
+// export enum language {
+//   'vi' = 'vi',
+//   'ko' = 'ko',
+// }
 
+export type language = 'vi' | 'ko';
 export interface ILanguageState {
   currenLanguage: language;
 }
 
 const initialState: ILanguageState = {
-  currenLanguage: language.vi,
+  currenLanguage: 'vi',
 };
 
 export const multiLangage = createSlice({

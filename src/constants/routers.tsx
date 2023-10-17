@@ -11,7 +11,9 @@ import {Home} from 'src/features/Home';
 import {About} from 'src/features/About';
 import Products from 'src/features/Products';
 import {ProductStackScreen} from 'src/navigations/ProductStack';
-import { ContactStackScreen } from 'src/navigations/ContactStack';
+import {ContactStackScreen} from 'src/navigations/ContactStack';
+import AccountScreen from 'src/features/Account';
+import {AccountStackScreen} from 'src/navigations/AccountStack';
 
 const routetBottomTab = {
   home: 'home',
@@ -22,8 +24,8 @@ const routetBottomTab = {
 };
 
 export const productRoute = {
-  prifex: 'product',
-  detail: 'product/detail',
+  prifex: 'products',
+  detail: 'products/detail',
   categories: {
     detail: 'category/detail',
   },
@@ -32,6 +34,9 @@ export const contactRoute = {
   prifex: '/contact',
 };
 
+export const accountRoute = {
+  prifex: '/profile',
+};
 type PropsTitle = {
   focused: boolean;
   color: string;
@@ -105,7 +110,7 @@ export const routers = [
   {
     name: routetBottomTab.account,
     title: 'navigation.account',
-    component: Home,
+    component: AccountStackScreen,
     tabBarLabel: ({focused}: PropsTitle) => (
       <TextCustom
         weight="400"

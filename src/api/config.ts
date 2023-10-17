@@ -24,6 +24,7 @@ export const microServices = {
   about: 'introduction',
   product: 'products',
   categories: 'categories',
+  contact: 'contact',
 };
 
 export const getMicroService = (api: string, service = microServices.home) => {
@@ -47,6 +48,11 @@ export const getMicroServiceProductPlustMark = (
   return `/api/${service}`;
 };
 
+export const getMicroServiceContactPlustMark = (
+  service = microServices.contact,
+) => {
+  return `/api/${service}`;
+};
 export const getMicroServiceCategoriesPlustMark = (
   service = microServices.categories,
 ) => {
@@ -81,6 +87,7 @@ export const APIs = {
   PRODUCT_OUT_STANDING: getMicroServiceProductOutStandingPlustMark('featured'),
   PRODUCTS: getMicroServiceProductPlustMark(),
   CATEGORIES: getMicroServiceCategoriesPlustMark(),
+  CONTACT: getMicroServiceContactPlustMark(),
   USER: getMicroService('user', microServices.account),
   FLOOR: getMicroService('areas', microServices.restaurant),
   TABLE: getMicroService('table', microServices.restaurant),

@@ -1,5 +1,9 @@
 {
   "translation": {
+    "company": {
+      "name": "Market Moa",
+      "support": "Mọi thắc mắc xin vui lòng liên hệ:"
+    },
     "home": {
       "product_sale": "Sản phẩm sale",
       "sold": "Đã bán",
@@ -56,7 +60,7 @@
     },
     "contact": {
       "title": "Nhận tư vấn miễn phí",
-      "description": "Chúng tôi rất vui khi được nhận thông tin từ bạn. Bạn có thể điền đầy đủ thông tin vào form bên dưới, SME Store sẽ phản hồi lại bạn trong thời gian sớm nhất.",
+      "description": "Chúng tôi rất vui khi được nhận thông tin từ bạn. Bạn có thể điền đầy đủ thông tin vào form bên dưới, Market MOA sẽ phản hồi lại bạn trong thời gian sớm nhất.",
       "full-name": "Họ và tên",
       "planhoder-full-name": "Họ và tên của bạn",
       "phone-number": "Số điện thoại",
@@ -68,9 +72,67 @@
       "content": "Nội dung",
       "planhoder-content": "Nội dung cần được tư vấn"
     },
+    "account": {
+      "logout": "Đăng xuất",
+      "manage-account-info": "Quản lý thông tin tài khoản",
+      "change-pass": "Thay đổi mật khẩu",
+      "language": "Ngôn ngữ",
+      "screen-manage-account": {
+        "form": {
+          "full-name": "Họ và tên",
+          "planhoder-full-name": "Nhập họ và tên",
+          "email": "Email",
+          "planhoder-email": "Nhập email",
+          "address": "Địa chỉ",
+          "planhoder-address": "Địa chỉ bạn nhập là địa chỉ giao hàng",
+          "account-name": "Tên tài khoản",
+          "planhoder-account-name": "Nhập tên tài khoản đăng nhập"
+        }
+      },
+      "screen-change-pass": {
+        "title": "Đổi mật khẩu",
+        "form": {
+          "old-pass": "Mật khẩu cũ",
+          "planhoder-old-pass": "Nhập mật khẩu cũ",
+          "new-pass": "Mật khẩu mới",
+          "planhoder-new-pass": "Nhập mật khẩu mới",
+          "current-pass": "Mật khẩu hiện tại",
+          "planhoder-current-pass": "Nhập mật khẩu hiện tại"
+        }
+      }
+    },
     "button": {
       "required-contact": "Yêu cầu tư vấn",
-      "see-more-product": "Xem thêm sản phẩm"
+      "see-more-product": "Xem thêm sản phẩm",
+      "cancel": "Hủy",
+      "update": "Cập nhật"
+    },
+    "messages": {
+      "full-name": {
+        "requied": "Họ và tên không bỏ trống."
+      },
+      "phone-number": {
+        "requied": "Số điện thoại không bỏ trống.",
+        "matches": "Số điện thoại không đúng định dạng."
+      },
+      "email": {
+        "requied": "Email không bỏ trống.",
+        "matches": "Email không đúng định dạng."
+      },
+      "address": {
+        "requied": "Địa chỉ không bỏ trống."
+      },
+      "content": {
+        "requied": "Nội dung không bỏ trống."
+      },
+      "max": "Tối đa {{max}} ký tự.",
+      "success": {
+        "order-cart": "Đặt hàng thành công",
+        "free-couslution": "Yêu cầu tư vấn thành công",
+        "content-free-cousl": "Sẽ phản hồi trong thời gian sớm nhất",
+        "content-order-cart": "Cảm ơn bạn đã đặt hàng tại",
+        "desc-order-cart": "Đơn hàng của bạn đã được hệ thống xác nhận"
+      }
     }
   }
 }

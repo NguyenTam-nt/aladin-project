@@ -47,9 +47,11 @@ const ContactTopic = () => {
             />
             <View style={styles.container_btn}>
               <View style={globalStyles.center}>
-                <TouchableOpacity onPress={() => {
-                     Linking.openURL('https://zalo.me/0368712000')
-                }} style={styles.groupProduct}>
+                <TouchableOpacity
+                  onPress={() => {
+                    Linking.openURL('https://zalo.me/0368712000');
+                  }}
+                  style={styles.groupProduct}>
                   <RadialGradient
                     style={StyleSheet.absoluteFillObject}
                     colors={[defaultColors.bg_E60E00, defaultColors.secondary]}
@@ -113,6 +115,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     borderRadius: 10,
     overflow: 'hidden',
-    marginBottom: 4
+    marginBottom: 4,
   },
 });
