@@ -44,6 +44,7 @@ const SelectedPicker = (props: IProps) => {
               borderRadius={4}
               isAction={actionKey?.name === `${it.valueVn}_name`}
             />
+            // <></>
           );
         })}
       </View>
@@ -62,5 +63,6 @@ const styles = StyleSheet.create({
     ...globalStyles.flexWrap,
     flexDirection: 'row',
     gap: 8,
+    paddingRight: 10,
   },
 });

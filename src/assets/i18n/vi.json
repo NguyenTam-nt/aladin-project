@@ -23,7 +23,11 @@
       "view_price": "Xem giá, tồn kho tại:",
       "buy_now": "Mua ngay",
       "see-more": "Xem thêm",
-      "choose-provice": "Hoặc chọn tỉnh, thành phố"
+      "choose-provice": "Hoặc chọn tỉnh, thành phố",
+      "add-to-cart": "Thêm giỏ hàng",
+      "total-priece": "Tổng tiền",
+      "out-of-stock": "Hết hàng",
+      "product-vailable": "{{lenght}} sản phẩm có sẵn"
     },
     "about": {
       "title": "Giới thiệu"
@@ -132,6 +136,10 @@
         "content-free-cousl": "Sẽ phản hồi trong thời gian sớm nhất",
         "content-order-cart": "Cảm ơn bạn đã đặt hàng tại",
         "desc-order-cart": "Đơn hàng của bạn đã được hệ thống xác nhận"
+      },
+      "warning": {
+        "add-to-cart": "Vui lòng chọn thuộc tính sản phẩm!",
+        "product-stock-quantity": "Số lượng bạn chọn không phù hợp với số sản phẩm có sẵn!"
       }
     }
   }

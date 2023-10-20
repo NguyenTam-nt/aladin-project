@@ -18,6 +18,7 @@ import {
 import {storegeKey} from 'src/constants/defines';
 import useI18n from 'src/hooks/useI18n';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {IProduct} from 'src/api/products';
 
 interface IProps {
   id?: any;
@@ -31,6 +32,7 @@ interface IProps {
   categoryId?: any;
   subCategoryId?: any;
   price: any;
+  product: IProduct;
 }
 const ProductItem = (props: IProps) => {
   const {isVn} = useI18n();
@@ -44,6 +46,7 @@ const ProductItem = (props: IProps) => {
     categoryId,
     subCategoryId,
     price,
+    product,
   } = props;
   const handleAddStorage = async () => {
     const newData = {
@@ -59,7 +62,6 @@ const ProductItem = (props: IProps) => {
       createAt: new Date(),
     };
 
-    // await AsyncStorage.clear();
     try {
       const datas = await getArrayToAsyncStorage(storegeKey.PRODUCTS);
 
@@ -77,6 +79,10 @@ const ProductItem = (props: IProps) => {
       console.log(error);
     }
   };
+  const sum = product?.productDetails.reduce((accumulator, object) => {
+    return accumulator + object.stockQuantity;
+  }, 0);
+
   return (
     <View style={styles.container}>
       <View style={styles.containerChild}>
@@ -90,6 +96,17 @@ const ProductItem = (props: IProps) => {
             </TextCustom>
           </View>
         )}
+        {sum == 0 && (
+          <View style={styles.styleOutOfStock}>
+            <TextTranslate
+              fontSize={16}
+              weight="700"
+              color={defaultColors.c_fff}
+              text="common.out-of-stock"
+            />
+          </View>
+        )}
+
         <View style={styles.styleGroupImage}>
           <Thumb
             style={styles.styleImage}
@@ -137,7 +154,9 @@ const ProductItem = (props: IProps) => {
                   weight="400"
                   color={defaultColors.text_626262}>
                   {' '}
-                  {totalSoldQuantity}
+                  {totalSoldQuantity == 0 || totalSoldQuantity == null
+                    ? 0
+                    : totalSoldQuantity}
                 </TextCustom>
               </View>
             </View>
@@ -147,20 +166,24 @@ const ProductItem = (props: IProps) => {
                 globalStyles.justifyContentBetween,
                 {marginTop: 9},
               ]}>
-              <NavLink
-                to={{
-                  screen: productRoute.detail,
-                  params: {
-                    idProduct: id,
-                    categoryId: categoryId,
-                    subCategoryId: subCategoryId,
-                  },
-                }}
-                handleOnPress={() => handleAddStorage()}
-                // onPress={() => console.log('product item')}
-              >
+              {sum == 0 ? (
                 <ButtonNavigate text="common.buy_now" />
-              </NavLink>
+              ) : (
+                <NavLink
+                  to={{
+                    screen: productRoute.detail,
+                    params: {
+                      idProduct: id,
+                      categoryId: categoryId,
+                      subCategoryId: subCategoryId,
+                    },
+                  }}
+                  handleOnPress={() => handleAddStorage()}
+                  // onPress={() => console.log('product item')}
+                >
+                  <ButtonNavigate text="common.buy_now" />
+                </NavLink>
+              )}
               <TouchableOpacity style={styles.styleCart}>
                 <ICCart
                   width={18}
@@ -180,6 +203,7 @@ export default ProductItem;
 
 const styles = StyleSheet.create({
   container: {
+    position: 'relative',
     width: (DIMENSION.width - paddingHorizontalScreen * 2 - 15) / 2,
 
     height: 280,
@@ -194,6 +218,7 @@ const styles = StyleSheet.create({
     elevation: 10,
   },
   styleGroupImage: {
+    // position: 'relative',
     width: '100%',
     height: 157,
   },
@@ -229,6 +254,18 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: defaultColors.bg_00C3AB,
     borderRadius: 12,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  styleOutOfStock: {
+    backgroundColor: defaultColors.bg_2E4D44,
+    position: 'absolute',
+    height: 157,
+    width: '100%',
+    top: 0,
+    left: 0,
+    zIndex: 9999,
+    opacity: 0.9,
     justifyContent: 'center',
     alignItems: 'center',
   },

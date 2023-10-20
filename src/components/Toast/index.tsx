@@ -1,8 +1,9 @@
 import {DIMENSION} from '@constants';
 import React from 'react';
-import {View, StyleSheet, Text} from 'react-native';
-
-import {defaultColors} from 'src/configs';
+import {useTranslation} from 'react-i18next';
+import {View, StyleSheet, Text, TouchableOpacity} from 'react-native';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import {defaultColors, isTabletDevice} from 'src/configs';
 
 const toastStatus = {
   success: {
@@ -28,6 +29,7 @@ interface ToastProps {
   title: string;
 }
 const Toast = ({status = 'success', title}: ToastProps) => {
+  const {t} = useTranslation();
   if (
     status !== 'success' &&
     status !== 'error' &&
@@ -47,7 +49,7 @@ const Toast = ({status = 'success', title}: ToastProps) => {
         <View style={styles.contentToast}>
           <View style={styles.center}>{toastStatus[status].icon}</View>
           <View style={styles.center}>
-            <Text style={styles.textToast}>{title}</Text>
+            <Text style={styles.textToast}>{t(title)}</Text>
           </View>
         </View>
       </View>
@@ -65,7 +67,7 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
     paddingHorizontal: 14,
     borderRadius: 8,
-    height: 40,
+    height: 'auto',
   },
   contentToast: {
     flexDirection: 'row',
@@ -73,6 +75,7 @@ const styles = StyleSheet.create({
   center: {
     justifyContent: 'center',
     alignItems: 'center',
+
   },
   textToast: {
     fontSize: 14,

@@ -29,6 +29,7 @@ export const productRoute = {
   categories: {
     detail: 'category/detail',
   },
+  cart: 'add-to-cart',
 };
 export const contactRoute = {
   prifex: '/contact',

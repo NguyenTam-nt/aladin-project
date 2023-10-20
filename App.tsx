@@ -18,17 +18,14 @@ import Orientation from 'react-native-orientation-locker';
 import {languageKey} from 'src/constants/defines';
 import {useTranslation} from 'react-i18next';
 import {useHandleChangeLanguage} from 'src/redux/multilanguage/hooks';
-import {language} from 'src/redux/multilanguage/slice';
 
 function App() {
   const {i18n} = useTranslation();
-  const handleChangeLanguage = useHandleChangeLanguage();
   const toastConfig = {
     tomatoToast: ({props}: any) => (
       <ToastMessage status={props.status} title={props.uuid} />
     ),
   };
-
   const defaultLanguage = languageKey.vi;
 
   const getDeviceLanguage = (locale?: string) => {
@@ -79,19 +76,18 @@ function App() {
     <PersistGate persistor={persistor}>
       <SafeAreaProvider>
         <MainStack />
-        <View style={styles.container}>
-          <Toast config={toastConfig} position="bottom" />
-        </View>
+          <Toast
+            config={toastConfig}
+            position="top"
+            visibilityTime={1500}
+            // bottomOffset={20}
+          />
       </SafeAreaProvider>
     </PersistGate>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    position: 'absolute',
-    left: 0,
-    bottom: 0,
-  },
+
 });
 export default App;

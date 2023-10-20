@@ -28,9 +28,7 @@ const HeaderHome = (props: PropsWithChildren<HeaderProps>) => {
         {headerBase && (
           <>
             <InputSearch containerStyle={styles.styleInput} />
-            <TouchableOpacity onPress={() => setShowProvice?.(!showProvice)}>
-              <CityFilter />
-            </TouchableOpacity>
+            <CityFilter />
             <CartButton />
           </>
         )}

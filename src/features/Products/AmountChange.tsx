@@ -1,18 +1,21 @@
 import {TextCustom} from '@components';
 import {defaultColors} from '@configs';
 import React from 'react';
+import {useTranslation} from 'react-i18next';
 import {TouchableOpacity, View} from 'react-native';
 import {StyleSheet} from 'react-native';
 import TextTranslate from 'src/components/TextTranslate';
 interface IProps {
-  quanlity?: number;
+  quanlity: number;
   handleIncrease?: (value: any) => void;
   handleDecrease?: (value: any) => void;
   descActive: boolean;
   ascActive: boolean;
+  quantityDefault: number;
 }
 const AmountChange = (props: IProps) => {
-  const {quanlity, handleDecrease, handleIncrease} = props;
+  const {quanlity, handleDecrease, handleIncrease, quantityDefault} = props;
+  const {t} = useTranslation();
   return (
     <View style={styles.container}>
       <TextTranslate
@@ -22,7 +25,10 @@ const AmountChange = (props: IProps) => {
         text="product.quanlity"
       />
       <View style={styles.counterStyle}>
-        <TouchableOpacity onPress={handleDecrease} style={styles.actionStyle}>
+        <TouchableOpacity
+          disabled={quantityDefault ? quanlity === 1 : false}
+          onPress={handleDecrease}
+          style={styles.actionStyle}>
           <TextCustom>-</TextCustom>
         </TouchableOpacity>
         <View style={styles.counterItem}>
@@ -33,10 +39,18 @@ const AmountChange = (props: IProps) => {
             {quanlity}
           </TextCustom>
         </View>
-        <TouchableOpacity onPress={handleIncrease} style={styles.actionStyle}>
+        <TouchableOpacity
+          disabled={quanlity === quantityDefault}
+          onPress={handleIncrease}
+          style={styles.actionStyle}>
           <TextCustom>+</TextCustom>
         </TouchableOpacity>
       </View>
+      {quantityDefault !== 0 && (
+        <TextCustom fontSize={14} weight="400" color={defaultColors.c_0000}>
+          {t('common.product-vailable', {lenght: quantityDefault})}
+        </TextCustom>
+      )}
     </View>
   );
 };

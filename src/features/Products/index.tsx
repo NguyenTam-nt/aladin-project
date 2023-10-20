@@ -9,7 +9,7 @@ import {
 import {globalStyles} from 'src/commons/globalStyles';
 import {defaultColors} from '@configs';
 import HeaderHome from '../Home/components/HeaderHome';
-import {memo, useEffect, useState} from 'react';
+import {memo, useEffect, useRef, useState} from 'react';
 import React from 'react';
 import {paddingHorizontalScreen} from '@constants';
 import useI18n from 'src/hooks/useI18n';
@@ -38,6 +38,10 @@ import FilterBy, {FILTER_BY} from 'src/components/FilterBy';
 import ContactTopic from '../Home/components/ContactTopic';
 import {NavLink} from 'src/constants/links';
 import {productRoute} from 'src/constants/routers';
+import ImperativeScrollView, {
+  ImperativeScrollViewHandles,
+} from 'src/hooks/useImperativeScrollView';
+import {useListItemProvice} from 'src/redux/provices/hooks';
 
 const TextHeader = (props: {
   text: string;
@@ -62,10 +66,11 @@ interface IListTextCategories {
 interface PropsHeader {
   listTextCategories: IListTextCategories[];
   setCategoryItem: (id: any) => void;
+  onTopScroll: () => void;
 }
 
 const HeaderProduct = memo((props: PropsHeader) => {
-  const {listTextCategories, setCategoryItem} = props;
+  const {listTextCategories, setCategoryItem, onTopScroll} = props;
   const {isVn} = useI18n();
   const [itemAction, setItemAction] = useState<IListTextCategories>();
   const handleAction = (item: IListTextCategories) => {
@@ -88,6 +93,7 @@ const HeaderProduct = memo((props: PropsHeader) => {
             <TouchableOpacity
               onPress={() => {
                 handleAction(item);
+                onTopScroll();
               }}
               style={{
                 paddingHorizontal: 8,
@@ -111,6 +117,8 @@ const HeaderProduct = memo((props: PropsHeader) => {
 
 const Products = () => {
   const {isVn} = useI18n();
+  const proviceItem = useListItemProvice();
+  const scrollViewRef = useRef<ImperativeScrollViewHandles>(null);
   const [categories, setCategories] = useState<ICategory[]>([]);
   const [listTextCategories, setListTextCategories] = useState<
     IListTextCategories[]
@@ -161,13 +169,14 @@ const Products = () => {
     }
   };
 
-  const getProductsSale = async (idCategory: number) => {
+  const getProductsSale = async (idCategory: number, provice: string) => {
     try {
       const params = {
         page: 0,
         size: 10,
         sort: 'promo,desc',
         categoryId: idCategory,
+        address: provice,
       };
       const res = await getProductsApi(params);
       setProductsSale(res.data);
@@ -176,13 +185,14 @@ const Products = () => {
     }
   };
 
-  const getProductOutStanding = async (id: number) => {
+  const getProductOutStanding = async (id: number, provice: string) => {
     try {
       const params = {
         page: 0,
         size: 15,
-        sort: 'createAt,desc',
+        // sort: 'createAt,desc',
         categoryId: id,
+        address: provice,
       };
       const res = await getProductsOutStanding(params);
       if (res.success) {
@@ -196,6 +206,7 @@ const Products = () => {
   const getProductsSortBy = async (
     idCategory: number,
     keyfilterByItem: string,
+    provice: string,
   ) => {
     try {
       const params = {
@@ -203,6 +214,7 @@ const Products = () => {
         size: 10,
         sort: keyfilterByItem,
         categoryId: idCategory,
+        address: provice,
       };
       const res = await getProductsApi(params);
       if (res) {
@@ -214,22 +226,38 @@ const Products = () => {
     }
   };
 
+  const onTopScroll = () => {
+    scrollViewRef?.current?.scrollTo({
+      y: 0,
+      animated: true,
+    });
+  };
+
   useEffect(() => {
     getCategories();
   }, []);
   useEffect(() => {
     if (categoryItem) {
       getSubListCategories(categoryItem.id);
-      getProductOutStanding(categoryItem.id);
-      getProductsSale(categoryItem.id);
     }
   }, [categoryItem]);
+  useEffect(() => {
+    if (categoryItem) {
+      const proviceNam = proviceItem.provices.Name;
+      getProductOutStanding(categoryItem.id, proviceNam);
+      getProductsSale(categoryItem.id, proviceNam);
+    }
+  }, [categoryItem, proviceItem]);
 
   useEffect(() => {
     if (categoryItem) {
-      getProductsSortBy(categoryItem.id, filterByItem);
+      getProductsSortBy(
+        categoryItem.id,
+        filterByItem,
+        proviceItem.provices.Name,
+      );
     }
-  }, [categoryItem, filterByItem]);
+  }, [categoryItem, filterByItem, proviceItem]);
 
   return (
     <View style={styles.container}>
@@ -239,6 +267,7 @@ const Products = () => {
           <HeaderProduct
             listTextCategories={listTextCategories}
             setCategoryItem={setCategoryItem}
+            onTopScroll={onTopScroll}
           />
         }
       />
@@ -283,7 +312,7 @@ const Products = () => {
           </View>
         </View>
       </View>
-      <ScrollView>
+      <ImperativeScrollView ref={scrollViewRef}>
         <View style={{marginTop: 10}}>
           {productsSale.length > 0 && (
             <ProductsList
@@ -312,7 +341,7 @@ const Products = () => {
           <ContactTopic />
         </View>
         <SpaceBottom />
-      </ScrollView>
+      </ImperativeScrollView>
     </View>
   );
 };

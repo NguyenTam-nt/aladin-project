@@ -47,6 +47,15 @@ export interface IAttributeFeValues {
   valueVn: string;
   valueKr: string;
 }
+
+export interface IFeValueDTOList {
+  valueVn: string;
+  valueKr: string;
+}
+export interface IAttributeImageFeS {
+  imageUrl: string;
+  feValueDTOList: IFeValueDTOList[];
+}
 export interface IAttributeFes {
   attributeFeValues: IAttributeFeValues[];
   attributeFeNameKr: string;
@@ -100,6 +109,7 @@ export interface IProduct {
   images: {
     url: string;
   }[];
+  attributeImageFeS: IAttributeImageFeS[];
 }
 
 export interface IProductOutStanding {
