@@ -321,6 +321,7 @@ const ContactScrren = () => {
             isLoading={isSubmitting}
           />
           <ButtonTouchable
+            // @ts-ignore
             onPress={() => navigation.navigate('products')}
             text="button.see-more-product"
             borderRadius={30}

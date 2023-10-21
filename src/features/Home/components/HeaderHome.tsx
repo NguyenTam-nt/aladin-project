@@ -54,6 +54,8 @@ const styles = StyleSheet.create({
   groupButton: {
     ...globalStyles.row,
     columnGap: 12,
+    // justifyContent: 'center',
+    alignItems: 'center',
   },
   styleInput: {
     flex: 1,

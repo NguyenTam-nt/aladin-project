@@ -37,6 +37,7 @@ const FeaturedComponents = (props: IProps) => {
           renderItem={({item, index}) => {
             return (
               <FeaturedItem
+                key={index}
                 index={`00${index + 1}`.slice(-2)}
                 name={isVn ? item.productNameVn : item.productNameKr}
                 imageLink={item.image}

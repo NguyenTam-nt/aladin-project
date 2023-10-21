@@ -18,6 +18,7 @@ const ProductsList = memo((props: IProps) => {
         {(products ?? []).map((it, idx) => {
           return (
             <ProductItem
+              key={idx}
               id={it.id}
               promo={it.promo}
               name={it.productNameVn}

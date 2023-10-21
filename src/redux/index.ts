@@ -17,7 +17,12 @@ const persistConfig = {
   key: 'root',
   storage: AsyncStorage,
   keyPrefix: '',
-  whitelist: ['appInfoReducer', 'multiLangage', 'infoProvice'],
+  whitelist: [
+    'appInfoReducer',
+    'multiLangage',
+    'infoProvice',
+    'cartOrderSlice',
+  ],
   blacklist: [],
 };
 

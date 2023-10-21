@@ -27,7 +27,8 @@
       "add-to-cart": "Thêm giỏ hàng",
       "total-priece": "Tổng tiền",
       "out-of-stock": "Hết hàng",
-      "product-vailable": "{{lenght}} sản phẩm có sẵn"
+      "product-vailable": "{{lenght}} sản phẩm có sẵn",
+      "total-product": "Tất cả ({{lenght}} sản phẩm)"
     },
     "about": {
       "title": "Giới thiệu"
@@ -139,7 +140,8 @@
       },
       "warning": {
         "add-to-cart": "Vui lòng chọn thuộc tính sản phẩm!",
-        "product-stock-quantity": "Số lượng bạn chọn không phù hợp với số sản phẩm có sẵn!"
+        "product-stock-quantity": "Số lượng bạn chọn không phù hợp với số sản phẩm có sẵn!",
+        "product-already-exists": "Sản phẩm đã có sản trong giỏ hàng!"
       }
     }
   }

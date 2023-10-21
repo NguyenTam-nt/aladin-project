@@ -9,8 +9,8 @@ interface IProps {
   quanlity: number;
   handleIncrease?: (value: any) => void;
   handleDecrease?: (value: any) => void;
-  descActive: boolean;
-  ascActive: boolean;
+  descActive?: boolean;
+  ascActive?: boolean;
   quantityDefault: number;
 }
 const AmountChange = (props: IProps) => {

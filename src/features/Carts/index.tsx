@@ -1,25 +1,102 @@
 import {TextCustom} from '@components';
 import {defaultColors} from '@configs';
-import React from 'react';
-import {StyleSheet, View} from 'react-native';
+import React, {useEffect, useMemo, useState} from 'react';
+import {useTranslation} from 'react-i18next';
+import {ScrollView, StyleSheet, TouchableOpacity, View} from 'react-native';
+import {ICISCheckbox} from 'src/assets/icons/ICISCheckbox';
+import {ICRemove} from 'src/assets/icons/ICRemove';
 import HeaderBack from 'src/components/Header/HeaderBack';
+import {
+  useHandleSetChoose,
+  useHandleSetChooseAll,
+  useHandleUpdateQuantitySelectedInCart,
+  useListItemCart,
+} from 'src/redux/orderCart/hooks';
+import CartItem from './components/CartItem';
+import {ICNOCheckbox} from 'src/assets/icons/ICNOCheckox';
 
 const CartsScreen = () => {
+  const listItemCart = useListItemCart();
+  const handleSetChooseAll = useHandleSetChooseAll();
+  const handleSetChoose = useHandleSetChoose();
+  const handleUpdateQuantity = useHandleUpdateQuantitySelectedInCart();
+  const {t} = useTranslation();
+
+  const handleCheckAll = () => {
+    const newListCarts = [...listItemCart.itemInCart];
+    const chooseAll = newListCarts.map((it, idx) => {
+      return {
+        ...it,
+        choose: checkedAll ? false : true,
+      };
+    });
+    handleSetChooseAll(chooseAll);
+  };
+
+  const handleCheckbox = (productDetailId: number, choose: boolean) => {
+    const dataObj = {
+      productDetailId,
+      choose,
+    };
+    handleSetChoose(dataObj);
+  };
+
+  const handleUpdateQuantitySelected = (
+    productDetailId: number,
+    quantitySelected: number,
+  ) => {
+    const dataObj = {
+      productDetailId,
+      quantitySelected,
+    };
+
+    handleUpdateQuantity(dataObj);
+  };
+
+  const checkedAll = useMemo(() => {
+    if (!listItemCart.itemInCart.length) {
+      return false;
+    }
+    return !listItemCart.itemInCart.some(item => !item.choose);
+  }, [listItemCart.itemInCart]);
+
   return (
     <View style={styles.container}>
       <HeaderBack isProductDetail={true} />
       <View style={styles.styleCheckAll}>
         <View style={styles.styleCheckBox}>
-          <TextCustom>BO</TextCustom>
+          <TouchableOpacity onPress={handleCheckAll}>
+            {checkedAll ? <ICISCheckbox /> : <ICNOCheckbox />}
+          </TouchableOpacity>
         </View>
         <View style={styles.styleContent}>
-          <TextCustom>Cart dgegeg</TextCustom>
+          <TextCustom
+            fontSize={16}
+            weight="400"
+            color={defaultColors.text_313131}>
+            {t('common.total-product', {
+              lenght: listItemCart.itemInCart.length,
+            })}
+          </TextCustom>
         </View>
         <View style={styles.styleRemove}>
-          <TextCustom>Remove</TextCustom>
+          <ICRemove />
         </View>
       </View>
-      <TextCustom>Cart dgegeg</TextCustom>
+      <ScrollView>
+        <View style={styles.cartContainer}>
+          {(listItemCart.itemInCart ?? []).map((it, idx) => {
+            return (
+              <CartItem
+                key={it.productDetailId}
+                product={it}
+                handleCheckbox={handleCheckbox}
+                handleUpdateQuantitySelected={handleUpdateQuantitySelected}
+              />
+            );
+          })}
+        </View>
+      </ScrollView>
     </View>
   );
 };
@@ -27,7 +104,13 @@ const CartsScreen = () => {
 export default CartsScreen;
 
 const styles = StyleSheet.create({
-  container: {flex: 1, position: 'relative', paddingHorizontal: 16},
+  container: {
+    flex: 1,
+    position: 'relative',
+    paddingHorizontal: 16,
+    flexDirection: 'column',
+    rowGap: 12,
+  },
   styleCheckAll: {
     width: '100%',
     height: 50,
@@ -41,23 +124,103 @@ const styles = StyleSheet.create({
   styleCheckBox: {
     width: 20,
     height: '100%',
-    backgroundColor: defaultColors.primary,
     justifyContent: 'center',
     alignItems: 'center',
   },
   styleContent: {
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: defaultColors._0073E5,
+    alignItems: 'flex-start',
     height: '100%',
     width: '100%',
   },
   styleRemove: {
     justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: defaultColors._074A20,
-    height: '100%',
+    alignItems: 'flex-end',
+    // height: '100%',
     // width: '100%',
   },
+  cartContainer: {
+    flexDirection: 'column',
+    rowGap: 12,
+  },
 });
+
+const data = [
+  {
+    actualPriceDetail: 26730,
+    addressWarehouse: 'Thành phố Hà Nội',
+    attributes: [[Object]],
+    attributesKr: [[Object]],
+    choose: false,
+    imageDetailUrl:
+      'https://marketmoa.com.vn/getimage/169770341777824380422-ac81-433f-a1ce-d9789e42cc3f.webp',
+    priceDetail: 27000,
+    productDetailId: 21688,
+    productDetailNameKr: '차가운 주스 ade 과일 맛 230ml 한국 - 진정한 수입품',
+    productDetailNameVn:
+      'Nước Trái Cây Lạnh Ade các vị hoa quả 230ml Hàn Quốc - hàng nhập khẩu chính hãng',
+    productId: 21680,
+    promoDetail: 1,
+    quantitySelected: 2,
+    soldQuantity: 0,
+    stockQuantity: 272,
+  },
+  {
+    actualPriceDetail: 26730,
+    addressWarehouse: 'Thành phố Hà Nội',
+    attributes: [[Object]],
+    attributesKr: [[Object]],
+    choose: false,
+    imageDetailUrl:
+      'https://marketmoa.com.vn/getimage/1697703417709ca974675-ba46-40fe-afe6-c0735936434c.webp',
+    priceDetail: 27000,
+    productDetailId: 21690,
+    productDetailNameKr: '차가운 주스 ade 과일 맛 230ml 한국 - 진정한 수입품',
+    productDetailNameVn:
+      'Nước Trái Cây Lạnh Ade các vị hoa quả 230ml Hàn Quốc - hàng nhập khẩu chính hãng',
+    productId: 21680,
+    promoDetail: 1,
+    quantitySelected: 2,
+    soldQuantity: 0,
+    stockQuantity: 272,
+  },
+  {
+    actualPriceDetail: 26730,
+    addressWarehouse: 'Thành phố Hà Nội',
+    attributes: [[Object]],
+    attributesKr: [[Object]],
+    choose: true,
+    imageDetailUrl:
+      'https://marketmoa.com.vn/getimage/16977034176412905548a-1320-4b28-af45-7c5bf77f4b94.webp',
+    priceDetail: 27000,
+    productDetailId: 21686,
+    productDetailNameKr: '차가운 주스 ade 과일 맛 230ml 한국 - 진정한 수입품',
+    productDetailNameVn:
+      'Nước Trái Cây Lạnh Ade các vị hoa quả 230ml Hàn Quốc - hàng nhập khẩu chính hãng',
+    productId: 21680,
+    promoDetail: 1,
+    quantitySelected: 1,
+    soldQuantity: 0,
+    stockQuantity: 272,
+  },
+  {
+    actualPriceDetail: 25740,
+    addressWarehouse: 'Thành phố Hà Nội',
+    attributes: [[Object]],
+    attributesKr: [[Object]],
+    choose: false,
+    imageDetailUrl:
+      'https://marketmoa.com.vn/getimage/1697703615511277e33b9-bd72-442f-b29c-d0354b9aff71.webp',
+    priceDetail: 26000,
+    productDetailId: 21698,
+    productDetailNameKr: '얼음 토크 수박, 녹색 포도, 한국 레몬 190ml- 수입품',
+    productDetailNameVn:
+      'Nước Ice Talk Các Vị Dưa Hấu ,Nho Xanh, Chanh Hàn Quốc 190ml- hàng nhập khẩu chính hãng',
+    productId: 21695,
+    promoDetail: 1,
+    quantitySelected: 1,
+    soldQuantity: 1,
+    stockQuantity: 286,
+  },
+];
