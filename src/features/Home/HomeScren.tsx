@@ -1,9 +1,9 @@
-import {ScrollView, StyleSheet, View, TouchableOpacity} from 'react-native';
-import React, {useState} from 'react';
-import {globalStyles} from 'src/commons/globalStyles';
-import {defaultColors} from '@configs';
+import { ScrollView, StyleSheet, View, TouchableOpacity } from 'react-native';
+import React, { useState } from 'react';
+import { globalStyles } from 'src/commons/globalStyles';
+import { defaultColors } from '@configs';
 import HeaderHome from './components/HeaderHome';
-import {DIMENSION, paddingHorizontalScreen} from '@constants';
+import { DIMENSION, paddingHorizontalScreen } from '@constants';
 import Banner from './components/Banner';
 import SpaceBottom from 'src/components/SpaceBottom';
 import GroupContact from './components/GroupContact';
@@ -12,11 +12,9 @@ import ProductNewList from './components/ProductNewList';
 import ProductSaleList from './components/ProductSaleList';
 import ContactTopic from './components/ContactTopic';
 const HomeScren = () => {
-  const [showProvice, setShowProvice] = useState<boolean>(false);
-
   return (
     <View style={styles().container}>
-      <HeaderHome setShowProvice={setShowProvice} showProvice={showProvice} />
+      <HeaderHome />
       <ScrollView showsVerticalScrollIndicator={false}>
         <Banner />
         <View style={styles().styleBody}>

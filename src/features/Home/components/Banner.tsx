@@ -1,9 +1,26 @@
-import {StyleSheet, View} from 'react-native';
-import React from 'react';
-import {Thumb} from '@components';
-import {DIMENSION} from '@constants';
+import { StyleSheet, View } from 'react-native';
+import React, { useState } from 'react';
+import { Thumb } from '@components';
+import { DIMENSION } from '@constants';
+import { BannerType } from 'src/typeRules/banner';
+import { IBanner, getBannerByNameApi } from 'src/api/banner';
 
 const Banner = () => {
+
+  const [banners, setBanners] = useState<IBanner>();
+  const getBannerByName = async () => {
+    try {
+      const res = await getBannerByNameApi(BannerType.homePage);
+      if (res) {
+        setBanners(res.data)
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  React.useEffect(() => {
+    getBannerByName();
+  }, [])
   return (
     <View style={styles.container}>
       <Thumb

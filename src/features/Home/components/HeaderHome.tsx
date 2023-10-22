@@ -1,20 +1,18 @@
-import {StyleSheet, TouchableOpacity, View} from 'react-native';
-import React, {PropsWithChildren} from 'react';
-import {defaultColors} from '@configs';
+import { StyleSheet, TouchableOpacity, View } from 'react-native';
+import React, { PropsWithChildren } from 'react';
+import { defaultColors } from '@configs';
 import RadialGradient from 'react-native-radial-gradient';
 import CartButton from 'src/components/CartButton';
 import CityFilter from 'src/components/CityFilter';
 import InputSearch from 'src/components/InputSearch';
-import {globalStyles} from 'src/commons/globalStyles';
-import {Header} from 'src/components/Header';
+import { globalStyles } from 'src/commons/globalStyles';
+import { Header } from 'src/components/Header';
 
 interface HeaderProps {
   headerBase?: boolean;
-  setShowProvice?: (value: boolean) => void;
-  showProvice?: boolean;
 }
 const HeaderHome = (props: PropsWithChildren<HeaderProps>) => {
-  const {headerBase = true, setShowProvice, showProvice, children} = props;
+  const { headerBase = true, children } = props;
   return (
     <Header>
       <RadialGradient

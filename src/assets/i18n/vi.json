@@ -39,7 +39,7 @@
       "note-when-using": "Lưu ý khi sử dụng:",
       "quanlity": "Số lượng:",
       "policy": {
-        "title": "Yên tâm mua hàng tại Market Moa",
+        "title": "Yên tâm mua hàng tại Marktatet Moa",
         "hight-quanlity": "100% Hàng Việt Nam Chất Lượng Cao",
         "best-priece": "Cam Kết Giá Tốt Nhất & CTKM Hấp Dẫn",
         "service": "Dịch Vụ Bảo Hành Chuyên Nghiệp",
@@ -105,6 +105,27 @@
           "planhoder-current-pass": "Nhập mật khẩu hiện tại"
         }
       }
+    },
+    "cart": {
+      "remind-voucher": "Đừng quên chọn ưu đãi tốt nhất!",
+      "planhoder-voucher": "Nhập mã ưu đãi",
+      "buuton-apply": "Áp dụng",
+      "form": {
+        "title": "Thông tin giao hàng",
+        "full-name": "Họ và tên",
+        "planhoder-full-name": "Nhập họ và tên của bạn",
+        "phone-number": "Số điện thoại",
+        "planhoder-phone-number": "Nhập số điện thoại của bạn",
+        "email": "Email",
+        "planhoder-email": "Nhập email của bạn",
+        "address": "Địa chỉ",
+        "planhoder-address": "Địa chỉ cụ thể của bạn",
+        "note": "Ghi chú",
+        "planhoder-note": "Nhập ghi chú cho đơn hàng",
+        "payments-methods": "Phương thức thanh toán",
+        "payment-COD": "Thanh toán khi giao hàng (COD)"
+      },
+      "button-order": "Đặt hàng"
     },
     "button": {
       "required-contact": "Yêu cầu tư vấn",

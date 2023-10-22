@@ -1,10 +1,10 @@
-import {TextCustom} from '@components';
-import {defaultColors} from '@configs';
-import React, {useEffect, useMemo, useState} from 'react';
-import {useTranslation} from 'react-i18next';
-import {ScrollView, StyleSheet, TouchableOpacity, View} from 'react-native';
-import {ICISCheckbox} from 'src/assets/icons/ICISCheckbox';
-import {ICRemove} from 'src/assets/icons/ICRemove';
+import { TextCustom } from '@components';
+import { BOTTOM_BAR_HEIGHT, defaultColors } from '@configs';
+import React, { useEffect, useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { ScrollView, StyleSheet, TouchableOpacity, View, TextInput } from 'react-native';
+import { ICISCheckbox } from 'src/assets/icons/ICISCheckbox';
+import { ICRemove } from 'src/assets/icons/ICRemove';
 import HeaderBack from 'src/components/Header/HeaderBack';
 import {
   useHandleSetChoose,
@@ -13,14 +13,19 @@ import {
   useListItemCart,
 } from 'src/redux/orderCart/hooks';
 import CartItem from './components/CartItem';
-import {ICNOCheckbox} from 'src/assets/icons/ICNOCheckox';
+import { ICNOCheckbox } from 'src/assets/icons/ICNOCheckox';
+import TextTranslate from 'src/components/TextTranslate';
+import ButtonGradient from 'src/components/Buttons/ButtonGradient';
+import { getVoucherApplyProductApi } from 'src/api/voucher';
+import { formatNumberDotWithO } from 'src/commons/formatMoney';
+import { ICBuyNow } from 'src/assets/icons/ICBuyNow';
 
 const CartsScreen = () => {
   const listItemCart = useListItemCart();
   const handleSetChooseAll = useHandleSetChooseAll();
   const handleSetChoose = useHandleSetChoose();
   const handleUpdateQuantity = useHandleUpdateQuantitySelectedInCart();
-  const {t} = useTranslation();
+  const { t } = useTranslation();
 
   const handleCheckAll = () => {
     const newListCarts = [...listItemCart.itemInCart];
@@ -60,6 +65,26 @@ const CartsScreen = () => {
     return !listItemCart.itemInCart.some(item => !item.choose);
   }, [listItemCart.itemInCart]);
 
+  const handleVoucherApply = async () => {
+    try {
+      const ids = listItemCart.itemInCart.map((it) => it.productDetailId);
+      const res = getVoucherApplyProductApi(ids, totalPriece);
+      console.log("res", res);
+
+    } catch (error) {
+      console.log(error);
+
+    }
+  }
+
+  const totalPriece = listItemCart.itemInCart.reduce((accumulator, object) => {
+    if (object.choose) {
+      return accumulator + object.stockQuantity;
+    }
+    return accumulator
+  }, 0);
+
+
   return (
     <View style={styles.container}>
       <HeaderBack isProductDetail={true} />
@@ -96,7 +121,48 @@ const CartsScreen = () => {
             );
           })}
         </View>
+        <View style={styles.promotionalCodeConatiner}>
+          <View style={styles.promoItem}>
+            <>
+              <TextTranslate fontSize={16} weight='400' color={defaultColors.text_313131} text='cart.remind-voucher' />
+              <View style={styles.styleGroupPromo}>
+                <TextInput
+                  style={styles.inputText}
+                  placeholder={t('cart.planhoder-voucher')}
+                />
+                <ButtonGradient onPress={() => { }} style={{}} text='cart.button-apply' />
+              </View>
+            </>
+            <View>
+
+            </View>
+          </View>
+        </View>
       </ScrollView>
+      <View style={styles.styleBuyNow}>
+        <View style={styles.buyNowItem}>
+          <View style={styles.styleShowContentBuyNow}>
+            <TextTranslate fontSize={16} weight='400' color={defaultColors.text_303030} text='' />
+            <TextCustom fontSize={16} weight='400' color={defaultColors.text_303030}>{formatNumberDotWithO(4000000)}</TextCustom>
+          </View>
+          <View style={styles.styleShowContentBuyNow}>
+            <TextTranslate fontSize={16} weight='400' color={defaultColors.text_303030} text='' />
+            <TextCustom fontSize={16} weight='400' color={defaultColors.primary}>-{formatNumberDotWithO(30000)}</TextCustom>
+          </View>
+        </View>
+        <View style={styles.styleGroupButtonBuyNow}>
+          <View style={styles.styleShowContentBuyNow}>
+            <TextTranslate fontSize={16} weight='400' color={defaultColors.text_303030} text='' />
+            <TextCustom fontSize={16} weight='700' color={defaultColors.text_111213}>-{formatNumberDotWithO(70000)}</TextCustom>
+          </View>
+          <ButtonGradient
+            onPress={() => { }}
+            text={t('common.buy_now')}
+            renderLeff={<ICBuyNow />}
+            style={{ columnGap: 4 }}
+          />
+        </View>
+      </View>
     </View>
   );
 };
@@ -144,6 +210,64 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     rowGap: 12,
   },
+  promotionalCodeConatiner: {
+    paddingTop: 15,
+    paddingHorizontal: 17,
+    borderRadius: 20,
+    backgroundColor: defaultColors.c_fff,
+    with: '100%',
+    height: 'auto'
+  },
+  promoItem: {
+    flexDirection: 'column',
+    rowGap: 20,
+    paddingHorizontal: 14,
+    paddingTop: 12,
+    paddingBottom: 20
+  },
+  styleGroupPromo: {
+    flex: 1,
+    flexDirection: 'row',
+    columnGap: 8,
+  },
+  inputText: {
+    flex: 1,
+    height: 94,
+    paddingLeft: 11,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 20,
+    borderColor: defaultColors.bg_939393,
+    borderWidth: 1
+  },
+  styleBuyNow: {
+    position: 'absolute',
+    bottom: BOTTOM_BAR_HEIGHT,
+    left: 0,
+    height: 90,
+    zIndex: 9999,
+    backgroundColor: defaultColors.c_fff,
+    width: '100%',
+    borderBottomWidth: 1,
+    borderBottomColor: defaultColors.bg_00C3AB,
+    marginHorizontal: 12
+  },
+  buyNowItem: {
+    flexDirection: 'column',
+    rowGap: 3,
+    borderBottomColor: defaultColors.br_D9D9D9,
+    borderBottomWidth: 1
+  },
+  styleShowContentBuyNow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center'
+  },
+  styleGroupButtonBuyNow: {
+    flexDirection: 'column',
+    rowGap: 11,
+    paddingTop: 11
+  }
 });
 
 const data = [

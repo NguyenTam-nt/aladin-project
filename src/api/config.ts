@@ -25,6 +25,8 @@ export const microServices = {
   product: 'products',
   categories: 'categories',
   contact: 'contact',
+  voucher: "voucher",
+  banner: "banner"
 };
 
 export const getMicroService = (api: string, service = microServices.home) => {
@@ -59,6 +61,13 @@ export const getMicroServiceCategoriesPlustMark = (
   return `/api/${service}`;
 };
 
+export const getMicroServiceVoucher = (api: string, service = microServices.voucher) => {
+  return `/api/${service}/${api}`
+}
+
+export const getMicroServiceBanner = (api: string, service = microServices.banner) => {
+  return `/api/${service}/${api}`
+}
 export const getMicroServiceAdmin = (
   api: string,
   service = microServices.home,
@@ -87,7 +96,10 @@ export const APIs = {
   PRODUCT_OUT_STANDING: getMicroServiceProductOutStandingPlustMark('featured'),
   PRODUCTS: getMicroServiceProductPlustMark(),
   CATEGORIES: getMicroServiceCategoriesPlustMark(),
+  CATEGORIES_SUB: getMicroServiceCategoriesPlustMark(),
   CONTACT: getMicroServiceContactPlustMark(),
+  VOUCHER_APPLY: getMicroServiceVoucher('order'),
+  GET_BANNER_BY_NAME: getMicroServiceBanner('name'),
   USER: getMicroService('user', microServices.account),
   FLOOR: getMicroService('areas', microServices.restaurant),
   TABLE: getMicroService('table', microServices.restaurant),

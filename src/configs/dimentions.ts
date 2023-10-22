@@ -73,6 +73,8 @@ export const defaultColors = {
   black: 'black',
   text_303030: '#303030',
   bg_2E4D44: '#2E4D44',
+  br_D9D9D9: '#D9D9D9',
+  text_000000: "#000000"
 };
 
 export const heightHeader = 56;
