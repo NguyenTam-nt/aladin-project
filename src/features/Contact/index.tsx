@@ -1,49 +1,24 @@
-import { TextCustom, Thumb } from '@components';
-import { defaultColors } from '@configs';
-import React, { ReactElement, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import {
-  Modal,
-  StyleSheet,
-  TextInput,
-  TextInputProps,
-  TouchableOpacity,
-  View,
-  ViewStyle,
-} from 'react-native';
-import { ICBack } from 'src/assets/icons/ICBack';
-import { Header } from 'src/components/Header';
+import {defaultColors} from '@configs';
+import React from 'react';
+import {useTranslation} from 'react-i18next';
+import {StyleSheet, TouchableOpacity, View} from 'react-native';
+import {ICBack} from 'src/assets/icons/ICBack';
+import {Header} from 'src/components/Header';
 import TextTranslate from 'src/components/TextTranslate';
-import { useGoBack } from 'src/hooks/useGoBack';
-import { useFormik } from 'formik';
+import {useGoBack} from 'src/hooks/useGoBack';
+import {useFormik} from 'formik';
 import * as Yup from 'yup';
-import TextError from 'src/components/TextError';
-import { ButtonTouchable } from 'src/components/Buttons/ButtonTouchable';
+import {ButtonTouchable} from 'src/components/Buttons/ButtonTouchable';
 import ButtonGradient from 'src/components/Buttons/ButtonGradient';
-import { IContact, postContactApi } from 'src/api/contact';
-import { useNavigation } from '@react-navigation/native';
-import { useAlert } from 'src/constants/links';
-import { VietnamFlag, koreanFlag } from 'src/assets/image';
-import { useDropdown } from 'src/hooks/useDropdown';
-import { ICDropdown } from 'src/assets/icons/ICDropdown';
+import {IContact, postContactApi} from 'src/api/contact';
+import {useNavigation} from '@react-navigation/native';
+import {useAlert} from 'src/constants/links';
 import TextInputComponent from 'src/components/TextInputGroup/TextInputComponent';
 
-export type COUNTRY = 'Vietnamese' | 'Korea';
-const MOBILE_TELEPHONE_PREFIXES: {
-  country: COUNTRY;
-  telephone_prefixes: string;
-  image: any;
-}[] = [
-    { country: 'Vietnamese', telephone_prefixes: '+84', image: VietnamFlag },
-    { country: 'Korea', telephone_prefixes: '+82', image: koreanFlag },
-  ];
 const phoneRegExp = /^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/;
 const ContactScrren = () => {
   const dismiss = useGoBack();
-  const { t } = useTranslation();
-  const { toggleDropdown, visible, setVisible, dropdownTop, refDropdown } =
-    useDropdown();
-  const [preview, setPreview] = useState(MOBILE_TELEPHONE_PREFIXES[0]);
+  const {t} = useTranslation();
   const navigation = useNavigation();
   const formik = useFormik({
     initialValues: {
@@ -104,70 +79,14 @@ const ContactScrren = () => {
 
   const showSussess = useAlert();
   const hadleShowModal = () => {
-    showSussess({ types: 'FREE-COUSLUTION' });
+    showSussess({types: 'FREE-COUSLUTION'});
   };
-  const renderDropdown = (): ReactElement<any, any> => {
-    return (
-      <Modal visible={visible} transparent animationType="none">
-        <TouchableOpacity
-          style={styles().overlay}
-          onPress={() => setVisible(false)}>
-          <View style={[styles().dropdown, { top: dropdownTop }]}>
-            {MOBILE_TELEPHONE_PREFIXES.map((it, idx) => {
-              if (preview.country !== it.country) {
-                return (
-                  <TouchableOpacity
-                    key={idx}
-                    onPress={() => {
-                      // handleChangeLanguage(it.key);
-                      // setLanguageAction(it);
-                      setPreview(it);
-                      setVisible(false);
-                    }}
-                    style={{
-                      flexDirection: 'row',
-                      columnGap: 5,
-                      alignItems: 'center',
-                      marginHorizontal: 9,
-                      marginVertical: 6,
-                    }}>
-                    <Thumb
-                      source={it.image}
-                      resizeMode="contain"
-                      style={{ width: 30, height: 16, borderRadius: 5 }}
-                    />
-                    <TextCustom>{it.telephone_prefixes}</TextCustom>
-                  </TouchableOpacity>
-                );
-              }
-            })}
-          </View>
-        </TouchableOpacity>
-      </Modal>
-    );
-  };
-  // eslint-disable-next-line react/no-unstable-nested-components
-  const RenderSelectTelePhone = () => {
-    return (
-      <View style={{ flexDirection: 'row', columnGap: 2, alignItems: 'center' }}>
-        <Thumb
-          source={preview.image}
-          resizeMode="contain"
-          style={{ width: 30, height: 16, borderRadius: 5 }}
-        />
-        <TextCustom>{preview.telephone_prefixes}</TextCustom>
-        <TouchableOpacity ref={refDropdown} onPress={toggleDropdown}>
-          {renderDropdown()}
-          <ICDropdown />
-        </TouchableOpacity>
-      </View>
-    );
-  };
+
   return (
     <View style={styles().container}>
       <Header>
         <View
-          style={{ flexDirection: 'row', columnGap: 10, alignItems: 'center' }}>
+          style={{flexDirection: 'row', columnGap: 10, alignItems: 'center'}}>
           <TouchableOpacity onPress={dismiss}>
             <ICBack height={20} width={20} />
           </TouchableOpacity>
@@ -197,7 +116,7 @@ const ContactScrren = () => {
           color={defaultColors.text_313131}
           text="contact.description"
         />
-        <View style={{ marginTop: 20, flexDirection: 'column', rowGap: 18 }}>
+        <View style={{marginTop: 20, flexDirection: 'column', rowGap: 18}}>
           <TextInputComponent
             textTitle="contact.full-name"
             textPlanholder="contact.planhoder-full-name"
@@ -205,7 +124,7 @@ const ContactScrren = () => {
             value={values.fullName}
             // @ts-ignore
             message={touched.fullName && errors.fullName ? errors.fullName : ''}
-            option={{ max: 40 }}
+            option={{max: 40}}
             maxLength={40}
           />
           <TextInputComponent
@@ -219,15 +138,9 @@ const ContactScrren = () => {
                 ? errors.phoneNumber
                 : ''
             }
-            option={{ max: 10 }}
+            option={{max: 10}}
             maxLength={10}
-            renderLeft={() => {
-              return (
-                <View style={{ paddingLeft: 10 }}>
-                  <RenderSelectTelePhone />
-                </View>
-              );
-            }}
+            isPhone={true}
           />
           <TextInputComponent
             textTitle="contact.address"
@@ -236,7 +149,7 @@ const ContactScrren = () => {
             value={values.address}
             // @ts-ignore
             message={touched.address && errors.address ? errors.address : ''}
-            option={{ max: 100 }}
+            option={{max: 100}}
             maxLength={100}
           />
 
@@ -247,7 +160,7 @@ const ContactScrren = () => {
             value={values.email}
             // @ts-ignore
             message={touched.email && errors.email ? errors.email : ''}
-            option={{ max: 256 }}
+            option={{max: 256}}
             maxLength={256}
           />
           <TextInputComponent
@@ -261,11 +174,11 @@ const ContactScrren = () => {
             value={values.content}
             // @ts-ignore
             message={touched.content && errors.content ? errors.content : ''}
-            option={{ max: 1000 }}
+            option={{max: 1000}}
             maxLength={1000}
           />
         </View>
-        <View style={{ marginTop: 20, flexDirection: 'column', rowGap: 12 }}>
+        <View style={{marginTop: 20, flexDirection: 'column', rowGap: 12}}>
           <ButtonGradient
             onPress={() => handleSubmit()}
             text={t('button.required-contact')}
@@ -302,7 +215,7 @@ const styles = (textarea?: boolean) =>
       width: 'auto',
       shadowColor: '#000000',
       shadowRadius: 4,
-      shadowOffset: { height: 4, width: 0 },
+      shadowOffset: {height: 4, width: 0},
       shadowOpacity: 0.5,
       left: 90,
       borderRadius: 4,

@@ -1,5 +1,5 @@
 import {FlatList, StyleSheet, View} from 'react-native';
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import {Thumb} from '@components';
 import {defaultColors} from '@configs';
 import {paddingHorizontalScreen} from '@constants';
@@ -7,20 +7,21 @@ import TextTranslate from 'src/components/TextTranslate';
 import CategorytItemOutStanding from './CategorytItemOutStanding';
 import {productImageOutStanding} from 'src/assets/image';
 import {ICategory, getCategoriesApi} from 'src/api/category';
-
+import {NavLink} from 'src/constants/links';
+import {productRoute} from 'src/constants/routers';
 
 const CategoryOutStandingList = () => {
   const [categories, setCategories] = useState<ICategory[]>([]);
-   const getCategories =  async () => {
+  const getCategories = async () => {
     const res = await getCategoriesApi();
     if (res.success) {
-     setCategories(res.data);
+      setCategories(res.data);
     }
   };
 
-  useEffect(()=>{
+  useEffect(() => {
     getCategories();
-  },[]);
+  }, []);
   return (
     <View style={styles.container}>
       <View style={styles.image_banner}>
@@ -43,7 +44,19 @@ const CategoryOutStandingList = () => {
           style={{marginTop: 12}}
           renderItem={({item, index}) => {
             return (
-              <CategorytItemOutStanding index={`00${index + 1}`.slice(-2)} data={item}/>
+              // <NavLink
+              //   to={{
+              //     screen: productRoute.categories.detail,
+              //     params: {
+              //       idSubCategory: item.id,
+              //       idCategory: item,
+              //     },
+              //   }}>
+              <CategorytItemOutStanding
+                index={`00${index + 1}`.slice(-2)}
+                data={item}
+              />
+              // </NavLink>
             );
           }}
           keyExtractor={(_, index) => index.toString()}

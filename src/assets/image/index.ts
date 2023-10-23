@@ -10,3 +10,4 @@ export const backgroundAbout = require('./about/introduction2.png');
 export const bgSearchBar = require('./products/bgSearchBar.png');
 export const VietnamFlag = require('./flag/VietnamsFlag.png');
 export const koreanFlag = require('./flag/koreanFlag.png');
+export const CartEmpty = require('./empty_cart.png');

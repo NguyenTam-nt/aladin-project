@@ -9,14 +9,16 @@ import CartsScreen from 'src/features/Carts';
 const ProductStack = createStackNavigator();
 
 export const ProductStackScreen = () => (
-  <ProductStack.Navigator screenOptions={{headerShown: false}}>
+  <ProductStack.Navigator
+    screenOptions={{headerShown: false}}
+    initialRouteName={productRoute.prifex}>
     <ProductStack.Screen name={productRoute.prifex} component={Products} />
     <ProductStack.Screen
       name={productRoute.categories.detail}
       component={CategoriesScreen}
     />
     <ProductStack.Screen name={productRoute.detail} component={ProductDetail} />
-    <ProductStack.Screen name={productRoute.cart} component={CartsScreen} />
+    {/* <ProductStack.Screen name={productRoute.cart} component={CartsScreen} /> */}
     {/* <FeatureStack.Screen name="/noi-bat" component={FeaturedScreen} />
     <FeatureStack.Screen name="/noi-bat/[slug]" component={ArticleScreen} />
     <FeatureStack.Screen name="/nha-cung-cap/[group]" component={ContentProviderScreen} />

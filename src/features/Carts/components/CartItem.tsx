@@ -19,10 +19,12 @@ interface IProps {
     productDetailId: number,
     quantitySelected: number,
   ) => void;
+  removeItem: (id: number) => void;
 }
 
 const CartItem = (props: IProps) => {
-  const {product, handleCheckbox, handleUpdateQuantitySelected} = props;
+  const {product, handleCheckbox, handleUpdateQuantitySelected, removeItem} =
+    props;
   const {isVn} = useI18n();
 
   const handleChangeCheckBox = () => {
@@ -65,8 +67,21 @@ const CartItem = (props: IProps) => {
             weight="400">
             {isVn ? product.productDetailNameVn : product.productDetailNameKr}
           </TextCustom>
+          <TextCustom
+            numberOfLines={1}
+            fontSize={14}
+            color={defaultColors.bg_939393}
+            weight="400">
+            {product.addressWarehouse}
+            {','}
+            {isVn
+              ? product?.attributes[0].valueVn
+              : product?.attributes[0].valueKr}
+          </TextCustom>
           <TextCustom fontSize={14} color={defaultColors.primary} weight="700">
-            {formatNumberDotWithVND(product.actualPriceDetail)}
+            {formatNumberDotWithVND(
+              product.actualPriceDetail * product.quantitySelected,
+            )}
           </TextCustom>
         </View>
         <View style={styles.styleGroupButtonAction}>
@@ -75,9 +90,11 @@ const CartItem = (props: IProps) => {
             quantityDefault={product.stockQuantity}
             handleUodateQuantity={handleUodateQuantity}
           />
-          <View style={styles.styleRemove}>
-            <ICRemove />
-          </View>
+          <TouchableOpacity onPress={() => removeItem(product.productDetailId)}>
+            <View style={styles.styleRemove}>
+              <ICRemove />
+            </View>
+          </TouchableOpacity>
         </View>
       </View>
     </View>
@@ -108,13 +125,13 @@ const styles = StyleSheet.create({
     flex: 1,
     width: '100%',
     flexDirection: 'column',
-    rowGap: 10,
+    rowGap: 5,
   },
   styleProductDetail: {
     width: '100%',
     flexDirection: 'column',
-    rowGap: 10,
-    paddingVertical: 8,
+    rowGap: 2,
+    paddingVertical: 5,
     paddingLeft: 5,
     borderLeftColor: defaultColors.br_E9E9E9,
     borderLeftWidth: 1,

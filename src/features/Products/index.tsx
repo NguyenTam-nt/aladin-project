@@ -43,7 +43,7 @@ import ImperativeScrollView, {
 } from 'src/hooks/useImperativeScrollView';
 import {useListItemProvice} from 'src/redux/provices/hooks';
 
-const TextHeader = (props: {
+export const TextHeader = (props: {
   text: string;
   idx: number;
   itemAction: IListTextCategories;

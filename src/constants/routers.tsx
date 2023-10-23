@@ -14,6 +14,7 @@ import {ProductStackScreen} from 'src/navigations/ProductStack';
 import {ContactStackScreen} from 'src/navigations/ContactStack';
 import AccountScreen from 'src/features/Account';
 import {AccountStackScreen} from 'src/navigations/AccountStack';
+import HomeScren from 'src/features/Home/HomeScren';
 
 export const routetBottomTab = {
   home: 'home',
@@ -30,6 +31,7 @@ export const productRoute = {
     detail: 'category/detail',
   },
   cart: 'addToCart',
+  payment: 'payment',
 };
 export const contactRoute = {
   prifex: '/contact',

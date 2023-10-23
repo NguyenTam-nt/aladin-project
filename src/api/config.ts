@@ -25,8 +25,8 @@ export const microServices = {
   product: 'products',
   categories: 'categories',
   contact: 'contact',
-  voucher: "voucher",
-  banner: "banner"
+  voucher: 'voucher',
+  banner: 'banner',
 };
 
 export const getMicroService = (api: string, service = microServices.home) => {
@@ -61,13 +61,19 @@ export const getMicroServiceCategoriesPlustMark = (
   return `/api/${service}`;
 };
 
-export const getMicroServiceVoucher = (api: string, service = microServices.voucher) => {
-  return `/api/${service}/${api}`
-}
+export const getMicroServiceVoucher = (
+  api: string,
+  service = microServices.voucher,
+) => {
+  return `/api/${service}/${api}`;
+};
 
-export const getMicroServiceBanner = (api: string, service = microServices.banner) => {
-  return `/api/${service}/${api}`
-}
+export const getMicroServiceBanner = (
+  api: string,
+  service = microServices.banner,
+) => {
+  return `/api/${service}/${api}`;
+};
 export const getMicroServiceAdmin = (
   api: string,
   service = microServices.home,

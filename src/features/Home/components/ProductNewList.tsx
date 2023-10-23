@@ -25,12 +25,12 @@ const ProductNewList = () => {
     }
   };
   React.useEffect(() => {
-    getProducts(proviceItem.provices.Name)
-  }, [proviceItem.provices])
+    getProducts(proviceItem.provices.Name);
+  }, [proviceItem.provices]);
 
   return (
     <View style={styles.container}>
-      <TextTilte text="home.product_new" />
+      {/* <TextTilte text="home.product_new" /> */}
       <View style={styles.groupProduct}>
         {products.length > 0 && (
           <ProductsList
@@ -41,14 +41,14 @@ const ProductNewList = () => {
       </View>
     </View>
   );
-}
+};
 
-export default memo(ProductNewList)
+export default memo(ProductNewList);
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: 40,
-    ...globalStyles.paddingScreenHorizontal,
+    // marginTop: 40,
+    // ...globalStyles.paddingScreenHorizontal,
   },
   groupProduct: {
     flexWrap: 'wrap',

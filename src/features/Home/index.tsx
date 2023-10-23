@@ -3,6 +3,8 @@ import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 import CartPayment from '../CartPayment';
 import HomeScren from './HomeScren';
+import { productRoute } from 'src/constants/routers';
+import ProductDetail from '../Products/ProductDetail';
 const CartPaymentRoute = createStackNavigator();
 
 export const Home = () => {
@@ -14,6 +16,7 @@ export const Home = () => {
       initialRouteName="homescreen">
       <CartPaymentRoute.Screen name="homescreen" component={HomeScren} />
       <CartPaymentRoute.Screen name="cartpayment" component={CartPayment} />
+      <CartPaymentRoute.Screen name={productRoute.detail} component={ProductDetail} />
     </CartPaymentRoute.Navigator>
   );
 };

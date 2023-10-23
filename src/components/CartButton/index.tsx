@@ -13,7 +13,8 @@ const CartButton = () => {
   return (
     <TouchableOpacity
       // @ts-ignore
-      onPress={() => navigation.navigate('mains', {screen: 'product', params:{ screen: productRoute.cart}})}
+      // onPress={() => navigation.navigate('mains', {screen: 'product', params:{ screen: productRoute.cart}})}
+      onPress={() => navigation.navigate(`${productRoute.cart}`)}
       style={styles.container}>
       <ICCart width={30} height={35} />
       <View style={styles.numberOfCart}>

@@ -1,9 +1,9 @@
-import { ScrollView, StyleSheet, View, TouchableOpacity } from 'react-native';
-import React, { useState } from 'react';
-import { globalStyles } from 'src/commons/globalStyles';
-import { defaultColors } from '@configs';
+import {ScrollView, StyleSheet, View, TouchableOpacity} from 'react-native';
+import React, {useState} from 'react';
+import {globalStyles} from 'src/commons/globalStyles';
+import {defaultColors} from '@configs';
 import HeaderHome from './components/HeaderHome';
-import { DIMENSION, paddingHorizontalScreen } from '@constants';
+import {DIMENSION, paddingHorizontalScreen} from '@constants';
 import Banner from './components/Banner';
 import SpaceBottom from 'src/components/SpaceBottom';
 import GroupContact from './components/GroupContact';
@@ -11,6 +11,8 @@ import CategoryOutStandingList from './components/CategoryOutStandingList';
 import ProductNewList from './components/ProductNewList';
 import ProductSaleList from './components/ProductSaleList';
 import ContactTopic from './components/ContactTopic';
+import ProductOutStandingList from './components/ProductOutStandingList';
+import CategoriesList from './components/CategoriesList';
 const HomeScren = () => {
   return (
     <View style={styles().container}>
@@ -18,9 +20,11 @@ const HomeScren = () => {
       <ScrollView showsVerticalScrollIndicator={false}>
         <Banner />
         <View style={styles().styleBody}>
+          <CategoriesList />
           <ProductSaleList />
           <GroupContact />
-          <CategoryOutStandingList />
+          {/* <CategoryOutStandingList /> */}
+          <ProductOutStandingList />
           <ProductNewList />
         </View>
         <ContactTopic />

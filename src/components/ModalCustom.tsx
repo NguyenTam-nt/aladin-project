@@ -111,6 +111,7 @@ const ModalCustom = forwardRef<ModalCustomMethod, ModalCustomProps>(
           styles.styleBackgroudOpacity,
           {
             justifyContent: isCenter ? 'center' : 'flex-end',
+            backgroundColor: bgColor,
           },
         ]}
         swipeThreshold={50}

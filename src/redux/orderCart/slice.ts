@@ -1,5 +1,6 @@
 import {PayloadAction, createSlice} from '@reduxjs/toolkit';
 import Toast from 'react-native-toast-message';
+import {IProductOrder} from 'src/api/order';
 
 export interface IITemCart {
   productDetailId: number;
@@ -17,19 +18,27 @@ export interface IITemCart {
   productId: number;
   attributes: {
     valueVn: string;
-    attributeNameVn: string;
-  }[];
-  attributesKr: {
     valueKr: string;
+    attributeNameVn: string;
     attributeNameKr: string;
   }[];
 }
 
-interface IPopupState {
+export interface IVoucherApply {
+  totalPrice: number;
+  voucherCode: string;
+  voucherPrice: number;
+}
+
+export interface IPopupState {
   itemInCart: IITemCart[];
+  itemCartOrder: IProductOrder[];
+  voucherApply: IVoucherApply | null;
 }
 const initialState: IPopupState = {
   itemInCart: [],
+  itemCartOrder: [],
+  voucherApply: null,
 };
 
 export const cartOrderSlice = createSlice({
@@ -105,6 +114,25 @@ export const cartOrderSlice = createSlice({
         state.itemInCart = dataCheck;
       }
     },
+    removeItemById: (state, action: PayloadAction<number>) => {
+      const dataCheck = [...state.itemInCart];
+      const index = state.itemInCart.findIndex(
+        item => item.productDetailId === action.payload,
+      );
+      if (index >= 0) {
+        dataCheck.splice(index, 1);
+        state.itemInCart = dataCheck;
+      }
+    },
+    addVoucherApply: (state, action: PayloadAction<IVoucherApply>) => {
+      console.log('action', action.payload);
+      state.voucherApply = action.payload;
+    },
+    addProductOrder: (state, action: PayloadAction<IProductOrder[]>) => {
+      console.log('action pro', action.payload);
+
+      state.itemCartOrder = action.payload;
+    },
   },
 });
 
@@ -114,5 +142,8 @@ export const {
   setChooseItem,
   setChooseAll,
   updatequantitySelectedInCart,
+  removeItemById,
+  addVoucherApply,
+  addProductOrder,
 } = cartOrderSlice.actions;
 export default cartOrderSlice.reducer;

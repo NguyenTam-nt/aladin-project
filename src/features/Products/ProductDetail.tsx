@@ -30,7 +30,6 @@ import {
   useListItemCart,
 } from 'src/redux/orderCart/hooks';
 import {useDispatch} from 'react-redux';
-import {removeCartList} from 'src/redux/orderCart/slice';
 
 const ProductDetail = () => {
   const {isVn} = useI18n();
@@ -115,7 +114,7 @@ const ProductDetail = () => {
   //   valueKr: string;
   //   attributeNameKr: string;
   // }[];
-  const handleAddToCart = () => {
+  const handleAddToCart = (type: 'ADD_TO-CART' | 'BUY_NOW') => {
     const datacheck = handleListItemCart.itemInCart;
     const index = datacheck.findIndex(
       item =>
@@ -132,23 +131,53 @@ const ProductDetail = () => {
       });
     } else {
       const itemCart = {
-        ...productDetailAtribute,
-        choose: false,
+        // ...productDetailAtribute,
+        productDetailId: productDetailAtribute?.productDetailId,
+        priceDetail: productDetailAtribute?.priceDetail,
+        promoDetail: productDetailAtribute?.promoDetail,
+        actualPriceDetail: productDetailAtribute?.actualPriceDetail,
+        stockQuantity: productDetailAtribute?.stockQuantity,
+        soldQuantity: productDetailAtribute?.soldQuantity,
+        addressWarehouse: productDetailAtribute?.addressWarehouse,
+        imageDetailUrl: productDetailAtribute?.imageDetailUrl,
+        choose: true,
         productId: product?.id,
         productDetailNameVn: product?.productNameVn,
         productDetailNameKr: product?.productNameKr,
         quantitySelected: quantityVailable,
+        attributes: [
+          {
+            valueVn: productDetailAtribute?.attributes?.[0].valueVn,
+            valueKr: productDetailAtribute?.attributesKr?.[0].valueKr,
+            attributeNameVn:
+              productDetailAtribute?.attributes?.[0].attributeNameVn,
+            attributeNameKr:
+              productDetailAtribute?.attributesKr?.[0].attributeNameKr,
+          },
+        ],
       };
-      handleAddItemToCart(itemCart);
       //@ts-ignore
-      navigation.navigate(productRoute.cart);
+      handleAddItemToCart(itemCart);
+      if (type === 'ADD_TO-CART') {
+        Toast.show({
+          type: 'tomatoToast',
+          props: {
+            status: 'success',
+            uuid: 'messages.success.add-product-to-cart',
+          },
+        });
+        return;
+      } else if (type === 'BUY_NOW') {
+        //@ts-ignore
+        navigation.navigate(`${productRoute.cart}`);
+      }
     }
   };
-  const handleBuyNow = () => {
+  const handleBuyNow = (type: 'ADD_TO-CART' | 'BUY_NOW') => {
     productDetailAtribute
       ? quantityVailable > productDetailAtribute?.stockQuantity
         ? handleWarningStockQuantity()
-        : handleAddToCart()
+        : handleAddToCart(type)
       : handleWarningAddToCart();
   };
 
@@ -214,7 +243,7 @@ const ProductDetail = () => {
           <View style={styles.styleButtonOrder}>
             <View style={{flex: 1}}>
               <ButtonTouchable
-                onPress={() => {}}
+                onPress={() => handleBuyNow('ADD_TO-CART')}
                 text="common.add-to-cart"
                 borderRadius={30}
                 textColor={defaultColors.bg_E60E00}
@@ -225,7 +254,7 @@ const ProductDetail = () => {
             </View>
             <View style={{flex: 1}}>
               <ButtonGradient
-                onPress={handleBuyNow}
+                onPress={() => handleBuyNow('BUY_NOW')}
                 text={t('common.buy_now')}
                 renderLeff={<ICBuyNow />}
                 style={{columnGap: 4}}
@@ -277,44 +306,3 @@ const styles = StyleSheet.create({
     columnGap: 7,
   },
 });
-
-const data = [
-  {
-    actualPriceDetail: 26730,
-    addressWarehouse: 'Thành phố Hà Nội',
-    attributes: [[Object]],
-    attributesKr: [[Object]],
-    choose: false,
-    imageDetailUrl:
-      'https://marketmoa.com.vn/getimage/169770341777824380422-ac81-433f-a1ce-d9789e42cc3f.webp',
-    priceDetail: 27000,
-    productDetailId: 21688,
-    productDetailNameKr: '차가운 주스 ade 과일 맛 230ml 한국 - 진정한 수입품',
-    productDetailNameVn:
-      'Nước Trái Cây Lạnh Ade các vị hoa quả 230ml Hàn Quốc - hàng nhập khẩu chính hãng',
-    productId: 21680,
-    promoDetail: 1,
-    quantitySelected: 2,
-    soldQuantity: 0,
-    stockQuantity: 272,
-  },
-  {
-    actualPriceDetail: 26730,
-    addressWarehouse: 'Thành phố Hà Nội',
-    attributes: [[Object]],
-    attributesKr: [[Object]],
-    choose: false,
-    imageDetailUrl:
-      'https://marketmoa.com.vn/getimage/1697703417709ca974675-ba46-40fe-afe6-c0735936434c.webp',
-    priceDetail: 27000,
-    productDetailId: 21690,
-    productDetailNameKr: '차가운 주스 ade 과일 맛 230ml 한국 - 진정한 수입품',
-    productDetailNameVn:
-      'Nước Trái Cây Lạnh Ade các vị hoa quả 230ml Hàn Quốc - hàng nhập khẩu chính hãng',
-    productId: 21680,
-    promoDetail: 1,
-    quantitySelected: 2,
-    soldQuantity: 0,
-    stockQuantity: 272,
-  },
-];

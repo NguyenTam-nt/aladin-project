@@ -5,9 +5,13 @@ import {
   setChooseItem,
   setChooseAll,
   updatequantitySelectedInCart,
+  addVoucherApply,
+  IVoucherApply,
+  addProductOrder,
 } from './slice';
 import {useCallback} from 'react';
 import {RootState} from '..';
+import {IProductOrder} from 'src/api/order';
 
 export const useHandleAddItemToCart = () => {
   const dispatch = useDispatch();
@@ -48,3 +52,18 @@ export const useHandleUpdateQuantitySelectedInCart = () => {
     [],
   );
 };
+
+export const useHandleAddVoucherApply = () => {
+  const dispatch = useDispatch();
+  return useCallback((data: IVoucherApply) => {
+    dispatch(addVoucherApply(data));
+  }, []);
+};
+
+export const useHandleProductOrder = () => {
+  const dispatch = useDispatch();
+  return useCallback((data: IProductOrder[]) => {
+    dispatch(addProductOrder(data));
+  }, []);
+};
+

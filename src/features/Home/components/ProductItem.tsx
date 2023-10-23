@@ -166,12 +166,13 @@ const ProductItem = (props: IProps) => {
                 globalStyles.justifyContentBetween,
                 {marginTop: 9},
               ]}>
-              {sum == 0 ? (
+              {sum === 0 ? (
                 <ButtonNavigate text="common.buy_now" />
               ) : (
                 <NavLink
                   to={{
                     screen: productRoute.detail,
+                    initial: false,
                     params: {
                       idProduct: id,
                       categoryId: categoryId,

@@ -53,6 +53,7 @@ const styles = StyleSheet.create({
     ...globalStyles.row,
     gap: 15,
     paddingHorizontal: paddingHorizontalScreen,
+    marginBottom: 26,
   },
   groupProduct: {
     flex: 1,
