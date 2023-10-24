@@ -5,14 +5,17 @@ import {TextCustom} from './Text';
 import {ICCircleArrowRight} from 'src/assets/icons/ICCircleArrowRight';
 import {globalStyles} from 'src/commons/globalStyles';
 import {Thumb} from './Thumb/Thumb';
+import {NavLink} from 'src/constants/links';
+import {productRoute} from 'src/constants/routers';
 
 interface IProps {
   index: any;
   name: string;
   imageLink: string;
+  idProduct: any;
 }
 const FeaturedItem = (props: IProps) => {
-  const {index, name, imageLink} = props;
+  const {index, name, imageLink, idProduct} = props;
   return (
     <View style={styles.container}>
       <View
@@ -27,9 +30,17 @@ const FeaturedItem = (props: IProps) => {
           weight="700">
           {index}
         </TextCustom>
-        <View>
+        <NavLink
+          key={index}
+          to={{
+            screen: productRoute.detail,
+            initial: false,
+            params: {
+              idProduct: idProduct,
+            },
+          }}>
           <ICCircleArrowRight />
-        </View>
+        </NavLink>
       </View>
       <View>
         <TextCustom

@@ -2,11 +2,16 @@ import {createStackNavigator} from '@react-navigation/stack';
 import React from 'react';
 import {accountRoute} from 'src/constants/routers';
 import AccountScreen from 'src/features/Account';
+import ManageAccountInfo from 'src/features/Account/ManageAccountInfo';
 
 const AccountStack = createStackNavigator();
 
 export const AccountStackScreen = () => (
-  <AccountStack.Navigator screenOptions={{headerShown: false}}>
+  <AccountStack.Navigator
+    screenOptions={{headerShown: false}}
+    initialRouteName={accountRoute.prifex}>
     <AccountStack.Screen name={accountRoute.prifex} component={AccountScreen} />
+    <AccountStack.Screen name={accountRoute.manageAccountInfo} component={ManageAccountInfo} />
+    {/* <AccountStack.Screen name={accountRoute.login} component={LoginScreen} /> */}
   </AccountStack.Navigator>
 );

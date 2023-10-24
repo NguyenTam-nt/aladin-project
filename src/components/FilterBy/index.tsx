@@ -34,20 +34,19 @@ const FilterBy = (props: IProps) => {
       <View style={styles.container}>
         {FILTER_BY.map((it, idx) => {
           return (
-            <View style={styles.radioButton}>
-              <Pressable
-                onPress={() => {
-                  handleSetFilter(it.slug);
-                }}>
-                {filterByItem === it.slug ? <ICCheck /> : <ICRound />}
-              </Pressable>
+            <Pressable
+              onPress={() => {
+                handleSetFilter(it.slug);
+              }}
+              style={styles.radioButton}>
+              {filterByItem === it.slug ? <ICCheck /> : <ICRound />}
               <TextTranslate
                 color={defaultColors.text_313131}
                 fontSize={14}
                 weight="400"
                 text={it.name}
               />
-            </View>
+            </Pressable>
           );
         })}
       </View>

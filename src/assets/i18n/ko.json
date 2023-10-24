@@ -1,7 +1,208 @@
 {
-    "translation": {
-        "home": {
-            "title": "Home"
+  "translation": {
+    "company": {
+      "name": "마켓 모아",
+      "support": "질문이 있으시면 언제든 문의해 주세요:"
+    },
+    "home": {
+      "product_sale": "할인 상품",
+      "sold": "판매 완료",
+      "product_outstanding": "인기 상품",
+      "product_new": "신상품",
+      "contact_note": "지원팀이 언제나 도와드립니다."
+    },
+    "navigation": {
+      "home": "홈",
+      "about": "소개",
+      "product": "제품",
+      "contact": "문의",
+      "account": "계정"
+    },
+    "common": {
+      "search": "검색어 입력",
+      "view_price": "가격 및 재고 보기:",
+      "buy_now": "바로 구매",
+      "see-more": "더 보기",
+      "choose-provice": "또는 지역 선택",
+      "add-to-cart": "장바구니에 추가",
+      "total-priece": "총 금액",
+      "out-of-stock": "품절",
+      "product-vailable": "{{lenght}} 개의 상품이 있습니다",
+      "total-product": "전체 ({{lenght}} 개 상품)"
+    },
+    "about": {
+      "title": "소개"
+    },
+    "product": {
+      "product-protfolio": "제품 카테고리",
+      "viewed-product": "최근 본 상품",
+      "note-when-using": "사용 시 주의사항:",
+      "quanlity": "수량:",
+      "policy": {
+        "title": "마켓 모아에서 쇼핑의 안심을",
+        "hight-quanlity": "100% 고품질 베트남 제품",
+        "best-priece": "최고 가격 및 매력적인 혜택 보장",
+        "service": "전문적인 서비스 및 보증 서비스",
+        "nationwide-delivery": "국내 전지역 배송"
+      },
+      "features": "주요 특징",
+      "descriptions": {
+        "product-info": "제품 정보",
+        "spec": "상세 스펙"
+      },
+      "related": {
+        "product-same-category": "같은 카테고리 제품",
+        "viewed-products": "최근 본 상품"
+      }
+    },
+    "radio": {
+      "rank": "정렬 기준:",
+      "new-product": "신상품",
+      "selling": "베스트셀러",
+      "discount": "할인",
+      "priece-high-to-low": "가격 높은 순",
+      "priece-low-to-high": "가격 낮은 순"
+    },
+    "contact": {
+      "title": "무료 상담 받기",
+      "description": "문의사항이 있으시면 언제든지 알려주세요. 아래 양식에 모든 정보를 입력해 주시면 마켓 모아가 가장 빠르게 회신드립니다.",
+      "full-name": "성함",
+      "planhoder-full-name": "성함을 입력하세요",
+      "phone-number": "전화번호",
+      "planhoder-phone-number": "전화번호를 입력하세요",
+      "address": "주소",
+      "planhoder-address": "배송 주소를 입력하세요",
+      "email": "이메일",
+      "planhoder-email": "이메일 주소를 입력하세요",
+      "content": "내용",
+      "planhoder-content": "상담을 원하시는 내용을 입력하세요"
+    },
+    "account": {
+      "login": "로그인",
+      "logout": "로그아웃",
+      "manage-account-info": "계정 정보 관리",
+      "change-pass": "비밀번호 변경",
+      "language": "언어",
+      "screen-manage-account": {
+        "form": {
+          "full-name": "성함",
+          "planhoder-full-name": "성함을 입력하세요",
+          "email": "이메일",
+          "planhoder-email": "이메일 주소를 입력하세요",
+          "address": "주소",
+          "planhoder-address": "배송 주소를 입력하세요",
+          "account-name": "계정 이름",
+          "planhoder-account-name": "로그인 계정 이름을 입력하세요"
         }
+      },
+      "screen-change-pass": {
+        "title": "비밀번호 변경",
+        "form": {
+          "old-pass": "이전 비밀번호",
+          "planhoder-old-pass": "이전 비밀번호를 입력하세요",
+          "new-pass": "새 비밀번호",
+          "planhoder-new-pass": "새 비밀번호를 입력하세요",
+          "current-pass": "현재 비밀번호",
+          "planhoder-current-pass": "현재 비밀번호를 입력하세요"
+        }
+      },
+      "form-register": {
+        "ttile": "계정 등록",
+        "full-name": "성함",
+        "planhoder-full-name": "성함을 입력하세요",
+        "email": "이메일",
+        "planhoder-email": "이메일 주소를 입력하세요",
+        "address": "주소",
+        "planhoder-address": "배송 주소를 입력하세요",
+        "account-name": "계정 이름",
+        "planhoder-account-name": "로그인 계정 이름을 입력하세요",
+        "pass": "비밀번호",
+        "planhoder-pass": "비밀번호를 입력하세요",
+        "confirm-pass": "비밀번호 확인",
+        "planhoder-confirm-pass": "비밀번호를 다시 입력하세요"
+      },
+      "form-login": {
+        "account": "계정",
+        "planhoder-account": "계정 이름을 입력하세요",
+        "forgot-pass": "비밀번호를 잊으셨나요?",
+        "pass-retrieval": "비밀번호 찾기",
+        "login-with": "또는 다른 방법으로 로그인:",
+        "google": "Google",
+        "facebook": "Facebook"
+      }
+    },
+    "cart": {
+      "ttile": "장바구니",
+      "remind-voucher": "가장 좋은 혜택을 선택하는 것을 잊지 마세요!",
+      "planhoder-voucher": "할인 코드 입력",
+      "button-apply": "적용",
+      "product-value": "제품 가격",
+      "promo": "할인",
+      "total-priece": "총 금액",
+      "form": {
+        "title": "배송 정보",
+        "full-name": "성함",
+        "planhoder-full-name": "성함을 입력하세요",
+        "phone-number": "전화번호",
+        "planhoder-phone-number": "전화번호를 입력하세요",
+        "email": "이메일",
+        "planhoder-email": "이메일 주소를 입력하세요",
+        "address": "주소",
+        "planhoder-address": "배송 주소를 입력하세요",
+        "note": "특이 사항",
+        "planhoder-note": "주문에 대한 특이 사항을 입력하세요",
+        "payments-methods": "결제 방법",
+        "payment-COD": "수령 시 현금 결제 (COD)"
+      },
+      "button-order": "주문하기"
+    },
+    "button": {
+      "required-contact": "상담 요청",
+      "see-more-product": "제품 더 보기",
+      "cancel": "취소",
+      "update": "업데이트"
+    },
+    "messages": {
+      "full-name": {
+        "requied": "성함을 입력하세요."
+      },
+      "phone-number": {
+        "requied": "전화번호를 입력하세요.",
+        "matches": "올바른 전화번호 형식이 아닙니다."
+      },
+      "email": {
+        "requied": "이메일을 입력하세요.",
+        "matches": "올바른 이메일 형식이 아닙니다."
+      },
+      "address": {
+        "requied": "주소를 입력하세요."
+      },
+      "content": {
+        "requied": "내용을 입력하세요."
+      },
+      "max": "최대 {{max}} 자까지 입력 가능합니다.",
+      "success": {
+        "order-cart": "주문이 성공적으로 완료되었습니다.",
+        "free-couslution": "상담 요청이 성공적으로 전송되었습니다.",
+        "content-free-cousl": "빠른 시일 내에 답변드리겠습니다.",
+        "content-order-cart": "주문해 주셔서 감사합니다.",
+        "desc-order-cart": "주문이 시스템에서 확인되었습니다.",
+        "add-product-to-cart": "제품이 장바구니에 성공적으로 추가되었습니다."
+      },
+      "warning": {
+        "add-to-cart": "제품 속성을 선택해 주세요!",
+        "product-stock-quantity": "선택한 수량이 재고 수량과 일치하지 않습니다!",
+        "product-already-exists": "제품이 이미 장바구니에 있습니다!",
+        "cart-empty": "장바구니에 제품이 없습니다!",
+        "cart-choose-false": "구매하고자 하는 제품을 장바구니에서 선택해 주세요!",
+        "voucher-code-incorrect": "잘못된 할인 코드입니다. 다시 입력하세요!",
+        "voucher-code-null": "할인 코드를 입력하지 않았습니다. 할인 코드를 입력하세요!"
+      },
+    
+      "support": {
+        "title": "마켓 모아가 도와드립니다",
+        "content": "언제든지 지원팀이 도와드립니다."
+      }
     }
+  }
 }

@@ -43,43 +43,48 @@ const ProductOutStanding = () => {
       <Swiper
         autoplay
         autoplayDelay={2}
+        index={0}
         autoplayLoop
-      >
-        {products.map((it, idx) => {
+        data={products ?? []}
+        renderItem={item => {
           return (
-            <View key={idx} style={styles.product}>
+            <View key={item.index} style={styles.product}>
               <TextTopic
                 color={defaultColors.primary}
                 fontSize={18}
                 textTransform="uppercase"
                 weight="700"
-                text={isVn ? it.productNameVn : it.productNameKr}
+                text={isVn ? item.item.productNameVn : item.item.productNameKr}
                 numberOfLines={2}
               />
-              <View style={{height: 180, backgroundColor: 'red'}}>
+              <View style={{height: 180}}>
                 <Html
                   tagsStyles={mixedStyle}
-                  content={isVn ? it.salientFeaturedVn : it.salientFeaturedKr}
+                  content={
+                    isVn
+                      ? item.item.salientFeaturedVn
+                      : item.item.salientFeaturedKr
+                  }
                 />
               </View>
             </View>
           );
-        })}
-      </Swiper>
+        }}
+      />
     </View>
   );
 };
-const { width } = Dimensions.get('window');
+const {width} = Dimensions.get('window');
 export default ProductOutStanding;
 const styles = StyleSheet.create({
   product: {
-    backgroundColor: defaultColors._014F59,
-    paddingLeft: 16,
+    // backgroundColor: defaultColors._014F59,
+    // paddingLeft: 16,
     height: 268,
     width: width,
     borderTopLeftRadius: 20,
     paddingRight: 16,
-    paddingTop:8,
+    paddingTop: 8,
     paddingBottom: 14,
   },
 });

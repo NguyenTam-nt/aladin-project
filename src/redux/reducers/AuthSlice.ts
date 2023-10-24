@@ -4,37 +4,47 @@ import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {RootState} from '..';
 
 export interface IAuthorize {
-  name: string
+  name: string;
 }
 
 export interface IUserInfo {
-  id: string
-  phone: string
-  fullname: string
-  imageUrl: string
-  authorities: IAuthorize[]
+  id: number;
+  userId: string;
+  login: string;
+  fullName: string;
+  phoneNumber: string;
+  password: string;
+  role: string;
+  email: string;
+  createdAt: string;
+  address: string;
 }
 
 export const initUserInfo: IUserInfo = {
-  id: '',
-  phone: '',
-  fullname: '',
-  imageUrl: '',
-  authorities: [],
+  id: 0,
+  userId: '',
+  login: '',
+  fullName: '',
+  phoneNumber: '',
+  password: '',
+  role: '',
+  email: '',
+  createdAt: '',
+  address: '',
 };
 
 interface AppInfoType {
-  token: string
-  refreshToken: string
-  userInfo: IUserInfo
-  isGetTable: number | undefined
+  token: string;
+  refreshToken: string;
+  userInfo: IUserInfo;
+  isGetTable: number | undefined;
 }
 
 const initialState: AppInfoType = {
   token: '',
   refreshToken: '',
   userInfo: initUserInfo,
-  isGetTable: undefined ,
+  isGetTable: undefined,
 };
 
 export const appInfoSlice = createSlice({

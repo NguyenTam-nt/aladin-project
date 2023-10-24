@@ -1,13 +1,10 @@
 import {TextCustom, Thumb} from '@components';
 import {defaultColors} from '@configs';
+import {useNavigation} from '@react-navigation/native';
 import React, {ReactElement, useEffect, useState} from 'react';
 import {useTranslation} from 'react-i18next';
-import {
-  Modal,
-  StyleSheet,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import {Modal, StyleSheet, TouchableOpacity, View} from 'react-native';
+import {useDispatch} from 'react-redux';
 import {ICAccountInfo} from 'src/assets/icons/ICAccountInfo';
 import {ICDropdown} from 'src/assets/icons/ICDropdown';
 import {ICPassword} from 'src/assets/icons/ICPassword';
@@ -16,7 +13,15 @@ import {VietnamFlag, koreanFlag} from 'src/assets/image';
 import {ButtonTouchable} from 'src/components/Buttons/ButtonTouchable';
 import {Header} from 'src/components/Header';
 import TextTranslate from 'src/components/TextTranslate';
+import {accountRoute} from 'src/constants/routers';
 import {useDropdown} from 'src/hooks/useDropdown';
+import {
+  initUserInfo,
+  setRefreshToken,
+  setToken,
+  setUserInfo,
+} from 'src/redux/reducers/AuthSlice';
+import {useUserInfo} from 'src/redux/reducers/hook';
 export type LANGUAGE_KEY = 'vi' | 'ko';
 const LANGUAGE: {key: LANGUAGE_KEY; image: any}[] = [
   {
@@ -29,6 +34,9 @@ const LANGUAGE: {key: LANGUAGE_KEY; image: any}[] = [
   },
 ];
 const AccountScreen = () => {
+  const navigation = useNavigation();
+  const userInfo = useUserInfo();
+  const dispatch = useDispatch();
   const {toggleDropdown, visible, setVisible, dropdownTop, refDropdown} =
     useDropdown();
   const {i18n} = useTranslation();
@@ -79,6 +87,15 @@ const AccountScreen = () => {
       </Modal>
     );
   };
+
+  const logout = () => {
+    dispatch(setToken(''));
+    dispatch(setRefreshToken(''));
+    dispatch(setUserInfo(initUserInfo));
+    //@ts-ignore
+    navigation.navigate(accountRoute.login);
+  };
+
   return (
     <View style={styles.container}>
       <Header children={undefined} />
@@ -88,32 +105,67 @@ const AccountScreen = () => {
           fontSize={18}
           weight="700"
           color={defaultColors.text_313131}>
-          Hoàng Phi Phi
+          {userInfo.fullName}
         </TextCustom>
-        <ButtonTouchable
-          height={40}
-          borderRadius={30}
-          text="account.logout"
-          isAction={true}
-          style={{
-            paddingHorizontal: 50,
-            shadowColor: '#171717',
-            shadowOffset: {width: 0, height: 4},
-            shadowOpacity: 0.3,
-            shadowRadius: 3,
-          }}
-        />
+        {userInfo.login ? (
+          <ButtonTouchable
+            onPress={logout}
+            height={40}
+            borderRadius={30}
+            text="account.logout"
+            isAction={true}
+            style={{
+              paddingHorizontal: 50,
+              shadowColor: '#171717',
+              shadowOffset: {width: 0, height: 4},
+              shadowOpacity: 0.3,
+              shadowRadius: 3,
+            }}
+          />
+        ) : (
+          <ButtonTouchable
+            //@ts-ignore
+            onPress={() => navigation.navigate(accountRoute.login)}
+            height={40}
+            borderRadius={30}
+            text="account.login"
+            isAction={true}
+            style={{
+              paddingHorizontal: 50,
+              shadowColor: '#171717',
+              shadowOffset: {width: 0, height: 4},
+              shadowOpacity: 0.3,
+              shadowRadius: 3,
+            }}
+          />
+        )}
       </View>
       <View style={styles.groupAction}>
         <View style={styles.actionItemStyle}>
           <ICAccountInfo />
-          <TextTranslate
-            fontSize={18}
-            weight="400"
-            lineHeight={27}
-            color={defaultColors.c_0000}
-            text="account.manage-account-info"
-          />
+          {userInfo.login ? (
+            <TouchableOpacity
+              onPress={() =>
+                //@ts-ignore
+                navigation.navigate(accountRoute.manageAccountInfo)
+              }>
+              <TextTranslate
+                fontSize={18}
+                weight="400"
+                lineHeight={27}
+                color={defaultColors.c_0000}
+                text="account.manage-account-info"
+              />
+            </TouchableOpacity>
+          ) : (
+            <TextTranslate
+              fontSize={18}
+              weight="400"
+              lineHeight={27}
+              color={defaultColors.c_0000}
+              text="account.manage-account-info"
+            />
+          )}
         </View>
         <View style={styles.actionItemStyle}>
           <ICPassword width={19} height={23} />

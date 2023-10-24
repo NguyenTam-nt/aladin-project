@@ -1,7 +1,7 @@
 export function formatNumberDot(num: number | string = 0) {
   if (num !== undefined) {
     // const money = Math.round(Number(num))
-    return `${num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')}`;
+    return `${num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}`;
   }
   return '';
 }
@@ -9,7 +9,7 @@ export function formatNumberDot(num: number | string = 0) {
 export function formatNumberDotWithO(num: number | string = 0) {
   if (num) {
     // const money = Math.round(Number(num))
-    return `${num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')}`;
+    return `${num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}`;
   }
   return 0;
 }
@@ -26,7 +26,7 @@ export function formatNumberDotSlice(money: number) {
 export function formatNumberDotWithVND(num: number | string = 0) {
   if (num) {
     // const money = Math.round(Number(num))
-    return `${num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')}đ`;
+    return `${num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')}đ`;
   }
   return '0đ';
 }

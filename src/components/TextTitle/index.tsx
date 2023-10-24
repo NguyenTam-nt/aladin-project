@@ -32,19 +32,20 @@ const TextTilte = ({text}: Props) => {
         />
         <TextTranslate
           fontSize={18}
+          numberOfLines={2}
           textTransform="uppercase"
           weight="bold"
           color={defaultColors.c_fff}
           text={text}
         />
       </View>
-      <View style={styles.icon}>
+      {/* <View style={styles.icon}>
         <Thumb
           style={styles.style_icon}
           resizeMode="cover"
           source={require('../../assets/image/title_icon.png')}
         />
-      </View>
+      </View> */}
     </View>
   );
 };
@@ -68,6 +69,7 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
   },
   groupText: {
+    flex: 1,
     position: 'relative',
     width: '100%',
     height: '100%',
@@ -76,7 +78,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     borderWidth: 1,
-    borderColor: defaultColors.c_fff
+    borderColor: defaultColors.c_fff,
   },
   icon: {
     position: 'absolute',

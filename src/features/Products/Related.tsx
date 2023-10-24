@@ -8,6 +8,7 @@ import ProductsList from 'src/components/product/ProductsList';
 import ProductItem from '../Home/components/ProductItem';
 import {getArrayToAsyncStorage} from 'src/constants/ayncStorage';
 import {storegeKey} from 'src/constants/defines';
+import {useListItemProvice} from 'src/redux/provices/hooks';
 
 type EXPLORE_KEY = 'product-same-category' | 'viewed-products';
 const ExploreTabKey: {slug: EXPLORE_KEY; name: string}[] = [
@@ -24,6 +25,7 @@ interface IProps {
 }
 const Related = (props: IProps) => {
   const {categoryId, subCategoryId, productId} = props;
+  const ListItemprovice = useListItemProvice();
   const [actionKey, setActionKey] = useState<EXPLORE_KEY>(
     ExploreTabKey[0].slug,
   );
@@ -31,7 +33,7 @@ const Related = (props: IProps) => {
   const [seeMoreProduct, setSeeMoreProduct] = useState<Boolean>(false);
   const [seeMoreSpec, setSeeMoreSpec] = useState<Boolean>(false);
   const [ViewdProduct, setViewdProduct] = useState<any[]>([]);
-  const getProductsByCategory = async () => {
+  const getProductsByCategory = async (provice: string) => {
     try {
       const params = {
         page: 0,
@@ -39,8 +41,10 @@ const Related = (props: IProps) => {
         sort: 'id,desc',
         categoryId: categoryId,
         subCategoryId: subCategoryId,
-        address: 'Thành phố Hà Nội',
+        address: provice,
       };
+      console.log('params', params);
+
       const res = await getProductsApi(params);
       if (res) {
         const data = res.data;
@@ -56,9 +60,13 @@ const Related = (props: IProps) => {
       setViewdProduct(products);
     }
   };
+
   useEffect(() => {
-    getProductsByCategory();
-  }, []);
+    // console.log('provice', provice.provices.Name);
+    if (ListItemprovice) {
+      getProductsByCategory(ListItemprovice.provices.Name);
+    }
+  }, [ListItemprovice]);
   useEffect(() => {
     getStorage();
   }, []);

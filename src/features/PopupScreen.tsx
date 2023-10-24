@@ -6,7 +6,7 @@ import {ICSuccess} from 'src/assets/icons/ICSuccess';
 import ModalBox from 'src/components/ModalBox';
 import TextTranslate from 'src/components/TextTranslate';
 interface IProps {
-  types?: 'ORDER-CART' | 'FREE-COUSLUTION';
+  types?: 'ORDER-CART' | 'FREE-COUSLUTION' | 'UPDATE-ACCOUNT';
 }
 const PopupScreenBase = (props: IProps) => {
   const {types} = props;

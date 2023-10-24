@@ -185,13 +185,13 @@ const ProductItem = (props: IProps) => {
                   <ButtonNavigate text="common.buy_now" />
                 </NavLink>
               )}
-              <TouchableOpacity style={styles.styleCart}>
+              {/* <TouchableOpacity style={styles.styleCart}>
                 <ICCart
                   width={18}
                   height={18}
                   color={defaultColors.bg_00C3AB}
                 />
-              </TouchableOpacity>
+              </TouchableOpacity> */}
             </View>
           </View>
         </View>

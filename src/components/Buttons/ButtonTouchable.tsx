@@ -1,8 +1,8 @@
 import {StyleSheet, TouchableOpacity, StyleProp, ViewStyle} from 'react-native';
 import React from 'react';
-import {defaultColors} from '@configs';
+import {defaultColors, fontSize} from '@configs';
 import TextTranslate from '../TextTranslate';
-import {TextCustom} from '../Text';
+import {PropsTextCustom, TextCustom} from '../Text';
 import RadialGradient from 'react-native-radial-gradient';
 
 type Props = {
@@ -17,8 +17,9 @@ type Props = {
   isAction?: boolean;
   textGradient?: boolean;
   textColor?: string;
+  fontSize?: number;
   onPress?: () => void;
-};
+} & PropsTextCustom;
 
 export const ButtonTouchable = ({
   renderLeff,
@@ -32,7 +33,9 @@ export const ButtonTouchable = ({
   isAction = false,
   textGradient = true,
   textColor = defaultColors.c_fff,
+  fontSize = 14,
   onPress,
+  ...props
 }: Props) => {
   return (
     <TouchableOpacity
@@ -44,7 +47,8 @@ export const ButtonTouchable = ({
       {renderLeff ? renderLeff : null}
       {text && (
         <TextTranslate
-          fontSize={14}
+          {...props}
+          fontSize={fontSize}
           weight={weight}
           color={textColor}
           text={text}
@@ -52,7 +56,8 @@ export const ButtonTouchable = ({
       )}
       {textCustom && (
         <TextCustom
-          fontSize={14}
+          {...props}
+          fontSize={fontSize}
           weight={weight}
           color={isAction ? defaultColors.c_fff : defaultColors.bg_00C3AB}>
           {textCustom}

@@ -35,6 +35,7 @@ const ModalCustom = forwardRef<ModalCustomMethod, ModalCustomProps>(
       swipeDirection,
       isCloseOnBackdrop = true,
       isCenter = true,
+      onClose,
     }: ModalCustomProps,
     ref,
   ) => {
@@ -143,6 +144,7 @@ const ModalCustom = forwardRef<ModalCustomMethod, ModalCustomProps>(
         // hasBackdrop={false}
         backdropOpacity={backdropOpacity}
         backdropColor={backdropBg}
+        onModalHide={() => onClose?.()}
         onBackdropPress={() => {
           if (isCloseOnBackdrop) {
             setIsVisible(false);

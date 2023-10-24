@@ -28,9 +28,17 @@ const ContactTopic = () => {
             width: 289,
             height: 229,
             position: 'relative',
-            ...globalStyles.center,
+            paddingTop: 15,
+            // ...globalStyles.center,
           }}>
-          <View style={StyleSheet.absoluteFillObject}>
+          <View
+            style={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              bottom: 0,
+              right: 0,
+            }}>
             <Thumb
               source={contactGroupNote}
               resizeMode="cover"
@@ -38,6 +46,16 @@ const ContactTopic = () => {
             />
           </View>
           <View style={{rowGap: 12}}>
+            <View style={{paddingHorizontal: 15}}>
+              <TextTranslate
+                fontSize={20}
+                weight="700"
+                textAlign="center"
+                color={defaultColors.text_111213}
+                text="support.title"
+                textTransform="uppercase"
+              />
+            </View>
             <TextTranslate
               fontSize={10}
               weight="400"
@@ -48,9 +66,9 @@ const ContactTopic = () => {
             <View style={styles.container_btn}>
               <View style={globalStyles.center}>
                 <TouchableOpacity
-                  onPress={() => {
-                    Linking.openURL('https://zalo.me/0368712000');
-                  }}
+                  onPress={() =>
+                    Linking.openURL('https://story.kakao.com/marketmoa')
+                  }
                   style={styles.groupProduct}>
                   <RadialGradient
                     style={StyleSheet.absoluteFillObject}
@@ -71,7 +89,9 @@ const ContactTopic = () => {
                 </TextCustom>
               </View>
               <View style={globalStyles.center}>
-                <TouchableOpacity style={styles.groupProduct}>
+                <TouchableOpacity
+                  onPress={() => Linking.openURL('https://zalo.me/0368712000')}
+                  style={styles.groupProduct}>
                   <RadialGradient
                     style={StyleSheet.absoluteFillObject}
                     colors={[defaultColors.bg_E60E00, defaultColors.secondary]}
@@ -105,6 +125,8 @@ const styles = StyleSheet.create({
   container_btn: {
     ...globalStyles.row,
     gap: 32,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   groupProduct: {
     width: 55,

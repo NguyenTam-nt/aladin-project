@@ -8,6 +8,8 @@ import {defaultColors} from '@configs';
 import {IProductOutStanding} from 'src/api/products';
 import useI18n from 'src/hooks/useI18n';
 import FeaturedItem from './FeaturedItem';
+import {NavLink} from 'src/constants/links';
+import {productRoute} from 'src/constants/routers';
 interface IProps {
   data: IProductOutStanding[];
 }
@@ -41,6 +43,7 @@ const FeaturedComponents = (props: IProps) => {
                 index={`00${index + 1}`.slice(-2)}
                 name={isVn ? item.productNameVn : item.productNameKr}
                 imageLink={item.image}
+                idProduct={item.id}
               />
             );
           }}

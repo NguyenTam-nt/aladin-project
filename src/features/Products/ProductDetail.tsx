@@ -212,11 +212,13 @@ const ProductDetail = () => {
           productInfo={isVn ? product?.detailVn : product?.detailKr}
           spec={isVn ? product?.specVn : product?.specKr}
         /> */}
-        <Related
-          categoryId={categoryId}
-          subCategoryId={subCategoryId}
-          productId={idProduct}
-        />
+        {product && (
+          <Related
+            categoryId={categoryId ?? product?.categoryId}
+            subCategoryId={subCategoryId ?? product?.subCategoryId}
+            productId={idProduct}
+          />
+        )}
         <SpaceBottom />
         <View style={{height: 90}} />
       </ScrollView>
@@ -235,8 +237,8 @@ const ProductDetail = () => {
               color={defaultColors.text_111213}>
               {formatNumberDotWithO(
                 productDetailAtribute
-                  ? productDetailAtribute?.actualPriceDetail
-                  : product?.actualPrice,
+                  ? productDetailAtribute?.actualPriceDetail * quantityVailable
+                  : product?.actualPrice ?? 0 * quantityVailable,
               )}
             </TextCustom>
           </View>

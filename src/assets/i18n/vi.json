@@ -89,6 +89,8 @@
           "planhoder-full-name": "Nhập họ và tên",
           "email": "Email",
           "planhoder-email": "Nhập email",
+          "phone-number": "Số điện thoại",
+          "planhoder-phone-number": "Nhập số điện thoại của bạn",
           "address": "Địa chỉ",
           "planhoder-address": "Địa chỉ bạn nhập là địa chỉ giao hàng",
           "account-name": "Tên tài khoản",
@@ -124,7 +126,7 @@
       "form-login": {
         "account": "Tài khoản",
         "planhoder-account": "Nhập tên tài khoản",
-        "forgot-pass": "Quên mật khẩu",
+        "forgot-pass": "Quên mật khẩu?",
         "pass-retrieval": "Lấy lại mật khẩu",
         "login-with": "Hoặc đăng nhập bằng",
         "google": "Google",
@@ -180,6 +182,15 @@
       "content": {
         "requied": "Nội dung không bỏ trống."
       },
+      "username": {
+        "requied": "Tên tài khoản không bỏ trống."
+      },
+      "password": {
+        "requied": "Mật khẩu không bỏ trống."
+      },
+      "account-name": {
+        "requied": "Tên tài khoản không bỏ trống."
+      },
       "max": "Tối đa {{max}} ký tự.",
       "success": {
         "order-cart": "Đặt hàng thành công.",
@@ -187,7 +198,8 @@
         "content-free-cousl": "Sẽ phản hồi trong thời gian sớm nhất",
         "content-order-cart": "Cảm ơn bạn đã đặt hàng tại",
         "desc-order-cart": "Đơn hàng của bạn đã được hệ thống xác nhận",
-        "add-product-to-cart": "Thêm sản phẩm vào giỏ hàng thành công."
+        "add-product-to-cart": "Thêm sản phẩm vào giỏ hàng thành công.",
+        "update-account-info": "Cập nhật thông tin thành công. Vui lòng đăng nhập lại hệ thông!"
       },
       "warning": {
         "add-to-cart": "Vui lòng chọn thuộc tính sản phẩm!",
@@ -198,10 +210,14 @@
         "voucher-code-incorrect": "Mã giảm giá không đúng, vui lòng nhập lại!",
         "voucher-code-null": "Bạn chưa nhập mã giảm giá, vui lòng nhập mã!"
       },
-      "support": {
-        "title": "Hãy để MArKET MOA hỗ trợ bạn",
-        "content": "Đội ngũ hỗ trợ luôn sẵn sàng"
+      "error": {
+        "wrong-user-or-pass": "Tên đăng nhặp hoặc mật khẩu không đúng!",
+        "update-account-info": "Cập nhật thông tin thất bại. Vui lòng đăng thử lại!"
       }
+    },
+    "support": {
+      "title": "Hãy để MArKET MOA hỗ trợ bạn",
+      "content": "Đội ngũ hỗ trợ luôn sẵn sàng"
     }
   }
 }

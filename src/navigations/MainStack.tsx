@@ -6,11 +6,12 @@ import {
   createStackNavigator,
 } from '@react-navigation/stack';
 import PopupScreen from 'src/features/PopupScreen';
-import {productRoute} from 'src/constants/routers';
+import {accountRoute, productRoute} from 'src/constants/routers';
 import ProductDetail from 'src/features/Products/ProductDetail';
 import CartsScreen from 'src/features/Carts';
 import {Animated} from 'react-native';
 import PaymentScreen from 'src/features/Carts/Payment';
+import LoginScreen from 'src/features/Account/Login';
 const RootStack = createStackNavigator();
 const transparentScreen = {
   cardStyle: {
@@ -58,6 +59,7 @@ const MainStack = () => {
             options={{cardStyleInterpolator: forFade}}
             // options={transparentScreen}
           />
+          <RootStack.Screen name={accountRoute.login} component={LoginScreen} />
         </RootStack.Group>
       </RootStack.Navigator>
     </NavigationContainer>

@@ -50,17 +50,12 @@ const CategoriesList = () => {
           renderItem={({item, index}) => {
             return (
               <NavLink
+                key={index}
                 to={{
-                  screen: 'mains',
+                  screen: productRoute.categories.detail,
                   params: {
-                    screen: 'product',
-                    params: {
-                      screen: productRoute.categories.detail,
-                      params: {
-                        idSubCategory: item.id,
-                        idCategory: item.categoryId,
-                      },
-                    },
+                    idSubCategory: item.id,
+                    idCategory: item.categoryId,
                   },
                 }}
                 style={{

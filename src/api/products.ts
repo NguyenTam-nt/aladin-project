@@ -145,9 +145,15 @@ export const getProductsApi = async (
       params,
     });
     const data = await result.data.content;
+    const totalPages = await result.data.totalPages;
+    const current = await result.data.number;
     return {
       success: true,
       data: data,
+      page: {
+        current: current,
+        max: totalPages,
+      },
     };
   } catch (error) {
     return handleError(error);

@@ -152,6 +152,7 @@ const CartsScreen = () => {
     if (voucher?.id === chooseVoucher?.id) {
       setMeneyByVoucher(0);
       setChooseVoucher(null);
+      setVoucherCode('');
       return;
     } else {
       if (voucher.total <= 0) {
@@ -308,126 +309,131 @@ const CartsScreen = () => {
             />
           )}
         </View>
-        <View style={styles.promotionalCodeConatiner}>
-          <View style={styles.promoItem}>
-            <View
-              style={{
-                backgroundColor: defaultColors.bg_DAF1E7,
-                borderRadius: 10,
-              }}>
+        {listItemCart.itemInCart.length > 0 && (
+          <View style={styles.promotionalCodeConatiner}>
+            <View style={styles.promoItem}>
               <View
                 style={{
-                  paddingHorizontal: 15,
-                  paddingVertical: 12,
-                  flexDirection: 'column',
-                  rowGap: 5,
+                  backgroundColor: defaultColors.bg_DAF1E7,
+                  borderRadius: 10,
                 }}>
-                <TextTranslate
-                  fontSize={16}
-                  weight="400"
-                  color={defaultColors.text_313131}
-                  text="cart.remind-voucher"
-                />
-                <View style={styles.styleGroupPromo}>
-                  <TextInput
-                    style={styles.inputText}
-                    onChangeText={setVoucherCode}
-                    value={voucherCode}
-                    placeholder={t('cart.planhoder-voucher')}
+                <View
+                  style={{
+                    paddingHorizontal: 15,
+                    paddingVertical: 12,
+                    flexDirection: 'column',
+                    rowGap: 5,
+                  }}>
+                  <TextTranslate
+                    fontSize={16}
+                    weight="400"
+                    color={defaultColors.text_313131}
+                    text="cart.remind-voucher"
                   />
-                  <View style={{width: '33%'}}>
-                    <ButtonGradient
-                      onPress={handleApplyVoucher}
-                      text={t('cart.button-apply')}
+                  <View style={styles.styleGroupPromo}>
+                    <TextInput
+                      style={styles.inputText}
+                      onChangeText={setVoucherCode}
+                      value={voucherCode}
+                      placeholder={t('cart.planhoder-voucher')}
                     />
+                    <View style={{width: '33%'}}>
+                      <ButtonGradient
+                        onPress={handleApplyVoucher}
+                        text={t('cart.button-apply')}
+                      />
+                    </View>
                   </View>
                 </View>
               </View>
-            </View>
-            <View style={styles.styleVoucher}>
-              {vouchers.length > 0 &&
-                vouchers.map((it, idx) => {
-                  return (
-                    <TouchableOpacity
-                      key={idx}
-                      onPress={() => handleSelectedVoucher(it)}
-                      style={[
-                        styles.styleVoucherItem,
-                        chooseVoucher?.id === it.id && {
-                          backgroundColor: defaultColors.bg_DAF1E7,
-                        },
-                      ]}>
-                      <TextCustom
-                        fontSize={14}
-                        weight="400"
-                        color={defaultColors.c_0000}>
-                        {it.voucherName}
-                      </TextCustom>
-                    </TouchableOpacity>
-                  );
-                })}
+              <View style={styles.styleVoucher}>
+                {vouchers?.length > 0 &&
+                  vouchers.map((it, idx) => {
+                    return (
+                      <TouchableOpacity
+                        key={idx}
+                        onPress={() => handleSelectedVoucher(it)}
+                        style={[
+                          styles.styleVoucherItem,
+                          chooseVoucher?.id === it.id && {
+                            backgroundColor: defaultColors.bg_DAF1E7,
+                          },
+                        ]}>
+                        <TextCustom
+                          fontSize={14}
+                          weight="400"
+                          color={defaultColors.c_0000}>
+                          {it.voucherName}
+                        </TextCustom>
+                      </TouchableOpacity>
+                    );
+                  })}
+              </View>
             </View>
           </View>
-        </View>
+        )}
+
         {/* <SpaceBottom /> */}
         <View style={{paddingBottom: 155}} />
       </ScrollView>
-      <View style={styles.styleBuyNow}>
-        <View style={{paddingHorizontal: 12, paddingTop: 10}}>
-          <View style={styles.buyNowItem}>
-            <View style={styles.styleShowContentBuyNow}>
-              <TextTranslate
-                fontSize={16}
-                weight="400"
-                color={defaultColors.text_303030}
-                text="cart.product-value"
-              />
-              <TextCustom
-                fontSize={16}
-                weight="400"
-                color={defaultColors.text_303030}>
-                {formatNumberDotWithO(totalPriece)}
-              </TextCustom>
+      {listItemCart.itemInCart.length > 0 && (
+        <View style={styles.styleBuyNow}>
+          <View style={{paddingHorizontal: 12, paddingTop: 10}}>
+            <View style={styles.buyNowItem}>
+              <View style={styles.styleShowContentBuyNow}>
+                <TextTranslate
+                  fontSize={16}
+                  weight="400"
+                  color={defaultColors.text_303030}
+                  text="cart.product-value"
+                />
+                <TextCustom
+                  fontSize={16}
+                  weight="400"
+                  color={defaultColors.text_303030}>
+                  {formatNumberDotWithO(totalPriece)}
+                </TextCustom>
+              </View>
+              <View style={styles.styleShowContentBuyNow}>
+                <TextTranslate
+                  fontSize={16}
+                  weight="400"
+                  color={defaultColors.text_303030}
+                  text="cart.promo"
+                />
+                <TextCustom
+                  fontSize={16}
+                  weight="400"
+                  color={defaultColors.primary}>
+                  -{formatNumberDotWithO(moneyByVoucher)}
+                </TextCustom>
+              </View>
             </View>
-            <View style={styles.styleShowContentBuyNow}>
-              <TextTranslate
-                fontSize={16}
-                weight="400"
-                color={defaultColors.text_303030}
-                text="cart.promo"
+            <View style={styles.styleGroupButtonBuyNow}>
+              <View style={styles.styleShowContentBuyNow}>
+                <TextTranslate
+                  fontSize={16}
+                  weight="400"
+                  color={defaultColors.text_303030}
+                  text="cart.total-priece"
+                />
+                <TextCustom
+                  fontSize={16}
+                  weight="700"
+                  color={defaultColors.text_111213}>
+                  {formatNumberDotWithO(totalPriece - moneyByVoucher)}
+                </TextCustom>
+              </View>
+              <ButtonGradient
+                onPress={handleBuyNow}
+                text={t('common.buy_now')}
+                renderLeff={<ICBuyNow />}
+                style={{columnGap: 4}}
               />
-              <TextCustom
-                fontSize={16}
-                weight="400"
-                color={defaultColors.primary}>
-                -{formatNumberDotWithO(moneyByVoucher)}
-              </TextCustom>
             </View>
-          </View>
-          <View style={styles.styleGroupButtonBuyNow}>
-            <View style={styles.styleShowContentBuyNow}>
-              <TextTranslate
-                fontSize={16}
-                weight="400"
-                color={defaultColors.text_303030}
-                text="cart.total-priece"
-              />
-              <TextCustom
-                fontSize={16}
-                weight="700"
-                color={defaultColors.text_111213}>
-                {formatNumberDotWithO(totalPriece - moneyByVoucher)}
-              </TextCustom>
-            </View>
-            <ButtonGradient
-              onPress={handleBuyNow}
-              text={t('common.buy_now')}
-              renderLeff={<ICBuyNow />}
-              style={{columnGap: 4}}
-            />
           </View>
         </View>
-      </View>
+      )}
     </View>
   );
 };

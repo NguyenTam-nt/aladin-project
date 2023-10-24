@@ -39,6 +39,8 @@ export const contactRoute = {
 
 export const accountRoute = {
   prifex: '/profile',
+  login: '/login',
+  manageAccountInfo: 'manage-account-info',
 };
 type PropsTitle = {
   focused: boolean;
