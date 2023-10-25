@@ -42,13 +42,13 @@ export const Thumb: React.FC<ThumbProps> = props => {
   const {source} = props;
 
   useEffect(() => {
-    if (Platform.OS === 'android') {
-      // @ts-ignore
-      if (!source.uri) {
-        setLoading(false);
-        setError(true);
-      }
-    }
+    // if (Platform.OS === 'android') {
+    //   // @ts-ignore
+    //   if (!source.uri) {
+    //     setLoading(false);
+    //     setError(true);
+    //   }
+    // }
     return () => {
       setError(false);
       // setLoading(true)

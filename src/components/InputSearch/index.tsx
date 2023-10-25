@@ -2,6 +2,7 @@ import {
   StyleSheet,
   TextInput,
   TextInputProps,
+  TouchableOpacity,
   View,
   ViewStyle,
 } from 'react-native';
@@ -9,6 +10,11 @@ import React from 'react';
 import {defaultColors} from '@configs';
 import {ICSearch} from 'src/assets/icons/ICSearch';
 import {useTranslation} from 'react-i18next';
+import ModalCustom from '../ModalCustom';
+import SearchScreen from 'src/features/SearchScreen';
+import {useModal} from 'src/hooks/useModal';
+import {DIMENSION} from '@constants';
+import {TextCustom} from '../Text';
 
 type Props = {
   containerStyle?: ViewStyle[] | ViewStyle;
@@ -16,6 +22,7 @@ type Props = {
 
 const InputSearch = ({containerStyle, ...props}: Props) => {
   const {t} = useTranslation();
+  const modalEditInventory = useModal();
   return (
     <View style={[styles.container, StyleSheet.flatten(containerStyle)]}>
       <TextInput
@@ -23,9 +30,18 @@ const InputSearch = ({containerStyle, ...props}: Props) => {
         placeholder={t('common.search')}
         {...props}
       />
-      <View style={styles.viewIcon}>
+      <TouchableOpacity
+        onPress={modalEditInventory.handleShow}
+        style={styles.viewIcon}>
         <ICSearch />
-      </View>
+      </TouchableOpacity>
+      <ModalCustom
+        onBackdropPress={modalEditInventory.handleHidden}
+        ref={modalEditInventory.refModal}>
+        <View style={styles.modalEdit}>
+          <SearchScreen dismiss={modalEditInventory.handleHidden} />
+        </View>
+      </ModalCustom>
     </View>
   );
 };
@@ -49,5 +65,15 @@ const styles = StyleSheet.create({
     width: 32,
     height: '100%',
     paddingRight: 12,
+  },
+  modalEdit: {
+    position: 'relative',
+    height: DIMENSION.height,
+    width: DIMENSION.width,
+    backgroundColor: defaultColors.bg_EFEFEF,
+    borderRadius: 10,
+    padding: 24,
+    // marginHorizontal: 20,
+    // alignItems: 'center',
   },
 });

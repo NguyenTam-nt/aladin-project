@@ -80,8 +80,16 @@ const RenderSelectTelePhone = () => {
         resizeMode="contain"
         style={{width: 30, height: 16, borderRadius: 5}}
       />
-      <TextCustom>{preview.telephone_prefixes}</TextCustom>
-      <TouchableOpacity ref={refDropdown} onPress={toggleDropdown}>
+
+      <TouchableOpacity
+        ref={refDropdown}
+        onPress={toggleDropdown}
+        style={{
+          flexDirection: 'row',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}>
+        <TextCustom>{preview.telephone_prefixes}</TextCustom>
         {renderDropdown()}
         <ICDropdown />
       </TouchableOpacity>
@@ -133,10 +141,15 @@ const TextInputComponent = (props: Props) => {
         )}
       </View>
       <View style={styles(textarea).styleInput}>
-        {isPhone && <RenderSelectTelePhone />}
+        {isPhone && (
+          <View style={{paddingLeft: 12}}>
+            <RenderSelectTelePhone />
+          </View>
+        )}
         <TextInput
           style={styles().inputText}
           placeholder={t(`${textPlanholder}`)}
+          placeholderTextColor={defaultColors.bg_939393}
           {...props}
         />
       </View>

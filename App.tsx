@@ -67,7 +67,7 @@ function App() {
   //  }, []);
 
   useEffect(() => {
-    Orientation.lockToPortrait();
+    // Orientation.lockToPortrait();
     const locale2 = getDeviceLanguage(RNLocalize.getLocales()[0].languageCode);
     i18n.changeLanguage(locale2);
   }, []);

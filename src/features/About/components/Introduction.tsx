@@ -3,10 +3,7 @@ import {defaultColors} from '@configs';
 import React, {useEffect, useState} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 
-import {
-  introductionImage,
-  backgroundAbout,
-} from 'src/assets/image';
+import {introductionImage, backgroundAbout} from 'src/assets/image';
 import {globalStyles} from 'src/commons/globalStyles';
 import TextTilte from 'src/components/TextTitle';
 
@@ -53,7 +50,9 @@ const Introdcution = () => {
           }}>
           <View style={StyleSheet.absoluteFillObject}>
             <Thumb
-              source={{uri: abouts.length > 0 && abouts[0].images?.[0].url}}
+              source={{
+                uri: abouts?.length > 0 ? abouts?.[0].images?.[0].url : '',
+              }}
               resizeMode="cover"
               style={{width: '100%', height: '100%', borderRadius: 10}}
             />
@@ -70,12 +69,12 @@ const Introdcution = () => {
         />
         <View style={{paddingRight: 16}}>
           <Text style={styles.title}>
-            {abouts.length > 0 &&
-              (isVn ? abouts[0].titleVn : abouts[0].titleKr)}
+            {abouts?.length > 0 &&
+              (isVn ? abouts?.[0].titleVn : abouts?.[0].titleKr)}
           </Text>
           <Text>
-            {abouts.length > 0 &&
-              (isVn ? abouts[0].content1Vn : abouts[0].content1Kr)}
+            {abouts?.length > 0 &&
+              (isVn ? abouts?.[0].content1Vn : abouts?.[0].content1Kr)}
           </Text>
         </View>
       </View>
@@ -89,12 +88,12 @@ const Introdcution = () => {
       <View style={{marginTop: 30}}>
         <View style={{paddingHorizontal: 16, marginBottom: 2}}>
           <Text style={styles.title}>
-            {abouts.length > 1 &&
-              (isVn ? abouts[1].titleVn : abouts[1].titleKr)}
+            {abouts?.length > 1 &&
+              (isVn ? abouts?.[1].titleVn : abouts?.[1].titleKr)}
           </Text>
           <Text style={styles.desc}>
-            {abouts.length > 1 &&
-              (isVn ? abouts[1].content1Vn : abouts[1].content1Kr)}
+            {abouts?.length > 1 &&
+              (isVn ? abouts?.[1].content1Vn : abouts?.[1].content1Kr)}
           </Text>
         </View>
         <View>
@@ -121,7 +120,9 @@ const Introdcution = () => {
               }}>
               <View style={StyleSheet.absoluteFillObject}>
                 <Thumb
-                  source={{uri: abouts.length > 0 && abouts[1].images?.[0].url}}
+                  source={{
+                    uri: abouts?.length > 0 ? abouts?.[1].images?.[0].url : '',
+                  }}
                   resizeMode="cover"
                   style={{width: 300, height: 300, borderRadius: 150}}
                 />

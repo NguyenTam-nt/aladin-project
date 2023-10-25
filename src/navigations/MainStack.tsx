@@ -12,6 +12,7 @@ import CartsScreen from 'src/features/Carts';
 import {Animated} from 'react-native';
 import PaymentScreen from 'src/features/Carts/Payment';
 import LoginScreen from 'src/features/Account/Login';
+import RegisterAccount from 'src/features/Account/RegisterAccount';
 const RootStack = createStackNavigator();
 const transparentScreen = {
   cardStyle: {
@@ -60,6 +61,10 @@ const MainStack = () => {
             // options={transparentScreen}
           />
           <RootStack.Screen name={accountRoute.login} component={LoginScreen} />
+          <RootStack.Screen
+            name={accountRoute.register}
+            component={RegisterAccount}
+          />
         </RootStack.Group>
       </RootStack.Navigator>
     </NavigationContainer>

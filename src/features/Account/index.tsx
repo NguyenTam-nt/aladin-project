@@ -183,16 +183,25 @@ const AccountScreen = () => {
             resizeMode="cover"
             style={{width: 37, height: 26}}
           />
-          <TouchableOpacity ref={refDropdown} onPress={toggleDropdown}>
+          <TouchableOpacity
+            ref={refDropdown}
+            onPress={toggleDropdown}
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}>
             {renderDropdown()}
             <ICDropdown />
+            <View style={{paddingLeft: 10}}>
+              <TextTranslate
+                fontSize={18}
+                weight="600"
+                color={defaultColors.c_0000}
+                text="account.language"
+              />
+            </View>
           </TouchableOpacity>
-          <TextTranslate
-            fontSize={18}
-            weight="600"
-            color={defaultColors.c_0000}
-            text="account.language"
-          />
         </View>
       </View>
     </View>
@@ -221,7 +230,7 @@ const styles = StyleSheet.create({
   },
   actionItemStyle: {
     flexDirection: 'row',
-    columnGap: 4,
+    columnGap: 6,
     alignItems: 'center',
   },
   button: {

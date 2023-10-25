@@ -29,6 +29,7 @@ export const updateUserInfo = async (
       datas,
     );
     const {data} = await result;
+
     return {
       data: data,
       success: true,
@@ -38,10 +39,33 @@ export const updateUserInfo = async (
   }
 };
 
-const data = {
-  address: '102 Trường Chinh, Đống Đa, Cali',
-  email: 'xinhbutkngu@gmail.com',
-  fullName: 'Ánh Ngọc Number Two',
-  login: 'anhvn',
-  phoneNumber: '0984594599',
+export const postRegisterAccount = async (
+  datas: any,
+): Promise<IResponseApi<any>> => {
+  try {
+    const result = await request().post(`${APIs.UPDATE_USER}/adduser`, datas);
+    const {data} = await result;
+    return {
+      data: data,
+      success: true,
+    };
+  } catch (e) {
+    return handleError(e);
+  }
+};
+
+export const checkAccountExitsApi = async (
+  login: any,
+): Promise<IResponseApi<any>> => {
+  try {
+    const result = await request().get(`/api/user/checklogin?login=${login}`);
+    const {data} = await result;
+    return {
+      data: data,
+      success: true,
+    };
+  } catch (e) {
+    // console.log('eeeee', e.response.data);
+    return handleError(e);
+  }
 };

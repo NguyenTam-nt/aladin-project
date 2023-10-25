@@ -14,6 +14,9 @@ import {IContact, postContactApi} from 'src/api/contact';
 import {useNavigation} from '@react-navigation/native';
 import {useAlert} from 'src/constants/links';
 import TextInputComponent from 'src/components/TextInputGroup/TextInputComponent';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import {productRoute} from 'src/constants/routers';
+import SpaceBottom from 'src/components/SpaceBottom';
 
 const phoneRegExp = /^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/;
 const ContactScrren = () => {
@@ -104,96 +107,102 @@ const ContactScrren = () => {
           </View>
         </View>
       </Header>
-      <View
-        style={{
-          // marginTop: 15,
-          paddingHorizontal: 18,
-        }}>
-        <TextTranslate
-          fontSize={14}
-          weight="400"
-          textAlign="justify"
-          color={defaultColors.text_313131}
-          text="contact.description"
-        />
-        <View style={{marginTop: 20, flexDirection: 'column', rowGap: 18}}>
-          <TextInputComponent
-            textTitle="contact.full-name"
-            textPlanholder="contact.planhoder-full-name"
-            onChangeText={handleChangeInput('fullName')}
-            value={values.fullName}
-            // @ts-ignore
-            message={touched.fullName && errors.fullName ? errors.fullName : ''}
-            option={{max: 40}}
-            maxLength={40}
+      <KeyboardAwareScrollView>
+        <View
+          style={{
+            // marginTop: 15,
+            paddingHorizontal: 18,
+          }}>
+          <TextTranslate
+            fontSize={14}
+            weight="400"
+            textAlign="justify"
+            color={defaultColors.text_313131}
+            text="contact.description"
           />
-          <TextInputComponent
-            textTitle="contact.phone-number"
-            textPlanholder="contact.planhoder-phone-number"
-            onChangeText={handleChangeInput('phoneNumber')}
-            value={values.phoneNumber}
-            // @ts-ignore
-            message={
-              touched.phoneNumber && errors.phoneNumber
-                ? errors.phoneNumber
-                : ''
-            }
-            option={{max: 10}}
-            maxLength={10}
-            isPhone={true}
-          />
-          <TextInputComponent
-            textTitle="contact.address"
-            textPlanholder="contact.planhoder-address"
-            onChangeText={handleChangeInput('address')}
-            value={values.address}
-            // @ts-ignore
-            message={touched.address && errors.address ? errors.address : ''}
-            option={{max: 100}}
-            maxLength={100}
-          />
+          <View style={{marginTop: 20, flexDirection: 'column', rowGap: 18}}>
+            <TextInputComponent
+              textTitle="contact.full-name"
+              textPlanholder="contact.planhoder-full-name"
+              onChangeText={handleChangeInput('fullName')}
+              value={values.fullName}
+              // @ts-ignore
+              message={
+                touched.fullName && errors.fullName ? errors.fullName : ''
+              }
+              option={{max: 40}}
+              maxLength={40}
+            />
+            <TextInputComponent
+              textTitle="contact.phone-number"
+              textPlanholder="contact.planhoder-phone-number"
+              onChangeText={handleChangeInput('phoneNumber')}
+              value={values.phoneNumber}
+              keyboardType="number-pad"
+              // @ts-ignore
+              message={
+                touched.phoneNumber && errors.phoneNumber
+                  ? errors.phoneNumber
+                  : ''
+              }
+              option={{max: 10}}
+              maxLength={10}
+              isPhone={true}
+            />
+            <TextInputComponent
+              textTitle="contact.address"
+              textPlanholder="contact.planhoder-address"
+              onChangeText={handleChangeInput('address')}
+              value={values.address}
+              // @ts-ignore
+              message={touched.address && errors.address ? errors.address : ''}
+              option={{max: 100}}
+              maxLength={100}
+            />
 
-          <TextInputComponent
-            textTitle="contact.email"
-            textPlanholder="contact.planhoder-email"
-            onChangeText={handleChangeInput('email')}
-            value={values.email}
-            // @ts-ignore
-            message={touched.email && errors.email ? errors.email : ''}
-            option={{max: 256}}
-            maxLength={256}
-          />
-          <TextInputComponent
-            editable
-            multiline
-            numberOfLines={4}
-            textarea={true}
-            textTitle="contact.content"
-            textPlanholder="contact.planhoder-content"
-            onChangeText={handleChangeInput('content')}
-            value={values.content}
-            // @ts-ignore
-            message={touched.content && errors.content ? errors.content : ''}
-            option={{max: 1000}}
-            maxLength={1000}
-          />
+            <TextInputComponent
+              textTitle="contact.email"
+              textPlanholder="contact.planhoder-email"
+              onChangeText={handleChangeInput('email')}
+              value={values.email}
+              // @ts-ignore
+              message={touched.email && errors.email ? errors.email : ''}
+              option={{max: 256}}
+              maxLength={256}
+            />
+            <TextInputComponent
+              editable
+              multiline
+              numberOfLines={4}
+              textarea={true}
+              textTitle="contact.content"
+              textPlanholder="contact.planhoder-content"
+              onChangeText={handleChangeInput('content')}
+              value={values.content}
+              // @ts-ignore
+              message={touched.content && errors.content ? errors.content : ''}
+              option={{max: 1000}}
+              maxLength={1000}
+            />
+          </View>
+          <View style={{marginTop: 20, flexDirection: 'column', rowGap: 12}}>
+            <ButtonGradient
+              onPress={() => handleSubmit()}
+              text={t('button.required-contact')}
+              isLoading={isSubmitting}
+            />
+            <ButtonTouchable
+              // @ts-ignore
+              onPress={() => navigation.navigate(productRoute.prifex)}
+              text="button.see-more-product"
+              borderRadius={30}
+              textColor={defaultColors.bg_E60E00}
+              height={38}
+            />
+          </View>
         </View>
-        <View style={{marginTop: 20, flexDirection: 'column', rowGap: 12}}>
-          <ButtonGradient
-            onPress={() => handleSubmit()}
-            text={t('button.required-contact')}
-            isLoading={isSubmitting}
-          />
-          <ButtonTouchable
-            // @ts-ignore
-            onPress={() => navigation.navigate('products')}
-            text="button.see-more-product"
-            borderRadius={30}
-            textColor={defaultColors.bg_E60E00}
-            height={38}
-          />
-        </View>
-      </View>
+        <SpaceBottom />
+      </KeyboardAwareScrollView>
     </View>
   );
 };

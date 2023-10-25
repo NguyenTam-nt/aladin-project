@@ -40,6 +40,7 @@ export const contactRoute = {
 export const accountRoute = {
   prifex: '/profile',
   login: '/login',
+  register: '/register',
   manageAccountInfo: 'manage-account-info',
 };
 type PropsTitle = {

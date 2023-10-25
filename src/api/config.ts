@@ -28,6 +28,7 @@ export const microServices = {
   voucher: 'voucher',
   banner: 'banner',
   user: 'user',
+  order: 'order',
 };
 
 export const getMicroService = (api: string, service = microServices.user) => {
@@ -109,6 +110,7 @@ export const APIs = {
   GET_BANNER_BY_NAME: getMicroServiceBanner('name'),
   USER: getMicroService('account-info', microServices.user),
   UPDATE_USER: getMicroServicePlustMark(microServices.user),
+  ORDER: getMicroServicePlustMark(microServices.order),
   FLOOR: getMicroService('areas', microServices.restaurant),
   TABLE: getMicroService('table', microServices.restaurant),
   // CATEGORIES: getMicroService('categories/select', microServices.restaurant),

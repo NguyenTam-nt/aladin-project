@@ -1,14 +1,24 @@
 import {TextCustom, Thumb} from '@components';
 import {defaultColors} from '@configs';
 import {DIMENSION} from '@constants';
+import {useNavigation} from '@react-navigation/native';
 import {useFormik} from 'formik';
 import React, {useState} from 'react';
 import {useTranslation} from 'react-i18next';
-import {View, StyleSheet, TouchableOpacity, ScrollView} from 'react-native';
+import {
+  View,
+  StyleSheet,
+  TouchableOpacity,
+  ScrollView,
+  Pressable,
+  StatusBar,
+} from 'react-native';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import Toast from 'react-native-toast-message';
 import {useDispatch} from 'react-redux';
 import {login} from 'src/api/login';
 import {getUserInfo} from 'src/api/user';
+import {ICClose} from 'src/assets/icons/ICClose';
 import {ICFacebook} from 'src/assets/icons/ICFacebook';
 import {ICGoogle} from 'src/assets/icons/ICGoogle';
 import {ICLogo} from 'src/assets/icons/ICLogo';
@@ -16,6 +26,7 @@ import ButtonGradient from 'src/components/Buttons/ButtonGradient';
 import {Header} from 'src/components/Header';
 import TextInputComponent from 'src/components/TextInputGroup/TextInputComponent';
 import TextTranslate from 'src/components/TextTranslate';
+import {accountRoute} from 'src/constants/routers';
 import {useGoBack} from 'src/hooks/useGoBack';
 import {
   setRefreshToken,
@@ -28,6 +39,7 @@ const LoginScreen = () => {
   const {t} = useTranslation();
   const dispatch = useDispatch();
   const dismiss = useGoBack();
+  const navigation = useNavigation();
   const formik = useFormik({
     initialValues: {
       username: '',
@@ -67,7 +79,6 @@ const LoginScreen = () => {
           await dispatch(setUserInfo(userInfo.data));
           dismiss();
         }
-        console.log('user info ', userInfo);
       } else {
         if (res.code === 401) {
           Toast.show({
@@ -94,9 +105,14 @@ const LoginScreen = () => {
   };
   return (
     <View style={styles.container}>
-      <ScrollView>
-        <Header children={undefined} />
-        <View style={{alignItems: 'center'}}>
+      <StatusBar />
+      <KeyboardAwareScrollView>
+        <Pressable
+          onPress={dismiss}
+          style={{position: 'absolute', right: 20, top: 50, zIndex: 10}}>
+          <ICClose width={20} height={20} />
+        </Pressable>
+        <View style={{alignItems: 'center', marginTop: 50}}>
           <ICLogo />
           <View style={{marginTop: 27}}>
             <TextTranslate
@@ -108,7 +124,7 @@ const LoginScreen = () => {
           </View>
         </View>
         <View style={{paddingHorizontal: 45}}>
-          <View style={{rowGap: 28}}>
+          <View style={{rowGap: 20}}>
             <TextInputComponent
               textTitle="account.form-login.account"
               textPlanholder="account.form-login.planhoder-account"
@@ -126,6 +142,7 @@ const LoginScreen = () => {
               textPlanholder="account.form-register.planhoder-pass"
               value={values.password}
               onChangeText={handleChangeInput('password')}
+              secureTextEntry={true}
               //@ts-ignore
               message={
                 touched.password && errors.password ? errors.password : ''
@@ -190,15 +207,40 @@ const LoginScreen = () => {
               </TouchableOpacity>
             </View>
           </View>
+          <View
+            style={{
+              flexDirection: 'row',
+              columnGap: 2,
+              marginTop: 10,
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}>
+            <TextTranslate
+              fontSize={14}
+              weight="400"
+              color={defaultColors.text_313131}
+              text="account.form-login.not-account"
+            />
+            <TouchableOpacity
+              //@ts-ignore
+              onPress={() => navigation.navigate(accountRoute.register)}>
+              <TextTranslate
+                fontSize={14}
+                weight="600"
+                color={defaultColors._0073E5}
+                text="account.form-login.register-now"
+              />
+            </TouchableOpacity>
+          </View>
         </View>
-        <View style={{marginTop: 45}}>
+        <View style={{marginTop: 30, marginBottom: 20}}>
           <Thumb
             style={styles.styleImage}
             source={require('../../assets/image/form_login.png')}
-            resizeMode="stretch"
+            resizeMode="cover"
           />
         </View>
-      </ScrollView>
+      </KeyboardAwareScrollView>
     </View>
   );
 };
@@ -221,7 +263,7 @@ const styles = StyleSheet.create({
   },
   styleImage: {
     width: DIMENSION.width,
-    height: 230,
+    height: 288,
   },
 });
 
