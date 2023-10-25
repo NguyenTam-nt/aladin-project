@@ -29,7 +29,6 @@ import {
   useHandleAddItemToCart,
   useListItemCart,
 } from 'src/redux/orderCart/hooks';
-import {useDispatch} from 'react-redux';
 
 const ProductDetail = () => {
   const {isVn} = useI18n();
@@ -38,7 +37,6 @@ const ProductDetail = () => {
   const navigation = useNavigation();
   const handleAddItemToCart = useHandleAddItemToCart();
   const handleListItemCart = useListItemCart();
-  const dispatch = useDispatch();
   const params = routers.params;
   //@ts-ignore
   const idProduct = params?.idProduct;

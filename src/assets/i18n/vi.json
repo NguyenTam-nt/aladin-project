@@ -29,7 +29,10 @@
       "out-of-stock": "Hết hàng",
       "product-vailable": "{{lenght}} sản phẩm có sẵn",
       "total-product": "Tất cả ({{lenght}} sản phẩm)",
-      "agree": "Đồng ý"
+      "agree": "Đồng ý",
+      "result-search": "Kết quả tìm kiếm “{{queryInput}}” là:",
+      "searching": "Đang tìm kiếm...",
+      "not-result": "Không tìm thấy kết quả nào!"
     },
     "about": {
       "title": "Giới thiệu"
@@ -211,8 +214,7 @@
         "desc-order-cart": "Đơn hàng của bạn đã được hệ thống xác nhận",
         "add-product-to-cart": "Thêm sản phẩm vào giỏ hàng thành công.",
         "update-account-info": "Cập nhật thông tin thành công. Vui lòng đăng nhập lại hệ thông!",
-        "post-account": "Tạo tài khoản thành công. Vui lòng đăng nhập hệ thống.",
-        "post-order": ""
+        "post-account": "Tạo tài khoản thành công. Vui lòng đăng nhập hệ thống."
       },
       "warning": {
         "add-to-cart": "Vui lòng chọn thuộc tính sản phẩm!",

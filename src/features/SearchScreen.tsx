@@ -1,25 +1,31 @@
-import {TextCustom, Thumb} from '@components';
-import {defaultColors} from '@configs';
-import React from 'react';
-import {useTranslation} from 'react-i18next';
+import { TextCustom, Thumb } from '@components';
+import { defaultColors } from '@configs';
+import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   Pressable,
   ScrollView,
   StatusBar,
   StyleSheet,
   TextInput,
-  TouchableOpacity,
   View,
 } from 'react-native';
-import {ICClose} from 'src/assets/icons/ICClose';
-import {formatNumberDotWithVND} from 'src/commons/formatMoney';
+import { IProduct, getProductsByKeywork } from 'src/api/products';
+import { ICClose } from 'src/assets/icons/ICClose';
+import { formatNumberDotWithVND } from 'src/commons/formatMoney';
 import ButtonGradient from 'src/components/Buttons/ButtonGradient';
-import TextTranslate from 'src/components/TextTranslate';
+import { NavLink } from 'src/constants/links';
+import { productRoute } from 'src/constants/routers';
+import useI18n from 'src/hooks/useI18n';
+import { useListItemProvice } from 'src/redux/provices/hooks';
 interface IProps {
-  dismiss?: () => void;
+  dismiss: () => void;
+  keyWorkHeader: string
 }
 
-const ProductItem = () => {
+
+const ProductItem = (props: { name: string, priece: number, imageUrl: string }) => {
+  const { name, priece, imageUrl } = props;
   return (
     <View style={styles.containerChid}>
       <View style={styles.styleProduct}>
@@ -27,7 +33,7 @@ const ProductItem = () => {
           <Thumb
             style={styles.styleImage}
             source={{
-              uri: 'https://cdn.pixabay.com/photo/2023/09/21/17/05/european-shorthair-8267220_640.jpg',
+              uri: imageUrl,
             }}
             resizeMode="stretch"
           />
@@ -44,10 +50,10 @@ const ProductItem = () => {
             weight="400"
             color={defaultColors.text_313131}
             numberOfLines={3}>
-            Hộp trà tắc giảm cân an toàn Jeju Hàn Quốc
+            {name}
           </TextCustom>
           <TextCustom fontSize={15} weight="600" color={defaultColors.primary}>
-            {formatNumberDotWithVND(40000)}
+            {formatNumberDotWithVND(priece ?? 0)}
           </TextCustom>
         </View>
       </View>
@@ -55,14 +61,48 @@ const ProductItem = () => {
   );
 };
 const SearchScreen = (props: IProps) => {
-  const {dismiss} = props;
-  const {t} = useTranslation();
+  const { dismiss, keyWorkHeader } = props;
+  const { t } = useTranslation();
+  const SIZE = 10;
+  const { isVn } = useI18n();
+  const provicesItem = useListItemProvice();
+  const [products, setProducts] = useState<IProduct[]>([]);
+  const [keyworkModal, setKeyworkModal] = useState<string>(keyWorkHeader);
+  const [currentPage, setCurrentPage] = useState<number>(0);
+  const [loading, setLoading] = useState<boolean>(false);
+  const handleSearch = async (keywork: string, provice: string) => {
+    try {
+      setLoading(true)
+      const params = {
+        page: currentPage,
+        size: SIZE,
+        sort: 'id,desc',
+        keyword: keywork,
+        address: provice
+      }
+      const res = await getProductsByKeywork(params);
+      if (res) {
+        setProducts(res.data)
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false)
+    }
+  }
+  React.useEffect(() => {
+    const timeout = setTimeout(() => { handleSearch(keyworkModal, provicesItem.provices.Name); }, 500)
+    return () => {
+      clearTimeout(timeout);
+    };
+  }, [keyworkModal, provicesItem]);
+
   return (
     <View style={styles.container}>
       <StatusBar />
       <Pressable
         onPress={dismiss}
-        style={{position: 'absolute', right: 20, zIndex: 10}}>
+        style={{ position: 'absolute', right: 20, zIndex: 10 }}>
         <ICClose width={20} height={20} />
       </Pressable>
       <View style={styles.searchBox}>
@@ -70,17 +110,39 @@ const SearchScreen = (props: IProps) => {
           <TextInput
             style={styles.inputText}
             placeholder={t('common.search')}
+            onChangeText={setKeyworkModal}
+            value={keyworkModal}
             {...props}
           />
         </View>
-        <ButtonGradient style={{width: 100}} text={t('button.search')} />
+        <ButtonGradient style={{ width: 100 }} text={t('button.search')} />
       </View>
-      <View style={{marginTop: 10}}>
-        <TextCustom>Ket qua tim kiem "" akka "" la 9 </TextCustom>
+      <View style={{ marginTop: 10 }}>
+        <TextCustom>{t("comon.result-search", { queryInput: keyworkModal })}{products?.length}</TextCustom>
       </View>
       <ScrollView>
-        {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((it, idx) => {
-          return <ProductItem key={idx} />;
+        {(products ?? []).map((it, idx) => {
+          return (
+            <NavLink
+              key={idx}
+              to={{
+                screen: productRoute.detail,
+                initial: false,
+                params: {
+                  idProduct: it.id,
+                  categoryId: it.categoryId,
+                  subCategoryId: it.subCategoryId,
+                },
+              }}
+              handleOnPress={dismiss}
+            >
+              <ProductItem
+                name={isVn ? it.productNameVn : it.productNameKr}
+                priece={it.price}
+                imageUrl={it.images?.[0].url}
+              />
+            </NavLink>
+          )
         })}
       </ScrollView>
     </View>
@@ -90,7 +152,7 @@ const SearchScreen = (props: IProps) => {
 export default SearchScreen;
 
 const styles = StyleSheet.create({
-  container: {flex: 1, marginTop: 20, marginBottom: 20},
+  container: { flex: 1, marginTop: 20, marginBottom: 20 },
   containerChid: {
     flexWrap: 'wrap',
     flexDirection: 'column',

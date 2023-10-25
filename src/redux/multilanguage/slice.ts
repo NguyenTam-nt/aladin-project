@@ -1,17 +1,17 @@
-import {createSlice, PayloadAction} from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 // export enum language {
 //   'vi' = 'vi',
 //   'ko' = 'ko',
 // }
 
-export type language = 'vi' | 'ko';
+export type language = 'vi' | 'ko' | '';
 export interface ILanguageState {
   currenLanguage: language;
 }
 
 const initialState: ILanguageState = {
-  currenLanguage: 'vi',
+  currenLanguage: '',
 };
 
 export const multiLangage = createSlice({
@@ -23,5 +23,5 @@ export const multiLangage = createSlice({
     },
   },
 });
-export const {hanleChangeLanguage} = multiLangage.actions;
+export const { hanleChangeLanguage } = multiLangage.actions;
 export default multiLangage.reducer;

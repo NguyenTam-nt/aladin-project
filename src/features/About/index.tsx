@@ -1,20 +1,24 @@
-import {StyleSheet} from 'react-native';
+import { StyleSheet } from 'react-native';
 import React from 'react';
-import {createStackNavigator} from '@react-navigation/stack';
+import { createStackNavigator } from '@react-navigation/stack';
 import AboutScreen from './AboutScreen';
+import { productRoute } from 'src/constants/routers';
+import ProductDetail from '../Products/ProductDetail';
 
-const AboutRoute = createStackNavigator();
+const AbountStack = createStackNavigator();
 
 export const About = () => {
   return (
-    <AboutRoute.Navigator
+    <AbountStack.Navigator
       screenOptions={{
         headerShown: false,
       }}
       initialRouteName="about">
-      <AboutRoute.Screen name="about" component={AboutScreen} />
-    </AboutRoute.Navigator>
+      <AbountStack.Screen name="about" component={AboutScreen} />
+      <AbountStack.Screen
+        name={productRoute.detail}
+        component={ProductDetail}
+      />
+    </AbountStack.Navigator>
   );
 };
-
-const styles = StyleSheet.create({});

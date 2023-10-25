@@ -1,20 +1,21 @@
-import {defaultColors} from '@configs';
-import {StyleSheet, Text, View, ScrollView} from 'react-native';
-import {globalStyles} from 'src/commons/globalStyles';
+import { defaultColors } from '@configs';
+import { StyleSheet, Text, View, ScrollView } from 'react-native';
+import { globalStyles } from 'src/commons/globalStyles';
 import HeaderHome from '../Home/components/HeaderHome';
 import React from 'react';
 import Banner from '../Home/components/Banner';
 import Introdcution from './components/Introduction';
 import SpaceBottom from 'src/components/SpaceBottom';
+import { BannerType } from 'src/typeRules/banner';
 
 const AboutScreen = () => {
   return (
     <View style={styles.container}>
       <HeaderHome />
       <ScrollView showsVerticalScrollIndicator={false}>
-        <Banner />
+        <Banner bannerType={BannerType.about} />
         <View style={{}}>
-        <Introdcution />
+          <Introdcution />
         </View>
         <SpaceBottom />
       </ScrollView>

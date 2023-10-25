@@ -6,32 +6,41 @@ import {
   View,
   ViewStyle,
 } from 'react-native';
-import React from 'react';
-import {defaultColors} from '@configs';
-import {ICSearch} from 'src/assets/icons/ICSearch';
-import {useTranslation} from 'react-i18next';
+import React, { useState } from 'react';
+import { defaultColors } from '@configs';
+import { ICSearch } from 'src/assets/icons/ICSearch';
+import { useTranslation } from 'react-i18next';
 import ModalCustom from '../ModalCustom';
 import SearchScreen from 'src/features/SearchScreen';
-import {useModal} from 'src/hooks/useModal';
-import {DIMENSION} from '@constants';
-import {TextCustom} from '../Text';
+import { useModal } from 'src/hooks/useModal';
+import { DIMENSION } from '@constants';
 
 type Props = {
   containerStyle?: ViewStyle[] | ViewStyle;
 } & TextInputProps;
 
-const InputSearch = ({containerStyle, ...props}: Props) => {
-  const {t} = useTranslation();
+const InputSearch = ({ containerStyle, ...props }: Props) => {
+  const { t } = useTranslation();
   const modalEditInventory = useModal();
+  const [keywork, setKeywork] = useState<string>('');
+
+  const handleSearch = () => {
+    if (keywork) {
+      modalEditInventory.handleShow();
+    }
+  }
   return (
     <View style={[styles.container, StyleSheet.flatten(containerStyle)]}>
       <TextInput
         style={styles.inputText}
         placeholder={t('common.search')}
+        placeholderTextColor={defaultColors.text_313131}
+        onChangeText={setKeywork}
+        value={keywork}
         {...props}
       />
       <TouchableOpacity
-        onPress={modalEditInventory.handleShow}
+        onPress={handleSearch}
         style={styles.viewIcon}>
         <ICSearch />
       </TouchableOpacity>
@@ -39,7 +48,7 @@ const InputSearch = ({containerStyle, ...props}: Props) => {
         onBackdropPress={modalEditInventory.handleHidden}
         ref={modalEditInventory.refModal}>
         <View style={styles.modalEdit}>
-          <SearchScreen dismiss={modalEditInventory.handleHidden} />
+          <SearchScreen dismiss={modalEditInventory.handleHidden} keyWorkHeader={keywork} />
         </View>
       </ModalCustom>
     </View>

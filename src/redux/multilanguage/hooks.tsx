@@ -6,8 +6,6 @@ import {RootState} from '..';
 export const useHandleChangeLanguage = () => {
   const dispatch = useDispatch();
   return useCallback((data: language) => {
-    console.log('data', data);
-
     dispatch(hanleChangeLanguage(data));
   }, []);
 };
