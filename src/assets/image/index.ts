@@ -11,3 +11,4 @@ export const bgSearchBar = require('./products/bgSearchBar.png');
 export const VietnamFlag = require('./flag/VietnamsFlag.png');
 export const koreanFlag = require('./flag/koreanFlag.png');
 export const CartEmpty = require('./empty_cart.png');
+export const BgProduct = require('./bg_product.png');

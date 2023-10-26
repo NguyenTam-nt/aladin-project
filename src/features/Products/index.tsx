@@ -15,7 +15,7 @@ import {memo, useCallback, useEffect, useRef, useState} from 'react';
 import React from 'react';
 import {paddingHorizontalScreen} from '@constants';
 import useI18n from 'src/hooks/useI18n';
-import {TextCustom} from '@components';
+import {TextCustom, Thumb} from '@components';
 import {
   ICategory,
   getCategoriesApi,
@@ -49,6 +49,8 @@ import {
   useLinkBuilder,
   useRoute,
 } from '@react-navigation/native';
+import {BgProduct, introductionImage} from 'src/assets/image';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 export const TextHeader = (props: {
   text: string;
@@ -159,6 +161,7 @@ const Products = () => {
   //@ts-ignore
   const idCategory = params?.idCategory;
   const proviceItem = useListItemProvice();
+  const {top: statusBarHeight} = useSafeAreaInsets();
   const scrollViewRef = useRef<ImperativeScrollViewHandles>(null);
   const [categories, setCategories] = useState<ICategory[]>([]);
   const [listTextCategories, setListTextCategories] = useState<
@@ -331,6 +334,11 @@ const Products = () => {
             idCategory={idCategory}
           />
         }
+      />
+      <Thumb
+        source={BgProduct}
+        resizeMode="cover"
+        style={[StyleSheet.absoluteFillObject, {top: statusBarHeight + 16}]}
       />
       <View style={styles.product_portfolio}>
         <View style={styles.groupButton}>
