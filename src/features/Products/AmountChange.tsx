@@ -16,6 +16,7 @@ interface IProps {
 const AmountChange = (props: IProps) => {
   const {quanlity, handleDecrease, handleIncrease, quantityDefault} = props;
   const {t} = useTranslation();
+
   return (
     <View style={styles.container}>
       <TextTranslate
@@ -29,7 +30,14 @@ const AmountChange = (props: IProps) => {
           disabled={quantityDefault ? quanlity === 1 : false}
           onPress={handleDecrease}
           style={styles.actionStyle}>
-          <TextCustom>-</TextCustom>
+          <TextCustom
+            color={
+              (quanlity === 1) !== true
+                ? defaultColors.c_0000
+                : defaultColors.bg_CBCBCB
+            }>
+            -
+          </TextCustom>
         </TouchableOpacity>
         <View style={styles.counterItem}>
           <TextCustom
@@ -43,7 +51,14 @@ const AmountChange = (props: IProps) => {
           disabled={quanlity === quantityDefault}
           onPress={handleIncrease}
           style={styles.actionStyle}>
-          <TextCustom>+</TextCustom>
+          <TextCustom
+            color={
+              (quanlity === quantityDefault) !== true
+                ? defaultColors.c_0000
+                : defaultColors.bg_CBCBCB
+            }>
+            +
+          </TextCustom>
         </TouchableOpacity>
       </View>
       {quantityDefault !== 0 && (

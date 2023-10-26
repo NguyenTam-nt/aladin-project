@@ -115,6 +115,7 @@ const Related = (props: IProps) => {
                     categoryId={it.categoryId}
                     subCategoryId={it.subCategoryId}
                     price={it.price}
+                    // product={it}
                   />
                 );
               })}

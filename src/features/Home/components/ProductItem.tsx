@@ -32,7 +32,7 @@ interface IProps {
   categoryId?: any;
   subCategoryId?: any;
   price: any;
-  product: IProduct;
+  product?: IProduct;
 }
 const ProductItem = (props: IProps) => {
   const {isVn} = useI18n();

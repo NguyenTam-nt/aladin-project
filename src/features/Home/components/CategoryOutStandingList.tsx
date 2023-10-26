@@ -44,19 +44,19 @@ const CategoryOutStandingList = () => {
           style={{marginTop: 12}}
           renderItem={({item, index}) => {
             return (
-              // <NavLink
-              //   to={{
-              //     screen: productRoute.categories.detail,
-              //     params: {
-              //       idSubCategory: item.id,
-              //       idCategory: item,
-              //     },
-              //   }}>
-              <CategorytItemOutStanding
-                index={`00${index + 1}`.slice(-2)}
-                data={item}
-              />
-              // </NavLink>
+              <NavLink
+                key={index}
+                to={{
+                  screen: productRoute.prifex,
+                  params: {
+                    idCategory: item.id,
+                  },
+                }}>
+                <CategorytItemOutStanding
+                  index={`00${index + 1}`.slice(-2)}
+                  data={item}
+                />
+              </NavLink>
             );
           }}
           keyExtractor={(_, index) => index.toString()}
@@ -83,7 +83,7 @@ const styles = StyleSheet.create({
   },
   styleImage: {width: '100%', height: '100%'},
   groupContent: {
-    paddingHorizontal: paddingHorizontalScreen,
+    paddingLeft: paddingHorizontalScreen,
     paddingTop: 19,
   },
 });

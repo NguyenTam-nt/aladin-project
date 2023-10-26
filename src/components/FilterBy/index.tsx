@@ -10,8 +10,8 @@ export const FILTER_BY: {slug: string; name: string}[] = [
   {slug: 'id,desc', name: 'radio.new-product'},
   {slug: 'totalSoldQuantity,desc', name: 'radio.selling'},
   {slug: 'promo,desc', name: 'radio.discount'},
-  {slug: 'price,asc', name: 'radio.priece-high-to-low'},
-  {slug: 'price,desc', name: 'radio.priece-low-to-high'},
+  {slug: 'price,desc', name: 'radio.priece-high-to-low'},
+  {slug: 'price,asc', name: 'radio.priece-low-to-high'},
 ];
 interface IProps {
   setFilterByItem: (value: string) => void;

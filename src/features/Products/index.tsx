@@ -5,11 +5,13 @@ import {
   FlatList,
   TouchableOpacity,
   ScrollView,
+  FlatListProps,
+  FlatListComponent,
 } from 'react-native';
 import {globalStyles} from 'src/commons/globalStyles';
 import {defaultColors} from '@configs';
 import HeaderHome from '../Home/components/HeaderHome';
-import {memo, useEffect, useRef, useState} from 'react';
+import {memo, useCallback, useEffect, useRef, useState} from 'react';
 import React from 'react';
 import {paddingHorizontalScreen} from '@constants';
 import useI18n from 'src/hooks/useI18n';
@@ -42,15 +44,20 @@ import ImperativeScrollView, {
   ImperativeScrollViewHandles,
 } from 'src/hooks/useImperativeScrollView';
 import {useListItemProvice} from 'src/redux/provices/hooks';
+import {
+  useFocusEffect,
+  useLinkBuilder,
+  useRoute,
+} from '@react-navigation/native';
 
 export const TextHeader = (props: {
   text: string;
   idx: number;
-  itemAction: IListTextCategories;
+  itemAction: any;
 }) => {
   const {text, idx, itemAction} = props;
   return (
-    <View style={idx === itemAction?.id ? styles.textHeader : null}>
+    <View style={idx === itemAction ? styles.textHeader : null}>
       <TextCustom fontSize={14} weight="600" color={defaultColors.bg_EFEFEF}>
         {text}
       </TextCustom>
@@ -67,25 +74,55 @@ interface PropsHeader {
   listTextCategories: IListTextCategories[];
   setCategoryItem: (id: any) => void;
   onTopScroll: () => void;
+  idCategory: any;
 }
 
 const HeaderProduct = memo((props: PropsHeader) => {
-  const {listTextCategories, setCategoryItem, onTopScroll} = props;
+  const {listTextCategories, setCategoryItem, onTopScroll, idCategory} = props;
+  const myListRef = useRef();
   const {isVn} = useI18n();
-  const [itemAction, setItemAction] = useState<IListTextCategories>();
+  const [itemAction, setItemAction] = useState<any>(idCategory ?? undefined);
   const handleAction = (item: IListTextCategories) => {
-    setItemAction(item);
+    setItemAction(item.id);
     setCategoryItem(item);
   };
   useEffect(() => {
     if (listTextCategories.length > 0) {
-      setItemAction(listTextCategories[0]);
-      // setIdCategory(listTextCategories[0].id);
+      if (!idCategory) {
+        setItemAction(listTextCategories[0].id);
+      }
     }
   }, [listTextCategories]);
+
+  // const currentIndex = useRef(0);
+
+  const [currentIndex, setCurrentIndex] = useState(0);
+  useEffect(() => {
+    if (listTextCategories.length > 0 && idCategory) {
+      myListRef.current.scrollToIndex({
+        animated: true,
+        index: currentIndex,
+      });
+    }
+  }, [currentIndex]);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (listTextCategories.length > 0 && idCategory) {
+        const index = listTextCategories.findIndex(it => it.id == idCategory);
+        if (index >= 0) {
+          setCurrentIndex(index);
+        } else {
+          setCurrentIndex(0);
+        }
+      }
+    }, 500);
+    return () => clearTimeout(timer);
+  }, [currentIndex, listTextCategories]);
   return (
     <View style={styles.groupContent}>
       <FlatList
+        ref={myListRef}
         data={listTextCategories ?? []}
         // style={{...globalStyles.row, columnGap: 8}}
         renderItem={({item, index}) => {
@@ -117,6 +154,10 @@ const HeaderProduct = memo((props: PropsHeader) => {
 
 const Products = () => {
   const {isVn} = useI18n();
+  const routers = useRoute();
+  const params = routers.params;
+  //@ts-ignore
+  const idCategory = params?.idCategory;
   const proviceItem = useListItemProvice();
   const scrollViewRef = useRef<ImperativeScrollViewHandles>(null);
   const [categories, setCategories] = useState<ICategory[]>([]);
@@ -133,7 +174,7 @@ const Products = () => {
     id: number;
     name: string;
     nameKr: string;
-  }>();
+  } | null>();
   const [filterByItem, setFilterByItem] = useState<string>(FILTER_BY[0].slug);
   const getCategories = async () => {
     try {
@@ -150,7 +191,9 @@ const Products = () => {
         });
         if (listTextCate.length > 0) {
           setListTextCategories(listTextCate);
-          setCategoryItem(listTextCate[0]);
+          if (!idCategory) {
+            setCategoryItem(listTextCate[0]);
+          }
         }
       }
     } catch (error) {
@@ -237,27 +280,44 @@ const Products = () => {
     getCategories();
   }, []);
   useEffect(() => {
+    if (idCategory && categoryItem == null) {
+      getSubListCategories(idCategory);
+      return;
+    }
     if (categoryItem) {
       getSubListCategories(categoryItem.id);
+      return;
     }
-  }, [categoryItem]);
+  }, [categoryItem, idCategory]);
   useEffect(() => {
+    if (idCategory && categoryItem == null) {
+      const proviceNam = proviceItem.provices.Name;
+      getProductOutStanding(idCategory, proviceNam);
+      getProductsSale(idCategory, proviceNam);
+      return;
+    }
     if (categoryItem) {
       const proviceNam = proviceItem.provices.Name;
       getProductOutStanding(categoryItem.id, proviceNam);
       getProductsSale(categoryItem.id, proviceNam);
+      return;
     }
-  }, [categoryItem, proviceItem]);
+  }, [categoryItem, idCategory, proviceItem]);
 
   useEffect(() => {
+    if (idCategory && categoryItem == null) {
+      getProductsSortBy(idCategory, filterByItem, proviceItem.provices.Name);
+      return;
+    }
     if (categoryItem) {
       getProductsSortBy(
         categoryItem.id,
         filterByItem,
         proviceItem.provices.Name,
       );
+      return;
     }
-  }, [categoryItem, filterByItem, proviceItem]);
+  }, [categoryItem, idCategory, filterByItem, proviceItem]);
 
   return (
     <View style={styles.container}>
@@ -268,6 +328,7 @@ const Products = () => {
             listTextCategories={listTextCategories}
             setCategoryItem={setCategoryItem}
             onTopScroll={onTopScroll}
+            idCategory={idCategory}
           />
         }
       />
@@ -277,7 +338,9 @@ const Products = () => {
           <CityFilter />
           <CartButton />
         </View>
-        <View>
+      </View>
+      <ImperativeScrollView ref={scrollViewRef}>
+        <View style={{paddingHorizontal: 9, paddingBottom: 24}}>
           <TextTranslate
             color={defaultColors.bg_00C3AB}
             fontSize={18}
@@ -311,8 +374,6 @@ const Products = () => {
             />
           </View>
         </View>
-      </View>
-      <ImperativeScrollView ref={scrollViewRef}>
         <View style={{marginTop: 10}}>
           {productsSale.length > 0 && (
             <ProductsList
@@ -371,7 +432,7 @@ const styles = StyleSheet.create({
   product_portfolio: {
     paddingHorizontal: 9,
     paddingTop: 28,
-    paddingBottom: 27,
+    // paddingBottom: 27,
   },
   styleInput: {
     flex: 1,

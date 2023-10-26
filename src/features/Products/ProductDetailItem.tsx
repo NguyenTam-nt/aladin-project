@@ -342,9 +342,9 @@ const ProductDetailItem = (props: IProps) => {
               color={defaultColors.c_0000}
               text="product.features"
             />
-            <View>
+            {/* <View> */}
               <Html content={salientFeatures} />
-            </View>
+            {/* </View> */}
           </View>
 
           {/* <View style={styles.groupButton}>

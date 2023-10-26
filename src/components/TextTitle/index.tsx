@@ -39,13 +39,13 @@ const TextTilte = ({text}: Props) => {
           text={text}
         />
       </View>
-      {/* <View style={styles.icon}>
+      <View style={styles.icon}>
         <Thumb
           style={styles.style_icon}
           resizeMode="cover"
           source={require('../../assets/image/title_icon.png')}
         />
-      </View> */}
+      </View>
     </View>
   );
 };

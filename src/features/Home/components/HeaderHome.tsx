@@ -57,7 +57,7 @@ const styles = StyleSheet.create({
   },
   styleInput: {
     flex: 1,
-    height: '100%',
+    // height: '100%',
   },
   showProvice: {
     // position: 'absolute',

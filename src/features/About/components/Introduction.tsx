@@ -12,6 +12,7 @@ import useI18n from 'src/hooks/useI18n';
 import ProductOutStanding from './ProductOutStanding';
 import CategoryOutStandingList from 'src/features/Home/components/CategoryOutStandingList';
 import {IAbout, getAboutApi} from 'src/api/about';
+import {DIMENSION} from '@constants';
 
 const Introdcution = () => {
   const [abouts, setAbouts] = useState<IAbout[]>([]);
@@ -49,13 +50,15 @@ const Introdcution = () => {
             ...globalStyles.center,
           }}>
           <View style={StyleSheet.absoluteFillObject}>
-            <Thumb
-              source={{
-                uri: abouts?.length > 0 ? abouts?.[0].images?.[0].url : '',
-              }}
-              resizeMode="cover"
-              style={{width: '100%', height: '100%', borderRadius: 10}}
-            />
+            {abouts.length > 0 && (
+              <Thumb
+                source={{
+                  uri: abouts?.length > 0 && abouts?.[0].images?.[0].url,
+                }}
+                resizeMode="cover"
+                style={{width: '100%', height: '100%', borderRadius: 10}}
+              />
+            )}
           </View>
         </View>
       </View>
@@ -78,15 +81,17 @@ const Introdcution = () => {
           </Text>
         </View>
       </View>
-      <View style={{marginTop: 36, ...styles.content}}>
-        <TextTilte text="home.product_outstanding" />
-        <View style={{}}>
-          <ProductOutStanding />
+      <View style={{marginTop: 36}}>
+        <View style={{paddingHorizontal: 16}}>
+          <TextTilte text="home.product_outstanding" />
+        </View>
+        <ProductOutStanding />
+        <View style={{paddingLeft: 16}}>
           <CategoryOutStandingList />
         </View>
       </View>
       <View style={{marginTop: 30}}>
-        <View style={{paddingHorizontal: 16, marginBottom: 2}}>
+        <View style={{paddingHorizontal: 16, marginBottom: 15}}>
           <Text style={styles.title}>
             {abouts?.length > 1 &&
               (isVn ? abouts?.[1].titleVn : abouts?.[1].titleKr)}
@@ -107,7 +112,7 @@ const Introdcution = () => {
             }}>
             <Thumb
               source={backgroundAbout}
-              resizeMode="cover"
+              resizeMode="stretch"
               style={StyleSheet.absoluteFillObject}
             />
             <View
@@ -119,18 +124,26 @@ const Introdcution = () => {
                 ...globalStyles.center,
               }}>
               <View style={StyleSheet.absoluteFillObject}>
-                <Thumb
-                  source={{
-                    uri: abouts?.length > 0 ? abouts?.[1].images?.[0].url : '',
-                  }}
-                  resizeMode="cover"
-                  style={{width: 300, height: 300, borderRadius: 150}}
-                />
+                {abouts.length > 1 && (
+                  <Thumb
+                    source={{
+                      uri: abouts?.length > 1 && abouts?.[1].images?.[0].url,
+                    }}
+                    resizeMode="cover"
+                    style={{width: 300, height: 300, borderRadius: 150}}
+                  />
+                )}
               </View>
             </View>
           </View>
         </View>
-        <View style={{paddingLeft: '25%', paddingRight: 16, marginBottom: 2}}>
+        <View
+          style={{
+            paddingLeft: '25%',
+            paddingRight: 16,
+            marginBottom: 2,
+            marginTop: 15,
+          }}>
           <Text style={styles.desc}>
             {abouts.length > 1 &&
               (isVn ? abouts[1].content1Vn : abouts[1].content1Kr)}
@@ -144,7 +157,8 @@ const Introdcution = () => {
 export default Introdcution;
 const styles = StyleSheet.create({
   content: {
-    paddingLeft: 16,
+    paddingHorizontal: 16,
+    // width: DIMENSION.width * 0.8,
   },
   title: {
     fontSize: 32,

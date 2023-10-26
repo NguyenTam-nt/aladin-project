@@ -16,6 +16,7 @@ const ProductNewList = () => {
   const [currentPage, setCureentPage] = useState<number>(0);
   const [totalPages, setTotalPages] = useState<number>(0);
   const [action, setAction] = useState<boolean>(false);
+  const [oldProvice, setOldProvice] = useState<String>('');
   const getProducts = async (provice: string) => {
     try {
       setAction(true);
@@ -27,8 +28,13 @@ const ProductNewList = () => {
       };
       const res = await getProductsApi(params);
       if (res) {
-        setProducts([...products, ...res.data]);
-        setTotalPages(res?.page?.max ?? 0);
+        if (oldProvice === provice) {
+          setProducts([...products, ...res.data]);
+          setTotalPages(res?.page?.max ?? 0);
+        } else {
+          setProducts(res.data);
+          setTotalPages(res?.page?.max ?? 0);
+        }
       }
     } catch (error) {
       console.log(error);
@@ -41,6 +47,9 @@ const ProductNewList = () => {
     getProducts(proviceItem.provices.Name);
   }, [proviceItem.provices, currentPage]);
 
+  React.useEffect(() => {
+    setOldProvice(proviceItem.provices.Name);
+  }, [proviceItem.provices]);
   return (
     <View style={styles.container}>
       {/* <TextTilte text="home.product_new" /> */}

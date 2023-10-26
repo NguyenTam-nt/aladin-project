@@ -1,7 +1,7 @@
-import { TextCustom, Thumb } from '@components';
-import { defaultColors } from '@configs';
-import React, { useState } from 'react';
-import { useTranslation } from 'react-i18next';
+import {TextCustom, Thumb} from '@components';
+import {defaultColors} from '@configs';
+import React, {useState} from 'react';
+import {useTranslation} from 'react-i18next';
 import {
   Pressable,
   ScrollView,
@@ -10,22 +10,25 @@ import {
   TextInput,
   View,
 } from 'react-native';
-import { IProduct, getProductsByKeywork } from 'src/api/products';
-import { ICClose } from 'src/assets/icons/ICClose';
-import { formatNumberDotWithVND } from 'src/commons/formatMoney';
+import {IProduct, getProductsByKeywork} from 'src/api/products';
+import {ICClose} from 'src/assets/icons/ICClose';
+import {formatNumberDotWithVND} from 'src/commons/formatMoney';
 import ButtonGradient from 'src/components/Buttons/ButtonGradient';
-import { NavLink } from 'src/constants/links';
-import { productRoute } from 'src/constants/routers';
+import {NavLink} from 'src/constants/links';
+import {productRoute} from 'src/constants/routers';
 import useI18n from 'src/hooks/useI18n';
-import { useListItemProvice } from 'src/redux/provices/hooks';
+import {useListItemProvice} from 'src/redux/provices/hooks';
 interface IProps {
   dismiss: () => void;
-  keyWorkHeader: string
+  keyWorkHeader: string;
 }
 
-
-const ProductItem = (props: { name: string, priece: number, imageUrl: string }) => {
-  const { name, priece, imageUrl } = props;
+const ProductItem = (props: {
+  name: string;
+  priece: number;
+  imageUrl: string;
+}) => {
+  const {name, priece, imageUrl} = props;
   return (
     <View style={styles.containerChid}>
       <View style={styles.styleProduct}>
@@ -61,10 +64,10 @@ const ProductItem = (props: { name: string, priece: number, imageUrl: string }) 
   );
 };
 const SearchScreen = (props: IProps) => {
-  const { dismiss, keyWorkHeader } = props;
-  const { t } = useTranslation();
+  const {dismiss, keyWorkHeader} = props;
+  const {t} = useTranslation();
   const SIZE = 10;
-  const { isVn } = useI18n();
+  const {isVn} = useI18n();
   const provicesItem = useListItemProvice();
   const [products, setProducts] = useState<IProduct[]>([]);
   const [keyworkModal, setKeyworkModal] = useState<string>(keyWorkHeader);
@@ -72,26 +75,27 @@ const SearchScreen = (props: IProps) => {
   const [loading, setLoading] = useState<boolean>(false);
   const handleSearch = async (keywork: string, provice: string) => {
     try {
-      setLoading(true)
       const params = {
         page: currentPage,
         size: SIZE,
         sort: 'id,desc',
         keyword: keywork,
-        address: provice
-      }
+        address: provice,
+      };
       const res = await getProductsByKeywork(params);
       if (res) {
-        setProducts(res.data)
+        setProducts(res.data);
       }
     } catch (error) {
       console.log(error);
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
   React.useEffect(() => {
-    const timeout = setTimeout(() => { handleSearch(keyworkModal, provicesItem.provices.Name); }, 500)
+    const timeout = setTimeout(() => {
+      handleSearch(keyworkModal, provicesItem.provices.Name);
+    }, 500);
     return () => {
       clearTimeout(timeout);
     };
@@ -102,23 +106,39 @@ const SearchScreen = (props: IProps) => {
       <StatusBar />
       <Pressable
         onPress={dismiss}
-        style={{ position: 'absolute', right: 20, zIndex: 10 }}>
+        style={{position: 'absolute', right: 20, zIndex: 10}}>
         <ICClose width={20} height={20} />
       </Pressable>
-      <View style={styles.searchBox}>
-        <View style={styles.containerInput}>
-          <TextInput
-            style={styles.inputText}
-            placeholder={t('common.search')}
-            onChangeText={setKeyworkModal}
-            value={keyworkModal}
-            {...props}
-          />
-        </View>
-        <ButtonGradient style={{ width: 100 }} text={t('button.search')} />
+      <View style={styles.containerInput}>
+        <TextInput
+          style={styles.inputText}
+          placeholder={t('common.search')}
+          onChangeText={setKeyworkModal}
+          value={keyworkModal}
+          {...props}
+        />
       </View>
-      <View style={{ marginTop: 10 }}>
-        <TextCustom>{t("comon.result-search", { queryInput: keyworkModal })}{products?.length}</TextCustom>
+      <View style={{marginTop: 10}}>
+        {products.length > 0 ? (
+          <TextCustom
+            fontSize={14}
+            color={defaultColors.text_313131}
+            weight="500">
+            {t('common.result-search', {
+              queryInput: keyworkModal,
+              length: products?.length,
+            })}
+            {/* {products?.length} */}
+          </TextCustom>
+        ) : (
+          <TextCustom
+            fontSize={14}
+            textAlign="center"
+            color={defaultColors.text_313131}
+            weight="500">
+            {t('common.not-result')}
+          </TextCustom>
+        )}
       </View>
       <ScrollView>
         {(products ?? []).map((it, idx) => {
@@ -134,15 +154,15 @@ const SearchScreen = (props: IProps) => {
                   subCategoryId: it.subCategoryId,
                 },
               }}
-              handleOnPress={dismiss}
-            >
+              type="SEARCH"
+              handleOnPress={dismiss}>
               <ProductItem
                 name={isVn ? it.productNameVn : it.productNameKr}
                 priece={it.price}
                 imageUrl={it.images?.[0].url}
               />
             </NavLink>
-          )
+          );
         })}
       </ScrollView>
     </View>
@@ -152,7 +172,7 @@ const SearchScreen = (props: IProps) => {
 export default SearchScreen;
 
 const styles = StyleSheet.create({
-  container: { flex: 1, marginTop: 20, marginBottom: 20 },
+  container: {flex: 1, marginTop: 20, marginBottom: 20},
   containerChid: {
     flexWrap: 'wrap',
     flexDirection: 'column',
@@ -184,13 +204,13 @@ const styles = StyleSheet.create({
     marginTop: 30,
   },
   containerInput: {
-    flex: 1,
+    // flex: 1,
     height: 40,
     borderRadius: 20,
     borderColor: defaultColors.c_fff,
     borderWidth: 1,
     backgroundColor: defaultColors.c_fff,
-    // marginTop: 30,
+    marginTop: 30,
     // marginHorizontal: 10,
   },
   inputText: {

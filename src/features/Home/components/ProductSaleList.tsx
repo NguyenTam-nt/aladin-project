@@ -14,6 +14,7 @@ const ProductSaleList = () => {
   const [currentPage, setCureentPage] = useState<number>(0);
   const [totalPages, setTotalPages] = useState<number>(0);
   const [action, setAction] = useState<boolean>(false);
+  const [oldProvice, setOldProvice] = useState<String>('');
   const getProductsSale = async (provice: string) => {
     setAction(true);
     try {
@@ -25,8 +26,13 @@ const ProductSaleList = () => {
       };
       const res = await getProductsApi(params);
       if (res) {
-        setProductsSale([...productsSale, ...res.data]);
-        setTotalPages(res?.page?.max ?? 0);
+        if (oldProvice === provice) {
+          setProductsSale([...productsSale, ...res.data]);
+          setTotalPages(res?.page?.max ?? 0);
+        } else {
+          setProductsSale(res.data);
+          setTotalPages(res?.page?.max ?? 0);
+        }
       }
     } catch (error) {
       console.log(error);
@@ -38,6 +44,11 @@ const ProductSaleList = () => {
   React.useEffect(() => {
     getProductsSale(proviceItem.provices.Name);
   }, [proviceItem.provices, currentPage]);
+
+  React.useEffect(() => {
+    setOldProvice(proviceItem.provices.Name);
+  }, [proviceItem.provices]);
+
   return (
     <View style={{}}>
       {/* <TextTilte text="home.product_sale" /> */}

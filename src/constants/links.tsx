@@ -12,18 +12,26 @@ export const NavLink = ({
   action,
   children,
   handleOnPress,
+  type,
   ...rest
 }: PropsWithChildren<any>) => {
   const {onPress, ...props} = useLinkProps({to, action});
 
-  return (
-    <TouchableOpacity
-      onPress={() => {
+  const handleAction = async () => {
+    if (type === 'SEARCH') {
+      await handleOnPress?.();
+      const timeout = setTimeout(() => {
         onPress();
-        handleOnPress?.();
-      }}
-      {...props}
-      {...rest}>
+      }, 400);
+      return () => {
+        clearTimeout(timeout);
+      };
+    } else {
+      return onPress();
+    }
+  };
+  return (
+    <TouchableOpacity onPress={handleAction} {...props} {...rest}>
       {children}
     </TouchableOpacity>
   );

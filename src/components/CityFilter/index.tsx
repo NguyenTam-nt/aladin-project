@@ -29,7 +29,6 @@ const CityFilter = () => {
 
   const [keyWord, setKeyWord] = useState<string>('');
   const [proviceFilter, setProviceFilter] = useState<any[]>([]);
-
   const handleSearchKeyWord = (keyWordSearch: string) => {
     const dataFilter = PROVICE.filter(it => it.Name.includes(keyWordSearch));
     setProviceFilter(dataFilter);
@@ -86,6 +85,7 @@ const CityFilter = () => {
                     <TouchableOpacity
                       onPress={() => {
                         handleAddProvice({Id: it.Id, Name: it.Name});
+                        setVisible(false);
                       }}
                       key={idx}
                       style={[
@@ -106,7 +106,10 @@ const CityFilter = () => {
   };
   return (
     <View style={styles().container}>
-      <TouchableOpacity ref={refDropdown} onPress={toggleDropdown}>
+      <TouchableOpacity
+        //@ts-ignore
+        ref={refDropdown}
+        onPress={toggleDropdown}>
         <TextTranslate
           text="common.view_price"
           color={defaultColors.c_fff}
@@ -133,6 +136,7 @@ const styles = (statusBarHeight?: number, height?: number) =>
       borderColor: defaultColors.c_fff,
       borderRadius: 6,
       padding: 4,
+      backgroundColor: defaultColors.bg_00C3AB,
     },
     provice: {
       backgroundColor: defaultColors._014F59,

@@ -6,21 +6,21 @@ import {
   View,
   ViewStyle,
 } from 'react-native';
-import React, { useState } from 'react';
-import { defaultColors } from '@configs';
-import { ICSearch } from 'src/assets/icons/ICSearch';
-import { useTranslation } from 'react-i18next';
+import React, {useState} from 'react';
+import {defaultColors} from '@configs';
+import {ICSearch} from 'src/assets/icons/ICSearch';
+import {useTranslation} from 'react-i18next';
 import ModalCustom from '../ModalCustom';
 import SearchScreen from 'src/features/SearchScreen';
-import { useModal } from 'src/hooks/useModal';
-import { DIMENSION } from '@constants';
+import {useModal} from 'src/hooks/useModal';
+import {DIMENSION} from '@constants';
 
 type Props = {
   containerStyle?: ViewStyle[] | ViewStyle;
 } & TextInputProps;
 
-const InputSearch = ({ containerStyle, ...props }: Props) => {
-  const { t } = useTranslation();
+const InputSearch = ({containerStyle, ...props}: Props) => {
+  const {t} = useTranslation();
   const modalEditInventory = useModal();
   const [keywork, setKeywork] = useState<string>('');
 
@@ -28,7 +28,7 @@ const InputSearch = ({ containerStyle, ...props }: Props) => {
     if (keywork) {
       modalEditInventory.handleShow();
     }
-  }
+  };
   return (
     <View style={[styles.container, StyleSheet.flatten(containerStyle)]}>
       <TextInput
@@ -39,16 +39,17 @@ const InputSearch = ({ containerStyle, ...props }: Props) => {
         value={keywork}
         {...props}
       />
-      <TouchableOpacity
-        onPress={handleSearch}
-        style={styles.viewIcon}>
+      <TouchableOpacity onPress={handleSearch} style={styles.viewIcon}>
         <ICSearch />
       </TouchableOpacity>
       <ModalCustom
         onBackdropPress={modalEditInventory.handleHidden}
         ref={modalEditInventory.refModal}>
         <View style={styles.modalEdit}>
-          <SearchScreen dismiss={modalEditInventory.handleHidden} keyWorkHeader={keywork} />
+          <SearchScreen
+            dismiss={modalEditInventory.handleHidden}
+            keyWorkHeader={keywork}
+          />
         </View>
       </ModalCustom>
     </View>

@@ -271,7 +271,6 @@ const PaymentScreen = () => {
               textPlanholder="cart.form.planhoder-full-name"
               onChangeText={handleChangeInput('fullName')}
               value={values.fullName}
-              keyboardType="number-pad"
               // @ts-ignore
               message={
                 touched.fullName && errors.fullName ? errors.fullName : ''
@@ -284,7 +283,7 @@ const PaymentScreen = () => {
               textPlanholder="cart.form.planhoder-phone-number"
               onChangeText={handleChangeInput('phoneNumber')}
               value={values.phoneNumber}
-              keyboardType="numeric"
+              keyboardType="number-pad"
               // @ts-ignore
               message={
                 touched.phoneNumber && errors.phoneNumber
@@ -550,7 +549,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 17,
     backgroundColor: defaultColors.c_fff,
     borderRadius: 20,
-    paddingBottom: 15,
+    paddingBottom: 10,
   },
   cartItem: {
     flexDirection: 'row',
@@ -574,7 +573,7 @@ const styles = StyleSheet.create({
     borderLeftWidth: 1,
   },
   prodcutValue: {
-    height: 80,
+    height: 60,
     flexDirection: 'column',
     rowGap: 4,
     borderBottomWidth: 1,

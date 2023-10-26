@@ -1,9 +1,9 @@
-import { ScrollView, StyleSheet, View, TouchableOpacity } from 'react-native';
-import React, { useState } from 'react';
-import { globalStyles } from 'src/commons/globalStyles';
-import { defaultColors } from '@configs';
+import {ScrollView, StyleSheet, View, TouchableOpacity} from 'react-native';
+import React, {useRef, useState} from 'react';
+import {globalStyles} from 'src/commons/globalStyles';
+import {defaultColors} from '@configs';
 import HeaderHome from './components/HeaderHome';
-import { DIMENSION, paddingHorizontalScreen } from '@constants';
+import {DIMENSION, paddingHorizontalScreen} from '@constants';
 import Banner from './components/Banner';
 import SpaceBottom from 'src/components/SpaceBottom';
 import GroupContact from './components/GroupContact';
@@ -13,12 +13,36 @@ import ProductSaleList from './components/ProductSaleList';
 import ContactTopic from './components/ContactTopic';
 import ProductOutStandingList from './components/ProductOutStandingList';
 import CategoriesList from './components/CategoriesList';
-import { BannerType } from 'src/typeRules/banner';
+import {BannerType} from 'src/typeRules/banner';
+import ImperativeScrollView, {
+  ImperativeScrollViewHandles,
+} from 'src/hooks/useImperativeScrollView';
+import {useFocusEffect} from '@react-navigation/native';
+import {useListItemProvice} from 'src/redux/provices/hooks';
 const HomeScren = () => {
+  const scrollViewRef = useRef<ImperativeScrollViewHandles>(null);
+  const proviceItem = useListItemProvice();
+  const onTopScroll = () => {
+    scrollViewRef?.current?.scrollTo({
+      y: 0,
+      animated: true,
+    });
+  };
+
+  useFocusEffect(
+    React.useCallback(() => {
+      return () => {
+        onTopScroll();
+      };
+    }, [proviceItem]),
+  );
+
   return (
     <View style={styles().container}>
       <HeaderHome />
-      <ScrollView showsVerticalScrollIndicator={false}>
+      <ImperativeScrollView
+        ref={scrollViewRef}
+        showsVerticalScrollIndicator={false}>
         <Banner bannerType={BannerType.homePage} />
         <View style={styles().styleBody}>
           <CategoriesList />
@@ -30,7 +54,7 @@ const HomeScren = () => {
         </View>
         <ContactTopic />
         <SpaceBottom />
-      </ScrollView>
+      </ImperativeScrollView>
     </View>
   );
 };

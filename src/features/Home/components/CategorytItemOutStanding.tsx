@@ -32,11 +32,11 @@ const CategoryItemOutStanding = memo(({index, data}: Props) => {
           <ICCircleArrowRight />
         </View>
       </View>
-      <View>
+      <View style={{height: 35}}>
         <TextCustom
           fontSize={14}
           weight="700"
-          numberOfLines={1}
+          numberOfLines={2}
           color={defaultColors.text_313131}>
           {isVn ? data.categoryNameVn : data.categoryNameKr}
         </TextCustom>

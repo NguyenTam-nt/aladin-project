@@ -1,7 +1,11 @@
 import {TextCustom, Thumb} from '@components';
-import {useNavigation, useRoute} from '@react-navigation/native';
-import React, {useEffect, useState} from 'react';
-import {ScrollView, StyleSheet, View} from 'react-native';
+import {
+  useFocusEffect,
+  useNavigation,
+  useRoute,
+} from '@react-navigation/native';
+import React, {useEffect, useLayoutEffect, useRef, useState} from 'react';
+import {ScrollView, StyleSheet, TouchableOpacity, View} from 'react-native';
 import {
   IAttributeFes,
   IProduct,
@@ -29,6 +33,9 @@ import {
   useHandleAddItemToCart,
   useListItemCart,
 } from 'src/redux/orderCart/hooks';
+import ImperativeScrollView, {
+  ImperativeScrollViewHandles,
+} from 'src/hooks/useImperativeScrollView';
 
 const ProductDetail = () => {
   const {isVn} = useI18n();
@@ -37,6 +44,7 @@ const ProductDetail = () => {
   const navigation = useNavigation();
   const handleAddItemToCart = useHandleAddItemToCart();
   const handleListItemCart = useListItemCart();
+  const scrollViewRef = useRef<ImperativeScrollViewHandles>(null);
   const params = routers.params;
   //@ts-ignore
   const idProduct = params?.idProduct;
@@ -179,10 +187,25 @@ const ProductDetail = () => {
       : handleWarningAddToCart();
   };
 
+  const onTopScroll = () => {
+    scrollViewRef?.current?.scrollTo({
+      y: 0,
+      animated: true,
+    });
+  };
+
+  useFocusEffect(
+    React.useCallback(() => {
+      return () => {
+        onTopScroll();
+      };
+    }, [idProduct]),
+  );
+
   return (
     <View style={styles.container}>
       <HeaderBack isProductDetail={true} />
-      <ScrollView>
+      <ImperativeScrollView ref={scrollViewRef}>
         <Thumb
           style={styles.styleImage}
           source={{uri: imageLinkProduct ?? product?.images?.[0].url}}
@@ -219,7 +242,7 @@ const ProductDetail = () => {
         )}
         <SpaceBottom />
         <View style={{height: 90}} />
-      </ScrollView>
+      </ImperativeScrollView>
       <View style={styles.styleOrder}>
         <View style={styles.styleOrderItem}>
           <View style={styles.styleTotalPriece}>
