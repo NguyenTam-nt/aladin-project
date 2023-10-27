@@ -73,7 +73,7 @@ const CartItem = (props: IProps) => {
             color={defaultColors.bg_939393}
             weight="400">
             {product.addressWarehouse}
-            {','}
+            {', '}
             {isVn
               ? product?.attributes[0].valueVn
               : product?.attributes[0].valueKr}

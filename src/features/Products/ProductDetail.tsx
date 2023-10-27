@@ -36,6 +36,7 @@ import {
 import ImperativeScrollView, {
   ImperativeScrollViewHandles,
 } from 'src/hooks/useImperativeScrollView';
+import Description from './Description';
 
 const ProductDetail = () => {
   const {isVn} = useI18n();
@@ -204,12 +205,12 @@ const ProductDetail = () => {
 
   return (
     <View style={styles.container}>
-      <HeaderBack isProductDetail={true} />
+      <HeaderBack isProductDetail={true} iconCart={true} />
       <ImperativeScrollView ref={scrollViewRef}>
         <Thumb
           style={styles.styleImage}
           source={{uri: imageLinkProduct ?? product?.images?.[0].url}}
-          resizeMode="cover"
+          resizeMode="stretch"
         />
         <ImageFlatList
           images={product?.images}
@@ -229,10 +230,10 @@ const ProductDetail = () => {
           setProductDetailAtribute={setProductDetailAtribute}
           setQuantityVailable={setQuantityVailable}
         />
-        {/* <Description
+        <Description
           productInfo={isVn ? product?.detailVn : product?.detailKr}
           spec={isVn ? product?.specVn : product?.specKr}
-        /> */}
+        />
         {product && (
           <Related
             categoryId={categoryId ?? product?.categoryId}
@@ -273,6 +274,7 @@ const ProductDetail = () => {
                 height={38}
                 renderLeff={<ICCart color={defaultColors.bg_00C3AB} />}
                 style={{columnGap: 4}}
+                fontSize={17}
               />
             </View>
             <View style={{flex: 1}}>

@@ -13,13 +13,14 @@ import {Animated} from 'react-native';
 import PaymentScreen from 'src/features/Carts/Payment';
 import LoginScreen from 'src/features/Account/Login';
 import RegisterAccount from 'src/features/Account/RegisterAccount';
+import ForgotPassword from 'src/features/Account/ForgotPass';
 const RootStack = createStackNavigator();
 const transparentScreen = {
   cardStyle: {
     backgroundColor: 'transparent',
   },
 };
-
+//@ts-ignore
 const forFade = ({current}) => ({
   cardStyle: {
     opacity: current.progress,
@@ -64,6 +65,10 @@ const MainStack = () => {
           <RootStack.Screen
             name={accountRoute.register}
             component={RegisterAccount}
+          />
+          <RootStack.Screen
+            name={accountRoute.forgotPass}
+            component={ForgotPassword}
           />
         </RootStack.Group>
       </RootStack.Navigator>

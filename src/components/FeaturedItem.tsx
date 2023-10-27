@@ -12,10 +12,10 @@ interface IProps {
   index: any;
   name: string;
   imageLink: string;
-  idProduct: any;
+  // idProduct: any;
 }
 const FeaturedItem = (props: IProps) => {
-  const {index, name, imageLink, idProduct} = props;
+  const {index, name, imageLink} = props;
   return (
     <View style={styles.container}>
       <View
@@ -30,17 +30,7 @@ const FeaturedItem = (props: IProps) => {
           weight="700">
           {index}
         </TextCustom>
-        <NavLink
-          key={index}
-          to={{
-            screen: productRoute.detail,
-            initial: false,
-            params: {
-              idProduct: idProduct,
-            },
-          }}>
-          <ICCircleArrowRight />
-        </NavLink>
+        <ICCircleArrowRight />
       </View>
       <View>
         <TextCustom
@@ -51,10 +41,17 @@ const FeaturedItem = (props: IProps) => {
           {name}
         </TextCustom>
       </View>
-      <View style={{flex: 1}}>
+      <View
+        style={{
+          flex: 1,
+          overflow: 'hidden',
+          borderRadius: 8,
+          width: '100%',
+          height: '100%',
+        }}>
         <Thumb
           style={styles.styleImage}
-          resizeMode="cover"
+          resizeMode="stretch"
           source={{uri: imageLink}}
         />
       </View>

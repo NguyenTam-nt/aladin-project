@@ -1,11 +1,12 @@
 import {StyleSheet, View} from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {IProduct, getProductsApi} from 'src/api/products';
 import ProductsList from 'src/components/product/ProductsList';
 import {useListItemProvice} from 'src/redux/provices/hooks';
 import {defaultColors} from '@configs';
 import {TouchableOpacity} from 'react-native';
 import TextTranslate from 'src/components/TextTranslate';
+import {boolean} from 'yup';
 
 const ProductSaleList = () => {
   const SIZE = 10;
@@ -14,25 +15,27 @@ const ProductSaleList = () => {
   const [currentPage, setCureentPage] = useState<number>(0);
   const [totalPages, setTotalPages] = useState<number>(0);
   const [action, setAction] = useState<boolean>(false);
-  const [oldProvice, setOldProvice] = useState<String>('');
-  const getProductsSale = async (provice: string) => {
+  const getProductsSale = async (
+    provice: string,
+    page: number,
+    loop?: boolean,
+  ) => {
     setAction(true);
     try {
       const params = {
-        page: currentPage,
+        page: page,
         size: SIZE,
         sort: 'promo,desc',
         address: provice,
       };
       const res = await getProductsApi(params);
       if (res) {
-        if (oldProvice === provice) {
-          setProductsSale([...productsSale, ...res.data]);
-          setTotalPages(res?.page?.max ?? 0);
-        } else {
-          setProductsSale(res.data);
-          setTotalPages(res?.page?.max ?? 0);
-        }
+        !loop
+          ? setProductsSale(res.data)
+          : setProductsSale([...productsSale, ...res.data]);
+        setTotalPages(res?.page?.max ?? 0);
+        // setProductsSale([...productsSale, ...res.data]);
+        // setTotalPages(res?.page?.max ?? 0);
       }
     } catch (error) {
       console.log(error);
@@ -41,13 +44,26 @@ const ProductSaleList = () => {
     }
   };
 
-  React.useEffect(() => {
-    getProductsSale(proviceItem.provices.Name);
-  }, [proviceItem.provices, currentPage]);
+  useEffect(() => {
+    if (proviceItem.provices) {
+      if (productsSale.length > 0) {
+        if (currentPage === 0) {
+          getProductsSale(proviceItem.provices.Name, 0);
+          return;
+        } else if (currentPage > 0) {
+          setCureentPage(0);
+          return;
+        }
+      }
+    }
+  }, [proviceItem]);
 
-  React.useEffect(() => {
-    setOldProvice(proviceItem.provices.Name);
-  }, [proviceItem.provices]);
+  useEffect(() => {
+    if (proviceItem) {
+      getProductsSale(proviceItem.provices.Name, currentPage, true);
+      return;
+    }
+  }, [currentPage]);
 
   return (
     <View style={{}}>

@@ -1,4 +1,5 @@
 import {
+  Platform,
   StyleSheet,
   TextInput,
   TextInputProps,
@@ -14,12 +15,20 @@ import ModalCustom from '../ModalCustom';
 import SearchScreen from 'src/features/SearchScreen';
 import {useModal} from 'src/hooks/useModal';
 import {DIMENSION} from '@constants';
+import {TextCustom} from '../Text';
 
 type Props = {
   containerStyle?: ViewStyle[] | ViewStyle;
+  isProductScreen?: boolean;
+  textPlanhoder?: string;
 } & TextInputProps;
 
-const InputSearch = ({containerStyle, ...props}: Props) => {
+const InputSearch = ({
+  containerStyle,
+  isProductScreen = false,
+  textPlanhoder = 'common.search',
+  ...props
+}: Props) => {
   const {t} = useTranslation();
   const modalEditInventory = useModal();
   const [keywork, setKeywork] = useState<string>('');
@@ -30,11 +39,29 @@ const InputSearch = ({containerStyle, ...props}: Props) => {
     }
   };
   return (
-    <View style={[styles.container, StyleSheet.flatten(containerStyle)]}>
+    <View
+      style={[
+        styles.container,
+        isProductScreen && {
+          backgroundColor: defaultColors.bg_DAF1E7,
+          shadowColor: '0px 4px 4px 0px rgba(0, 0, 0, 0.25)',
+          shadowOffset: {
+            width: 0,
+            height: 2,
+          },
+          shadowOpacity: 0.22,
+          shadowRadius: 2.22,
+          elevation: 3,
+        },
+      ]}>
       <TextInput
         style={styles.inputText}
-        placeholder={t('common.search')}
-        placeholderTextColor={defaultColors.text_313131}
+        placeholder={t(textPlanhoder)}
+        placeholderTextColor={
+          isProductScreen
+            ? defaultColors.text_C4C4C4
+            : defaultColors.text_626262
+        }
         onChangeText={setKeywork}
         value={keywork}
         {...props}
@@ -60,21 +87,23 @@ export default InputSearch;
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
     flexDirection: 'row',
     backgroundColor: defaultColors.c_fff,
     borderRadius: 20,
     overflow: 'hidden',
     alignItems: 'center',
+    height: Platform.OS === 'ios' ? 'auto' : 40,
+    justifyContent: 'space-between',
   },
   inputText: {
     flex: 1,
-    height: '100%',
     paddingLeft: 12,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   viewIcon: {
     width: 32,
-    height: '100%',
-    paddingRight: 12,
   },
   modalEdit: {
     position: 'relative',

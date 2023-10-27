@@ -1,5 +1,5 @@
-export const APP_BASE_URL = 'http://192.168.1.16:9800';
-export const APP_BASE_URL2 = 'http://192.168.1.16:9800';
+export const APP_BASE_URL = 'https://marketmoa.com.vn';
+export const APP_BASE_URL2 = 'http://101.99.6.31:19800';
 export const baseUrl = APP_BASE_URL;
 export const SOCK_CLIENNT_URL = 'https://giangmyhotpot.vn/websocket/tracker';
 export const OTPCodeValue = '123456';

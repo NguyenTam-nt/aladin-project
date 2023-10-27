@@ -33,7 +33,7 @@ const Related = (props: IProps) => {
   const [seeMoreProduct, setSeeMoreProduct] = useState<Boolean>(false);
   const [seeMoreSpec, setSeeMoreSpec] = useState<Boolean>(false);
   const [ViewdProduct, setViewdProduct] = useState<any[]>([]);
-  const getProductsByCategory = async (provice: string) => {
+  const getProductsByCategory = async (provice: string, productID: any) => {
     try {
       const params = {
         page: 0,
@@ -43,12 +43,10 @@ const Related = (props: IProps) => {
         subCategoryId: subCategoryId,
         address: provice,
       };
-      console.log('params', params);
-
       const res = await getProductsApi(params);
       if (res) {
         const data = res.data;
-        const newProducts = data.filter(it => it.id !== productId);
+        const newProducts = data.filter(it => it.id !== productID);
         setProduct(newProducts);
       }
     } catch (error) {}
@@ -62,11 +60,10 @@ const Related = (props: IProps) => {
   };
 
   useEffect(() => {
-    // console.log('provice', provice.provices.Name);
     if (ListItemprovice) {
-      getProductsByCategory(ListItemprovice.provices.Name);
+      getProductsByCategory(ListItemprovice.provices.Name, productId);
     }
-  }, [ListItemprovice]);
+  }, [ListItemprovice, productId]);
   useEffect(() => {
     getStorage();
   }, []);
@@ -147,6 +144,7 @@ const styles = (
     },
     exploreItemStyle: {
       flex: 1,
+      height: 40,
       paddingBottom: 4,
       borderBottomWidth: isAction ? 3 : 1,
       borderBottomColor: isAction

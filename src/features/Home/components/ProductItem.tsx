@@ -122,14 +122,25 @@ const ProductItem = (props: IProps) => {
               borderColor: defaultColors.br_E9E9E9,
               paddingTop: 9,
             }}>
-            <TextCustom
-              fontSize={12}
-              weight="400"
-              height={32}
-              numberOfLines={2}
-              color={defaultColors.text_313131}>
-              {isVn ? name : nameKr}
-            </TextCustom>
+            <NavLink
+              to={{
+                screen: productRoute.detail,
+                initial: false,
+                params: {
+                  idProduct: id,
+                  categoryId: categoryId,
+                  subCategoryId: subCategoryId,
+                },
+              }}>
+              <TextCustom
+                fontSize={12}
+                weight="400"
+                height={32}
+                numberOfLines={2}
+                color={defaultColors.text_313131}>
+                {isVn ? name : nameKr}
+              </TextCustom>
+            </NavLink>
             <View
               style={[
                 globalStyles.row,

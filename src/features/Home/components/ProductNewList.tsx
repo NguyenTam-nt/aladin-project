@@ -16,23 +16,21 @@ const ProductNewList = () => {
   const [currentPage, setCureentPage] = useState<number>(0);
   const [totalPages, setTotalPages] = useState<number>(0);
   const [action, setAction] = useState<boolean>(false);
-  const [oldProvice, setOldProvice] = useState<String>('');
-  const getProducts = async (provice: string) => {
+  const getProducts = async (provice: string, page: number, loop?: boolean) => {
     try {
       setAction(true);
       const params = {
-        page: currentPage,
+        page: page,
         size: SIZE,
         sort: 'id,desc',
         address: provice,
       };
       const res = await getProductsApi(params);
       if (res) {
-        if (oldProvice === provice) {
-          setProducts([...products, ...res.data]);
-          setTotalPages(res?.page?.max ?? 0);
-        } else {
-          setProducts(res.data);
+        if (res) {
+          !loop
+            ? setProducts(res.data)
+            : setProducts([...products, ...res.data]);
           setTotalPages(res?.page?.max ?? 0);
         }
       }
@@ -44,12 +42,27 @@ const ProductNewList = () => {
   };
 
   React.useEffect(() => {
-    getProducts(proviceItem.provices.Name);
-  }, [proviceItem.provices, currentPage]);
+    if (proviceItem.provices) {
+      if (products.length > 0) {
+        if (currentPage === 0) {
+          getProducts(proviceItem.provices.Name, 0);
+          return;
+        }
+        if (currentPage > 0) {
+          setCureentPage(0);
+          return;
+        }
+      }
+    }
+  }, [proviceItem]);
 
   React.useEffect(() => {
-    setOldProvice(proviceItem.provices.Name);
-  }, [proviceItem.provices]);
+    if (proviceItem) {
+      getProducts(proviceItem.provices.Name, currentPage, true);
+      return;
+    }
+  }, [currentPage]);
+
   return (
     <View style={styles.container}>
       {/* <TextTilte text="home.product_new" /> */}
@@ -88,7 +101,7 @@ const ProductNewList = () => {
   );
 };
 
-export default memo(ProductNewList);
+export default ProductNewList;
 
 const styles = StyleSheet.create({
   container: {

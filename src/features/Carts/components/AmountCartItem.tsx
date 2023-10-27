@@ -55,12 +55,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   counterItem: {
-    width: 24,
     height: 24,
     justifyContent: 'center',
     alignItems: 'center',
     borderColor: defaultColors.bg_00C3AB,
     borderRightWidth: 1,
     borderLeftWidth: 1,
+    minWidth: 24,
+    width: 'auto',
+    paddingHorizontal: 4,
   },
 });

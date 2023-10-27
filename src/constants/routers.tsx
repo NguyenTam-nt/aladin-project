@@ -41,7 +41,9 @@ export const accountRoute = {
   prifex: '/profile',
   login: '/login',
   register: '/register',
-  manageAccountInfo: 'manage-account-info',
+  manageAccountInfo: '/manage-account-info',
+  changePass: '/change-pass',
+  forgotPass: '/forgot-pass',
 };
 type PropsTitle = {
   focused: boolean;

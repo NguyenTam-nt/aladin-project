@@ -17,17 +17,25 @@ import {BannerType} from 'src/typeRules/banner';
 import ImperativeScrollView, {
   ImperativeScrollViewHandles,
 } from 'src/hooks/useImperativeScrollView';
-import {useFocusEffect} from '@react-navigation/native';
+import {
+  useFocusEffect,
+  useIsFocused,
+  useNavigation,
+} from '@react-navigation/native';
 import {useListItemProvice} from 'src/redux/provices/hooks';
 const HomeScren = () => {
   const scrollViewRef = useRef<ImperativeScrollViewHandles>(null);
   const proviceItem = useListItemProvice();
+  const isSlected = useIsFocused();
+  const navigation = useNavigation();
   const onTopScroll = () => {
     scrollViewRef?.current?.scrollTo({
       y: 0,
       animated: true,
     });
   };
+
+  console.log('isSlected', isSlected);
 
   useFocusEffect(
     React.useCallback(() => {

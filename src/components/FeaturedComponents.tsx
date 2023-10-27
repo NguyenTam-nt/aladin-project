@@ -38,13 +38,22 @@ const FeaturedComponents = (props: IProps) => {
           style={{marginTop: 12}}
           renderItem={({item, index}) => {
             return (
-              <FeaturedItem
+              <NavLink
                 key={index}
-                index={`00${index + 1}`.slice(-2)}
-                name={isVn ? item.productNameVn : item.productNameKr}
-                imageLink={item.image}
-                idProduct={item.id}
-              />
+                to={{
+                  screen: productRoute.detail,
+                  initial: false,
+                  params: {
+                    idProduct: item.id,
+                  },
+                }}>
+                <FeaturedItem
+                  index={`00${index + 1}`.slice(-2)}
+                  name={isVn ? item.productNameVn : item.productNameKr}
+                  imageLink={item.image}
+                  // idProduct={item.id}
+                />
+              </NavLink>
             );
           }}
           keyExtractor={(_, index) => index.toString()}

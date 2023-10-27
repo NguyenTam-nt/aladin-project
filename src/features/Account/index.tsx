@@ -1,30 +1,30 @@
-import { TextCustom, Thumb } from '@components';
-import { defaultColors } from '@configs';
-import { useNavigation } from '@react-navigation/native';
-import React, { ReactElement, useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { Modal, StyleSheet, TouchableOpacity, View } from 'react-native';
-import { useDispatch } from 'react-redux';
-import { ICAccountInfo } from 'src/assets/icons/ICAccountInfo';
-import { ICDropdown } from 'src/assets/icons/ICDropdown';
-import { ICPassword } from 'src/assets/icons/ICPassword';
-import { ICAccount } from 'src/assets/icons/bottomtab/ICAccount';
-import { VietnamFlag, koreanFlag } from 'src/assets/image';
-import { ButtonTouchable } from 'src/components/Buttons/ButtonTouchable';
-import { Header } from 'src/components/Header';
+import {TextCustom, Thumb} from '@components';
+import {defaultColors} from '@configs';
+import {useNavigation} from '@react-navigation/native';
+import React, {ReactElement, useEffect, useState} from 'react';
+import {useTranslation} from 'react-i18next';
+import {Modal, StyleSheet, TouchableOpacity, View} from 'react-native';
+import {useDispatch} from 'react-redux';
+import {ICAccountInfo} from 'src/assets/icons/ICAccountInfo';
+import {ICDropdown} from 'src/assets/icons/ICDropdown';
+import {ICPassword} from 'src/assets/icons/ICPassword';
+import {ICAccount} from 'src/assets/icons/bottomtab/ICAccount';
+import {VietnamFlag, koreanFlag} from 'src/assets/image';
+import {ButtonTouchable} from 'src/components/Buttons/ButtonTouchable';
+import {Header} from 'src/components/Header';
 import TextTranslate from 'src/components/TextTranslate';
-import { accountRoute } from 'src/constants/routers';
-import { useDropdown } from 'src/hooks/useDropdown';
-import { useHandleChangeLanguage } from 'src/redux/multilanguage/hooks';
+import {accountRoute} from 'src/constants/routers';
+import {useDropdown} from 'src/hooks/useDropdown';
+import {useHandleChangeLanguage} from 'src/redux/multilanguage/hooks';
 import {
   initUserInfo,
   setRefreshToken,
   setToken,
   setUserInfo,
 } from 'src/redux/reducers/AuthSlice';
-import { useUserInfo } from 'src/redux/reducers/hook';
+import {useUserInfo} from 'src/redux/reducers/hook';
 export type LANGUAGE_KEY = 'vi' | 'ko';
-const LANGUAGE: { key: LANGUAGE_KEY; image: any }[] = [
+const LANGUAGE: {key: LANGUAGE_KEY; image: any}[] = [
   {
     key: 'vi',
     image: VietnamFlag,
@@ -39,9 +39,9 @@ const AccountScreen = () => {
   const userInfo = useUserInfo();
   const dispatch = useDispatch();
   const useChangeLanguage = useHandleChangeLanguage();
-  const { toggleDropdown, visible, setVisible, dropdownTop, refDropdown } =
+  const {toggleDropdown, visible, setVisible, dropdownTop, refDropdown} =
     useDropdown();
-  const { i18n } = useTranslation();
+  const {i18n} = useTranslation();
   const [languageAction, setLanguageAction] = useState<{
     key: LANGUAGE_KEY;
     image: any;
@@ -65,7 +65,7 @@ const AccountScreen = () => {
         <TouchableOpacity
           style={styles.overlay}
           onPress={() => setVisible(false)}>
-          <View style={[styles.dropdown, { top: dropdownTop + 20 }]}>
+          <View style={[styles.dropdown, {top: dropdownTop + 20}]}>
             {LANGUAGE.map((it, idx) => {
               if (languageAction.key !== it.key) {
                 return (
@@ -79,7 +79,7 @@ const AccountScreen = () => {
                     <Thumb
                       source={it.image}
                       resizeMode="cover"
-                      style={{ width: 37, height: 26 }}
+                      style={{width: 37, height: 26}}
                     />
                   </TouchableOpacity>
                 );
@@ -120,7 +120,7 @@ const AccountScreen = () => {
             style={{
               paddingHorizontal: 50,
               shadowColor: '#171717',
-              shadowOffset: { width: 0, height: 4 },
+              shadowOffset: {width: 0, height: 4},
               shadowOpacity: 0.3,
               shadowRadius: 3,
             }}
@@ -136,7 +136,7 @@ const AccountScreen = () => {
             style={{
               paddingHorizontal: 50,
               shadowColor: '#171717',
-              shadowOffset: { width: 0, height: 4 },
+              shadowOffset: {width: 0, height: 4},
               shadowOpacity: 0.3,
               shadowRadius: 3,
             }}
@@ -172,19 +172,35 @@ const AccountScreen = () => {
         </View>
         <View style={styles.actionItemStyle}>
           <ICPassword width={19} height={23} />
-          <TextTranslate
-            fontSize={18}
-            weight="400"
-            lineHeight={27}
-            color={defaultColors.c_0000}
-            text="account.change-pass"
-          />
+          {userInfo.login ? (
+            <TouchableOpacity
+              onPress={() =>
+                //@ts-ignore
+                navigation.navigate(accountRoute.changePass)
+              }>
+              <TextTranslate
+                fontSize={18}
+                weight="400"
+                lineHeight={27}
+                color={defaultColors.c_0000}
+                text="account.change-pass"
+              />
+            </TouchableOpacity>
+          ) : (
+            <TextTranslate
+              fontSize={18}
+              weight="400"
+              lineHeight={27}
+              color={defaultColors.c_0000}
+              text="account.change-pass"
+            />
+          )}
         </View>
-        <View style={{ marginTop: 12, ...styles.actionItemStyle }}>
+        <View style={{marginTop: 12, ...styles.actionItemStyle}}>
           <Thumb
             source={languageAction?.image}
             resizeMode="cover"
-            style={{ width: 37, height: 26 }}
+            style={{width: 37, height: 26}}
           />
           <TouchableOpacity
             //@ts-ignore
@@ -197,7 +213,7 @@ const AccountScreen = () => {
             }}>
             {renderDropdown()}
             <ICDropdown />
-            <View style={{ paddingLeft: 10 }}>
+            <View style={{paddingLeft: 10}}>
               <TextTranslate
                 fontSize={18}
                 weight="600"
@@ -215,7 +231,7 @@ const AccountScreen = () => {
 export default AccountScreen;
 
 const styles = StyleSheet.create({
-  container: { flex: 1, paddingHorizontal: 20 },
+  container: {flex: 1, paddingHorizontal: 20},
   viewInfo: {
     width: '100%',
     height: 'auto',
@@ -257,7 +273,7 @@ const styles = StyleSheet.create({
     width: 'auto',
     shadowColor: '#000000',
     shadowRadius: 4,
-    shadowOffset: { height: 4, width: 0 },
+    shadowOffset: {height: 4, width: 0},
     shadowOpacity: 0.5,
     left: 20,
   },

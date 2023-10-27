@@ -75,7 +75,7 @@ const Introdcution = () => {
             {abouts?.length > 0 &&
               (isVn ? abouts?.[0].titleVn : abouts?.[0].titleKr)}
           </Text>
-          <Text>
+          <Text style={styles.desc}>
             {abouts?.length > 0 &&
               (isVn ? abouts?.[0].content1Vn : abouts?.[0].content1Kr)}
           </Text>
@@ -164,10 +164,12 @@ const styles = StyleSheet.create({
     fontSize: 32,
     fontStyle: 'normal',
     fontWeight: '700',
+    // marginBottom: 20,
   },
   desc: {
     fontSize: 14,
     fontWeight: '400',
     fontStyle: 'normal',
+    marginTop: 20,
   },
 });

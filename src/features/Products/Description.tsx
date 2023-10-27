@@ -52,9 +52,10 @@ const Description = (props: IProps) => {
             content={productInfo ?? ''}
           />
         )}
+
         {actionKey === 'spec' && <Html content={spec ?? ''} />}
       </View>
-      <View style={styles().buttomGroup}>
+      {/* <View style={styles().buttomGroup}>
         {actionKey === 'product-info' && (
           <ButtonTouchable
             onPress={() => setSeeMoreProduct(prev => !prev)}
@@ -71,7 +72,7 @@ const Description = (props: IProps) => {
             textColor={defaultColors.bg_00C3AB}
           />
         )}
-      </View>
+      </View> */}
     </View>
   );
 };

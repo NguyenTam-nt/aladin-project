@@ -158,12 +158,16 @@ const LoginScreen = () => {
               weight="400"
               text="account.form-login.forgot-pass"
             />
-            <TextTranslate
-              color={defaultColors.text_264659}
-              fontSize={12}
-              weight="400"
-              text="account.form-login.pass-retrieval"
-            />
+            <TouchableOpacity
+              //@ts-ignore
+              onPress={() => navigation.navigate(accountRoute.forgotPass)}>
+              <TextTranslate
+                color={defaultColors.text_264659}
+                fontSize={12}
+                weight="400"
+                text="account.form-login.pass-retrieval"
+              />
+            </TouchableOpacity>
           </View>
           <View style={{flexDirection: 'column', rowGap: 14, marginTop: 18}}>
             <ButtonGradient

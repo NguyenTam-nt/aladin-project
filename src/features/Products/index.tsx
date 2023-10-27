@@ -7,13 +7,14 @@ import {
   ScrollView,
   FlatListProps,
   FlatListComponent,
+  ImageBackground,
 } from 'react-native';
 import {globalStyles} from 'src/commons/globalStyles';
 import {defaultColors} from '@configs';
 import HeaderHome from '../Home/components/HeaderHome';
 import {memo, useCallback, useEffect, useRef, useState} from 'react';
 import React from 'react';
-import {paddingHorizontalScreen} from '@constants';
+import {DIMENSION, paddingHorizontalScreen} from '@constants';
 import useI18n from 'src/hooks/useI18n';
 import {TextCustom, Thumb} from '@components';
 import {
@@ -335,82 +336,86 @@ const Products = () => {
           />
         }
       />
-      <Thumb
+      <ImageBackground
         source={BgProduct}
         resizeMode="cover"
-        style={[StyleSheet.absoluteFillObject, {top: statusBarHeight + 16}]}
-      />
-      <View style={styles.product_portfolio}>
-        <View style={styles.groupButton}>
-          <InputSearch containerStyle={styles.styleInput} />
-          <CityFilter />
-          <CartButton />
-        </View>
-      </View>
-      <ImperativeScrollView ref={scrollViewRef}>
-        <View style={{paddingHorizontal: 9, paddingBottom: 24}}>
-          <TextTranslate
-            color={defaultColors.bg_00C3AB}
-            fontSize={18}
-            textTransform="uppercase"
-            weight="700"
-            text="product.product-protfolio"
-          />
-          <View style={{marginTop: 7}}>
-            <FlatList
-              data={subListCategories?.subCategoryList ?? []}
-              renderItem={({item, index}) => {
-                return (
-                  <NavLink
-                    to={{
-                      screen: productRoute.categories.detail,
-                      params: {
-                        idSubCategory: item.id,
-                        idCategory: categoryItem?.id,
-                      },
-                    }}
-                    style={{
-                      paddingHorizontal: 8,
-                    }}>
-                    <CardSubListCategory subCatewgoryItem={item} />
-                  </NavLink>
-                );
-              }}
-              keyExtractor={(_, index) => index.toString()}
-              horizontal
-              showsHorizontalScrollIndicator={false}
+        style={{height: '100%', with: DIMENSION.width * 0.5}}>
+        <View style={styles.product_portfolio}>
+          <View style={styles.groupButton}>
+            <InputSearch
+              containerStyle={styles.styleInput}
+              isProductScreen={true}
             />
+            <CityFilter isProductScreen={true} />
+            <CartButton isProductSreecn={true} />
           </View>
         </View>
-        <View style={{marginTop: 10}}>
-          {productsSale.length > 0 && (
-            <ProductsList
-              products={productsSale}
-              textTile="home.product_sale"
+        <ImperativeScrollView ref={scrollViewRef}>
+          <View style={{paddingHorizontal: 9, paddingBottom: 24}}>
+            <TextTranslate
+              color={defaultColors.bg_00C3AB}
+              fontSize={18}
+              textTransform="uppercase"
+              weight="700"
+              text="product.product-protfolio"
             />
-          )}
-          <View style={{marginTop: 17}}>
-            {productsOutStanding.length > 0 && (
-              <FeaturedComponents data={productsOutStanding} />
+            <View style={{marginTop: 7}}>
+              <FlatList
+                data={subListCategories?.subCategoryList ?? []}
+                renderItem={({item, index}) => {
+                  return (
+                    <NavLink
+                      to={{
+                        screen: productRoute.categories.detail,
+                        params: {
+                          idSubCategory: item.id,
+                          idCategory: categoryItem?.id,
+                        },
+                      }}
+                      style={{
+                        paddingHorizontal: 8,
+                      }}>
+                      <CardSubListCategory subCatewgoryItem={item} />
+                    </NavLink>
+                  );
+                }}
+                keyExtractor={(_, index) => index.toString()}
+                horizontal
+                showsHorizontalScrollIndicator={false}
+              />
+            </View>
+          </View>
+          <View style={{marginTop: 10}}>
+            {productsSale.length > 0 && (
+              <ProductsList
+                products={productsSale}
+                textTile="home.product_sale"
+              />
             )}
+
+            {productsOutStanding.length > 0 && (
+              <View style={{marginTop: 17}}>
+                <FeaturedComponents data={productsOutStanding} />
+              </View>
+            )}
+            <View style={{marginTop: 27, paddingHorizontal: 18}}>
+              <TextTilte
+                //@ts-ignore
+                text={isVn ? categoryItem?.name : categoryItem?.nameKr}
+              />
+              <FilterBy
+                setFilterByItem={setFilterByItem}
+                filterByItem={filterByItem}
+              />
+            </View>
+            {productsSortBy.length > 0 && (
+              <ProductsList products={productsSortBy} />
+            )}
+            <ContactTopic />
           </View>
-          <View style={{marginTop: 27, paddingHorizontal: 18}}>
-            <TextTilte
-              //@ts-ignore
-              text={isVn ? categoryItem?.name : categoryItem?.nameKr}
-            />
-            <FilterBy
-              setFilterByItem={setFilterByItem}
-              filterByItem={filterByItem}
-            />
-          </View>
-          {productsSortBy.length > 0 && (
-            <ProductsList products={productsSortBy} />
-          )}
-          <ContactTopic />
-        </View>
-        <SpaceBottom />
-      </ImperativeScrollView>
+          <SpaceBottom />
+        </ImperativeScrollView>
+      </ImageBackground>
     </View>
   );
 };
@@ -426,6 +431,7 @@ const styles = StyleSheet.create({
   groupContent: {
     paddingHorizontal: paddingHorizontalScreen,
     // paddingTop: 19,
+    zIndex: 9999,
   },
   textHeader: {
     borderBottomColor: defaultColors._00D2B8,
@@ -436,6 +442,8 @@ const styles = StyleSheet.create({
     ...globalStyles.row,
     columnGap: 12,
     paddingBottom: 24,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   product_portfolio: {
     paddingHorizontal: 9,

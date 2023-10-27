@@ -1,6 +1,6 @@
 import {PropsWithChildren} from 'react';
 import {Header} from '.';
-import {StyleSheet, TouchableOpacity, View} from 'react-native';
+import {Platform, StyleSheet, TouchableOpacity, View} from 'react-native';
 import TextTilte from '../TextTitle';
 import React from 'react';
 import {ICBack} from 'src/assets/icons/ICBack';
@@ -12,14 +12,16 @@ import {useNavigation} from '@react-navigation/native';
 import {productRoute} from 'src/constants/routers';
 import {TextCustom} from '../Text';
 import {useListItemCart} from 'src/redux/orderCart/hooks';
+import TextTranslate from '../TextTranslate';
 
 interface HeaderProps {
   headerBase?: boolean;
   textTile?: string;
   isProductDetail?: boolean;
+  iconCart?: boolean;
 }
 const HeaderBack = (props: PropsWithChildren<HeaderProps>) => {
-  const {textTile, isProductDetail = false} = props;
+  const {textTile, isProductDetail = false, iconCart = false} = props;
   const navigation = useNavigation();
   const dismiss = useGoBack();
   const handleListCart = useListItemCart();
@@ -38,24 +40,48 @@ const HeaderBack = (props: PropsWithChildren<HeaderProps>) => {
         )}
         {isProductDetail && (
           <>
-            <TouchableOpacity onPress={dismiss}>
-              <ICPrev />
-            </TouchableOpacity>
-            <TouchableOpacity
-              //@ts-ignore
-              onPress={() => navigation.navigate(productRoute.cart)}
-              style={styles.cart}>
-              <ICCart color={defaultColors.primary} />
-              <View style={styles.numberOfCart}>
-                <TextCustom
-                  textAlign="center"
-                  fontSize={14}
+            <View
+              style={{
+                flexDirection: 'row',
+                columnGap: 10,
+                alignItems: 'center',
+              }}>
+              <TouchableOpacity onPress={dismiss}>
+                <ICPrev />
+              </TouchableOpacity>
+              {iconCart === false && (
+                <TextTranslate
+                  fontSize={16}
                   weight="400"
-                  color={defaultColors.c_fff}>
-                  {handleListCart.itemInCart.length ?? 0}
-                </TextCustom>
-              </View>
-            </TouchableOpacity>
+                  color={defaultColors.c_0000}
+                  text="cart.ttile"
+                />
+              )}
+            </View>
+            {iconCart && (
+              <TouchableOpacity
+                //@ts-ignore
+                onPress={() => navigation.navigate(productRoute.cart)}
+                style={styles.cart}>
+                <ICCart color={defaultColors.primary} width={40} height={40} />
+                <View style={styles.numberOfCart}>
+                  <View
+                    style={{
+                      flex: 1,
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                    }}>
+                    <TextCustom
+                      textAlign="center"
+                      fontSize={Platform.OS === 'ios' ? 14 : 12}
+                      weight="400"
+                      color={defaultColors.c_fff}>
+                      {handleListCart.itemInCart.length ?? 0}
+                    </TextCustom>
+                  </View>
+                </View>
+              </TouchableOpacity>
+            )}
           </>
         )}
       </View>
@@ -86,9 +112,9 @@ const styles = StyleSheet.create({
     top: 0,
     left: '50%',
     zIndex: 999,
-    width: 20,
-    height: 20,
-    borderRadius: 10,
+    width: 25,
+    height: 25,
+    borderRadius: 30,
     backgroundColor: defaultColors.primary,
     borderWidth: 2,
     borderColor: defaultColors.c_fff,

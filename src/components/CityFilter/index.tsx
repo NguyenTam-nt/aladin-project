@@ -19,7 +19,8 @@ import InputSearch from '../InputSearch';
 import PROVICE from '../../assets/provice/province_date.json';
 import {DIMENSION} from '@constants';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
-const CityFilter = () => {
+const CityFilter = (props: {isProductScreen?: false}) => {
+  const {isProductScreen} = props;
   const dataItem = useListItemProvice();
   const {toggleDropdown, visible, setVisible, dropdownTop, refDropdown} =
     useDropdown();
@@ -56,11 +57,15 @@ const CityFilter = () => {
                 style={styles().buttonClose}>
                 <ICClose />
               </TouchableOpacity>
-              <InputSearch
-                style={styles().inputSearch}
-                containerStyle={{paddingRight: 8}}
-                onChangeText={e => setKeyWord(e)}
-              />
+              <View style={{height: 32}}>
+                <InputSearch
+                  style={styles().inputSearch}
+                  containerStyle={{paddingRight: 8}}
+                  onChangeText={e => setKeyWord(e)}
+                  value={keyWord}
+                  textPlanhoder="common.search-provice"
+                />
+              </View>
             </View>
             <View
               style={{
@@ -105,18 +110,24 @@ const CityFilter = () => {
     );
   };
   return (
-    <View style={styles().container}>
+    <View
+      style={
+        isProductScreen ? styles().containerProductSreen : styles().container
+      }>
       <TouchableOpacity
         //@ts-ignore
         ref={refDropdown}
         onPress={toggleDropdown}>
         <TextTranslate
           text="common.view_price"
-          color={defaultColors.c_fff}
+          color={isProductScreen ? defaultColors.primary : defaultColors.c_fff}
           fontSize={8}
           weight="400"
         />
-        <TextCustom color={defaultColors.c_fff} fontSize={12} weight="bold">
+        <TextCustom
+          color={isProductScreen ? defaultColors.primary : defaultColors.c_fff}
+          fontSize={10}
+          weight="bold">
           {dataItem.provices.Name}
         </TextCustom>
         {renderDropdownProvice()}
@@ -131,12 +142,21 @@ const styles = (statusBarHeight?: number, height?: number) =>
   StyleSheet.create({
     container: {
       width: 'auto',
-      height: 32,
+      height: 35,
       borderWidth: 1,
       borderColor: defaultColors.c_fff,
       borderRadius: 6,
       padding: 4,
       backgroundColor: defaultColors.bg_00C3AB,
+    },
+    containerProductSreen: {
+      width: 'auto',
+      height: 35,
+      borderWidth: 1,
+      borderColor: defaultColors.primary,
+      borderRadius: 6,
+      padding: 4,
+      // backgroundColor: defaultColors.bg_00C3AB,
     },
     provice: {
       backgroundColor: defaultColors._014F59,

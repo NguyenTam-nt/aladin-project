@@ -29,9 +29,11 @@ const SelectedPicker = (props: IProps) => {
   };
   return (
     <View style={styles.container}>
-      <TextCustom fontSize={14} weight="400" color={defaultColors.c_0000}>
-        {nameAttribute}:
-      </TextCustom>
+      <View style={{paddingTop: 4}}>
+        <TextCustom fontSize={14} weight="400" color={defaultColors.c_0000}>
+          {nameAttribute}:
+        </TextCustom>
+      </View>
       <View style={styles.attributeGroup}>
         {(attributeFeValues ?? []).map((it, idx) => {
           return (
@@ -60,9 +62,11 @@ const styles = StyleSheet.create({
     columnGap: 12,
   },
   attributeGroup: {
+    flex: 1,
     ...globalStyles.flexWrap,
     flexDirection: 'row',
     gap: 8,
     paddingRight: 10,
+    width: '100%',
   },
 });

@@ -4,26 +4,29 @@
  *
  * @format
  */
-import React, { useEffect, useState } from 'react';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
-import { PersistGate } from 'redux-persist/integration/react';
-import { persistor } from './src/redux';
+import React, {useEffect, useState} from 'react';
+import {SafeAreaProvider} from 'react-native-safe-area-context';
+import {PersistGate} from 'redux-persist/integration/react';
+import {persistor} from './src/redux';
 import Toast from 'react-native-toast-message';
 import ToastMessage from 'src/components/Toast';
-import { View, StyleSheet, Platform, NativeModules } from 'react-native';
+import {View, StyleSheet, Platform, NativeModules} from 'react-native';
 import './src/configs/i18n';
 import * as RNLocalize from 'react-native-localize';
 import MainStack from 'src/navigations/MainStack';
 import Orientation from 'react-native-orientation-locker';
-import { languageKey } from 'src/constants/defines';
-import { useTranslation } from 'react-i18next';
-import { useGetLanguage, useHandleChangeLanguage } from 'src/redux/multilanguage/hooks';
+import {languageKey} from 'src/constants/defines';
+import {useTranslation} from 'react-i18next';
+import {
+  useGetLanguage,
+  useHandleChangeLanguage,
+} from 'src/redux/multilanguage/hooks';
 
 function App() {
-  const { i18n } = useTranslation();
+  const {i18n} = useTranslation();
   const getLanguage = useGetLanguage();
   const toastConfig = {
-    tomatoToast: ({ props }: any) => (
+    tomatoToast: ({props}: any) => (
       <ToastMessage status={props.status} title={props.uuid} />
     ),
   };
@@ -33,7 +36,7 @@ function App() {
     const deviceLanguage: string =
       Platform.OS === 'ios'
         ? NativeModules.SettingsManager.settings.AppleLocale ||
-        NativeModules.SettingsManager.settings.AppleLanguages[0] // iOS 13
+          NativeModules.SettingsManager.settings.AppleLanguages[0] // iOS 13
         : locale || NativeModules.I18nManager.localeIdentifier;
 
     if (typeof deviceLanguage !== 'string') {
@@ -70,11 +73,13 @@ function App() {
   useEffect(() => {
     // Orientation.lockToPortrait();
     if (getLanguage.currenLanguage !== '') {
-      const locale2 = getDeviceLanguage(RNLocalize.getLocales()[0].languageCode);
+      const locale2 = getDeviceLanguage(
+        RNLocalize.getLocales()[0].languageCode,
+      );
       i18n.changeLanguage(locale2);
       return;
     } else if (getLanguage.currenLanguage) {
-      i18n.changeLanguage(getLanguage.currenLanguage)
+      i18n.changeLanguage(getLanguage.currenLanguage);
       return;
     }
   }, []);
@@ -87,14 +92,12 @@ function App() {
           config={toastConfig}
           position="top"
           visibilityTime={1500}
-        // bottomOffset={20}
+          // bottomOffset={20}
         />
       </SafeAreaProvider>
     </PersistGate>
   );
 }
 
-const styles = StyleSheet.create({
-
-});
+const styles = StyleSheet.create({});
 export default App;

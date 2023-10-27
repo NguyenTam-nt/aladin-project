@@ -32,7 +32,8 @@
       "agree": "Đồng ý",
       "result-search": "Kết quả tìm kiếm “{{queryInput}}” là: {{length}} sản phẩm.",
       "searching": "Đang tìm kiếm...",
-      "not-result": "Không tìm thấy kết quả nào!"
+      "not-result": "Không tìm thấy kết quả nào!",
+      "search-provice": "Tìm nhanh tỉnh thành"
     },
     "about": {
       "title": "Giới thiệu"
@@ -43,7 +44,7 @@
       "note-when-using": "Lưu ý khi sử dụng:",
       "quanlity": "Số lượng:",
       "policy": {
-        "title": "Yên tâm mua hàng tại Marktatet Moa",
+        "title": "Yên tâm mua hàng tại Market Moa",
         "hight-quanlity": "100% Hàng Việt Nam Chất Lượng Cao",
         "best-priece": "Cam Kết Giá Tốt Nhất & CTKM Hấp Dẫn",
         "service": "Dịch Vụ Bảo Hành Chuyên Nghiệp",
@@ -88,6 +89,8 @@
       "manage-account-info": "Quản lý thông tin tài khoản",
       "change-pass": "Thay đổi mật khẩu",
       "language": "Ngôn ngữ",
+      "enter-mail-with-pass": "Nhập email bạn đã đăng ký tài khoản",
+      "planhoder-enter-mail-with-pass": "Nhập email",
       "screen-manage-account": {
         "form": {
           "full-name": "Họ và tên",
@@ -219,7 +222,7 @@
       "warning": {
         "add-to-cart": "Vui lòng chọn thuộc tính sản phẩm!",
         "product-stock-quantity": "Số lượng bạn chọn không phù hợp với số sản phẩm có sẵn!",
-        "product-already-exists": "Sản phẩm đã có sản trong giỏ hàng!",
+        "product-already-exists": "Sản phẩm đã có trong giỏ hàng!",
         "cart-empty": "Chưa có sản phẩm nào trong giỏ hàng!",
         "cart-choose-false": "Vui lòng chọn sản phẩm bạn muốn mua trong giỏ hàng!",
         "voucher-code-incorrect": "Mã giảm giá không đúng, vui lòng nhập lại!",
