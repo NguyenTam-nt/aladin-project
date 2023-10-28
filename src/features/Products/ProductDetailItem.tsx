@@ -51,7 +51,6 @@ const ProductDetailItem = (props: IProps) => {
     [],
   );
   const [productDetailItem, setProductDetailItem] = useState<any | null>();
-  const [stockQuantity, setStockQuantity] = useState(0);
   const [quantityDescActive, setQuantityDescActive] = useState<boolean>(false);
   const [quantityAscActive, setQuantityAscActive] = useState<boolean>(true);
   const [quantity, setQuantity] = useState<number>(1);

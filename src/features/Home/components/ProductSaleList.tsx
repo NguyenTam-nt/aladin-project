@@ -34,8 +34,6 @@ const ProductSaleList = () => {
           ? setProductsSale(res.data)
           : setProductsSale([...productsSale, ...res.data]);
         setTotalPages(res?.page?.max ?? 0);
-        // setProductsSale([...productsSale, ...res.data]);
-        // setTotalPages(res?.page?.max ?? 0);
       }
     } catch (error) {
       console.log(error);
@@ -46,20 +44,16 @@ const ProductSaleList = () => {
 
   useEffect(() => {
     if (proviceItem.provices) {
-      if (productsSale.length > 0) {
-        if (currentPage === 0) {
-          getProductsSale(proviceItem.provices.Name, 0);
-          return;
-        } else if (currentPage > 0) {
-          setCureentPage(0);
-          return;
-        }
+      getProductsSale(proviceItem.provices.Name, 0);
+      if (currentPage > 0) {
+        setCureentPage(0);
+        return;
       }
     }
   }, [proviceItem]);
 
   useEffect(() => {
-    if (proviceItem) {
+    if (currentPage > 0) {
       getProductsSale(proviceItem.provices.Name, currentPage, true);
       return;
     }

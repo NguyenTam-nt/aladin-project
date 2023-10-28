@@ -1,4 +1,4 @@
-import {APIs, IData} from './config';
+import {APIs} from './config';
 import request from './request';
 import {IResponseApi, Image} from './types';
 import {handleError} from './handleError';
@@ -12,7 +12,7 @@ export interface IAbout {
   content1Kr: string;
   content2Vn: string;
   content2Kr: string;
-  images: Image[]
+  images: Image[];
 }
 export const getAboutApi = async (): Promise<IResponseApi<IAbout[]>> => {
   try {

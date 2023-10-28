@@ -1,7 +1,7 @@
 import {TextCustom} from '@components';
 import {defaultColors} from '@configs';
 import {useFormik} from 'formik';
-import React from 'react';
+import React, {useState} from 'react';
 import {
   Pressable,
   ScrollView,
@@ -18,8 +18,14 @@ import TextInputComponent from 'src/components/TextInputGroup/TextInputComponent
 import TextTranslate from 'src/components/TextTranslate';
 import {useGoBack} from 'src/hooks/useGoBack';
 import * as Yup from 'yup';
+import {MESSAGES_TYPE} from './ForgotPass';
+import {changePassword} from 'src/api/user';
 const ChangePassword = () => {
   const dismiss = useGoBack();
+  const [messagesType, setMessageType] = useState<MESSAGES_TYPE>('');
+  const [success, setSuccess] = useState<string>('');
+  const [error, setError] = useState<string>('');
+  const [warning, setWarning] = useState<string>('');
   const formik = useFormik({
     initialValues: {
       oldPassword: '',
@@ -29,22 +35,23 @@ const ChangePassword = () => {
     validationSchema: Yup.object({
       oldPassword: Yup.string()
         .trim()
-        .required('messages.full-name.requied')
+        .required('messages.password.requied')
         .max(40, 'messages.max'),
       newPassword: Yup.string()
         .trim()
-        .required('messages.full-name.requied')
+        .required('messages.newPassword.requied')
         .max(40, 'messages.max'),
       newPasswordRepeat: Yup.string()
         .trim()
-        .required('messages.full-name.requied')
-        .max(40, 'messages.max'),
+        .required('messages.new-password-repeat.requied')
+        .max(40, 'messages.max')
+        .oneOf(
+          [Yup.ref('newPassword')],
+          'messages.new-password-repeat.matches',
+        ),
     }),
     onSubmit: async (value: any) => {
       console.log('value', value);
-
-      // handleUpdateAccountInfo(getToken, userInfo.id, data);
-      //   handleLogin(value.username, value.password);
     },
   });
   const {
@@ -56,6 +63,20 @@ const ChangePassword = () => {
     setFieldValue,
     handleSubmit,
   } = formik;
+
+  const handleChangePassword = async () => {
+    try {
+      const data = {
+        oldPassword: '123ss',
+        newPassword: '123123',
+        newPasswordRepeat: '123123',
+      };
+      const res = await changePassword(data);
+      console.log('ress ', res);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <View style={styles.container}>
       <ScrollView>
@@ -143,7 +164,7 @@ const ChangePassword = () => {
             </TouchableOpacity>
             <TouchableOpacity
               disabled={isSubmitting}
-              onPress={() => handleSubmit()}
+              onPress={handleChangePassword}
               style={{
                 flex: 1,
                 alignItems: 'center',
@@ -177,3 +198,4 @@ export default ChangePassword;
 const styles = StyleSheet.create({
   container: {},
 });
+// Phiphi123

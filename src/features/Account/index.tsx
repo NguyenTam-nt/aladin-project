@@ -1,5 +1,6 @@
 import {TextCustom, Thumb} from '@components';
 import {defaultColors} from '@configs';
+import {useKeycloak} from '@react-keycloak/native';
 import {useNavigation} from '@react-navigation/native';
 import React, {ReactElement, useEffect, useState} from 'react';
 import {useTranslation} from 'react-i18next';
@@ -15,7 +16,10 @@ import {Header} from 'src/components/Header';
 import TextTranslate from 'src/components/TextTranslate';
 import {accountRoute} from 'src/constants/routers';
 import {useDropdown} from 'src/hooks/useDropdown';
-import {useHandleChangeLanguage} from 'src/redux/multilanguage/hooks';
+import {
+  useGetLanguage,
+  useHandleChangeLanguage,
+} from 'src/redux/multilanguage/hooks';
 import {
   initUserInfo,
   setRefreshToken,
@@ -39,6 +43,7 @@ const AccountScreen = () => {
   const userInfo = useUserInfo();
   const dispatch = useDispatch();
   const useChangeLanguage = useHandleChangeLanguage();
+  const getLanguage = useGetLanguage();
   const {toggleDropdown, visible, setVisible, dropdownTop, refDropdown} =
     useDropdown();
   const {i18n} = useTranslation();
@@ -59,6 +64,17 @@ const AccountScreen = () => {
     useChangeLanguage(value);
   };
 
+  const {keycloak} = useKeycloak();
+  const handleLoginWithKeyclock = async () => {
+    keycloak?.login();
+  };
+
+  const handleLoout = () => {
+    keycloak?.logout();
+    dispatch(setToken(''));
+    dispatch(setRefreshToken(''));
+    dispatch(setUserInfo(initUserInfo));
+  };
   const renderDropdown = (): ReactElement<any, any> => {
     return (
       <Modal visible={visible} transparent animationType="none">
@@ -108,11 +124,11 @@ const AccountScreen = () => {
           fontSize={18}
           weight="700"
           color={defaultColors.text_313131}>
-          {userInfo.fullName}
+          {userInfo.fullName ?? userInfo.email}
         </TextCustom>
         {userInfo.login ? (
           <ButtonTouchable
-            onPress={logout}
+            onPress={handleLoout}
             height={40}
             borderRadius={30}
             text="account.logout"
@@ -128,7 +144,7 @@ const AccountScreen = () => {
         ) : (
           <ButtonTouchable
             //@ts-ignore
-            onPress={() => navigation.navigate(accountRoute.login)}
+            onPress={handleLoginWithKeyclock}
             height={40}
             borderRadius={30}
             text="account.login"

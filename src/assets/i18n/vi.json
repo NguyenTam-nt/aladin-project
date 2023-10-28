@@ -201,9 +201,16 @@
       "password": {
         "requied": "Mật khẩu không bỏ trống."
       },
+      "newPassword": {
+        "requied": "Mật khẩu mói không bỏ trống."
+      },
       "repeat-password": {
         "requied": "Mật khẩu xác nhận không bỏ trống.",
         "matches": "Mật khẩu xác nhận không khớp."
+      },
+      "new-password-repeat": {
+        "requied": "Mật khẩu hiện tại không bỏ trống.",
+        "matches": "Mật khẩu hiện tại xác nhận không khớp."
       },
       "account-name": {
         "requied": "Tên tài khoản không bỏ trống."
@@ -217,7 +224,8 @@
         "desc-order-cart": "Đơn hàng của bạn đã được hệ thống xác nhận",
         "add-product-to-cart": "Thêm sản phẩm vào giỏ hàng thành công.",
         "update-account-info": "Cập nhật thông tin thành công. Vui lòng đăng nhập lại hệ thông!",
-        "post-account": "Tạo tài khoản thành công. Vui lòng đăng nhập hệ thống."
+        "post-account": "Tạo tài khoản thành công. Vui lòng đăng nhập hệ thống.",
+        "reset-password": "Vui lòng kiểm tra email, để lấy lại mật khẩu."
       },
       "warning": {
         "add-to-cart": "Vui lòng chọn thuộc tính sản phẩm!",
@@ -227,14 +235,16 @@
         "cart-choose-false": "Vui lòng chọn sản phẩm bạn muốn mua trong giỏ hàng!",
         "voucher-code-incorrect": "Mã giảm giá không đúng, vui lòng nhập lại!",
         "voucher-code-null": "Bạn chưa nhập mã giảm giá, vui lòng nhập mã!",
-        "required-login": "Vui lòng đăng nhập để đặt hàng!"
+        "required-login": "Vui lòng đăng nhập để đặt hàng!",
+        "reset-password": "Email không tồn tại trong hệ thống. Vui lòng thử lại!."
       },
       "error": {
         "order-cart": "Đặt hàng thất bại.",
         "wrong-user-or-pass": "Tên đăng nhặp hoặc mật khẩu không đúng!",
         "update-account-info": "Cập nhật thông tin thất bại. Vui lòng đăng thử lại!",
         "account-exists": "Tên đăng nhập đã tồn tại. Vui lòng thử tên đăng nhập khác!",
-        "email-exists": "Email đã tồn tại. Vui lòng thử địa chỉ email khác!"
+        "email-exists": "Email đã tồn tại. Vui lòng thử địa chỉ email khác!",
+        "reset-password": "Lỗi hệ thống. Vui lòng thử lại!."
       }
     },
     "support": {

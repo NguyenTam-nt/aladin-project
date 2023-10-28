@@ -1,19 +1,35 @@
+import {TextCustom} from '@components';
 import {defaultColors} from '@configs';
+import {DIMENSION} from '@constants';
 import {useFormik} from 'formik';
-import React from 'react';
+import React, {useState} from 'react';
 import {useTranslation} from 'react-i18next';
-import {Pressable, ScrollView, StyleSheet, View} from 'react-native';
+import {Pressable, StyleSheet, TouchableOpacity, View} from 'react-native';
+import {resetPassWord} from 'src/api/user';
 import {ICClose} from 'src/assets/icons/ICClose';
+import {ICError} from 'src/assets/icons/ICError';
 import {ICLogo} from 'src/assets/icons/ICLogo';
+import {ICSuccess} from 'src/assets/icons/ICSuccess';
+import {ICWarrning} from 'src/assets/icons/ICWarrning';
 import ButtonGradient from 'src/components/Buttons/ButtonGradient';
+import {ButtonTouchable} from 'src/components/Buttons/ButtonTouchable';
 import {Header} from 'src/components/Header';
+import ModalCustom from 'src/components/ModalCustom';
 import TextInputComponent from 'src/components/TextInputGroup/TextInputComponent';
 import TextTranslate from 'src/components/TextTranslate';
 import {useGoBack} from 'src/hooks/useGoBack';
+import {useModal} from 'src/hooks/useModal';
 import * as Yup from 'yup';
+
+export type MESSAGES_TYPE = 'SUCCESS' | 'ERROR' | 'WARNING' | '';
 const ForgotPassword = () => {
   const dismiss = useGoBack();
   const {t} = useTranslation();
+  const [messagesType, setMessageType] = useState<MESSAGES_TYPE>('');
+  const [success, setSuccess] = useState<string>('');
+  const [error, setError] = useState<string>('');
+  const [warning, setWarning] = useState<string>('');
+  const modalEditInventory = useModal();
   const formik = useFormik({
     initialValues: {
       email: '',
@@ -26,7 +42,8 @@ const ForgotPassword = () => {
         .max(256, 'messages.max'),
     }),
     onSubmit: async (value: any) => {
-      console.log('value', value);
+      // console.log('value', value);
+      handleResetPassword(value.email);
     },
   });
   const {
@@ -35,9 +52,51 @@ const ForgotPassword = () => {
     touched,
     isSubmitting,
     handleChange: handleChangeInput,
-    setFieldValue,
     handleSubmit,
   } = formik;
+
+  const handleResetPassword = async (email: string) => {
+    try {
+      const res = await resetPassWord(email);
+      if (res.code === 400) {
+        setMessageType('WARNING');
+        setWarning('messages.warning.reset-password');
+        openModal();
+      } else if (res.code === 500) {
+        setMessageType('ERROR');
+        setError('messages.error.reset-password');
+        openModal();
+      } else if (res.status === 200) {
+        setMessageType('SUCCESS');
+        setSuccess('messages.success.reset-password');
+        openModal();
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const openModal = () => {
+    modalEditInventory.handleShow();
+  };
+
+  const hiddenModal = () => {
+    modalEditInventory.handleHidden();
+    if (messagesType === 'SUCCESS') {
+      return dismiss();
+    }
+  };
+
+  const onClose = () => {
+    modalEditInventory.handleHidden();
+    if (messagesType === 'SUCCESS') {
+      return dismiss();
+    }
+  };
+  const handleCloseWithBack = () => {
+    modalEditInventory.handleHidden();
+    dismiss();
+  };
   return (
     <View style={styles.container}>
       {/* <ScrollView> */}
@@ -73,6 +132,55 @@ const ForgotPassword = () => {
           isLoading={isSubmitting}
         />
       </View>
+      <ModalCustom
+        onBackdropPress={modalEditInventory.handleHidden}
+        ref={modalEditInventory.refModal}
+        onClose={onClose}>
+        <View style={styles.modalEdit}>
+          <TouchableOpacity
+            onPress={hiddenModal}
+            style={{position: 'absolute', top: 20, right: 20, zIndex: 9999}}>
+            <ICClose width={22} height={22} />
+          </TouchableOpacity>
+          <View
+            style={{
+              flex: 1,
+              alignItems: 'center',
+              justifyContent: 'center',
+              rowGap: 10,
+            }}>
+            {messagesType === 'SUCCESS' && <ICSuccess />}
+            {messagesType === 'ERROR' && <ICError />}
+            {messagesType === 'WARNING' && <ICWarrning />}
+            <TextCustom
+              textAlign="center"
+              fontSize={17}
+              weight="700"
+              color={defaultColors.text_313131}>
+              {t(
+                messagesType === 'SUCCESS'
+                  ? success
+                  : messagesType === 'ERROR'
+                  ? error
+                  : messagesType === 'WARNING'
+                  ? warning
+                  : '',
+              )}
+            </TextCustom>
+            {messagesType === 'SUCCESS' && (
+              <ButtonTouchable
+                onPress={handleCloseWithBack}
+                style={{
+                  backgroundColor: defaultColors._01A63E,
+                  height: 40,
+                  width: 80,
+                }}
+                text="common.agree"
+              />
+            )}
+          </View>
+        </View>
+      </ModalCustom>
       {/* </ScrollView> */}
     </View>
   );
@@ -82,4 +190,14 @@ export default ForgotPassword;
 
 const styles = StyleSheet.create({
   container: {flex: 1, justifyContent: 'center', alignItems: 'center'},
+  modalEdit: {
+    position: 'relative',
+    height: 200,
+    width: DIMENSION.width * 0.9,
+    backgroundColor: defaultColors.c_fff,
+    borderRadius: 10,
+    padding: 24,
+    marginHorizontal: 20,
+    // alignItems: 'center',
+  },
 });

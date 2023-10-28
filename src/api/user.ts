@@ -69,3 +69,42 @@ export const checkAccountExitsApi = async (
     return handleError(e);
   }
 };
+
+export const resetPassWord = async (
+  email: string,
+): Promise<IResponseApi<any>> => {
+  try {
+    const result = await request().get(
+      `${APIs.RESET_PASSWORD}/password/reset?email=${email}`,
+    );
+    const {data} = await result;
+    return {
+      data: data,
+      success: true,
+    };
+  } catch (e) {
+    return handleError(e);
+  }
+};
+
+export const changePassword = async (
+  datas: any,
+): Promise<IResponseApi<any>> => {
+  try {
+    const result = await request().post(
+      `${APIs.RESET_PASSWORD}/password/change`,
+      datas,
+    );
+    const {data} = await result;
+    console.log('datas ', data);
+
+    return {
+      data: data,
+      success: true,
+    };
+  } catch (e) {
+    console.log('eeeee', e?.response?.data);
+
+    return handleError(e);
+  }
+};

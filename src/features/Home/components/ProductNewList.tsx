@@ -43,21 +43,16 @@ const ProductNewList = () => {
 
   React.useEffect(() => {
     if (proviceItem.provices) {
-      if (products.length > 0) {
-        if (currentPage === 0) {
-          getProducts(proviceItem.provices.Name, 0);
-          return;
-        }
-        if (currentPage > 0) {
-          setCureentPage(0);
-          return;
-        }
+      getProducts(proviceItem.provices.Name, 0);
+      if (currentPage > 0) {
+        setCureentPage(0);
+        return;
       }
     }
   }, [proviceItem]);
 
   React.useEffect(() => {
-    if (proviceItem) {
+    if (currentPage > 0) {
       getProducts(proviceItem.provices.Name, currentPage, true);
       return;
     }

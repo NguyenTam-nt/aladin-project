@@ -26,16 +26,14 @@ import {useListItemProvice} from 'src/redux/provices/hooks';
 const HomeScren = () => {
   const scrollViewRef = useRef<ImperativeScrollViewHandles>(null);
   const proviceItem = useListItemProvice();
-  const isSlected = useIsFocused();
-  const navigation = useNavigation();
+  // const isSlected = useIsFocused();
+  // const navigation = useNavigation();
   const onTopScroll = () => {
     scrollViewRef?.current?.scrollTo({
       y: 0,
       animated: true,
     });
   };
-
-  console.log('isSlected', isSlected);
 
   useFocusEffect(
     React.useCallback(() => {

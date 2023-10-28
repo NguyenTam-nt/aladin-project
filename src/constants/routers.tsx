@@ -38,7 +38,7 @@ export const contactRoute = {
 };
 
 export const accountRoute = {
-  prifex: '/profile',
+  prifex: 'profile',
   login: '/login',
   register: '/register',
   manageAccountInfo: '/manage-account-info',

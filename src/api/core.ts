@@ -1,4 +1,3 @@
-import {baseUrl} from './config';
 import axios, {
   AxiosRequestConfig,
   AxiosResponse,

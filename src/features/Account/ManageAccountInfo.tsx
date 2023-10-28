@@ -327,31 +327,3 @@ const styles = StyleSheet.create({
     // alignItems: 'center',
   },
 });
-
-// const data = ullName: "Ánh Ngọc 1", email: "xinhbutkngu@gmail.com", phoneNumber: "098459459",…}
-// address
-// :
-// "102 Trường Chinh, Đống Đa"
-// email
-// :
-// "xinhbutkngu@gmail.com"
-// fullName
-// :
-// "Ánh Ngọc 1"
-// login
-// :
-// "anhvn"
-// phoneNumber
-// :
-// "098459459"
-// userId
-// :
-// 19461
-
-const data = {
-  address: '102 Trường Chinh, Đống Đa',
-  email: 'xinhbutkngu@gmail.com',
-  fullName: 'Anh Ngọc Number  Two',
-  login: 'anhvn',
-  phoneNumber: '0984594599',
-};

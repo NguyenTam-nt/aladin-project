@@ -9,7 +9,6 @@ import {
   View,
   StyleSheet,
   TouchableOpacity,
-  ScrollView,
   Pressable,
   StatusBar,
 } from 'react-native';
@@ -23,7 +22,6 @@ import {ICFacebook} from 'src/assets/icons/ICFacebook';
 import {ICGoogle} from 'src/assets/icons/ICGoogle';
 import {ICLogo} from 'src/assets/icons/ICLogo';
 import ButtonGradient from 'src/components/Buttons/ButtonGradient';
-import {Header} from 'src/components/Header';
 import TextInputComponent from 'src/components/TextInputGroup/TextInputComponent';
 import TextTranslate from 'src/components/TextTranslate';
 import {accountRoute} from 'src/constants/routers';
@@ -34,7 +32,13 @@ import {
   setUserInfo,
 } from 'src/redux/reducers/AuthSlice';
 import * as Yup from 'yup';
+import {authorize, refresh, AuthConfiguration} from 'react-native-app-auth';
+import {useKeycloak} from '@react-keycloak/native';
 
+export const AuthConfig = {
+  appId: 'web_app',
+  appScopes: ['openid', 'profile', 'email', 'offline_access '],
+};
 const LoginScreen = () => {
   const {t} = useTranslation();
   const dispatch = useDispatch();
@@ -103,6 +107,32 @@ const LoginScreen = () => {
       console.log(error);
     }
   };
+
+  const config: AuthConfiguration = {
+    // issuer:
+    //   'https://marketmoa.com.vn/auth/realms/plustmart/protocol/openid-connect/token',
+    // issuer:
+    //   'https://marketmoa.com.vn/auth/realms/plustmart/protocol/openid-connect/auth',
+    clientId: 'web_app',
+    redirectUrl:
+      'https://accounts.google.com/o/oauth2/v2/auth/oauthchooseaccount?scope=openid&20profile&email&state=tKMG8Zc8xzT7p6K4VqvsJ5_JDEEkGWWuSCm1rTTm-IA.L7O4CJE_HUw.web_app&response_type=code&client_id=191648618278-gkk9a55o643cjuulf1226snv8qpug58i.apps.googleusercontent.com&redirect_uri=https%3A%2F%2Fmarketmoa.com.vn%2Fauth%2Frealms%2Fplustmart%2Fbroker%2Fgoogle%2Fendpoint&nonce=NfipGx7Srndy_p8p1Cu3aA&service=lso&o2v=2&theme=glif&flowName=GeneralOAuthFlow',
+    scopes: ['openid', 'profile', 'email', 'offline_access '],
+    serviceConfiguration: {
+      authorizationEndpoint:
+        'https://marketmoa.com.vn/auth/realms/plustmart/protocol/openid-connect/auth',
+      tokenEndpoint:
+        'https://marketmoa.com.vn/auth/realms/plustmart/protocol/openid-connect/token',
+    },
+  };
+  const {keycloak} = useKeycloak();
+  const handleLoginWithKeyclock = async () => {
+    keycloak?.login();
+  };
+
+  const handleLoout = () => {
+    keycloak?.logout();
+  };
+
   return (
     <View style={styles.container}>
       <StatusBar />
@@ -189,7 +219,9 @@ const LoginScreen = () => {
                 justifyContent: 'space-between',
                 alignItems: 'center',
               }}>
-              <TouchableOpacity style={styles.styleLoginWith}>
+              <TouchableOpacity
+                onPress={handleLoginWithKeyclock}
+                style={styles.styleLoginWith}>
                 <ICGoogle />
                 <TextTranslate
                   textAlign="center"
@@ -199,7 +231,9 @@ const LoginScreen = () => {
                   text="account.form-login.google"
                 />
               </TouchableOpacity>
-              <TouchableOpacity style={styles.styleLoginWith}>
+              <TouchableOpacity
+                onPress={handleLoout}
+                style={styles.styleLoginWith}>
                 <ICFacebook />
                 <TextTranslate
                   textAlign="center"
@@ -284,10 +318,17 @@ const data = {
   token_type: 'Bearer',
 };
 
-const ress = {
-  cancel: false,
-  code: 401,
-  data: null,
-  message: 'Hệ thống đang có lỗi xảy ra, quý khách vui lòng thử lại',
-  status: 0,
+// const data = 'https://hanquochoc.edu.vn/auth/realms/hcm/protocol/openid-connect/auth?client_id=hcm&redirect_uri=https://lmsone.page.link/r2ctcKvdmnNwa96t5&state=e78aa513-200f-4656-8ce5-d44f274c347f&response_mode=fragment&response_type=code&scope=openid&nonce=c0d6be84-ecfc-4c6d-95bc-31c6dc8af92d&code_challenge=cYBr2huLHMsp9szcAoEwY9396CfJOk9B3nS2kBBjUEw&code_challenge_method=S256';
+
+const fff = {
+  realm: 'plustmart',
+  public_key:
+    'MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA+8nLzx0A+0sXIe9ZIMOoA+oTQwgsVTmDWd8JgvoqUprdISm4WopkicYtOgcYRnBpznIKW7tH2HupZZolrYmJj0OGUqrbIE/ITu1gOKguQmEU0SrRqJcjIX8ZyKCrSHA4hxZ073lxWDLWDPwGKje/QiInuy7hVfSLVM1iqhR/CaPSrP9YsETpw8DDsEdAVKmXiwnarwUgr3BqrmSoSHUAlHImVBp3q8+dCH+tBZYePToBKpLeeei+fcnYI9i1bKFbr06NrqCdc5jMvliSrZkSwxDr2A3rumAeFg3f99AVPZzxFfXAa9kleYv5FG6mx3s6XsU5gzyda07KQKOnh/sihQIDAQAB',
+  'token-service':
+    'https://marketmoa.com.vn/auth/realms/plustmart/protocol/openid-connect',
+  'account-service': 'https://marketmoa.com.vn/auth/realms/plustmart/account',
+  'tokens-not-before': 0,
 };
+
+const plustMark =
+  'https://marketmoa.com.vn/auth/realms/plustmart/protocol/openid-connect/auth?client_id=web_app&redirect_uri=https://marketmoa.com.vn/&state=475605fd-3c05-44ab-a416-65c38393f86a&response_mode=fragment&response_type=code&scope=openid&nonce=c07b7d5d-19da-4703-a08c-3aac66c9212d&code_challenge=e3_Njl9dJ4Zc3arPTMpa9tpVfUdV2jlpbmbIqo20ey8&code_challenge_method=S256';
