@@ -4,41 +4,42 @@
  *
  * @format
  */
-import React, {useCallback, useEffect, useState} from 'react';
-import {SafeAreaProvider} from 'react-native-safe-area-context';
-import {PersistGate} from 'redux-persist/integration/react';
-import {persistor} from './src/redux';
+import React, { useCallback, useEffect, useState } from 'react';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { PersistGate } from 'redux-persist/integration/react';
+import { persistor } from './src/redux';
 import Toast from 'react-native-toast-message';
 import ToastMessage from 'src/components/Toast';
-import {View, StyleSheet, Platform, NativeModules} from 'react-native';
+import { View, StyleSheet, Platform, NativeModules } from 'react-native';
 import './src/configs/i18n';
 import * as RNLocalize from 'react-native-localize';
 import MainStack from 'src/navigations/MainStack';
 import Orientation from 'react-native-orientation-locker';
-import {languageKey} from 'src/constants/defines';
-import {useTranslation} from 'react-i18next';
+import { languageKey } from 'src/constants/defines';
+import { useTranslation } from 'react-i18next';
 import {
   useGetLanguage,
   useHandleChangeLanguage,
 } from 'src/redux/multilanguage/hooks';
 
-import {ReactNativeKeycloakProvider} from '@react-keycloak/native';
+import { ReactNativeKeycloakProvider } from '@react-keycloak/native';
 import keycloak from 'src/keycloak';
-import {useDispatch} from 'react-redux';
-import {useGoBack} from 'src/hooks/useGoBack';
+import { useDispatch } from 'react-redux';
+import { useGoBack } from 'src/hooks/useGoBack';
 import {
   setRefreshToken,
   setToken,
   setUserInfo,
 } from 'src/redux/reducers/AuthSlice';
-import {getUserInfo} from 'src/api/user';
+import { getUserInfo } from 'src/api/user';
+import { AuthServices } from 'src/api/authService';
 
 function App() {
-  const {i18n} = useTranslation();
+  const { i18n } = useTranslation();
   const getLanguage = useGetLanguage();
   const dispatch = useDispatch();
   const toastConfig = {
-    tomatoToast: ({props}: any) => (
+    tomatoToast: ({ props }: any) => (
       <ToastMessage status={props.status} title={props.uuid} />
     ),
   };
@@ -48,7 +49,7 @@ function App() {
     const deviceLanguage: string =
       Platform.OS === 'ios'
         ? NativeModules.SettingsManager.settings.AppleLocale ||
-          NativeModules.SettingsManager.settings.AppleLanguages[0] // iOS 13
+        NativeModules.SettingsManager.settings.AppleLanguages[0] // iOS 13
         : locale || NativeModules.I18nManager.localeIdentifier;
 
     if (typeof deviceLanguage !== 'string') {
@@ -97,12 +98,13 @@ function App() {
     }
   }, [getLanguage]);
 
-  const onKeycloakTokens = useCallback(async (tokens: {token: any}) => {
+  const onKeycloakTokens = useCallback(async (tokens: { token: any }) => {
     if (!tokens.token) {
       // remove from storage
     } else {
       console.log('ReactNativeKeycloakProvider onKeycloakTokens:', tokens);
       await dispatch(setToken(tokens.token));
+      //@ts-ignore
       await dispatch(setRefreshToken(tokens?.refreshToken));
       const userInfo = await getUserInfo(tokens.token);
       console.log('userinfo', userInfo);
@@ -118,14 +120,7 @@ function App() {
     <PersistGate persistor={persistor}>
       <ReactNativeKeycloakProvider
         authClient={keycloak}
-        initOptions={{
-          redirectUri: 'MarketMoa://profile',
-          // if you need to customize "react-native-inappbrowser-reborn" View you can use the following attribute
-          inAppBrowserOptions: {
-            // For iOS check: https://github.com/proyecto26/react-native-inappbrowser#ios-options
-            // For Android check: https://github.com/proyecto26/react-native-inappbrowser#android-options
-          },
-        }}
+        initOptions={AuthServices.initKeycloak}
         onEvent={(event, error) => {
           console.log('Keycloak event :', event, error);
         }}
@@ -135,9 +130,10 @@ function App() {
 
           return !keycloak.authenticated;
         }}
+        autoRefreshToken={true}
         //@ts-ignore
         onTokens={tokens => onKeycloakTokens(tokens)}
-        // onTokens={onKeycloakTokens
+      // onTokens={onKeycloakTokens
       >
         <SafeAreaProvider>
           <MainStack />
@@ -145,7 +141,7 @@ function App() {
             config={toastConfig}
             position="top"
             visibilityTime={1500}
-            // bottomOffset={20}
+          // bottomOffset={20}
           />
         </SafeAreaProvider>
       </ReactNativeKeycloakProvider>

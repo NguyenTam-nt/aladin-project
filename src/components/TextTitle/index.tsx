@@ -1,16 +1,19 @@
-import {StyleSheet, View} from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import React from 'react';
-import {defaultColors} from '@configs';
-import {DIMENSION} from '@constants';
+import { defaultColors } from '@configs';
+import { DIMENSION } from '@constants';
 import RadialGradient from 'react-native-radial-gradient';
-import {Thumb} from '../Thumb/Thumb';
-import TextTranslate from '../TextTranslate';
+import { Thumb } from '../Thumb/Thumb';
+import { TextCustom } from '../Text';
+import { useTranslation } from 'react-i18next';
 
 type Props = {
   text: string;
+  options?: { [key: string]: any }
 };
 
-const TextTilte = ({text}: Props) => {
+const TextTilte = ({ text, options }: Props) => {
+  const { t } = useTranslation();
   return (
     <View style={styles.container}>
       <View style={styles.gradientButton}>
@@ -30,14 +33,15 @@ const TextTilte = ({text}: Props) => {
           center={[100, 100]}
           radius={250}
         />
-        <TextTranslate
+        <TextCustom
           fontSize={18}
           numberOfLines={2}
           textTransform="uppercase"
           weight="bold"
           color={defaultColors.c_fff}
-          text={text}
-        />
+        >
+          {t(text, { ...options })}
+        </TextCustom>
       </View>
       <View style={styles.icon}>
         <Thumb
@@ -53,7 +57,7 @@ const TextTilte = ({text}: Props) => {
 export default TextTilte;
 
 const styles = StyleSheet.create({
-  container: {height: 50, position: 'relative'},
+  container: { height: 50, position: 'relative' },
   imageBanner: {
     width: DIMENSION.width,
     height: 230,
@@ -90,5 +94,5 @@ const styles = StyleSheet.create({
       },
     ],
   },
-  style_icon: {width: 68, height: 68},
+  style_icon: { width: 68, height: 68 },
 });

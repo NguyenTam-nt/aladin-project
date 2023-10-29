@@ -1,4 +1,4 @@
-import {configureStore} from '@reduxjs/toolkit';
+import { configureStore } from '@reduxjs/toolkit';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {
   persistReducer,
@@ -11,7 +11,7 @@ import {
   REGISTER,
 } from 'redux-persist';
 
-import {reducer} from './reducers';
+import { reducer } from './reducers';
 
 const persistConfig = {
   key: 'root',
@@ -22,6 +22,7 @@ const persistConfig = {
     'multiLangage',
     'infoProvice',
     'cartOrderSlice',
+    'productsSlice',
   ],
   blacklist: [],
 };

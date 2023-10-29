@@ -1,17 +1,17 @@
-import {PropsWithChildren} from 'react';
-import {Header} from '.';
-import {Platform, StyleSheet, TouchableOpacity, View} from 'react-native';
+import { PropsWithChildren } from 'react';
+import { Header } from '.';
+import { Platform, StyleSheet, TouchableOpacity, View } from 'react-native';
 import TextTilte from '../TextTitle';
 import React from 'react';
-import {ICBack} from 'src/assets/icons/ICBack';
-import {useGoBack} from 'src/hooks/useGoBack';
-import {ICPrev} from 'src/assets/icons/ICPrev';
-import {ICCart} from 'src/assets/icons/ICCart';
-import {defaultColors} from '@configs';
-import {useNavigation} from '@react-navigation/native';
-import {productRoute} from 'src/constants/routers';
-import {TextCustom} from '../Text';
-import {useListItemCart} from 'src/redux/orderCart/hooks';
+import { ICBack } from 'src/assets/icons/ICBack';
+import { useGoBack } from 'src/hooks/useGoBack';
+import { ICPrev } from 'src/assets/icons/ICPrev';
+import { ICCart } from 'src/assets/icons/ICCart';
+import { defaultColors } from '@configs';
+import { useNavigation } from '@react-navigation/native';
+import { productRoute } from 'src/constants/routers';
+import { TextCustom } from '../Text';
+import { useListItemCart } from 'src/redux/orderCart/hooks';
 import TextTranslate from '../TextTranslate';
 
 interface HeaderProps {
@@ -19,9 +19,10 @@ interface HeaderProps {
   textTile?: string;
   isProductDetail?: boolean;
   iconCart?: boolean;
+  options?: { [key: string]: any }
 }
 const HeaderBack = (props: PropsWithChildren<HeaderProps>) => {
-  const {textTile, isProductDetail = false, iconCart = false} = props;
+  const { textTile, isProductDetail = false, iconCart = false, options } = props;
   const navigation = useNavigation();
   const dismiss = useGoBack();
   const handleListCart = useListItemCart();
@@ -33,8 +34,8 @@ const HeaderBack = (props: PropsWithChildren<HeaderProps>) => {
             <TouchableOpacity onPress={dismiss}>
               <ICBack />
             </TouchableOpacity>
-            <View style={{flex: 1}}>
-              <TextTilte text={textTile ?? ''} />
+            <View style={{ flex: 1 }}>
+              <TextTilte text={textTile ?? ''} options={options} />
             </View>
           </>
         )}

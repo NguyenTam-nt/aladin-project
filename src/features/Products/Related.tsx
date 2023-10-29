@@ -1,22 +1,23 @@
-import {defaultColors} from '@configs';
-import React, {useEffect, useState} from 'react';
-import {Pressable, StyleSheet, View} from 'react-native';
-import {IProduct, getProductsApi} from 'src/api/products';
-import {globalStyles} from 'src/commons/globalStyles';
+import { defaultColors } from '@configs';
+import React, { useEffect, useState } from 'react';
+import { Pressable, StyleSheet, View } from 'react-native';
+import { IProduct, getProductsApi } from 'src/api/products';
+import { globalStyles } from 'src/commons/globalStyles';
 import TextTranslate from 'src/components/TextTranslate';
 import ProductsList from 'src/components/product/ProductsList';
 import ProductItem from '../Home/components/ProductItem';
-import {getArrayToAsyncStorage} from 'src/constants/ayncStorage';
-import {storegeKey} from 'src/constants/defines';
-import {useListItemProvice} from 'src/redux/provices/hooks';
+import { getArrayToAsyncStorage } from 'src/constants/ayncStorage';
+import { storegeKey } from 'src/constants/defines';
+import { useListItemProvice } from 'src/redux/provices/hooks';
+import { useListWatchedProducts } from 'src/redux/products/hooks';
 
 type EXPLORE_KEY = 'product-same-category' | 'viewed-products';
-const ExploreTabKey: {slug: EXPLORE_KEY; name: string}[] = [
+const ExploreTabKey: { slug: EXPLORE_KEY; name: string }[] = [
   {
     slug: 'product-same-category',
     name: 'product.related.product-same-category',
   },
-  {slug: 'viewed-products', name: 'product.related.viewed-products'},
+  { slug: 'viewed-products', name: 'product.related.viewed-products' },
 ];
 interface IProps {
   categoryId: any;
@@ -24,8 +25,9 @@ interface IProps {
   productId: any;
 }
 const Related = (props: IProps) => {
-  const {categoryId, subCategoryId, productId} = props;
+  const { categoryId, subCategoryId, productId } = props;
   const ListItemprovice = useListItemProvice();
+  const listWatchedProducts = useListWatchedProducts();
   const [actionKey, setActionKey] = useState<EXPLORE_KEY>(
     ExploreTabKey[0].slug,
   );
@@ -49,15 +51,19 @@ const Related = (props: IProps) => {
         const newProducts = data.filter(it => it.id !== productID);
         setProduct(newProducts);
       }
-    } catch (error) {}
+    } catch (error) { }
   };
 
-  const getStorage = async () => {
-    const products = await getArrayToAsyncStorage(storegeKey.PRODUCTS);
-    if (product) {
-      setViewdProduct(products);
-    }
-  };
+  // const getStorage = async () => {
+  //   const products = await getArrayToAsyncStorage(storegeKey.PRODUCTS);
+  //   if (product) {
+  //     setViewdProduct(products);
+  //   }
+  // };
+
+  const getWatchedProducts = () => {
+    setViewdProduct(listWatchedProducts.watchedProducts)
+  }
 
   useEffect(() => {
     if (ListItemprovice) {
@@ -65,7 +71,8 @@ const Related = (props: IProps) => {
     }
   }, [ListItemprovice, productId]);
   useEffect(() => {
-    getStorage();
+    getWatchedProducts();
+    // getStorage();
   }, []);
   return (
     <View style={styles().container}>
@@ -76,7 +83,7 @@ const Related = (props: IProps) => {
               key={it.slug}
               onPress={() => setActionKey(it.slug)}
               style={styles(actionKey === it.slug).exploreItemStyle}>
-              <View style={{paddingLeft: idx === 1 ? 10 : 0}}>
+              <View style={{ paddingLeft: idx === 1 ? 10 : 0 }}>
                 <TextTranslate
                   fontSize={14}
                   weight="700"
@@ -112,7 +119,7 @@ const Related = (props: IProps) => {
                     categoryId={it.categoryId}
                     subCategoryId={it.subCategoryId}
                     price={it.price}
-                    // product={it}
+                  // product={it}
                   />
                 );
               })}

@@ -43,6 +43,7 @@
       "viewed-product": "SẢN PHẨM ĐÃ XEM",
       "note-when-using": "Lưu ý khi sử dụng:",
       "quanlity": "Số lượng:",
+      "total-products-by-category": "{{name}} ({{length}} sản phẩm)",
       "policy": {
         "title": "Yên tâm mua hàng tại Market Moa",
         "hight-quanlity": "100% Hàng Việt Nam Chất Lượng Cao",

@@ -19,6 +19,7 @@ import {storegeKey} from 'src/constants/defines';
 import useI18n from 'src/hooks/useI18n';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {IProduct} from 'src/api/products';
+import { handleAddItemWatchedProducts } from 'src/redux/products/hooks';
 
 interface IProps {
   id?: any;
@@ -36,6 +37,7 @@ interface IProps {
 }
 const ProductItem = (props: IProps) => {
   const {isVn} = useI18n();
+  const handleAddItemWatchedProduct = handleAddItemWatchedProducts();
   const {
     promo,
     name,
@@ -59,25 +61,24 @@ const ProductItem = (props: IProps) => {
       categoryId: categoryId,
       subCategoryId: subCategoryId,
       price: price,
-      createAt: new Date(),
     };
+    handleAddItemWatchedProduct(newData);
+    // try {
+    //   const datas = await getArrayToAsyncStorage(storegeKey.PRODUCTS);
 
-    try {
-      const datas = await getArrayToAsyncStorage(storegeKey.PRODUCTS);
+    //   if (datas === null || datas === undefined) {
+    //     const viewedProducts = [];
+    //     viewedProducts.push(newData);
+    //     setArrayToAsyncStorage(storegeKey.PRODUCTS, viewedProducts);
+    //   } else if (datas) {
+    //     const viewedProducts = datas.filter((it: any) => it.id !== id);
 
-      if (datas === null || datas === undefined) {
-        const viewedProducts = [];
-        viewedProducts.push(newData);
-        setArrayToAsyncStorage(storegeKey.PRODUCTS, viewedProducts);
-      } else if (datas) {
-        const viewedProducts = datas.filter((it: any) => it.id !== id);
-
-        viewedProducts.unshift(newData);
-        setArrayToAsyncStorage(storegeKey.PRODUCTS, viewedProducts);
-      }
-    } catch (error) {
-      console.log(error);
-    }
+    //     viewedProducts.unshift(newData);
+    //     setArrayToAsyncStorage(storegeKey.PRODUCTS, viewedProducts);
+    //   }
+    // } catch (error) {
+    //   console.log(error);
+    // }
   };
   const sum = product?.productDetails.reduce((accumulator, object) => {
     return accumulator + object.stockQuantity;
