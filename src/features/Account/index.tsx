@@ -17,6 +17,7 @@ import {Header} from 'src/components/Header';
 import TextTranslate from 'src/components/TextTranslate';
 import {accountRoute} from 'src/constants/routers';
 import {useDropdown} from 'src/hooks/useDropdown';
+import {useGoBack} from 'src/hooks/useGoBack';
 import {
   useGetLanguage,
   useHandleChangeLanguage,
@@ -44,8 +45,8 @@ const AccountScreen = () => {
   const userInfo = useUserInfo();
   const dispatch = useDispatch();
   const useChangeLanguage = useHandleChangeLanguage();
-  const {dologout} = AuthServices();
-  const getLanguage = useGetLanguage();
+  const {dologout, authenticated} = AuthServices();
+  const dismiss = useGoBack();
   const {toggleDropdown, visible, setVisible, dropdownTop, refDropdown} =
     useDropdown();
   const {i18n} = useTranslation();
@@ -75,6 +76,7 @@ const AccountScreen = () => {
     //@ts-ignore
     navigation.navigate(accountRoute.login);
   };
+
   const renderDropdown = (): ReactElement<any, any> => {
     return (
       <Modal visible={visible} transparent animationType="none">

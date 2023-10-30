@@ -109,12 +109,12 @@
       "screen-change-pass": {
         "title": "Đổi mật khẩu",
         "form": {
-          "old-pass": "Mật khẩu cũ",
-          "planhoder-old-pass": "Nhập mật khẩu cũ",
+          "old-pass": "Mật khẩu hiện tại",
+          "planhoder-old-pass": "Nhập mật khẩu hiện tại",
           "new-pass": "Mật khẩu mới",
           "planhoder-new-pass": "Nhập mật khẩu mới",
-          "current-pass": "Mật khẩu hiện tại",
-          "planhoder-current-pass": "Nhập mật khẩu hiện tại"
+          "current-pass": "Xác nhận mật khẩu mới",
+          "planhoder-current-pass": "Xác nhận lại mật khẩu"
         }
       },
       "form-register": {
@@ -226,7 +226,8 @@
         "add-product-to-cart": "Thêm sản phẩm vào giỏ hàng thành công.",
         "update-account-info": "Cập nhật thông tin thành công. Vui lòng đăng nhập lại hệ thông!",
         "post-account": "Tạo tài khoản thành công. Vui lòng đăng nhập hệ thống.",
-        "reset-password": "Vui lòng kiểm tra email, để lấy lại mật khẩu."
+        "reset-password": "Vui lòng kiểm tra email, để lấy lại mật khẩu.",
+        "change-pass": "Thay đổi mật khẩu thành công."
       },
       "warning": {
         "add-to-cart": "Vui lòng chọn thuộc tính sản phẩm!",
@@ -237,7 +238,8 @@
         "voucher-code-incorrect": "Mã giảm giá không đúng, vui lòng nhập lại!",
         "voucher-code-null": "Bạn chưa nhập mã giảm giá, vui lòng nhập mã!",
         "required-login": "Vui lòng đăng nhập để đặt hàng!",
-        "reset-password": "Email không tồn tại trong hệ thống. Vui lòng thử lại!."
+        "reset-password": "Email không tồn tại trong hệ thống. Vui lòng thử lại!.",
+        "change-pass": "Mật khẩu cũ và mới không được trùng nhau!"
       },
       "error": {
         "order-cart": "Đặt hàng thất bại.",
@@ -245,7 +247,8 @@
         "update-account-info": "Cập nhật thông tin thất bại. Vui lòng đăng thử lại!",
         "account-exists": "Tên đăng nhập đã tồn tại. Vui lòng thử tên đăng nhập khác!",
         "email-exists": "Email đã tồn tại. Vui lòng thử địa chỉ email khác!",
-        "reset-password": "Lỗi hệ thống. Vui lòng thử lại!."
+        "reset-password": "Lỗi hệ thống. Vui lòng thử lại!",
+        "account-login-gg-or-fb": "Tài khoản đăng nhập bằng Facebook hoặc Google không được đổi mật khẩu!"
       }
     },
     "support": {

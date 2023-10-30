@@ -79,10 +79,12 @@ const styles = StyleSheet.create({
     height: '100%',
     borderRadius: 50,
     overflow: 'hidden',
-    alignItems: 'center',
+    // alignItems: 'center',
     justifyContent: 'center',
     borderWidth: 1,
     borderColor: defaultColors.c_fff,
+    paddingLeft: 100,
+
   },
   icon: {
     position: 'absolute',

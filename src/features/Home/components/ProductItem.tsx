@@ -7,19 +7,15 @@ import {defaultColors} from '@configs';
 import {globalStyles} from 'src/commons/globalStyles';
 import {formatNumberDotWithVND} from 'src/commons/formatMoney';
 import TextTranslate from 'src/components/TextTranslate';
-import {ICCart} from 'src/assets/icons/ICCart';
 import {NavLink} from 'src/constants/links';
 import {productRoute} from 'src/constants/routers';
 import {ButtonNavigate} from 'src/components/Buttons/ButtonNavigate';
-import {
-  getArrayToAsyncStorage,
-  setArrayToAsyncStorage,
-} from 'src/constants/ayncStorage';
-import {storegeKey} from 'src/constants/defines';
 import useI18n from 'src/hooks/useI18n';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import {IProduct} from 'src/api/products';
-import { handleAddItemWatchedProducts } from 'src/redux/products/hooks';
+import {useHandleAddItemWatchedProducts} from 'src/redux/products/hooks';
+import {useDispatch} from 'react-redux';
+import {removeCartList} from 'src/redux/orderCart/slice';
+import {removeProductList} from 'src/redux/products/slice';
 
 interface IProps {
   id?: any;
@@ -37,7 +33,7 @@ interface IProps {
 }
 const ProductItem = (props: IProps) => {
   const {isVn} = useI18n();
-  const handleAddItemWatchedProduct = handleAddItemWatchedProducts();
+  const handleAddItemWatchedProduct = useHandleAddItemWatchedProducts();
   const {
     promo,
     name,
@@ -50,7 +46,7 @@ const ProductItem = (props: IProps) => {
     price,
     product,
   } = props;
-  const handleAddStorage = async () => {
+  const handleAddStorage = () => {
     const newData = {
       id: id,
       promo: promo,
@@ -62,7 +58,9 @@ const ProductItem = (props: IProps) => {
       subCategoryId: subCategoryId,
       price: price,
     };
+    //@ts-ignore
     handleAddItemWatchedProduct(newData);
+
     // try {
     //   const datas = await getArrayToAsyncStorage(storegeKey.PRODUCTS);
 
@@ -86,53 +84,69 @@ const ProductItem = (props: IProps) => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.containerChild}>
-        {promo !== 0 && (
-          <View style={styles.ticker}>
-            <View style={[StyleSheet.absoluteFillObject]}>
-              <ICTickerDiscount />
+      <NavLink
+        disabled={sum == 0 ? true : false}
+        to={{
+          screen: productRoute.detail,
+          initial: false,
+          params: {
+            idProduct: id,
+            categoryId: categoryId,
+            subCategoryId: subCategoryId,
+          },
+        }}
+        handleOnPress={handleAddStorage}>
+        <View style={styles.containerChild}>
+          {promo !== 0 && (
+            <View style={styles.ticker}>
+              <View style={[StyleSheet.absoluteFillObject]}>
+                <ICTickerDiscount />
+              </View>
+              <TextCustom
+                color={defaultColors.c_fff}
+                weight="bold"
+                fontSize={14}>
+                -{promo}%
+              </TextCustom>
             </View>
-            <TextCustom color={defaultColors.c_fff} weight="bold" fontSize={14}>
-              -{promo}%
-            </TextCustom>
-          </View>
-        )}
-        {sum == 0 && (
-          <View style={styles.styleOutOfStock}>
-            <TextTranslate
-              fontSize={16}
-              weight="700"
-              color={defaultColors.c_fff}
-              text="common.out-of-stock"
+          )}
+          {sum == 0 && (
+            <View style={styles.styleOutOfStock}>
+              <TextTranslate
+                fontSize={16}
+                weight="700"
+                color={defaultColors.c_fff}
+                text="common.out-of-stock"
+              />
+            </View>
+          )}
+
+          <View style={styles.styleGroupImage}>
+            <Thumb
+              style={styles.styleImage}
+              //@ts-ignore
+              source={{uri: images?.length > 0 && images?.[0].url}}
+              resizeMode="cover"
             />
           </View>
-        )}
-
-        <View style={styles.styleGroupImage}>
-          <Thumb
-            style={styles.styleImage}
-            //@ts-ignore
-            source={{uri: images?.length > 0 && images?.[0].url}}
-            resizeMode="cover"
-          />
-        </View>
-        <View style={styles.styleGrouptext}>
-          <View
-            style={{
-              borderTopWidth: 1,
-              borderColor: defaultColors.br_E9E9E9,
-              paddingTop: 9,
-            }}>
-            <NavLink
-              to={{
-                screen: productRoute.detail,
-                initial: false,
-                params: {
-                  idProduct: id,
-                  categoryId: categoryId,
-                  subCategoryId: subCategoryId,
-                },
+          <View style={styles.styleGrouptext}>
+            <View
+              style={{
+                borderTopWidth: 1,
+                borderColor: defaultColors.br_E9E9E9,
+                paddingTop: 9,
               }}>
+              {/* <NavLink
+                to={{
+                  screen: productRoute.detail,
+                  initial: false,
+                  params: {
+                    idProduct: id,
+                    categoryId: categoryId,
+                    subCategoryId: subCategoryId,
+                  },
+                }}
+                handleOnPress={handleAddStorage}> */}
               <TextCustom
                 fontSize={12}
                 weight="400"
@@ -141,73 +155,75 @@ const ProductItem = (props: IProps) => {
                 color={defaultColors.text_313131}>
                 {isVn ? name : nameKr}
               </TextCustom>
-            </NavLink>
-            <View
-              style={[
-                globalStyles.row,
-                globalStyles.justifyContentBetween,
-                {alignItems: 'baseline', marginTop: 2},
-              ]}>
-              <TextCustom
-                fontSize={18}
-                weight="800"
-                color={defaultColors.primary}>
-                {formatNumberDotWithVND(price)}
-              </TextCustom>
-              <View style={[globalStyles.row]}>
-                <TextTranslate
-                  color={defaultColors.text_626262}
-                  fontSize={10}
-                  weight="400"
-                  text="home.sold"
-                />
+              {/* </NavLink> */}
+              <View
+                style={[
+                  globalStyles.row,
+                  globalStyles.justifyContentBetween,
+                  {alignItems: 'baseline', marginTop: 2},
+                ]}>
                 <TextCustom
-                  fontSize={10}
-                  weight="400"
-                  color={defaultColors.text_626262}>
-                  {' '}
-                  {totalSoldQuantity == 0 || totalSoldQuantity == null
-                    ? 0
-                    : totalSoldQuantity}
+                  fontSize={18}
+                  weight="800"
+                  color={defaultColors.primary}>
+                  {formatNumberDotWithVND(price)}
                 </TextCustom>
+                <View style={[globalStyles.row]}>
+                  <TextTranslate
+                    color={defaultColors.text_626262}
+                    fontSize={10}
+                    weight="400"
+                    text="home.sold"
+                  />
+                  <TextCustom
+                    fontSize={10}
+                    weight="400"
+                    color={defaultColors.text_626262}>
+                    {' '}
+                    {totalSoldQuantity == 0 || totalSoldQuantity == null
+                      ? 0
+                      : totalSoldQuantity}
+                  </TextCustom>
+                </View>
               </View>
-            </View>
-            <View
-              style={[
-                globalStyles.row,
-                globalStyles.justifyContentBetween,
-                {marginTop: 9},
-              ]}>
-              {sum === 0 ? (
+              <View
+                style={[
+                  globalStyles.row,
+                  globalStyles.justifyContentBetween,
+                  {marginTop: 9},
+                ]}>
                 <ButtonNavigate text="common.buy_now" />
-              ) : (
-                <NavLink
-                  to={{
-                    screen: productRoute.detail,
-                    initial: false,
-                    params: {
-                      idProduct: id,
-                      categoryId: categoryId,
-                      subCategoryId: subCategoryId,
-                    },
-                  }}
-                  handleOnPress={() => handleAddStorage()}
-                  // onPress={() => console.log('product item')}
-                >
+                {/* {sum === 0 ? (
                   <ButtonNavigate text="common.buy_now" />
-                </NavLink>
-              )}
-              {/* <TouchableOpacity style={styles.styleCart}>
+                ) : (
+                  <NavLink
+                    to={{
+                      screen: productRoute.detail,
+                      initial: false,
+                      params: {
+                        idProduct: id,
+                        categoryId: categoryId,
+                        subCategoryId: subCategoryId,
+                      },
+                    }}
+                    handleOnPress={handleAddStorage}
+                    // onPress={() => console.log('product item')}
+                  >
+                    <ButtonNavigate text="common.buy_now" />
+                  </NavLink>
+                )} */}
+                {/* <TouchableOpacity style={styles.styleCart}>
                 <ICCart
                   width={18}
                   height={18}
                   color={defaultColors.bg_00C3AB}
                 />
               </TouchableOpacity> */}
+              </View>
             </View>
           </View>
         </View>
-      </View>
+      </NavLink>
     </View>
   );
 };

@@ -1,24 +1,24 @@
-import { TextCustom } from '@components';
-import { defaultColors } from '@configs';
-import { useRoute } from '@react-navigation/native';
-import React, { useEffect, useState } from 'react';
-import { ScrollView, StyleSheet, View } from 'react-native';
-import { ISubCategoryList, getCategororyByIDApi } from 'src/api/category';
-import { IProduct, getProductsApi } from 'src/api/products';
-import FilterBy, { FILTER_BY } from 'src/components/FilterBy';
+import {TextCustom} from '@components';
+import {defaultColors} from '@configs';
+import {useRoute} from '@react-navigation/native';
+import React, {useEffect, useState} from 'react';
+import {ScrollView, StyleSheet, View} from 'react-native';
+import {ISubCategoryList, getCategororyByIDApi} from 'src/api/category';
+import {IProduct, getProductsApi} from 'src/api/products';
+import FilterBy, {FILTER_BY} from 'src/components/FilterBy';
 import HeaderBack from 'src/components/Header/HeaderBack';
 import SpaceBottom from 'src/components/SpaceBottom';
 import TextTilte from 'src/components/TextTitle';
 import TextTranslate from 'src/components/TextTranslate';
 import ProductsList from 'src/components/product/ProductsList';
 import useI18n from 'src/hooks/useI18n';
-import { useListWatchedProducts } from 'src/redux/products/hooks';
-import { useListItemProvice } from 'src/redux/provices/hooks';
+import {useListWatchedProducts} from 'src/redux/products/hooks';
+import {useListItemProvice} from 'src/redux/provices/hooks';
 import ProductItem from '../Home/components/ProductItem';
 
 const CategoriesScreen = () => {
   const router = useRoute();
-  const { isVn } = useI18n();
+  const {isVn} = useI18n();
   const proviceItem = useListItemProvice();
   const listWatchedProducts = useListWatchedProducts();
   //@ts-ignore
@@ -51,13 +51,13 @@ const CategoriesScreen = () => {
         sort: keyfilterByItem,
         categoryId: idCategory,
         subCategoryId: idSubCategory,
-        address: proviceItem.provices.Name
+        address: proviceItem.provices.Name,
       };
       const res = await getProductsApi(params);
       if (res) {
         setProductsSortBy(res.data);
       }
-    } catch (error) { }
+    } catch (error) {}
   };
   useEffect(() => {
     if (idCategory && idSubCategory) {
@@ -72,12 +72,9 @@ const CategoriesScreen = () => {
   return (
     <View style={styles.container}>
       <HeaderBack
-        textTile='product.total-products-by-category'
-        options={{ name: isVn ? subCategory?.subCategoryNameVn : subCategory?.subCategoryNameKr, length: productsSortBy.length }}
-
-      // textTile={
-      //   isVn ? subCategory?.subCategoryNameVn : subCategory?.subCategoryNameKr
-      // }
+        textTile={
+          isVn ? subCategory?.subCategoryNameVn : subCategory?.subCategoryNameKr
+        }
       />
       <ScrollView>
         <View style={{}}>
@@ -106,7 +103,7 @@ const CategoriesScreen = () => {
                   categoryId={it.categoryId}
                   subCategoryId={it.subCategoryId}
                   price={it.price}
-                // product={it}
+                  // product={it}
                 />
               );
             })}
@@ -151,7 +148,7 @@ const CategoriesScreen = () => {
 
 export default CategoriesScreen;
 const styles = StyleSheet.create({
-  container: { flex: 1 },
+  container: {flex: 1},
   filterStyle: {
     paddingHorizontal: 15,
     // marginTop: 13,

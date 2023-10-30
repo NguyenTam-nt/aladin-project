@@ -8,6 +8,7 @@ import {
   addVoucherApply,
   IVoucherApply,
   addProductOrder,
+  addArrayItemTocart,
 } from './slice';
 import {useCallback} from 'react';
 import {RootState} from '..';
@@ -17,6 +18,13 @@ export const useHandleAddItemToCart = () => {
   const dispatch = useDispatch();
   return useCallback((data: IITemCart) => {
     dispatch(addItemToCart(data));
+  }, []);
+};
+
+export const useHandleAddArrayItemToCart = () => {
+  const dispatch = useDispatch();
+  return useCallback((data: IITemCart[]) => {
+    dispatch(addArrayItemTocart(data));
   }, []);
 };
 

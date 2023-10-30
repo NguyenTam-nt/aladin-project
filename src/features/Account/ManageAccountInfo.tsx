@@ -12,6 +12,7 @@ import {
   ScrollView,
   TouchableOpacity,
 } from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import RadialGradient from 'react-native-radial-gradient';
 import {useDispatch} from 'react-redux';
 import {updateUserInfo} from 'src/api/user';
@@ -149,7 +150,7 @@ const ManageAccountInfo = () => {
 
   return (
     <View>
-      <ScrollView>
+      <KeyboardAwareScrollView>
         <Header children={undefined} />
         <Pressable
           onPress={dismiss}
@@ -280,7 +281,7 @@ const ManageAccountInfo = () => {
           </View>
         </View>
         <SpaceBottom />
-      </ScrollView>
+      </KeyboardAwareScrollView>
       <ModalCustom
         onBackdropPress={modalEditInventory.handleHidden}
         ref={modalEditInventory.refModal}

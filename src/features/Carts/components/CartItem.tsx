@@ -9,8 +9,6 @@ import {ICRemove} from 'src/assets/icons/ICRemove';
 import {IITemCart, setChooseItem} from 'src/redux/orderCart/slice';
 import useI18n from 'src/hooks/useI18n';
 import {ICNOCheckbox} from 'src/assets/icons/ICNOCheckox';
-import {useHandleSetChoose} from 'src/redux/orderCart/hooks';
-import {useDispatch} from 'react-redux';
 
 interface IProps {
   product: IITemCart;
@@ -75,8 +73,8 @@ const CartItem = (props: IProps) => {
             {product.addressWarehouse}
             {', '}
             {isVn
-              ? product?.attributes[0].valueVn
-              : product?.attributes[0].valueKr}
+              ? product?.attributes?.[0].valueVn
+              : product?.attributes?.[0].valueKr}
           </TextCustom>
           <TextCustom fontSize={14} color={defaultColors.primary} weight="700">
             {formatNumberDotWithVND(

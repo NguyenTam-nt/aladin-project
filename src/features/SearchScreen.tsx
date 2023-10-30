@@ -106,7 +106,15 @@ const SearchScreen = (props: IProps) => {
       <StatusBar />
       <Pressable
         onPress={dismiss}
-        style={{position: 'absolute', right: 20, zIndex: 10}}>
+        style={{
+          position: 'absolute',
+          right: -15,
+          zIndex: 10,
+          width: 30,
+          height: 30,
+          justifyContent: 'center',
+          alignItems: 'flex-start',
+        }}>
         <ICClose width={20} height={20} />
       </Pressable>
       <View style={styles.containerInput}>
@@ -210,7 +218,7 @@ const styles = StyleSheet.create({
     borderColor: defaultColors.c_fff,
     borderWidth: 1,
     backgroundColor: defaultColors.c_fff,
-    marginTop: 30,
+    marginTop: 40,
     // marginHorizontal: 10,
   },
   inputText: {

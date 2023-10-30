@@ -32,11 +32,11 @@ const FeaturedItem = (props: IProps) => {
         </TextCustom>
         <ICCircleArrowRight />
       </View>
-      <View>
+      <View style={{height: 35}}>
         <TextCustom
           fontSize={14}
           weight="700"
-          numberOfLines={1}
+          numberOfLines={2}
           color={defaultColors.text_313131}>
           {name}
         </TextCustom>

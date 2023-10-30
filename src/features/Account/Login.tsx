@@ -32,9 +32,14 @@ import {
   setUserInfo,
 } from 'src/redux/reducers/AuthSlice';
 import * as Yup from 'yup';
-import {useKeycloak} from '@react-keycloak/native';
 import {AuthServices} from 'src/api/authService';
-import {useUserInfo} from 'src/redux/reducers/hook';
+import {useToken, useUserInfo} from 'src/redux/reducers/hook';
+import {
+  useHandleAddArrayItemToCart,
+  useHandleAddItemToCart,
+  useListItemCart,
+} from 'src/redux/orderCart/hooks';
+import {ICartItem, getCartItemAPI, updateCartItem} from 'src/api/cartItem';
 
 const LoginScreen = () => {
   const {t} = useTranslation();
@@ -43,6 +48,9 @@ const LoginScreen = () => {
   const navigation = useNavigation();
   const {doLoginGoogle, doLoginFacebook, dologout} = AuthServices();
   const userInfo = useUserInfo();
+  const token = useToken();
+  const handleAddArrayItemToCart = useHandleAddArrayItemToCart();
+  const listItemCart = useListItemCart();
   const formik = useFormik({
     initialValues: {
       username: '',
@@ -115,13 +123,27 @@ const LoginScreen = () => {
     doLoginFacebook();
   };
 
+  const handleGetCartItemApi = async (token: string) => {
+    try {
+      const res = await getCartItemAPI(token);
+      if (res) {
+        handleAddArrayItemToCart(res.data);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useFocusEffect(
     React.useCallback(() => {
       if (userInfo.login) {
-        return dismiss();
+        handleGetCartItemApi(token);
+        dismiss();
+        return;
       }
-    }, [userInfo]),
+    }, [userInfo, token]),
   );
+
   return (
     <View style={styles.container}>
       <StatusBar />
@@ -190,9 +212,9 @@ const LoginScreen = () => {
               //@ts-ignore
               onPress={() => navigation.navigate(accountRoute.forgotPass)}>
               <TextTranslate
-                color={defaultColors.text_264659}
+                color={defaultColors.text_018193}
                 fontSize={12}
-                weight="400"
+                weight="700"
                 text="account.form-login.pass-retrieval"
               />
             </TouchableOpacity>
@@ -302,3 +324,112 @@ const styles = StyleSheet.create({
     height: 288,
   },
 });
+
+const data = [
+  {
+    actualPriceDetail: 299200,
+    addressWarehouse: 'Thành phố Hà Nội',
+    attributes: [Array],
+    choose: true,
+    imageDetailUrl:
+      'https://marketmoa.com.vn/getimage/16977676722022ff4847a-d024-4c79-b02c-99996ac71c76.webp',
+    priceDetail: 340000,
+    productDetailId: 22302,
+    productDetailNameKr: '요리 레이어의 편리한 비 스틱 냄비',
+    productDetailNameVn: 'Nồi chống dính dày lớp nấu ăn tiện lợi',
+    productId: 22294,
+    promoDetail: 12,
+    quantitySelected: 5,
+    soldQuantity: 0,
+    stockQuantity: 12,
+  },
+  {
+    actualPriceDetail: 24300,
+    addressWarehouse: 'Thành phố Hà Nội',
+    attributes: [Array],
+    choose: false,
+    imageDetailUrl:
+      'https://marketmoa.com.vn/getimage/1697705833691288368bf-f17c-4c8a-ac54-a08e885c3dee.webp',
+    priceDetail: 27000,
+    productDetailId: 22144,
+    productDetailNameKr: '한국의 구운 쌀수 비락식혜 238ml- 진정한 수입품',
+    productDetailNameVn:
+      'Nước Gạo Rang PALDO HÀN QUỐC 비락식혜 238ML - HÀNG NHẬP KHẨU CHÍNH HÃNG',
+    productId: 21863,
+    promoDetail: 10,
+    quantitySelected: 8,
+    soldQuantity: 0,
+    stockQuantity: 100,
+  },
+  {
+    actualPriceDetail: 299200,
+    addressWarehouse: 'Thành phố Hà Nội',
+    attributes: [Array],
+    choose: true,
+    imageDetailUrl:
+      'https://marketmoa.com.vn/getimage/1697767672035caa3f98d-8508-45b4-a668-e3b1317291c6.webp',
+    priceDetail: 340000,
+    productDetailId: 22300,
+    productDetailNameKr: '요리 레이어의 편리한 비 스틱 냄비',
+    productDetailNameVn: 'Nồi chống dính dày lớp nấu ăn tiện lợi',
+    productId: 22294,
+    promoDetail: 12,
+    quantitySelected: 4,
+    soldQuantity: 0,
+    stockQuantity: 12,
+  },
+  {
+    actualPriceDetail: 185000,
+    addressWarehouse: 'Thành phố Hà Nội',
+    attributes: [Array],
+    choose: true,
+    imageDetailUrl:
+      'https://marketmoa.com.vn/getimage/16977682239109b2184ba-ef9f-4d43-a8b3-7f035868120c.webp',
+    priceDetail: 185000,
+    productDetailId: 22311,
+    productDetailNameKr:
+      '고품질 석조 석재 증기 스팀 스테인레스 스틸 프라이드 식품 가공을 가진 멀티 28cm 다중 기능 전기 핫팟',
+    productDetailNameVn:
+      'Nồi Lẩu Điện Đa Năng Melli 28cm Chống Dính Vân Đá Cao Cấp Kèm Giá Hấp Inox Chiên Xào Chế Biến Đồ Ăn',
+    productId: 22307,
+    promoDetail: 0,
+    quantitySelected: 2,
+    soldQuantity: 0,
+    stockQuantity: 100,
+  },
+  {
+    actualPriceDetail: 129000,
+    addressWarehouse: 'Thành phố Hà Nội',
+    attributes: [Array],
+    choose: true,
+    imageDetailUrl:
+      'https://marketmoa.com.vn/getimage/1697766644123fd81e2eb-c19d-4add-8fa7-8df5ed8747f9.webp',
+    priceDetail: 129000,
+    productDetailId: 22276,
+    productDetailNameKr:
+      '304 스테인레스 스틸 비 스틱 팬 28cm 깊이, 긁힌 단열재 - 모든 유형의 주방에 사용 - 매우 저렴',
+    productDetailNameVn:
+      'Chảo Chống Dính Inox 304 Sâu Lòng 28cm, Chống Xước Quai Cầm Cách Nhiệt - Dùng Cho Mọi Loại Bếp - Siêu Rẻ',
+    productId: 22272,
+    promoDetail: 0,
+    quantitySelected: 2,
+    soldQuantity: 0,
+    stockQuantity: 100,
+  },
+  {
+    actualPriceDetail: 382500,
+    addressWarehouse: 'Tỉnh Lai Châu',
+    attributes: [Array],
+    choose: true,
+    imageDetailUrl: null,
+    priceDetail: 450000,
+    productDetailId: 21834,
+    productDetailNameKr: '사양라면 한국 인스턴트 국수',
+    productDetailNameVn: 'Mỳ ăn liền Samyang Ramen Hàn Quốc ',
+    productId: 21812,
+    promoDetail: 15,
+    quantitySelected: 2,
+    soldQuantity: 0,
+    stockQuantity: 2,
+  },
+];

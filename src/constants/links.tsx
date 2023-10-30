@@ -5,6 +5,7 @@ import {TouchableOpacity} from 'react-native';
 export type RouteProps = {
   screen: string;
   params?: {[k: string]: string | null | undefined};
+  disabled?: boolean;
 };
 
 export const NavLink = ({
@@ -13,6 +14,7 @@ export const NavLink = ({
   children,
   handleOnPress,
   type,
+  disabled = false,
   ...rest
 }: PropsWithChildren<any>) => {
   const {onPress, ...props} = useLinkProps({to, action});
@@ -27,11 +29,16 @@ export const NavLink = ({
         clearTimeout(timeout);
       };
     } else {
-      return onPress();
+      handleOnPress?.();
+      onPress();
     }
   };
   return (
-    <TouchableOpacity onPress={handleAction} {...props} {...rest}>
+    <TouchableOpacity
+      disabled={disabled}
+      onPress={handleAction}
+      {...props}
+      {...rest}>
       {children}
     </TouchableOpacity>
   );

@@ -53,27 +53,15 @@ export const cartOrderSlice = createSlice({
           item.productId === productId &&
           item.productDetailId === productDetailId,
       );
-      console.log('index', index);
-
       if (index < 0) {
         //@ts-ignore
         state.itemInCart.push(action.payload);
       }
-      //   if (index >= 0) {
-      //     dataCheck[index] = action.payload;
-      //     state.itemInCart = dataCheck;
-
-      //     // Toast.show({
-      //     //   type: 'tomatoToast',
-      //     //   props: {
-      //     //     status: 'warning',
-      //     //     uuid: 'messages.warning.add-to-cart',
-      //     //   },
-      //     // });
-      //   } else {
-      //     //@ts-ignore
-      //     state.itemInCart.push(action.payload);
-      //   }
+    },
+    addArrayItemTocart: (state, action: PayloadAction<IITemCart[]>) => {
+      //@ts-ignore
+      state.itemInCart = action.payload;
+      return;
     },
     removeCartList: state => {
       if (state.itemInCart.length > 0) {
@@ -125,12 +113,9 @@ export const cartOrderSlice = createSlice({
       }
     },
     addVoucherApply: (state, action: PayloadAction<IVoucherApply>) => {
-      console.log('action', action.payload);
       state.voucherApply = action.payload;
     },
     addProductOrder: (state, action: PayloadAction<IProductOrder[]>) => {
-      console.log('action pro', action.payload);
-
       state.itemCartOrder = action.payload;
     },
   },
@@ -145,5 +130,6 @@ export const {
   removeItemById,
   addVoucherApply,
   addProductOrder,
+  addArrayItemTocart,
 } = cartOrderSlice.actions;
 export default cartOrderSlice.reducer;

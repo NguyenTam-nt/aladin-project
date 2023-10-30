@@ -1,20 +1,18 @@
-import { useCallback } from "react";
-import { useDispatch } from "react-redux"
-import { IProducts, addItemToProducts } from "./slice";
-import { useSelector } from "react-redux";
-import { RootState } from "..";
+import {useDispatch, useSelector} from 'react-redux';
+import {IProducts, addItemToProducts} from './slice';
+import {useCallback} from 'react';
+import {RootState} from '..';
 
-
-export const handleAddItemWatchedProducts = () => {
-    const dispatch = useDispatch();
-    return useCallback((data: IProducts) => {
-        dispatch(addItemToProducts(data))
-    }, [])
-}
+export const useHandleAddItemWatchedProducts = () => {
+  const dispatch = useDispatch();
+  return useCallback((data: IProducts) => {
+    dispatch(addItemToProducts(data));
+  }, []);
+};
 
 export const useListWatchedProducts = () => {
-    const listWatchedProducts = useSelector(
-        (appState: RootState) => appState.productsSlice
-    )
-    return listWatchedProducts;
-}
+  const listWatchedProducts = useSelector(
+    (appState: RootState) => appState.productsSlice,
+  );
+  return listWatchedProducts;
+};

@@ -14,7 +14,8 @@ export const AuthServices = () => {
   };
   const doLogin = () => keycloak?.login();
 
-  const dologout = () => keycloak?.logout();
+  const dologout = (redirectUri?: string) =>
+    keycloak?.logout({redirectUri: redirectUri});
 
   const doLoginGoogle = () => {
     keycloak?.login({idpHint: 'google', prompt: 'login', locale: 'en'});

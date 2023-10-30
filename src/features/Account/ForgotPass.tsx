@@ -5,6 +5,7 @@ import {useFormik} from 'formik';
 import React, {useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import {Pressable, StyleSheet, TouchableOpacity, View} from 'react-native';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {resetPassWord} from 'src/api/user';
 import {ICClose} from 'src/assets/icons/ICClose';
 import {ICError} from 'src/assets/icons/ICError';
@@ -66,7 +67,7 @@ const ForgotPassword = () => {
         setMessageType('ERROR');
         setError('messages.error.reset-password');
         openModal();
-      } else if (res.status === 200) {
+      } else if (res.success === true) {
         setMessageType('SUCCESS');
         setSuccess('messages.success.reset-password');
         openModal();
@@ -100,46 +101,48 @@ const ForgotPassword = () => {
   return (
     <View style={styles.container}>
       {/* <ScrollView> */}
-      <Header children={undefined} />
-      <Pressable
-        onPress={dismiss}
-        style={{
-          position: 'absolute',
-          right: 20,
-          top: 50,
-          width: 30,
-          height: 30,
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}>
-        <ICClose width={20} height={20} />
-      </Pressable>
-      <View style={{alignItems: 'center', marginTop: 20, rowGap: 45}}>
-        <ICLogo />
-        <TextTranslate
-          fontSize={18}
-          weight="600"
-          color={defaultColors.text_264659}
-          text="account.form-login.pass-retrieval"
-        />
-      </View>
-      <View style={{paddingHorizontal: 30, marginTop: 45, rowGap: 24}}>
-        <TextInputComponent
-          textTitle="account.enter-mail-with-pass"
-          textPlanholder="account.planhoder-enter-mail-with-pass"
-          onChangeText={handleChangeInput('email')}
-          value={values.email}
-          // @ts-ignore
-          message={touched.email && errors.email ? errors.email : ''}
-          option={{max: 256}}
-          maxLength={256}
-        />
-        <ButtonGradient
-          onPress={handleSubmit}
-          text={t('account.form-login.pass-retrieval')}
-          isLoading={isSubmitting}
-        />
-      </View>
+      <KeyboardAwareScrollView>
+        <Header children={undefined} />
+        <Pressable
+          onPress={dismiss}
+          style={{
+            position: 'absolute',
+            right: 20,
+            top: 50,
+            width: 30,
+            height: 30,
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}>
+          <ICClose width={20} height={20} />
+        </Pressable>
+        <View style={{alignItems: 'center', marginTop: 20, rowGap: 45}}>
+          <ICLogo />
+          <TextTranslate
+            fontSize={18}
+            weight="600"
+            color={defaultColors.text_264659}
+            text="account.form-login.pass-retrieval"
+          />
+        </View>
+        <View style={{paddingHorizontal: 30, marginTop: 45, rowGap: 24}}>
+          <TextInputComponent
+            textTitle="account.enter-mail-with-pass"
+            textPlanholder="account.planhoder-enter-mail-with-pass"
+            onChangeText={handleChangeInput('email')}
+            value={values.email}
+            // @ts-ignore
+            message={touched.email && errors.email ? errors.email : ''}
+            option={{max: 256}}
+            maxLength={256}
+          />
+          <ButtonGradient
+            onPress={handleSubmit}
+            text={t('account.form-login.pass-retrieval')}
+            isLoading={isSubmitting}
+          />
+        </View>
+      </KeyboardAwareScrollView>
       <ModalCustom
         onBackdropPress={modalEditInventory.handleHidden}
         ref={modalEditInventory.refModal}

@@ -12,6 +12,7 @@
         <category android:name="android.intent.category.BROWSABLE"/>
         <!-- <data android:scheme="marketmoa"/> -->
         <data android:scheme="MarketMoa"/>
+        <!-- <data android:="MarketMoa"/> -->
       </intent-filter>
     </activity>
   </application>

@@ -37,7 +37,7 @@ const ProductsList = memo((props: IProps) => {
               images={it.images}
               categoryId={it.categoryId}
               subCategoryId={it.subCategoryId}
-              price={it.price}
+              price={it.actualPrice}
               product={it}
             />
           );

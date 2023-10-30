@@ -28,6 +28,7 @@ export const microServices = {
   banner: 'banner',
   user: 'user',
   order: 'order',
+  cartItem: 'cart-items',
 };
 
 export const getMicroService = (api: string, service = microServices.user) => {
@@ -91,4 +92,5 @@ export const APIs = {
   UPDATE_USER: getMicroServicePlustMark(microServices.user),
   ORDER: getMicroServicePlustMark(microServices.order),
   RESET_PASSWORD: getMicroServicePlustMark(microServices.user),
+  CART_ITEM: getMicroServicePlustMark(microServices.cartItem),
 };
