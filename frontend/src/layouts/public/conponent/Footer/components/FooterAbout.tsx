@@ -149,7 +149,7 @@ const FooterAboutGroupPolicy = () => {
           );
         })}
 
-        <li className="h-[32px] items-center">
+        {/* <li className="h-[32px] items-center">
           <p
             // target="blank"
             // href="tel:1900636465"
@@ -157,14 +157,14 @@ const FooterAboutGroupPolicy = () => {
           >
             CSKH: 1900636465
           </p>
-        </li>
+        </li> */}
         <li className="h-[32px] items-center">
           <p
             // target="blank"
             // href="tel:1900636465"
             className="h-[24px] flex items-center whitespace-nowrap text-text_white text-_14 hover:text-primary duration-300"
           >
-             Phản ánh chất lượng: 1900636465
+             Phản ánh chất lượng: 0928229999
           </p>
         </li>
         <li className="h-[32px] items-center">
