@@ -1,7 +1,7 @@
-import {TextCustom, Thumb} from '@components';
-import {BOTTOM_BAR_HEIGHT, defaultColors} from '@configs';
-import React, {useCallback, useEffect, useMemo, useState} from 'react';
-import {useTranslation} from 'react-i18next';
+import { TextCustom, Thumb } from '@components';
+import { BOTTOM_BAR_HEIGHT, defaultColors } from '@configs';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   ScrollView,
   StyleSheet,
@@ -9,8 +9,8 @@ import {
   View,
   TextInput,
 } from 'react-native';
-import {ICISCheckbox} from 'src/assets/icons/ICISCheckbox';
-import {ICRemove} from 'src/assets/icons/ICRemove';
+import { ICISCheckbox } from 'src/assets/icons/ICISCheckbox';
+import { ICRemove } from 'src/assets/icons/ICRemove';
 import HeaderBack from 'src/components/Header/HeaderBack';
 import {
   useHandleAddVoucherApply,
@@ -21,28 +21,30 @@ import {
   useListItemCart,
 } from 'src/redux/orderCart/hooks';
 import CartItem from './components/CartItem';
-import {ICNOCheckbox} from 'src/assets/icons/ICNOCheckox';
+import { ICNOCheckbox } from 'src/assets/icons/ICNOCheckox';
 import TextTranslate from 'src/components/TextTranslate';
 import ButtonGradient from 'src/components/Buttons/ButtonGradient';
-import {IVoucher, getVoucherApplyProductApi} from 'src/api/voucher';
-import {formatNumberDotWithO} from 'src/commons/formatMoney';
-import {ICBuyNow} from 'src/assets/icons/ICBuyNow';
-import {useDispatch} from 'react-redux';
+import { IVoucher, getVoucherApplyProductApi } from 'src/api/voucher';
+import { formatNumberDotWithO } from 'src/commons/formatMoney';
+import { ICBuyNow } from 'src/assets/icons/ICBuyNow';
+import { useDispatch } from 'react-redux';
 import {
   addVoucherApply,
   removeCartList,
   removeItemById,
 } from 'src/redux/orderCart/slice';
-import {globalStyles} from 'src/commons/globalStyles';
+import { globalStyles } from 'src/commons/globalStyles';
 import useI18n from 'src/hooks/useI18n';
 import Toast from 'react-native-toast-message';
-import {VoucherType} from 'src/typeRules/voucher';
-import {IProductOrder} from 'src/api/order';
-import {useNavigation} from '@react-navigation/native';
-import {productRoute} from 'src/constants/routers';
+import { VoucherType } from 'src/typeRules/voucher';
+import { IProductOrder } from 'src/api/order';
+import { useNavigation } from '@react-navigation/native';
+import { productRoute } from 'src/constants/routers';
+import { ICartItem, updateCartItem } from 'src/api/cartItem';
+import { useToken } from 'src/redux/reducers/hook';
 
 const CartsScreen = () => {
-  const {isVn} = useI18n();
+  const { isVn } = useI18n();
   const navifation = useNavigation();
   const listItemCart = useListItemCart();
   const handleSetChooseAll = useHandleSetChooseAll();
@@ -51,11 +53,12 @@ const CartsScreen = () => {
   const handleAddVoucher = useHandleAddVoucherApply();
   const handleAddProductOrder = useHandleProductOrder();
   const dispatch = useDispatch();
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   const [vouchers, setVouchers] = useState<IVoucher[]>([]);
   const [chooseVoucher, setChooseVoucher] = useState<IVoucher | null>();
   const [moneyByVoucher, setMeneyByVoucher] = useState<number>(0);
   const [voucherCode, setVoucherCode] = useState<string>('');
+  const token = useToken();
   const handleCheckAll = () => {
     const newListCarts = [...listItemCart.itemInCart];
     const chooseAll = newListCarts.map((it, idx) => {
@@ -234,6 +237,14 @@ const CartsScreen = () => {
     }
   };
 
+  const handleUpdateCartItem = async (token: string, data: ICartItem[]) => {
+    try {
+      const res = await updateCartItem(token, data);
+      console.log('updateupdate', res);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   const handleBuyNow = () => {
     if (listItemCart.itemInCart.length > 0) {
       handleProductOrder();
@@ -255,14 +266,19 @@ const CartsScreen = () => {
     if (listItemCart.itemCartOrder) {
       handleVoucherApply();
     }
-  }, [listItemCart.itemInCart]);
+  }, [listItemCart.itemCartOrder]);
 
-  console.log('listItemCartl', listItemCart.itemInCart);
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      handleUpdateCartItem(token, listItemCart.itemInCart)
+    }, (500));
+    return clearTimeout(timeout);
+  }, [listItemCart.itemInCart]);
 
   return (
     <View style={styles.container}>
       <HeaderBack isProductDetail={true} />
-      <View style={{paddingHorizontal: 16}}>
+      <View style={{ paddingHorizontal: 16 }}>
         {listItemCart.itemInCart.length > 0 && (
           <View style={styles.styleCheckAll}>
             <View style={styles.styleCheckBox}>
@@ -290,7 +306,7 @@ const CartsScreen = () => {
           </View>
         )}
       </View>
-      <ScrollView style={{paddingHorizontal: 16}}>
+      <ScrollView style={{ paddingHorizontal: 16 }}>
         <View style={styles.cartContainer}>
           {listItemCart.itemInCart.length > 0 ? (
             (listItemCart.itemInCart ?? []).map((it, idx) => {
@@ -341,7 +357,7 @@ const CartsScreen = () => {
                       value={voucherCode}
                       placeholder={t('cart.planhoder-voucher')}
                     />
-                    <View style={{width: '33%'}}>
+                    <View style={{ width: '33%' }}>
                       <ButtonGradient
                         onPress={handleApplyVoucher}
                         text={t('cart.button-apply')}
@@ -378,11 +394,11 @@ const CartsScreen = () => {
         )}
 
         {/* <SpaceBottom /> */}
-        <View style={{paddingBottom: 155}} />
+        <View style={{ paddingBottom: 155 }} />
       </ScrollView>
       {listItemCart.itemInCart.length > 0 && (
         <View style={styles.styleBuyNow}>
-          <View style={{paddingHorizontal: 12, paddingTop: 10}}>
+          <View style={{ paddingHorizontal: 12, paddingTop: 10 }}>
             <View style={styles.buyNowItem}>
               <View style={styles.styleShowContentBuyNow}>
                 <TextTranslate
@@ -432,7 +448,7 @@ const CartsScreen = () => {
                 onPress={handleBuyNow}
                 text={t('common.buy_now')}
                 renderLeff={<ICBuyNow />}
-                style={{columnGap: 4}}
+                style={{ columnGap: 4 }}
               />
             </View>
           </View>

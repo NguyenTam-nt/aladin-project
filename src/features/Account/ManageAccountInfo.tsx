@@ -224,6 +224,7 @@ const ManageAccountInfo = () => {
             textPlanholder="account.screen-manage-account.form.planhoder-account-name"
             onChangeText={handleChangeInput('login')}
             value={values.login}
+            editable={false}
             // @ts-ignore
             message={touched.login && errors.login ? errors.login : ''}
             option={{max: 40}}
