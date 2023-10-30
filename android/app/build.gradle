@@ -72,12 +72,13 @@ android {
     ndkVersion rootProject.ext.ndkVersion
 
     compileSdkVersion rootProject.ext.compileSdkVersion
-
+    buildToolsVersion '26.0.3'
     namespace "com.marketmoa"
     defaultConfig {
         applicationId "com.marketmoa"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
+        manifestPlaceholders = [appAuthRedirectScheme: 'com.redirectScheme.comm']
         versionCode 1
         versionName "1.0"
     }

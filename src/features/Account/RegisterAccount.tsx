@@ -273,7 +273,7 @@ const RegisterAccount = () => {
           <Thumb
             style={styles.styleImage}
             source={require('../../assets/image/form_login.png')}
-            resizeMode="cover"
+            resizeMode="stretch"
           />
         </View>
         {/* </ScrollView> */}

@@ -6,6 +6,7 @@ import React, {ReactElement, useEffect, useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import {Modal, StyleSheet, TouchableOpacity, View} from 'react-native';
 import {useDispatch} from 'react-redux';
+import {AuthServices} from 'src/api/authService';
 import {ICAccountInfo} from 'src/assets/icons/ICAccountInfo';
 import {ICDropdown} from 'src/assets/icons/ICDropdown';
 import {ICPassword} from 'src/assets/icons/ICPassword';
@@ -43,6 +44,7 @@ const AccountScreen = () => {
   const userInfo = useUserInfo();
   const dispatch = useDispatch();
   const useChangeLanguage = useHandleChangeLanguage();
+  const {dologout} = AuthServices();
   const getLanguage = useGetLanguage();
   const {toggleDropdown, visible, setVisible, dropdownTop, refDropdown} =
     useDropdown();
@@ -61,19 +63,17 @@ const AccountScreen = () => {
 
   const handleChangeLanguage = (value: LANGUAGE_KEY) => {
     i18n.changeLanguage(value);
+    //@ts-ignore
     useChangeLanguage(value);
   };
 
-  const {keycloak} = useKeycloak();
-  const handleLoginWithKeyclock = async () => {
-    keycloak?.login();
-  };
-
   const handleLoout = () => {
-    keycloak?.logout();
+    dologout();
     dispatch(setToken(''));
     dispatch(setRefreshToken(''));
     dispatch(setUserInfo(initUserInfo));
+    //@ts-ignore
+    navigation.navigate(accountRoute.login);
   };
   const renderDropdown = (): ReactElement<any, any> => {
     return (
@@ -107,14 +107,6 @@ const AccountScreen = () => {
     );
   };
 
-  const logout = () => {
-    dispatch(setToken(''));
-    dispatch(setRefreshToken(''));
-    dispatch(setUserInfo(initUserInfo));
-    //@ts-ignore
-    navigation.navigate(accountRoute.login);
-  };
-
   return (
     <View style={styles.container}>
       <Header children={undefined} />
@@ -144,7 +136,7 @@ const AccountScreen = () => {
         ) : (
           <ButtonTouchable
             //@ts-ignore
-            onPress={handleLoginWithKeyclock}
+            onPress={() => navigation.navigate(accountRoute.login)}
             height={40}
             borderRadius={30}
             text="account.login"

@@ -1,9 +1,9 @@
 import {TextCustom, Thumb} from '@components';
 import {defaultColors} from '@configs';
 import {DIMENSION} from '@constants';
-import {useNavigation} from '@react-navigation/native';
+import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import {useFormik} from 'formik';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import {
   View,
@@ -32,18 +32,17 @@ import {
   setUserInfo,
 } from 'src/redux/reducers/AuthSlice';
 import * as Yup from 'yup';
-import {authorize, refresh, AuthConfiguration} from 'react-native-app-auth';
 import {useKeycloak} from '@react-keycloak/native';
+import {AuthServices} from 'src/api/authService';
+import {useUserInfo} from 'src/redux/reducers/hook';
 
-export const AuthConfig = {
-  appId: 'web_app',
-  appScopes: ['openid', 'profile', 'email', 'offline_access '],
-};
 const LoginScreen = () => {
   const {t} = useTranslation();
   const dispatch = useDispatch();
   const dismiss = useGoBack();
   const navigation = useNavigation();
+  const {doLoginGoogle, doLoginFacebook, dologout} = AuthServices();
+  const userInfo = useUserInfo();
   const formik = useFormik({
     initialValues: {
       username: '',
@@ -108,38 +107,37 @@ const LoginScreen = () => {
     }
   };
 
-  const config: AuthConfiguration = {
-    // issuer:
-    //   'https://marketmoa.com.vn/auth/realms/plustmart/protocol/openid-connect/token',
-    // issuer:
-    //   'https://marketmoa.com.vn/auth/realms/plustmart/protocol/openid-connect/auth',
-    clientId: 'web_app',
-    redirectUrl:
-      'https://accounts.google.com/o/oauth2/v2/auth/oauthchooseaccount?scope=openid&20profile&email&state=tKMG8Zc8xzT7p6K4VqvsJ5_JDEEkGWWuSCm1rTTm-IA.L7O4CJE_HUw.web_app&response_type=code&client_id=191648618278-gkk9a55o643cjuulf1226snv8qpug58i.apps.googleusercontent.com&redirect_uri=https%3A%2F%2Fmarketmoa.com.vn%2Fauth%2Frealms%2Fplustmart%2Fbroker%2Fgoogle%2Fendpoint&nonce=NfipGx7Srndy_p8p1Cu3aA&service=lso&o2v=2&theme=glif&flowName=GeneralOAuthFlow',
-    scopes: ['openid', 'profile', 'email', 'offline_access '],
-    serviceConfiguration: {
-      authorizationEndpoint:
-        'https://marketmoa.com.vn/auth/realms/plustmart/protocol/openid-connect/auth',
-      tokenEndpoint:
-        'https://marketmoa.com.vn/auth/realms/plustmart/protocol/openid-connect/token',
-    },
-  };
-  const {keycloak} = useKeycloak();
-  const handleLoginWithKeyclock = async () => {
-    keycloak?.login();
+  const handleLoginGGWithKeyclock = () => {
+    doLoginGoogle();
   };
 
-  const handleLoout = () => {
-    keycloak?.logout();
+  const handleLoginFBWithKeyclock = () => {
+    doLoginFacebook();
   };
 
+  useFocusEffect(
+    React.useCallback(() => {
+      if (userInfo.login) {
+        return dismiss();
+      }
+    }, [userInfo]),
+  );
   return (
     <View style={styles.container}>
       <StatusBar />
       <KeyboardAwareScrollView>
         <Pressable
           onPress={dismiss}
-          style={{position: 'absolute', right: 20, top: 50, zIndex: 10}}>
+          style={{
+            position: 'absolute',
+            right: 20,
+            top: 50,
+            zIndex: 10,
+            width: 30,
+            height: 30,
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}>
           <ICClose width={20} height={20} />
         </Pressable>
         <View style={{alignItems: 'center', marginTop: 50}}>
@@ -220,7 +218,7 @@ const LoginScreen = () => {
                 alignItems: 'center',
               }}>
               <TouchableOpacity
-                onPress={handleLoginWithKeyclock}
+                onPress={handleLoginGGWithKeyclock}
                 style={styles.styleLoginWith}>
                 <ICGoogle />
                 <TextTranslate
@@ -232,7 +230,7 @@ const LoginScreen = () => {
                 />
               </TouchableOpacity>
               <TouchableOpacity
-                onPress={handleLoout}
+                onPress={handleLoginFBWithKeyclock}
                 style={styles.styleLoginWith}>
                 <ICFacebook />
                 <TextTranslate
@@ -275,7 +273,7 @@ const LoginScreen = () => {
           <Thumb
             style={styles.styleImage}
             source={require('../../assets/image/form_login.png')}
-            resizeMode="cover"
+            resizeMode="stretch"
           />
         </View>
       </KeyboardAwareScrollView>
@@ -304,31 +302,3 @@ const styles = StyleSheet.create({
     height: 288,
   },
 });
-
-const data = {
-  access_token:
-    'eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJJQnU2T2h0aHM3b2kxNlhGZ1gzUC1TaFNsc09ETlVLNkV2SEFKNWJxWkdBIn0.eyJleHAiOjE2OTgxNjgzMjAsImlhdCI6MTY5ODEzMjMyMCwianRpIjoiMTcyMjc0YjQtNzczMC00YTI3LTliOGItYTAyNDdiODM2ZTdiIiwiaXNzIjoiaHR0cHM6Ly9tYXJrZXRtb2EuY29tLnZuL2F1dGgvcmVhbG1zL3BsdXN0bWFydCIsImF1ZCI6ImFjY291bnQiLCJzdWIiOiI5OWYxMTRhYi1iNWRlLTQ4NzYtODNhMy1iZTM4MzQwYzhkNDIiLCJ0eXAiOiJCZWFyZXIiLCJhenAiOiJ3ZWJfYXBwIiwic2Vzc2lvbl9zdGF0ZSI6IjYwZDQzMDAxLTRjZTAtNGU5OS1hM2I2LTY2ZTFiMGYwM2IzZiIsImFjciI6IjEiLCJhbGxvd2VkLW9yaWdpbnMiOlsiKiJdLCJyZWFsbV9hY2Nlc3MiOnsicm9sZXMiOlsib2ZmbGluZV9hY2Nlc3MiLCJ1bWFfYXV0aG9yaXphdGlvbiJdfSwicmVzb3VyY2VfYWNjZXNzIjp7IndlYl9hcHAiOnsicm9sZXMiOlsidXNlcnMiXX0sImFjY291bnQiOnsicm9sZXMiOlsibWFuYWdlLWFjY291bnQiLCJtYW5hZ2UtYWNjb3VudC1saW5rcyIsInZpZXctcHJvZmlsZSJdfX0sInNjb3BlIjoicHJvZmlsZSBlbWFpbCIsImVtYWlsX3ZlcmlmaWVkIjpmYWxzZSwicm9sZXMiOlsidXNlcnMiXSwicHJlZmVycmVkX3VzZXJuYW1lIjoiYW5odm4iLCJlbWFpbCI6InhpbmhidXRrbmd1QGdtYWlsLmNvbSJ9.UCF74LuNt5wE6QEFU6YldG4-36LY7raeLPqSMeG1Ty_8gcCCl_jXhhPHvBts7ghhYFEiEv5Prc0bst25KUTiXn7HiJm27yq9CIHpjxbprWcNkalKNF_5M_gveRDJIUQBMpZoZ5bRWEVQ8mhz3yZ7i-JX-47oJNULWecik7AmrGzhyErnCDdHTm5dWLrpc9iz_gL4sb0Hc7JLwD7kjizwHKanR42ylcRoNj18Hyf97cigxg8LPvmPh2qpEX1EzKIcdajp1tHQ7H5AvGfz7mvzFwL4GB-kExqHoOBSeBvWGJ6zMp7q8RZAH9ZJ7fLvXI3YM88TLwy7yblC8kUKBKzhig',
-  expires_in: 36000,
-  'not-before-policy': 1697767388,
-  refresh_expires_in: 36000,
-  refresh_token:
-    'eyJhbGciOiJIUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICIwMzVhZWMxMi05Nzk0LTQyZWUtOGJmNy0yNDgzNjc0MjAwMzcifQ.eyJleHAiOjE2OTgxNjgzMjAsImlhdCI6MTY5ODEzMjMyMCwianRpIjoiNTQ3N2E0NTEtYThjOC00YjYzLThiYTAtM2ZhMGU5MzE5Yjg2IiwiaXNzIjoiaHR0cHM6Ly9tYXJrZXRtb2EuY29tLnZuL2F1dGgvcmVhbG1zL3BsdXN0bWFydCIsImF1ZCI6Imh0dHBzOi8vbWFya2V0bW9hLmNvbS52bi9hdXRoL3JlYWxtcy9wbHVzdG1hcnQiLCJzdWIiOiI5OWYxMTRhYi1iNWRlLTQ4NzYtODNhMy1iZTM4MzQwYzhkNDIiLCJ0eXAiOiJSZWZyZXNoIiwiYXpwIjoid2ViX2FwcCIsInNlc3Npb25fc3RhdGUiOiI2MGQ0MzAwMS00Y2UwLTRlOTktYTNiNi02NmUxYjBmMDNiM2YiLCJzY29wZSI6InByb2ZpbGUgZW1haWwifQ.Hei7SI1Ooh9Yk9QDA2EEflILnRxRJm_qD6p1HpnmpDo',
-  scope: 'profile email',
-  session_state: '60d43001-4ce0-4e99-a3b6-66e1b0f03b3f',
-  token_type: 'Bearer',
-};
-
-// const data = 'https://hanquochoc.edu.vn/auth/realms/hcm/protocol/openid-connect/auth?client_id=hcm&redirect_uri=https://lmsone.page.link/r2ctcKvdmnNwa96t5&state=e78aa513-200f-4656-8ce5-d44f274c347f&response_mode=fragment&response_type=code&scope=openid&nonce=c0d6be84-ecfc-4c6d-95bc-31c6dc8af92d&code_challenge=cYBr2huLHMsp9szcAoEwY9396CfJOk9B3nS2kBBjUEw&code_challenge_method=S256';
-
-const fff = {
-  realm: 'plustmart',
-  public_key:
-    'MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA+8nLzx0A+0sXIe9ZIMOoA+oTQwgsVTmDWd8JgvoqUprdISm4WopkicYtOgcYRnBpznIKW7tH2HupZZolrYmJj0OGUqrbIE/ITu1gOKguQmEU0SrRqJcjIX8ZyKCrSHA4hxZ073lxWDLWDPwGKje/QiInuy7hVfSLVM1iqhR/CaPSrP9YsETpw8DDsEdAVKmXiwnarwUgr3BqrmSoSHUAlHImVBp3q8+dCH+tBZYePToBKpLeeei+fcnYI9i1bKFbr06NrqCdc5jMvliSrZkSwxDr2A3rumAeFg3f99AVPZzxFfXAa9kleYv5FG6mx3s6XsU5gzyda07KQKOnh/sihQIDAQAB',
-  'token-service':
-    'https://marketmoa.com.vn/auth/realms/plustmart/protocol/openid-connect',
-  'account-service': 'https://marketmoa.com.vn/auth/realms/plustmart/account',
-  'tokens-not-before': 0,
-};
-
-const plustMark =
-  'https://marketmoa.com.vn/auth/realms/plustmart/protocol/openid-connect/auth?client_id=web_app&redirect_uri=https://marketmoa.com.vn/&state=475605fd-3c05-44ab-a416-65c38393f86a&response_mode=fragment&response_type=code&scope=openid&nonce=c07b7d5d-19da-4703-a08c-3aac66c9212d&code_challenge=e3_Njl9dJ4Zc3arPTMpa9tpVfUdV2jlpbmbIqo20ey8&code_challenge_method=S256';

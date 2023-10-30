@@ -153,7 +153,15 @@ const ManageAccountInfo = () => {
         <Header children={undefined} />
         <Pressable
           onPress={dismiss}
-          style={{position: 'absolute', right: 20, top: 50}}>
+          style={{
+            position: 'absolute',
+            right: 20,
+            top: 50,
+            width: 30,
+            height: 30,
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}>
           <ICClose width={20} height={20} />
         </Pressable>
         <View style={{alignItems: 'center', marginTop: 20, rowGap: 45}}>

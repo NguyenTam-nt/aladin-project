@@ -300,7 +300,7 @@ const styles = StyleSheet.create({
   },
   styleImage: {
     width: '100%',
-    height: 280,
+    height: 325,
   },
   styleOrder: {
     position: 'absolute',
