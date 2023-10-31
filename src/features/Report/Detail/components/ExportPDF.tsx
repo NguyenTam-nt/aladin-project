@@ -1,9 +1,6 @@
-import { IReportDist } from 'src/api/report';
+import {IReportDist} from 'src/api/report';
 
 export const ExportPDF = (titles: string[], dataReport: IReportDist[]) => {
-
-    console.log('dataReport dataReport' , dataReport);
-
   return `
     <html>
       <head>
@@ -117,7 +114,7 @@ export const ExportPDF = (titles: string[], dataReport: IReportDist[]) => {
             <td style="margin-left: 40px">${line.quantitySuccess}</td>
             <td style="margin-left: 40px">${line.quantityCancel}</td>
           </tr>
-          ${line.list
+          ${(line?.list ?? [])
             .map(item => {
               const indexValueCheck = item.list ? '#FFDB9E' : '#FFFFFF';
               return `
@@ -127,7 +124,7 @@ export const ExportPDF = (titles: string[], dataReport: IReportDist[]) => {
                 <td style="margin-left: 40px">${item.quantitySuccess}</td>
                 <td style="margin-left: 40px">${item.quantityCancel}</td>
               </tr>
-              ${item.list
+              ${(item?.list ?? [])
                 ?.map(item3 => {
                   return `
                     <tr>
@@ -152,4 +149,3 @@ export const ExportPDF = (titles: string[], dataReport: IReportDist[]) => {
     </html>
   `;
 };
-
