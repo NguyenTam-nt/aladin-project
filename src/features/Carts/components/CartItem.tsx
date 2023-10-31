@@ -9,6 +9,8 @@ import {ICRemove} from 'src/assets/icons/ICRemove';
 import {IITemCart, setChooseItem} from 'src/redux/orderCart/slice';
 import useI18n from 'src/hooks/useI18n';
 import {ICNOCheckbox} from 'src/assets/icons/ICNOCheckox';
+import {NavLink} from 'src/constants/links';
+import {productRoute} from 'src/constants/routers';
 
 interface IProps {
   product: IITemCart;
@@ -58,29 +60,41 @@ const CartItem = (props: IProps) => {
       </View>
       <View style={styles.cartContentItem}>
         <View style={styles.styleProductDetail}>
-          <TextCustom
-            fontSize={14}
-            numberOfLines={2}
-            color={defaultColors.text_313131}
-            weight="400">
-            {isVn ? product.productDetailNameVn : product.productDetailNameKr}
-          </TextCustom>
-          <TextCustom
-            numberOfLines={1}
-            fontSize={14}
-            color={defaultColors.bg_939393}
-            weight="400">
-            {product.addressWarehouse}
-            {', '}
-            {isVn
-              ? product?.attributes?.[0].valueVn
-              : product?.attributes?.[0].valueKr}
-          </TextCustom>
-          <TextCustom fontSize={14} color={defaultColors.primary} weight="700">
-            {formatNumberDotWithVND(
-              product.actualPriceDetail * product.quantitySelected,
-            )}
-          </TextCustom>
+          <NavLink
+            to={{
+              screen: productRoute.detail,
+              initial: false,
+              params: {
+                idProduct: product.productId,
+              },
+            }}>
+            <TextCustom
+              fontSize={14}
+              numberOfLines={2}
+              color={defaultColors.text_313131}
+              weight="400">
+              {isVn ? product.productDetailNameVn : product.productDetailNameKr}
+            </TextCustom>
+            <TextCustom
+              numberOfLines={1}
+              fontSize={14}
+              color={defaultColors.bg_939393}
+              weight="400">
+              {product.addressWarehouse}
+              {', '}
+              {isVn
+                ? product?.attributes?.[0].valueVn
+                : product?.attributes?.[0].valueKr}
+            </TextCustom>
+            <TextCustom
+              fontSize={14}
+              color={defaultColors.primary}
+              weight="700">
+              {formatNumberDotWithVND(
+                product.actualPriceDetail * product.quantitySelected,
+              )}
+            </TextCustom>
+          </NavLink>
         </View>
         <View style={styles.styleGroupButtonAction}>
           <AmountCartItem

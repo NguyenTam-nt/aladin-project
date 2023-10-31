@@ -1,11 +1,11 @@
-import { TextCustom, Thumb } from '@components';
+import {TextCustom, Thumb} from '@components';
 import {
   useFocusEffect,
   useNavigation,
   useRoute,
 } from '@react-navigation/native';
-import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
-import { ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native';
+import React, {useEffect, useLayoutEffect, useRef, useState} from 'react';
+import {ScrollView, StyleSheet, TouchableOpacity, View} from 'react-native';
 import {
   IAttributeFes,
   IProduct,
@@ -17,18 +17,18 @@ import ProductDetailItem from './ProductDetailItem';
 import SpaceBottom from 'src/components/SpaceBottom';
 import useI18n from 'src/hooks/useI18n';
 import Related from './Related';
-import { useListItemProvice } from 'src/redux/provices/hooks';
-import { BOTTOM_BAR_HEIGHT, defaultColors } from '@configs';
-import { ButtonTouchable } from 'src/components/Buttons/ButtonTouchable';
+import {useListItemProvice} from 'src/redux/provices/hooks';
+import {BOTTOM_BAR_HEIGHT, defaultColors} from '@configs';
+import {ButtonTouchable} from 'src/components/Buttons/ButtonTouchable';
 import ButtonGradient from 'src/components/Buttons/ButtonGradient';
-import { useTranslation } from 'react-i18next';
-import { ICCart } from 'src/assets/icons/ICCart';
-import { ICBuyNow } from 'src/assets/icons/ICBuyNow';
+import {useTranslation} from 'react-i18next';
+import {ICCart} from 'src/assets/icons/ICCart';
+import {ICBuyNow} from 'src/assets/icons/ICBuyNow';
 import TextTranslate from 'src/components/TextTranslate';
-import { formatNumberDotWithO } from 'src/commons/formatMoney';
+import {formatNumberDotWithO} from 'src/commons/formatMoney';
 import Toast from 'react-native-toast-message';
 import ImageFlatList from './ImageFlastList';
-import { productRoute } from 'src/constants/routers';
+import {productRoute} from 'src/constants/routers';
 import {
   useHandleAddItemToCart,
   useListItemCart,
@@ -37,13 +37,13 @@ import ImperativeScrollView, {
   ImperativeScrollViewHandles,
 } from 'src/hooks/useImperativeScrollView';
 import Description from './Description';
-import { ICartItem, updateCartItem } from 'src/api/cartItem';
-import { useToken } from 'src/redux/reducers/hook';
+import {ICartItem, updateCartItem} from 'src/api/cartItem';
+import {useToken} from 'src/redux/reducers/hook';
 
 const ProductDetail = () => {
-  const { isVn } = useI18n();
+  const {isVn} = useI18n();
   const routers = useRoute();
-  const { t } = useTranslation();
+  const {t} = useTranslation();
   const navigation = useNavigation();
   const handleAddItemToCart = useHandleAddItemToCart();
   const handleListItemCart = useListItemCart();
@@ -104,6 +104,15 @@ const ProductDetail = () => {
     });
   };
 
+  const handleWaringOutOfStock = () => {
+    Toast.show({
+      type: 'tomatoToast',
+      props: {
+        status: 'warning',
+        uuid: 'messages.warning.out-of-stock',
+      },
+    });
+  };
   const handleAddToCart = (type: 'ADD_TO-CART' | 'BUY_NOW') => {
     const datacheck = handleListItemCart.itemInCart;
     const index = datacheck.findIndex(
@@ -156,7 +165,9 @@ const ProductDetail = () => {
             uuid: 'messages.success.add-product-to-cart',
           },
         });
-        handleUpdateCartItem(token, listItemCart.itemInCart);
+        if (token) {
+          handleUpdateCartItem(token, listItemCart.itemInCart);
+        }
         return;
       } else if (type === 'BUY_NOW') {
         //@ts-ignore
@@ -166,7 +177,9 @@ const ProductDetail = () => {
   };
   const handleBuyNow = (type: 'ADD_TO-CART' | 'BUY_NOW') => {
     productDetailAtribute
-      ? quantityVailable > productDetailAtribute?.stockQuantity
+      ? productDetailAtribute?.stockQuantity == 0
+        ? handleWaringOutOfStock()
+        : quantityVailable > productDetailAtribute?.stockQuantity
         ? handleWarningStockQuantity()
         : handleAddToCart(type)
       : handleWarningAddToCart();
@@ -175,7 +188,6 @@ const ProductDetail = () => {
   const handleUpdateCartItem = async (token: string, data: ICartItem[]) => {
     try {
       const res = await updateCartItem(token, data);
-      console.log('updateupdate', res);
     } catch (error) {
       console.log(error);
     }
@@ -202,7 +214,7 @@ const ProductDetail = () => {
       <ImperativeScrollView ref={scrollViewRef}>
         <Thumb
           style={styles.styleImage}
-          source={{ uri: imageLinkProduct ?? product?.images?.[0].url }}
+          source={{uri: imageLinkProduct ?? product?.images?.[0].url}}
           resizeMode="stretch"
         />
         <ImageFlatList
@@ -235,7 +247,7 @@ const ProductDetail = () => {
           />
         )}
         <SpaceBottom />
-        <View style={{ height: 90 }} />
+        <View style={{height: 90}} />
       </ImperativeScrollView>
       <View style={styles.styleOrder}>
         <View style={styles.styleOrderItem}>
@@ -258,7 +270,7 @@ const ProductDetail = () => {
             </TextCustom>
           </View>
           <View style={styles.styleButtonOrder}>
-            <View style={{ flex: 1 }}>
+            <View style={{flex: 1}}>
               <ButtonTouchable
                 onPress={() => handleBuyNow('ADD_TO-CART')}
                 text="common.add-to-cart"
@@ -266,16 +278,16 @@ const ProductDetail = () => {
                 textColor={defaultColors.bg_E60E00}
                 height={38}
                 renderLeff={<ICCart color={defaultColors.bg_00C3AB} />}
-                style={{ columnGap: 4 }}
+                style={{columnGap: 4}}
                 fontSize={17}
               />
             </View>
-            <View style={{ flex: 1 }}>
+            <View style={{flex: 1}}>
               <ButtonGradient
                 onPress={() => handleBuyNow('BUY_NOW')}
                 text={t('common.buy_now')}
                 renderLeff={<ICBuyNow />}
-                style={{ columnGap: 4 }}
+                style={{columnGap: 4}}
               />
             </View>
           </View>
@@ -324,3 +336,17 @@ const styles = StyleSheet.create({
     columnGap: 7,
   },
 });
+
+const data = {
+  actualPriceDetail: 26730,
+  addressWarehouse: 'Thành phố Hà Nội',
+  attributes: [{attributeNameVn: 'Vị', valueVn: 'Vị Chanh'}],
+  attributesKr: [{attributeNameKr: '맛', valueKr: '레몬'}],
+  imageDetailUrl:
+    'https://marketmoa.com.vn/getimage/169770341777824380422-ac81-433f-a1ce-d9789e42cc3f.webp',
+  priceDetail: 27000,
+  productDetailId: 21688,
+  promoDetail: 1,
+  soldQuantity: 5,
+  stockQuantity: 0,
+};

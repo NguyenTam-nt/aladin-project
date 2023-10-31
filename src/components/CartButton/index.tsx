@@ -5,19 +5,49 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React from 'react';
+import React, {useEffect} from 'react';
 import {ICCart} from 'src/assets/icons/ICCart';
 import {TextCustom} from '../Text';
 import {defaultColors} from '@configs';
-import {useListItemCart} from 'src/redux/orderCart/hooks';
+import {
+  useHandleAddArrayItemToCart,
+  useListItemCart,
+} from 'src/redux/orderCart/hooks';
 import {useNavigation} from '@react-navigation/native';
 import {productRoute} from 'src/constants/routers';
 import {boolean} from 'yup';
+import {getCartItemAPI} from 'src/api/cartItem';
+import {useToken} from 'src/redux/reducers/hook';
 
 const CartButton = (props: {isProductSreecn?: false}) => {
   const {isProductSreecn} = props;
   const handleListCart = useListItemCart();
   const navigation = useNavigation();
+  const handleAddArrayItemToCart = useHandleAddArrayItemToCart();
+  const token = useToken();
+
+  const handleGetCartItemApi = async (tokens: string) => {
+    try {
+      const res = await getCartItemAPI(tokens);
+      if (res) {
+        handleAddArrayItemToCart(res.data);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    if (token) {
+      const timeout = setTimeout(() => {
+        handleGetCartItemApi(token);
+      }, 500);
+      return () => {
+        clearTimeout(timeout);
+      };
+    }
+  }, [token]);
+
   return (
     <TouchableOpacity
       // @ts-ignore

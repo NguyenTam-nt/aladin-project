@@ -1,10 +1,10 @@
-import { TextCustom, Thumb } from '@components';
-import { defaultColors } from '@configs';
-import { DIMENSION } from '@constants';
-import { useFocusEffect, useNavigation } from '@react-navigation/native';
-import { useFormik } from 'formik';
-import React, { useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
+import {TextCustom, Thumb} from '@components';
+import {defaultColors} from '@configs';
+import {DIMENSION} from '@constants';
+import {useFocusEffect, useNavigation} from '@react-navigation/native';
+import {useFormik} from 'formik';
+import React, {useEffect, useState} from 'react';
+import {useTranslation} from 'react-i18next';
 import {
   View,
   StyleSheet,
@@ -12,41 +12,41 @@ import {
   Pressable,
   StatusBar,
 } from 'react-native';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import Toast from 'react-native-toast-message';
-import { useDispatch } from 'react-redux';
-import { login } from 'src/api/login';
-import { getUserInfo } from 'src/api/user';
-import { ICClose } from 'src/assets/icons/ICClose';
-import { ICFacebook } from 'src/assets/icons/ICFacebook';
-import { ICGoogle } from 'src/assets/icons/ICGoogle';
-import { ICLogo } from 'src/assets/icons/ICLogo';
+import {useDispatch} from 'react-redux';
+import {login} from 'src/api/login';
+import {getUserInfo} from 'src/api/user';
+import {ICClose} from 'src/assets/icons/ICClose';
+import {ICFacebook} from 'src/assets/icons/ICFacebook';
+import {ICGoogle} from 'src/assets/icons/ICGoogle';
+import {ICLogo} from 'src/assets/icons/ICLogo';
 import ButtonGradient from 'src/components/Buttons/ButtonGradient';
 import TextInputComponent from 'src/components/TextInputGroup/TextInputComponent';
 import TextTranslate from 'src/components/TextTranslate';
-import { accountRoute } from 'src/constants/routers';
-import { useGoBack } from 'src/hooks/useGoBack';
+import {accountRoute} from 'src/constants/routers';
+import {useGoBack} from 'src/hooks/useGoBack';
 import {
   setRefreshToken,
   setToken,
   setUserInfo,
 } from 'src/redux/reducers/AuthSlice';
 import * as Yup from 'yup';
-import { AuthServices } from 'src/api/authService';
-import { useToken, useUserInfo } from 'src/redux/reducers/hook';
+import {AuthServices} from 'src/api/authService';
+import {useToken, useUserInfo} from 'src/redux/reducers/hook';
 import {
   useHandleAddArrayItemToCart,
   useHandleAddItemToCart,
   useListItemCart,
 } from 'src/redux/orderCart/hooks';
-import { ICartItem, getCartItemAPI, updateCartItem } from 'src/api/cartItem';
+import {ICartItem, getCartItemAPI, updateCartItem} from 'src/api/cartItem';
 
 const LoginScreen = () => {
-  const { t } = useTranslation();
+  const {t} = useTranslation();
   const dispatch = useDispatch();
   const dismiss = useGoBack();
   const navigation = useNavigation();
-  const { doLoginGoogle, doLoginFacebook, dologout } = AuthServices();
+  const {doLoginGoogle, doLoginFacebook, dologout} = AuthServices();
   const userInfo = useUserInfo();
   const token = useToken();
   const handleAddArrayItemToCart = useHandleAddArrayItemToCart();
@@ -122,42 +122,14 @@ const LoginScreen = () => {
   const handleLoginFBWithKeyclock = () => {
     doLoginFacebook();
   };
-  const handleUpdateCartItem = async (token: string, data: ICartItem[]) => {
-    try {
-      const res = await updateCartItem(token, data);
-      console.log('updateupdate', res);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const handleGetCartItemApi = async (token: string) => {
-    try {
-      const res = await getCartItemAPI(token);
-      if (res.data.length > 0) {
-        if (listItemCart.itemInCart.length > 0) {
-          const newData = [...res.data, ...listItemCart.itemInCart]
-          handleAddArrayItemToCart(newData);
-          handleUpdateCartItem(token, newData);
-          return;
-        } else {
-          handleUpdateCartItem(token, listItemCart.itemInCart);
-          return;
-        }
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
   useFocusEffect(
     React.useCallback(() => {
-      if (userInfo.login) {
-        handleGetCartItemApi(token);
+      if (token) {
         dismiss();
         return;
       }
-    }, [userInfo, token]),
+    }, [token]),
   );
 
   return (
@@ -178,9 +150,9 @@ const LoginScreen = () => {
           }}>
           <ICClose width={20} height={20} />
         </Pressable>
-        <View style={{ alignItems: 'center', marginTop: 50 }}>
+        <View style={{alignItems: 'center', marginTop: 50}}>
           <ICLogo />
-          <View style={{ marginTop: 27 }}>
+          <View style={{marginTop: 27}}>
             <TextTranslate
               fontSize={20}
               weight="700"
@@ -189,8 +161,8 @@ const LoginScreen = () => {
             />
           </View>
         </View>
-        <View style={{ paddingHorizontal: 45 }}>
-          <View style={{ rowGap: 20 }}>
+        <View style={{paddingHorizontal: 45}}>
+          <View style={{rowGap: 20}}>
             <TextInputComponent
               textTitle="account.form-login.account"
               textPlanholder="account.form-login.planhoder-account"
@@ -200,7 +172,7 @@ const LoginScreen = () => {
               message={
                 touched.username && errors.username ? errors.username : ''
               }
-              option={{ max: 40 }}
+              option={{max: 40}}
               maxLength={40}
             />
             <TextInputComponent
@@ -213,11 +185,11 @@ const LoginScreen = () => {
               message={
                 touched.password && errors.password ? errors.password : ''
               }
-              option={{ max: 40 }}
+              option={{max: 40}}
               maxLength={40}
             />
           </View>
-          <View style={{ flexDirection: 'row', columnGap: 5, marginTop: 20 }}>
+          <View style={{flexDirection: 'row', columnGap: 5, marginTop: 20}}>
             <TextTranslate
               color={defaultColors.text_264659}
               fontSize={12}
@@ -235,7 +207,7 @@ const LoginScreen = () => {
               />
             </TouchableOpacity>
           </View>
-          <View style={{ flexDirection: 'column', rowGap: 14, marginTop: 18 }}>
+          <View style={{flexDirection: 'column', rowGap: 14, marginTop: 18}}>
             <ButtonGradient
               isLoading={isSubmitting}
               onPress={handleSubmit}
@@ -307,7 +279,7 @@ const LoginScreen = () => {
             </TouchableOpacity>
           </View>
         </View>
-        <View style={{ marginTop: 30, marginBottom: 20 }}>
+        <View style={{marginTop: 30, marginBottom: 20}}>
           <Thumb
             style={styles.styleImage}
             source={require('../../assets/image/form_login.png')}

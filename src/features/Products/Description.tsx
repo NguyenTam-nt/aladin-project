@@ -1,6 +1,8 @@
 import {defaultColors} from '@configs';
 import React, {useState} from 'react';
-import {Pressable, StyleSheet, View} from 'react-native';
+import {Pressable, StyleSheet, View, useWindowDimensions} from 'react-native';
+import RenderHTML from 'react-native-render-html';
+import WebView from 'react-native-webview';
 import {ButtonTouchable} from 'src/components/Buttons/ButtonTouchable';
 import {Html} from 'src/components/Html';
 import TextTranslate from 'src/components/TextTranslate';
@@ -21,6 +23,8 @@ const Description = (props: IProps) => {
   );
   const [seeMoreProduct, setSeeMoreProduct] = useState<Boolean>(false);
   const [seeMoreSpec, setSeeMoreSpec] = useState<Boolean>(false);
+  const {width} = useWindowDimensions();
+  console.log('productInfo', productInfo);
 
   return (
     <View style={styles().container}>
@@ -47,10 +51,14 @@ const Description = (props: IProps) => {
       </View>
       <View style={styles().contentStyle}>
         {actionKey === 'product-info' && (
-          <Html
-            // baseStyle={{height: 300}}
-            content={productInfo ?? ''}
-          />
+          <RenderHTML  source={{html: productInfo ?? ''}} />
+          // <WebView source={productInfo ?? ''} />
+          // <WebView contentWidth={width} source={{html: productInfo ?? ''}} />
+          // <Html
+          //   // baseStyle={{height: 300}}
+          //   content={productInfo ?? ''}
+          // />
+          // <WebView source={{html: productInfo ?? ''}} style={{flex: 1}} />
         )}
 
         {actionKey === 'spec' && <Html content={spec ?? ''} />}

@@ -52,7 +52,7 @@ const ContactTopic = () => {
                 weight="700"
                 textAlign="center"
                 color={defaultColors.text_111213}
-                text="support.title"
+                text="home.contact-title"
                 textTransform="uppercase"
               />
             </View>
@@ -90,7 +90,7 @@ const ContactTopic = () => {
               </View>
               <View style={globalStyles.center}>
                 <TouchableOpacity
-                  onPress={() => Linking.openURL('https://zalo.me/0368712000')}
+                  onPress={() => Linking.openURL('https://zalo.me/0337101004')}
                   style={styles.groupProduct}>
                   <RadialGradient
                     style={StyleSheet.absoluteFillObject}

@@ -9,6 +9,7 @@
       "sold": "Đã bán",
       "product_outstanding": "Sản phẩm nổi bật",
       "product_new": "Sản phẩm mới",
+      "contact-title": "Hãy để MArKET MOA hỗ trợ bạn",
       "contact_note": "Đội ngũ hỗ trợ luôn sẵn sàng"
     },
     "navigation": {
@@ -239,7 +240,8 @@
         "voucher-code-null": "Bạn chưa nhập mã giảm giá, vui lòng nhập mã!",
         "required-login": "Vui lòng đăng nhập để đặt hàng!",
         "reset-password": "Email không tồn tại trong hệ thống. Vui lòng thử lại!.",
-        "change-pass": "Mật khẩu cũ và mới không được trùng nhau!"
+        "change-pass": "Mật khẩu cũ và mới không được trùng nhau!",
+        "out-of-stock": "Thuốc tính bạn chọn đã hết hàng!"
       },
       "error": {
         "order-cart": "Đặt hàng thất bại.",

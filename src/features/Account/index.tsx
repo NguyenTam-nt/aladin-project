@@ -1,12 +1,13 @@
 import {TextCustom, Thumb} from '@components';
 import {defaultColors} from '@configs';
 import {useKeycloak} from '@react-keycloak/native';
-import {useNavigation} from '@react-navigation/native';
+import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import React, {ReactElement, useEffect, useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import {Modal, StyleSheet, TouchableOpacity, View} from 'react-native';
 import {useDispatch} from 'react-redux';
 import {AuthServices} from 'src/api/authService';
+import {getCartItemAPI} from 'src/api/cartItem';
 import {ICAccountInfo} from 'src/assets/icons/ICAccountInfo';
 import {ICDropdown} from 'src/assets/icons/ICDropdown';
 import {ICPassword} from 'src/assets/icons/ICPassword';
@@ -22,13 +23,14 @@ import {
   useGetLanguage,
   useHandleChangeLanguage,
 } from 'src/redux/multilanguage/hooks';
+import {useHandleAddArrayItemToCart} from 'src/redux/orderCart/hooks';
 import {
   initUserInfo,
   setRefreshToken,
   setToken,
   setUserInfo,
 } from 'src/redux/reducers/AuthSlice';
-import {useUserInfo} from 'src/redux/reducers/hook';
+import {useToken, useUserInfo} from 'src/redux/reducers/hook';
 export type LANGUAGE_KEY = 'vi' | 'ko';
 const LANGUAGE: {key: LANGUAGE_KEY; image: any}[] = [
   {
@@ -47,9 +49,11 @@ const AccountScreen = () => {
   const useChangeLanguage = useHandleChangeLanguage();
   const {dologout, authenticated} = AuthServices();
   const dismiss = useGoBack();
+  const token = useToken();
   const {toggleDropdown, visible, setVisible, dropdownTop, refDropdown} =
     useDropdown();
   const {i18n} = useTranslation();
+  const handleAddArrayItemToCart = useHandleAddArrayItemToCart();
   const [languageAction, setLanguageAction] = useState<{
     key: LANGUAGE_KEY;
     image: any;
@@ -155,8 +159,8 @@ const AccountScreen = () => {
       </View>
       <View style={styles.groupAction}>
         <View style={styles.actionItemStyle}>
-          <ICAccountInfo />
-          {userInfo.login ? (
+          {userInfo.login && <ICAccountInfo />}
+          {userInfo.login && (
             <TouchableOpacity
               onPress={() =>
                 //@ts-ignore
@@ -170,19 +174,11 @@ const AccountScreen = () => {
                 text="account.manage-account-info"
               />
             </TouchableOpacity>
-          ) : (
-            <TextTranslate
-              fontSize={18}
-              weight="400"
-              lineHeight={27}
-              color={defaultColors.c_0000}
-              text="account.manage-account-info"
-            />
           )}
         </View>
         <View style={styles.actionItemStyle}>
-          <ICPassword width={19} height={23} />
-          {userInfo.login ? (
+          {userInfo.login && <ICPassword width={19} height={23} />}
+          {userInfo.login && (
             <TouchableOpacity
               onPress={() =>
                 //@ts-ignore
@@ -196,14 +192,6 @@ const AccountScreen = () => {
                 text="account.change-pass"
               />
             </TouchableOpacity>
-          ) : (
-            <TextTranslate
-              fontSize={18}
-              weight="400"
-              lineHeight={27}
-              color={defaultColors.c_0000}
-              text="account.change-pass"
-            />
           )}
         </View>
         <View style={{marginTop: 12, ...styles.actionItemStyle}}>
@@ -297,3 +285,116 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
   },
 });
+
+const data = {
+  data: [
+    {
+      actualPriceDetail: 129000,
+      addressWarehouse: 'Thành phố Hà Nội',
+      attributes: [Array],
+      choose: true,
+      imageDetailUrl:
+        'https://marketmoa.com.vn/getimage/1697766644123fd81e2eb-c19d-4add-8fa7-8df5ed8747f9.webp',
+      priceDetail: 129000,
+      productDetailId: 22276,
+      productDetailNameKr:
+        '304 스테인레스 스틸 비 스틱 팬 28cm 깊이, 긁힌 단열재 - 모든 유형의 주방에 사용 - 매우 저렴',
+      productDetailNameVn:
+        'Chảo Chống Dính Inox 304 Sâu Lòng 28cm, Chống Xước Quai Cầm Cách Nhiệt - Dùng Cho Mọi Loại Bếp - Siêu Rẻ',
+      productId: 22272,
+      promoDetail: 0,
+      quantitySelected: 2,
+      soldQuantity: 0,
+      stockQuantity: 100,
+    },
+    {
+      actualPriceDetail: 24300,
+      addressWarehouse: 'Thành phố Hà Nội',
+      attributes: [Array],
+      choose: false,
+      imageDetailUrl:
+        'https://marketmoa.com.vn/getimage/1697705833691288368bf-f17c-4c8a-ac54-a08e885c3dee.webp',
+      priceDetail: 27000,
+      productDetailId: 22144,
+      productDetailNameKr: '한국의 구운 쌀수 비락식혜 238ml- 진정한 수입품',
+      productDetailNameVn:
+        'Nước Gạo Rang PALDO HÀN QUỐC 비락식혜 238ML - HÀNG NHẬP KHẨU CHÍNH HÃNG',
+      productId: 21863,
+      promoDetail: 10,
+      quantitySelected: 8,
+      soldQuantity: 0,
+      stockQuantity: 100,
+    },
+    {
+      actualPriceDetail: 382500,
+      addressWarehouse: 'Thành phố Hà Nội',
+      attributes: [Array],
+      choose: true,
+      imageDetailUrl: null,
+      priceDetail: 450000,
+      productDetailId: 21816,
+      productDetailNameKr: '사양라면 한국 인스턴트 국수',
+      productDetailNameVn: 'Mỳ ăn liền Samyang Ramen Hàn Quốc ',
+      productId: 21812,
+      promoDetail: 15,
+      quantitySelected: 2,
+      soldQuantity: 0,
+      stockQuantity: 2,
+    },
+    {
+      actualPriceDetail: 40590,
+      addressWarehouse: 'Thành phố Hà Nội',
+      attributes: [Array],
+      choose: true,
+      imageDetailUrl: null,
+      priceDetail: 41000,
+      productDetailId: 22137,
+      productDetailNameKr:
+        '한국 아이타이 커피와 함께 사용되는 에이스 비스킷 해태 에이스- 진정한 수입품',
+      productDetailNameVn:
+        'Bánh Quy ACE Dùng Với Cà Phê HAITAI HÀN QUỐC 해태에이스- HÀNG NHẬP KHẨU CHÍNH HÃNG',
+      productId: 21741,
+      promoDetail: 1,
+      quantitySelected: 3,
+      soldQuantity: 0,
+      stockQuantity: 100,
+    },
+    {
+      actualPriceDetail: 46528.02,
+      addressWarehouse: 'Thành phố Hà Nội',
+      attributes: [Array],
+      choose: true,
+      imageDetailUrl:
+        'https://marketmoa.com.vn/getimage/16977024231869ea341d6-ce87-4929-83b8-65e58df19c1d.webp',
+      priceDetail: 46998,
+      productDetailId: 21648,
+      productDetailNameKr: '한국 오리온 옥수수 수프 - 정품 수입품',
+      productDetailNameVn:
+        'Snack Soup Ngô ORION HÀN QUỐC - HÀNG NHẬP KHẨU CHÍNH HÃNG',
+      productId: 21643,
+      promoDetail: 1,
+      quantitySelected: 2,
+      soldQuantity: 0,
+      stockQuantity: 30,
+    },
+    {
+      actualPriceDetail: 26730,
+      addressWarehouse: 'Thành phố Hà Nội',
+      attributes: [Array],
+      choose: true,
+      imageDetailUrl:
+        'https://marketmoa.com.vn/getimage/1697703417709ca974675-ba46-40fe-afe6-c0735936434c.webp',
+      priceDetail: 27000,
+      productDetailId: 21690,
+      productDetailNameKr: '차가운 주스 ade 과일 맛 230ml 한국 - 진정한 수입품',
+      productDetailNameVn:
+        'Nước Trái Cây Lạnh Ade các vị hoa quả 230ml Hàn Quốc - hàng nhập khẩu chính hãng',
+      productId: 21680,
+      promoDetail: 1,
+      quantitySelected: 2,
+      soldQuantity: 0,
+      stockQuantity: 2,
+    },
+  ],
+  success: true,
+};

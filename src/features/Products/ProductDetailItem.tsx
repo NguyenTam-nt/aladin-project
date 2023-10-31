@@ -252,16 +252,18 @@ const ProductDetailItem = (props: IProps) => {
                   : actualPrice,
               )}
             </TextCustom>
-            <TextCustom
-              fontSize={14}
-              weight="400"
-              color={defaultColors.bg_939393}
-              textDecorationLine="line-through"
-              textDecorationStyle="solid">
-              {formatNumberDotWithVND(
-                productDetailItem ? productDetailItem?.priceDetail : priece,
-              )}
-            </TextCustom>
+            {promo != 0 && (
+              <TextCustom
+                fontSize={14}
+                weight="400"
+                color={defaultColors.bg_939393}
+                textDecorationLine="line-through"
+                textDecorationStyle="solid">
+                {formatNumberDotWithVND(
+                  productDetailItem ? productDetailItem?.priceDetail : priece,
+                )}
+              </TextCustom>
+            )}
           </View>
           <View style={styles.selectedPicker}>
             {(attributeFes ?? []).map((its, idx) => {

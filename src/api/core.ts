@@ -140,16 +140,18 @@ export const createRequest = (baseUrl: string, timeout: number) => {
         url: string,
         data?: any,
         options: AxiosRequestConfig = {},
-      ) =>
-        axiosInstance.put<T, R>(url, data, {
+      ) => {
+        console.log(url);
+
+        return axiosInstance.put<T, R>(url, data, {
           ...defaultOptions,
           ...options,
           headers: {
             ...defaultOptions.headers,
             ...options?.headers,
           },
-        }),
-
+        });
+      },
       /**
        * func put
        * override option request

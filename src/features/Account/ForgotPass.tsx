@@ -108,7 +108,7 @@ const ForgotPassword = () => {
           style={{
             position: 'absolute',
             right: 20,
-            top: 50,
+            top: 40,
             width: 30,
             height: 30,
             justifyContent: 'center',
@@ -125,7 +125,7 @@ const ForgotPassword = () => {
             text="account.form-login.pass-retrieval"
           />
         </View>
-        <View style={{paddingHorizontal: 30, marginTop: 45, rowGap: 24}}>
+        <View style={{marginTop: 45, rowGap: 24, paddingHorizontal: 20}}>
           <TextInputComponent
             textTitle="account.enter-mail-with-pass"
             textPlanholder="account.planhoder-enter-mail-with-pass"
@@ -200,7 +200,7 @@ const ForgotPassword = () => {
 export default ForgotPassword;
 
 const styles = StyleSheet.create({
-  container: {flex: 1, justifyContent: 'center', alignItems: 'center'},
+  container: {flex: 1},
   modalEdit: {
     position: 'relative',
     height: 200,

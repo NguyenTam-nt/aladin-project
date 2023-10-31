@@ -13,13 +13,16 @@ import {ICISChecked} from 'src/assets/icons/ICISChecked';
 import ButtonGradient from 'src/components/Buttons/ButtonGradient';
 import {useTranslation} from 'react-i18next';
 import {ButtonTouchable} from 'src/components/Buttons/ButtonTouchable';
-import {useListItemCart} from 'src/redux/orderCart/hooks';
+import {
+  useHandleAddArrayItemToCart,
+  useListItemCart,
+} from 'src/redux/orderCart/hooks';
 import * as Yup from 'yup';
 import {IProductOrder, craeteOrderApi} from 'src/api/order';
 import useI18n from 'src/hooks/useI18n';
 import {useFormik} from 'formik';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
-import {useUserInfo} from 'src/redux/reducers/hook';
+import {useToken, useUserInfo} from 'src/redux/reducers/hook';
 import {IUserInfo} from 'src/redux/reducers/AuthSlice';
 import {useModal} from 'src/hooks/useModal';
 import ModalCustom from 'src/components/ModalCustom';
@@ -30,6 +33,7 @@ import {DIMENSION} from '@constants';
 import {accountRoute, productRoute} from 'src/constants/routers';
 import {useNavigation} from '@react-navigation/native';
 import {ICWarrning} from 'src/assets/icons/ICWarrning';
+import {ICartItem, updateCartItem} from 'src/api/cartItem';
 interface IProps {
   productOrder: IProductOrder;
 }
@@ -76,10 +80,10 @@ const PaymentScreen = () => {
   const userInfo = useUserInfo();
   const modalEditInventory = useModal();
   const modalEditInventoryLogin = useModal();
-  // const [showError, setShowError] = useState<string>('');
-  // const [showSuccess, setShowSuccess] = useState<string>('');
   const [messageType, setMessageType] = useState<'SUCCESS' | 'ERROR' | ''>('');
   const navigation = useNavigation();
+  const handleAddArrayToCart = useHandleAddArrayItemToCart();
+  const token = useToken();
   const formik = useFormik({
     initialValues: {
       fullName: '',
@@ -109,7 +113,6 @@ const PaymentScreen = () => {
         .max(256, 'messages.max'),
     }),
     onSubmit: async (value: any) => {
-      console.log(value);
       const datas = {
         ...value,
         productOrders: listCartItems.itemCartOrder,
@@ -141,8 +144,8 @@ const PaymentScreen = () => {
   const handleCreateOrder = async (data: any) => {
     try {
       const res = await craeteOrderApi(data);
-      console.log('ressss', res);
       if (res.success === true) {
+        handleRemoveArray();
         openModal();
         setMessageType('SUCCESS');
       } else {
@@ -152,6 +155,25 @@ const PaymentScreen = () => {
     } catch (error) {
       console.log(error);
     }
+  };
+
+  const handleUpdateCartItem = async (tokens: string, data: ICartItem[]) => {
+    try {
+      const res = await updateCartItem(tokens, data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleRemoveArray = () => {
+    const newData = listCartItems.itemInCart.filter(
+      ar =>
+        !listCartItems.itemCartOrder.find(
+          rm => rm.productDetailId === ar.productDetailId,
+        ),
+    );
+    handleAddArrayToCart(newData);
+    handleUpdateCartItem(token, newData);
   };
 
   const openModal = () => {

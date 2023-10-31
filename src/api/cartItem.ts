@@ -56,7 +56,6 @@ export const updateCartItem = async (
   try {
     const result = await request(token).put(`${APIs.CART_ITEM}/update`, datas);
     const {data} = await result;
-    console.log('ressssss', data);
 
     return {
       data: data,
@@ -66,3 +65,20 @@ export const updateCartItem = async (
     return handleError(error);
   }
 };
+
+const data = [
+  {
+    choose: true,
+    id: 26128,
+    productDetailId: 22081,
+    quantitySelected: 4,
+    userId: '048bd1ea-5789-49f0-9f1c-44a568f39c5b',
+  },
+  {
+    choose: true,
+    id: 26125,
+    productDetailId: 23114,
+    quantitySelected: 4,
+    userId: '048bd1ea-5789-49f0-9f1c-44a568f39c5b',
+  },
+];

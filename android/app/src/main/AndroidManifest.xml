@@ -11,9 +11,12 @@
         <category android:name="android.intent.category.DEFAULT"/>
         <category android:name="android.intent.category.BROWSABLE"/>
         <!-- <data android:scheme="marketmoa"/> -->
-        <data android:scheme="MarketMoa"/>
+        <!-- <data android:scheme="MarketMoa"/> -->
         <!-- <data android:="MarketMoa"/> -->
+        <data android:scheme="https"
+              android:host="marketmoa.com.vn"  android:pathPrefix="/auth" />
       </intent-filter>
     </activity>
+     <activity android:name="com.facebook.react.devsupport.DevSettingsActivity" />
   </application>
 </manifest>
