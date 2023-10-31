@@ -5,13 +5,13 @@ import {SideLeft} from './components/SideLeft';
 import {defaultColors} from '@configs';
 import {MainDetail} from './components/MainDetail';
 import {EventProvider} from 'react-native-outside-press';
-import { ReportTimeState } from '../General/components/TabBarLeftOrder';
-import { useAreaId } from 'src/redux/infoDrawer/hooks';
-import {   IReportDist,  getReportDist } from 'src/api/report';
+import {ReportTimeState} from '../General/components/TabBarLeftOrder';
+import {useAreaId} from 'src/redux/infoDrawer/hooks';
+import {IReportDist, getReportDist} from 'src/api/report';
 
 export interface TabBarOrder {
-  isOpenTab: boolean
-  setIsOpenTab: React.Dispatch<React.SetStateAction<boolean>>
+  isOpenTab: boolean;
+  setIsOpenTab: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export const ReportDetail = () => {
@@ -58,8 +58,10 @@ export const ReportDetail = () => {
           setIsOpenTab={setIsOpenTab}
           currenFilter={currenFilter}
           onChange={handleChangeFilter}
+          setStartDate={setStartDate}
+          setEndDate={setEndDate}
         />
-        <MainDetail setIsOpenTab={setIsOpenTab}  dataReport={dataReport}/>
+        <MainDetail setIsOpenTab={setIsOpenTab} dataReport={dataReport} />
       </View>
     </EventProvider>
   );

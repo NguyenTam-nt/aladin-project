@@ -15,9 +15,9 @@ import {globalStyles} from 'src/commons/globalStyles';
 import {ICCalendar} from 'src/assets/icons/ICLogo copy';
 import {Calendar} from './Calendar';
 import MenuTabMobile from 'src/components/DropDownView/MenuTabMobile';
-import { MultipleScreenView } from 'src/components/MultipleScreenView';
+import {MultipleScreenView} from 'src/components/MultipleScreenView';
 import ButtonMenuTabBar from 'src/components/DropDownView/ButtonMenuTabBar';
-import { ReportTimeState } from '../../General/components/TabBarLeftOrder';
+import {ReportTimeState} from '../../General/components/TabBarLeftOrder';
 
 const filterDate = [
   {
@@ -43,14 +43,23 @@ const filterDate = [
 ];
 
 type Props = {
-  currenFilter: ReportTimeState
-  onChange: (currentFilter: ReportTimeState) => void
-  isOpenTab: boolean
-  setIsOpenTab: React.Dispatch<React.SetStateAction<boolean>>
-}
+  currenFilter: ReportTimeState;
+  onChange: (currentFilter: ReportTimeState) => void;
+  isOpenTab: boolean;
+  setIsOpenTab: React.Dispatch<React.SetStateAction<boolean>>;
+  setStartDate?: (value: string) => void;
+  setEndDate?: (value: string) => void;
+};
 
 export const SideLeft = memo(
-  ({currenFilter, onChange, isOpenTab, setIsOpenTab}: Props) => {
+  ({
+    currenFilter,
+    onChange,
+    isOpenTab,
+    setIsOpenTab,
+    setStartDate,
+    setEndDate,
+  }: Props) => {
     const [isOpen, setIsOpen] = React.useState(true);
     const toggleOpen = () => {
       // onPress?.()
@@ -71,8 +80,8 @@ export const SideLeft = memo(
             <MultipleScreenView
               phoneView={
                 <View style={styles.buttonView}>
-                <ButtonMenuTabBar onPress={setIsOpenTab} />
-              </View>
+                  <ButtonMenuTabBar onPress={setIsOpenTab} />
+                </View>
               }
             />
             <View>
@@ -100,6 +109,8 @@ export const SideLeft = memo(
                 <FilterCalendar
                   currenFilter={currenFilter}
                   onChange={onChange}
+                  setEndDate={setEndDate}
+                  setStartDate={setStartDate}
                 />
               </View>
             </View>
@@ -114,9 +125,13 @@ export const FilterCalendar = memo(
   ({
     currenFilter,
     onChange,
+    setStartDate,
+    setEndDate,
   }: {
-    currenFilter: ReportTimeState
-    onChange: (category: ReportTimeState) => void
+    currenFilter: ReportTimeState;
+    onChange: (category: ReportTimeState) => void;
+    setStartDate?: (value: string) => void;
+    setEndDate?: (value: string) => void;
   }) => {
     const [isShow, setShow] = useState(false);
     const handleChange = useCallback(() => {
@@ -151,7 +166,7 @@ export const FilterCalendar = memo(
           </Pressable>
         </View>
         <View style={[styles.styleBoxCalendar, styleCalendar]}>
-          <Calendar  />
+          <Calendar setEndDate={setEndDate} setStartDate={setStartDate} />
         </View>
       </View>
     );
@@ -160,12 +175,12 @@ export const FilterCalendar = memo(
 
 type PropsSideLeftFilterDate = {
   data: {
-    slug: ReportTimeState
-    name: string
-  }
-  onChange: (category: ReportTimeState) => void
-  isActive: boolean
-}
+    slug: ReportTimeState;
+    name: string;
+  };
+  onChange: (category: ReportTimeState) => void;
+  isActive: boolean;
+};
 
 export const SideLeftFilterDate = memo(
   ({data, onChange, isActive}: PropsSideLeftFilterDate) => {
