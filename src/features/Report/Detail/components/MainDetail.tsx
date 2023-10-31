@@ -1,5 +1,5 @@
-import { defaultColors } from '@configs';
-import React, { useCallback, useMemo } from 'react';
+import {defaultColors} from '@configs';
+import React, {useCallback, useMemo} from 'react';
 import {
   FlatList,
   ListRenderItemInfo,
@@ -8,23 +8,23 @@ import {
   View,
 } from 'react-native';
 import RNHTMLtoPDF from 'react-native-html-to-pdf';
-import { globalStyles } from 'src/commons/globalStyles';
+import {globalStyles} from 'src/commons/globalStyles';
 // import { Dirs, FileSystem } from "react-native-file-access";
 // const DDP = Dirs.DocumentDir + "/";
-import { TextCustom } from '@components';
-import { isIOS } from '@constants';
+import {TextCustom} from '@components';
+import {isIOS} from '@constants';
 import RNFetchBlob from 'rn-fetch-blob';
-import { IReportDist } from 'src/api/report';
-import { getValueForDevice } from 'src/commons/formatMoney';
-import { handleSelectResourses } from 'src/commons/permissionUtil';
+import {IReportDist} from 'src/api/report';
+import {getValueForDevice} from 'src/commons/formatMoney';
+import {handleSelectResourses} from 'src/commons/permissionUtil';
 import ButtonMenuTabBar from 'src/components/DropDownView/ButtonMenuTabBar';
 import SpaceBottom from 'src/components/SpaceBottom';
 import XLSX from 'xlsx-js-style';
-import { GroupAction } from './GroupAction';
-import { ExportPDF } from './ExportPDF';
-import { FomatDateYY_MM_DD, FomatDateYY_MM_DD_H_M } from 'src/commons/formatDate';
-import { useAreaName } from 'src/redux/infoDrawer/hooks'
-import { useUserInfo } from 'src/redux/reducers/hook'
+import {GroupAction} from './GroupAction';
+import {ExportPDF} from './ExportPDF';
+import {FomatDateYY_MM_DD, FomatDateYY_MM_DD_H_M} from 'src/commons/formatDate';
+import {useAreaName} from 'src/redux/infoDrawer/hooks';
+import {useUserInfo} from 'src/redux/reducers/hook';
 const {
   dirs: {DownloadDir, DocumentDir},
 } = RNFetchBlob.fs;
@@ -37,14 +37,13 @@ export enum FileType {
 }
 
 type Props = {
-  setIsOpenTab: React.Dispatch<React.SetStateAction<boolean>>
-  dataReport :IReportDist[]
+  setIsOpenTab: React.Dispatch<React.SetStateAction<boolean>>;
+  dataReport: IReportDist[];
 };
 
-export const MainDetail = ({setIsOpenTab ,dataReport}: Props) => {
-
-  const nameArea = useAreaName()
-  const userInfo = useUserInfo()
+export const MainDetail = ({setIsOpenTab, dataReport}: Props) => {
+  const nameArea = useAreaName();
+  const userInfo = useUserInfo();
 
   const downloadPdf = useCallback(async () => {
     const aPath = Platform.select({
@@ -65,8 +64,11 @@ export const MainDetail = ({setIsOpenTab ,dataReport}: Props) => {
 
   const dateExport = useMemo(() => {
     const newDate = new Date();
-    return `${FomatDateYY_MM_DD(newDate.toISOString())} ${FomatDateYY_MM_DD(newDate.toISOString(), true)}` 
-  }, [])
+    return `${FomatDateYY_MM_DD(newDate.toISOString())} ${FomatDateYY_MM_DD(
+      newDate.toISOString(),
+      true,
+    )}`;
+  }, []);
 
   const exportExcelFIle = useCallback(() => {
     let wb = XLSX.utils.book_new();
@@ -84,7 +86,7 @@ export const MainDetail = ({setIsOpenTab ,dataReport}: Props) => {
     dataReport.forEach(item => {
       const _item = [
         `${item.id}`,
-        item?.name ?? "",
+        item?.name ?? '',
         `${item?.quantitySuccess ?? 0}`,
         `${item?.quantityCancel ?? 0}`,
       ];
@@ -161,7 +163,7 @@ export const MainDetail = ({setIsOpenTab ,dataReport}: Props) => {
         vertical: 'center',
         horizontal: 'left',
         wrapText: '1', // any truthy value here
-      }
+      },
     };
     ws.B1.s = {
       font: {
@@ -342,7 +344,11 @@ export const MainDetail = ({setIsOpenTab ,dataReport}: Props) => {
     });
 
     RNFetchBlob.fs
-      .writeFile(aPath + '/bao-cao-mon-an-ban-huy.xlsx', Array.from(wbout), 'ascii')
+      .writeFile(
+        aPath + '/bao-cao-mon-an-ban-huy.xlsx',
+        Array.from(wbout),
+        'ascii',
+      )
       .then(() => {
         // Share.share(aPath + '/bao-cao123.xlsx')
         alert(
@@ -351,25 +357,28 @@ export const MainDetail = ({setIsOpenTab ,dataReport}: Props) => {
             '/bao-cao-mon-an-ban-huy.xlsx',
         );
       });
-   } , [dataReport, nameArea, userInfo?.fullname]);
+  }, [dataReport, nameArea, userInfo?.fullname]);
 
-  const handleDownload = useCallback((type: FileType) => {
-    switch (type) {
-      case FileType.pdf:
-        if (isIOS) {
-          downloadPdf();
-          return;
-        }
-        // downloadPdf()
-        handleSelectResourses.handleSelectFiles(downloadPdf);
-        break;
-      case FileType.excel:
-        exportExcelFIle();
-        break;
-      default:
-        break;
-    }
-  }, [downloadPdf ,exportExcelFIle]);
+  const handleDownload = useCallback(
+    (type: FileType) => {
+      switch (type) {
+        case FileType.pdf:
+          if (isIOS) {
+            downloadPdf();
+            return;
+          }
+          // downloadPdf()
+          handleSelectResourses.handleSelectFiles(downloadPdf);
+          break;
+        case FileType.excel:
+          exportExcelFIle();
+          break;
+        default:
+          break;
+      }
+    },
+    [downloadPdf, exportExcelFIle],
+  );
 
   const renderItem = useCallback((item: ListRenderItemInfo<IReportDist>) => {
     return <RenderItemReport item={item.item} index={1} />;
@@ -383,7 +392,9 @@ export const MainDetail = ({setIsOpenTab ,dataReport}: Props) => {
         <View style={styles.content}>
           <FlatList
             showsVerticalScrollIndicator={false}
-            ListHeaderComponent={<ListHeaderComponent dateExport={dateExport} />}
+            ListHeaderComponent={
+              <ListHeaderComponent dateExport={dateExport} />
+            }
             ListFooterComponent={<SpaceBottom />}
             data={dataReport}
             renderItem={renderItem}
@@ -399,8 +410,8 @@ const RenderItemReport = ({
   item,
   index,
 }: {
-  item: IReportDist
-  index?: number
+  item: IReportDist;
+  index?: number;
 }) => {
   const indexValueCheck = item.list ? 2 : 3;
   const backgroundColorValue = {
@@ -417,12 +428,20 @@ const RenderItemReport = ({
           {backgroundColor: backgroundColorValue[index || indexValueCheck]},
         ]}>
         <View style={globalStyles.fullFill}>
-          <TextCustom color={defaultColors.c_0000} numberOfLines={2} fontSize={12} weight="400">
+          <TextCustom
+            color={defaultColors.c_0000}
+            numberOfLines={2}
+            fontSize={12}
+            weight="400">
             {item.id}
           </TextCustom>
         </View>
         <View style={globalStyles.fullFill}>
-          <TextCustom color={defaultColors.c_0000} numberOfLines={2} fontSize={12} weight="400">
+          <TextCustom
+            color={defaultColors.c_0000}
+            numberOfLines={2}
+            fontSize={12}
+            weight="400">
             {item.name}
           </TextCustom>
         </View>
@@ -444,124 +463,124 @@ const RenderItemReport = ({
   );
 };
 
-type PropsListHeaderComponent ={
-  dateExport: string
-}
+type PropsListHeaderComponent = {
+  dateExport: string;
+};
 
-const ListHeaderComponent = ({dateExport}:PropsListHeaderComponent) => {
-  const nameArea = useAreaName()
-  const userInfo = useUserInfo()
-   return (
+const ListHeaderComponent = ({dateExport}: PropsListHeaderComponent) => {
+  const nameArea = useAreaName();
+  const userInfo = useUserInfo();
+  return (
     <>
-    <View
-      style={[
-        globalStyles.row,
-        globalStyles.justifyContentBetween,
-        styles.colGap_50,
-      ]}>
-      <View style={[globalStyles.row, styles.styleGap25]}>
-        <View style={[globalStyles.row,  globalStyles.alignItemsCenter]}>
-          <TextCustom
-            color={defaultColors.c_0000}
-            fontSize={getValueForDevice(14, 12)}
-            weight="700">
-            Ngày lập:{' '}
-          </TextCustom>
-          <TextCustom
-            color={defaultColors.c_0000}
-            fontSize={getValueForDevice(14, 12)}
-            weight="400">
-            {' '}
-            {dateExport}
-          </TextCustom>
-        </View>
-        <View style={[globalStyles.row,  globalStyles.alignItemsCenter]}>
-          <TextCustom
-            color={defaultColors.c_0000}
-            fontSize={getValueForDevice(14, 12)}
-            weight="700">
-            Người lập{' '}
-          </TextCustom>
-          <TextCustom
-            color={defaultColors.c_0000}
-            fontSize={getValueForDevice(14, 12)}
-            weight="400">
-            {' '}
-            {userInfo?.fullname}
-          </TextCustom>
-        </View>
-      </View>
-      <View style={globalStyles.row}>
-        <TextCustom
-          color={defaultColors.c_0000}
-          fontSize={getValueForDevice(14, 12)}
-          weight="700">
-          Cơ sở:
-        </TextCustom>
-        <TextCustom
-          color={defaultColors.c_0000}
-          fontSize={getValueForDevice(14, 12)}
-          weight="400">
-          {' '}
-          {nameArea}
-        </TextCustom>
-      </View>
-      {/* </View> */}
-    </View>
-    <View style={styles.mt_40}>
-      <TextCustom
-        fontSize={32}
-        weight="700"
-        color={defaultColors.c_0000}
-        textAlign="center"
-        textTransform="uppercase">
-        Báo cáo món ăn Bán - Hủy
-      </TextCustom>
       <View
         style={[
           globalStyles.row,
-          globalStyles.justifyContentCenter,
-          globalStyles.alignItemsCenter,
-          {marginTop: 16, flexWrap: 'wrap'},
+          globalStyles.justifyContentBetween,
+          styles.colGap_50,
         ]}>
-        <TextCustom
-          color={defaultColors.c_0000}
-          fontSize={getValueForDevice(14, 12)}
-          weight="700">
-          Cơ sở:
-        </TextCustom>
-        <TextCustom
-          color={defaultColors.c_0000}
-          fontSize={getValueForDevice(14, 12)}
-          weight="400">
-          {' '}
-         {nameArea}
-        </TextCustom>
+        <View style={[globalStyles.row, styles.styleGap25]}>
+          <View style={[globalStyles.row, globalStyles.alignItemsCenter]}>
+            <TextCustom
+              color={defaultColors.c_0000}
+              fontSize={getValueForDevice(14, 12)}
+              weight="700">
+              Ngày lập:{' '}
+            </TextCustom>
+            <TextCustom
+              color={defaultColors.c_0000}
+              fontSize={getValueForDevice(14, 12)}
+              weight="400">
+              {' '}
+              {dateExport}
+            </TextCustom>
+          </View>
+          <View style={[globalStyles.row, globalStyles.alignItemsCenter]}>
+            <TextCustom
+              color={defaultColors.c_0000}
+              fontSize={getValueForDevice(14, 12)}
+              weight="700">
+              Người lập{' '}
+            </TextCustom>
+            <TextCustom
+              color={defaultColors.c_0000}
+              fontSize={getValueForDevice(14, 12)}
+              weight="400">
+              {' '}
+              {userInfo?.fullname}
+            </TextCustom>
+          </View>
+        </View>
+        <View style={globalStyles.row}>
+          <TextCustom
+            color={defaultColors.c_0000}
+            fontSize={getValueForDevice(14, 12)}
+            weight="700">
+            Cơ sở:
+          </TextCustom>
+          <TextCustom
+            color={defaultColors.c_0000}
+            fontSize={getValueForDevice(14, 12)}
+            weight="400">
+            {' '}
+            {nameArea}
+          </TextCustom>
+        </View>
+        {/* </View> */}
       </View>
-      <View style={styles.mt_16}>
+      <View style={styles.mt_40}>
+        <TextCustom
+          fontSize={32}
+          weight="700"
+          color={defaultColors.c_0000}
+          textAlign="center"
+          textTransform="uppercase">
+          Báo cáo món ăn Bán - Hủy
+        </TextCustom>
         <View
           style={[
             globalStyles.row,
+            globalStyles.justifyContentCenter,
             globalStyles.alignItemsCenter,
-            styles.group_table,
+            {marginTop: 16, flexWrap: 'wrap'},
           ]}>
-          {titles.map((item, index) => {
-            return (
-              <View style={globalStyles.fullFill} key={index}>
-                <TextCustom
-                  color={defaultColors.c_fff}
-                  fontSize={getValueForDevice(14, 12)}
-                  weight="700">
-                  {item}
-                </TextCustom>
-              </View>
-            );
-          })}
+          <TextCustom
+            color={defaultColors.c_0000}
+            fontSize={getValueForDevice(14, 12)}
+            weight="700">
+            Cơ sở:
+          </TextCustom>
+          <TextCustom
+            color={defaultColors.c_0000}
+            fontSize={getValueForDevice(14, 12)}
+            weight="400">
+            {' '}
+            {nameArea}
+          </TextCustom>
+        </View>
+        <View style={styles.mt_16}>
+          <View
+            style={[
+              globalStyles.row,
+              globalStyles.alignItemsCenter,
+              styles.group_table,
+            ]}>
+            {titles.map((item, index) => {
+              return (
+                <View style={globalStyles.fullFill} key={index}>
+                  <TextCustom
+                    color={defaultColors.c_fff}
+                    fontSize={getValueForDevice(14, 12)}
+                    weight="700">
+                    {item}
+                  </TextCustom>
+                </View>
+              );
+            })}
+          </View>
         </View>
       </View>
-    </View>
-  </>
-   );
+    </>
+  );
 };
 
 const styles = StyleSheet.create({
@@ -617,5 +636,5 @@ const styles = StyleSheet.create({
     height: 39,
     backgroundColor: defaultColors._EA222A,
     paddingLeft: 24,
-  }
+  },
 });

@@ -8,21 +8,21 @@ import {TextCustom} from '@components';
 import {globalStyles} from 'src/commons/globalStyles';
 
 export interface IDate {
-  day: string
-  month: string
-  year: string
-  weekday?: string
+  day: string;
+  month: string;
+  year: string;
+  weekday?: string;
 }
 
 const date = new Date();
 const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 
- interface ICalendar {
-   setStartDate?: (value: string) => void
-   setEndDate?: (value: string) => void
- }
+interface ICalendar {
+  setStartDate?: (value: string) => void;
+  setEndDate?: (value: string) => void;
+}
 
-export const Calendar =  memo((props : ICalendar) => {
+export const Calendar = memo((props: ICalendar) => {
   const {setStartDate, setEndDate} = props;
   const [dateEvent, setDateEvent] = useState<string | null>();
   const [targetDateStart, setTargetStart] = useState<IDate>();
@@ -33,8 +33,6 @@ export const Calendar =  memo((props : ICalendar) => {
     year: `${date.getFullYear()}`,
     weekday: 'Hôm nay',
   });
-
-
 
   // list day current month
   const [arrDays, setArrdays] = useState<IDate[]>([]);
@@ -258,10 +256,8 @@ export const Calendar =  memo((props : ICalendar) => {
   return (
     <>
       <View style={styles.container}>
-        <View
-          style={styles.group}>
-          <View
-            style={styles.group_date}>
+        <View style={styles.group}>
+          <View style={styles.group_date}>
             <Pressable onPress={() => changeMonth(-1)}>
               <ICArrowLeft
                 width={16}
@@ -280,13 +276,10 @@ export const Calendar =  memo((props : ICalendar) => {
               />
             </Pressable>
           </View>
-          <View
-            style={styles.group_day}>
+          <View style={styles.group_day}>
             {days.map((item, index) => {
               return (
-                <View
-                 key={index}
-                  style={styles.styleBoxDay}>
+                <View key={index} style={styles.styleBoxDay}>
                   <TextCustom
                     key={index}
                     textAlign="center"
@@ -300,8 +293,7 @@ export const Calendar =  memo((props : ICalendar) => {
             })}
           </View>
 
-          <View
-            style={styles.styleListday}>
+          <View style={styles.styleListday}>
             {arrDays.map((dateItem, index) => {
               const currentTime = `${dateItem.year}${dateItem.month}${dateItem.day}`;
               const targetDateStartTime = targetDateStart
