@@ -170,7 +170,8 @@
         "payments-methods": "결제 방법",
         "payment-COD": "배송 시 현금 결제 (COD)"
       },
-      "button-order": "주문하기"
+      "button-order": "주문하기",
+      "out-row": "出行"
     },
     "button": {
       "required-contact": "상담 요청",

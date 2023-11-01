@@ -72,7 +72,7 @@ const SearchScreen = (props: IProps) => {
   const [products, setProducts] = useState<IProduct[]>([]);
   const [keyworkModal, setKeyworkModal] = useState<string>(keyWorkHeader);
   const [currentPage, setCurrentPage] = useState<number>(0);
-  const [loading, setLoading] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(true);
   const handleSearch = async (keywork: string, provice: string) => {
     try {
       const params = {
@@ -93,6 +93,7 @@ const SearchScreen = (props: IProps) => {
     }
   };
   React.useEffect(() => {
+    setLoading(true);
     const timeout = setTimeout(() => {
       handleSearch(keyworkModal, provicesItem.provices.Name);
     }, 500);
@@ -127,7 +128,15 @@ const SearchScreen = (props: IProps) => {
         />
       </View>
       <View style={{marginTop: 10}}>
-        {products.length > 0 ? (
+        {loading ? (
+          <TextCustom
+            fontSize={14}
+            textAlign="center"
+            color={defaultColors.text_313131}
+            weight="500">
+            {t('common.searching')}
+          </TextCustom>
+        ) : products.length > 0 ? (
           <TextCustom
             fontSize={14}
             color={defaultColors.text_313131}
@@ -213,8 +222,8 @@ const styles = StyleSheet.create({
   },
   containerInput: {
     // flex: 1,
-    height: 40,
-    borderRadius: 20,
+    height: 45,
+    borderRadius: 25,
     borderColor: defaultColors.c_fff,
     borderWidth: 1,
     backgroundColor: defaultColors.c_fff,

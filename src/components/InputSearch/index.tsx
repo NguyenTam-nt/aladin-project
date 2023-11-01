@@ -90,10 +90,10 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     backgroundColor: defaultColors.c_fff,
-    borderRadius: 20,
+    borderRadius: 25,
     overflow: 'hidden',
     alignItems: 'center',
-    height: Platform.OS === 'ios' ? 'auto' : 40,
+    height:  45,
     justifyContent: 'space-between',
   },
   inputText: {

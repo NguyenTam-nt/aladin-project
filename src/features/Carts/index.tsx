@@ -13,6 +13,7 @@ import {ICISCheckbox} from 'src/assets/icons/ICISCheckbox';
 import {ICRemove} from 'src/assets/icons/ICRemove';
 import HeaderBack from 'src/components/Header/HeaderBack';
 import {
+  useHandleAddArrayItemToCart,
   useHandleAddVoucherApply,
   useHandleProductOrder,
   useHandleSetChoose,
@@ -59,6 +60,7 @@ const CartsScreen = () => {
   const [chooseVoucher, setChooseVoucher] = useState<IVoucher | null>();
   const [moneyByVoucher, setMeneyByVoucher] = useState<number>(0);
   const [voucherCode, setVoucherCode] = useState<string>('');
+  const handleAddArrayItemToCart = useHandleAddArrayItemToCart();
   const token = useToken();
   const handleCheckAll = () => {
     const newListCarts = [...listItemCart.itemInCart];
@@ -96,6 +98,10 @@ const CartsScreen = () => {
       return false;
     }
     return !listItemCart.itemInCart.some(item => !item.choose);
+  }, [listItemCart.itemInCart]);
+
+  const eventDisable = useMemo(() => {
+    return listItemCart.itemInCart.some(item => item.stockQuantity == 0);
   }, [listItemCart.itemInCart]);
 
   const handleVoucherApply = async () => {
@@ -249,6 +255,22 @@ const CartsScreen = () => {
       console.log(error);
     }
   };
+
+  const handleUpdateCartItemStore = () => {
+    if (listItemCart.itemInCart.length > 0) {
+      const newData = listItemCart.itemInCart.map(its => {
+        if (its.stockQuantity == 0) {
+          return {
+            ...its,
+            choose: false,
+          };
+        }
+        return its;
+      });
+      handleAddArrayItemToCart(newData);
+    }
+  };
+
   const handleBuyNow = () => {
     if (listItemCart.itemInCart.length > 0) {
       handleProductOrder();
@@ -273,6 +295,10 @@ const CartsScreen = () => {
   }, [listItemCart.itemCartOrder]);
 
   useEffect(() => {
+    handleUpdateCartItemStore();
+  }, []);
+
+  useEffect(() => {
     if (token) {
       const timeout = setTimeout(() => {
         handleUpdateCartItem(token, listItemCart.itemInCart);
@@ -290,7 +316,9 @@ const CartsScreen = () => {
         {listItemCart.itemInCart.length > 0 && (
           <View style={styles.styleCheckAll}>
             <View style={styles.styleCheckBox}>
-              <TouchableOpacity onPress={handleCheckAll}>
+              <TouchableOpacity
+                disabled={eventDisable}
+                onPress={handleCheckAll}>
                 {checkedAll ? <ICISCheckbox /> : <ICNOCheckbox />}
               </TouchableOpacity>
             </View>
@@ -583,44 +611,3 @@ const styles = StyleSheet.create({
     borderWidth: 1,
   },
 });
-
-const data = {
-  data: [
-    {
-      choose: true,
-      id: 26106,
-      productDetailId: 22278,
-      quantitySelected: 7,
-      userId: '048bd1ea-5789-49f0-9f1c-44a568f39c5b',
-    },
-    {
-      choose: true,
-      id: 25605,
-      productDetailId: 22137,
-      quantitySelected: 3,
-      userId: '048bd1ea-5789-49f0-9f1c-44a568f39c5b',
-    },
-    {
-      choose: true,
-      id: 26104,
-      productDetailId: 22300,
-      quantitySelected: 4,
-      userId: '048bd1ea-5789-49f0-9f1c-44a568f39c5b',
-    },
-    {
-      choose: true,
-      id: 25611,
-      productDetailId: 23114,
-      quantitySelected: 4,
-      userId: '048bd1ea-5789-49f0-9f1c-44a568f39c5b',
-    },
-    {
-      choose: true,
-      id: 26003,
-      productDetailId: 22081,
-      quantitySelected: 4,
-      userId: '048bd1ea-5789-49f0-9f1c-44a568f39c5b',
-    },
-  ],
-  success: true,
-};

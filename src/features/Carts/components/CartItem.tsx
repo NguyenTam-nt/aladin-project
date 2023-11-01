@@ -11,6 +11,7 @@ import useI18n from 'src/hooks/useI18n';
 import {ICNOCheckbox} from 'src/assets/icons/ICNOCheckox';
 import {NavLink} from 'src/constants/links';
 import {productRoute} from 'src/constants/routers';
+import TextTranslate from 'src/components/TextTranslate';
 
 interface IProps {
   product: IITemCart;
@@ -43,10 +44,51 @@ const CartItem = (props: IProps) => {
   };
 
   return (
-    <View style={styles.cartContainer}>
+    <View
+      style={[
+        styles.cartContainer,
+        product.stockQuantity == 0 && {opacity: 0.5},
+      ]}>
+      {/* {product.stockQuantity == 0 && (
+        <View
+          style={[
+            StyleSheet.absoluteFillObject,
+            {
+              backgroundColor: defaultColors.rgba_0_0_0_03,
+              flex: 1,
+              zIndex: 10,
+              borderRadius: 20,
+              justifyContent: 'center',
+              alignItems: 'flex-start',
+              paddingLeft: 15,
+              paddingTop: 60,
+            },
+          ]}>
+          <TextTranslate
+            fontSize={14}
+            numberOfLines={2}
+            color={defaultColors.text_313131}
+            weight="400"
+            text="cart.out-row"
+          />
+        </View>
+      )} */}
+      {product.stockQuantity == 0 && (
+        <View style={{position: 'absolute', bottom: 20, left: 10}}>
+          <TextTranslate
+            fontSize={14}
+            numberOfLines={2}
+            color={defaultColors.primary}
+            weight="400"
+            text="cart.out-row"
+          />
+        </View>
+      )}
       <View style={styles.cartPreview}>
         <View style={styles.styleCheckBox}>
-          <TouchableOpacity onPress={handleChangeCheckBox}>
+          <TouchableOpacity
+            disabled={product.stockQuantity == 0 ? true : false}
+            onPress={handleChangeCheckBox}>
             {product.choose ? <ICISCheckbox /> : <ICNOCheckbox />}
           </TouchableOpacity>
         </View>
@@ -101,8 +143,11 @@ const CartItem = (props: IProps) => {
             quanlity={product.quantitySelected}
             quantityDefault={product.stockQuantity}
             handleUodateQuantity={handleUodateQuantity}
+            disable={product.stockQuantity == 0 ? true : false}
           />
-          <TouchableOpacity onPress={() => removeItem(product.productDetailId)}>
+          <TouchableOpacity
+            style={{flex: 1, position: 'relative', zIndex: 9999}}
+            onPress={() => console.log('hshshh')}>
             <View style={styles.styleRemove}>
               <ICRemove />
             </View>
@@ -125,7 +170,9 @@ const styles = StyleSheet.create({
     columnGap: 4,
     backgroundColor: defaultColors.c_fff,
     borderRadius: 20,
+
     paddingHorizontal: 18,
+    position: 'relative',
   },
   cartPreview: {
     flexDirection: 'row',
@@ -155,6 +202,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   styleImage: {
+    marginTop: 2,
     width: 80,
     height: 80,
     borderRadius: 20,

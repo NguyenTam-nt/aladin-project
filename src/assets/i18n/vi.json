@@ -170,7 +170,8 @@
         "payments-methods": "Phương thức thanh toán",
         "payment-COD": "Thanh toán khi giao hàng (COD)"
       },
-      "button-order": "Đặt hàng"
+      "button-order": "Đặt hàng",
+      "out-row": "Hết hàng"
     },
     "button": {
       "required-contact": "Yêu cầu tư vấn",

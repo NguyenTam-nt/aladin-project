@@ -110,29 +110,23 @@ const CityFilter = (props: {isProductScreen?: false}) => {
     );
   };
   return (
-    <View
-      style={
-        isProductScreen ? styles().containerProductSreen : styles().container
-      }>
-      <TouchableOpacity
-        //@ts-ignore
-        ref={refDropdown}
-        onPress={toggleDropdown}>
-        <TextTranslate
-          text="common.view_price"
-          color={isProductScreen ? defaultColors.primary : defaultColors.c_fff}
-          fontSize={8}
-          weight="400"
-        />
+    <TouchableOpacity
+      //@ts-ignore
+      ref={refDropdown}
+      onPress={toggleDropdown}>
+      <View
+        style={
+          isProductScreen ? styles().containerProductSreen : styles().container
+        }>
         <TextCustom
           color={isProductScreen ? defaultColors.primary : defaultColors.c_fff}
           fontSize={10}
           weight="bold">
           {dataItem.provices.Name}
         </TextCustom>
-        {renderDropdownProvice()}
-      </TouchableOpacity>
-    </View>
+      </View>
+      {renderDropdownProvice()}
+    </TouchableOpacity>
   );
 };
 
@@ -148,6 +142,7 @@ const styles = (statusBarHeight?: number, height?: number) =>
       borderRadius: 6,
       padding: 4,
       backgroundColor: defaultColors.bg_00C3AB,
+      justifyContent: 'center',
     },
     containerProductSreen: {
       width: 'auto',
@@ -156,6 +151,7 @@ const styles = (statusBarHeight?: number, height?: number) =>
       borderColor: defaultColors.primary,
       borderRadius: 6,
       padding: 4,
+      justifyContent: 'center',
       // backgroundColor: defaultColors.bg_00C3AB,
     },
     provice: {

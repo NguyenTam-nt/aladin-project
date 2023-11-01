@@ -2,12 +2,14 @@ import {TextCustom} from '@components';
 import {defaultColors} from '@configs';
 import React from 'react';
 import {StyleSheet, TouchableOpacity, View} from 'react-native';
+import {boolean} from 'yup';
 interface IProps {
   quanlity: number;
   handleIncrease?: (value: any) => void;
   handleDecrease?: (value: any) => void;
   quantityDefault: number;
   handleUodateQuantity: (type: 'DECREASE' | 'INCREASE') => void;
+  disable?: boolean;
 }
 const AmountCartItem = (props: IProps) => {
   const {
@@ -16,11 +18,14 @@ const AmountCartItem = (props: IProps) => {
     handleIncrease,
     quantityDefault,
     handleUodateQuantity,
+    disable = false,
   } = props;
   return (
     <View style={styles.counterStyle}>
       <TouchableOpacity
-        disabled={quantityDefault ? quanlity === 1 : false}
+        disabled={
+          disable == false ? (quantityDefault ? quanlity === 1 : false) : true
+        }
         onPress={() => handleUodateQuantity('DECREASE')}
         style={styles.actionStyle}>
         <TextCustom>-</TextCustom>
@@ -31,7 +36,7 @@ const AmountCartItem = (props: IProps) => {
         </TextCustom>
       </View>
       <TouchableOpacity
-        disabled={quanlity === quantityDefault}
+        disabled={disable == false ? quanlity === quantityDefault : true}
         onPress={() => handleUodateQuantity('INCREASE')}
         style={styles.actionStyle}>
         <TextCustom>+</TextCustom>
