@@ -1,12 +1,4 @@
 import {useKeycloak} from '@react-keycloak/native';
-import {RNKeycloak} from '@react-keycloak/native';
-import axios from 'axios';
-
-export const keycloak = new RNKeycloak({
-  url: 'https://marketmoa.com.vn/auth',
-  realm: 'plustmart',
-  clientId: 'web_app',
-});
 
 export const AuthServices = () => {
   const {keycloak} = useKeycloak();
@@ -34,7 +26,6 @@ export const AuthServices = () => {
         scope: 'profile',
         onLoad: 'check-sso',
         pkceMethod: 'S256',
-        //redirectUri : 'https://marketmoa.com.vn/auth',
       })
       .then(e => console.log('eeee', e));
   };
