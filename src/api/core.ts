@@ -7,12 +7,14 @@ import store from 'src/redux';
 import {setRefreshToken, setToken} from 'src/redux/reducers/AuthSlice';
 import {refreshToken, urlLogin} from './login';
 import {MessageUtils} from 'src/commons/messageUtils';
+import {AuthServices} from './authService';
 // import { RefNavigationToLoginScreen } from 'src/navigations/DrawerMain';
 const {CancelToken} = axios;
 const source = CancelToken.source();
 
-const logout = () => {
-  // RefNavigationToLoginScreen?.current?.GotoLoginScreen();
+const logout = (refresh_token: string) => {
+  const {dologout} = AuthServices();
+  return dologout(refresh_token);
 };
 
 const ShowMessageRefreshTokenError = () => {
@@ -29,12 +31,12 @@ axiosInstance.interceptors.response.use(
   },
   async error => {
     const originalRequest = error.config;
-
+    const refresh_token = store.getState().appInfoReducer.refreshToken;
     if (error.response.status === 401 && originalRequest.baseURL !== urlLogin) {
       // Nếu có lỗi 401, thực hiện refresh token
       if (!originalRequest._retry) {
         originalRequest._retry = true;
-        const refresh_token = store.getState().appInfoReducer.refreshToken;
+
         try {
           const res = await refreshToken(refresh_token);
           if (res.success) {
@@ -48,17 +50,17 @@ axiosInstance.interceptors.response.use(
           } else {
             // refresh token thất bại
             ShowMessageRefreshTokenError();
-            logout();
+            logout(refresh_token);
           }
         } catch (e) {
           // Nếu có lỗi khác khi refresh token
           ShowMessageRefreshTokenError();
-          logout();
+          logout(refresh_token);
         }
       } else {
         // Nếu retry token không thành công, thực hiện logout
         ShowMessageRefreshTokenError();
-        logout();
+        logout(refresh_token);
       }
     }
     // Nếu không phải lỗi 401 hoặc refresh token không thành công, throw error

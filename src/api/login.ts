@@ -54,8 +54,8 @@ export const refreshToken = async (
   try {
     const params = {
       grant_type: 'refresh_token',
-      client_id: 'giangmy',
-      client_secret: 'giangmy',
+      client_id: 'web_app',
+      client_secret: 'web_app',
       refresh_token: refresh_token,
     };
     const dataLogin = Object.keys(params)
@@ -76,14 +76,4 @@ export const refreshToken = async (
   } catch (e) {
     return handleError(e);
   }
-};
-
-const data = {
-  realm: 'plustmart',
-  public_key:
-    'MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA+8nLzx0A+0sXIe9ZIMOoA+oTQwgsVTmDWd8JgvoqUprdISm4WopkicYtOgcYRnBpznIKW7tH2HupZZolrYmJj0OGUqrbIE/ITu1gOKguQmEU0SrRqJcjIX8ZyKCrSHA4hxZ073lxWDLWDPwGKje/QiInuy7hVfSLVM1iqhR/CaPSrP9YsETpw8DDsEdAVKmXiwnarwUgr3BqrmSoSHUAlHImVBp3q8+dCH+tBZYePToBKpLeeei+fcnYI9i1bKFbr06NrqCdc5jMvliSrZkSwxDr2A3rumAeFg3f99AVPZzxFfXAa9kleYv5FG6mx3s6XsU5gzyda07KQKOnh/sihQIDAQAB',
-  'token-service':
-    'https://marketmoa.com.vn/auth/realms/plustmart/protocol/openid-connect',
-  'account-service': 'https://marketmoa.com.vn/auth/realms/plustmart/account',
-  'tokens-not-before': 0,
 };

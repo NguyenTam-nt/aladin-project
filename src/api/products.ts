@@ -1,47 +1,8 @@
 import { IResponseApi } from './types';
 import { IParams } from '@typeRules';
-import { APIs, IData } from './config';
+import { APIs } from './config';
 import { handleError } from './handleError';
 import request from './request';
-import { IOrderItem, IOrderKitchen, OrderType } from 'src/typeRules/product';
-
-// export interface IMenuItem {
-//   id: number
-//   code: string
-//   linkMedia: string
-//   percent: number
-//   name: string
-//   price: number
-//   pricePromotion: number
-//   show: boolean
-//   isStar: boolean
-//   priority: boolean
-//   idCategory?: number
-//     status? :string
-// }
-
-// export interface IMenuData {
-//   totalElement: number
-//   totalElementPage: number
-//   list: IMenuItem[]
-// }
-
-// export interface IProductInCart {
-//   id: number
-//   idProduct : number
-//   numProduct: number
-//   createdDate: string
-//   nameTable: string
-//   idInvoice: number
-//   createdBy: string
-//   linkMedia: string
-//   name: string
-//   price: number
-//   pricePromotion: number
-//   state: 'COMPLETE' | 'CANCEL' | 'PROCESSING' | 'PROCESSING_CANCEL' | null
-//   guide: null
-//   note?: string
-// }
 
 export interface IAttributeFeValues {
   valueVn: string;
@@ -197,4 +158,4 @@ export const getProductsByKeywork = async (params: IParams): Promise<IResponseAp
   } catch (error) {
     return handleError(error);
   }
-}
+};
