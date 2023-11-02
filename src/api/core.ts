@@ -19,7 +19,10 @@ const source = CancelToken.source();
 
 const logout = (refresh_token: string) => {
   const {dologout} = AuthServices();
-  return dologout(refresh_token);
+  store.dispatch(setToken(''));
+  store.dispatch(setRefreshToken(''));
+  store.dispatch(setUserInfo(initUserInfo));
+  dologout(refresh_token);
 };
 
 const ShowMessageRefreshTokenError = () => {
@@ -55,25 +58,16 @@ axiosInstance.interceptors.response.use(
           } else {
             // refresh token thất bại
             ShowMessageRefreshTokenError();
-            store.dispatch(setToken(''));
-            store.dispatch(setRefreshToken(''));
-            store.dispatch(setUserInfo(initUserInfo));
             logout(refresh_token);
           }
         } catch (e) {
           // Nếu có lỗi khác khi refresh token
           ShowMessageRefreshTokenError();
-          store.dispatch(setToken(''));
-          store.dispatch(setRefreshToken(''));
-          store.dispatch(setUserInfo(initUserInfo));
           logout(refresh_token);
         }
       } else {
         // Nếu retry token không thành công, thực hiện logout
         ShowMessageRefreshTokenError();
-        store.dispatch(setToken(''));
-        store.dispatch(setRefreshToken(''));
-        store.dispatch(setUserInfo(initUserInfo));
         logout(refresh_token);
       }
     }
