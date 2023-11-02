@@ -29,12 +29,12 @@ const FilterBy = (props: IProps) => {
         fontSize={14}
         weight="700"
         text="radio.rank"
-        style={{}}
       />
       <View style={styles.container}>
         {FILTER_BY.map((it, idx) => {
           return (
             <Pressable
+              key={idx}
               onPress={() => {
                 handleSetFilter(it.slug);
               }}

@@ -31,7 +31,7 @@ export const AuthServices = () => {
   };
 
   const doLoginFacebook = () => {
-    keycloak?.login({idpHint: 'facebook', locale: 'en'});
+    keycloak?.login({idpHint: 'facebook', prompt: 'login', locale: 'en'});
   };
 
   const isLoggedIn = (): boolean => !!keycloak?.token;
