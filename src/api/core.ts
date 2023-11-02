@@ -4,7 +4,12 @@ import axios, {
   CancelTokenSource,
 } from 'axios';
 import store from 'src/redux';
-import {setRefreshToken, setToken} from 'src/redux/reducers/AuthSlice';
+import {
+  initUserInfo,
+  setRefreshToken,
+  setToken,
+  setUserInfo,
+} from 'src/redux/reducers/AuthSlice';
 import {refreshToken, urlLogin} from './login';
 import {MessageUtils} from 'src/commons/messageUtils';
 import {AuthServices} from './authService';
@@ -50,16 +55,25 @@ axiosInstance.interceptors.response.use(
           } else {
             // refresh token thất bại
             ShowMessageRefreshTokenError();
+            store.dispatch(setToken(''));
+            store.dispatch(setRefreshToken(''));
+            store.dispatch(setUserInfo(initUserInfo));
             logout(refresh_token);
           }
         } catch (e) {
           // Nếu có lỗi khác khi refresh token
           ShowMessageRefreshTokenError();
+          store.dispatch(setToken(''));
+          store.dispatch(setRefreshToken(''));
+          store.dispatch(setUserInfo(initUserInfo));
           logout(refresh_token);
         }
       } else {
         // Nếu retry token không thành công, thực hiện logout
         ShowMessageRefreshTokenError();
+        store.dispatch(setToken(''));
+        store.dispatch(setRefreshToken(''));
+        store.dispatch(setUserInfo(initUserInfo));
         logout(refresh_token);
       }
     }
@@ -78,8 +92,6 @@ export const createRequest = (baseUrl: string, timeout: number) => {
     authToken?: string | undefined,
     cancelToken?: CancelTokenSource | undefined,
   ) => {
-    console.log('baseurl', baseUrl);
-
     const headers = {
       Accept: 'application/json',
       'Content-Type': 'application/json',
@@ -104,8 +116,6 @@ export const createRequest = (baseUrl: string, timeout: number) => {
         url: string,
         options: AxiosRequestConfig = {},
       ) => {
-        console.log('url', url);
-
         return axiosInstance.get<T, R>(url, {
           // ...options.params,
           ...defaultOptions,

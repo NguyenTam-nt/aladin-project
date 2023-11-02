@@ -6,6 +6,7 @@ export const handleError: (error: any) => ApiResponse<any> = error => {
     return {
       status: 0,
       success: false,
+      //@ts-ignore
       data: error?.response?.data,
       code: 301,
       message: 'Hủy api',

@@ -6,6 +6,7 @@ import {useTranslation} from 'react-i18next';
 import {Modal, StyleSheet, TouchableOpacity, View} from 'react-native';
 import {useDispatch} from 'react-redux';
 import {AuthServices} from 'src/api/authService';
+import {getUserInfo} from 'src/api/user';
 import {ICAccountInfo} from 'src/assets/icons/ICAccountInfo';
 import {ICDropdown} from 'src/assets/icons/ICDropdown';
 import {ICPassword} from 'src/assets/icons/ICPassword';
@@ -71,6 +72,14 @@ const AccountScreen = () => {
     useChangeLanguage(value);
   };
 
+  const handleGetUserInfo = async (tokens: string) => {
+    try {
+      const userInfos = await getUserInfo(tokens);
+      if (userInfo) {
+        dispatch(setUserInfo(userInfos.data));
+      }
+    } catch (error) {}
+  };
   const handleLoout = () => {
     dologout(refresh_token);
     dispatch(setToken(''));
@@ -79,6 +88,12 @@ const AccountScreen = () => {
     //@ts-ignore
     navigation.navigate(accountRoute.login);
   };
+
+  useEffect(() => {
+    if (token) {
+      handleGetUserInfo(token);
+    }
+  }, [token]);
 
   const renderDropdown = (): ReactElement<any, any> => {
     return (

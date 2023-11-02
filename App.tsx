@@ -113,11 +113,11 @@ function App() {
         await dispatch(setToken(tokens.token));
         //@ts-ignore
         await dispatch(setRefreshToken(tokens?.refreshToken));
-        const userInfo = await getUserInfo(tokens.token);
+        // const userInfo = await getUserInfo(tokens.token);
 
-        if (userInfo) {
-          await dispatch(setUserInfo(userInfo.data));
-        }
+        // if (userInfo) {
+        //   await dispatch(setUserInfo(userInfo.data));
+        // }
         handleGetCartItemApi(tokens.token, listItemCart.itemInCart);
         //save to storage tokens.token
       }
