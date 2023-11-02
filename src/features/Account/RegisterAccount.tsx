@@ -81,7 +81,6 @@ const RegisterAccount = () => {
         .oneOf([Yup.ref('password')], 'messages.repeat-password.matches'),
     }),
     onSubmit: async (value: any) => {
-      console.log('value', value);
       const datas = {
         ...value,
         role: 'users',
@@ -120,7 +119,6 @@ const RegisterAccount = () => {
   const handleCheckAccountExits = async (login: any, datas: any) => {
     try {
       const res = await checkAccountExitsApi(login);
-      console.log('ress sss', res);
       if (res.code === 400) {
         openModal();
         setMessageType('ERROR');

@@ -56,7 +56,6 @@ export const FomatDateYY_MM_DD_H_M = (stringDate: string, isTime?:boolean) => {
     // Định dạng thành chuỗi "dd/mm/yyyy"
     const formattedDate = `${day < 10 ? '0' : ''}${day}/${month < 10 ? '0' : ''}${month}/${year}`;
 
-    console.log(formattedDate);
     return formattedDate;
   };
 

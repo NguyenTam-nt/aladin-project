@@ -18,7 +18,6 @@ export const getAboutApi = async (): Promise<IResponseApi<IAbout[]>> => {
   try {
     const result = await request().get(`${APIs.ABOUT}`);
     const data = await result.data;
-    // console.log({data});
 
     return {
       success: true,

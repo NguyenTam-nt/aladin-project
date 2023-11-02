@@ -52,23 +52,26 @@ const InputSearch = ({
           shadowOpacity: 0.22,
           shadowRadius: 2.22,
           elevation: 3,
+          overflow: 'hidden',
         },
       ]}>
-      <TextInput
-        style={styles.inputText}
-        placeholder={t(textPlanhoder)}
-        placeholderTextColor={
-          isProductScreen
-            ? defaultColors.text_C4C4C4
-            : defaultColors.text_626262
-        }
-        onChangeText={setKeywork}
-        value={keywork}
-        {...props}
-      />
-      <TouchableOpacity onPress={handleSearch} style={styles.viewIcon}>
-        <ICSearch />
-      </TouchableOpacity>
+      <View style={{flexDirection: 'row', elevation: 4, overflow: 'hidden'}}>
+        <TextInput
+          style={styles.inputText}
+          placeholder={t(textPlanhoder)}
+          placeholderTextColor={
+            isProductScreen
+              ? defaultColors.text_C4C4C4
+              : defaultColors.text_626262
+          }
+          onChangeText={setKeywork}
+          value={keywork}
+          {...props}
+        />
+        <TouchableOpacity onPress={handleSearch} style={styles.viewIcon}>
+          <ICSearch />
+        </TouchableOpacity>
+      </View>
       <ModalCustom
         onBackdropPress={modalEditInventory.handleHidden}
         ref={modalEditInventory.refModal}>
@@ -88,12 +91,12 @@ export default InputSearch;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    flexDirection: 'row',
+    // flexDirection: 'row',
     backgroundColor: defaultColors.c_fff,
     borderRadius: 25,
     overflow: 'hidden',
     alignItems: 'center',
-    height:  45,
+    height: 45,
     justifyContent: 'space-between',
   },
   inputText: {

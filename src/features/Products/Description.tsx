@@ -24,8 +24,6 @@ const Description = (props: IProps) => {
   const [seeMoreProduct, setSeeMoreProduct] = useState<Boolean>(false);
   const [seeMoreSpec, setSeeMoreSpec] = useState<Boolean>(false);
   const {width} = useWindowDimensions();
-  console.log('productInfo', productInfo);
-
   return (
     <View style={styles().container}>
       <View style={styles().exploreStyle}>
@@ -51,7 +49,7 @@ const Description = (props: IProps) => {
       </View>
       <View style={styles().contentStyle}>
         {actionKey === 'product-info' && (
-          <RenderHTML  source={{html: productInfo ?? ''}} />
+          <RenderHTML source={{html: productInfo ?? ''}} />
           // <WebView source={productInfo ?? ''} />
           // <WebView contentWidth={width} source={{html: productInfo ?? ''}} />
           // <Html

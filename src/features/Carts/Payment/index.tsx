@@ -126,7 +126,6 @@ const PaymentScreen = () => {
         ? //@ts-ignore
           openModalLogin()
         : handleCreateOrder(datas);
-      // console.log('datas ', datas);
     },
   });
 

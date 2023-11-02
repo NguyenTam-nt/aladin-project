@@ -23,32 +23,7 @@ export const AuthServices = () => {
   const doLogin = () => keycloak?.login();
 
   const dologout = (refresh_token: string) => {
-    // const options = {
-    //   method: 'post',
-    //   url: '/login',
-    //   data: {
-    //     client_id: 'web_app',
-    //     refresh_token: refresh_token,
-    //   },
-    //   headers:{
-    //     Content-Type: 'application/x-www-form-urlencoded'
-    //   }
-    // };
-    const headers = {
-      'Content-Type': 'application/x-www-form-urlencoded',
-    };
-
-    axios.post(
-      'https://marketmoa.com.vn/auth/realms/plustmart/protocol/openid-connect/logout?redirect_uri=encodedRedirectUri',
-      {
-        client_id: 'web_app',
-        refresh_token: refresh_token,
-      },
-      {
-        headers: headers,
-      },
-    );
-    keycloak?.logout();
+    keycloak?.logout({refresh_token});
   };
   const doLoginGoogle = () => {
     keycloak

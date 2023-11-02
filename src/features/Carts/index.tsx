@@ -332,7 +332,9 @@ const CartsScreen = () => {
                 })}
               </TextCustom>
             </View>
-            <TouchableOpacity disabled={!checkedAll} onPress={removeListItem}>
+            <TouchableOpacity
+              disabled={eventDisable == true ? false : !checkedAll}
+              onPress={removeListItem}>
               <View style={styles.styleRemove}>
                 <ICRemove />
               </View>

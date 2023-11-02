@@ -43,7 +43,6 @@ const ForgotPassword = () => {
         .max(256, 'messages.max'),
     }),
     onSubmit: async (value: any) => {
-      // console.log('value', value);
       handleResetPassword(value.email);
     },
   });

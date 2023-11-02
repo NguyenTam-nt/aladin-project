@@ -39,9 +39,6 @@ export const login = async (
     });
 
     const {data} = await result;
-
-    console.log('data login ', data);
-
     return {
       success: true,
       data: data,

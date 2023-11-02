@@ -6,7 +6,6 @@ import {useListItemProvice} from 'src/redux/provices/hooks';
 import {defaultColors} from '@configs';
 import {TouchableOpacity} from 'react-native';
 import TextTranslate from 'src/components/TextTranslate';
-import {boolean} from 'yup';
 
 const ProductSaleList = () => {
   const SIZE = 10;
@@ -29,6 +28,7 @@ const ProductSaleList = () => {
         address: provice,
       };
       const res = await getProductsApi(params);
+
       if (res) {
         !loop
           ? setProductsSale(res.data)

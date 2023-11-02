@@ -109,6 +109,7 @@ const CityFilter = (props: {isProductScreen?: false}) => {
       </Modal>
     );
   };
+  const provicenName = dataItem.provices.Name;
   return (
     <TouchableOpacity
       //@ts-ignore
@@ -122,7 +123,11 @@ const CityFilter = (props: {isProductScreen?: false}) => {
           color={isProductScreen ? defaultColors.primary : defaultColors.c_fff}
           fontSize={10}
           weight="bold">
-          {dataItem.provices.Name}
+          {provicenName && provicenName.includes('Thành phố')
+            ? provicenName.slice(10)
+            : provicenName.includes('Tỉnh')
+            ? provicenName.slice(5)
+            : ''}
         </TextCustom>
       </View>
       {renderDropdownProvice()}

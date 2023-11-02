@@ -65,7 +65,6 @@ export const checkAccountExitsApi = async (
       success: true,
     };
   } catch (e) {
-    // console.log('eeeee', e.response.data);
     return handleError(e);
   }
 };
@@ -96,14 +95,12 @@ export const changePassword = async (
       datas,
     );
     const {data} = await result;
-    console.log('datas ', data);
 
     return {
       data: data,
       success: true,
     };
   } catch (e) {
-    console.log('eeeee', e?.response?.data);
 
     return handleError(e);
   }
