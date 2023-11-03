@@ -4,8 +4,8 @@ import {
   useNavigation,
   useRoute,
 } from '@react-navigation/native';
-import React, {useEffect, useLayoutEffect, useRef, useState} from 'react';
-import {ScrollView, StyleSheet, TouchableOpacity, View} from 'react-native';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
+import {StyleSheet, View} from 'react-native';
 import {
   IAttributeFes,
   IProduct,
@@ -39,6 +39,8 @@ import ImperativeScrollView, {
 import Description from './Description';
 import {ICartItem, updateCartItem} from 'src/api/cartItem';
 import {useToken} from 'src/redux/reducers/hook';
+import {Thumbnail, createThumbnail} from 'react-native-create-thumbnail';
+import Video from 'react-native-video';
 
 const ProductDetail = () => {
   const {isVn} = useI18n();
@@ -63,26 +65,43 @@ const ProductDetail = () => {
   >();
   const provices = useListItemProvice();
   const [imageLinkProduct, setImageLinkProduct] = useState<string | null>(null);
+  const [videoUrl, setVideoUrl] = useState<string | null>(null);
   const [quantityVailable, setQuantityVailable] = useState<number>(1);
   const listItemCart = useListItemCart();
+  const [imagesProduct, setImageProduct] = useState<{url: string}[]>([]);
   const token = useToken();
+  const videoRef = useRef(null);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [loading, setLoading] = useState<boolean>(true);
   const getProduct = async (id: any, provice: string) => {
     try {
+      setLoading(true);
       const res = await getProductsDetailApi(id, provice);
       const data = res.data;
       if (data) {
         setProduct(data);
         setAtributeFes(data.attributeFes);
         setProductDetails(data.productDetails);
+        // console.log('thumbnail', await generateThumbnail(data.videoUrl));
+        if (data.videoUrl) {
+          const thumbnailVideo = await generateThumbnail(data.videoUrl);
+          if (thumbnailVideo.path) {
+            const array = [{url: thumbnailVideo.path}, ...data.images];
+            setVideoUrl(data.videoUrl);
+            setImageProduct(array);
+          } else {
+            setImageProduct(data.images);
+          }
+        } else {
+          setImageProduct(data.images);
+        }
       }
     } catch (error) {
       console.log(error);
+    } finally {
+      setLoading(false);
     }
   };
-
-  useEffect(() => {
-    getProduct(idProduct, provices.provices.Name);
-  }, [idProduct, provices]);
 
   const handleWarningAddToCart = () => {
     Toast.show({
@@ -200,27 +219,64 @@ const ProductDetail = () => {
     });
   };
 
+  const generateThumbnail = async (uri: string): Promise<Thumbnail> => {
+    try {
+      const thumbnails = await createThumbnail({
+        url: uri,
+        timeStamp: 1,
+        format: 'jpeg',
+      });
+      return thumbnails;
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  useEffect(() => {
+    getProduct(idProduct, provices.provices.Name);
+  }, [idProduct, provices]);
+
   useFocusEffect(
     React.useCallback(() => {
       return () => {
         onTopScroll();
+        setImageLinkProduct(null);
+        setVideoUrl(null);
+        setIsPlaying(false);
       };
     }, [idProduct]),
   );
+
+  if (loading) {
+    return <></>;
+  }
 
   return (
     <View style={styles.container}>
       <HeaderBack isProductDetail={true} iconCart={true} />
       <ImperativeScrollView ref={scrollViewRef}>
-        <Thumb
-          style={styles.styleImage}
-          source={{uri: imageLinkProduct ?? product?.images?.[0].url}}
-          resizeMode="stretch"
-        />
+        {videoUrl && isPlaying === false ? (
+          <Video
+            source={{
+              uri: videoUrl,
+            }}
+            style={styles.video}
+            resizeMode="contain"
+            controls={true}
+            paused={isPlaying}
+          />
+        ) : (
+          <Thumb
+            style={styles.styleImage}
+            source={{uri: imageLinkProduct ?? product?.images?.[0].url}}
+            resizeMode="stretch"
+          />
+        )}
         <ImageFlatList
-          images={product?.images}
+          images={imagesProduct}
           setImageLinkProduct={setImageLinkProduct}
           imageLinkProduct={imageLinkProduct}
+          setIsPlaying={setIsPlaying}
         />
         <ProductDetailItem
           name={isVn ? product?.productNameVn : product?.productNameKr}
@@ -335,18 +391,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     columnGap: 7,
   },
-});
+  video: {
+    width: '100%',
+    height: 325,
+    // aspectRatio: 16 / 9,
 
-const data = {
-  actualPriceDetail: 26730,
-  addressWarehouse: 'Thành phố Hà Nội',
-  attributes: [{attributeNameVn: 'Vị', valueVn: 'Vị Chanh'}],
-  attributesKr: [{attributeNameKr: '맛', valueKr: '레몬'}],
-  imageDetailUrl:
-    'https://marketmoa.com.vn/getimage/169770341777824380422-ac81-433f-a1ce-d9789e42cc3f.webp',
-  priceDetail: 27000,
-  productDetailId: 21688,
-  promoDetail: 1,
-  soldQuantity: 5,
-  stockQuantity: 0,
-};
+    // backgroundColor: defaultColors.primary,
+  },
+});

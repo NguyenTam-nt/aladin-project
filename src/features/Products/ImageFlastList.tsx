@@ -8,9 +8,10 @@ interface IProps {
   }[];
   setImageLinkProduct: (value: string) => void;
   imageLinkProduct: string | null;
+  setIsPlaying: (value: boolean) => void;
 }
 const ImageFlatList = (props: IProps) => {
-  const {images, setImageLinkProduct, imageLinkProduct} = props;
+  const {images, setImageLinkProduct, imageLinkProduct, setIsPlaying} = props;
   return (
     <View style={styles.container}>
       <FlatList
@@ -20,7 +21,14 @@ const ImageFlatList = (props: IProps) => {
         renderItem={({item, index}) => {
           return (
             <TouchableOpacity
-              onPress={() => setImageLinkProduct(item.url)}
+              onPress={() => {
+                setImageLinkProduct(item.url);
+                if (item.url.includes('http')) {
+                  setIsPlaying(true);
+                } else {
+                  setIsPlaying(false);
+                }
+              }}
               style={[imageLinkProduct === item.url && styles.BorderImage]}>
               <Thumb
                 style={styles.styleImage}

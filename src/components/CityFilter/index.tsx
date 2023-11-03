@@ -127,7 +127,7 @@ const CityFilter = (props: {isProductScreen?: false}) => {
             ? provicenName.slice(10)
             : provicenName.includes('Tỉnh')
             ? provicenName.slice(5)
-            : ''}
+            : provicenName}
         </TextCustom>
       </View>
       {renderDropdownProvice()}
