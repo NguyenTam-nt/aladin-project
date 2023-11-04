@@ -41,6 +41,9 @@ import {ICartItem, updateCartItem} from 'src/api/cartItem';
 import {useToken} from 'src/redux/reducers/hook';
 import {Thumbnail, createThumbnail} from 'react-native-create-thumbnail';
 import Video from 'react-native-video';
+import ProductNotFound from './ProductNotFound';
+import {useDispatch} from 'react-redux';
+import {removeProductByyId} from 'src/redux/products/slice';
 
 const ProductDetail = () => {
   const {isVn} = useI18n();
@@ -70,19 +73,19 @@ const ProductDetail = () => {
   const listItemCart = useListItemCart();
   const [imagesProduct, setImageProduct] = useState<{url: string}[]>([]);
   const token = useToken();
-  const videoRef = useRef(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<'ERROR' | null>(null);
+  const dispatch = useDispatch();
   const getProduct = async (id: any, provice: string) => {
     try {
       setLoading(true);
       const res = await getProductsDetailApi(id, provice);
       const data = res.data;
-      if (data) {
+      if (data && res.success === true) {
         setProduct(data);
         setAtributeFes(data.attributeFes);
         setProductDetails(data.productDetails);
-        // console.log('thumbnail', await generateThumbnail(data.videoUrl));
         if (data.videoUrl) {
           const thumbnailVideo = await generateThumbnail(data.videoUrl);
           if (thumbnailVideo.path) {
@@ -95,6 +98,17 @@ const ProductDetail = () => {
         } else {
           setImageProduct(data.images);
         }
+        setError(null);
+        return;
+      } else if (res.code === 406) {
+        setError('ERROR');
+        setAtributeFes([]);
+        setProductDetails([]);
+        setVideoUrl('');
+        setImageLinkProduct('');
+        setImageProduct([]);
+        dispatch(removeProductByyId(id));
+        return;
       }
     } catch (error) {
       console.log(error);
@@ -251,6 +265,9 @@ const ProductDetail = () => {
     return <></>;
   }
 
+  if (error === 'ERROR') {
+    return <ProductNotFound />;
+  }
   return (
     <View style={styles.container}>
       <HeaderBack isProductDetail={true} iconCart={true} />
@@ -399,3 +416,18 @@ const styles = StyleSheet.create({
     // backgroundColor: defaultColors.primary,
   },
 });
+
+const data = {
+  cancel: false,
+  code: 406,
+  data: {
+    detail: 'Could not find acceptable representation',
+    message: 'error.http.406',
+    path: '/api/products/22027',
+    status: 406,
+    title: 'Not Acceptable',
+    type: 'https://www.jhipster.tech/problem/problem-with-message',
+  },
+  message: 'error.http.406',
+  status: 0,
+};

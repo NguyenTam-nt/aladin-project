@@ -1,13 +1,12 @@
-import {ScrollView, StyleSheet, View, TouchableOpacity} from 'react-native';
-import React, {useRef, useState} from 'react';
+import {StyleSheet, View} from 'react-native';
+import React, {useRef} from 'react';
 import {globalStyles} from 'src/commons/globalStyles';
 import {defaultColors} from '@configs';
 import HeaderHome from './components/HeaderHome';
-import {DIMENSION, paddingHorizontalScreen} from '@constants';
+import {DIMENSION} from '@constants';
 import Banner from './components/Banner';
 import SpaceBottom from 'src/components/SpaceBottom';
 import GroupContact from './components/GroupContact';
-import CategoryOutStandingList from './components/CategoryOutStandingList';
 import ProductNewList from './components/ProductNewList';
 import ProductSaleList from './components/ProductSaleList';
 import ContactTopic from './components/ContactTopic';
@@ -17,12 +16,9 @@ import {BannerType} from 'src/typeRules/banner';
 import ImperativeScrollView, {
   ImperativeScrollViewHandles,
 } from 'src/hooks/useImperativeScrollView';
-import {
-  useFocusEffect,
-  useIsFocused,
-  useNavigation,
-} from '@react-navigation/native';
+import {useFocusEffect} from '@react-navigation/native';
 import {useListItemProvice} from 'src/redux/provices/hooks';
+
 const HomeScren = () => {
   const scrollViewRef = useRef<ImperativeScrollViewHandles>(null);
   const proviceItem = useListItemProvice();

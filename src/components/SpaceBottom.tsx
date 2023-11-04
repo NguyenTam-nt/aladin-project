@@ -8,7 +8,7 @@ const SpaceBottom = () => {
 
 const styles = StyleSheet.create({
   container: {
-    height: BOTTOM_BAR_HEIGHT + 12,
+    height: BOTTOM_BAR_HEIGHT + 5 ,
   },
 });
 

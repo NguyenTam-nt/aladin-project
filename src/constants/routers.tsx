@@ -74,20 +74,6 @@ export const routers = [
     tabBarIcon: ({color, size}: PropsIcon) => <ICHome color={color} />,
   },
   {
-    name: routetBottomTab.about,
-    title: 'navigation.about',
-    component: About,
-    tabBarLabel: ({focused}: PropsTitle) => (
-      <TextCustom
-        weight="400"
-        fontSize={12}
-        color={focused ? defaultColors.text_111213 : defaultColors.bg_939393}>
-        Giới thiệu
-      </TextCustom>
-    ),
-    tabBarIcon: ({color, size}: PropsIcon) => <ICAbout color={color} />,
-  },
-  {
     name: routetBottomTab.product,
     title: 'navigation.product',
     component: ProductStackScreen,
@@ -100,6 +86,20 @@ export const routers = [
       </TextCustom>
     ),
     tabBarIcon: ({color, size}: PropsIcon) => <ICProduct color={color} />,
+  },
+  {
+    name: routetBottomTab.account,
+    title: 'navigation.account',
+    component: AccountStackScreen,
+    tabBarLabel: ({focused}: PropsTitle) => (
+      <TextCustom
+        weight="400"
+        fontSize={12}
+        color={focused ? defaultColors.text_111213 : defaultColors.bg_939393}>
+        Tài khoản
+      </TextCustom>
+    ),
+    tabBarIcon: ({color, size}: PropsIcon) => <ICAccount color={color} />,
   },
   {
     name: routetBottomTab.contact,
@@ -116,17 +116,17 @@ export const routers = [
     tabBarIcon: ({color, size}: PropsIcon) => <ICContact color={color} />,
   },
   {
-    name: routetBottomTab.account,
-    title: 'navigation.account',
-    component: AccountStackScreen,
+    name: routetBottomTab.about,
+    title: 'navigation.about',
+    component: About,
     tabBarLabel: ({focused}: PropsTitle) => (
       <TextCustom
         weight="400"
         fontSize={12}
         color={focused ? defaultColors.text_111213 : defaultColors.bg_939393}>
-        Tài khoản
+        Giới thiệu
       </TextCustom>
     ),
-    tabBarIcon: ({color, size}: PropsIcon) => <ICAccount color={color} />,
+    tabBarIcon: ({color, size}: PropsIcon) => <ICAbout color={color} />,
   },
 ];

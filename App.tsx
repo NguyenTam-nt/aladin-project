@@ -10,7 +10,7 @@ import {PersistGate} from 'redux-persist/integration/react';
 import {persistor} from './src/redux';
 import Toast from 'react-native-toast-message';
 import ToastMessage from 'src/components/Toast';
-import {View, StyleSheet, Platform, NativeModules} from 'react-native';
+import {View, StyleSheet, Platform, NativeModules, Alert} from 'react-native';
 import './src/configs/i18n';
 import * as RNLocalize from 'react-native-localize';
 import MainStack from 'src/navigations/MainStack';
@@ -21,17 +21,11 @@ import {useGetLanguage} from 'src/redux/multilanguage/hooks';
 import {ReactNativeKeycloakProvider} from '@react-keycloak/native';
 import keycloak from 'src/keycloak';
 import {useDispatch} from 'react-redux';
-import {
-  setRefreshToken,
-  setToken,
-  setUserInfo,
-} from 'src/redux/reducers/AuthSlice';
-import {getUserInfo} from 'src/api/user';
+import {setRefreshToken, setToken} from 'src/redux/reducers/AuthSlice';
 import {AuthServices} from 'src/api/authService';
 import {ICartItem, getCartItemAPI, updateCartItem} from 'src/api/cartItem';
 import {useListItemCart} from 'src/redux/orderCart/hooks';
 import {IITemCart} from 'src/redux/orderCart/slice';
-
 function App() {
   const {i18n} = useTranslation();
   const getLanguage = useGetLanguage();
@@ -66,7 +60,7 @@ function App() {
   };
   const handleUpdateCartItem = async (token: string, data: ICartItem[]) => {
     try {
-      const res = await updateCartItem(token, data);
+      await updateCartItem(token, data);
     } catch (error) {
       console.log(error);
     }
@@ -131,11 +125,11 @@ function App() {
         authClient={keycloak}
         initOptions={initKeycloak}
         onEvent={(event, error) => {
-          console.log('Keycloak event :', event, error);
+          // console.log('Keycloak event :', event, error);
         }}
         isLoadingCheck={keycloak => {
-          console.log('Authenticated', keycloak.authenticated);
-          console.log('token', keycloak.token);
+          // console.log('Authenticated', keycloak.authenticated);
+          // console.log('token', keycloak.token);
 
           return !keycloak.authenticated;
         }}
@@ -160,3 +154,14 @@ function App() {
 
 const styles = StyleSheet.create({});
 export default App;
+
+const data = {
+  details: {
+    ipAddress: '192.168.20.219',
+    isConnectionExpensive: false,
+    subnet: '255.255.255.0',
+  },
+  isConnected: true,
+  isInternetReachable: true,
+  type: 'wifi',
+};

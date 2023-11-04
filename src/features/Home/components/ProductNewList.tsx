@@ -62,7 +62,7 @@ const ProductNewList = () => {
     <View style={styles.container}>
       {/* <TextTilte text="home.product_new" /> */}
       <View style={styles.groupProduct}>
-        {products.length > 0 && (
+        {products?.length > 0 && (
           <ProductsList products={products} textTile="home.product_new" />
         )}
         {currentPage + 1 < totalPages && (
