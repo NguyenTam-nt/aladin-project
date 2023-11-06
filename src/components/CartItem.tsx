@@ -1,5 +1,6 @@
 import { ROLE_LIST, defaultColors, heightHeader, isTabletDevice } from '@configs';
 import { DIMENSION } from '@constants';
+import { useNavigation } from '@react-navigation/native';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import {
   Platform,
@@ -19,9 +20,13 @@ import Animated, {
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useDispatch } from 'react-redux';
 import { IProductInCart, IResponseProductUpdate, getProductInCartApi } from 'src/api/products';
+import { completeBillApi } from 'src/api/table';
+import { MessageUtils } from 'src/commons/messageUtils';
 import { useConnectSocketJS } from 'src/hooks/useConnectSockJS';
 import { useIdBill, useListItemInCart, useListItemProductInCart } from 'src/redux/cartOrder/hooks';
 import { IITemCart, setItemProductInCart } from 'src/redux/cartOrder/slice';
+import { IAuthorize } from 'src/redux/reducers/AuthSlice';
+import { useUserInfo } from 'src/redux/reducers/hook';
 import { ICCart } from '../assets/icons/ICCart';
 import { formatNumberDotSlice, formatNumberDotWithVND, getValueForDevice } from '../commons/formatMoney';
 import {
@@ -32,12 +37,8 @@ import {
 import CartList from './CartList/CartList';
 import { ProductState } from './CartList/TableCartList';
 import ListOfFood from './ListOfFood/ListOfFood';
-import { useUserInfo } from 'src/redux/reducers/hook';
-import { IAuthorize } from 'src/redux/reducers/AuthSlice';
-import { completeBillApi } from 'src/api/table';
-import { Toast } from 'react-native-toast-message/lib/src/Toast';
-import { MessageUtils } from 'src/commons/messageUtils';
-import { useNavigation } from '@react-navigation/native';
+
+export const RefGetItemBillCartItem  = React.createRef<any>();
 
 const CartItem = React.memo(() => {
   const insets = useSafeAreaInsets();
@@ -52,11 +53,9 @@ const CartItem = React.memo(() => {
   const billId = useIdBill();
   const IdArea = useAreaId();
   const userInfo = useUserInfo();
-
   const isOrder = userInfo?.authorities?.findIndex((item: IAuthorize) =>
   item.name === ROLE_LIST.order,
 );
-
   const {dataSocket, setDataSocket} = useConnectSocketJS<IResponseProductUpdate>(IdArea &&  billId ?  `/topic/order/${IdArea}/${billId}` : '');
   const getItemInCart = useCallback(async () => {
     const data = await getProductInCartApi(billId);
@@ -65,11 +64,13 @@ const CartItem = React.memo(() => {
     }
   }, [billId]);
 
+  RefGetItemBillCartItem.current = getItemInCart;
+
   useEffect(() => {
     if (billId) {
       getItemInCart();
     }
-  }, [billId]);
+  }, [billId, getItemInCart]);
   const dataItem = useListItemInCart();
   const dataList = useMemo<any[]>(() => {
     return [...dataItemCart, ...dataItem];
@@ -77,8 +78,9 @@ const CartItem = React.memo(() => {
   const cost = useMemo(() => {
     let newCost = 0;
     dataList.map((item: IITemCart & IProductInCart) => {
-      if (item.status !== ProductState.CANCEL)
-        {newCost += (item?.quantity || item?.numProduct) * item.pricePromotion;}
+      if (item.state !== ProductState.CANCEL) {
+        newCost += (item?.quantity || item?.numProduct) * item.pricePromotion;
+      }
     });
     return newCost;
   }, [dataList]);
@@ -230,6 +232,12 @@ const CartItem = React.memo(() => {
 
   useEffect(() => {
     if (dataSocket) {
+
+      if (dataSocket.list.length === 0) {
+        //@ts-ignore
+        navigation.navigate('mainDrawer');
+        MessageUtils.showSuccessMessage('Hoàn thành bữa ăn.');
+      }
       dispatch(setItemProductInCart(dataSocket.list));
       setDataSocket(undefined);
     }
@@ -238,8 +246,6 @@ const CartItem = React.memo(() => {
   const completeBill = useCallback( async () => {
     if (billId) {
      const complete =  await  completeBillApi(billId);
-      console.log('complete' ,complete);
-
       if (complete.success) {
          MessageUtils.showSuccessMessage('Hoàn thành hoá đơn thành công');
           navigation.navigate('mainDrawer');

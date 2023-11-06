@@ -18,8 +18,6 @@ import { View  ,StyleSheet} from 'react-native';
 
 function App() {
 
-
-
   const toastConfig = {
     tomatoToast: ({ props }: any) => <ToastMessage status={props.status} title={props.uuid} />,
   };
@@ -28,8 +26,7 @@ function App() {
     <PersistGate persistor={persistor}>
       <SafeAreaProvider>
         <MainStack />
-        <View
-          style={styles.container}>
+        <View style={isTabletDevice ? styles.container : undefined}>
           <Toast config={toastConfig} position="bottom" />
         </View>
       </SafeAreaProvider>
@@ -40,7 +37,7 @@ function App() {
 const styles = StyleSheet.create({
   container : {
     position: 'absolute',
-    left: isTabletDevice ? 200 : 0,
+    left: isTabletDevice ? 255 : 0,
     bottom: 0,
   },
 });

@@ -1,11 +1,10 @@
 import { defaultColors, isTabletDevice } from '@configs';
-import React, { useCallback, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import {
   FlatList,
   ListRenderItemInfo,
   StyleSheet,
   Text,
-  TextInput,
   TouchableOpacity,
   View,
 } from 'react-native';
@@ -15,6 +14,7 @@ import { postCombineProduct, postDetechedProduct } from 'src/api/table';
 import { getLinkImageUrl } from 'src/commons';
 import { formatNumberDotSlice } from 'src/commons/formatMoney';
 import { MessageUtils } from 'src/commons/messageUtils';
+import { useModal } from 'src/hooks/useModal';
 import { useIdBill } from 'src/redux/cartOrder/hooks';
 import { setItemProductInCart } from 'src/redux/cartOrder/slice';
 import { ICAddOrder } from '../../../../assets/icons/ICAddOrder';
@@ -24,11 +24,7 @@ import QuantityUpdate from '../../..//QuantityUpdate';
 import { Thumb } from '../../../Thumb/Thumb';
 import { ActionCartListChoose } from '../../CartList';
 import ItemCardMobile from './ItemCardMobile';
-import ModalCustom from 'src/components/ModalCustom';
-import { ICCloseModal } from 'src/assets/icons/ICCloseModal';
-import { useModal } from 'src/hooks/useModal';
-import ButtonAction from 'src/components/ButtonAction/ButtonAction';
-import { DIMENSION } from '@constants';
+import { RefGetItemBillCartItem } from 'src/components/CartItem';
 
 const TableCartItem = ({
   data,
@@ -64,7 +60,7 @@ const TableCartItem = ({
           <View style={styles.textItemCol2}>
             <Text style={styles.textNameItem}>{data.name}</Text>
             <Text style={styles.textPriceItem}>
-              {formatNumberDotSlice(data.numProduct * data.price)}
+              {formatNumberDotSlice(data.numProduct * data.pricePromotion)}
             </Text>
             <View style={styles.textAddOrderItem}>
               <ICAddOrder />
@@ -126,6 +122,14 @@ const CompoundTable = React.memo(
         }
       }
     };
+
+    useEffect(() => {
+      if (deleteAction) {
+        dataProduct.current = [];
+      } else {
+        dataProduct.current = dataItemCart;
+      }
+    }, [dataItemCart]);
     const onUpdatePress = useCallback(async () => {
       if (  dataProduct.current.length > 0) {
       if (typeActions === null && deleteAction ) {
@@ -138,6 +142,7 @@ const CompoundTable = React.memo(
           setActionChoose(ActionCartListChoose.addNewFood);
         } else {
           MessageUtils.showErrorMessage('Yêu cầu huỷ món thất bại');
+          RefGetItemBillCartItem.current?.();
         }
       } else {
         if (tableId && billId) {
@@ -154,6 +159,7 @@ const CompoundTable = React.memo(
               setActionChoose(ActionCartListChoose.addNewFood);
             } else {
               MessageUtils.showErrorMessage('Ghép bàn thất bại');
+              RefGetItemBillCartItem.current?.();
             }
           } else {
             const dataUpdate = await postDetechedProduct(
@@ -168,6 +174,7 @@ const CompoundTable = React.memo(
               setActionChoose(ActionCartListChoose.addNewFood);
             } else {
               MessageUtils.showErrorMessage('Tách bàn thất bại');
+              RefGetItemBillCartItem.current?.();
             }
           }
         } else {

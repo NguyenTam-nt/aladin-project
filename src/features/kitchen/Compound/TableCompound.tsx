@@ -1,7 +1,7 @@
 import { defaultColors, isTabletDevice } from '@configs';
 import { useIsFocused } from '@react-navigation/native';
 import { IHistoryCompoumd } from '@typeRules';
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import {
   FlatList,
   ListRenderItemInfo,
@@ -38,10 +38,10 @@ const TableCartItem = ({item}: {item: IHistoryCompoumd}) => {
               marginTop: 6,
               gap: 6,
             }}>
-            <ICAddOrder color={defaultColors.bg_5F5F61} />
-            <Text style={styles.textTable}>
-              {item.note ? item.note : 'Đặt đơn hàng này cho tôi'}
-            </Text>
+            {/* <ICAddOrder color={defaultColors.bg_5F5F61} /> */}
+            {/* <Text style={styles.textTable}>
+              {item.note && item.note !== 'null' ? item.note : 'Đặt đơn hàng này cho tôi'}
+            </Text> */}
           </View>
         </View>
         <View style={styles.col3Item}>
@@ -65,23 +65,40 @@ const ItemDayList = ({
   currentType: string
 }) => {
   const IsFocus = useIsFocused();
+  const [totalElemts, setTotalElement] = useState(0);
   const getHistoryMethod = useCallback(
     async (
       page: number,
       size: number,
     ): Promise<IResponseApi<IHistoryCompoumd>> => {
-      return getHistoriesContent({
-        page,
-        size,
-        menu: currentType,
-        status: false,
-        day: dataPage.day,
-      }) as any;
+      return new Promise((re, rj) => {
+        getHistoriesContent({
+          page,
+          size,
+          menu: currentType,
+          status: false,
+          day: dataPage.day,
+        })
+          .then(data => {
+            setTimeout(() => {
+              re({data: data.data?.list, success: true});
+              setTotalElement(data?.data?.totalElementPage ?? 0);
+            }, 300);
+          })
+          .catch(error => {
+            setTimeout(() => {
+              rj(error);
+            }, 300);
+          });
+      });
     },
     [currentType, dataPage],
   );
   const {data, isRefreshing, pullToRefresh, refresh, handleLoadMore} =
     useHandleResponsePagination<IHistoryCompoumd>(getHistoryMethod);
+
+    console.log('Eeee' , data);
+
 
   useEffect(() => {
     if (IsFocus) {
@@ -89,23 +106,27 @@ const ItemDayList = ({
     }
   }, [currentType, IsFocus]);
 
+
+
   return (
     <View>
       <DropDownView
         isOpen={false}
         itemView={
           <View>
-            {data.map((e, index) => {
+            {data?.map((e, index) => {
               return <TableCartItem item={e} key={index} />;
             })}
-            <View style={styles.buttonShowMore}>
-              <TouchableOpacity
-                style={styles.buttonShowMoreItem}
-                onPress={() => handleLoadMore()}>
-                <Text style={styles.buttonShowMoreText}>Hiển thị thêm</Text>
-                <ICDoubleArrowDown />
-              </TouchableOpacity>
-            </View>
+            {data.length < totalElemts ? (
+              <View style={styles.buttonShowMore}>
+                <TouchableOpacity
+                  style={styles.buttonShowMoreItem}
+                  onPress={() => handleLoadMore()}>
+                  <Text style={styles.buttonShowMoreText}>Hiển thị thêm</Text>
+                  <ICDoubleArrowDown />
+                </TouchableOpacity>
+              </View>
+            ) : null}
           </View>
         }
         textHeader={`Ngày ${new Date(dataPage.day).toLocaleDateString()}`}

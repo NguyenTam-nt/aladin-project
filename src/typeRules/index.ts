@@ -72,3 +72,11 @@ export interface IHistoryCompoumd {
   thour: string
   note? : string
 }
+
+export interface IHistoryCompoumdList {
+  totalElement: number
+  totalElementPage: number
+  list: IHistoryCompoumd[]
+}
+
+

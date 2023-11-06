@@ -4,23 +4,37 @@
 import React , {useLayoutEffect} from 'react';
 import {isTabletDevice } from '@configs';
 import Orientation from 'react-native-orientation-locker';
-import {AppRegistry } from 'react-native';
+import {AppRegistry, Dimensions } from 'react-native';
 import App from './App';
 import {name as appName} from './app.json';
 import 'react-native-gesture-handler';
 
 import {Provider} from 'react-redux';
 import store from './src/redux';
-
+import { DIMENSION } from '@constants';
 export  const  GiangMy  = () =>  {
+  useLayoutEffect(() => {
+    if (isTabletDevice) {
+      Orientation.lockToLandscape();
+    } else {
+      Orientation.lockToPortrait();
+    }
 
-useLayoutEffect(() => {
-  if (isTabletDevice) {
-    Orientation.lockToLandscape();
-  } else {
-    Orientation.lockToPortrait();
-  }
-}, []);
+    const updateScreenDimensions = () => {
+      DIMENSION.width = Dimensions.get('window').width;
+      DIMENSION.height = Dimensions.get('window').height;
+      // Update other properties as needed
+    };
+
+    Dimensions.addEventListener('change', updateScreenDimensions);
+
+    return () => {
+      Dimensions.removeEventListener('change', updateScreenDimensions);
+    };
+  }, [isTabletDevice]);
+
+  // Rest of your component code
+
       return (
         <Provider store={store}>
           <App />

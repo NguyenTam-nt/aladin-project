@@ -9,6 +9,8 @@ export interface IReportAll {
   id: string
   quantity: number
   revenue: number
+  quantityOld : number
+  revenueOld : number
 }
 
 export const getReportAll = async (

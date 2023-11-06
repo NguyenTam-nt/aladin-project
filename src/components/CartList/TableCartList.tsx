@@ -127,6 +127,7 @@ const TableCartItem = ( {checkstatus , data } : {checkstatus: string | null ; da
       modalEditInventory.handleShow();
     }
   };
+
   return (
     <View>
       <View style={styles.itemContainer} />
@@ -153,7 +154,7 @@ const TableCartItem = ( {checkstatus , data } : {checkstatus: string | null ; da
               style={styles.textAddOrderItem}>
               <ICAddOrder />
               <Text style={styles.textNotiITem}>
-                {data.note ? data.note : 'Đặt cho tôi đơn hàng này'}
+                {data.note && data.note !== 'null' ? data.note : 'Đặt cho tôi đơn hàng này'}
               </Text>
             </TouchableOpacity>
           </View>

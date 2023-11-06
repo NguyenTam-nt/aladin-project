@@ -61,13 +61,13 @@ const styles = StyleSheet.create({
   container: {
     justifyContent: 'center',
     alignItems: 'center',
+    flex: 1,
   },
   content: {
-    width: isTabletDevice ? 400 : DIMENSION.width - 32,
-    paddingVertical: 12,
+    width: isTabletDevice ? 500 : DIMENSION.width - 32,
     paddingHorizontal: 14,
     borderRadius: 8,
-    height : 40,
+    height: 40,
   },
   contentToast: {
     flexDirection: 'row',
@@ -77,9 +77,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   textToast: {
-    fontSize: 14,
+    fontSize: 18,
     color: defaultColors.c_fff,
     marginLeft: 10,
+    lineHeight: 40,
   },
 });
 

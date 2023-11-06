@@ -11,6 +11,7 @@ interface IButtonAction  {
   ICCancel? : JSX.Element
   textCancel? : string
   styleButtonDone?:  StyleProp<ViewStyle>
+  textSuccess? : string
 }
 
 
@@ -19,7 +20,7 @@ const ButtonAction = (props : IButtonAction) => {
   return (
     <View style={styles.container}>
       <Button
-        text={'Thực hiện'}
+        text={props.textSuccess || 'Thực hiện'}
         renderLeff={<ICCheck />}
         onPress={props.onPressDone}
         style={[styles.buttonDone ,props.styleButtonDone]}

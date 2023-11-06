@@ -53,15 +53,21 @@ const ItemReport = ({index , item}: {index: number ; item : IReportAll}) => {
           món
         </Text>
         <View style={styles.itemLeft}>
-          <ICUpTrend
-            color={index === 0 ? defaultColors.c_fff : defaultColors._01A63E}
-          />
+          {item.quantityOld >= 0 ? (
+            <ICUpTrend
+              color={index === 0 ? defaultColors.c_fff : defaultColors._01A63E}
+            />
+          ) : (
+            <ICDownTrend
+              color={index === 0 ? defaultColors.c_fff : defaultColors._EA222A}
+            />
+          )}
           <Text
             style={[
               styles.textItemContent,
               index === 0 ? {color: defaultColors.c_fff} : undefined,
             ]}>
-            {isTabletDevice && 'Tăng: '}
+            {isTabletDevice && TextCheckPercent(item.quantityOld)}
             <Text
               style={[
                 styles.textBold,
@@ -70,7 +76,7 @@ const ItemReport = ({index , item}: {index: number ; item : IReportAll}) => {
                     index === 0 ? defaultColors.c_fff : defaultColors._01A63E,
                 },
               ]}>
-              20%
+              {(item.quantityOld * 100).toFixed()}%
             </Text>
             {isTabletDevice && ' số lượng bán so với hôm qua'}
           </Text>
@@ -96,15 +102,21 @@ const ItemReport = ({index , item}: {index: number ; item : IReportAll}) => {
           VNĐ
         </Text>
         <View style={styles.itemLeft}>
-          <ICDownTrend
-            color={index === 0 ? defaultColors.c_fff : defaultColors._EA222A}
-          />
+        {item.revenueOld >= 0 ? (
+            <ICUpTrend
+              color={index === 0 ? defaultColors.c_fff : defaultColors._01A63E}
+            />
+          ) : (
+            <ICDownTrend
+              color={index === 0 ? defaultColors.c_fff : defaultColors._EA222A}
+            />
+          )}
           <Text
             style={[
               styles.textItemContent,
               index === 0 ? {color: defaultColors.c_fff} : undefined,
             ]}>
-            {isTabletDevice && 'Giảm '}
+            {isTabletDevice && TextCheckPercent(item.revenueOld)}
             <Text
               style={[
                 styles.textBold,
@@ -113,7 +125,7 @@ const ItemReport = ({index , item}: {index: number ; item : IReportAll}) => {
                     index === 0 ? defaultColors.c_fff : defaultColors._01A63E,
                 },
               ]}>
-              5%
+              {(item.revenueOld * 100).toFixed()}%
             </Text>
             {isTabletDevice && '  doanh thu so với hôm qua'}
           </Text>
@@ -125,9 +137,16 @@ const ItemReport = ({index , item}: {index: number ; item : IReportAll}) => {
 };
 
 
+const TextCheckPercent = (value : number)  => {
+   return value >= 0 ?  'Tăng :' : 'Giảm :';
+};
+
+
 
 
 const TableRightContent = ({dataReport} : { dataReport : IReportAll[]}) => {
+
+
 
 
   const renderItem = useCallback((e: ListRenderItemInfo<IReportAll>) => {

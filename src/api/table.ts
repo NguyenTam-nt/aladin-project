@@ -1,6 +1,6 @@
-import { APIs, IData } from './config';
+import { APIs } from './config';
 import { handleError } from './handleError';
-import { IBodyPostProduct, IProductInCart, IResponseProductUpdate } from './products';
+import { IBodyPostProduct, IResponseProductUpdate } from './products';
 import request from './request';
 import { IResponseApi } from './types';
 

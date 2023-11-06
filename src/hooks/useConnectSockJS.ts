@@ -44,7 +44,7 @@ export function useConnectSocketJS<T>(id: string , callBackApi?: () => void) {
     var stompFailureCallback = function (error: any) {
       console.log('STOMP error: ' + error);
 
-      setTimeout(connectWebSocket, 5000);
+      setTimeout(connectWebSocket, 1000);
       console.log('STOMP: Reconecting in 5 seconds');
     };
 
