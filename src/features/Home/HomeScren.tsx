@@ -1,4 +1,4 @@
-import {StyleSheet, View} from 'react-native';
+import {RefreshControl, StyleSheet, View} from 'react-native';
 import React, {useRef} from 'react';
 import {globalStyles} from 'src/commons/globalStyles';
 import {defaultColors} from '@configs';
@@ -22,8 +22,15 @@ import {useListItemProvice} from 'src/redux/provices/hooks';
 const HomeScren = () => {
   const scrollViewRef = useRef<ImperativeScrollViewHandles>(null);
   const proviceItem = useListItemProvice();
-  // const isSlected = useIsFocused();
-  // const navigation = useNavigation();
+  // const [refreshing, setRefreshing] = React.useState(false);
+
+  // const onRefresh = React.useCallback(() => {
+  //   setRefreshing(true);
+  //   setTimeout(() => {
+  //     setRefreshing(false);
+  //   }, 2000);
+  // }, []);
+
   const onTopScroll = () => {
     scrollViewRef?.current?.scrollTo({
       y: 0,
@@ -40,13 +47,25 @@ const HomeScren = () => {
   );
 
   return (
-    <View style={styles().container}>
+    <View style={styles.container}>
       <HeaderHome />
       <ImperativeScrollView
+        style={styles.scrollView}
         ref={scrollViewRef}
-        showsVerticalScrollIndicator={false}>
+        showsVerticalScrollIndicator={false}
+        // refreshControl={
+        //   <RefreshControl
+        //     refreshing={refreshing}
+        //     onRefresh={onRefresh}
+        //     title="refreshing ..."
+        //     titleColor={defaultColors.text_313131}
+        //   />
+        // }
+      >
+        {/* {!refreshing && [
+          <View key={0}> */}
         <Banner bannerType={BannerType.homePage} />
-        <View style={styles().styleBody}>
+        <View style={styles.styleBody}>
           <CategoriesList />
           <ProductSaleList />
           <GroupContact />
@@ -55,6 +74,8 @@ const HomeScren = () => {
           <ProductNewList />
         </View>
         <ContactTopic />
+        {/* </View>,
+        ]} */}
         <SpaceBottom />
       </ImperativeScrollView>
     </View>
@@ -62,70 +83,74 @@ const HomeScren = () => {
 };
 
 export default HomeScren;
-const styles = (statusBarHeight?: number, height?: number) =>
-  StyleSheet.create({
-    container: {
-      ...globalStyles.fullFill,
-      backgroundColor: defaultColors.bg_EFEFEF,
-      position: 'relative',
-      flex: 1,
-    },
-    imageBanner: {
-      width: DIMENSION.width,
-      height: 230,
-    },
-    styleBody: {
-      marginTop: 24,
-    },
-    gradientButton: {
-      position: 'absolute',
-      left: 0,
-      right: 0,
-      bottom: -5,
-      zIndex: -1,
-      borderRadius: 50,
-      height: 50,
-      overflow: 'hidden',
-    },
-    groupProduct: {
-      flexWrap: 'wrap',
-      gap: 15,
-      flexDirection: 'row',
-      marginTop: 28,
-    },
-    styleBackgroudOpacity: {
-      position: 'absolute',
-      right: 0,
-      bottom: 0,
-      top: (statusBarHeight ?? 0) + 64,
-      left: 0,
-      // alignItems: 'center',
-      margin: 0,
-      zIndex: 1,
-      backgroundColor: defaultColors.bg_EFEFEF,
-      height: (height ?? 0) - (statusBarHeight ?? 0) - 300,
-      width: '100%',
-    },
-    groupStyleButton: {
-      width: '100%',
-      height: 120,
-      paddingHorizontal: 14,
-      flexDirection: 'column',
-      backgroundColor: defaultColors.bg_00C3AB,
-    },
-    buttonClose: {
-      marginTop: 11,
-      justifyContent: 'flex-end',
-      alignItems: 'flex-end',
-      marginBottom: 20,
-    },
-    inputSearch: {
-      flex: 1,
-      height: '100%',
-    },
-    proviceContainer: {
-      flexWrap: 'wrap',
-      flexDirection: 'row',
-      paddingHorizontal: 14,
-    },
-  });
+const styles = StyleSheet.create({
+  container: {
+    ...globalStyles.fullFill,
+    backgroundColor: defaultColors.bg_EFEFEF,
+    position: 'relative',
+    flex: 1,
+  },
+  imageBanner: {
+    width: DIMENSION.width,
+    height: 230,
+  },
+  styleBody: {
+    marginTop: 24,
+  },
+  gradientButton: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    bottom: -5,
+    zIndex: -1,
+    borderRadius: 50,
+    height: 50,
+    overflow: 'hidden',
+  },
+  groupProduct: {
+    flexWrap: 'wrap',
+    gap: 15,
+    flexDirection: 'row',
+    marginTop: 28,
+  },
+  styleBackgroudOpacity: {
+    position: 'absolute',
+    right: 0,
+    bottom: 0,
+    top: 64,
+    left: 0,
+    // alignItems: 'center',
+    margin: 0,
+    zIndex: 1,
+    backgroundColor: defaultColors.bg_EFEFEF,
+    height: 300,
+    width: '100%',
+  },
+  groupStyleButton: {
+    width: '100%',
+    height: 120,
+    paddingHorizontal: 14,
+    flexDirection: 'column',
+    backgroundColor: defaultColors.bg_00C3AB,
+  },
+  buttonClose: {
+    marginTop: 11,
+    justifyContent: 'flex-end',
+    alignItems: 'flex-end',
+    marginBottom: 20,
+  },
+  inputSearch: {
+    flex: 1,
+    height: '100%',
+  },
+  proviceContainer: {
+    flexWrap: 'wrap',
+    flexDirection: 'row',
+    paddingHorizontal: 14,
+  },
+  scrollView: {
+    flex: 1,
+    // justifyContent: 'center',
+    // alignItems: 'center',
+  },
+});

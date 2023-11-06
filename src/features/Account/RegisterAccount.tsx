@@ -7,7 +7,6 @@ import React, {useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import {
   Pressable,
-  ScrollView,
   StatusBar,
   StyleSheet,
   TouchableOpacity,
@@ -148,10 +147,6 @@ const RegisterAccount = () => {
     navigation.navigate(accountRoute.login);
   };
 
-  const hiddenModal = () => {
-    modalEditInventory.handleHidden();
-  };
-
   return (
     <View style={styles.container}>
       <StatusBar />
@@ -274,7 +269,6 @@ const RegisterAccount = () => {
             resizeMode="stretch"
           />
         </View>
-        {/* </ScrollView> */}
       </KeyboardAwareScrollView>
       <ModalCustom
         onBackdropPress={modalEditInventory.handleHidden}
@@ -340,7 +334,6 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     padding: 24,
     marginHorizontal: 20,
-    // alignItems: 'center',
   },
   styleImage: {
     width: DIMENSION.width,

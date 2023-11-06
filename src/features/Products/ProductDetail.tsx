@@ -416,18 +416,3 @@ const styles = StyleSheet.create({
     // backgroundColor: defaultColors.primary,
   },
 });
-
-const data = {
-  cancel: false,
-  code: 406,
-  data: {
-    detail: 'Could not find acceptable representation',
-    message: 'error.http.406',
-    path: '/api/products/22027',
-    status: 406,
-    title: 'Not Acceptable',
-    type: 'https://www.jhipster.tech/problem/problem-with-message',
-  },
-  message: 'error.http.406',
-  status: 0,
-};

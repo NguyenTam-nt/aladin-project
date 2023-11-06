@@ -260,7 +260,7 @@
     },
     "not-found": {
       "product": {
-        "title": "Sản phẩms không tồn tại trên hệ thống!",
+        "title": "Sản phẩm không tồn tại trên hệ thống!",
         "desc": "Bạn vui lòng xem thêm sản phẩm khác"
       }
     }

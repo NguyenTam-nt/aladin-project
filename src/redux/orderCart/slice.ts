@@ -1,5 +1,4 @@
 import {PayloadAction, createSlice} from '@reduxjs/toolkit';
-import Toast from 'react-native-toast-message';
 import {IProductOrder} from 'src/api/order';
 
 export interface IITemCart {
@@ -47,7 +46,6 @@ export const cartOrderSlice = createSlice({
   reducers: {
     addItemToCart: (state, action: PayloadAction<IITemCart>) => {
       const {productId, productDetailId} = action.payload;
-      //   const dataCheck = [...state.itemInCart];
       const index = state.itemInCart.findIndex(
         item =>
           item.productId === productId &&

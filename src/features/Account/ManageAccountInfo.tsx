@@ -9,7 +9,6 @@ import {
   View,
   StyleSheet,
   Pressable,
-  ScrollView,
   TouchableOpacity,
 } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
@@ -86,7 +85,6 @@ const ManageAccountInfo = () => {
         userId: userInfo.id,
       };
       handleUpdateAccountInfo(getToken, userInfo.id, data);
-      //   handleLogin(value.username, value.password);
     },
   });
   const {
@@ -334,6 +332,5 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     padding: 24,
     marginHorizontal: 20,
-    // alignItems: 'center',
   },
 });

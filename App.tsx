@@ -154,14 +154,3 @@ function App() {
 
 const styles = StyleSheet.create({});
 export default App;
-
-const data = {
-  details: {
-    ipAddress: '192.168.20.219',
-    isConnectionExpensive: false,
-    subnet: '255.255.255.0',
-  },
-  isConnected: true,
-  isInternetReachable: true,
-  type: 'wifi',
-};

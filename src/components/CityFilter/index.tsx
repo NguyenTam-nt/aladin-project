@@ -157,7 +157,6 @@ const styles = (statusBarHeight?: number, height?: number) =>
       borderRadius: 6,
       padding: 4,
       justifyContent: 'center',
-      // backgroundColor: defaultColors.bg_00C3AB,
     },
     provice: {
       backgroundColor: defaultColors._014F59,
@@ -168,9 +167,6 @@ const styles = (statusBarHeight?: number, height?: number) =>
       bottom: 0,
       top: 0,
       left: 0,
-      // opacity: 0.99,
-      // zIndex: 100,
-      // justifyContent: getValueForDevice('center','flex-end') ,
       alignItems: 'center',
       margin: 0,
     },

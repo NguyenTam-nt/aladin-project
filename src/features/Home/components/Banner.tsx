@@ -1,12 +1,11 @@
-import { StyleSheet, View } from 'react-native';
-import React, { useState } from 'react';
-import { Thumb } from '@components';
-import { DIMENSION } from '@constants';
-import { BannerType } from 'src/typeRules/banner';
-import { IBanner, getBannerByNameApi } from 'src/api/banner';
-import { Swiper } from 'src/components/rn-swiper/Swiper';
+import {StyleSheet, View} from 'react-native';
+import React, {useState} from 'react';
+import {Thumb} from '@components';
+import {DIMENSION} from '@constants';
+import {IBanner, getBannerByNameApi} from 'src/api/banner';
+import {Swiper} from 'src/components/rn-swiper/Swiper';
 
-const Banner = (props: { bannerType: string }) => {
+const Banner = (props: {bannerType: string}) => {
   const [banners, setBanners] = useState<IBanner>();
   const getBannerByName = async () => {
     try {
@@ -36,7 +35,7 @@ const Banner = (props: { bannerType: string }) => {
           return (
             <Thumb
               style={styles.imageBanner}
-              source={{ uri: item?.item.url }}
+              source={{uri: item?.item.url}}
               resizeMode="cover"
             />
           );

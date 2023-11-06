@@ -1,30 +1,20 @@
-import {TextCustom} from '@components';
 import {defaultColors} from '@configs';
 import {paddingHorizontalScreen} from '@constants';
-import {defer} from 'lodash';
 import React, {useEffect, useState} from 'react';
-import {FlatList, StyleSheet, TouchableOpacity, View} from 'react-native';
+import {FlatList, StyleSheet, View} from 'react-native';
 import {ICaterorySub, getCategoriesBySub} from 'src/api/category';
 import TextTranslate from 'src/components/TextTranslate';
 import {NavLink} from 'src/constants/links';
 import {productRoute} from 'src/constants/routers';
-import {TextHeader} from 'src/features/Products';
 import CardSubListCategory from 'src/features/Products/CardSubListCategory';
-import useI18n from 'src/hooks/useI18n';
-const CategoryItem = () => {
-  return (
-    <View>
-      <TextCustom>llll</TextCustom>
-    </View>
-  );
-};
+
 const CategoriesList = () => {
-  const {isVn} = useI18n();
   const [categories, sertcatdegories] = useState<ICaterorySub[]>([]);
 
   const getCategories = async () => {
     try {
       const res = await getCategoriesBySub();
+
       if (res) {
         sertcatdegories(res.data);
       }

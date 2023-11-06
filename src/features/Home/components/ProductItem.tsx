@@ -61,22 +61,6 @@ const ProductItem = (props: IProps) => {
     //@ts-ignore
     handleAddItemWatchedProduct(newData);
 
-    // try {
-    //   const datas = await getArrayToAsyncStorage(storegeKey.PRODUCTS);
-
-    //   if (datas === null || datas === undefined) {
-    //     const viewedProducts = [];
-    //     viewedProducts.push(newData);
-    //     setArrayToAsyncStorage(storegeKey.PRODUCTS, viewedProducts);
-    //   } else if (datas) {
-    //     const viewedProducts = datas.filter((it: any) => it.id !== id);
-
-    //     viewedProducts.unshift(newData);
-    //     setArrayToAsyncStorage(storegeKey.PRODUCTS, viewedProducts);
-    //   }
-    // } catch (error) {
-    //   console.log(error);
-    // }
   };
   const sum = product?.productDetails.reduce((accumulator, object) => {
     return accumulator + object.stockQuantity;

@@ -11,9 +11,6 @@ import {IAttributeFes, IProductDetails} from 'src/api/products';
 import useI18n from 'src/hooks/useI18n';
 import {ICPolicyCheck} from 'src/assets/icons/ICPolicyCheck';
 import TextTranslate from 'src/components/TextTranslate';
-import {ButtonTouchable} from 'src/components/Buttons/ButtonTouchable';
-import {ICCart} from 'src/assets/icons/ICCart';
-import {isAction} from '@reduxjs/toolkit';
 import {Html} from 'src/components/Html';
 import Toast from 'react-native-toast-message';
 interface IProps {
@@ -58,7 +55,6 @@ const ProductDetailItem = (props: IProps) => {
 
   const handleSelected = (key: string, atb: any) => {
     const keySelectedList = [...keySelected];
-    //&& index[0].name != atb && atb && index[0].key == key
     const index = keySelectedList.filter(it => it.key === key);
     if (
       index.length > 0 &&
@@ -141,17 +137,6 @@ const ProductDetailItem = (props: IProps) => {
   };
 
   const handleIncrease = () => {
-    // const json = localStorage.getItem("province")
-    // let province;
-    // if (json == null) {
-    //   province = initProvince
-    // } else {
-    //   province = JSON.parse(json)
-    // }
-    // if (productDetail?.productDetails.length === 0) {
-    //   // onAddToast({ type: "warn", message: t("warning.product-province", { "province": lowerCase(province.name) }) })
-    //   return;
-    // }
 
     if (productDetailItem === undefined || productDetailItem === null) {
       // onAddToast({ type: "warn", message: t("warning.product") });
@@ -347,31 +332,6 @@ const ProductDetailItem = (props: IProps) => {
             <Html content={salientFeatures} />
             {/* </View> */}
           </View>
-
-          {/* <View style={styles.groupButton}>
-            <View style={{flexDirection: 'row', columnGap: 8}}>
-              <ButtonTouchable
-                text="Mua Hang"
-                renderLeff={<ICCart color={defaultColors.bg_00C3AB} />}
-                style={{
-                  flex: 1,
-                  borderColor: defaultColors.bg_00C3AB,
-                  borderRadius: 20,
-                  height: 40,
-                }}
-              />
-              <ButtonTouchable
-                text="Mua Hang"
-                renderLeff={<ICCart />}
-                style={{
-                  flex: 1,
-                  borderColor: defaultColors.bg_00C3AB,
-                  borderRadius: 20,
-                  height: 40,
-                }}
-              />
-            </View>
-          </View> */}
         </View>
       </View>
     </View>

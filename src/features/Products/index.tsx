@@ -1,22 +1,18 @@
 import {
   View,
-  Text,
   StyleSheet,
   FlatList,
   TouchableOpacity,
-  ScrollView,
-  FlatListProps,
-  FlatListComponent,
   ImageBackground,
 } from 'react-native';
 import {globalStyles} from 'src/commons/globalStyles';
 import {defaultColors} from '@configs';
 import HeaderHome from '../Home/components/HeaderHome';
-import {memo, useCallback, useEffect, useRef, useState} from 'react';
+import {memo, useEffect, useRef, useState} from 'react';
 import React from 'react';
 import {DIMENSION, paddingHorizontalScreen} from '@constants';
 import useI18n from 'src/hooks/useI18n';
-import {TextCustom, Thumb} from '@components';
+import {TextCustom} from '@components';
 import {
   ICategory,
   getCategoriesApi,
@@ -162,9 +158,7 @@ const Products = () => {
   //@ts-ignore
   const idCategory = params?.idCategory;
   const proviceItem = useListItemProvice();
-  const {top: statusBarHeight} = useSafeAreaInsets();
   const scrollViewRef = useRef<ImperativeScrollViewHandles>(null);
-  const [categories, setCategories] = useState<ICategory[]>([]);
   const [listTextCategories, setListTextCategories] = useState<
     IListTextCategories[]
   >([]);
