@@ -1,23 +1,46 @@
-import { TextCustom } from '@components';
 import {defaultColors, isTabletDevice} from '@configs';
-import React, {memo, useCallback, useMemo, useState} from 'react';
+import React, {useCallback, useMemo} from 'react';
 import {
   FlatList,
-  StyleSheet,
-  View,
-  Text,
   ListRenderItemInfo,
-  Pressable,
+  StyleSheet,
+  Text,
+  View,
 } from 'react-native';
-import { IReportAll } from 'src/api/report';
+import {IReportAll} from 'src/api/report';
 import {ICDownTrend} from 'src/assets/icons/ICDownTrend';
-import { ICCalendar } from 'src/assets/icons/ICLogo copy';
 import {ICUpTrend} from 'src/assets/icons/ICUpTrend';
-import { formatNumberDot } from 'src/commons/formatMoney';
-import { RadioButtonSelect } from 'src/components/Checkbox/RadioButton';
-import { Calendar } from '../../Detail/components/Calendar';
+import {formatNumberDot} from 'src/commons/formatMoney';
+import {ReportTimeState} from './TabBarLeftOrder';
 
-const ItemReport = ({index , item}: {index: number ; item : IReportAll}) => {
+const ItemReport = ({
+  index,
+  item,
+  typeLocation,
+}: {
+  index: number
+  item: IReportAll
+  typeLocation: ReportTimeState
+}) => {
+  const TextEqualTime = useMemo<string>(() => {
+    console.log('typeLocation44', typeLocation);
+
+    switch (typeLocation) {
+      case ReportTimeState.TODAY:
+        return 'hôm qua';
+      case ReportTimeState.WEEK:
+        return 'tuần trước';
+      case ReportTimeState.MONTH:
+        return 'tháng trước';
+      case ReportTimeState.YEAR:
+        return 'năm trước';
+      case ReportTimeState.DATE:
+        return '';
+      default:
+        return 'hôm qua';
+    }
+  }, [typeLocation]);
+
   return (
     <View
       style={{
@@ -52,35 +75,41 @@ const ItemReport = ({index , item}: {index: number ; item : IReportAll}) => {
           </Text>{' '}
           món
         </Text>
-        <View style={styles.itemLeft}>
-          {item.quantityOld >= 0 ? (
-            <ICUpTrend
-              color={index === 0 ? defaultColors.c_fff : defaultColors._01A63E}
-            />
-          ) : (
-            <ICDownTrend
-              color={index === 0 ? defaultColors.c_fff : defaultColors._EA222A}
-            />
-          )}
-          <Text
-            style={[
-              styles.textItemContent,
-              index === 0 ? {color: defaultColors.c_fff} : undefined,
-            ]}>
-            {isTabletDevice && TextCheckPercent(item.quantityOld)}
+        {TextEqualTime && (
+          <View style={styles.itemLeft}>
+            {item.quantityOld >= 0 ? (
+              <ICUpTrend
+                color={
+                  index === 0 ? defaultColors.c_fff : defaultColors._01A63E
+                }
+              />
+            ) : (
+              <ICDownTrend
+                color={
+                  index === 0 ? defaultColors.c_fff : defaultColors._EA222A
+                }
+              />
+            )}
             <Text
               style={[
-                styles.textBold,
-                {
-                  color:
-                    index === 0 ? defaultColors.c_fff : defaultColors._01A63E,
-                },
+                styles.textItemContent,
+                index === 0 ? {color: defaultColors.c_fff} : undefined,
               ]}>
-              {(item.quantityOld * 100).toFixed()}%
+              {isTabletDevice && TextCheckPercent(item.quantityOld)}
+              <Text
+                style={[
+                  styles.textBold,
+                  {
+                    color:
+                      index === 0 ? defaultColors.c_fff : defaultColors._01A63E,
+                  },
+                ]}>
+                {parseInt(item.quantityOld * 100) || 0}%
+              </Text>
+              {isTabletDevice && ` số lượng bán so với ${TextEqualTime}`}
             </Text>
-            {isTabletDevice && ' số lượng bán so với hôm qua'}
-          </Text>
-        </View>
+          </View>
+        )}
       </View>
       <View style={styles.row}>
         <Text
@@ -101,57 +130,66 @@ const ItemReport = ({index , item}: {index: number ; item : IReportAll}) => {
           </Text>{' '}
           VNĐ
         </Text>
-        <View style={styles.itemLeft}>
-        {item.revenueOld >= 0 ? (
-            <ICUpTrend
-              color={index === 0 ? defaultColors.c_fff : defaultColors._01A63E}
-            />
-          ) : (
-            <ICDownTrend
-              color={index === 0 ? defaultColors.c_fff : defaultColors._EA222A}
-            />
-          )}
-          <Text
-            style={[
-              styles.textItemContent,
-              index === 0 ? {color: defaultColors.c_fff} : undefined,
-            ]}>
-            {isTabletDevice && TextCheckPercent(item.revenueOld)}
+        {TextEqualTime && (
+          <View style={styles.itemLeft}>
+            {item.revenueOld >= 0 ? (
+              <ICUpTrend
+                color={
+                  index === 0 ? defaultColors.c_fff : defaultColors._01A63E
+                }
+              />
+            ) : (
+              <ICDownTrend
+                color={
+                  index === 0 ? defaultColors.c_fff : defaultColors._EA222A
+                }
+              />
+            )}
             <Text
               style={[
-                styles.textBold,
-                {
-                  color:
-                    index === 0 ? defaultColors.c_fff : defaultColors._01A63E,
-                },
+                styles.textItemContent,
+                index === 0 ? {color: defaultColors.c_fff} : undefined,
               ]}>
-              {(item.revenueOld * 100).toFixed()}%
+              {isTabletDevice && TextCheckPercent(item.revenueOld)}
+              <Text
+                style={[
+                  styles.textBold,
+                  {
+                    color:
+                      index === 0 ? defaultColors.c_fff : defaultColors._01A63E,
+                  },
+                ]}>
+                {parseInt(item.revenueOld * 100) || 0}%
+              </Text>
+              {isTabletDevice && `doanh thu so với ${TextEqualTime}`}
             </Text>
-            {isTabletDevice && '  doanh thu so với hôm qua'}
-          </Text>
-        </View>
+          </View>
+        )}
       </View>
       {index !== 0 && <View style={styles.devide} />}
     </View>
   );
 };
 
-
-const TextCheckPercent = (value : number)  => {
-   return value >= 0 ?  'Tăng :' : 'Giảm :';
+const TextCheckPercent = (value: number) => {
+  return value >= 0 ? 'Tăng :' : 'Giảm :';
 };
 
-
-
-
-const TableRightContent = ({dataReport} : { dataReport : IReportAll[]}) => {
-
-
-
-
-  const renderItem = useCallback((e: ListRenderItemInfo<IReportAll>) => {
-    return <ItemReport item={e.item} index={e.index} />;
-  }, []);
+const TableRightContent = ({
+  dataReport,
+  typeLocation,
+}: {
+  dataReport: IReportAll[]
+  typeLocation: ReportTimeState
+}) => {
+  const renderItem = useCallback(
+    (e: ListRenderItemInfo<IReportAll>) => {
+      return (
+        <ItemReport item={e.item} index={e.index} typeLocation={typeLocation} />
+      );
+    },
+    [typeLocation],
+  );
 
   return (
     <View style={styles.container}>
