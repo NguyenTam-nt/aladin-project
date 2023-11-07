@@ -42,7 +42,7 @@ const ManageTableReserVation = () => {
     size: 20,
     date: filter.time,
     id: place ? place.id : "",
-    sort: filter?.status ? `status,${filter?.status}` : 'id,desc',
+    sort: filter?.status ? `status,${filter?.status}` : "id,desc",
   }
   const {
     refCheckboxAll,
@@ -167,17 +167,17 @@ const ManageTableReserVation = () => {
     const clientHeight = e.currentTarget.clientHeight
     const scrollHeight = e.currentTarget.scrollHeight
     if (scroolTop + clientHeight >= scrollHeight && currentPage < totalPage) {
-      getListRequesResertableScroll({...params, page: currentPage + 1})
+      getListRequesResertableScroll({ ...params, page: currentPage + 1 })
       setcurrentPage((preState) => preState + 1)
     }
   }
   useEffect(() => {
     if (keySearch != "") {
-      debounceSearch({ ...params, query: keySearch.trim(), page: 0  })
+      debounceSearch({ ...params, query: keySearch.trim(), page: 0 })
       setcurrentPage(0)
     } else {
       debounceSearch.cancel()
-      getListRequesResertable({...params, page: 0})
+      getListRequesResertable({ ...params, page: 0 })
     }
   }, [filter, place, keySearch])
   return (
@@ -342,11 +342,6 @@ const ManageTableReserVation = () => {
                     ) : (
                       <p className="text-red_error cursor-pointer">
                         {t("tableReservation.noReply")}
-                      </p>
-                    )}
-                    {item.createdBy && item.status && (
-                      <p className="text-right text-_14 -translate-y-1.5 text-text_A1A0A3">
-                        {t("tableReservation.by")} {item.createdBy}
                       </p>
                     )}
                   </div>

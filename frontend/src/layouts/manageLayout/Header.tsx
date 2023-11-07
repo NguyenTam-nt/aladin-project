@@ -1,44 +1,49 @@
-import React, { memo, useEffect, useState } from "react";
-import { Colors } from "@constants/color";
-import { ICArowDown } from "@assets/icons/ICArowDown";
-import { useAuthContext } from "@contexts/hooks/auth";
-import { Avatar } from "@components/Avatar";
-import { ICLogin } from "@assets/icons/ICLogin";
-import { useClickOutItem } from "@hooks/useClickOutItem";
-import clsx from "clsx";
-import { useLocation, useNavigate } from "react-router-dom";
-import { prefixRootRoute, windownSizeWidth, withResponsive } from "@constants/index";
-import { RouterManage } from "@constants/routerManager";
-import { useTranslation } from "react-i18next";
-import { ICMenuBar } from "@assets/icons/ICMenuBar";
+import React, { ChangeEvent, memo, useEffect, useState } from "react"
+import { Colors } from "@constants/color"
+import { ICArowDown } from "@assets/icons/ICArowDown"
+import { useAuthContext } from "@contexts/hooks/auth"
+import { Avatar } from "@components/Avatar"
+import { ICLogin } from "@assets/icons/ICLogin"
+import { useClickOutItem } from "@hooks/useClickOutItem"
+import clsx from "clsx"
+import { useLocation, useNavigate } from "react-router-dom"
+import {
+  prefixRootRoute,
+  windownSizeWidth,
+  withResponsive,
+} from "@constants/index"
+import { RouterManage } from "@constants/routerManager"
+import { useTranslation } from "react-i18next"
+import { ICMenuBar } from "@assets/icons/ICMenuBar"
+import HttpService from "@configs/api"
 
 type PropsHeader = {
   onShow: () => void
 }
 
-const Header = memo(({onShow}:PropsHeader) => {
-  const { user, doLogout } = useAuthContext();
-  const { ref, isShow, handleToggleItem } = useClickOutItem();
-  const navigate = useNavigate();
+const Header = memo(({ onShow }: PropsHeader) => {
+  const { user, doLogout } = useAuthContext()
+  const { ref, isShow, handleToggleItem } = useClickOutItem()
+  const navigate = useNavigate()
 
   const handleLogout = () => {
-    navigate(prefixRootRoute.public);
-    doLogout();
-  };
+    navigate(prefixRootRoute.public)
+    doLogout()
+  }
 
-  const { t } = useTranslation();
-  const { pathname } = useLocation();
-  const [nameHeader, setNameHeader] = useState<string | null>(null);
+  const { t } = useTranslation()
+  const { pathname } = useLocation()
+  const [nameHeader, setNameHeader] = useState<string | null>(null)
 
   useEffect(() => {
-    const endPath = pathname.slice(pathname.lastIndexOf("/") + 1);
+    const endPath = pathname.slice(pathname.lastIndexOf("/") + 1)
     const ObName = RouterManage.find((item) => {
-      return item.path.includes(endPath);
-    });
+      return item.path.includes(endPath)
+    })
     if (ObName) {
-      setNameHeader(ObName.name!);
+      setNameHeader(ObName.name!)
     }
-  }, [pathname]);
+  }, [pathname])
 
   return (
     <div className="h-[60px] xl:h-spc120 px-[20px] xl:px-[70px] 2xl:pl-[96px] min-w-full bg-text_white shadow-md flex sticky left-0 right-0 top-0 z-10 ">
@@ -56,7 +61,7 @@ const Header = memo(({onShow}:PropsHeader) => {
           >
             <div className="w-[40px] xl:w-14 h-[40px] xl:h-14 rounded-[50%] ">
               <Avatar
-                size={ windownSizeWidth > withResponsive._1280 ? 56 : 40}
+                size={windownSizeWidth > withResponsive._1280 ? 56 : 40}
                 url={user?.imageUrl}
                 name={user?.fullname + ""}
               />
@@ -85,7 +90,7 @@ const Header = memo(({onShow}:PropsHeader) => {
         </div>
       </div>
     </div>
-  );
+  )
 })
 
-export default Header;
+export default Header
