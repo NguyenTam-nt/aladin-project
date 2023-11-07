@@ -181,8 +181,8 @@ function OrderFoodAdmin() {
       })
     )
       .then(() => {
-        getBillsData(1);
-        setListChecked([]);
+        getBillsData(0)
+        setListChecked([])
         showSuccess("adminOrderFood.notification.deleteSuccess");
       })
       .catch(() => {
