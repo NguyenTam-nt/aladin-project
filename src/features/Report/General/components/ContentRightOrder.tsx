@@ -6,20 +6,24 @@ import { defaultColors } from '@configs';
 import { TabBarOrder } from 'src/features/orderTab/ContentOrderTab';
 import ButtonMenuTabBar from 'src/components/DropDownView/ButtonMenuTabBar';
 import { IReportAll } from 'src/api/report';
+import { ReportTimeState } from './TabBarLeftOrder';
 
 interface IContentRightOrderReport {
   dataReport: IReportAll[]
   stringDate : string
+  typeLocation : ReportTimeState
 }
 
 const ContentRightOrder = (props : IContentRightOrderReport & TabBarOrder ) => {
-  const {setIsOpenTab, dataReport ,stringDate} = props;
+  const {setIsOpenTab, dataReport ,stringDate ,typeLocation} = props;
+  console.log('typeLocation33' ,typeLocation);
+
   return (
     <View style={{flex: 1}}>
       <ButtonMenuTabBar onPress={setIsOpenTab} />
       <View style={styles.container}>
         <HeaderContentRight stringDate={stringDate}/>
-        <TableRightContent dataReport={dataReport} />
+        <TableRightContent dataReport={dataReport} typeLocation={typeLocation} />
       </View>
     </View>
   );

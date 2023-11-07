@@ -17,6 +17,8 @@ const ContentOrderTab = () => {
   const IdArea = useAreaId();
   const [dataReport, setDataReport] = useState<IReportAll[]>([]);
 
+
+
   const getDataReport = useCallback(async () => {
     const data = await getReportAll(IdArea, typeLocation, startDate, endDate);
     if (data.success) {
@@ -96,6 +98,7 @@ const ContentOrderTab = () => {
         setIsOpenTab={setIsOpenTab}
         stringDate={stringDate}
         dataReport={dataReport}
+        typeLocation={typeLocation}
       />
     </View>
   );

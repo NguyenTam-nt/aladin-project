@@ -15,6 +15,7 @@ import ButtonMenuTabBar from 'src/components/DropDownView/ButtonMenuTabBar';
 import DropDownView from 'src/components/DropDownView/DropDownView';
 import MenuTabMobile from 'src/components/DropDownView/MenuTabMobile';
 import { TabBarOrder } from '../ContentOrderTab';
+import { RefreshControl } from 'react-native';
 
 const dataCheckbox = [
   {
@@ -60,6 +61,10 @@ const TabBarLeftOrder = React.memo((props: TabBarOrder & ITabBarLeftOrder) => {
     }
   };
 
+  const onRefresh = () => {
+    getCategoriesData();
+  };
+
   React.useEffect(() => {
     getCategoriesData();
   }, []);
@@ -83,7 +88,11 @@ const TabBarLeftOrder = React.memo((props: TabBarOrder & ITabBarLeftOrder) => {
       setIsOpenTab={setIsOpenTab}
       content={
         <View style={styles.container}>
-          <ScrollView showsVerticalScrollIndicator={false}>
+          <ScrollView showsVerticalScrollIndicator={false}
+              refreshControl={
+                <RefreshControl refreshing={false} onRefresh={onRefresh} />
+              }
+          >
             <View style={styles.content}>
               {!isTabletDevice && (
                 <View style={styles.buttonView}>
@@ -128,7 +137,6 @@ const TabBarLeftOrder = React.memo((props: TabBarOrder & ITabBarLeftOrder) => {
               </View>
               {category.map((item, index) => {
                 const activeParent =  stateFilter?.idParent === item.id;
-
                 return typeLocation === item.isMenu || !typeLocation  ? (
                   <DropDownView
                     key={index}

@@ -32,6 +32,10 @@ const dataCheckbox = [
     label: 'Tháng',
     value: ReportTimeState.MONTH,
   },
+  {
+    label: 'Năm',
+    value: ReportTimeState.YEAR,
+  },
 ];
 
 export interface ITabBarLeftOrder {
@@ -189,8 +193,8 @@ const styles = StyleSheet.create({
     backgroundColor: defaultColors.bg_FAFAFA,
     height: '100%',
     position: 'relative',
-    zIndex: 100
-    
+    zIndex: 100,
+
   },
   content: {
     marginLeft: 24,
