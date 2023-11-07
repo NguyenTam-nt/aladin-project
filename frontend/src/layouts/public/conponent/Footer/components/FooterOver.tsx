@@ -1,7 +1,5 @@
 import { ICFacebook } from "@assets/icons/ICFacebook";
-import { ICInstagram } from "@assets/icons/ICInstagram";
-import { ICTwiter } from "@assets/icons/ICTwiter";
-import { ICYoutube } from "@assets/icons/ICYoutube";
+import { ICTiktok } from "@assets/icons/ICTiktok";
 import React from "react";
 
 export const FooterOver = () => {
@@ -15,17 +13,17 @@ export const FooterOver = () => {
         </a>
         <div className="flex lg:items-center gap-x-[16px]"> 
           <div className="w-[24px] flex items-center justify-center h-[24px] rounded-[50%] bg-white">
-            <ICFacebook />
+             <a href="https://www.facebook.com/banhtranggiangmy" target="_blank"><ICFacebook /></a> 
           </div>
           <div className="w-[24px] flex items-center justify-center h-[24px] rounded-[50%] bg-white">
-            <ICTwiter />
+            <a href="https://www.tiktok.com/@banhtranggiangmy" target="_blank"><ICTiktok /></a> 
           </div>
-          <div className="w-[24px] flex items-center justify-center h-[24px] rounded-[50%] bg-white">
+          {/* <div className="w-[24px] flex items-center justify-center h-[24px] rounded-[50%] bg-white">
             <ICYoutube />
           </div>
           <div className="w-[24px] flex items-center justify-center h-[24px] rounded-[50%] bg-white">
             <ICInstagram />
-          </div>
+          </div> */}
          
         </div>
 

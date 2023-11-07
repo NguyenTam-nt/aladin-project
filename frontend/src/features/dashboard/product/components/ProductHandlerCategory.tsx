@@ -51,7 +51,7 @@ export const ProductHandlerCategory = memo(({ onChange, category, message }: Pro
           categories[index]?.listCategoryChild?.findIndex(
             (i) => i.id === category.id
           ) ?? -1;
-          console.log({indexSub})
+          // console.log({indexSub})
         setSubIndex(indexSub);
       } else {
         const index = categories.findIndex(

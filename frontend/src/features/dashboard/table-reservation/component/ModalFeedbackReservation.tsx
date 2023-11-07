@@ -77,7 +77,7 @@ const ModalFeedbackReservation = ({ idItem, handleUpdate }: Props) => {
       // setFeetback(resultDetail.feedback ? false : true);
       setFeetback(recordStatus);
     } catch (error) {
-      console.log("Không thể lấy chi tiết yêu cầu đặt bàn.");
+      // console.log("Không thể lấy chi tiết yêu cầu đặt bàn.");
     }
   };
 

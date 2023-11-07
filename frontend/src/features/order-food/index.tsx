@@ -43,7 +43,7 @@ function index() {
             setValidVoucher(res)
           })
           .catch((error) => {
-            console.log(error);
+            // console.log(error);
             setValidVoucher(undefined)
           });
     }

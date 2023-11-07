@@ -17,7 +17,7 @@ export const FooterAbout = () => {
   const { t } = useTranslation();
   return (
     <div className=" bg-secondary py-[27px] xl:py-[48px]  text-text_white">
-      <div className="w-rp  grid grid-cols-1 m992:grid-cols-3 xl:!grid-cols-5   xl:gap-x-[50px]">
+      <div className="w-rp  grid grid-cols-1 m992:grid-cols-3 xl:!grid-cols-5   xl:gap-x-[20px]">
         <div className="m992:col-span-3 mb-[24px] xl:mb-0">
           <div>
             <>
@@ -149,7 +149,7 @@ const FooterAboutGroupPolicy = () => {
           );
         })}
 
-        <li className="h-[32px] items-center">
+        {/* <li className="h-[32px] items-center">
           <p
             // target="blank"
             // href="tel:1900636465"
@@ -157,14 +157,14 @@ const FooterAboutGroupPolicy = () => {
           >
             CSKH: 1900636465
           </p>
-        </li>
+        </li> */}
         <li className="h-[32px] items-center">
           <p
             // target="blank"
             // href="tel:1900636465"
-            className="h-[24px] flex items-center text-text_white text-_14 hover:text-primary duration-300"
+            className="h-[24px] flex items-center whitespace-nowrap text-text_white text-_14 hover:text-primary duration-300"
           >
-            Hỗ trợ dịch vụ: 1900636465
+             Phản ánh chất lượng: 0928229999
           </p>
         </li>
         <li className="h-[32px] items-center">
@@ -172,7 +172,7 @@ const FooterAboutGroupPolicy = () => {
             // href="mailto:giangmyhotpot@gmail.com"
             className="h-[24px] flex items-center text-text_white text-_14 hover:text-primary duration-300"
           >
-            Email: giangmyhotpot@gmail.com
+            Email: giangmy.banhtrang@gmail.com
           </p>
         </li>
       </ul>

@@ -41,7 +41,7 @@ export const Banner = ({type}:Props) => {
       <img
         alt=""
         className=" absolute inset-0 h-full w-full object-cover"
-        src={getLinkImageUrl(listBanner?.listBanner?.[0].linkMedia, windownSizeWidth >= withResponsive._1024 ? withResponsive._1024 : windownSizeWidth, 488)}
+        src={getLinkImageUrl(listBanner?.listBanner?.[0].linkMedia, windownSizeWidth >= withResponsive._1024 ? withResponsive._1920 : windownSizeWidth, 488)}
       />
       <div className="bg-banner_home absolute inset-0 z-[1]" />
       <div className="w-rp hidden xl:block relative z-[2] mb-[140px] text-text_white">

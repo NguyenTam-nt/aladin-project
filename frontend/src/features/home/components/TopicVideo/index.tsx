@@ -1,25 +1,25 @@
-import { isUrl } from "@commons/common";
-import { Image } from "@components/Image";
+import { isUrl } from "@commons/common"
+import { Image } from "@components/Image"
 import {
   windownSizeHeight,
   windownSizeWidth,
   withResponsive,
-} from "@constants/index";
-import { useGetTopic } from "@features/dashboard/home/components/useGetTopic";
-import useInView from "@hooks/useInView";
-import { HomeTopicType } from "@typeRules/home";
-import clsx from "clsx";
-import React, { useMemo } from "react";
-import YouTube from "react-youtube";
+} from "@constants/index"
+import { useGetTopic } from "@features/dashboard/home/components/useGetTopic"
+import useInView from "@hooks/useInView"
+import { HomeTopicType } from "@typeRules/home"
+import clsx from "clsx"
+import React, { useMemo } from "react"
+import YouTube from "react-youtube"
 
 export const TopicVideo = () => {
-  const { listBanner } = useGetTopic(HomeTopicType.video);
+  const { listBanner } = useGetTopic(HomeTopicType.video)
 
   const url = useMemo(() => {
-    return listBanner?.listBanner?.[0].linkMedia || "";
-  }, [listBanner]);
+    return listBanner?.listBanner?.[0].linkMedia || ""
+  }, [listBanner])
 
-  const { ref, isInView } = useInView<HTMLDivElement>();
+  const { ref, isInView } = useInView<HTMLDivElement>()
 
   return listBanner?.listBanner?.length ? (
     <div
@@ -46,5 +46,5 @@ export const TopicVideo = () => {
         )
       ) : null}
     </div>
-  ) : null;
-};
+  ) : null
+}

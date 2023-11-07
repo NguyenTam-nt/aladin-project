@@ -1,51 +1,51 @@
-import { ICLogo } from "@assets/icons";
-import { ICGm } from "@assets/icons/ICGm";
-import { ICLogoFrame } from "@assets/icons/ICLogoFrame";
-import { ICMenuBar } from "@assets/icons/ICMenuBar";
-import { windownSizeWidth, withResponsive } from "@constants/index";
-import { IRouter, routersPublic } from "@constants/routerPublic";
-import React, { memo, useEffect, useMemo, useState } from "react";
-import { useTranslation } from "react-i18next";
-import { Link } from "react-router-dom";
-import { SidebarNavigation } from "./SidebarNavigation";
+import { ICLogo } from "@assets/icons"
+import { ICGm } from "@assets/icons/ICGm"
+import { ICLogoFrame } from "@assets/icons/ICLogoFrame"
+import { ICMenuBar } from "@assets/icons/ICMenuBar"
+import { windownSizeWidth, withResponsive } from "@constants/index"
+import { IRouter, routersPublic } from "@constants/routerPublic"
+import React, { ChangeEvent, memo, useEffect, useMemo, useState } from "react"
+import { useTranslation } from "react-i18next"
+import { Link } from "react-router-dom"
+import { SidebarNavigation } from "./SidebarNavigation"
+import HttpService from "@configs/api"
 
 export const Header = () => {
   useEffect(() => {
-    let lastIndex = 0;
+    let lastIndex = 0
     window.addEventListener(
       "scroll",
       () => {
-        const header = document.getElementById("header");
+        const header = document.getElementById("header")
         if (header) {
-          const headerbreak =
-            windownSizeWidth > withResponsive._1024 ? 120 : 80;
+          const headerbreak = windownSizeWidth > withResponsive._1024 ? 120 : 80
 
           if (lastIndex < document.documentElement.scrollTop - headerbreak) {
-            header!.style.transform = `translateY(${-headerbreak}px)`;
+            header!.style.transform = `translateY(${-headerbreak}px)`
 
-            lastIndex = document.documentElement.scrollTop - headerbreak;
+            lastIndex = document.documentElement.scrollTop - headerbreak
           } else {
-            header!.style.transform = `translateY(${0}px)`;
+            header!.style.transform = `translateY(${0}px)`
             if (lastIndex > 0)
-              lastIndex = document.documentElement.scrollTop - headerbreak;
+              lastIndex = document.documentElement.scrollTop - headerbreak
           }
         }
       },
       {
         passive: true,
       }
-    );
+    )
 
     return () => {
       window.removeEventListener("scroll", () => {
-        lastIndex = document.documentElement.scrollTop;
-      });
-    };
-  }, []);
+        lastIndex = document.documentElement.scrollTop
+      })
+    }
+  }, [])
 
   const headerData = useMemo(() => {
-    return routersPublic.filter((item) => !item.isHiden);
-  }, []);
+    return routersPublic.filter((item) => !item.isHiden)
+  }, [])
 
   return (
     <div
@@ -58,25 +58,106 @@ export const Header = () => {
         <HeaderMobile />
       )}
     </div>
-  );
-};
+  )
+}
 
 const HeaderPC = ({ headerData }: { headerData: IRouter[] }) => {
-  const { t } = useTranslation();
+  const { t } = useTranslation()
   const handleScrollToTop = () => {
     window.scrollTo({
       top: 0,
       behavior: "smooth",
-    });
-  };
+    })
+  }
+  async function UploadVideo(e: ChangeEvent<HTMLInputElement>) {
+    const data = new FormData()
+    let file = e.target.files![0]
+
+    const toBase64 = (file: any) =>
+      new Promise((resolve, reject) => {
+        const reader = new FileReader()
+        reader.readAsDataURL(file)
+        reader.onload = () => resolve(reader.result)
+        reader.onerror = (error) => reject(error)
+      })
+    const video = await toBase64(file)
+    console.log({ video })
+    function uploadVideo(
+      videoPath: any,
+      authKey: any,
+      libraryId: any,
+      videoName: any
+    ) {
+      const baseUrl = "https://video.bunnycdn.com/library/"
+      const createOptions = {
+        url: `${baseUrl}${libraryId}/videos`,
+        data: {
+          title: videoName,
+        },
+        headers: {
+          AccessKey: authKey,
+          "Content-Type": "application/json",
+        },
+      }
+
+      HttpService.axiosClient
+        .post(createOptions.url, createOptions.data, {
+          headers: createOptions.headers,
+        })
+        .then((response) => {
+          if (response.status === 200) {
+            const uploadOptions = {
+              url: `${baseUrl}${libraryId}/videos/${response.data.guid}`,
+              data: video,
+              headers: {
+                AccessKey: authKey,
+                "Content-Type": "application/octet-stream",
+              },
+            }
+
+            HttpService.axiosClient
+              .put(uploadOptions.url, uploadOptions.data, {
+                headers: uploadOptions.headers,
+              })
+              .then((response) => {
+                if (response.status === 200) {
+                  return true
+                }
+                return false
+              })
+              .catch((error) => {
+                console.log(error)
+                return false
+              })
+          }
+        })
+        .catch((error) => {
+          console.log(error)
+          return false
+        })
+    }
+    async function uploadMyVideo() {
+      const result = await uploadVideo(
+        "/public/test.mp4",
+        "e86d3395-3028-45b9-a5c388c5a5b1-d155-4845",
+        "170205",
+        "title-video"
+      )
+      console.log({ result })
+    }
+
+    uploadMyVideo()
+  }
   return (
     <div className="w-rp h-full flex items-center text-_18 uppercase justify-between text-white">
+      <input onChange={UploadVideo} type="file" />
+
       {headerData.slice(0, 3).map((item, index) => {
         return (
           <Link onClick={handleScrollToTop} to={item.path} key={index}>
             {t(item.name)}
           </Link>
-        );
+        )
       })}
       <Link
         onClick={handleScrollToTop}
@@ -97,17 +178,17 @@ const HeaderPC = ({ headerData }: { headerData: IRouter[] }) => {
           <Link onClick={handleScrollToTop} to={item.path} key={index}>
             {t(item.name)}
           </Link>
-        );
+        )
       })}
     </div>
-  );
-};
+  )
+}
 
 const HeaderMobile = memo(() => {
-  const [isShowSidebar, setShow] = useState(false);
+  const [isShowSidebar, setShow] = useState(false)
   const handleShow = () => {
-    setShow(!isShowSidebar);
-  };
+    setShow(!isShowSidebar)
+  }
   return (
     <>
       <div className="w-rp flex h-full justify-between items-center">
@@ -126,9 +207,8 @@ const HeaderMobile = memo(() => {
               </div>
             </div>
           </Link>
-
-          <p className="title-18 text-white ml-[35px]">Giang mỹ Hotpot</p>
         </div>
+        <p className="title-18 text-center text-white">Giang mỹ</p>
         <button onClick={handleShow}>
           <ICMenuBar />
         </button>
@@ -137,5 +217,5 @@ const HeaderMobile = memo(() => {
         <SidebarNavigation isShowSidebar={isShowSidebar} onShow={handleShow} />
       ) : null}
     </>
-  );
-});
+  )
+})

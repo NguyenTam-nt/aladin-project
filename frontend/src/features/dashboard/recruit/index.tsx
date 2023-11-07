@@ -36,7 +36,7 @@ const RecuitmentManage = () => {
       setListRecruit(list);
       setTotalPages(Math.ceil(totalElementPage / 12));
     } catch (error) {
-      console.log("Không lấy được danh sách tuyển dụng");
+      // console.log("Không lấy được danh sách tuyển dụng");
     }
   };
   useEffect(() => {

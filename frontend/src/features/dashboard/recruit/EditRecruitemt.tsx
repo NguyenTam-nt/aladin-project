@@ -16,7 +16,7 @@ const EditRecruitemt = () => {
         setRecruiItem(resultRecruit);
       }
     } catch (error) {
-      console.log("Có lỗi không thể lấy thông tin tuyển dụng");
+      // console.log("Có lỗi không thể lấy thông tin tuyển dụng");
     }
   };
   useEffect(() => {

@@ -26,7 +26,7 @@ const Recruitment = () => {
       setListRecruit(list);
       setTotalPages(Math.ceil(totalElementPage / 6));
     } catch (error) {
-      console.log("Không lấy được danh sách tuyển dụng");
+      // console.log("Không lấy được danh sách tuyển dụng");
     }
   };
   useEffect(() => {

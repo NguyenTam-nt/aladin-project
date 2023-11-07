@@ -599,3 +599,11 @@ input[type="radio"]:checked::before {
 .list-category-item:hover .list-category-item-child {
   display: block;
 }
+
+.gm-editor span {
+  display: inline-flex;
+  max-width: 100%;
+  align-items: flex-start;
+  background-color: transparent !important;
+
+}

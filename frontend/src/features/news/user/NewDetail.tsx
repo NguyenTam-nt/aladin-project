@@ -43,9 +43,9 @@ const NewDetail = () => {
               />
             </div>
             <div
-              className="mt-4"
+              className="mt-4 gm-editor"
               dangerouslySetInnerHTML={{
-                __html: JSON.parse(dataNew?.content!),
+                __html: dataNew?.content!,
               }}
             ></div>
           </div>
