@@ -64,7 +64,7 @@ const TableCartItem = ({
             </Text>
             <View style={styles.textAddOrderItem}>
               <ICAddOrder />
-              <Text style={styles.textNotiITem}>Đặt cho tôi đơn hàng này</Text>
+              <Text style={styles.textNotiITem}>{data.note || 'Đặt đơn hàng này cho tôi'}</Text>
             </View>
           </View>
         </View>

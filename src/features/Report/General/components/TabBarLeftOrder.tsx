@@ -147,7 +147,7 @@ const FilterCalendar = memo(
               fontSize={14}
               color={defaultColors.c_222124}
               weight="400">
-              Khoảng cách
+              Khoảng ngày
             </TextCustom>
           </Pressable>
           <Pressable onPress={handleShow}>

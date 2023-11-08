@@ -1,7 +1,7 @@
 import { Thumb } from '@components';
 import { defaultColors, isTabletDevice } from '@configs';
 import { DIMENSION } from '@constants';
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
   FlatList,
   ListRenderItemInfo,
@@ -27,6 +27,7 @@ import { useModal } from 'src/hooks/useModal';
 
 const TableCartItem = ({item , showModalEdit } : { item :IItemProductKitchen ;showModalEdit : (id : number) => void}) => {
   const [active, setActive] = useState<boolean>(item.show);
+
   const onPressShow = async () => {
     const update = await UpdateShowProduct(item.id);
     if (update.success) {
@@ -36,6 +37,11 @@ const TableCartItem = ({item , showModalEdit } : { item :IItemProductKitchen ;sh
       MessageUtils.showErrorMessage('Thất bái');
     }
   };
+  useEffect(() => {
+     setActive(item.show);
+  } , [
+    item.show,
+  ]);
   return (
     <View>
       <View style={styles.itemContainer} />
@@ -128,6 +134,7 @@ const TableRightContent = (props : ITableRightContent) => {
       MessageUtils.showErrorMessageWithTimeout('Thất bại');
     }
   };
+
 
   const renderItem = (item: ListRenderItemInfo<IItemProductKitchen>) => {
     return <TableCartItem item={item.item} showModalEdit={showModalEdit} />;
@@ -266,7 +273,7 @@ const styles = StyleSheet.create({
   },
   col8: {
     width: '8%',
-    flexWrap: 'wrap-reverse', 
+    flexWrap: 'wrap-reverse',
   },
   itemContainer: {
     height: 1,
