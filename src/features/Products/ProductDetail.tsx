@@ -435,7 +435,6 @@ const ProductDetail = () => {
 };
 
 export default ProductDetail;
-
 const styles = StyleSheet.create({
   container: {
     position: 'relative',
