@@ -99,7 +99,6 @@ const ForgotPassword = () => {
   };
   return (
     <View style={styles.container}>
-      {/* <ScrollView> */}
       <KeyboardAwareScrollView>
         <Header children={undefined} />
         <Pressable
@@ -191,7 +190,6 @@ const ForgotPassword = () => {
           </View>
         </View>
       </ModalCustom>
-      {/* </ScrollView> */}
     </View>
   );
 };
@@ -208,6 +206,5 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     padding: 24,
     marginHorizontal: 20,
-    // alignItems: 'center',
   },
 });

@@ -1,9 +1,9 @@
 import {StyleSheet, View} from 'react-native';
 import React, {useState} from 'react';
-import {Thumb} from '@components';
 import {DIMENSION} from '@constants';
 import {IBanner, getBannerByNameApi} from 'src/api/banner';
 import {Swiper} from 'src/components/rn-swiper/Swiper';
+import {Thumb} from '@components';
 
 const Banner = (props: {bannerType: string}) => {
   const [banners, setBanners] = useState<IBanner>();
@@ -29,13 +29,15 @@ const Banner = (props: {bannerType: string}) => {
         autoplayLoop
         index={0}
         autoplayLoopKeepAnimation
-        // autoplayInvertDirection
+        autoplayInvertDirection
         data={banners?.images}
         renderItem={item => {
           return (
             <Thumb
               style={styles.imageBanner}
-              source={{uri: item?.item.url}}
+              source={{
+                uri: item?.item?.url,
+              }}
               resizeMode="cover"
             />
           );

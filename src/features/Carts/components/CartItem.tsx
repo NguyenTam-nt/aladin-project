@@ -1,12 +1,12 @@
 import {TextCustom, Thumb} from '@components';
 import {defaultColors} from '@configs';
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import {StyleSheet, TouchableOpacity, View} from 'react-native';
 import {ICISCheckbox} from 'src/assets/icons/ICISCheckbox';
 import {formatNumberDotWithVND} from 'src/commons/formatMoney';
 import AmountCartItem from './AmountCartItem';
 import {ICRemove} from 'src/assets/icons/ICRemove';
-import {IITemCart, setChooseItem} from 'src/redux/orderCart/slice';
+import {IITemCart} from 'src/redux/orderCart/slice';
 import useI18n from 'src/hooks/useI18n';
 import {ICNOCheckbox} from 'src/assets/icons/ICNOCheckox';
 import {NavLink} from 'src/constants/links';
@@ -49,30 +49,6 @@ const CartItem = (props: IProps) => {
         styles.cartContainer,
         product.stockQuantity == 0 && {opacity: 0.5},
       ]}>
-      {/* {product.stockQuantity == 0 && (
-        <View
-          style={[
-            StyleSheet.absoluteFillObject,
-            {
-              backgroundColor: defaultColors.rgba_0_0_0_03,
-              flex: 1,
-              zIndex: 10,
-              borderRadius: 20,
-              justifyContent: 'center',
-              alignItems: 'flex-start',
-              paddingLeft: 15,
-              paddingTop: 60,
-            },
-          ]}>
-          <TextTranslate
-            fontSize={14}
-            numberOfLines={2}
-            color={defaultColors.text_313131}
-            weight="400"
-            text="cart.out-row"
-          />
-        </View>
-      )} */}
       {product.stockQuantity == 0 && (
         <View style={{position: 'absolute', bottom: 20, left: 10}}>
           <TextTranslate
@@ -210,13 +186,9 @@ const styles = StyleSheet.create({
   styleCheckBox: {
     width: 20,
     height: '100%',
-    // justifyContent: 'center',
-    // alignItems: 'center',
   },
   styleRemove: {
     justifyContent: 'center',
     alignItems: 'flex-end',
-    // height: '100%',
-    // width: '100%',
   },
 });

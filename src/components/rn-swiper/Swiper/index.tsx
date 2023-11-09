@@ -7,8 +7,8 @@ import {
   useWindowDimensions,
 } from 'react-native';
 
-import { Pagination } from '../Pagination/Pagination';
-import { SwiperFlatListProps, SwiperFlatListRefProps } from './SwiperProps';
+import {Pagination} from '../Pagination/Pagination';
+import {SwiperFlatListProps, SwiperFlatListRefProps} from './SwiperProps';
 
 const MILLISECONDS = 1000;
 const FIRST_INDEX = 0;
@@ -16,7 +16,7 @@ const ITEM_VISIBLE_PERCENT_THRESHOLD = 60;
 
 // TODO: figure out how to use forwardRef with generics
 type T1 = any;
-type ScrollToIndex = { index: number; animated?: boolean };
+type ScrollToIndex = {index: number; animated?: boolean};
 
 // const SwiperFlatList = React.forwardRef<RefProps, SwiperFlatListProps<SwiperType>>(
 export const Swiper = React.forwardRef(
@@ -64,7 +64,7 @@ export const Swiper = React.forwardRef(
     if (children) {
       // github.com/gusgard/react-native-swiper-flatlist/issues/40
       _data = Array.isArray(children) ? children : [children];
-      _renderItem = ({ item }) => item;
+      _renderItem = ({item}) => item;
     } else if (data) {
       _data = data;
       _renderItem = renderItem;
@@ -74,8 +74,12 @@ export const Swiper = React.forwardRef(
     const size = _data.length;
     // Items to render in the initial batch.
     const _initialNumToRender = renderAll ? size : 1;
-    const [currentIndexes, setCurrentIndexes] = React.useState({ index, prevIndex: index });
-    const [ignoreOnMomentumScrollEnd, setIgnoreOnMomentumScrollEnd] = React.useState(false);
+    const [currentIndexes, setCurrentIndexes] = React.useState({
+      index,
+      prevIndex: index,
+    });
+    const [ignoreOnMomentumScrollEnd, setIgnoreOnMomentumScrollEnd] =
+      React.useState(false);
     const flatListElement = React.useRef<RNFlatList<unknown>>(null);
     const [scrollEnabled, setScrollEnabled] = React.useState(!disableGesture);
 
@@ -84,18 +88,24 @@ export const Swiper = React.forwardRef(
     }, [disableGesture]);
 
     const _onChangeIndex = React.useCallback(
-      ({ index: _index, prevIndex: _prevIndex }: { index: number; prevIndex: number }) => {
-        if (_index !== _prevIndex) {
-          onChangeIndex?.({ index: _index, prevIndex: _prevIndex });
-        }
+      ({
+        index: _index,
+        prevIndex: _prevIndex,
+      }: {
+        index: number;
+        prevIndex: number;
+      }) => {
+        // if (_index !== _prevIndex) {
+        onChangeIndex?.({index: _index, prevIndex: _prevIndex});
+        // }
       },
       [onChangeIndex],
     );
 
     const _scrollToIndex = React.useCallback(
       (params: ScrollToIndex) => {
-        const { index: indexToScroll, animated = true } = params;
-        const newParams = { animated, index: indexToScroll };
+        const {index: indexToScroll, animated = true} = params;
+        const newParams = {animated, index: indexToScroll};
 
         setIgnoreOnMomentumScrollEnd(true);
 
@@ -103,12 +113,18 @@ export const Swiper = React.forwardRef(
           index: indexToScroll,
           prevIndex: currentIndexes.index,
         };
-        if (currentIndexes.index !== next.index && currentIndexes.prevIndex !== next.prevIndex) {
-          setCurrentIndexes({ index: next.index, prevIndex: next.prevIndex });
+        if (
+          currentIndexes.index !== next.index &&
+          currentIndexes.prevIndex !== next.prevIndex
+        ) {
+          setCurrentIndexes({index: next.index, prevIndex: next.prevIndex});
         } else if (currentIndexes.index !== next.index) {
-          setCurrentIndexes((prevState) => ({ ...prevState, index: next.index }));
+          setCurrentIndexes(prevState => ({...prevState, index: next.index}));
         } else if (currentIndexes.prevIndex !== next.prevIndex) {
-          setCurrentIndexes((prevState) => ({ ...prevState, prevIndex: next.prevIndex }));
+          setCurrentIndexes(prevState => ({
+            ...prevState,
+            prevIndex: next.prevIndex,
+          }));
         }
 
         // When execute "scrollToIndex", we ignore the method "onMomentumScrollEnd"
@@ -121,7 +137,10 @@ export const Swiper = React.forwardRef(
 
     // change the index when the user swipe the items
     React.useEffect(() => {
-      _onChangeIndex({ index: currentIndexes.index, prevIndex: currentIndexes.prevIndex });
+      _onChangeIndex({
+        index: currentIndexes.index,
+        prevIndex: currentIndexes.prevIndex,
+      });
     }, [_onChangeIndex, currentIndexes.index, currentIndexes.prevIndex]);
 
     React.useImperativeHandle(ref, () => ({
@@ -134,12 +153,12 @@ export const Swiper = React.forwardRef(
       getPrevIndex: () => currentIndexes.prevIndex,
       goToLastIndex: () => {
         setScrollEnabled(true);
-        _scrollToIndex({ index: I18nManager.isRTL ? FIRST_INDEX : size - 1 });
+        _scrollToIndex({index: I18nManager.isRTL ? FIRST_INDEX : size - 1});
         setScrollEnabled(!disableGesture);
       },
       goToFirstIndex: () => {
         setScrollEnabled(true);
-        _scrollToIndex({ index: I18nManager.isRTL ? size - 1 : FIRST_INDEX });
+        _scrollToIndex({index: I18nManager.isRTL ? size - 1 : FIRST_INDEX});
         setScrollEnabled(!disableGesture);
       },
     }));
@@ -172,7 +191,7 @@ export const Swiper = React.forwardRef(
           // Disable end loop animation unless `autoplayLoopKeepAnimation` prop configured
           const animate = !isLastIndexEnd || autoplayLoopKeepAnimation;
 
-          _scrollToIndex({ index: nextIndex, animated: animate });
+          _scrollToIndex({index: nextIndex, animated: animate});
         }, autoplayDelay * MILLISECONDS);
       }
       // https://upmostly.com/tutorials/settimeout-in-react-components-using-hooks
@@ -188,26 +207,32 @@ export const Swiper = React.forwardRef(
       _scrollToIndex,
     ]);
 
-    const _onMomentumScrollEnd: FlatListProps<unknown>['onMomentumScrollEnd'] = (event) => {
-      // NOTE: Method not executed when call "flatListElement?.current?.scrollToIndex"
-      if (ignoreOnMomentumScrollEnd) {
-        setIgnoreOnMomentumScrollEnd(false);
-        return;
-      }
+    const _onMomentumScrollEnd: FlatListProps<unknown>['onMomentumScrollEnd'] =
+      event => {
+        // NOTE: Method not executed when call "flatListElement?.current?.scrollToIndex"
+        if (ignoreOnMomentumScrollEnd) {
+          setIgnoreOnMomentumScrollEnd(false);
+          return;
+        }
 
-      onMomentumScrollEnd?.({ index: currentIndexes.index }, event);
-    };
+        onMomentumScrollEnd?.({index: currentIndexes.index}, event);
+      };
 
-    const _onViewableItemsChanged = React.useMemo<FlatListProps<unknown>['onViewableItemsChanged']>(
-      () => (params) => {
-        const { changed } = params;
+    const _onViewableItemsChanged = React.useMemo<
+      FlatListProps<unknown>['onViewableItemsChanged']
+    >(
+      () => params => {
+        const {changed} = params;
         const newItem = changed?.[FIRST_INDEX];
         if (newItem !== undefined) {
           const nextIndex = newItem.index as number;
           if (newItem.isViewable) {
-            setCurrentIndexes((prevState) => ({ ...prevState, index: nextIndex }));
+            setCurrentIndexes(prevState => ({...prevState, index: nextIndex}));
           } else {
-            setCurrentIndexes((prevState) => ({ ...prevState, prevIndex: nextIndex }));
+            setCurrentIndexes(prevState => ({
+              ...prevState,
+              prevIndex: nextIndex,
+            }));
           }
         }
         onViewableItemsChanged?.(params);
@@ -215,11 +240,13 @@ export const Swiper = React.forwardRef(
       [onViewableItemsChanged],
     );
 
-    const flatListProps: FlatListProps<unknown> & { ref: React.RefObject<RNFlatList<unknown>> } = {
+    const flatListProps: FlatListProps<unknown> & {
+      ref: React.RefObject<RNFlatList<unknown>>;
+    } = {
       scrollEnabled,
       ref: flatListElement,
       keyExtractor: (_item, _index) => {
-        const item = _item as { key?: string; id?: string };
+        const item = _item as {key?: string; id?: string};
         const key = item?.key ?? item?.id ?? _index.toString();
         return key;
       },
@@ -229,8 +256,8 @@ export const Swiper = React.forwardRef(
       pagingEnabled: true,
       ...props,
       onMomentumScrollEnd: _onMomentumScrollEnd,
-      onScrollToIndexFailed: (info) =>
-        setTimeout(() => _scrollToIndex({ index: info.index, animated: false })),
+      onScrollToIndexFailed: info =>
+        setTimeout(() => _scrollToIndex({index: info.index, animated: false})),
       data: _data,
       renderItem: _renderItem,
       initialNumToRender: _initialNumToRender,
@@ -246,7 +273,7 @@ export const Swiper = React.forwardRef(
       testID: e2eID,
     };
 
-    const { width, height } = useWindowDimensions();
+    const {width, height} = useWindowDimensions();
     if (props.getItemLayout === undefined) {
       const itemDimension = vertical ? height : width;
       flatListProps.getItemLayout = (__data, ItemIndex: number) => ({
@@ -257,13 +284,15 @@ export const Swiper = React.forwardRef(
     }
     if (Platform.OS === 'web') {
       // TODO: do we need this anymore? check 3.1.0
-      (flatListProps as any).dataSet = { 'paging-enabled-fix': true };
+      (flatListProps as any).dataSet = {'paging-enabled-fix': true};
     }
 
     //NOTE: quick fix for the new version of metro bundler
     // we should remove this console.warn in the next version (3.2.4)
     if (useReactNativeGestureHandler) {
-      console.warn('Please remove `useReactNativeGestureHandler` and import the library like:');
+      console.warn(
+        'Please remove `useReactNativeGestureHandler` and import the library like:',
+      );
       console.warn(
         "import { SwiperFlatListWithGestureHandler } from 'react-native-swiper-flatlist/WithGestureHandler';",
       );
@@ -296,7 +325,9 @@ export const Swiper = React.forwardRef(
 );
 
 // https://gist.github.com/Venryx/7cff24b17867da305fff12c6f8ef6f96
-type Handle<T> = T extends React.ForwardRefExoticComponent<React.RefAttributes<infer T2>>
+type Handle<T> = T extends React.ForwardRefExoticComponent<
+  React.RefAttributes<infer T2>
+>
   ? T2
   : never;
 export type SwiperFlatList = Handle<typeof Swiper>;

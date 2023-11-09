@@ -139,13 +139,11 @@ const ProductDetailItem = (props: IProps) => {
   const handleIncrease = () => {
 
     if (productDetailItem === undefined || productDetailItem === null) {
-      // onAddToast({ type: "warn", message: t("warning.product") });
       return;
     }
 
     let total = productDetailItem.stockQuantity || 0;
     if (total === 1 || total === 0) {
-      // onAddToast({ type: "warn", message: t("warning.product-one") });
     }
     if (total === quantity + 1) {
       setQuantity(quantity + 1);
@@ -341,12 +339,9 @@ export default ProductDetailItem;
 const styles = StyleSheet.create({
   conteiner: {
     paddingHorizontal: 15,
-    // position: 'relative',
-    // paddingHpaddingp: 15,
   },
   containerChild: {
     width: '100%',
-    // height: '100%',
     position: 'relative',
     overflow: 'hidden',
     borderRadius: 8,

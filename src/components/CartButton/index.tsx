@@ -1,6 +1,5 @@
 import {
   Platform,
-  Pressable,
   StyleSheet,
   TouchableOpacity,
   View,
@@ -15,7 +14,6 @@ import {
 } from 'src/redux/orderCart/hooks';
 import {useNavigation} from '@react-navigation/native';
 import {productRoute} from 'src/constants/routers';
-import {boolean} from 'yup';
 import {getCartItemAPI} from 'src/api/cartItem';
 import {useToken} from 'src/redux/reducers/hook';
 
@@ -51,7 +49,6 @@ const CartButton = (props: {isProductSreecn?: false}) => {
   return (
     <TouchableOpacity
       // @ts-ignore
-      // onPress={() => navigation.navigate('mains', {screen: 'product', params:{ screen: productRoute.cart}})}
       onPress={() => navigation.navigate(`${productRoute.cart}`)}
       style={styles().container}>
       <ICCart
@@ -66,7 +63,7 @@ const CartButton = (props: {isProductSreecn?: false}) => {
             fontSize={Platform.OS === 'ios' ? 14 : 10}
             weight="400"
             color={defaultColors.c_fff}>
-            {handleListCart.itemInCart.length ?? 0}
+            {handleListCart?.itemInCart?.length ?? 0}
           </TextCustom>
         </View>
       </View>

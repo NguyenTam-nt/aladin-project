@@ -14,8 +14,8 @@ export const AuthServices = () => {
 
   const doLogin = () => keycloak?.login();
 
-  const dologout = (refresh_token: string) => {
-    keycloak?.logout({refresh_token});
+  const dologout = () => {
+    keycloak?.clearToken();
   };
   const doLoginGoogle = () => {
     keycloak

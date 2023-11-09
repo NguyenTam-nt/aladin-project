@@ -1,9 +1,7 @@
 import {defaultColors} from '@configs';
 import React, {useState} from 'react';
-import {Pressable, StyleSheet, View, useWindowDimensions} from 'react-native';
+import {Pressable, StyleSheet, View} from 'react-native';
 import RenderHTML from 'react-native-render-html';
-import WebView from 'react-native-webview';
-import {ButtonTouchable} from 'src/components/Buttons/ButtonTouchable';
 import {Html} from 'src/components/Html';
 import TextTranslate from 'src/components/TextTranslate';
 
@@ -21,9 +19,6 @@ const Description = (props: IProps) => {
   const [actionKey, setActionKey] = useState<EXPLORE_KEY>(
     ExploreTabKey[0].slug,
   );
-  const [seeMoreProduct, setSeeMoreProduct] = useState<Boolean>(false);
-  const [seeMoreSpec, setSeeMoreSpec] = useState<Boolean>(false);
-  const {width} = useWindowDimensions();
   return (
     <View style={styles().container}>
       <View style={styles().exploreStyle}>
@@ -50,35 +45,9 @@ const Description = (props: IProps) => {
       <View style={styles().contentStyle}>
         {actionKey === 'product-info' && (
           <RenderHTML source={{html: productInfo ?? ''}} />
-          // <WebView source={productInfo ?? ''} />
-          // <WebView contentWidth={width} source={{html: productInfo ?? ''}} />
-          // <Html
-          //   // baseStyle={{height: 300}}
-          //   content={productInfo ?? ''}
-          // />
-          // <WebView source={{html: productInfo ?? ''}} style={{flex: 1}} />
         )}
-
         {actionKey === 'spec' && <Html content={spec ?? ''} />}
       </View>
-      {/* <View style={styles().buttomGroup}>
-        {actionKey === 'product-info' && (
-          <ButtonTouchable
-            onPress={() => setSeeMoreProduct(prev => !prev)}
-            style={{height: 31, marginHorizontal: 120, borderRadius: 30}}
-            text="common.see-more"
-            textColor={defaultColors.bg_00C3AB}
-          />
-        )}
-        {actionKey === 'spec' && (
-          <ButtonTouchable
-            onPress={() => setSeeMoreSpec(prev => !prev)}
-            style={{height: 31, marginHorizontal: 120, borderRadius: 30}}
-            text="common.see-more"
-            textColor={defaultColors.bg_00C3AB}
-          />
-        )}
-      </View> */}
     </View>
   );
 };
@@ -87,8 +56,6 @@ export default Description;
 
 const styles = (
   isAction?: boolean,
-  actionKey?: EXPLORE_KEY,
-  seeMore?: boolean,
 ) =>
   StyleSheet.create({
     container: {
@@ -110,17 +77,8 @@ const styles = (
     contentStyle: {
       flex: 1,
       marginTop: 17,
-      //   height: '100%',
-      // actionKey === 'product-info'
-      //   ? seeMore
-      //     ? '100%'
-      //     : 150
-      //   : seeMore
-      //   ? '100%'
-      //   : 150,
     },
     buttomGroup: {
       marginTop: 17,
-      // height: '100%',
     },
   });

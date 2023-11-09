@@ -1,12 +1,8 @@
-import {TextCustom} from '@components';
 import {defaultColors} from '@configs';
 import {DIMENSION} from '@constants';
 import React, {useEffect, useState} from 'react';
 import {
-  Dimensions,
   StyleSheet,
-  Text,
-  TouchableOpacity,
   View,
 } from 'react-native';
 import {MixedStyleRecord} from 'react-native-render-html';
@@ -121,15 +117,11 @@ const ProductOutStanding = () => {
 export default ProductOutStanding;
 const styles = StyleSheet.create({
   product: {
-    // backgroundColor: defaultColors._014F59,
-    // marginLeft: 16,
     height: 260,
     width: DIMENSION.width,
     borderTopLeftRadius: 20,
-    // paddingRight: 16,
     paddingHorizontal: 16,
     paddingTop: 8,
-    // paddingBottom: 14,
     marginBottom: 10,
   },
 });

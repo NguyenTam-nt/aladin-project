@@ -2,7 +2,6 @@ import {TextCustom} from '@components';
 import {defaultColors} from '@configs';
 import React from 'react';
 import {StyleSheet, TouchableOpacity, View} from 'react-native';
-import {boolean} from 'yup';
 interface IProps {
   quanlity: number;
   handleIncrease?: (value: any) => void;
@@ -14,8 +13,6 @@ interface IProps {
 const AmountCartItem = (props: IProps) => {
   const {
     quanlity,
-    handleDecrease,
-    handleIncrease,
     quantityDefault,
     handleUodateQuantity,
     disable = false,

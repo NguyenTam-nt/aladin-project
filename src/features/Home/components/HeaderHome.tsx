@@ -1,4 +1,4 @@
-import { StyleSheet, TouchableOpacity, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import React, { PropsWithChildren } from 'react';
 import { defaultColors } from '@configs';
 import RadialGradient from 'react-native-radial-gradient';
@@ -52,19 +52,12 @@ const styles = StyleSheet.create({
   groupButton: {
     ...globalStyles.row,
     columnGap: 8,
-    // justifyContent: 'center',
     alignItems: 'center',
   },
   styleInput: {
     flex: 1,
-    // height: '100%',
   },
   showProvice: {
-    // position: 'absolute',
-    // flex: 1,
-    // top: 10,
-    // // left: 0,
-    // right: -10,
     width: '100%',
     backgroundColor: defaultColors._FFDB9E,
     zIndex: 3,
@@ -76,9 +69,6 @@ const styles = StyleSheet.create({
     bottom: 0,
     top: 100,
     left: 0,
-    // opacity: 0.99,
-    // zIndex: 100,
-    // justifyContent: getValueForDevice('center','flex-end') ,
     alignItems: 'center',
     margin: 0,
     zIndex: 1,

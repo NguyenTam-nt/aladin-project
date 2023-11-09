@@ -2,7 +2,6 @@ import {defaultColors} from '@configs';
 import React, {useCallback, useRef} from 'react';
 import {
   SafeAreaView,
-  Platform,
   TouchableWithoutFeedback,
   StyleSheet,
   View,
@@ -31,7 +30,6 @@ const ModalBox = ({
       }, 2000);
     }
   }, [goBack]);
-  const screenHeight = Math.round(Dimensions.get('window').height) || 1000;
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.content}>

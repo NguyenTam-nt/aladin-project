@@ -29,4 +29,3 @@ export const Home = () => {
   );
 };
 
-const styles = StyleSheet.create({});

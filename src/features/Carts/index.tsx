@@ -1,14 +1,8 @@
 import {TextCustom, Thumb} from '@components';
-import {BOTTOM_BAR_HEIGHT, defaultColors} from '@configs';
+import {defaultColors} from '@configs';
 import React, {useCallback, useEffect, useMemo, useState} from 'react';
 import {useTranslation} from 'react-i18next';
-import {
-  ScrollView,
-  StyleSheet,
-  TouchableOpacity,
-  View,
-  TextInput,
-} from 'react-native';
+import {StyleSheet, TouchableOpacity, View, TextInput} from 'react-native';
 import {ICISCheckbox} from 'src/assets/icons/ICISCheckbox';
 import {ICRemove} from 'src/assets/icons/ICRemove';
 import HeaderBack from 'src/components/Header/HeaderBack';
@@ -29,16 +23,10 @@ import {IVoucher, getVoucherApplyProductApi} from 'src/api/voucher';
 import {formatNumberDotWithO} from 'src/commons/formatMoney';
 import {ICBuyNow} from 'src/assets/icons/ICBuyNow';
 import {useDispatch} from 'react-redux';
-import {
-  addVoucherApply,
-  removeCartList,
-  removeItemById,
-} from 'src/redux/orderCart/slice';
+import {removeCartList, removeItemById} from 'src/redux/orderCart/slice';
 import {globalStyles} from 'src/commons/globalStyles';
-import useI18n from 'src/hooks/useI18n';
 import Toast from 'react-native-toast-message';
 import {VoucherType} from 'src/typeRules/voucher';
-import {IProductOrder} from 'src/api/order';
 import {useNavigation} from '@react-navigation/native';
 import {productRoute} from 'src/constants/routers';
 import {ICartItem, updateCartItem} from 'src/api/cartItem';
@@ -46,7 +34,6 @@ import {useToken} from 'src/redux/reducers/hook';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 
 const CartsScreen = () => {
-  const {isVn} = useI18n();
   const navifation = useNavigation();
   const listItemCart = useListItemCart();
   const handleSetChooseAll = useHandleSetChooseAll();
@@ -250,7 +237,7 @@ const CartsScreen = () => {
 
   const handleUpdateCartItem = async (tokens: string, data: ICartItem[]) => {
     try {
-      const res = await updateCartItem(tokens, data);
+      await updateCartItem(tokens, data);
     } catch (error) {
       console.log(error);
     }
@@ -274,8 +261,6 @@ const CartsScreen = () => {
   const handleBuyNow = () => {
     if (listItemCart.itemInCart.length > 0) {
       handleProductOrder();
-      //@ts-ignore
-      // navifation.navigate(`${productRoute.payment}`);
     } else {
       Toast.show({
         type: 'tomatoToast',
@@ -429,7 +414,6 @@ const CartsScreen = () => {
           </View>
         )}
 
-        {/* <SpaceBottom /> */}
         <View style={{paddingBottom: 155}} />
       </KeyboardAwareScrollView>
       {listItemCart.itemInCart.length > 0 && (
@@ -499,8 +483,6 @@ export default CartsScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // position: 'relative',
-    // paddingHorizontal: 16,
     flexDirection: 'column',
     rowGap: 12,
   },
@@ -530,8 +512,6 @@ const styles = StyleSheet.create({
   styleRemove: {
     justifyContent: 'center',
     alignItems: 'flex-end',
-    // height: '100%',
-    // width: '100%',
   },
   cartContainer: {
     flexDirection: 'column',
@@ -568,7 +548,6 @@ const styles = StyleSheet.create({
   },
   styleBuyNow: {
     position: 'absolute',
-    // bottom: BOTTOM_BAR_HEIGHT,
     bottom: 0,
     left: 0,
     height: 155,
@@ -577,7 +556,6 @@ const styles = StyleSheet.create({
     width: '100%',
     borderBottomWidth: 1,
     borderBottomColor: defaultColors.bg_00C3AB,
-    // marginHorizontal: 12,
   },
   buyNowItem: {
     flexDirection: 'column',
@@ -603,7 +581,6 @@ const styles = StyleSheet.create({
     ...globalStyles.flexWrap,
     flexDirection: 'row',
     gap: 8,
-    // marginTop: 20,
   },
   styleVoucherItem: {
     paddingHorizontal: 16,

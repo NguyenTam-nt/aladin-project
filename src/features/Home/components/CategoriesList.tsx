@@ -70,6 +70,5 @@ const styles = StyleSheet.create({
   container: {},
   groupContent: {
     paddingHorizontal: paddingHorizontalScreen,
-    // paddingTop: 19,
   },
 });

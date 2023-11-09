@@ -1,4 +1,4 @@
-import {RefreshControl, StyleSheet, View} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import React, {useRef} from 'react';
 import {globalStyles} from 'src/commons/globalStyles';
 import {defaultColors} from '@configs';
@@ -6,7 +6,6 @@ import HeaderHome from './components/HeaderHome';
 import {DIMENSION} from '@constants';
 import Banner from './components/Banner';
 import SpaceBottom from 'src/components/SpaceBottom';
-import GroupContact from './components/GroupContact';
 import ProductNewList from './components/ProductNewList';
 import ProductSaleList from './components/ProductSaleList';
 import ContactTopic from './components/ContactTopic';
@@ -22,14 +21,6 @@ import {useListItemProvice} from 'src/redux/provices/hooks';
 const HomeScren = () => {
   const scrollViewRef = useRef<ImperativeScrollViewHandles>(null);
   const proviceItem = useListItemProvice();
-  // const [refreshing, setRefreshing] = React.useState(false);
-
-  // const onRefresh = React.useCallback(() => {
-  //   setRefreshing(true);
-  //   setTimeout(() => {
-  //     setRefreshing(false);
-  //   }, 2000);
-  // }, []);
 
   const onTopScroll = () => {
     scrollViewRef?.current?.scrollTo({
@@ -52,30 +43,17 @@ const HomeScren = () => {
       <ImperativeScrollView
         style={styles.scrollView}
         ref={scrollViewRef}
-        showsVerticalScrollIndicator={false}
-        // refreshControl={
-        //   <RefreshControl
-        //     refreshing={refreshing}
-        //     onRefresh={onRefresh}
-        //     title="refreshing ..."
-        //     titleColor={defaultColors.text_313131}
-        //   />
-        // }
-      >
-        {/* {!refreshing && [
-          <View key={0}> */}
+        showsVerticalScrollIndicator={false}>
         <Banner bannerType={BannerType.homePage} />
         <View style={styles.styleBody}>
           <CategoriesList />
           <ProductSaleList />
-          <GroupContact />
+          {/* <GroupContact /> */}
           {/* <CategoryOutStandingList /> */}
           <ProductOutStandingList />
           <ProductNewList />
         </View>
         <ContactTopic />
-        {/* </View>,
-        ]} */}
         <SpaceBottom />
       </ImperativeScrollView>
     </View>
@@ -119,7 +97,6 @@ const styles = StyleSheet.create({
     bottom: 0,
     top: 64,
     left: 0,
-    // alignItems: 'center',
     margin: 0,
     zIndex: 1,
     backgroundColor: defaultColors.bg_EFEFEF,
@@ -150,7 +127,5 @@ const styles = StyleSheet.create({
   },
   scrollView: {
     flex: 1,
-    // justifyContent: 'center',
-    // alignItems: 'center',
   },
 });

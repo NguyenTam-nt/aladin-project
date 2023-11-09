@@ -1,5 +1,5 @@
 import {defaultColors} from '@configs';
-import {StyleSheet, Text, View, ScrollView, Image} from 'react-native';
+import {StyleSheet, View, ScrollView} from 'react-native';
 import {globalStyles} from 'src/commons/globalStyles';
 import HeaderHome from '../Home/components/HeaderHome';
 import React from 'react';

@@ -3,6 +3,7 @@ import {APIs, IData} from './config';
 import {handleError} from './handleError';
 import {IUserInfo} from 'src/redux/reducers/AuthSlice';
 import {IResponseApi} from './types';
+import axios from 'axios';
 
 export const getUserInfo = async (
   token: string,
@@ -101,7 +102,25 @@ export const changePassword = async (
       success: true,
     };
   } catch (e) {
-
     return handleError(e);
   }
+};
+
+export const clearSession = async (refresh_token: string) => {
+  const headers = {
+    'Content-Type': 'application/x-www-form-urlencoded',
+  };
+
+  const body = {
+    client_id: 'web_app',
+    refresh_token: refresh_token,
+  };
+
+  await axios.post(
+    'https://marketmoa.com.vn/auth/realms/plustmart/protocol/openid-connect/logout?redirect_uri=encodedRedirectUri',
+    body,
+    {
+      headers: headers,
+    },
+  );
 };

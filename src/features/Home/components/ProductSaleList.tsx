@@ -61,7 +61,6 @@ const ProductSaleList = () => {
 
   return (
     <View style={{}}>
-      {/* <TextTilte text="home.product_sale" /> */}
       <View style={styles.groupProduct}>
         {productsSale?.length > 0 && (
           <ProductsList products={productsSale} textTile="home.product_sale" />

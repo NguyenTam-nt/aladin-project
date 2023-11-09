@@ -4,13 +4,13 @@
  *
  * @format
  */
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useCallback, useEffect} from 'react';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {PersistGate} from 'redux-persist/integration/react';
 import {persistor} from './src/redux';
 import Toast from 'react-native-toast-message';
 import ToastMessage from 'src/components/Toast';
-import {View, StyleSheet, Platform, NativeModules, Alert} from 'react-native';
+import {StyleSheet, Platform, NativeModules} from 'react-native';
 import './src/configs/i18n';
 import * as RNLocalize from 'react-native-localize';
 import MainStack from 'src/navigations/MainStack';
@@ -107,11 +107,6 @@ function App() {
         await dispatch(setToken(tokens.token));
         //@ts-ignore
         await dispatch(setRefreshToken(tokens?.refreshToken));
-        // const userInfo = await getUserInfo(tokens.token);
-
-        // if (userInfo) {
-        //   await dispatch(setUserInfo(userInfo.data));
-        // }
         handleGetCartItemApi(tokens.token, listItemCart.itemInCart);
         //save to storage tokens.token
       }
@@ -144,7 +139,6 @@ function App() {
             config={toastConfig}
             position="top"
             visibilityTime={1500}
-            // bottomOffset={20}
           />
         </SafeAreaProvider>
       </ReactNativeKeycloakProvider>
@@ -152,5 +146,4 @@ function App() {
   );
 }
 
-const styles = StyleSheet.create({});
 export default App;

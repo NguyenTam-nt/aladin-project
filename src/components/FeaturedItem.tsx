@@ -5,8 +5,6 @@ import {TextCustom} from './Text';
 import {ICCircleArrowRight} from 'src/assets/icons/ICCircleArrowRight';
 import {globalStyles} from 'src/commons/globalStyles';
 import {Thumb} from './Thumb/Thumb';
-import {NavLink} from 'src/constants/links';
-import {productRoute} from 'src/constants/routers';
 
 interface IProps {
   index: any;

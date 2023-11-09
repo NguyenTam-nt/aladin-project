@@ -76,7 +76,7 @@ const CategoriesScreen = () => {
           isVn ? subCategory?.subCategoryNameVn : subCategory?.subCategoryNameKr
         }
       />
-      <ScrollView>
+      <ScrollView showsVerticalScrollIndicator={false}>
         <View style={{}}>
           <FilterBy
             setFilterByItem={setFilterByItem}
@@ -151,7 +151,6 @@ const styles = StyleSheet.create({
   container: {flex: 1},
   filterStyle: {
     paddingHorizontal: 15,
-    // marginTop: 13,
   },
   viewedProduct: {
     marginTop: 35,
@@ -161,8 +160,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
     marginTop: 25,
     marginBottom: 2,
-    // borderBottomWidth: 1,
-    // borderBottomColor: defaultColors.bg_FF6B00,
   },
   groupProduct: {
     flexWrap: 'wrap',

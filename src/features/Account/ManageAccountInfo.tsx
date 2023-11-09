@@ -5,13 +5,8 @@ import {useNavigation} from '@react-navigation/native';
 import {useFormik} from 'formik';
 import React, {useEffect, useState} from 'react';
 import {useTranslation} from 'react-i18next';
-import {
-  View,
-  StyleSheet,
-  Pressable,
-  TouchableOpacity,
-} from 'react-native';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import {View, StyleSheet, Pressable, TouchableOpacity} from 'react-native';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import RadialGradient from 'react-native-radial-gradient';
 import {useDispatch} from 'react-redux';
 import {updateUserInfo} from 'src/api/user';

@@ -1,6 +1,6 @@
-import {TextCustom, Thumb} from '@components';
+import {Thumb} from '@components';
 import {defaultColors} from '@configs';
-import React from 'react';
+import React, {useEffect, useRef} from 'react';
 import {FlatList, StyleSheet, TouchableOpacity, View} from 'react-native';
 interface IProps {
   images?: {
@@ -8,13 +8,37 @@ interface IProps {
   }[];
   setImageLinkProduct: (value: string) => void;
   imageLinkProduct: string | null;
+  indexScroll: number;
   setIsPlaying: (value: boolean) => void;
+  handleOnActionSwiper: (index: number) => void;
 }
+
 const ImageFlatList = (props: IProps) => {
-  const {images, setImageLinkProduct, imageLinkProduct, setIsPlaying} = props;
+  const {
+    images,
+    setImageLinkProduct,
+    imageLinkProduct,
+    setIsPlaying,
+    indexScroll,
+    handleOnActionSwiper,
+  } = props;
+  const myListRef = useRef();
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      //@ts-ignore
+      myListRef.current.scrollToIndex({
+        animated: true,
+        index: indexScroll,
+      });
+    }, 200);
+    return () => clearTimeout(timeout);
+  }, [indexScroll]);
+
   return (
     <View style={styles.container}>
       <FlatList
+        //@ts-ignore
+        ref={myListRef}
         data={images ?? []}
         style={{marginTop: 16}}
         contentContainerStyle={styles.styleFlatList}
@@ -23,13 +47,14 @@ const ImageFlatList = (props: IProps) => {
             <TouchableOpacity
               onPress={() => {
                 setImageLinkProduct(item.url);
+                handleOnActionSwiper(index);
                 if (item.url.includes('http')) {
                   setIsPlaying(true);
                 } else {
                   setIsPlaying(false);
                 }
               }}
-              style={[imageLinkProduct === item.url && styles.BorderImage]}>
+              style={[indexScroll === index && styles.BorderImage]}>
               <Thumb
                 style={styles.styleImage}
                 source={{

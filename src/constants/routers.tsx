@@ -9,12 +9,9 @@ import {ICHome} from 'src/assets/icons/bottomtab/ICHome';
 import {ICProduct} from 'src/assets/icons/bottomtab/ICProduct';
 import {Home} from 'src/features/Home';
 import {About} from 'src/features/About';
-import Products from 'src/features/Products';
 import {ProductStackScreen} from 'src/navigations/ProductStack';
 import {ContactStackScreen} from 'src/navigations/ContactStack';
-import AccountScreen from 'src/features/Account';
 import {AccountStackScreen} from 'src/navigations/AccountStack';
-import HomeScren from 'src/features/Home/HomeScren';
 
 export const routetBottomTab = {
   home: 'home',

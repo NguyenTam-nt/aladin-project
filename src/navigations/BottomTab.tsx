@@ -17,7 +17,6 @@ const BottomTab = () => {
         state={props.state}
         descriptors={props.descriptors}
         navigation={props.navigation}
-        //   navigationPage={navigationPage}
         userInfo={undefined} //   clickShort={clickShort}
         insets={{bottom: 0, right: 0, left: 0, top: 0}} // insets={undefined}
       />

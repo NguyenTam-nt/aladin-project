@@ -6,8 +6,6 @@ import {globalStyles} from 'src/commons/globalStyles';
 import TextTranslate from 'src/components/TextTranslate';
 import ProductsList from 'src/components/product/ProductsList';
 import ProductItem from '../Home/components/ProductItem';
-import {getArrayToAsyncStorage} from 'src/constants/ayncStorage';
-import {storegeKey} from 'src/constants/defines';
 import {useListItemProvice} from 'src/redux/provices/hooks';
 import {useListWatchedProducts} from 'src/redux/products/hooks';
 
@@ -32,8 +30,6 @@ const Related = (props: IProps) => {
     ExploreTabKey[0].slug,
   );
   const [product, setProduct] = useState<IProduct[]>([]);
-  const [seeMoreProduct, setSeeMoreProduct] = useState<Boolean>(false);
-  const [seeMoreSpec, setSeeMoreSpec] = useState<Boolean>(false);
   const [ViewdProduct, setViewdProduct] = useState<any[]>([]);
   const getProductsByCategory = async (provice: string, productID: any) => {
     try {
@@ -54,13 +50,6 @@ const Related = (props: IProps) => {
     } catch (error) {}
   };
 
-  // const getStorage = async () => {
-  //   const products = await getArrayToAsyncStorage(storegeKey.PRODUCTS);
-  //   if (product) {
-  //     setViewdProduct(products);
-  //   }
-  // };
-
   const getWatchedProducts = () => {
     setViewdProduct(listWatchedProducts.watchedProducts);
   };
@@ -72,7 +61,6 @@ const Related = (props: IProps) => {
   }, [ListItemprovice, productId]);
   useEffect(() => {
     getWatchedProducts();
-    // getStorage();
   }, []);
   return (
     <View style={styles().container}>
@@ -107,21 +95,22 @@ const Related = (props: IProps) => {
           <View style={globalStyles.paddingScreenHorizontal}>
             <View style={globalStyles.groupProduct}>
               {(ViewdProduct ?? []).map((it, idx) => {
-                return (
-                  <ProductItem
-                    id={it.id}
-                    promo={it.promo}
-                    name={it.productNameVn}
-                    nameKr={it.productNameKr}
-                    totalSoldQuantity={it.totalSoldQuantity}
-                    // @ts-ignore
-                    images={it.images}
-                    categoryId={it.categoryId}
-                    subCategoryId={it.subCategoryId}
-                    price={it.price}
-                    // product={it}
-                  />
-                );
+                if (productId !== it.id) {
+                  return (
+                    <ProductItem
+                      id={it.id}
+                      promo={it.promo}
+                      name={it.productNameVn}
+                      nameKr={it.productNameKr}
+                      totalSoldQuantity={it.totalSoldQuantity}
+                      // @ts-ignore
+                      images={it.images}
+                      categoryId={it.categoryId}
+                      subCategoryId={it.subCategoryId}
+                      price={it.price}
+                    />
+                  );
+                }
               })}
             </View>
           </View>
@@ -135,12 +124,9 @@ export default Related;
 
 const styles = (
   isAction?: boolean,
-  actionKey?: EXPLORE_KEY,
-  seeMore?: boolean,
 ) =>
   StyleSheet.create({
     container: {
-      //   paddingHorizontal: 18,
       marginTop: 25,
     },
     exploreStyle: {
@@ -160,15 +146,6 @@ const styles = (
     },
     contentStyle: {
       flex: 1,
-      //   marginTop: 17,
-      //   height: '100%',
-      // actionKey === 'product-info'
-      //   ? seeMore
-      //     ? '100%'
-      //     : 150
-      //   : seeMore
-      //   ? '100%'
-      //   : 150,
     },
     buttomGroup: {
       marginTop: 17,

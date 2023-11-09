@@ -1,5 +1,5 @@
-import {View, ScrollView, StyleSheet, TouchableOpacity} from 'react-native';
-import React, {memo, useEffect, useMemo, useState} from 'react';
+import {View, StyleSheet, TouchableOpacity} from 'react-native';
+import React, {useEffect, useMemo, useState} from 'react';
 import HeaderBack from 'src/components/Header/HeaderBack';
 import {defaultColors} from '@configs';
 import {TextCustom, Thumb} from '@components';
@@ -129,7 +129,6 @@ const PaymentScreen = () => {
     },
   });
 
-  //  navigation.navigate(accountRoute.login)
   const {
     values,
     errors,
@@ -158,7 +157,7 @@ const PaymentScreen = () => {
 
   const handleUpdateCartItem = async (tokens: string, data: ICartItem[]) => {
     try {
-      const res = await updateCartItem(tokens, data);
+      await updateCartItem(tokens, data);
     } catch (error) {
       console.log(error);
     }
@@ -224,7 +223,6 @@ const PaymentScreen = () => {
   return (
     <View style={styles.container}>
       <HeaderBack isProductDetail={true} />
-      {/* <ScrollView style={{paddingHorizontal: 17}}> */}
       <KeyboardAwareScrollView style={{paddingHorizontal: 17}}>
         <View style={styles.listCarts}>
           {(listCartItems.itemCartOrder ?? []).map((it, idx) => {
@@ -469,41 +467,6 @@ const PaymentScreen = () => {
               text="1900 55 55 55"
             />
           </View>
-          {/* <View
-            style={{
-              flex: 1,
-              alignItems: 'center',
-              justifyContent: 'center',
-              rowGap: 10,
-            }}>
-            {}
-            {messageType === 'SUCCESS' && <ICSuccess />}
-            {messageType === 'ERROR' && <ICError />}
-            <TextCustom
-              textAlign="center"
-              fontSize={17}
-              weight="700"
-              color={defaultColors.text_313131}>
-              {t(
-                messageType === 'SUCCESS'
-                  ? showSuccess
-                  : messageType === 'ERROR'
-                  ? showError
-                  : '',
-              )}
-            </TextCustom>
-            {messageType === 'SUCCESS' && (
-              <ButtonTouchable
-                onPress={() => {}}
-                style={{
-                  backgroundColor: defaultColors._01A63E,
-                  height: 40,
-                  width: 80,
-                }}
-                text="common.agree"
-              />
-            )}
-          </View> */}
         </View>
       </ModalCustom>
       <ModalCustom
@@ -576,7 +539,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     columnGap: 5,
     justifyContent: 'center',
-    // alignItems: 'center',
     height: 80,
   },
   styleImage: {
@@ -639,7 +601,6 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     padding: 24,
     marginHorizontal: 20,
-    // alignItems: 'center',
   },
   modalEditLogin: {
     position: 'relative',
@@ -649,6 +610,5 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     padding: 24,
     marginHorizontal: 20,
-    // alignItems: 'center',
   },
 });

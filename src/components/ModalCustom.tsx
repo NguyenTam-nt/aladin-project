@@ -1,7 +1,7 @@
 import React, {forwardRef, ReactNode, useCallback, useState} from 'react';
 import Modal, {Direction} from 'react-native-modal';
 import type {ModalProps} from 'react-native-modal/dist/modal';
-import {KeyboardAvoidingView, StyleSheet} from 'react-native';
+import {StyleSheet} from 'react-native';
 import {isIOS} from '@constants';
 
 export type ModalCustomProps = {

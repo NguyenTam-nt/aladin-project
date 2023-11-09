@@ -1,5 +1,4 @@
 import {
-  Platform,
   StyleSheet,
   TextInput,
   TextInputProps,
@@ -15,7 +14,6 @@ import ModalCustom from '../ModalCustom';
 import SearchScreen from 'src/features/SearchScreen';
 import {useModal} from 'src/hooks/useModal';
 import {DIMENSION} from '@constants';
-import {TextCustom} from '../Text';
 
 type Props = {
   containerStyle?: ViewStyle[] | ViewStyle;
@@ -113,7 +111,5 @@ const styles = StyleSheet.create({
     backgroundColor: defaultColors.bg_EFEFEF,
     borderRadius: 10,
     padding: 24,
-    // marginHorizontal: 20,
-    // alignItems: 'center',
   },
 });

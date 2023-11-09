@@ -40,5 +40,5 @@ const ProductOutStandingList = () => {
 export default ProductOutStandingList;
 
 const styles = StyleSheet.create({
-  container: {},
+  container: {marginTop: 20},
 });

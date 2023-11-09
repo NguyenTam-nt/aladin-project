@@ -46,8 +46,6 @@ const RenderSelectTelePhone = () => {
                   <TouchableOpacity
                     key={idx}
                     onPress={() => {
-                      // handleChangeLanguage(it.key);
-                      // setLanguageAction(it);
                       setPreview(it);
                       setVisible(false);
                     }}

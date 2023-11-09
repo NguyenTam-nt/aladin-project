@@ -1,9 +1,8 @@
 import {DIMENSION} from '@constants';
 import React from 'react';
 import {useTranslation} from 'react-i18next';
-import {View, StyleSheet, Text, TouchableOpacity} from 'react-native';
-import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import {defaultColors, isTabletDevice} from 'src/configs';
+import {View, StyleSheet, Text} from 'react-native';
+import {defaultColors} from 'src/configs';
 
 const toastStatus = {
   success: {
@@ -75,7 +74,6 @@ const styles = StyleSheet.create({
   center: {
     justifyContent: 'center',
     alignItems: 'center',
-
   },
   textToast: {
     fontSize: 14,

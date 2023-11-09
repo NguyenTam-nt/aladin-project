@@ -156,7 +156,7 @@ const RegisterAccount = () => {
           style={{position: 'absolute', right: 20, top: 50, zIndex: 10}}>
           <ICClose width={20} height={20} />
         </Pressable>
-        <View style={{alignItems: 'center', marginTop: 50}}>
+        <View style={{alignItems: 'center', marginTop: 60}}>
           <ICLogo width={64} height={64} />
           <View style={{marginTop: 4}}>
             <TextTranslate

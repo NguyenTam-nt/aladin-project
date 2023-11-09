@@ -13,7 +13,7 @@ import {
 import {refreshToken, urlLogin} from './login';
 import {MessageUtils} from 'src/commons/messageUtils';
 import {AuthServices} from './authService';
-// import { RefNavigationToLoginScreen } from 'src/navigations/DrawerMain';
+import {clearSession} from './user';
 const {CancelToken} = axios;
 const source = CancelToken.source();
 
@@ -22,7 +22,8 @@ const logout = (refresh_token: string) => {
   store.dispatch(setToken(''));
   store.dispatch(setRefreshToken(''));
   store.dispatch(setUserInfo(initUserInfo));
-  dologout(refresh_token);
+  dologout();
+  clearSession(refresh_token);
 };
 
 const ShowMessageRefreshTokenError = () => {

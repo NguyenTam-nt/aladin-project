@@ -1,4 +1,4 @@
-import {TextCustom, Thumb} from '@components';
+import {Thumb} from '@components';
 import {defaultColors} from '@configs';
 import React, {useEffect, useState} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
@@ -12,7 +12,6 @@ import useI18n from 'src/hooks/useI18n';
 import ProductOutStanding from './ProductOutStanding';
 import CategoryOutStandingList from 'src/features/Home/components/CategoryOutStandingList';
 import {IAbout, getAboutApi} from 'src/api/about';
-import {DIMENSION} from '@constants';
 
 const Introdcution = () => {
   const [abouts, setAbouts] = useState<IAbout[]>([]);

@@ -19,6 +19,7 @@ import InputSearch from '../InputSearch';
 import PROVICE from '../../assets/provice/province_date.json';
 import {DIMENSION} from '@constants';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
+
 const CityFilter = (props: {isProductScreen?: false}) => {
   const {isProductScreen} = props;
   const dataItem = useListItemProvice();
@@ -83,7 +84,7 @@ const CityFilter = (props: {isProductScreen?: false}) => {
                 text="common.choose-provice"
               />
             </View>
-            <ScrollView>
+            <ScrollView showsVerticalScrollIndicator={false}>
               <View style={styles().proviceContainer}>
                 {proviceFilter.map((it, idx) => {
                   return (

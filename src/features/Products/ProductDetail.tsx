@@ -1,6 +1,7 @@
 import {TextCustom, Thumb} from '@components';
 import {
   useFocusEffect,
+  useIsFocused,
   useNavigation,
   useRoute,
 } from '@react-navigation/native';
@@ -44,12 +45,15 @@ import Video from 'react-native-video';
 import ProductNotFound from './ProductNotFound';
 import {useDispatch} from 'react-redux';
 import {removeProductByyId} from 'src/redux/products/slice';
+import {Swiper, SwiperFlatList} from 'src/components/rn-swiper/Swiper';
+import {DIMENSION} from '@constants';
 
 const ProductDetail = () => {
   const {isVn} = useI18n();
   const routers = useRoute();
   const {t} = useTranslation();
   const navigation = useNavigation();
+  const videoRef = useRef(null);
   const handleAddItemToCart = useHandleAddItemToCart();
   const handleListItemCart = useListItemCart();
   const scrollViewRef = useRef<ImperativeScrollViewHandles>(null);
@@ -72,11 +76,15 @@ const ProductDetail = () => {
   const [quantityVailable, setQuantityVailable] = useState<number>(1);
   const listItemCart = useListItemCart();
   const [imagesProduct, setImageProduct] = useState<{url: string}[]>([]);
+  const [slideProduct, setSlideProduct] = useState<{url: string}[]>([]);
   const token = useToken();
-  const [isPlaying, setIsPlaying] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(true);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<'ERROR' | null>(null);
   const dispatch = useDispatch();
+  const scrollSwiperRef = useRef<SwiperFlatList>(null);
+  const [currentIndexSwiper, setCurrentIndexSwiper] = useState<number>(0);
+  const isFocused = useIsFocused();
   const getProduct = async (id: any, provice: string) => {
     try {
       setLoading(true);
@@ -92,11 +100,14 @@ const ProductDetail = () => {
             const array = [{url: thumbnailVideo.path}, ...data.images];
             setVideoUrl(data.videoUrl);
             setImageProduct(array);
+            setSlideProduct([{url: data.videoUrl}, ...data.images]);
           } else {
             setImageProduct(data.images);
+            setSlideProduct(data.images);
           }
         } else {
           setImageProduct(data.images);
+          setSlideProduct(data.images);
         }
         setError(null);
         return;
@@ -220,11 +231,14 @@ const ProductDetail = () => {
 
   const handleUpdateCartItem = async (token: string, data: ICartItem[]) => {
     try {
-      const res = await updateCartItem(token, data);
+      await updateCartItem(token, data);
     } catch (error) {
       console.log(error);
     }
   };
+  const handleOnActionSwiper = useCallback((index: number) => {
+    scrollSwiperRef.current?.scrollToIndex({index: index});
+  }, []);
 
   const onTopScroll = () => {
     scrollViewRef?.current?.scrollTo({
@@ -250,6 +264,32 @@ const ProductDetail = () => {
     getProduct(idProduct, provices.provices.Name);
   }, [idProduct, provices]);
 
+  const onEnd = useCallback(() => {
+    if (videoRef.current) {
+      //@ts-ignore
+      videoRef.current.seek(0);
+      setTimeout(() => {
+        setIsPlaying(true);
+      }, 100);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (isFocused) {
+      setIsPlaying(false);
+    } else {
+      setIsPlaying(true);
+    }
+  }, [isFocused]);
+
+  useEffect(() => {
+    if (currentIndexSwiper !== 0) {
+      setIsPlaying(true);
+    } else {
+      setIsPlaying(false);
+    }
+  }, [currentIndexSwiper]);
+
   useFocusEffect(
     React.useCallback(() => {
       return () => {
@@ -268,32 +308,56 @@ const ProductDetail = () => {
   if (error === 'ERROR') {
     return <ProductNotFound />;
   }
+
   return (
     <View style={styles.container}>
       <HeaderBack isProductDetail={true} iconCart={true} />
-      <ImperativeScrollView ref={scrollViewRef}>
-        {videoUrl && isPlaying === false ? (
-          <Video
-            source={{
-              uri: videoUrl,
+      <ImperativeScrollView
+        ref={scrollViewRef}
+        showsVerticalScrollIndicator={false}>
+        <View style={{width: DIMENSION.width}}>
+          <Swiper
+            ref={scrollSwiperRef}
+            index={0}
+            onChangeIndex={({index, prevIndex}) => {
+              setCurrentIndexSwiper(index);
             }}
-            style={styles.video}
-            resizeMode="contain"
-            controls={true}
-            paused={isPlaying}
+            data={slideProduct ?? []}
+            e2eID="container_swiper"
+            renderItem={item => {
+              if (item.item.url.includes('mp4')) {
+                return (
+                  <Video
+                    ref={videoRef}
+                    source={{
+                      uri: item?.item?.url,
+                    }}
+                    style={styles.video}
+                    resizeMode="contain"
+                    controls={true}
+                    paused={isPlaying}
+                    onEnd={onEnd}
+                  />
+                );
+              } else {
+                return (
+                  <Thumb
+                    style={styles.styleImage}
+                    source={{uri: item?.item?.url}}
+                    resizeMode="stretch"
+                  />
+                );
+              }
+            }}
           />
-        ) : (
-          <Thumb
-            style={styles.styleImage}
-            source={{uri: imageLinkProduct ?? product?.images?.[0].url}}
-            resizeMode="stretch"
-          />
-        )}
+        </View>
         <ImageFlatList
           images={imagesProduct}
           setImageLinkProduct={setImageLinkProduct}
           imageLinkProduct={imageLinkProduct}
           setIsPlaying={setIsPlaying}
+          indexScroll={currentIndexSwiper}
+          handleOnActionSwiper={handleOnActionSwiper}
         />
         <ProductDetailItem
           name={isVn ? product?.productNameVn : product?.productNameKr}
@@ -377,7 +441,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   styleImage: {
-    width: '100%',
+    width: DIMENSION.width,
     height: 325,
   },
   styleOrder: {
@@ -409,10 +473,7 @@ const styles = StyleSheet.create({
     columnGap: 7,
   },
   video: {
-    width: '100%',
+    width: DIMENSION.width,
     height: 325,
-    // aspectRatio: 16 / 9,
-
-    // backgroundColor: defaultColors.primary,
   },
 });

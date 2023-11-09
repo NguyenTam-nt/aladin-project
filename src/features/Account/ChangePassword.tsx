@@ -2,13 +2,7 @@ import {TextCustom} from '@components';
 import {defaultColors} from '@configs';
 import {useFormik} from 'formik';
 import React, {useState} from 'react';
-import {
-  Pressable,
-  ScrollView,
-  StyleSheet,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import {Pressable, StyleSheet, TouchableOpacity, View} from 'react-native';
 import RadialGradient from 'react-native-radial-gradient';
 import {ICClose} from 'src/assets/icons/ICClose';
 import {ICLogo} from 'src/assets/icons/ICLogo';
@@ -19,7 +13,7 @@ import TextTranslate from 'src/components/TextTranslate';
 import {useGoBack} from 'src/hooks/useGoBack';
 import * as Yup from 'yup';
 import {MESSAGES_TYPE} from './ForgotPass';
-import {changePassword} from 'src/api/user';
+import {changePassword, clearSession} from 'src/api/user';
 import {ButtonTouchable} from 'src/components/Buttons/ButtonTouchable';
 import {useModal} from 'src/hooks/useModal';
 import ModalCustom from 'src/components/ModalCustom';
@@ -36,11 +30,12 @@ import {
   setUserInfo,
 } from 'src/redux/reducers/AuthSlice';
 import {AuthServices} from 'src/api/authService';
-import {useNavigation} from '@react-navigation/native';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import {useRefreshToken} from 'src/redux/reducers/hook';
 const ChangePassword = () => {
   const dismiss = useGoBack();
   const {t} = useTranslation();
+  const refresh_token = useRefreshToken();
   const [messagesType, setMessageType] = useState<MESSAGES_TYPE>('');
   const [success, setSuccess] = useState<string>('');
   const [error, setError] = useState<string>('');
@@ -119,6 +114,7 @@ const ChangePassword = () => {
 
   const logout = () => {
     dologout();
+    clearSession(refresh_token);
     dispatch(setToken(''));
     dispatch(setRefreshToken(''));
     dispatch(setUserInfo(initUserInfo));

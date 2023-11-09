@@ -1,9 +1,9 @@
-import {TextCustom, Thumb} from '@components';
+import {Thumb} from '@components';
 import {defaultColors} from '@configs';
 import {DIMENSION} from '@constants';
 import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import {useFormik} from 'formik';
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import {useTranslation} from 'react-i18next';
 import {
   View,
@@ -34,23 +34,14 @@ import {
 import * as Yup from 'yup';
 import {AuthServices} from 'src/api/authService';
 import {useToken, useUserInfo} from 'src/redux/reducers/hook';
-import {
-  useHandleAddArrayItemToCart,
-  useHandleAddItemToCart,
-  useListItemCart,
-} from 'src/redux/orderCart/hooks';
-import {ICartItem, getCartItemAPI, updateCartItem} from 'src/api/cartItem';
 
 const LoginScreen = () => {
   const {t} = useTranslation();
   const dispatch = useDispatch();
   const dismiss = useGoBack();
   const navigation = useNavigation();
-  const {doLoginGoogle, doLoginFacebook, dologout} = AuthServices();
-  const userInfo = useUserInfo();
+  const {doLoginGoogle, doLoginFacebook} = AuthServices();
   const token = useToken();
-  const handleAddArrayItemToCart = useHandleAddArrayItemToCart();
-  const listItemCart = useListItemCart();
   const formik = useFormik({
     initialValues: {
       username: '',
@@ -99,7 +90,6 @@ const LoginScreen = () => {
               uuid: 'messages.error.wrong-user-or-pass',
             },
           });
-          //   setTextErrror('messages.error.wrong-user-or-pass');
         } else {
           Toast.show({
             type: 'tomatoToast',
@@ -150,7 +140,7 @@ const LoginScreen = () => {
           }}>
           <ICClose width={20} height={20} />
         </Pressable>
-        <View style={{alignItems: 'center', marginTop: 50}}>
+        <View style={{alignItems: 'center', marginTop: 60}}>
           <ICLogo />
           <View style={{marginTop: 27}}>
             <TextTranslate

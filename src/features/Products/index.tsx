@@ -41,13 +41,8 @@ import ImperativeScrollView, {
   ImperativeScrollViewHandles,
 } from 'src/hooks/useImperativeScrollView';
 import {useListItemProvice} from 'src/redux/provices/hooks';
-import {
-  useFocusEffect,
-  useLinkBuilder,
-  useRoute,
-} from '@react-navigation/native';
-import {BgProduct, introductionImage} from 'src/assets/image';
-import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import {useRoute} from '@react-navigation/native';
+import {BgProduct} from 'src/assets/image';
 
 export const TextHeader = (props: {
   text: string;
@@ -98,6 +93,7 @@ const HeaderProduct = memo((props: PropsHeader) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   useEffect(() => {
     if (listTextCategories.length > 0 && idCategory) {
+      //@ts-ignore
       myListRef.current.scrollToIndex({
         animated: true,
         index: currentIndex,
@@ -121,6 +117,7 @@ const HeaderProduct = memo((props: PropsHeader) => {
   return (
     <View style={styles.groupContent}>
       <FlatList
+        //@ts-ignore
         ref={myListRef}
         data={listTextCategories ?? []}
         // style={{...globalStyles.row, columnGap: 8}}
@@ -179,7 +176,6 @@ const Products = () => {
       const res = await getCategoriesApi();
       if (res) {
         const data = res.data;
-        // setCategories(data);
         const listTextCate = data.map(it => {
           return {
             id: it.id,
@@ -231,7 +227,6 @@ const Products = () => {
       const params = {
         page: 0,
         size: 15,
-        // sort: 'createAt,desc',
         categoryId: id,
         address: provice,
       };
@@ -333,6 +328,7 @@ const Products = () => {
       <ImageBackground
         source={BgProduct}
         resizeMode="cover"
+        //@ts-ignore
         style={{height: '100%', with: DIMENSION.width * 0.5}}>
         <View style={styles.product_portfolio}>
           <View style={styles.groupButton}>
@@ -340,11 +336,20 @@ const Products = () => {
               containerStyle={styles.styleInput}
               isProductScreen={true}
             />
-            <CityFilter isProductScreen={true} />
-            <CartButton isProductSreecn={true} />
+
+            <CityFilter
+              //@ts-ignore
+              isProductScreen={true}
+            />
+            <CartButton
+              //@ts-ignore
+              isProductSreecn={true}
+            />
           </View>
         </View>
-        <ImperativeScrollView ref={scrollViewRef}>
+        <ImperativeScrollView
+          ref={scrollViewRef}
+          showsVerticalScrollIndicator={false}>
           <View style={{paddingHorizontal: 9, paddingBottom: 24}}>
             <TextTranslate
               color={defaultColors.bg_00C3AB}
@@ -443,7 +448,6 @@ const styles = StyleSheet.create({
   product_portfolio: {
     paddingHorizontal: 9,
     paddingTop: 28,
-    // paddingBottom: 27,
   },
   styleInput: {
     flex: 1,

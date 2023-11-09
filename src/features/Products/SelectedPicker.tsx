@@ -46,7 +46,6 @@ const SelectedPicker = (props: IProps) => {
               borderRadius={4}
               isAction={actionKey?.name === `${it.valueVn}_name`}
             />
-            // <></>
           );
         })}
       </View>

@@ -1,8 +1,5 @@
 import {StyleSheet, TouchableOpacity, View} from 'react-native';
-import React, {memo, useState} from 'react';
-import {globalStyles} from 'src/commons/globalStyles';
-import TextTilte from 'src/components/TextTitle';
-import ProductItem from './ProductItem';
+import React, {useState} from 'react';
 import {IProduct, getProductsApi} from 'src/api/products';
 import {useListItemProvice} from 'src/redux/provices/hooks';
 import ProductsList from 'src/components/product/ProductsList';
@@ -60,7 +57,6 @@ const ProductNewList = () => {
 
   return (
     <View style={styles.container}>
-      {/* <TextTilte text="home.product_new" /> */}
       <View style={styles.groupProduct}>
         {products?.length > 0 && (
           <ProductsList products={products} textTile="home.product_new" />
@@ -99,10 +95,7 @@ const ProductNewList = () => {
 export default ProductNewList;
 
 const styles = StyleSheet.create({
-  container: {
-    // marginTop: 40,
-    // ...globalStyles.paddingScreenHorizontal,
-  },
+  container: {},
   groupProduct: {
     flexWrap: 'wrap',
     gap: 15,

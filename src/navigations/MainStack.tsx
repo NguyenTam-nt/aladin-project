@@ -45,10 +45,6 @@ const MainStack = () => {
             component={PopupScreen}
             options={transparentScreen}
           />
-          {/* <RootStack.Screen
-          name={productRoute.detail}
-          component={ProductDetail}
-        /> */}
           <RootStack.Screen
             name={productRoute.cart}
             component={CartsScreen}

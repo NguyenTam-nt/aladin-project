@@ -1,12 +1,12 @@
 import {TextCustom, Thumb} from '@components';
 import {defaultColors} from '@configs';
-import {useFocusEffect, useNavigation} from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 import React, {ReactElement, useEffect, useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import {Modal, StyleSheet, TouchableOpacity, View} from 'react-native';
 import {useDispatch} from 'react-redux';
 import {AuthServices} from 'src/api/authService';
-import {getUserInfo} from 'src/api/user';
+import {clearSession, getUserInfo} from 'src/api/user';
 import {ICAccountInfo} from 'src/assets/icons/ICAccountInfo';
 import {ICDropdown} from 'src/assets/icons/ICDropdown';
 import {ICPassword} from 'src/assets/icons/ICPassword';
@@ -17,12 +17,7 @@ import {Header} from 'src/components/Header';
 import TextTranslate from 'src/components/TextTranslate';
 import {accountRoute} from 'src/constants/routers';
 import {useDropdown} from 'src/hooks/useDropdown';
-import {useGoBack} from 'src/hooks/useGoBack';
-import {
-  useGetLanguage,
-  useHandleChangeLanguage,
-} from 'src/redux/multilanguage/hooks';
-import {useHandleAddArrayItemToCart} from 'src/redux/orderCart/hooks';
+import {useHandleChangeLanguage} from 'src/redux/multilanguage/hooks';
 import {
   initUserInfo,
   setRefreshToken,
@@ -46,14 +41,12 @@ const AccountScreen = () => {
   const userInfo = useUserInfo();
   const dispatch = useDispatch();
   const useChangeLanguage = useHandleChangeLanguage();
-  const {dologout, authenticated} = AuthServices();
-  const dismiss = useGoBack();
+  const {dologout} = AuthServices();
   const token = useToken();
   const refresh_token = useRefreshToken();
   const {toggleDropdown, visible, setVisible, dropdownTop, refDropdown} =
     useDropdown();
   const {i18n} = useTranslation();
-  const handleAddArrayItemToCart = useHandleAddArrayItemToCart();
   const [languageAction, setLanguageAction] = useState<{
     key: LANGUAGE_KEY;
     image: any;
@@ -81,7 +74,8 @@ const AccountScreen = () => {
     } catch (error) {}
   };
   const handleLoout = () => {
-    dologout(refresh_token);
+    dologout();
+    clearSession(refresh_token);
     dispatch(setToken(''));
     dispatch(setRefreshToken(''));
     dispatch(setUserInfo(initUserInfo));

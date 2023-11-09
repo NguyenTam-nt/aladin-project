@@ -25,4 +25,3 @@ export const infoProvice = createSlice({
 export const {setInfoProvice} = infoProvice.actions;
 export default infoProvice.reducer;
 
-// export const selectAppInfo = (state: RootState) => state.appInfoReducer;

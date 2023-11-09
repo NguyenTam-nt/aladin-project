@@ -13,7 +13,6 @@ import {
 import {IProduct, getProductsByKeywork} from 'src/api/products';
 import {ICClose} from 'src/assets/icons/ICClose';
 import {formatNumberDotWithVND} from 'src/commons/formatMoney';
-import ButtonGradient from 'src/components/Buttons/ButtonGradient';
 import {NavLink} from 'src/constants/links';
 import {productRoute} from 'src/constants/routers';
 import useI18n from 'src/hooks/useI18n';

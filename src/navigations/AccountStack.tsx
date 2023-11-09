@@ -20,7 +20,5 @@ export const AccountStackScreen = () => (
       name={accountRoute.changePass}
       component={ChangePassword}
     />
-
-    {/* <AccountStack.Screen name={accountRoute.login} component={LoginScreen} /> */}
   </AccountStack.Navigator>
 );

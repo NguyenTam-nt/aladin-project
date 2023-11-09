@@ -13,9 +13,6 @@ import {ButtonNavigate} from 'src/components/Buttons/ButtonNavigate';
 import useI18n from 'src/hooks/useI18n';
 import {IProduct} from 'src/api/products';
 import {useHandleAddItemWatchedProducts} from 'src/redux/products/hooks';
-import {useDispatch} from 'react-redux';
-import {removeCartList} from 'src/redux/orderCart/slice';
-import {removeProductList} from 'src/redux/products/slice';
 
 interface IProps {
   id?: any;
@@ -60,7 +57,6 @@ const ProductItem = (props: IProps) => {
     };
     //@ts-ignore
     handleAddItemWatchedProduct(newData);
-
   };
   const sum = product?.productDetails.reduce((accumulator, object) => {
     return accumulator + object.stockQuantity;
@@ -120,17 +116,6 @@ const ProductItem = (props: IProps) => {
                 borderColor: defaultColors.br_E9E9E9,
                 paddingTop: 9,
               }}>
-              {/* <NavLink
-                to={{
-                  screen: productRoute.detail,
-                  initial: false,
-                  params: {
-                    idProduct: id,
-                    categoryId: categoryId,
-                    subCategoryId: subCategoryId,
-                  },
-                }}
-                handleOnPress={handleAddStorage}> */}
               <TextCustom
                 fontSize={12}
                 weight="400"
@@ -139,7 +124,6 @@ const ProductItem = (props: IProps) => {
                 color={defaultColors.text_313131}>
                 {isVn ? name : nameKr}
               </TextCustom>
-              {/* </NavLink> */}
               <View
                 style={[
                   globalStyles.row,
@@ -177,32 +161,6 @@ const ProductItem = (props: IProps) => {
                   {marginTop: 9},
                 ]}>
                 <ButtonNavigate text="common.buy_now" />
-                {/* {sum === 0 ? (
-                  <ButtonNavigate text="common.buy_now" />
-                ) : (
-                  <NavLink
-                    to={{
-                      screen: productRoute.detail,
-                      initial: false,
-                      params: {
-                        idProduct: id,
-                        categoryId: categoryId,
-                        subCategoryId: subCategoryId,
-                      },
-                    }}
-                    handleOnPress={handleAddStorage}
-                    // onPress={() => console.log('product item')}
-                  >
-                    <ButtonNavigate text="common.buy_now" />
-                  </NavLink>
-                )} */}
-                {/* <TouchableOpacity style={styles.styleCart}>
-                <ICCart
-                  width={18}
-                  height={18}
-                  color={defaultColors.bg_00C3AB}
-                />
-              </TouchableOpacity> */}
               </View>
             </View>
           </View>
@@ -231,7 +189,6 @@ const styles = StyleSheet.create({
     elevation: 10,
   },
   styleGroupImage: {
-    // position: 'relative',
     width: '100%',
     height: 157,
   },
