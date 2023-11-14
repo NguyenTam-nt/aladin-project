@@ -1,42 +1,42 @@
-import React, { memo, useState, MouseEvent } from "react";
-import { DiscountItem } from "../DiscountItem";
-import { formatNumberDot, formatNumberDotSlice } from "@commons/formatMoney";
-import { MoneyLineThrough } from "../MoneyLineThrough";
-import { Button } from "@components/Button";
-import { Link } from "react-router-dom";
-import { paths } from "@constants/routerPublic";
-import type { IProduct } from "@typeRules/product";
-import { useCartContext } from "@contexts/hooks/order";
-import { getLinkImageUrl } from "@commons/common";
-import { Image } from "@components/Image";
+import React, { memo, useState, MouseEvent } from "react"
+import { DiscountItem } from "../DiscountItem"
+import { formatNumberDot, formatNumberDotSlice } from "@commons/formatMoney"
+import { MoneyLineThrough } from "../MoneyLineThrough"
+import { Button } from "@components/Button"
+import { Link } from "react-router-dom"
+import { paths } from "@constants/routerPublic"
+import type { IProduct } from "@typeRules/product"
+import { useCartContext } from "@contexts/hooks/order"
+import { getLinkImageUrl } from "@commons/common"
+import { Image } from "@components/Image"
 // import { AnimatedSmoke } from "@components/AnimatedSmoke";
 
 type Props = {
-  data: IProduct;
-};
+  data: IProduct
+}
 
 export const TopicMenuItem = memo(({ data }: Props) => {
-  const { handlePlusCart } = useCartContext();
+  const { handlePlusCart } = useCartContext()
 
-  const [count, setCount] = useState(1);
+  const [count, setCount] = useState(1)
   const handleMinusCount = () => {
-    if (count <= 1) return;
-    setCount((count) => count - 1);
-  };
+    if (count <= 1) return
+    setCount((count) => count - 1)
+  }
 
   const handlePushCart = (e: MouseEvent<HTMLButtonElement>) => {
-    const { top, left } = e.currentTarget.getBoundingClientRect();
-    handlePlusCart(data, count, { top, left });
-    setCount(1);
-  };
+    const { top, left } = e.currentTarget.getBoundingClientRect()
+    handlePlusCart(data, count, { top, left })
+    setCount(1)
+  }
 
   const handlePlusCount = () => {
     // if(count <= 1) return
-    setCount((count) => count + 1);
-  };
+    setCount((count) => count + 1)
+  }
 
   return (
-    <div className="relative parentSmoker">
+    <div className="relative">
       {/* <AnimatedSmoke /> */}
       <div className="radius-tl-br hover:shadow-xl menu-item duration-200 ease-linear flex flex-col overflow-hidden relative h-[370px] lg:h-[492px] max-h-auto bg-white">
         {data?.pricePromotion !== data?.price ? (
@@ -101,5 +101,5 @@ export const TopicMenuItem = memo(({ data }: Props) => {
         </div>
       </div>
     </div>
-  );
-});
+  )
+})
