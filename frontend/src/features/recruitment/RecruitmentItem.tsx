@@ -23,7 +23,7 @@ const RecruitmentItem = ({ itemRecrui }: Props) => {
       className="min-h-[199px] flex flex-wrap radius-tl-br bg-text_white cursor-pointer"
     >
       <div className="xl:w-2/4 w-full flex xl:justify-start justify-center xl:h-full overflow-hidden rounded-tl-r32">
-        <Image alt={itemRecrui.linkMedia} className="w-full h-[199px]" alt="" />
+        <Image alt={itemRecrui.linkMedia} className="w-full h-[199px]" />
       </div>
       <div className="xl:w-2/4 w-full xl:py-4 py-6  px-spc26 flex flex-col justify-between">
         <p className="text-base leading-6 font-semibold line-clamp-2 xl:mb-0 mb-[18px] sm:h-12">
