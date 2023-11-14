@@ -1,40 +1,39 @@
-import { ICEye } from "@assets/icons/ICEye";
-import { ICEyeOff } from "@assets/icons/ICEyeOff";
-import { ICStar } from "@assets/icons/ICStar";
-import { formatNumberDotSlice } from "@commons/formatMoney";
-import { Colors } from "@constants/color";
-import { prefixRootRoute } from "@constants/index";
-import { pathsAdmin } from "@constants/routerManager";
-import { useModalContext } from "@contexts/hooks/modal";
-import { Button } from "@features/dashboard/components/Button";
-import { DiglogComfirmDelete } from "@features/dashboard/components/DiglogComfirmDelete";
-import { useShowMessage } from "@features/dashboard/components/DiglogMessage";
-import { DiscountItem } from "@features/home/components/DiscountItem";
-import { MoneyLineThrough } from "@features/home/components/MoneyLineThrough";
-import { productService } from "@services/product";
-import type { IProduct } from "@typeRules/product";
-import clsx from "clsx";
-import React, { memo } from "react";
-import { useNavigate } from "react-router-dom";
-import { DiglogComfirm } from "./DiglogComfirm";
-import { DiglogMessage } from "./DialogMessage";
+import { ICEye } from "@assets/icons/ICEye"
+import { ICEyeOff } from "@assets/icons/ICEyeOff"
+import { ICStar } from "@assets/icons/ICStar"
+import { formatNumberDotSlice } from "@commons/formatMoney"
+import { Colors } from "@constants/color"
+import { prefixRootRoute } from "@constants/index"
+import { pathsAdmin } from "@constants/routerManager"
+import { useModalContext } from "@contexts/hooks/modal"
+import { Button } from "@features/dashboard/components/Button"
+import { DiglogComfirmDelete } from "@features/dashboard/components/DiglogComfirmDelete"
+import { useShowMessage } from "@features/dashboard/components/DiglogMessage"
+import { DiscountItem } from "@features/home/components/DiscountItem"
+import { MoneyLineThrough } from "@features/home/components/MoneyLineThrough"
+import { productService } from "@services/product"
+import type { IProduct } from "@typeRules/product"
+import clsx from "clsx"
+import React, { memo } from "react"
+import { useNavigate } from "react-router-dom"
+import { DiglogComfirm } from "./DiglogComfirm"
+import { DiglogMessage } from "./DialogMessage"
 import { getLinkImageUrl } from "@commons/common"
+import { Image } from "@components/Image"
 
 type Props = {
-  data: IProduct;
-  onDelete: (id: number) => void;
-  onUpdate: (data: IProduct) => void;
-};
+  data: IProduct
+  onDelete: (id: number) => void
+  onUpdate: (data: IProduct) => void
+}
 
 export const ProductItem = memo(({ data, onDelete, onUpdate }: Props) => {
-  const navigate = useNavigate();
-  const { setElementModal } = useModalContext();
-  const { showSuccess, showError } = useShowMessage();
+  const navigate = useNavigate()
+  const { setElementModal } = useModalContext()
+  const { showSuccess, showError } = useShowMessage()
   const handleNavigation = () => {
-    navigate(
-      `${prefixRootRoute.admin}/${pathsAdmin.product.prefix}/${data.id}`
-    );
-  };
+    navigate(`${prefixRootRoute.admin}/${pathsAdmin.product.prefix}/${data.id}`)
+  }
 
   const handleDeleteModal = () => {
     setElementModal(
@@ -42,63 +41,69 @@ export const ProductItem = memo(({ data, onDelete, onUpdate }: Props) => {
         message="adminProduct.message_delete"
         onClick={handleDelete}
       />
-    );
-  };
+    )
+  }
 
   const handleDelete = () => {
-    onDelete(Number(data.id));
-  };
+    onDelete(Number(data.id))
+  }
 
   const handleShowHome = () => {
     productService
       .patchHome(Number(data.id))
       .then((data) => {
-        onUpdate(data);
-        showSuccess("message.actions.success.update");
+        onUpdate(data)
+        showSuccess("message.actions.success.update")
       })
       .catch((error) => {
         if (error?.response?.data.status !== 500) {
-          showError(error?.response?.data?.message || "message.actions.error.delete_banner");
+          showError(
+            error?.response?.data?.message ||
+              "message.actions.error.delete_banner"
+          )
         } else {
-          showError("message.actions.error.delete_banner");
+          showError("message.actions.error.delete_banner")
         }
-      });
-  };
+      })
+  }
 
   const handleDisplayModal = () => {
     if (data.show) {
       if (data.priority) {
         setElementModal(
           <DiglogMessage message="adminProduct.messsge_confirm_hide" />
-        );
+        )
       } else {
         setElementModal(
           <DiglogComfirm
             message="adminProduct.message_eye"
             onClick={handleDisplay}
           />
-        );
+        )
       }
     } else {
-      handleDisplay();
+      handleDisplay()
     }
-  };
+  }
 
   const handleDisplay = () => {
     productService
       .patchShow(Number(data.id))
       .then((data) => {
-        onUpdate(data);
-        showSuccess("Cập nhật thành công.");
+        onUpdate(data)
+        showSuccess("Cập nhật thành công.")
       })
       .catch((error) => {
         if (error?.response?.data.status !== 500) {
-          showError(error?.response?.data?.message || "message.actions.error.delete_banner");
+          showError(
+            error?.response?.data?.message ||
+              "message.actions.error.delete_banner"
+          )
         } else {
-          showError("message.actions.error.delete_banner");
+          showError("message.actions.error.delete_banner")
         }
-      });
-  };
+      })
+  }
 
   return (
     <div className=" bg-white flex flex-col h-[524px]">
@@ -121,10 +126,9 @@ export const ProductItem = memo(({ data, onDelete, onUpdate }: Props) => {
           </button>
         </div>
         <div className=" absolute inset-0 bg-header_bg" />
-        <img
+        <Image
           className="w-full h-full object-cover"
-          src={getLinkImageUrl(data?.linkMedia + "", 200, 288)}
-          alt=""
+          alt={getLinkImageUrl(data?.linkMedia + "", 200, 288)}
         />
       </div>
       <div
@@ -139,8 +143,8 @@ export const ProductItem = memo(({ data, onDelete, onUpdate }: Props) => {
           <span className=" text-_18  font-bold text-text_EA222A">
             {formatNumberDotSlice(Number(data?.pricePromotion))}
           </span>
-          {(data.price !== data.pricePromotion &&
-          data?.pricePromotion.toString().length <= 8) ? (
+          {data.price !== data.pricePromotion &&
+          data?.pricePromotion.toString().length <= 8 ? (
             <MoneyLineThrough money={Number(data.price)} />
           ) : null}
         </div>
@@ -160,5 +164,5 @@ export const ProductItem = memo(({ data, onDelete, onUpdate }: Props) => {
         </div>
       </div>
     </div>
-  );
-});
+  )
+})

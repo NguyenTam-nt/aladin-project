@@ -1,58 +1,59 @@
-import { ICAdd } from "@assets/icons/ICAdd";
-import { ICDeleteTrash } from "@assets/icons/ICDeleteTrash";
-import { ICDeleteTrashLight } from "@assets/icons/ICDeleteTrashLight";
-import { ICPlus } from "@assets/icons/ICPlus";
-import { ICUploadImage } from "@assets/icons/ICUploadImage";
-import TitleInput from "@components/TitleInput";
-import { Colors } from "@constants/color";
-import { useModalContext } from "@contexts/hooks/modal";
-import { DiglogComfirmDelete } from "@features/dashboard/components/DiglogComfirmDelete";
-import { DiglogMessage } from "@features/dashboard/components/DiglogMessage";
-import { useShowMessage } from "@features/dashboard/components/DiglogMessage";
-import { GroupButtonAdmin } from "@features/dashboard/components/GroupButtonAdmin";
-import { Input } from "@features/dashboard/components/Input";
-import { useHandleLoading } from "@features/dashboard/components/Loading";
-import { Radio } from "@features/dashboard/components/Radio";
-import { TextError } from "@features/dashboard/components/TextError";
-import { useHandleImage } from "@features/dashboard/home/useHandleImage";
-import { categoryService } from "@services/category";
-import { uploadService } from "@services/upload";
+import { ICAdd } from "@assets/icons/ICAdd"
+import { ICDeleteTrash } from "@assets/icons/ICDeleteTrash"
+import { ICDeleteTrashLight } from "@assets/icons/ICDeleteTrashLight"
+import { ICPlus } from "@assets/icons/ICPlus"
+import { ICUploadImage } from "@assets/icons/ICUploadImage"
+import { Image } from "@components/Image"
+import TitleInput from "@components/TitleInput"
+import { Colors } from "@constants/color"
+import { useModalContext } from "@contexts/hooks/modal"
+import { DiglogComfirmDelete } from "@features/dashboard/components/DiglogComfirmDelete"
+import { DiglogMessage } from "@features/dashboard/components/DiglogMessage"
+import { useShowMessage } from "@features/dashboard/components/DiglogMessage"
+import { GroupButtonAdmin } from "@features/dashboard/components/GroupButtonAdmin"
+import { Input } from "@features/dashboard/components/Input"
+import { useHandleLoading } from "@features/dashboard/components/Loading"
+import { Radio } from "@features/dashboard/components/Radio"
+import { TextError } from "@features/dashboard/components/TextError"
+import { useHandleImage } from "@features/dashboard/home/useHandleImage"
+import { categoryService } from "@services/category"
+import { uploadService } from "@services/upload"
 import {
   CategoryMenuType,
   CategoryType,
   ICategory,
   ICategoryItem,
-} from "@typeRules/category";
-import clsx from "clsx";
-import { useFormik } from "formik";
-import React, { ChangeEvent, memo, useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
-import * as Yup from "yup";
+} from "@typeRules/category"
+import clsx from "clsx"
+import { useFormik } from "formik"
+import React, { ChangeEvent, memo, useEffect, useState } from "react"
+import { useTranslation } from "react-i18next"
+import * as Yup from "yup"
 
 type Props = {
-  type?: "ADD" | "EDIT";
-  onSubmit?: (data: ICategory) => void;
-  dataCategory?: ICategory;
-};
+  type?: "ADD" | "EDIT"
+  onSubmit?: (data: ICategory) => void
+  dataCategory?: ICategory
+}
 
 const data = {
   name: "",
   linkMedia: "",
   file: null,
-};
+}
 
 export const CategoryProductHandler = ({
   type = "ADD",
   onSubmit,
   dataCategory,
 }: Props) => {
-  const { t } = useTranslation();
+  const { t } = useTranslation()
   const [listCategoryChild, setListCategoryChild] = useState<ICategoryItem[]>(
     []
-  );
+  )
 
-  const { showSuccess, showError } = useShowMessage();
-  const { showLoading } = useHandleLoading();
+  const { showSuccess, showError } = useShowMessage()
+  const { showLoading } = useHandleLoading()
 
   const fomick = useFormik<ICategory>({
     initialValues: {
@@ -62,36 +63,39 @@ export const CategoryProductHandler = ({
       // idParent: CategoryType.parent,
     },
     validationSchema: Yup.object({
-      name: Yup.string().trim().required("message.form.required").max(255, "category.form.name_max"),
+      name: Yup.string()
+        .trim()
+        .required("message.form.required")
+        .max(255, "category.form.name_max"),
       isHome: Yup.string().trim().required("message.form.required"),
       isMenu: Yup.string().trim().required("message.form.required"),
     }),
     onSubmit: async (values) => {
       try {
-        showLoading();
+        showLoading()
         const newDataChild = listCategoryChild.filter((item) =>
           item.name.trim()
-        );
-        const listFile = newDataChild.filter((item) => !!item?.file);
+        )
+        const listFile = newDataChild.filter((item) => !!item?.file)
 
         if (listFile.length) {
           const listRequest = listFile.map((item) => {
-            const formData = new FormData();
-            formData.append("file", item.file ? item.file : "");
-            return uploadService.postImage(formData);
-          });
+            const formData = new FormData()
+            formData.append("file", item.file ? item.file : "")
+            return uploadService.postImage(formData)
+          })
 
-          const listImage = await Promise.all(listRequest);
+          const listImage = await Promise.all(listRequest)
           listFile.forEach((item, index) => {
-            item.linkMedia = listImage?.[index].list?.[0].linkMedia || "";
-          });
-          let i = 0;
+            item.linkMedia = listImage?.[index].list?.[0].linkMedia || ""
+          })
+          let i = 0
           newDataChild.forEach((item) => {
             if (item.file) {
-              item.linkMedia = listFile?.[i]?.linkMedia;
-              ++i;
+              item.linkMedia = listFile?.[i]?.linkMedia
+              ++i
             }
-          });
+          })
         }
         onSubmit?.({
           id: type === "ADD" ? null : dataCategory?.id,
@@ -101,27 +105,26 @@ export const CategoryProductHandler = ({
               id: type === "ADD" ? null : item?.id || null,
               name: item.name,
               linkMedia: item?.linkMedia,
-            };
+            }
           }),
-        });
-      } catch (error) {
-      }
+        })
+      } catch (error) {}
     },
-  });
+  })
 
   useEffect(() => {
     if (type === "EDIT") {
-      fomick.setFieldValue("name", dataCategory?.name || "");
-      fomick.setFieldValue("isHome", dataCategory?.isHome);
-      fomick.setFieldValue("isMenu", dataCategory?.isMenu);
-      setListCategoryChild(dataCategory?.listCategoryChild || []);
+      fomick.setFieldValue("name", dataCategory?.name || "")
+      fomick.setFieldValue("isHome", dataCategory?.isHome)
+      fomick.setFieldValue("isMenu", dataCategory?.isMenu)
+      setListCategoryChild(dataCategory?.listCategoryChild || [])
     }
-  }, [dataCategory, type]);
+  }, [dataCategory, type])
 
   const handleChaneCheckBox = (event: ChangeEvent<HTMLInputElement>) => {
-    const { value } = event.target;
-    fomick.setFieldValue("isHome", value === "false" ? false : true);
-  };
+    const { value } = event.target
+    fomick.setFieldValue("isHome", value === "false" ? false : true)
+  }
 
   const handleAddItem = () => {
     setListCategoryChild([
@@ -129,8 +132,8 @@ export const CategoryProductHandler = ({
       {
         ...data,
       },
-    ]);
-  };
+    ])
+  }
 
   const handleChangeItemChild = (
     name: keyof ICategoryItem,
@@ -138,21 +141,21 @@ export const CategoryProductHandler = ({
     index: number,
     file?: File
   ) => {
-    if (name === "id") return;
-    const newChilds = [...listCategoryChild];
+    if (name === "id") return
+    const newChilds = [...listCategoryChild]
     //@ts-ignore
-    newChilds![index][name] = value;
+    newChilds![index][name] = value
     if (file) {
-      newChilds![index].file = file;
+      newChilds![index].file = file
     }
-    setListCategoryChild([...newChilds]);
-  };
+    setListCategoryChild([...newChilds])
+  }
 
   const handleDeleteItem = (index: number) => {
-    const newChilds = [...listCategoryChild];
-    newChilds.splice(index, 1);
-    setListCategoryChild([...newChilds]);
-  };
+    const newChilds = [...listCategoryChild]
+    newChilds.splice(index, 1)
+    setListCategoryChild([...newChilds])
+  }
 
   return (
     <div className="w-[1144px] h-auto bg-white py-[40px] px-[24px]">
@@ -267,7 +270,7 @@ export const CategoryProductHandler = ({
                   index={index + 1}
                   onDelete={handleDeleteItem}
                 />
-              );
+              )
             })}
           </div>
           <div className="flex justify-end mt-[16px]">
@@ -287,46 +290,46 @@ export const CategoryProductHandler = ({
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
 type PropsCategoryItemChild = {
-  data: ICategoryItem;
+  data: ICategoryItem
   onChange: (
     name: keyof ICategoryItem,
     value: any,
     index: number,
     file?: File
-  ) => void;
-  index: number;
-  onDelete: (index: number) => void;
-};
+  ) => void
+  index: number
+  onDelete: (index: number) => void
+}
 
 const CategoryItemChild = memo(
   ({ index, data, onChange, onDelete }: PropsCategoryItemChild) => {
-    const { t } = useTranslation();
-    const [isShowModal, setShowModal] = useState(false);
-    const [element, setElement] = useState(<></>);
+    const { t } = useTranslation()
+    const [isShowModal, setShowModal] = useState(false)
+    const [element, setElement] = useState(<></>)
 
     // const handleDeleteModal = () => {
     //   setElementModal(<DiglogComfirmDelete onClick={handleDelete} message="category.message_delete" />);
     // };
 
     const handleChangeFile = (file: File) => {
-      onChange("linkMedia", URL.createObjectURL(file), index - 1, file);
-    };
+      onChange("linkMedia", URL.createObjectURL(file), index - 1, file)
+    }
     const { handleChange, preViewImage } = useHandleImage(
       data.linkMedia,
       handleChangeFile
-    );
+    )
 
     const handleDelete = () => {
       if (data?.id) {
         categoryService
           .delete(Number(data.id))
           .then(() => {
-            onDelete(index - 1);
-            setShowModal(false);
+            onDelete(index - 1)
+            setShowModal(false)
           })
           .catch((error) => {
             setElement(
@@ -335,32 +338,32 @@ const CategoryItemChild = memo(
                 onHide={() => setShowModal(false)}
                 message={error?.response?.data?.message || ""}
               />
-            );
-          });
-        return;
+            )
+          })
+        return
       }
-      onDelete(index - 1);
-    };
+      onDelete(index - 1)
+    }
 
     const handleChangeItem = (event: ChangeEvent<HTMLInputElement>) => {
-      const { value, name } = event.target;
-      onChange(name as keyof ICategoryItem, value, index - 1);
-    };
+      const { value, name } = event.target
+      onChange(name as keyof ICategoryItem, value, index - 1)
+    }
 
     const handleConfirmDelete = () => {
       if (data.id) {
-        setShowModal(true);
+        setShowModal(true)
         setElement(
           <DiglogComfirmDelete
             onClear={() => setShowModal(false)}
             message="Bạn có chắc chắn xóa danh mục con này khỏi hệ thống?"
             onClick={handleDelete}
           />
-        );
-        return;
+        )
+        return
       }
-      onDelete(index - 1);
-    };
+      onDelete(index - 1)
+    }
 
     return (
       <div className="flex gap-[16px]">
@@ -383,8 +386,8 @@ const CategoryItemChild = memo(
                 <ICUploadImage />
               </div>
             ) : (
-              <img
-                src={preViewImage}
+              <Image
+                alt={preViewImage}
                 className="w-[48px] h-[48px] object-cover"
               />
             )}
@@ -421,6 +424,6 @@ const CategoryItemChild = memo(
           </div>
         ) : null}
       </div>
-    );
+    )
   }
-);
+)
