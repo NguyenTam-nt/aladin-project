@@ -1,6 +1,5 @@
 import useInView from "@hooks/useInView"
-import React, { ImgHTMLAttributes, memo, useEffect, useRef } from "react"
-import logoImage from "@assets/images/logo.png"
+import React, { ImgHTMLAttributes, memo, useEffect } from "react"
 
 export const Image = memo(
   ({ ...props }: ImgHTMLAttributes<HTMLImageElement>) => {
@@ -11,7 +10,7 @@ export const Image = memo(
       }
     }, [isInView])
     const handleError = () => {
-      ref.current!.src = logoImage
+      ref.current!.src = "/vite.svg"
     }
     return <img onError={handleError} ref={ref} {...props} />
   }
