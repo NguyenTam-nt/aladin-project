@@ -69,89 +69,8 @@ const HeaderPC = ({ headerData }: { headerData: IRouter[] }) => {
       behavior: "smooth",
     })
   }
-  async function UploadVideo(e: ChangeEvent<HTMLInputElement>) {
-    const data = new FormData()
-    let file = e.target.files![0]
-
-    const toBase64 = (file: any) =>
-      new Promise((resolve, reject) => {
-        const reader = new FileReader()
-        reader.readAsDataURL(file)
-        reader.onload = () => resolve(reader.result)
-        reader.onerror = (error) => reject(error)
-      })
-    const video = await toBase64(file)
-    console.log({ video })
-    function uploadVideo(
-      videoPath: any,
-      authKey: any,
-      libraryId: any,
-      videoName: any
-    ) {
-      const baseUrl = "https://video.bunnycdn.com/library/"
-      const createOptions = {
-        url: `${baseUrl}${libraryId}/videos`,
-        data: {
-          title: videoName,
-        },
-        headers: {
-          AccessKey: authKey,
-          "Content-Type": "application/json",
-        },
-      }
-
-      HttpService.axiosClient
-        .post(createOptions.url, createOptions.data, {
-          headers: createOptions.headers,
-        })
-        .then((response) => {
-          if (response.status === 200) {
-            const uploadOptions = {
-              url: `${baseUrl}${libraryId}/videos/${response.data.guid}`,
-              data: video,
-              headers: {
-                AccessKey: authKey,
-                "Content-Type": "application/octet-stream",
-              },
-            }
-
-            HttpService.axiosClient
-              .put(uploadOptions.url, uploadOptions.data, {
-                headers: uploadOptions.headers,
-              })
-              .then((response) => {
-                if (response.status === 200) {
-                  return true
-                }
-                return false
-              })
-              .catch((error) => {
-                console.log(error)
-                return false
-              })
-          }
-        })
-        .catch((error) => {
-          console.log(error)
-          return false
-        })
-    }
-    async function uploadMyVideo() {
-      const result = await uploadVideo(
-        "/public/test.mp4",
-        "e86d3395-3028-45b9-a5c388c5a5b1-d155-4845",
-        "170205",
-        "title-video"
-      )
-      console.log({ result })
-    }
-
-    uploadMyVideo()
-  }
   return (
     <div className="w-rp h-full flex items-center text-_18 uppercase justify-between text-white">
-      <input onChange={UploadVideo} type="file" />
-
       {headerData.slice(0, 3).map((item, index) => {
         return (
           <Link onClick={handleScrollToTop} to={item.path} key={index}>

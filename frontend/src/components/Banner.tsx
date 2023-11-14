@@ -1,47 +1,56 @@
-import React, { useMemo, Fragment } from "react";
-import { Link, useLocation } from "react-router-dom";
-import { IRouter, routersPublic } from "@constants/routerPublic";
-import { useTranslation } from "react-i18next";
-import { prefixRootRoute, windownSizeWidth, withResponsive } from "@constants/index";
-import type { HomeTopicType } from "@typeRules/home";
-import { useGetTopic } from "@features/dashboard/home/components/useGetTopic";
-import { getLinkImageUrl } from "@commons/common";
+import React, { useMemo, Fragment } from "react"
+import { Link, useLocation } from "react-router-dom"
+import { IRouter, routersPublic } from "@constants/routerPublic"
+import { useTranslation } from "react-i18next"
+import {
+  prefixRootRoute,
+  windownSizeWidth,
+  withResponsive,
+} from "@constants/index"
+import type { HomeTopicType } from "@typeRules/home"
+import { useGetTopic } from "@features/dashboard/home/components/useGetTopic"
+import { getLinkImageUrl } from "@commons/common"
+import { Image } from "./Image"
 
 type Props = {
   type: HomeTopicType
 }
 
-export const Banner = ({type}:Props) => {
-  const params = useLocation();
-  const { t } = useTranslation();
+export const Banner = ({ type }: Props) => {
+  const params = useLocation()
+  const { t } = useTranslation()
   const rootPath = useMemo(() => {
-    const paramsList = params.pathname.split("/");
+    const paramsList = params.pathname.split("/")
 
-    let paths = [];
+    let paths = []
     if (paramsList.length > 1) {
-      const query = params.pathname.split("/")[1];
+      const query = params.pathname.split("/")[1]
       paths.push(
         routersPublic.find((item) => item.path === `/${query}`) as IRouter
-      );
+      )
       if (paramsList.length > 2) {
         const subParm = routersPublic.find(
           (item) => item.path === `/${query}/:${prefixRootRoute.slug}`
-        );
-        paths.push(subParm);
+        )
+        paths.push(subParm)
       }
     }
-    return paths;
-  }, [params.pathname]);
+    return paths
+  }, [params.pathname])
 
-  const {listBanner} = useGetTopic(type)
-
+  const { listBanner } = useGetTopic(type)
 
   return (
     <div className="h-[488px] w-full relative flex items-end">
-      <img
-        alt=""
+      <Image
         className=" absolute inset-0 h-full w-full object-cover"
-        src={getLinkImageUrl(listBanner?.listBanner?.[0].linkMedia, windownSizeWidth >= withResponsive._1024 ? withResponsive._1920 : windownSizeWidth, 488)}
+        alt={getLinkImageUrl(
+          listBanner?.listBanner?.[0].linkMedia,
+          windownSizeWidth >= withResponsive._1024
+            ? withResponsive._1920
+            : windownSizeWidth,
+          488
+        )}
       />
       <div className="bg-banner_home absolute inset-0 z-[1]" />
       <div className="w-rp hidden xl:block relative z-[2] mb-[140px] text-text_white">
@@ -60,10 +69,10 @@ export const Banner = ({type}:Props) => {
                   <Link to={item?.path || ""}>{t(item?.name || "")}</Link>
                 )}
               </Fragment>
-            );
+            )
           })}
         </div>
       </div>
     </div>
-  );
-};
+  )
+}

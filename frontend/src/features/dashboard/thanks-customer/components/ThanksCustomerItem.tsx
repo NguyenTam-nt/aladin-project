@@ -1,35 +1,36 @@
-import { ICStar } from "@assets/icons/ICStar";
+import { ICStar } from "@assets/icons/ICStar"
 import { getLinkImageUrl } from "@commons/common"
-import { Avatar } from "@components/Avatar";
-import { Colors } from "@constants/color";
-import { prefixRootRoute } from "@constants/index";
-import { pathsAdmin } from "@constants/routerManager";
-import { useModalContext } from "@contexts/hooks/modal";
-import { Button } from "@features/dashboard/components/Button";
-import { DiglogComfirmDelete } from "@features/dashboard/components/DiglogComfirmDelete";
-import type { IReview } from "@typeRules/index";
-import React, { memo } from "react";
-import { useNavigate } from "react-router-dom";
+import { Avatar } from "@components/Avatar"
+import { Image } from "@components/Image"
+import { Colors } from "@constants/color"
+import { prefixRootRoute } from "@constants/index"
+import { pathsAdmin } from "@constants/routerManager"
+import { useModalContext } from "@contexts/hooks/modal"
+import { Button } from "@features/dashboard/components/Button"
+import { DiglogComfirmDelete } from "@features/dashboard/components/DiglogComfirmDelete"
+import type { IReview } from "@typeRules/index"
+import React, { memo } from "react"
+import { useNavigate } from "react-router-dom"
 
 type Props = {
-  data: IReview;
-  onDelete: (id: number) => void;
-  onUpdate: (data: IReview) => void;
-};
+  data: IReview
+  onDelete: (id: number) => void
+  onUpdate: (data: IReview) => void
+}
 
 export const ThanksCustomerItem = memo(
   ({ data, onDelete, onUpdate }: Props) => {
-    const navigation = useNavigate();
-    const { setElementModal } = useModalContext();
+    const navigation = useNavigate()
+    const { setElementModal } = useModalContext()
     const handleNavigation = () => {
       navigation(
         `${prefixRootRoute.admin}/${pathsAdmin.thankCustomer.prefix}/${data.id}`
-      );
-    };
+      )
+    }
 
     const handleDelete = () => {
-      onDelete(Number(data.id));
-    };
+      onDelete(Number(data.id))
+    }
 
     const handleDeleteModal = () => {
       setElementModal(
@@ -37,12 +38,12 @@ export const ThanksCustomerItem = memo(
           onClick={handleDelete}
           message="customer.message_delete"
         />
-      );
-    };
+      )
+    }
 
     const handleUpdate = () => {
-      onUpdate(data);
-    };
+      onUpdate(data)
+    }
 
     return (
       <div className="bg-white h-[434px] relative flex flex-col">
@@ -56,10 +57,9 @@ export const ThanksCustomerItem = memo(
             color={data?.show ? Colors.bg_FFC564 : Colors.text_white}
           />
         </button>
-        <img
-          alt=""
+        <Image
           className="w-full object-cover h-[162px]"
-          src={getLinkImageUrl(data?.linkProduct, 200, 162) }
+          alt={getLinkImageUrl(data?.linkProduct, 200, 162)}
         />
         <div className="p-[16px] flex-1 flex flex-col">
           <p className=" line-clamp-2 text-_16 font-semibold text-text_black">
@@ -92,6 +92,6 @@ export const ThanksCustomerItem = memo(
           </div>
         </div>
       </div>
-    );
+    )
   }
-);
+)

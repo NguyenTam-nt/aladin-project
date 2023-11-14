@@ -3,6 +3,7 @@ import { paths } from "@constants/routerPublic"
 import type { newItem_type } from "@typeRules/new"
 import React from "react"
 import { useNavigate } from "react-router-dom"
+import { Image } from "./Image"
 
 interface Props {
   itemNew: newItem_type
@@ -19,11 +20,7 @@ const NewItem = ({ itemNew }: Props) => {
       }}
       className="col-span-1 h-[176px] bg-white min-h-[302px] radius-tl-br cursor-pointer overflow-hidden"
     >
-      <img
-        src={itemNew.linkMedia || ""}
-        alt="card"
-        className="w-full h-[176px]"
-      />
+      <Image alt={itemNew.linkMedia || ""} className="w-full h-[176px]" />
       <div className="py-6 px-4 min-h-[126px]">
         <p className="text-base font-semibold mb-1 text-GreyPrimary line-clamp-2 sm:h-12">
           {itemNew?.title ?? ""}

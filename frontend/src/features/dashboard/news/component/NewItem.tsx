@@ -1,50 +1,51 @@
-import { ICStar } from "@assets/icons/ICStar";
-import { Colors } from "@constants/color";
-import { prefixRootRoute } from "@constants/index";
-import { pathsAdmin } from "@constants/routerManager";
-import { useModalContext } from "@contexts/hooks/modal";
-import { Button } from "@features/dashboard/components/Button";
-import { DiglogComfirmDelete } from "@features/dashboard/components/DiglogComfirmDelete";
-import { useShowMessage } from "@features/dashboard/components/DiglogMessage";
-import { newService } from "@services/newService";
-import type { newItem_type } from "@typeRules/new";
-import { memo } from "react";
-import { useNavigate } from "react-router-dom";
+import { ICStar } from "@assets/icons/ICStar"
+import { Colors } from "@constants/color"
+import { prefixRootRoute } from "@constants/index"
+import { pathsAdmin } from "@constants/routerManager"
+import { useModalContext } from "@contexts/hooks/modal"
+import { Button } from "@features/dashboard/components/Button"
+import { DiglogComfirmDelete } from "@features/dashboard/components/DiglogComfirmDelete"
+import { useShowMessage } from "@features/dashboard/components/DiglogMessage"
+import { newService } from "@services/newService"
+import type { newItem_type } from "@typeRules/new"
+import { memo } from "react"
+import { useNavigate } from "react-router-dom"
+import { Image } from "@components/Image"
 
 interface Props {
-  itemNew: newItem_type;
-  handleDelete: () => void;
-  handlePriority: (id: number) => void;
+  itemNew: newItem_type
+  handleDelete: () => void
+  handlePriority: (id: number) => void
 }
 const NewItem = memo(({ itemNew, handleDelete, handlePriority }: Props) => {
-  const navigation = useNavigate();
-  const { setElementModal } = useModalContext();
-  const { showError, showSuccess } = useShowMessage();
+  const navigation = useNavigate()
+  const { setElementModal } = useModalContext()
+  const { showError, showSuccess } = useShowMessage()
   const handleNavigation = () => {
     navigation(
       `${prefixRootRoute.admin}/${pathsAdmin.news.prefix}/${itemNew.id}`
-    );
-  };
+    )
+  }
   const handleMouseStar = async () => {
-    handlePriority(itemNew.id!);
-  };
+    handlePriority(itemNew.id!)
+  }
   const handleDeleteModal = async (id: number) => {
     const handleClickDeleted = async () => {
       try {
-        await newService.deleteNewId(id);
-        handleDelete();
-        showSuccess("message.actions.success.delete_banner");
+        await newService.deleteNewId(id)
+        handleDelete()
+        showSuccess("message.actions.success.delete_banner")
       } catch (error) {
-        showError("message.actions.error.delete");
+        showError("message.actions.error.delete")
       }
-    };
+    }
     setElementModal(
       <DiglogComfirmDelete
         message="news.message_delete"
         onClick={handleClickDeleted}
       />
-    );
-  };
+    )
+  }
   return (
     <div className="bg-white min-h-[434px] flex flex-col relative">
       <button
@@ -57,10 +58,9 @@ const NewItem = memo(({ itemNew, handleDelete, handlePriority }: Props) => {
           color={itemNew?.priority ? Colors.bg_FFC564 : Colors.text_white}
         />
       </button>
-      <img
-        alt=""
+      <Image
         className="w-full object-cover h-[288px]"
-        src={itemNew.linkMedia || ""}
+        alt={itemNew.linkMedia || ""}
       />
       <div className="p-4 flex-1 flex flex-col">
         <p className=" line-clamp-2 text-_16 font-semibold text-text_black">
@@ -85,7 +85,7 @@ const NewItem = memo(({ itemNew, handleDelete, handlePriority }: Props) => {
         </div>
       </div>
     </div>
-  );
-});
+  )
+})
 
-export default NewItem;
+export default NewItem

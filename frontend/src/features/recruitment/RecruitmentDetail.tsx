@@ -1,36 +1,37 @@
-import { AddressWork } from "@assets/icons/AddressWork";
-import { CalendarIcon } from "@assets/icons/CalendarIcon";
-import { DolarIcon } from "@assets/icons/DolarIcon";
-import RecuireImage from "@assets/images/imageRecuire.png";
-import { Banner } from "@components/Banner";
-import WapperContent from "@components/WapperContent";
-import { FomatDateYY_MM_DD } from "@constants/formatDateY_M_D";
-import { recruitService } from "@services/recruitService";
-import { HomeTopicType } from "@typeRules/home";
-import type { Recruit_type } from "@typeRules/recruit";
-import { useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
-import { useParams } from "react-router-dom";
+import { AddressWork } from "@assets/icons/AddressWork"
+import { CalendarIcon } from "@assets/icons/CalendarIcon"
+import { DolarIcon } from "@assets/icons/DolarIcon"
+import RecuireImage from "@assets/images/imageRecuire.png"
+import { Banner } from "@components/Banner"
+import { Image } from "@components/Image"
+import WapperContent from "@components/WapperContent"
+import { FomatDateYY_MM_DD } from "@constants/formatDateY_M_D"
+import { recruitService } from "@services/recruitService"
+import { HomeTopicType } from "@typeRules/home"
+import type { Recruit_type } from "@typeRules/recruit"
+import { useEffect, useState } from "react"
+import { useTranslation } from "react-i18next"
+import { useParams } from "react-router-dom"
 
 const RecruitmentDetail = () => {
-  const { id } = useParams();
-  const { t } = useTranslation();
+  const { id } = useParams()
+  const { t } = useTranslation()
   const [recruiItem, setRecruiItem] = useState<Recruit_type | undefined>(
     undefined
-  );
+  )
   const getRecruitmentById = async () => {
     try {
       if (id) {
-        const resultRecruit = await recruitService.getRecruitById(Number(id));
-        setRecruiItem(resultRecruit);
+        const resultRecruit = await recruitService.getRecruitById(Number(id))
+        setRecruiItem(resultRecruit)
       }
     } catch (error) {
       // console.log("Có lỗi không thể lấy thông tin tuyển dụng");
     }
-  };
+  }
   useEffect(() => {
-    getRecruitmentById();
-  }, [id]);
+    getRecruitmentById()
+  }, [id])
   return (
     <div>
       <Banner type={HomeTopicType.recruit} />
@@ -62,10 +63,9 @@ const RecruitmentDetail = () => {
               </div>
             </div>
             <div className="lg:radius-tl-br48 radius-tl-br24 my-6 overflow-hidden">
-              <img
-                src={recruiItem?.linkMedia || RecuireImage}
+              <Image
+                alt={recruiItem?.linkMedia || RecuireImage}
                 className="w-full lg:min-h-[742px]"
-                alt=""
               />
             </div>
             <div
@@ -77,7 +77,7 @@ const RecruitmentDetail = () => {
         </WapperContent>
       )}
     </div>
-  );
-};
+  )
+}
 
-export default RecruitmentDetail;
+export default RecruitmentDetail

@@ -1,85 +1,86 @@
-import { ICAddSquare } from "@assets/icons/ICAddSquare";
-import { ICCheck } from "@assets/icons/ICCheck";
-import { ICDate } from "@assets/icons/ICDate";
-import { ICDeleteTrashLight } from "@assets/icons/ICDeleteTrashLight";
-import { ICMail } from "@assets/icons/ICMail";
-import { ICUser } from "@assets/icons/ICUser";
-import { formatDateComment, renderStar } from "@commons/common";
-import { Avatar } from "@components/Avatar";
-import { Colors } from "@constants/color";
-import { useModalContext } from "@contexts/hooks/modal";
-import { Button } from "@features/dashboard/components/Button";
-import { t } from "i18next";
-import React, { memo } from "react";
-import { ReplyModal } from "./ReplyModal";
-import { DiglogComfirmDelete } from "@features/dashboard/components/DiglogComfirmDelete";
-import { ICRequest } from "@assets/icons/ICRequest";
-import { ModalConfirm } from "./ModalConfirm";
-import type { IComment, ICommentChild } from "@typeRules/comment";
-import { useShowMessage } from "@features/dashboard/components/DiglogMessage";
-import { useHandleLoading } from "@features/dashboard/components/Loading";
-import { commentService } from "@services/comment";
+import { ICAddSquare } from "@assets/icons/ICAddSquare"
+import { ICCheck } from "@assets/icons/ICCheck"
+import { ICDate } from "@assets/icons/ICDate"
+import { ICDeleteTrashLight } from "@assets/icons/ICDeleteTrashLight"
+import { ICMail } from "@assets/icons/ICMail"
+import { ICUser } from "@assets/icons/ICUser"
+import { formatDateComment, renderStar } from "@commons/common"
+import { Avatar } from "@components/Avatar"
+import { Colors } from "@constants/color"
+import { useModalContext } from "@contexts/hooks/modal"
+import { Button } from "@features/dashboard/components/Button"
+import { t } from "i18next"
+import React, { memo } from "react"
+import { ReplyModal } from "./ReplyModal"
+import { DiglogComfirmDelete } from "@features/dashboard/components/DiglogComfirmDelete"
+import { ICRequest } from "@assets/icons/ICRequest"
+import { ModalConfirm } from "./ModalConfirm"
+import type { IComment, ICommentChild } from "@typeRules/comment"
+import { useShowMessage } from "@features/dashboard/components/DiglogMessage"
+import { useHandleLoading } from "@features/dashboard/components/Loading"
+import { commentService } from "@services/comment"
+import { Image } from "@components/Image"
 
 type Props = {
-  data: IComment;
-  onEdit: (data: IComment) => void;
-  onEditAdmin: (data: ICommentChild) => void;
-  onDelete: (id: number) => void;
-};
+  data: IComment
+  onEdit: (data: IComment) => void
+  onEditAdmin: (data: ICommentChild) => void
+  onDelete: (id: number) => void
+}
 
 export const CommentItem = memo(
   ({ data, onDelete, onEdit, onEditAdmin }: Props) => {
-    const { setElementModal } = useModalContext();
+    const { setElementModal } = useModalContext()
 
-    const { showSuccess, showError } = useShowMessage();
-    const { showLoading } = useHandleLoading();
+    const { showSuccess, showError } = useShowMessage()
+    const { showLoading } = useHandleLoading()
 
     const handleShowModal = () => {
-      setElementModal(<ReplyModal onUpdate={onEditAdmin} data={data} />);
-    };
+      setElementModal(<ReplyModal onUpdate={onEditAdmin} data={data} />)
+    }
     const handleShowModalDelete = () => {
       setElementModal(
         <DiglogComfirmDelete
           onClick={handleDelete}
           message="adminComment.message_delete"
         />
-      );
-    };
+      )
+    }
 
     const handleShowModalConfirm = () => {
-      setElementModal(<ModalConfirm onClick={handleSubmitPD} />);
-    };
+      setElementModal(<ModalConfirm onClick={handleSubmitPD} />)
+    }
 
     const handleSubmitPD = () => {
-      showLoading();
+      showLoading()
       commentService
         .patch(Number(data.id))
         .then((_) => {
           onEdit({
             ...data,
             status: !data.status,
-          });
-          showSuccess("message.actions.success.update");
+          })
+          showSuccess("message.actions.success.update")
         })
         .catch(() => {
-          showError("message.actions.error.delete_banner");
-        });
-    };
+          showError("message.actions.error.delete_banner")
+        })
+    }
 
     const handleDelete = () => {
-      showLoading();
+      showLoading()
       commentService
         .delete(Number(data.id))
         .then(() => {
-          onDelete(Number(data.id));
-          showSuccess("adminComment.message_delete_success");
+          onDelete(Number(data.id))
+          showSuccess("adminComment.message_delete_success")
         })
         .catch((error) => {
           showError(
             error?.response?.data?.message || "category.message_delete_error"
-          );
-        });
-    };
+          )
+        })
+    }
 
     return (
       <div className="bg-white mb-4">
@@ -155,9 +156,9 @@ export const CommentItem = memo(
         </div>
         <div className="grid grid-cols-3 [&>div]:p-[16px]">
           <div className="p-[16px] border-r border-br_E8E8E8 gap-x-[12px] flex">
-            <img
+            <Image
               className="min-w-[101px] max-w-[101px] h-[101px] object-cover"
-              src={data?.linkMedia}
+              alt={data?.linkMedia}
             />
             <div className="">
               <p className="text-_16 font-semibold line-clamp-1">
@@ -172,10 +173,12 @@ export const CommentItem = memo(
             <div className="flex items-center gap-x-4">
               {renderStar(Number(data?.commentGuest?.rate), 24)}
             </div>
-            <pre dangerouslySetInnerHTML={{
-              __html: data?.commentGuest?.content ?? ""
-            }} className="text-_14 mt-2 break-words text-text_secondary">
-            </pre>
+            <pre
+              dangerouslySetInnerHTML={{
+                __html: data?.commentGuest?.content ?? "",
+              }}
+              className="text-_14 mt-2 break-words text-text_secondary"
+            ></pre>
           </div>
           <div>
             {data.commentAdmin ? (
@@ -209,6 +212,6 @@ export const CommentItem = memo(
           </div>
         </div>
       </div>
-    );
+    )
   }
-);
+)

@@ -1,93 +1,94 @@
-import { ICArowDown } from "@assets/icons/ICArowDown";
-import { ICDeleteX } from "@assets/icons/ICDeleteX";
+import { ICArowDown } from "@assets/icons/ICArowDown"
+import { ICDeleteX } from "@assets/icons/ICDeleteX"
 import {
   formatNumberDotSlice,
   formatNumberDotWithVND,
-} from "@commons/formatMoney";
-import { Colors } from "@constants/color";
-import clsx from "clsx";
-import React, { memo, useEffect, useMemo, useRef } from "react";
-import { useTranslation } from "react-i18next";
-import { Button } from "./Button";
-import { MoneyLineThrough } from "@features/home/components/MoneyLineThrough";
-import { ICDeleteTrash } from "@assets/icons/ICDeleteTrash";
-import { useClickOutItem } from "@hooks/useClickOutItem";
-import { Link, useLocation, useNavigate } from "react-router-dom";
-import { paths } from "@constants/routerPublic";
-import { useCartContext } from "@contexts/hooks/order";
-import type { IProduct } from "@typeRules/product";
-import { debounce } from "lodash";
-import { useScreenOrientation } from "@hooks/useScreenOrientation";
-import { getLinkImageUrl } from "@commons/common";
-import { windownSizeWidth, withResponsive } from "@constants/index";
+} from "@commons/formatMoney"
+import { Colors } from "@constants/color"
+import clsx from "clsx"
+import React, { memo, useEffect, useMemo, useRef } from "react"
+import { useTranslation } from "react-i18next"
+import { Button } from "./Button"
+import { MoneyLineThrough } from "@features/home/components/MoneyLineThrough"
+import { ICDeleteTrash } from "@assets/icons/ICDeleteTrash"
+import { useClickOutItem } from "@hooks/useClickOutItem"
+import { Link, useLocation, useNavigate } from "react-router-dom"
+import { paths } from "@constants/routerPublic"
+import { useCartContext } from "@contexts/hooks/order"
+import type { IProduct } from "@typeRules/product"
+import { debounce } from "lodash"
+import { useScreenOrientation } from "@hooks/useScreenOrientation"
+import { getLinkImageUrl } from "@commons/common"
+import { windownSizeWidth, withResponsive } from "@constants/index"
+import { Image } from "./Image"
 
 export const positionCart = {
   positionX: 0,
   positionY: 0,
-};
+}
 
 export const MenusRight = memo(() => {
-  const { t } = useTranslation();
-  const { listOrder } = useCartContext();
+  const { t } = useTranslation()
+  const { listOrder } = useCartContext()
   const { ref, handleToggleItem, isShow, handleShow, handleHiden } =
-    useClickOutItem();
-  const isFirstRender = useRef(0);
-  const { pathname } = useLocation();
-  const { isFullScreen } = useScreenOrientation();
+    useClickOutItem()
+  const isFirstRender = useRef(0)
+  const { pathname } = useLocation()
+  const { isFullScreen } = useScreenOrientation()
 
   useEffect(() => {
     if (ref.current) {
       setTimeout(() => {
-        positionCart.positionX = ref.current.getBoundingClientRect().left;
-        positionCart.positionY = ref.current.getBoundingClientRect().top - 140;
-      }, 500);
+        positionCart.positionX = ref.current.getBoundingClientRect().left
+        positionCart.positionY = ref.current.getBoundingClientRect().top - 140
+      }, 500)
     }
-  }, [ref, isFullScreen]);
+  }, [ref, isFullScreen])
 
-  const debouceTime = useRef<ReturnType<typeof debounce>>();
+  const debouceTime = useRef<ReturnType<typeof debounce>>()
 
-  const navigate = useNavigate();
+  const navigate = useNavigate()
 
   const handleNavigate = () => {
-    navigate(paths.orderFood.prefix);
-    handleToggleItem();
-  };
+    navigate(paths.orderFood.prefix)
+    handleToggleItem()
+  }
 
   useEffect(() => {
     if (windownSizeWidth >= withResponsive._1024) {
       if (listOrder.length && isFirstRender.current > 1) {
-        if (debouceTime.current) debouceTime.current.cancel();
+        if (debouceTime.current) debouceTime.current.cancel()
         debouceTime.current = debounce(() => {
-          handleShow();
-        }, 1000);
-        debouceTime.current();
+          handleShow()
+        }, 1000)
+        debouceTime.current()
       }
       if (!listOrder.length) {
-        isFirstRender.current = 2;
+        isFirstRender.current = 2
       } else {
-        isFirstRender.current += 1;
+        isFirstRender.current += 1
       }
     }
-  }, [listOrder]);
+  }, [listOrder])
 
   const totalPrice = useMemo(() => {
     return listOrder.reduce((currentValue, data) => {
       return (
         currentValue +
         Number(data?.pricePromotion ?? 0) * Number(data.quantity ?? 0)
-      );
-    }, 0);
-  }, [listOrder]);
+      )
+    }, 0)
+  }, [listOrder])
 
   const isHidden = useMemo(() => {
-    return pathname === paths.orderFood.prefix;
-  }, [pathname]);
+    return pathname === paths.orderFood.prefix
+  }, [pathname])
 
   useEffect(() => {
     if (isHidden) {
-      handleHiden();
+      handleHiden()
     }
-  }, [isHidden]);
+  }, [isHidden])
 
   return (
     <div className="relative flex items-end h-auto" ref={ref}>
@@ -147,7 +148,7 @@ export const MenusRight = memo(() => {
             <>
               <div className="flex-1 w-full px-[16px] overflow-y-auto list-facilities">
                 {listOrder.map((data) => {
-                  return <MenuItem data={data} key={data.id} />;
+                  return <MenuItem data={data} key={data.id} />
                 })}
               </div>
               <div className="px-[16px] flex flex-col gap-y-[16px]">
@@ -196,35 +197,33 @@ export const MenusRight = memo(() => {
         </div>
       </div>
     </div>
-  );
-});
+  )
+})
 
 type Props = {
-  data: IProduct;
-};
+  data: IProduct
+}
 
 const MenuItem = ({ data }: Props) => {
-  const { handlePlusCart, handleMinusCart, handleDeleteCart } =
-    useCartContext();
+  const { handlePlusCart, handleMinusCart, handleDeleteCart } = useCartContext()
   const handleMinusCount = () => {
-    handleMinusCart(Number(data.id), 1);
-  };
+    handleMinusCart(Number(data.id), 1)
+  }
 
   const handlePlusCount = () => {
-    handlePlusCart(data, 1);
-  };
+    handlePlusCart(data, 1)
+  }
 
   const handleDelete = () => {
-    handleDeleteCart(Number(data.id));
-  };
+    handleDeleteCart(Number(data.id))
+  }
 
   return (
     <div className="flex items-center gap-x-[16px] py-[16px]">
       <Link to={`${paths.memu.prefix}/${data.id}`}>
-        <img
+        <Image
           className="min-w-[80px] object-cover w-[80px] min-h-[80px] max-h-[80px] h-[80px] rounded-[16px_0_16px_0]"
-          alt=""
-          src={getLinkImageUrl(data?.linkMedia, 80, 80)}
+          alt={getLinkImageUrl(data?.linkMedia, 80, 80)}
         />
       </Link>
       <div className="flex-1">
@@ -263,5 +262,5 @@ const MenuItem = ({ data }: Props) => {
         <ICDeleteTrash />
       </button>
     </div>
-  );
-};
+  )
+}
