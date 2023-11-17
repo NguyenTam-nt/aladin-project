@@ -1,11 +1,12 @@
 import {defaultColors} from '@configs';
-import {NavigationContainer, NavigationProp, useNavigation} from '@react-navigation/native';
+import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import React, {useMemo} from 'react';
 import {StatusBar} from 'react-native';
 import LoginScreen from 'src/features/login';
 import {DrawerMain} from './DrawerMain';
 import {useUserInfo} from 'src/redux/reducers/hook';
+import { View } from 'react-native';
 
 
 export const RootStack = createStackNavigator();
@@ -24,7 +25,7 @@ export const MainStack = () => {
   const userInfo = useUserInfo();
 
   return (
-    <>
+    <View style={{flex : 1}}>
       <StatusBar
         backgroundColor={defaultColors.bg_header}
         barStyle={'light-content'}
@@ -37,6 +38,6 @@ export const MainStack = () => {
           <RootStack.Screen name="login" component={LoginScreen} />
         </RootStack.Navigator>
       </NavigationContainer>
-    </>
+    </View>
   );
 };
