@@ -104,7 +104,7 @@ const ItemReport = ({
                       index === 0 ? defaultColors.c_fff : defaultColors._01A63E,
                   },
                 ]}>
-                {parseInt(item.quantityOld * 100) || 0}%
+                {Math.round(item.quantityOld * 100) || 0}%
               </Text>
               {isTabletDevice && ` số lượng bán so với ${TextEqualTime}`}
             </Text>
@@ -159,7 +159,7 @@ const ItemReport = ({
                       index === 0 ? defaultColors.c_fff : defaultColors._01A63E,
                   },
                 ]}>
-                {parseInt(item.revenueOld * 100) || 0}%
+                {Math.round(item.revenueOld * 100) || 0}%
               </Text>
               {isTabletDevice && `doanh thu so với ${TextEqualTime}`}
             </Text>

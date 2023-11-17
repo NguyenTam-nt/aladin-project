@@ -16,7 +16,6 @@ interface IContentRightOrderReport {
 
 const ContentRightOrder = (props : IContentRightOrderReport & TabBarOrder ) => {
   const {setIsOpenTab, dataReport ,stringDate ,typeLocation} = props;
-  console.log('typeLocation33' ,typeLocation);
 
   return (
     <View style={{flex: 1}}>

@@ -1,5 +1,4 @@
 import { ROLE_LIST, defaultColors } from '@configs';
-import { DIMENSION } from '@constants';
 import { useNavigation } from '@react-navigation/native';
 import React, { useState } from 'react';
 import {
@@ -87,9 +86,9 @@ const LoginScreen = () => {
   };
 
   return (
-    <View>
+    <View style={styles.containerFlex}>
       <StatusBar />
-      <KeyboardAwareScrollView>
+      <KeyboardAwareScrollView contentContainerStyle={styles.containerFlex}>
         <View style={styles.contanter}>
           <Image
             source={require('src/assets/image/bg_login.webp')}
@@ -154,11 +153,13 @@ const LoginScreen = () => {
 };
 
 const styles = StyleSheet.create({
+  containerFlex :{
+    flex : 1,
+  },
   contanter: {
     justifyContent: 'center',
     alignItems: 'center',
-    height: DIMENSION.height,
-    width: DIMENSION.width,
+    flex : 1,
   },
   image: {
     height: '100%',

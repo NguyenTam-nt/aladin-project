@@ -43,12 +43,12 @@ const filterDate = [
 ];
 
 type Props = {
-  currenFilter: ReportTimeState;
-  onChange: (currentFilter: ReportTimeState) => void;
-  isOpenTab: boolean;
-  setIsOpenTab: React.Dispatch<React.SetStateAction<boolean>>;
-  setStartDate?: (value: string) => void;
-  setEndDate?: (value: string) => void;
+  currenFilter: ReportTimeState
+  onChange: (currentFilter: ReportTimeState) => void
+  isOpenTab: boolean
+  setIsOpenTab: React.Dispatch<React.SetStateAction<boolean>>
+  setStartDate?: (value: string) => void
+  setEndDate?: (value: string) => void
 };
 
 export const SideLeft = memo(
@@ -128,10 +128,10 @@ export const FilterCalendar = memo(
     setStartDate,
     setEndDate,
   }: {
-    currenFilter: ReportTimeState;
-    onChange: (category: ReportTimeState) => void;
-    setStartDate?: (value: string) => void;
-    setEndDate?: (value: string) => void;
+    currenFilter: ReportTimeState
+    onChange: (category: ReportTimeState) => void
+    setStartDate?: (value: string) => void
+    setEndDate?: (value: string) => void
   }) => {
     const [isShow, setShow] = useState(false);
     const handleChange = useCallback(() => {
@@ -175,11 +175,11 @@ export const FilterCalendar = memo(
 
 type PropsSideLeftFilterDate = {
   data: {
-    slug: ReportTimeState;
-    name: string;
-  };
-  onChange: (category: ReportTimeState) => void;
-  isActive: boolean;
+    slug: ReportTimeState
+    name: string
+  }
+  onChange: (category: ReportTimeState) => void
+  isActive: boolean
 };
 
 export const SideLeftFilterDate = memo(
