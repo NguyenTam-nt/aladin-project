@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import SockJS from 'sockjs-client';
-import { SOCK_CLIENNT_URL } from 'src/api/config';
+import { SOCK_CLIENT_URL } from 'src/api/config';
 import useIsInternetReachable from './useIsInternetReachable';
 import { useAppStateVisible } from './useAppStateVisible';
 import { useIsFocused } from '@react-navigation/native';
@@ -18,7 +18,7 @@ export function useConnectSocketJS<T>(id: string , callBackApi?: () => void) {
     const connectWebSocket = () => {
       if (isInternetReachable) {
         callBackApi?.();
-        const sockClient = new SockJS(SOCK_CLIENNT_URL);
+        const sockClient = new SockJS(SOCK_CLIENT_URL);
         const stompClient = Stomp.over(sockClient);
         stompClient.heartbeat.outgoing = 5000;
         stompClient.heartbeat.incoming = 5000;

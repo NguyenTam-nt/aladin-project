@@ -1,9 +1,8 @@
-
 export const APP_BASE_URL = 'https://giangmyhotpot.vn';
 export const APP_BASE_URL2 = 'http://192.168.1.24:8090';
-export const baseUrl = APP_BASE_URL;
-export const SOCK_CLIENNT_URL = 'https://giangmyhotpot.vn/websocket/tracker';
+export const SOCK_CLIENT_URL = 'https://giangmyhotpot.vn/websocket/tracker';
 export const OTPCodeValue = '123456';
+export const baseUrl = APP_BASE_URL;
 
 export type IData<T> =
    {

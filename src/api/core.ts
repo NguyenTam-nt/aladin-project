@@ -151,7 +151,7 @@ export const createRequest = (baseUrl: string, timeout: number) => {
         }),
 
       /**
-       * func put
+       * func patch
        * override option request
        */
       patch: <T = any, R = AxiosResponse<T>>(

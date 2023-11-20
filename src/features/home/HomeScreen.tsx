@@ -12,7 +12,7 @@ import {IFloorInfo, getTable} from 'src/api/table';
 import {useAreaId, useFloorActive} from 'src/redux/infoDrawer/hooks';
 import TableOrder, {DinnerTableState} from './components/TableOrder';
 import SockJS from 'sockjs-client';
-import {SOCK_CLIENNT_URL} from 'src/api/config';
+import {SOCK_CLIENT_URL} from 'src/api/config';
 import {useIsGetTable} from 'src/redux/reducers/hook';
 import {useDispatch} from 'react-redux';
 import {setGetTable} from 'src/redux/reducers/AuthSlice';
@@ -84,7 +84,7 @@ const HomeScreen = ({stateCheckbox}: {stateCheckbox: string[]}) => {
     // let socketInterval: any = null;
     let stompClient: any = null;
     const connectWebSocket = () => {
-      const sockClient = new SockJS(SOCK_CLIENNT_URL);
+      const sockClient = new SockJS(SOCK_CLIENT_URL);
       stompClient = Stomp.over(sockClient);
       stompClient.heartbeat.outgoing = 5000;
       stompClient.heartbeat.incoming = 5000;
