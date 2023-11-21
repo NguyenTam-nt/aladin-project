@@ -36,7 +36,7 @@ const ItemCardMobile = ({
           <Text style={styles.textPrice}>{formatNumberDot(data.pricePromotion)}</Text>
           <View style={styles.viewNotiContent}>
             <ICAddOrder />
-            <Text style={styles.textNoti}>{data.note || "Đặt đơn hàng này cho tôi"}</Text>
+            <Text style={styles.textNoti}>{data.note && data.note !== 'null' || 'Đặt đơn hàng này cho tôi'}</Text>
           </View>
         </View>
       </View>

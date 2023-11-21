@@ -147,7 +147,7 @@ const TableCartItem = ( {checkstatus , data } : {checkstatus: string | null ; da
           <View style={styles.textItemCol2}>
             <Text style={styles.textNameItem}>{data.name}</Text>
             <Text style={styles.textPriceItem}>
-              {formatNumberDotSlice(data.price)}
+              {formatNumberDotSlice(data.pricePromotion)}
             </Text>
             <TouchableOpacity
               onPress={openModal}

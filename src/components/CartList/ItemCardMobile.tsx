@@ -45,7 +45,7 @@ const ItemCardMobile = ({checkstatus , data } : {checkstatus: string  | null; da
             {data.name}
           </Text>
           <Text style={styles.textPrice}>
-            {formatNumberDotSlice(data.price)}
+            {formatNumberDotSlice(data.pricePromotion)}
           </Text>
           <TouchableOpacity onPress={openModal} style={styles.viewNotiContent}>
             <ICAddOrder />

@@ -51,8 +51,6 @@
 	<string>YOUR TEXT</string>
 	<key>NSSpeechRecognitionUsageDescription</key>
 	<string>Ứng dụng không được phép truy cập tệp4. Vui lòng cấp quyền ứng dụng và thử lại</string>
-	<key>NSUserTrackingUsageDescription</key>
-	<string>YOUR TEXT</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>IBMPlexSans-Bold.ttf</string>
