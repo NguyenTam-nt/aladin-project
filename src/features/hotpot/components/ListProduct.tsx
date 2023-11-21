@@ -33,7 +33,7 @@ export const ListProduct = memo(
     );
 
     const {data, refresh, pullToRefresh, handleLoadMore, isRefreshing} =
-      useHandleResponsePagination<IMenuItem>(getProduct);
+      useHandleResponsePagination<IMenuItem[]>(getProduct);
 
     const {isPushCategory} = useGetCartItem(currentCategory);
 

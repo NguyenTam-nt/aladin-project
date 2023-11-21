@@ -12,7 +12,6 @@ type Props = {
 export const GroupHotpot = memo(
   ({currentCategory, handlePressCategory}: Props) => {
     return (
-        
       <View style={styles.container_child}>
         <GroupCategories
           currentCategory={currentCategory}

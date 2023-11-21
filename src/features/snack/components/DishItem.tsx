@@ -29,7 +29,7 @@ const DishItem = React.memo(({item}: {item: IMenuItem}) => {
           {item.name}
         </Text>
         <Text style={styles.textPrice} numberOfLines={2}>
-          {formatNumberDotSlice(item.price)}
+          {formatNumberDotSlice(item.pricePromotion)}
         </Text>
         <View style={styles.quantityUpdate}>
           <QuantityUpdate data={item} />
