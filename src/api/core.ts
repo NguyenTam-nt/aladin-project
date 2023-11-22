@@ -111,6 +111,8 @@ export const createRequest = (baseUrl: string, timeout: number) => {
         url: string,
         options: AxiosRequestConfig = {},
       ) => {
+        console.log('url : ', url);
+
         return axiosInstance.get<T, R>(url, {
           // ...options.params,
           ...defaultOptions,
@@ -148,8 +150,6 @@ export const createRequest = (baseUrl: string, timeout: number) => {
         data?: any,
         options: AxiosRequestConfig = {},
       ) => {
-        console.log(url);
-
         return axiosInstance.put<T, R>(url, data, {
           ...defaultOptions,
           ...options,

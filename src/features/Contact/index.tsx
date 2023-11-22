@@ -15,7 +15,7 @@ import {useNavigation} from '@react-navigation/native';
 import {useAlert} from 'src/constants/links';
 import TextInputComponent from 'src/components/TextInputGroup/TextInputComponent';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
-import {productRoute} from 'src/constants/routers';
+import {productRoute, routetBottomTab} from 'src/constants/routers';
 import SpaceBottom from 'src/components/SpaceBottom';
 
 const phoneRegExp = /^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/;
@@ -190,8 +190,8 @@ const ContactScrren = () => {
               isLoading={isSubmitting}
             />
             <ButtonTouchable
-              // @ts-ignore
-              onPress={() => navigation.navigate(productRoute.prifex)}
+              //@ts-ignore
+              onPress={() => navigation.navigate(routetBottomTab.product)}
               text="button.see-more-product"
               borderRadius={30}
               textColor={defaultColors.bg_E60E00}

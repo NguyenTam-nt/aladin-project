@@ -31,16 +31,16 @@ export const productRoute = {
   payment: 'payment',
 };
 export const contactRoute = {
-  prifex: '/contact',
+  prifex: 'contact',
 };
 
 export const accountRoute = {
   prifex: 'profile',
-  login: '/login',
-  register: '/register',
-  manageAccountInfo: '/manage-account-info',
-  changePass: '/change-pass',
-  forgotPass: '/forgot-pass',
+  login: 'login',
+  register: 'register',
+  manageAccountInfo: 'manage-account-info',
+  changePass: 'change-pass',
+  forgotPass: 'forgot-pass',
 };
 type PropsTitle = {
   focused: boolean;

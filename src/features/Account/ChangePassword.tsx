@@ -313,7 +313,5 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     padding: 24,
     marginHorizontal: 20,
-    // alignItems: 'center',
   },
 });
-// Phiphi123

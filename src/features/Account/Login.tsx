@@ -34,11 +34,13 @@ import {
 import * as Yup from 'yup';
 import {AuthServices} from 'src/api/authService';
 import {useToken, useUserInfo} from 'src/redux/reducers/hook';
+import {useEnableAuth} from 'src/redux/enableAuth/hooks';
 
 const LoginScreen = () => {
   const {t} = useTranslation();
   const dispatch = useDispatch();
   const dismiss = useGoBack();
+  const enableAuth = useEnableAuth();
   const navigation = useNavigation();
   const {doLoginGoogle, doLoginFacebook} = AuthServices();
   const token = useToken();
@@ -197,51 +199,56 @@ const LoginScreen = () => {
               />
             </TouchableOpacity>
           </View>
+
           <View style={{flexDirection: 'column', rowGap: 14, marginTop: 18}}>
             <ButtonGradient
               isLoading={isSubmitting}
               onPress={handleSubmit}
               text={t('account.login')}
             />
-            <TextTranslate
-              textAlign="center"
-              color={defaultColors.text_264659}
-              fontSize={12}
-              weight="400"
-              text="account.form-login.login-with"
-            />
-            <View
-              style={{
-                flexDirection: 'row',
-                columnGap: 8,
-                justifyContent: 'space-between',
-                alignItems: 'center',
-              }}>
-              <TouchableOpacity
-                onPress={handleLoginGGWithKeyclock}
-                style={styles.styleLoginWith}>
-                <ICGoogle />
-                <TextTranslate
-                  textAlign="center"
-                  color={defaultColors.text_0C222F}
-                  fontSize={14}
-                  weight="400"
-                  text="account.form-login.google"
-                />
-              </TouchableOpacity>
-              <TouchableOpacity
-                onPress={handleLoginFBWithKeyclock}
-                style={styles.styleLoginWith}>
-                <ICFacebook />
-                <TextTranslate
-                  textAlign="center"
-                  color={defaultColors.text_264659}
-                  fontSize={12}
-                  weight="400"
-                  text="account.form-login.facebook"
-                />
-              </TouchableOpacity>
-            </View>
+            {enableAuth === false && (
+              <TextTranslate
+                textAlign="center"
+                color={defaultColors.text_264659}
+                fontSize={12}
+                weight="400"
+                text="account.form-login.login-with"
+              />
+            )}
+            {enableAuth === false && (
+              <View
+                style={{
+                  flexDirection: 'row',
+                  columnGap: 8,
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                }}>
+                <TouchableOpacity
+                  onPress={handleLoginGGWithKeyclock}
+                  style={styles.styleLoginWith}>
+                  <ICGoogle />
+                  <TextTranslate
+                    textAlign="center"
+                    color={defaultColors.text_0C222F}
+                    fontSize={14}
+                    weight="400"
+                    text="account.form-login.google"
+                  />
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={handleLoginFBWithKeyclock}
+                  style={styles.styleLoginWith}>
+                  <ICFacebook />
+                  <TextTranslate
+                    textAlign="center"
+                    color={defaultColors.text_264659}
+                    fontSize={12}
+                    weight="400"
+                    text="account.form-login.facebook"
+                  />
+                </TouchableOpacity>
+              </View>
+            )}
           </View>
           <View
             style={{

@@ -93,6 +93,7 @@
       "language": "Ngôn ngữ",
       "enter-mail-with-pass": "Nhập email bạn đã đăng ký tài khoản",
       "planhoder-enter-mail-with-pass": "Nhập email",
+      "remove-account": "Xoá tài khoản",
       "screen-manage-account": {
         "form": {
           "full-name": "Họ và tên",
@@ -178,7 +179,8 @@
       "see-more-product": "Xem thêm sản phẩm",
       "cancel": "Hủy",
       "update": "Cập nhật",
-      "search": "Tìm kiếm"
+      "search": "Tìm kiếm",
+      "agree": "đồng ý"
     },
     "messages": {
       "full-name": {
@@ -242,7 +244,8 @@
         "required-login": "Vui lòng đăng nhập để đặt hàng!",
         "reset-password": "Email không tồn tại trong hệ thống. Vui lòng thử lại!.",
         "change-pass": "Mật khẩu cũ và mới không được trùng nhau!",
-        "out-of-stock": "Thuốc tính bạn chọn đã hết hàng!"
+        "out-of-stock": "Thuốc tính bạn chọn đã hết hàng!",
+        "remove-account": "Bạn có chắc muốn xoá tài khoản này không?"
       },
       "error": {
         "order-cart": "Đặt hàng thất bại.",

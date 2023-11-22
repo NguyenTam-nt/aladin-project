@@ -18,16 +18,14 @@ export const AuthServices = () => {
     keycloak?.clearToken();
   };
   const doLoginGoogle = () => {
-    keycloak
-      ?.login({
-        idpHint: 'google',
-        prompt: 'login',
-        locale: 'en',
-        scope: 'profile',
-        onLoad: 'check-sso',
-        pkceMethod: 'S256',
-      })
-      .then(e => console.log('eeee', e));
+    keycloak?.login({
+      idpHint: 'google',
+      prompt: 'login',
+      locale: 'en',
+      scope: 'profile',
+      onLoad: 'check-sso',
+      pkceMethod: 'S256',
+    });
   };
 
   const doLoginFacebook = () => {

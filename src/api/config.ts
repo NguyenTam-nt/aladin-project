@@ -22,6 +22,7 @@ export const microServices = {
   user: 'user',
   order: 'order',
   cartItem: 'cart-items',
+  enableAuth: 'enable-auth',
 };
 
 export const getMicroService = (api: string, service = microServices.user) => {
@@ -86,4 +87,5 @@ export const APIs = {
   ORDER: getMicroServicePlustMark(microServices.order),
   RESET_PASSWORD: getMicroServicePlustMark(microServices.user),
   CART_ITEM: getMicroServicePlustMark(microServices.cartItem),
+  ENABLE_AUTH: getMicroService(microServices.enableAuth),
 };

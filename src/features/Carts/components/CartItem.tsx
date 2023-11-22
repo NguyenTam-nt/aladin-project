@@ -122,7 +122,7 @@ const CartItem = (props: IProps) => {
             disable={product.stockQuantity == 0 ? true : false}
           />
           <TouchableOpacity
-            style={{flex: 1, position: 'relative', zIndex: 9999}}
+            style={{zIndex: 9999}}
             onPress={() => removeItem(product.productDetailId)}>
             <View style={styles.styleRemove}>
               <ICRemove />

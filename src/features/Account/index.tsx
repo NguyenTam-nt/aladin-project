@@ -1,22 +1,32 @@
 import {TextCustom, Thumb} from '@components';
 import {defaultColors} from '@configs';
+import {DIMENSION} from '@constants';
 import {useNavigation} from '@react-navigation/native';
 import React, {ReactElement, useEffect, useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import {Modal, StyleSheet, TouchableOpacity, View} from 'react-native';
 import {useDispatch} from 'react-redux';
 import {AuthServices} from 'src/api/authService';
+import {getEnableAuthAPI} from 'src/api/enableAuth';
 import {clearSession, getUserInfo} from 'src/api/user';
 import {ICAccountInfo} from 'src/assets/icons/ICAccountInfo';
+import {ICClose} from 'src/assets/icons/ICClose';
 import {ICDropdown} from 'src/assets/icons/ICDropdown';
 import {ICPassword} from 'src/assets/icons/ICPassword';
+import {ICRemoveAccount} from 'src/assets/icons/ICRemoveAccount';
+import {ICWarrning} from 'src/assets/icons/ICWarrning';
 import {ICAccount} from 'src/assets/icons/bottomtab/ICAccount';
 import {VietnamFlag, koreanFlag} from 'src/assets/image';
+import ButtonGradient from 'src/components/Buttons/ButtonGradient';
 import {ButtonTouchable} from 'src/components/Buttons/ButtonTouchable';
 import {Header} from 'src/components/Header';
+import ModalCustom from 'src/components/ModalCustom';
 import TextTranslate from 'src/components/TextTranslate';
 import {accountRoute} from 'src/constants/routers';
 import {useDropdown} from 'src/hooks/useDropdown';
+import {useModal} from 'src/hooks/useModal';
+import {useEnableAuth} from 'src/redux/enableAuth/hooks';
+import {setEnableAuth} from 'src/redux/enableAuth/slice';
 import {useHandleChangeLanguage} from 'src/redux/multilanguage/hooks';
 import {
   initUserInfo,
@@ -37,12 +47,15 @@ const LANGUAGE: {key: LANGUAGE_KEY; image: any}[] = [
   },
 ];
 const AccountScreen = () => {
+  const {t} = useTranslation();
+  const modalEditInventory = useModal();
   const navigation = useNavigation();
   const userInfo = useUserInfo();
   const dispatch = useDispatch();
   const useChangeLanguage = useHandleChangeLanguage();
   const {dologout} = AuthServices();
   const token = useToken();
+  const enableAuth = useEnableAuth();
   const refresh_token = useRefreshToken();
   const {toggleDropdown, visible, setVisible, dropdownTop, refDropdown} =
     useDropdown();
@@ -51,13 +64,6 @@ const AccountScreen = () => {
     key: LANGUAGE_KEY;
     image: any;
   }>(LANGUAGE[0]);
-
-  useEffect(() => {
-    const index = LANGUAGE.findIndex(it => {
-      return it.key === i18n.language;
-    });
-    setLanguageAction(index >= 0 ? LANGUAGE[index] : LANGUAGE[0]);
-  }, [i18n]);
 
   const handleChangeLanguage = (value: LANGUAGE_KEY) => {
     i18n.changeLanguage(value);
@@ -73,6 +79,16 @@ const AccountScreen = () => {
       }
     } catch (error) {}
   };
+
+  const getEnableAuth = async () => {
+    try {
+      const res = await getEnableAuthAPI();
+      if (res.success === true) {
+        dispatch(setEnableAuth(res.data));
+      }
+    } catch (error) {}
+  };
+
   const handleLoout = () => {
     dologout();
     clearSession(refresh_token);
@@ -82,12 +98,6 @@ const AccountScreen = () => {
     //@ts-ignore
     navigation.navigate(accountRoute.login);
   };
-
-  useEffect(() => {
-    if (token) {
-      handleGetUserInfo(token);
-    }
-  }, [token]);
 
   const renderDropdown = (): ReactElement<any, any> => {
     return (
@@ -121,6 +131,28 @@ const AccountScreen = () => {
     );
   };
 
+  const hiddenModal = () => {
+    modalEditInventory.handleHidden();
+  };
+
+  const openModal = () => {
+    modalEditInventory.handleShow();
+  };
+
+  useEffect(() => {
+    getEnableAuth();
+    if (token) {
+      handleGetUserInfo(token);
+    }
+  }, [token]);
+
+  useEffect(() => {
+    const index = LANGUAGE.findIndex(it => {
+      return it.key === i18n.language;
+    });
+    setLanguageAction(index >= 0 ? LANGUAGE[index] : LANGUAGE[0]);
+  }, [i18n]);
+
   return (
     <View style={styles.container}>
       <Header children={undefined} />
@@ -130,9 +162,9 @@ const AccountScreen = () => {
           fontSize={18}
           weight="700"
           color={defaultColors.text_313131}>
-          {userInfo.fullName ?? userInfo.email}
+          {userInfo?.fullName ?? userInfo?.email}
         </TextCustom>
-        {userInfo.login ? (
+        {userInfo?.login ? (
           <ButtonTouchable
             onPress={handleLoout}
             height={40}
@@ -167,8 +199,8 @@ const AccountScreen = () => {
       </View>
       <View style={styles.groupAction}>
         <View style={styles.actionItemStyle}>
-          {userInfo.login && <ICAccountInfo />}
-          {userInfo.login && (
+          {userInfo?.login && <ICAccountInfo />}
+          {userInfo?.login && (
             <TouchableOpacity
               onPress={() =>
                 //@ts-ignore
@@ -185,8 +217,8 @@ const AccountScreen = () => {
           )}
         </View>
         <View style={styles.actionItemStyle}>
-          {userInfo.login && <ICPassword width={19} height={23} />}
-          {userInfo.login && (
+          {userInfo?.login && <ICPassword width={19} height={23} />}
+          {userInfo?.login && (
             <TouchableOpacity
               onPress={() =>
                 //@ts-ignore
@@ -202,6 +234,22 @@ const AccountScreen = () => {
             </TouchableOpacity>
           )}
         </View>
+        {enableAuth === true && (
+          <View style={styles.actionItemStyle}>
+            {userInfo?.login && <ICRemoveAccount width={19} height={23} />}
+            {userInfo?.login && (
+              <TouchableOpacity onPress={openModal}>
+                <TextTranslate
+                  fontSize={18}
+                  weight="400"
+                  lineHeight={27}
+                  color={defaultColors.c_0000}
+                  text="account.remove-account"
+                />
+              </TouchableOpacity>
+            )}
+          </View>
+        )}
         <View style={{marginTop: 12, ...styles.actionItemStyle}}>
           <Thumb
             source={languageAction?.image}
@@ -230,6 +278,52 @@ const AccountScreen = () => {
           </TouchableOpacity>
         </View>
       </View>
+      <ModalCustom
+        onBackdropPress={modalEditInventory.handleHidden}
+        ref={modalEditInventory.refModal}>
+        <View style={styles.modalEdit}>
+          <TouchableOpacity
+            onPress={hiddenModal}
+            style={{position: 'absolute', top: 20, right: 20, zIndex: 9999}}>
+            <ICClose width={22} height={22} />
+          </TouchableOpacity>
+          <View
+            style={{
+              flex: 1,
+              alignItems: 'center',
+              justifyContent: 'center',
+              rowGap: 10,
+            }}>
+            <ICWarrning />
+            <TextTranslate
+              textAlign="center"
+              fontSize={17}
+              weight="700"
+              color={defaultColors.text_313131}
+              text="messages.warning.remove-account"
+            />
+            <View style={{flex: 1, flexDirection: 'row', columnGap: 10}}>
+              <ButtonTouchable
+                onPress={hiddenModal}
+                text="button.cancel"
+                borderRadius={30}
+                textColor={defaultColors.bg_E60E00}
+                height={38}
+                style={{width: '40%'}}
+              />
+              <View style={{width: '40%'}}>
+                <ButtonGradient
+                  onPress={() => {
+                    handleLoout();
+                    hiddenModal();
+                  }}
+                  text={t('button.agree')}
+                />
+              </View>
+            </View>
+          </View>
+        </View>
+      </ModalCustom>
     </View>
   );
 };
@@ -291,5 +385,14 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     paddingVertical: 10,
     borderBottomWidth: 1,
+  },
+  modalEdit: {
+    position: 'relative',
+    height: 200,
+    width: DIMENSION.width * 0.9,
+    backgroundColor: defaultColors.c_fff,
+    borderRadius: 10,
+    padding: 24,
+    marginHorizontal: 20,
   },
 });

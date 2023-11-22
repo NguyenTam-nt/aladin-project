@@ -1,5 +1,5 @@
 import {StyleSheet, View} from 'react-native';
-import React, {useRef} from 'react';
+import React, { useRef} from 'react';
 import {globalStyles} from 'src/commons/globalStyles';
 import {defaultColors} from '@configs';
 import HeaderHome from './components/HeaderHome';
@@ -21,7 +21,6 @@ import {useListItemProvice} from 'src/redux/provices/hooks';
 const HomeScren = () => {
   const scrollViewRef = useRef<ImperativeScrollViewHandles>(null);
   const proviceItem = useListItemProvice();
-
   const onTopScroll = () => {
     scrollViewRef?.current?.scrollTo({
       y: 0,

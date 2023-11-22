@@ -93,6 +93,7 @@
       "language": "언어",
       "enter-mail-with-pass": "가입한 이메일을 입력하세요",
       "planhoder-enter-mail-with-pass": "이메일을 입력하세요",
+      "remove-account": "계정 삭제",
       "screen-manage-account": {
         "form": {
           "full-name": "성함",
@@ -178,7 +179,8 @@
       "see-more-product": "더 많은 제품 보기",
       "cancel": "취소",
       "update": "업데이트",
-      "search": "검색"
+      "search": "검색",
+      "agree": "동의"
     },
     "messages": {
       "full-name": {
@@ -242,7 +244,8 @@
         "required-login": "주문을 위해 로그인하세요!",
         "reset-password": "이메일이 시스템에 존재하지 않습니다. 다시 시도하세요!",
         "change-pass": "이전 비밀번호와 새 비밀번호는 동일해선 안 됩니다!",
-        "out-of-stock": "제품의 특성은 품절되었습니다!"
+        "out-of-stock": "제품의 특성은 품절되었습니다!",
+        "remove-account": "이 계정을 삭제하시겠습니까?"
       },
       "error": {
         "order-cart": "주문 실패.",

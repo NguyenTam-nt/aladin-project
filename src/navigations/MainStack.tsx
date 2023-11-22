@@ -2,14 +2,11 @@ import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import BottomTab from './BottomTab';
 import {
-  CardStyleInterpolators,
   createStackNavigator,
 } from '@react-navigation/stack';
 import PopupScreen from 'src/features/PopupScreen';
 import {accountRoute, productRoute} from 'src/constants/routers';
-import ProductDetail from 'src/features/Products/ProductDetail';
 import CartsScreen from 'src/features/Carts';
-import {Animated} from 'react-native';
 import PaymentScreen from 'src/features/Carts/Payment';
 import LoginScreen from 'src/features/Account/Login';
 import RegisterAccount from 'src/features/Account/RegisterAccount';

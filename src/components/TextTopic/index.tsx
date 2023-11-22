@@ -5,7 +5,7 @@ type Props = {
   text: string;
 } & PropsTextCustom;
 
-const TextTopic= ({text, ...props}: Props) => {
+const TextTopic = ({text, ...props}: Props) => {
 
   return <TextCustom {...props}>{text}</TextCustom>;
 };

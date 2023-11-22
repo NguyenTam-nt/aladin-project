@@ -1,7 +1,7 @@
 import {defaultColors} from '@configs';
 import {IIcon} from '@typeRules';
 import * as React from 'react';
-import Svg, {Path, G, Circle} from 'react-native-svg';
+import Svg, {Path} from 'react-native-svg';
 
 export const ICRemove = ({
   width = 24,
