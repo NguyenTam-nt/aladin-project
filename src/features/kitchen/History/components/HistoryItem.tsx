@@ -31,8 +31,8 @@ if (
 }
 
 type Props = {
-  dataPage: IHistoryDay;
-  currentType: string;
+  dataPage: IHistoryDay
+  currentType: string
 };
 
 export const HistoryItem = ({dataPage, currentType}: Props) => {
@@ -113,7 +113,7 @@ export const HistoryItem = ({dataPage, currentType}: Props) => {
 };
 
 type PropsItem = {
-  data: IHistory;
+  data: IHistory
 };
 
 const dataStatus = {

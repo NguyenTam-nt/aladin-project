@@ -1,28 +1,27 @@
-import type { ToastShowParams } from 'react-native-toast-message';
-import { Toast } from 'react-native-toast-message/lib/src/Toast';
+import type {ToastShowParams} from 'react-native-toast-message';
+import {Toast} from 'react-native-toast-message/lib/src/Toast';
 
 export const MessageUtils = {
-  showSuccessMessageWithTimeout(message: string, duration:number = 500) {
+  showSuccessMessageWithTimeout(message: string, duration: number = 500) {
     setTimeout(() => {
-        this.showSuccessMessage(message);
+      this.showSuccessMessage(message);
     }, duration);
   },
-  showErrorMessageWithTimeout(message: string, duration:number = 500) {
+  showErrorMessageWithTimeout(message: string, duration: number = 500) {
     setTimeout(() => {
-        this.showErrorMessage(message);
+      this.showErrorMessage(message);
     }, duration);
   },
   showSuccessMessage(message: string) {
     this.show({
       type: 'tomatoToast',
-      props: { status: 'success', uuid: message },
+      props: {status: 'success', uuid: message},
     });
   },
   showErrorMessage(message: string) {
     this.show({
       type: 'tomatoToast',
-      props: { status: 'error', uuid: message ?? '' },
-
+      props: {status: 'error', uuid: message ?? ''},
     });
   },
 
@@ -33,13 +32,13 @@ export const MessageUtils = {
   showWarningMessage(message: string) {
     this.show({
       type: 'tomatoToast',
-      props: { status: 'warning', uuid: message ?? '' },
+      props: {status: 'warning', uuid: message ?? ''},
     });
   },
   showEditNotification(status: 'error' | 'success', message?: string) {
     Toast.show({
       type: 'tomatoToast',
-      props: { status, uuid: message },
+      props: {status, uuid: message},
     });
   },
 };

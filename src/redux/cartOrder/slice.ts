@@ -30,6 +30,7 @@ export const cartOrderSlice = createSlice({
         if (index >= 0) {
           if (quantity === 0) {
             dataCheck.splice(index, 1);
+
             state.itemInCart = dataCheck;
           } else {
             dataCheck[index] = action.payload;

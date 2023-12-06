@@ -143,7 +143,9 @@ export const getProductByCategory = async (
     const result = await request().get(`${APIs.PRODUCTS_ADMIN}`, {
       params: {...params, page: Number(params.page)},
     });
+
     const data = await result.data.list;
+
     return {
       success: true,
       data: data,
