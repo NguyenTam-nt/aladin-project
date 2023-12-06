@@ -1,27 +1,24 @@
+import { TextCustom } from '@components';
+import { defaultColors } from '@configs';
+import { useIsFocused } from '@react-navigation/native';
+import { IHistory } from '@typeRules';
+import React, { useCallback, useEffect, useState } from 'react';
 import {
-  View,
-  StyleSheet,
-  TouchableOpacity,
-  Platform,
-  UIManager,
-  LayoutAnimation,
-  Text,
+Platform,
+StyleSheet,
+Text,
+TouchableOpacity,
+UIManager,
+View,
 } from 'react-native';
-import React, {useCallback, useEffect, useState} from 'react';
-import {defaultColors} from '@configs';
-import {TextCustom} from '@components';
-import {ICAddOrder} from '../../../../assets/icons/ICAddOrder';
-import {ICDown} from '../../../../assets/icons/ICDown';
-import {globalStyles} from 'src/commons/globalStyles';
-import {getValueForDevice} from 'src/commons/formatMoney';
-import {IHistory, IHistoryCompoumd} from '@typeRules';
-import {OrderType} from 'src/typeRules/product';
+import { IHistoryDay, getHistoriesContent } from 'src/api/history';
+import { IResponseApi } from 'src/api/types';
+import { ICDoubleArrowDown } from 'src/assets/icons/ICDoubleArrowDown';
+import { getValueForDevice } from 'src/commons/formatMoney';
+import { globalStyles } from 'src/commons/globalStyles';
+import { useHandleResponsePagination } from 'src/commons/useHandleResponsePagination';
 import DropDownView from 'src/components/DropDownView/DropDownView';
-import {IHistoryDay, getHistoriesContent} from 'src/api/history';
-import {useIsFocused} from '@react-navigation/native';
-import {IResponseApi} from 'src/api/types';
-import {useHandleResponsePagination} from 'src/commons/useHandleResponsePagination';
-import {ICDoubleArrowDown} from 'src/assets/icons/ICDoubleArrowDown';
+import { OrderType } from 'src/typeRules/product';
 
 if (
   Platform.OS === 'android' &&
@@ -67,7 +64,6 @@ export const HistoryItem = ({dataPage, currentType}: Props) => {
   const {data, refresh, handleLoadMore} =
     useHandleResponsePagination<IHistory>(getHistoryMethod);
 
-  console.log({data});
 
   useEffect(() => {
     if (IsFocus) {
