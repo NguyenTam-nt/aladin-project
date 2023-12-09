@@ -1,9 +1,17 @@
-import { defaultColors, heightHeader, isTabletDevice, paddingHorizontal } from '@configs';
-import { DIMENSION } from '@constants';
-import { ICCheckBoxTable, ICLogo } from '@icons';
-import { useDrawerStatus } from '@react-navigation/drawer';
-import { DrawerActions, useNavigation } from '@react-navigation/native';
-import React, { useCallback, useEffect } from 'react';
+import {
+  defaultColors,
+  heightHeader,
+  isTabletDevice,
+  paddingHorizontal,
+} from '@configs';
+import {DIMENSION} from '@constants';
+import {ICCheckBoxTable, ICLogo} from '@icons';
+import {useDrawerStatus} from '@react-navigation/drawer';
+import {
+  DrawerActions,
+  useNavigation,
+} from '@react-navigation/native';
+import React, {useCallback, useEffect} from 'react';
 import {
   Keyboard,
   SafeAreaView,
@@ -12,15 +20,15 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { useDispatch } from 'react-redux';
-import { ICCheckBox } from 'src/assets/icons/ICCheckBox';
-import { DinnerTableState } from 'src/features/home/components/TableOrder';
-import { useIdBill, useListItemProductInCart } from 'src/redux/cartOrder/hooks';
-import { ICArrowLeft } from '../../assets/icons/ICArrowLeft';
-import { ICMenubar } from '../../assets/icons/ICMenubar';
-import { setShowDrawerFloor } from '../../redux/infoDrawer/slice';
-import { deleteBillApi } from 'src/api/products';
-import { setIdBill, setItemProductInCart } from 'src/redux/cartOrder/slice';
+import {useDispatch} from 'react-redux';
+import {ICCheckBox} from 'src/assets/icons/ICCheckBox';
+import {DinnerTableState} from 'src/features/home/components/TableOrder';
+import {useIdBill, useListItemProductInCart} from 'src/redux/cartOrder/hooks';
+import {ICArrowLeft} from '../../assets/icons/ICArrowLeft';
+import {ICMenubar} from '../../assets/icons/ICMenubar';
+import {setShowDrawerFloor} from '../../redux/infoDrawer/slice';
+import {deleteBillApi} from 'src/api/products';
+import {setIdBill, setItemProductInCart} from 'src/redux/cartOrder/slice';
 
 export const Header = ({
   isCheckbox,
@@ -34,12 +42,12 @@ export const Header = ({
 }: {
   isCheckbox?: boolean
   goBack?: boolean
-  renderRight?:  JSX.Element
+  renderRight?: JSX.Element
   updateCheckbox?: React.Dispatch<React.SetStateAction<string[]>>
-  valueCheckBox? : string[]
-  isOrder ? : boolean
-  table? : string
-  tableId? : number
+  valueCheckBox?: string[]
+  isOrder?: boolean
+  table?: string
+  tableId?: number
 }) => {
   const navigation = useNavigation();
   const statusDrawer = useDrawerStatus();
@@ -83,13 +91,15 @@ export const Header = ({
     dispatch(setItemProductInCart([]));
     if (dataDelete.success) {
       //@ts-ignore
-      navigation.navigate('mainDrawer', {
-        screen: 'all',
-        params: {tableId: tableId},
-      });
+      // navigation.navigate('mainDrawer', {
+      //   screen: 'all',
+      //   params: {tableId: tableId},
+      // });
+      navigation.goBack();
     } else {
       //@ts-ignore
-      navigation.navigate('mainDrawer');
+      navigation.goBack();
+      // navigation.navigate('mainDrawer');
     }
   };
 
@@ -98,11 +108,14 @@ export const Header = ({
       deleteBillAction();
     } else {
       //@ts-ignore
-      navigation.navigate('mainDrawer');
+      navigation.goBack();
+      // navigation.navigate('mainDrawer');
       dispatch(setIdBill(undefined));
       dispatch(setItemProductInCart([]));
     }
   }, [idBill, itemProduce, tableId]);
+
+
 
   return (
     <SafeAreaView style={styles.bg_primary}>
@@ -111,7 +124,6 @@ export const Header = ({
           <TouchableOpacity
             onPress={() => {
               deleteBill();
-
             }}
             style={styles.buttonBack}>
             <View style={styles.icBack}>
@@ -213,7 +225,7 @@ export const Header = ({
       </View>
       {goBack && !isTabletDevice && (
         <View style={styles.notiContainer}>
-          <View style={{flex: 1, flexDirection: 'row' }}>
+          <View style={{flex: 1, flexDirection: 'row'}}>
             <View style={styles.icCircle} />
             <Text style={styles.textCheckBox2} numberOfLines={1}>
               Mã hóa đơn: <Text style={styles.textBold}>{idBill || ''}</Text>
@@ -235,12 +247,14 @@ const styles = StyleSheet.create({
   bg_primary: {
     backgroundColor: defaultColors.bg_header,
   },
-  notiContainer : {   flexDirection: 'row',
-  width: DIMENSION.width,
-  paddingHorizontal: 12,
-  justifyContent: 'space-between',
-  backgroundColor : defaultColors.bg_primary,
-  paddingVertical : 16},
+  notiContainer: {
+    flexDirection: 'row',
+    width: DIMENSION.width,
+    paddingHorizontal: 12,
+    justifyContent: 'space-between',
+    backgroundColor: defaultColors.bg_primary,
+    paddingVertical: 16,
+  },
 
   container: {
     height: heightHeader,
@@ -259,14 +273,13 @@ const styles = StyleSheet.create({
     color: defaultColors.c_fff,
     marginRight: 32,
     marginLeft: 8,
-    marginBottom : 2,
+    marginBottom: 2,
   },
   textCheckBox2: {
     color: defaultColors.c_fff,
     marginRight: 32,
     marginLeft: 8,
-    marginBottom : 2,
-
+    marginBottom: 2,
   },
   textButtonBack: {
     color: defaultColors.c_fff,
@@ -288,25 +301,25 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     marginRight: 8,
   },
-   icCircle : {
+  icCircle: {
     height: 12,
     width: 12,
-    backgroundColor : defaultColors._F1BA42,
-    borderRadius : 6,
-    marginTop : 2,
-   },
-   textBold : {
-    fontWeight :'bold',
-   },
-   textTitle : {
+    backgroundColor: defaultColors._F1BA42,
+    borderRadius: 6,
+    marginTop: 2,
+  },
+  textBold: {
+    fontWeight: 'bold',
+  },
+  textTitle: {
     textTransform: 'uppercase',
     color: defaultColors.c_fff,
     fontWeight: 'bold',
-    fontSize : 18,
-   },
-   buttonRow : {
-     flexDirection: 'row',
-     alignItems : 'center' ,
-     justifyContent : 'center',
-   },
- });
+    fontSize: 18,
+  },
+  buttonRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+});

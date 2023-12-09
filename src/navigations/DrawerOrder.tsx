@@ -42,6 +42,7 @@ const DrawerOrderNavigation = () => {
       drawerStyle: {
         width: 216,
       },
+      unmountOnBlur : true,
     }),
     [isTabletDevice],
   );

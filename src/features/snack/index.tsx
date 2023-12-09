@@ -15,7 +15,7 @@ export const SnackOrder = () => {
       <Header goBack  isOrder={isTabletDevice}   table={route.params.item} tableId={route.params.tableId}/>
       <SnackStack.Navigator
         initialRouteName="snackSreen"
-        screenOptions={{headerShown: false}}>
+        screenOptions={{headerShown: false  }}>
         <SnackStack.Screen
           name="snackSreen"
           component={SnackScreen}

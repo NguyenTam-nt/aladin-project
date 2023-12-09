@@ -21,7 +21,7 @@ import {ICCloseModal} from 'src/assets/icons/ICCloseModal';
 import ButtonAction from './ButtonAction/ButtonAction';
 import ModalCustom from './ModalCustom';
 import {useModal} from 'src/hooks/useModal';
-import {DIMENSION} from '@constants';
+import {DIMENSION, isAndroid} from '@constants';
 
 const QuantityUpdate = ({
   value,
@@ -125,7 +125,6 @@ const QuantityUpdate = ({
     }
   }, [number, data, updateData]);
 
-
   const onSubmitForm = () => {
     if (Number(newInventory) > max) {
       number.current = max;
@@ -138,7 +137,6 @@ const QuantityUpdate = ({
   };
 
   const openModal = () => {
-
     if (!hotpotType) {
       modalEditInventory.handleShow();
       setNewInventory('');
@@ -165,18 +163,33 @@ const QuantityUpdate = ({
           <ICSubtractionQuanity />
         </TouchableWithoutFeedback>
       </View>
-      <TouchableOpacity
-      activeOpacity={1}
-          onPress={openModal}>
-        <TextInput
-          ref={textInputRef}
-          style={styles.textNumber}
-          value={number.current.toString()}
-          editable={false}
-          placeholder="0"
-          placeholderTextColor={defaultColors.c_fff}
-        />
-      </TouchableOpacity>
+      {isAndroid ? (
+        <TouchableOpacity  onPress={openModal} activeOpacity={1}>
+          <View>
+            <TextInput
+              ref={textInputRef}
+              style={styles.textNumber}
+              value={number.current.toString()}
+              editable={false}
+              placeholder="0"
+              placeholderTextColor={defaultColors.c_fff}
+            />
+          </View>
+        </TouchableOpacity>
+      ) : (
+        <TouchableWithoutFeedback onPress={openModal}>
+          <View>
+            <TextInput
+              ref={textInputRef}
+              style={styles.textNumber}
+              value={number.current.toString()}
+              editable={false}
+              placeholder="0"
+              placeholderTextColor={defaultColors.c_fff}
+            />
+          </View>
+        </TouchableWithoutFeedback>
+      )}
 
       <TouchableWithoutFeedback style={styles.button} onPress={AddQuality}>
         <ICAddQuanity />
