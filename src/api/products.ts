@@ -155,7 +155,7 @@ export const getProductByCategory = async (
   }
 };
 
-export const getOrerKitchen = async (params: IParams, fileterItem: string):Promise<IResponseApi<IOrderKitchen>> => {
+export const getOrerKitchen = async (params: IParams, fileterItem: string):Promise<IResponseApi<IOrderKitchen[]>> => {
   try {
     const result = await request().get(`${APIs.ORDER_KITCHEN}/${fileterItem}`, {
       params: {...params},

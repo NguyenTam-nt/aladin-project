@@ -23,7 +23,7 @@ import { useGetCategotyType } from '../useGetCategotyType';
 
 const TableCartItem = ({item}: {item: IHistoryCompoumd}) => {
   return (
-    <View>
+    <>
       <View style={styles.itemContainer} />
       <View style={styles.tableItemContainer}>
         <View style={styles.col1}>
@@ -31,21 +31,22 @@ const TableCartItem = ({item}: {item: IHistoryCompoumd}) => {
         </View>
         <View style={styles.itemCol2}>
           <Text style={styles.textTable}>{item.nameProduct}</Text>
-          <View
+          {/* <View
             style={{
               flexDirection: 'row',
               alignItems: 'center',
               marginTop: 6,
               gap: 6,
+              width : 122,
             }}>
-            {/* <ICAddOrder color={defaultColors.bg_5F5F61} /> */}
-            {/* <Text style={styles.textTable}>
+            <ICAddOrder color={defaultColors.bg_5F5F61} />
+            <Text style={styles.textTable}>
               {item.note && item.note !== 'null' ? item.note : 'Đặt đơn hàng này cho tôi'}
-            </Text> */}
-          </View>
+            </Text>
+          </View> */}
         </View>
         <View style={styles.col3Item}>
-          <Text style={styles.textTable}>{item.numProduct}</Text>
+          <Text style={{...styles.textTable , textAlign : 'center'}}>{item.numProduct}</Text>
         </View>
         <View style={styles.col5}>
           <Text style={styles.textTable}>
@@ -53,7 +54,7 @@ const TableCartItem = ({item}: {item: IHistoryCompoumd}) => {
           </Text>
         </View>
       </View>
-    </View>
+    </>
   );
 };
 
@@ -227,6 +228,8 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: '600',
     color: defaultColors.c_222124,
+    justifyContent: 'center',
+
   },
   container: {
     marginRight: 16,
@@ -242,16 +245,18 @@ const styles = StyleSheet.create({
   },
   col2: {
     flex: 1,
+
   },
   col3: {
     width: 122,
+
   },
   col3Item: {
     width: 122,
-    alignItems: 'center',
+
   },
   col5: {
-    flex: 1,
+    width : 350,
     flexWrap: 'wrap-reverse',
   },
   itemContainer: {

@@ -90,16 +90,16 @@ export const Header = ({
     dispatch(setIdBill(undefined));
     dispatch(setItemProductInCart([]));
     if (dataDelete.success) {
-      //@ts-ignore
-      // navigation.navigate('mainDrawer', {
-      //   screen: 'all',
-      //   params: {tableId: tableId},
-      // });
-      navigation.goBack();
+        //@ts-ignore
+      navigation.navigate('mainDrawer', {
+        screen: 'all',
+        params: {tableId: tableId},
+      });
+      // navigation.goBack();
     } else {
       //@ts-ignore
-      navigation.goBack();
-      // navigation.navigate('mainDrawer');
+      // navigation.goBack();
+      navigation.navigate('mainDrawer');
     }
   };
 
@@ -108,8 +108,8 @@ export const Header = ({
       deleteBillAction();
     } else {
       //@ts-ignore
-      navigation.goBack();
-      // navigation.navigate('mainDrawer');
+      // navigation.goBack();
+      navigation.navigate('mainDrawer');
       dispatch(setIdBill(undefined));
       dispatch(setItemProductInCart([]));
     }
