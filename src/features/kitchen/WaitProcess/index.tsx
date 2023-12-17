@@ -15,7 +15,6 @@ import {IOrderKitchen, OrderType} from 'src/typeRules/product';
 import DropDownFilter from 'src/components/Filter/DropDownFilter';
 import {HeaderListBillFood} from './components/HeaderListBillFood';
 import {BillItemFood} from './components/BillItemFood';
-import NotificationSound from 'src/components/Toast/SoundNotification';
 
 export const WaitProcees = React.memo(() => {
   const {
@@ -25,7 +24,6 @@ export const WaitProcees = React.memo(() => {
     data,
     pullToRefresh,
     isRefreshing,
-    handleLoadMore,
     fileterItem,
     setFilterItem,
     isTable,
@@ -87,7 +85,8 @@ export const WaitProcees = React.memo(() => {
           data={data}
           renderItem={renderItem}
           keyExtractor={keyExtractor}
-          onEndReached={handleLoadMore}
+          initialNumToRender={999}
+          // onEndReached={handleLoadMore}
           onEndReachedThreshold={0.5}
           refreshControl={
             <RefreshControl

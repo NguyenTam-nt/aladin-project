@@ -143,7 +143,7 @@ type PropsBillItemMenu = {
   ) => void
 }
 
-export const BillItemMenu = ({
+export const BillItemMenu = memo(({
   onShowModal,
   isCancel = false,
   data,
@@ -328,7 +328,7 @@ export const BillItemMenu = ({
       </View>
     </View>
   );
-};
+});
 
 const styles = StyleSheet.create({
   container: {

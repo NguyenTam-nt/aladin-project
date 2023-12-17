@@ -1,14 +1,14 @@
 import { Header } from '@components';
 import { RouteProp, useRoute } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import React from 'react';
+import React, { memo } from 'react';
 import SnackScreen from './SnackScreen';
 import { RootStackParamList } from 'src/navigations/DrawerOrder';
 import { isTabletDevice } from '@configs';
 
 const SnackStack = createStackNavigator();
 
-export const SnackOrder = () => {
+export const SnackOrder = memo(() => {
   const route = useRoute<RouteProp<RootStackParamList>>();
   return (
     <>
@@ -24,4 +24,4 @@ export const SnackOrder = () => {
       </SnackStack.Navigator>
     </>
   );
-};
+});

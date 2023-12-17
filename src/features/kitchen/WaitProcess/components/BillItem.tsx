@@ -29,7 +29,7 @@ type Props = {
   ) => void
 };
 
-export const BillItem = ({onShowModal, onHideModal, data, onPress}: Props) => {
+export const BillItem = React.memo(({onShowModal, onHideModal, data, onPress}: Props) => {
   const [isOpen, setIsOpen] = React.useState(true);
   const toggleOpen = useCallback(() => {
     setIsOpen(value => !value);
@@ -95,7 +95,7 @@ export const BillItem = ({onShowModal, onHideModal, data, onPress}: Props) => {
       </View>
     </>
   );
-};
+});
 
 type PropsBillItemMenu = {
   onShowModal: (
@@ -114,7 +114,7 @@ type PropsBillItemMenu = {
   ) => void
 };
 
-export const BillItemMenu = ({
+export const BillItemMenu = React.memo(({
   onHideModal,
   onShowModal,
   isCancel = false,
@@ -292,7 +292,7 @@ export const BillItemMenu = ({
       </View>
     </View>
   );
-};
+});
 
 const styles = StyleSheet.create({
   container: {

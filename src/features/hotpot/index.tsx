@@ -1,5 +1,5 @@
 import {createStackNavigator} from '@react-navigation/stack';
-import React from 'react';
+import React, { memo } from 'react';
 import {Header} from '@components';
 import HotPotScreen from './HotPotScreen';
 import { RouteProp, useRoute } from '@react-navigation/native';
@@ -7,7 +7,7 @@ import { RootStackParamList } from 'src/navigations/DrawerOrder';
 import { isTabletDevice } from '@configs';
 
 const FloorStack = createStackNavigator();
-export const HotpotOrder = () => {
+export const HotpotOrder = memo(() => {
   const route = useRoute<RouteProp<RootStackParamList>>();
 
   return (
@@ -20,5 +20,5 @@ export const HotpotOrder = () => {
       </FloorStack.Navigator>
     </>
   );
-};
+});
 

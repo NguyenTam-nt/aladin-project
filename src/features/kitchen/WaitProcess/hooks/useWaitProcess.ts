@@ -1,26 +1,24 @@
-import {useIsFocused} from '@react-navigation/native';
-import {INotice} from '@typeRules';
-import {useCallback, useEffect, useMemo, useRef, useState} from 'react';
+import { useIsFocused } from '@react-navigation/native';
+import { INotice } from '@typeRules';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import {
-  getOrerKitchen,
-  updateOrerKitchenAllState,
-  updateOrerKitchenOnlyState,
+getOrerKitchen,
+updateOrerKitchenAllState,
+updateOrerKitchenOnlyState,
 } from 'src/api/products';
-import {MessageUtils} from 'src/commons/messageUtils';
-import {useHandleResponsePagination} from 'src/commons/useHandleResponsePagination';
+import { MessageUtils } from 'src/commons/messageUtils';
 import NotificationSound from 'src/components/Toast/SoundNotification';
-import {useAppStateVisible} from 'src/hooks/useAppStateVisible';
-import {useConnectSocketJS} from 'src/hooks/useConnectSockJS';
-import {useAreaId} from 'src/redux/infoDrawer/hooks';
+import { useAppStateVisible } from 'src/hooks/useAppStateVisible';
+import { useConnectSocketJS } from 'src/hooks/useConnectSockJS';
+import { useAreaId } from 'src/redux/infoDrawer/hooks';
 import {
-  IOrderItem,
-  IOrderKitchen,
-  IOrderSocket,
-  OrderType,
+IOrderItem,
+IOrderKitchen,
+IOrderSocket,
+OrderType,
 } from 'src/typeRules/product';
-import {useModal} from '../../../../hooks/useModal';
-import {useGetCategotyType} from '../../useGetCategotyType';
-import {result} from 'lodash';
+import { useModal } from '../../../../hooks/useModal';
+import { useGetCategotyType } from '../../useGetCategotyType';
 
 export enum TypeModalWaitProcess {
   cancelbill = 'CANCELBILL',
@@ -53,48 +51,17 @@ export const useWaitProcess = () => {
   const isFocus = useIsFocused();
   const {appStateVisible} = useAppStateVisible();
   const [dataItem, setDataItem] = useState<IOrderKitchen[]>([]);
-  const newData = useRef<IOrderKitchen[] | null>(null);
-  const [fileterItem, setFilterItem] = useState(dataFilter[0]);
+  const newData = useRef<IOrderKitchen[]>([]);
+  const [filterItem, setFilterItem] = useState(dataFilter[0]);
   const refAll = useRef<boolean>(false);
-  const getOrderKitchenMethod = useCallback(
-    async (page: number, size: number) => {
-      return getOrerKitchen(
-        {page, size, menu: currentType, sort: 'id,asc'},
-        TypeFilter.area,
-      );
-    },
-    [currentType],
-  );
+  const TableRef = useRef<boolean>(true);
 
   const IdArea = useAreaId();
 
   const isTable = useMemo(() => {
-    return fileterItem.value === TypeFilter.area;
-  }, [fileterItem]);
-
-  const {data, isRefreshing, pullToRefresh, refresh, handleLoadMore, setData} =
-    useHandleResponsePagination<IOrderKitchen[]>(getOrderKitchenMethod, 999);
-
-  useEffect(() => {
-    setDataItem([]);
-    getOrerKitchen(
-      {page: 0, size: 999, menu: currentType, sort: 'id,asc'},
-      TypeFilter.area,
-    ).then(data => {
-      if (isTable) {
-        if (data.data) {
-          setDataItem([...data.data.filter(item => item.list.length)]);
-          return;
-        }
-      }
-      if (data.data) {
-        const newData = convertDataHandler([
-          ...data.data.filter(item => item.list.length),
-        ]);
-        setDataItem([...newData]);
-      }
-    });
-  }, [currentType]);
+    TableRef.current = filterItem.value === TypeFilter.area;
+    return filterItem.value === TypeFilter.area;
+  }, [filterItem]);
 
   const {dataSocket, setDataSocket} = useConnectSocketJS<IOrderSocket[]>(
     IdArea ? `/topic/kitchen/${IdArea}` : '',
@@ -120,22 +87,21 @@ export const useWaitProcess = () => {
               };
             }) || [],
         };
-
-        const newData = [...data];
+        const newDataUpdate = [...newData.current];
         newDataConvert?.kitchen.forEach(item => {
-          const index = newData.findIndex(
+          const index = newDataUpdate.findIndex(
             _item => _item.idInvoice === item.idInvoice,
           );
           if (index === -1) {
-            newData.push(item);
+            newDataUpdate.push(item);
           } else {
-            newData.splice(index, 1, item);
+            newDataUpdate.splice(index, 1, item);
           }
         });
-        setData([...newData]);
+        newData.current = [...newDataUpdate];
       }
     },
-    [currentType, data, isTable],
+    [currentType, isTable],
   );
 
   useEffect(() => {
@@ -176,15 +142,15 @@ export const useWaitProcess = () => {
 
   const handleConpleteAll = useCallback(
     (item: IOrderItem, reason = '', state: OrderType) => {
-      removeItemById(item.idInvoice, item.id, true);
+
 
       updateOrerKitchenAllState(state, item.idInvoice, item.id, reason)
         .then(result => {
-          if (data) {
+          if (newData.current) {
             MessageUtils.showSuccessMessageWithTimeout(
               'Cập nhật trạng thái thành công',
             );
-
+            removeItemById(item.idInvoice, item.id, true);
             return;
           }
           MessageUtils.showErrorMessageWithTimeout('Đã có lỗi xảy ra');
@@ -199,37 +165,29 @@ export const useWaitProcess = () => {
           handleClear();
         });
     },
-    [dataItem, data, isTable],
+    [dataItem, isTable],
   );
 
   const handlePressCompeleteOnly = useCallback(
     (item: IOrderItem, reason = '', state: OrderType) => {
-      if (state === OrderType.process_cancel && !reason) {
-        removeItemById(item.idInvoice, item.id, true);
-      } else if (state === OrderType.process_cancel && reason) {
-        removeItemById(item.idInvoice, item.id, true, true);
-      } else {
-        removeItemById(item.idInvoice, item.id);
-      }
+
       MessageUtils.showSuccessMessageWithTimeout(
         'Cập nhật trạng thái thành công',
       );
       handleClear();
       updateOrerKitchenOnlyState(state, item.idInvoice, item.id, reason)
         .then(result => {
-          if (data) {
+          if (newData.current) {
+            if (state === OrderType.process_cancel && !reason) {
+              removeItemById(item.idInvoice, item.id, true);
+            } else if (state === OrderType.process_cancel && reason) {
+              removeItemById(item.idInvoice, item.id, true, true);
+            } else {
+              removeItemById(item.idInvoice, item.id);
+            }
             MessageUtils.showSuccessMessageWithTimeout(
               'Cập nhật trạng thái thành công',
             );
-
-            if (state === OrderType.process) {
-              setTimeout(() => {
-                if (newData.current) {
-                  setDataItem([...newData.current]);
-                }
-              }, 300);
-            }
-
             return;
           }
           MessageUtils.showErrorMessageWithTimeout('Đã có lỗi xảy ra');
@@ -244,7 +202,7 @@ export const useWaitProcess = () => {
           handleClear();
         });
     },
-    [data, dataItem, isTable],
+    [dataItem, isTable],
   );
 
   const removeItemById = useCallback(
@@ -353,7 +311,7 @@ export const useWaitProcess = () => {
       }
       handlePressCompeleteOnly(item, reason, state);
     },
-    [data, dataItem, handleConpleteAll, handlePressCompeleteOnly, isTable],
+    [dataItem, handleConpleteAll, handlePressCompeleteOnly, isTable],
   );
 
   const handleClear = useCallback(() => {
@@ -363,11 +321,33 @@ export const useWaitProcess = () => {
     modalRefuse.handleHidden();
   }, []);
 
+  const callApi = () => {
+    setDataItem([]);
+    getOrerKitchen(
+      {page: 0, size: 9999, menu: currentType, sort: 'id,asc'},
+      TypeFilter.area,
+    ).then(data => {
+      if (data.data) {
+        newData.current = [...data.data.filter(item => item.list.length)];
+      }
+      if (isTable) {
+        setDataItem([...data.data.filter(item => item.list.length)]);
+        return;
+      }
+      if (data.data) {
+        const newDataRes = convertDataHandler([
+          ...data.data.filter(item => item.list.length),
+        ]);
+        setDataItem([...newDataRes]);
+      }
+    });
+  };
+
   useEffect(() => {
     if (isFocus && appStateVisible === 'active') {
-      refresh();
+      callApi();
     }
-  }, [refresh, isFocus, appStateVisible]);
+  }, [isFocus, appStateVisible, currentType]);
 
   const handleDeleteNotice = useCallback(
     (index: number) => {
@@ -391,7 +371,6 @@ export const useWaitProcess = () => {
       const key = obj.idProduct;
       if (groupedMap.has(key)) {
         // @ts-ignore
-
         groupedMap.get(key).push(obj);
       } else {
         groupedMap.set(key, [obj]);
@@ -421,10 +400,18 @@ export const useWaitProcess = () => {
 
     if (dataTableCheck[0]?.idProduct) {
       outputArray.sort((a, b) => {
-        const indexA = dataTableCheck.findIndex(item => item.idProduct === a.idProduct);
-        const indexB = dataTableCheck.findIndex(item => item.idProduct === b.idProduct);
-        if (indexA === -1) {return 1;}
-        if (indexB === -1) {return -1;}
+        const indexA = dataTableCheck.findIndex(
+          item => item.idProduct === a.idProduct,
+        );
+        const indexB = dataTableCheck.findIndex(
+          item => item.idProduct === b.idProduct,
+        );
+        if (indexA === -1) {
+          return 1;
+        }
+        if (indexB === -1) {
+          return -1;
+        }
         return indexA - indexB;
       });
     }
@@ -432,36 +419,31 @@ export const useWaitProcess = () => {
     return [...outputArray];
   };
 
-  const newData1 = useMemo(() => {
-    if (isTable) {
-      return [...data];
-    }
-    const newData = convertDataHandler(data);
-
-    return [...newData];
-  }, [isTable, data]);
-
   useEffect(() => {
+    setDataItem([]);
     if (isTable) {
-      setDataItem([...newData1.filter(item => item.list.length)]);
+      setDataItem([...newData.current.filter(item => item.list.length)]);
     } else {
       const newDataCheck = convertDataHandler([
-        ...newData1.filter(item => item.list.length),
+        ...newData.current.filter(item => item.list.length),
       ]);
       setDataItem([...newDataCheck]);
     }
   }, [isTable]);
 
   useEffect(() => {
-    newData.current = newData1.filter(item => item.list.length);
-  }, [newData1]);
-
-  useEffect(() => {
     let intervalId: any;
     if (isFocus) {
       intervalId = setInterval(() => {
         if (newData.current) {
-          setDataItem([...newData.current]);
+          if (TableRef.current) {
+            setDataItem([...newData.current]);
+          } else {
+            const newDataCheck = convertDataHandler([
+              ...newData.current.filter(item => item.list.length),
+            ]);
+            setDataItem([...newDataCheck]);
+          }
         }
       }, 5000);
     }
@@ -477,11 +459,10 @@ export const useWaitProcess = () => {
     handleShowModalAction,
     currentType,
     data: dataItem,
-    isRefreshing,
-    pullToRefresh,
-    refresh,
-    handleLoadMore,
-    fileterItem,
+    isRefreshing: false,
+    pullToRefresh: callApi,
+    refresh: callApi,
+    fileterItem : filterItem,
     setFilterItem,
     isTable,
     handlePressCompelete,
