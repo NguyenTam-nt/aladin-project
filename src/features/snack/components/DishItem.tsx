@@ -3,10 +3,10 @@ import { DIMENSION } from '@constants';
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import FastImage from 'react-native-fast-image';
-import QuantityUpdate from '../../../components/QuantityUpdate';
 import { IMenuItem } from 'src/api/products';
-import { formatNumberDotSlice } from 'src/commons/formatMoney';
 import { getLinkImageUrl } from 'src/commons';
+import { formatNumberDotSlice } from 'src/commons/formatMoney';
+import QuantityUpdate from '../../../components/QuantityUpdate';
 
 export enum ProductState {
   COMPLETE = 'COMPLETE',
@@ -16,6 +16,8 @@ export enum ProductState {
 }
 
 const DishItem = React.memo(({item}: {item: IMenuItem}) => {
+
+
   return (
     <View style={styles.container}>
       <FastImage
@@ -35,7 +37,9 @@ const DishItem = React.memo(({item}: {item: IMenuItem}) => {
           <QuantityUpdate data={item} />
         </View>
       </View>
+
     </View>
+
   );
 });
 
@@ -76,3 +80,4 @@ const styles = StyleSheet.create({
 });
 
 export default DishItem;
+

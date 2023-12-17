@@ -37,13 +37,14 @@ export const WaitProcees = React.memo(() => {
   const {keyExtractor} = useKeyArray();
 
   const renderItem = useCallback(
-    ({item}: ListRenderItemInfo<IOrderKitchen>) => {
+    ({item , index }: ListRenderItemInfo<IOrderKitchen>) => {
       return isTable ? (
         <BillItem
           data={item}
           onShowModal={handleShowModalAction}
           onHideModal={modalConfirmCancel.handleHidden}
           onPress={handlePressCompelete}
+
         />
       ) : (
         <BillItemFood
@@ -54,9 +55,8 @@ export const WaitProcees = React.memo(() => {
         />
       );
     },
-    [handleShowModalAction, isTable, handlePressCompelete],
+    [handleShowModalAction, isTable, handlePressCompelete ],
   );
-
 
 
 

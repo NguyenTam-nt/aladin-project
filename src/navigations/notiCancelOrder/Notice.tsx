@@ -4,7 +4,6 @@ import { useConnectSocketJS } from 'src/hooks/useConnectSockJS';
 import { useIdBill } from 'src/redux/cartOrder/hooks';
 import { useAreaId } from 'src/redux/infoDrawer/hooks';
 import { NoticeItem } from './NoticeItem';
-import { isTabletDevice } from '@configs';
 import { MessageUtils } from 'src/commons/messageUtils';
 export interface IDataNoti {
   state: boolean

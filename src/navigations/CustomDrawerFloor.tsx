@@ -14,7 +14,6 @@ import {IFLoor, getFloor} from 'src/api/table';
 import {DrawerItemCustom} from './DrawerItemCustom';
 import { useDispatch } from 'react-redux';
 import { setAreaId, setFloorActiveRedux } from 'src/redux/infoDrawer/slice';
-import { useNavigation } from '@react-navigation/native';
 import { DrawerNavigationHelpers } from './types';
 const AllFloor =  [
   {

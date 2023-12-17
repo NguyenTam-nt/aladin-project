@@ -1,20 +1,20 @@
-import {View, StyleSheet, TouchableOpacity} from 'react-native'
-import React, {memo, useCallback, useMemo} from 'react'
-import {defaultColors} from '@configs'
-import {TextCustom} from '@components'
-import {ICAddOrder} from '../../../../assets/icons/ICAddOrder'
-import {ICCheckSingle} from '../../../../assets/icons/ICCheckSingle'
-import {ICCheckMulti} from '../../../../assets/icons/ICCheckMulti'
-import {ICDelete} from '../../../../assets/icons/ICDelete'
-import {ICDeleteMulti} from '../../../../assets/icons/ICDeleteMulti'
-import {ICDown} from '../../../../assets/icons/ICDown'
-import {TypeModalWaitProcess} from '../hooks/useWaitProcess'
-import {Button} from '../../../../components/Button'
-import {ICCheck} from '../../../../assets/icons/ICCheck'
-import {getValueForDevice} from 'src/commons/formatMoney'
-import {IOrderItem, IOrderKitchen, OrderType} from 'src/typeRules/product'
-import {FomatDateYY_MM_DD_H_M} from 'src/commons/formatDate'
-import {globalStyles} from 'src/commons/globalStyles'
+import { TextCustom } from '@components';
+import { defaultColors } from '@configs';
+import React, { memo, useCallback, useMemo, useRef } from 'react';
+import { StyleSheet, TouchableOpacity, View } from 'react-native';
+import { FomatDateYY_MM_DD_H_M } from 'src/commons/formatDate';
+import { getValueForDevice } from 'src/commons/formatMoney';
+import { globalStyles } from 'src/commons/globalStyles';
+import { IOrderItem, IOrderKitchen, OrderType } from 'src/typeRules/product';
+import { ICAddOrder } from '../../../../assets/icons/ICAddOrder';
+import { ICCheck } from '../../../../assets/icons/ICCheck';
+import { ICCheckMulti } from '../../../../assets/icons/ICCheckMulti';
+import { ICCheckSingle } from '../../../../assets/icons/ICCheckSingle';
+import { ICDelete } from '../../../../assets/icons/ICDelete';
+import { ICDeleteMulti } from '../../../../assets/icons/ICDeleteMulti';
+import { ICDown } from '../../../../assets/icons/ICDown';
+import { Button } from '../../../../components/Button';
+import { TypeModalWaitProcess } from '../hooks/useWaitProcess';
 
 type Props = {
   onShowModal: (type: TypeModalWaitProcess, data: IOrderItem) => void
@@ -29,11 +29,11 @@ type Props = {
 }
 
 export const BillItemFood = memo(
-  ({onShowModal, onHideModal, data, onPress}: Props) => {
-    const [isOpen, setIsOpen] = React.useState(false)
+  ({onShowModal, onHideModal, data, onPress }: Props) => {
+    const [isOpen, setIsOpen] = React.useState(false);
     const toggleOpen = useCallback(() => {
-      setIsOpen(value => !value)
-    }, [])
+      setIsOpen(value => !value);
+    }, []);
 
     const styleRotate = useMemo(() => {
       return {
@@ -43,8 +43,9 @@ export const BillItemFood = memo(
           },
         ],
         ...globalStyles.center,
-      }
-    }, [isOpen])
+      };
+    }, [isOpen]);
+
 
     return (
       <>
@@ -81,7 +82,7 @@ export const BillItemFood = memo(
               textAlign="center"
               color={defaultColors.c_222124}>
               {data?.list.reduce((currentCount, item) => {
-                return currentCount + (item.numProduct ?? 0)
+                return currentCount + (item.numProduct ?? 0);
               }, 0)}
             </TextCustom>
           </View>
@@ -117,13 +118,13 @@ export const BillItemFood = memo(
                 onShowModal={onShowModal}
                 onPress={onPress}
               />
-            )
+            );
           })}
         </View>
       </>
-    )
+    );
   },
-)
+);
 
 type PropsBillItemMenu = {
   onShowModal: (
@@ -149,28 +150,44 @@ export const BillItemMenu = ({
   onPress,
 }: PropsBillItemMenu) => {
   const handleShowModalCancel = useCallback(() => {
-    onShowModal(TypeModalWaitProcess.cancelbill, data)
-  }, [data])
+    onShowModal(TypeModalWaitProcess.cancelbill, data);
+  }, [data]);
 
   const handleShowModalCancelAll = useCallback(() => {
-    onShowModal(TypeModalWaitProcess.cancelbill, data, true)
-  }, [data])
+    onShowModal(TypeModalWaitProcess.cancelbill, data, true);
+  }, [data]);
 
   const handleShowModalRefuse = useCallback(() => {
-    onShowModal(TypeModalWaitProcess.refusebill, data)
-  }, [data])
+    onShowModal(TypeModalWaitProcess.refusebill, data);
+  }, [data]);
 
   const updateStateCompleteOnly = useCallback(() => {
-    onPress(data, '', OrderType.complete)
-  }, [data])
+    onPress(data, '', OrderType.complete);
+  }, [data]);
 
   const updateStateCompleteAll = useCallback(() => {
-    onPress(data, '', OrderType.complete, true)
-  }, [data])
+    onPress(data, '', OrderType.complete, true);
+  }, [data]);
 
   const updateStateCompleteCancel = useCallback(() => {
-    onPress(data, '', OrderType.process_cancel, false)
-  }, [data])
+    onPress(data, '', OrderType.process_cancel, false);
+  }, [data]);
+
+  const canPress  = useRef<boolean>(true);
+
+  const handlePress = (callback: any) => {
+    if (canPress.current) {
+      if (callback) {
+        callback();
+      }
+
+      canPress.current = false;
+
+      setTimeout(() => {
+        canPress.current = true;
+      }, 500);
+    }
+  };
 
   return (
     <View
@@ -247,10 +264,10 @@ export const BillItemMenu = ({
           styles.styleViewItem,
         )}>
         <TextCustom
-          fontSize={14}
+          fontSize={16}
           textAlign={getValueForDevice('left', 'right')}
-          weight="400"
-          color={defaultColors.c_222124}>
+          weight="700"
+          color={defaultColors._E73F3F}>
           {data.nameTable}
         </TextCustom>
       </View>
@@ -262,22 +279,24 @@ export const BillItemMenu = ({
         {!isCancel ? (
           <>
             <TouchableOpacity
-              onPress={updateStateCompleteOnly}
+               onPress={() => {
+                handlePress(updateStateCompleteOnly);
+              }}
               style={[styles.styleBtn, styles.styleBtnGreen]}>
               <ICCheckSingle />
             </TouchableOpacity>
             <TouchableOpacity
-              onPress={updateStateCompleteAll}
+               onPress={() => handlePress(updateStateCompleteAll)}
               style={[styles.styleBtn, styles.styleBtnGreen]}>
               <ICCheckMulti />
             </TouchableOpacity>
             <TouchableOpacity
-              onPress={handleShowModalCancel}
+                onPress={() => handlePress(handleShowModalCancel)}
               style={[styles.styleBtn, styles.styleBtnRed]}>
               <ICDelete />
             </TouchableOpacity>
             <TouchableOpacity
-              onPress={handleShowModalCancelAll}
+              onPress={() => handlePress(handleShowModalCancelAll)}
               style={[styles.styleBtn, styles.styleBtnRed]}>
               <ICDeleteMulti />
             </TouchableOpacity>
@@ -308,8 +327,8 @@ export const BillItemMenu = ({
         )}
       </View>
     </View>
-  )
-}
+  );
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -376,4 +395,4 @@ const styles = StyleSheet.create({
   styleFlexEnd: {
     alignItems: 'flex-end',
   },
-})
+});

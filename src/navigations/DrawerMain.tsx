@@ -23,6 +23,7 @@ export const DrawerMain = () => {
       headerStyle: {
         shadowColor: 'transparent',
       },
+      unmountOnBlur : true,
     }),
     [],
   );
@@ -54,7 +55,7 @@ export const DrawerMain = () => {
         initialRouteName={checkIsKitchen ? 'kitchen' : 'mainDrawer'}
         screenOptions={screenOptions}>
         <RootStack.Screen name="mainDrawer" component={DrawerNavigation} />
-        <RootStack.Screen name="orderTab" component={DrawerOrderNavigation} />
+        <RootStack.Screen    name="orderTab"   component={DrawerOrderNavigation} />
         <RootStack.Screen name="kitchen" component={DrawerKitchen} />
       </RootStack.Navigator>
     </>

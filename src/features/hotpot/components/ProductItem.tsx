@@ -42,7 +42,7 @@ export const ProductItem = memo(({data, isPushCategory}: PropsProductItem) => {
           {formatNumberDotSlice(Number(data.pricePromotion))}
         </TextCustom>
         <View style={styles.styleGroupBtn}>
-          <QuantityUpdate isUnAddList={!isPushCategory} data={data} />
+          <QuantityUpdate  hotpotType  isUnAddList={!isPushCategory} data={data} />
         </View>
       </View>
     </View>

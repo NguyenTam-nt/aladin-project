@@ -1,12 +1,10 @@
-import { defaultColors, isTabletDevice } from '@configs';
+import {  isTabletDevice } from '@configs';
 import { ICDrawerAll } from '@icons';
 import { DrawerNavigationOptions, createDrawerNavigator } from '@react-navigation/drawer';
 import * as React from 'react';
 import { useMemo } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
 import { Home } from '../features/home';
 import CustomDrawerFloor from './CustomDrawerFloor';
-import { useToken } from 'src/redux/reducers/hook';
 
 const Drawer = createDrawerNavigator();
 const DrawerNavigation = () => {

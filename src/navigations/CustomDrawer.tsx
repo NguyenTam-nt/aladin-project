@@ -14,15 +14,17 @@ const CustomDrawer = (props: DrawerContentComponentProps) => {
     <View style={styles.container}>
       <DrawerContentScrollView
         {...props}
+        showsVerticalScrollIndicator={false}
         contentContainerStyle={{backgroundColor: 'transparent'}}>
         <View>
-          <View style={{alignItems: 'center'}}>
+          <View style={{alignItems: 'center' }}>
             <ICLogo color={defaultColors.c_fff} height={168} width={168} />
           </View>
           <DrawerItemListCustom {...props} />
         </View>
+        <View style={{ height : 20}} />
       </DrawerContentScrollView>
-      <LogoutDrawer />
+      {/* <LogoutDrawer /> */}
     </View>
   );
 };
