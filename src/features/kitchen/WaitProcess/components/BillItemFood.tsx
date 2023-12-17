@@ -264,10 +264,10 @@ export const BillItemMenu = ({
           styles.styleViewItem,
         )}>
         <TextCustom
-          fontSize={14}
+          fontSize={16}
           textAlign={getValueForDevice('left', 'right')}
-          weight="400"
-          color={defaultColors.c_222124}>
+          weight="700"
+          color={defaultColors._E73F3F}>
           {data.nameTable}
         </TextCustom>
       </View>

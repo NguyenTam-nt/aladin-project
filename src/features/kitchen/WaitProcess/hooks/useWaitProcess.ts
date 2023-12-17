@@ -73,29 +73,28 @@ export const useWaitProcess = () => {
   }, [fileterItem]);
 
   const {data, isRefreshing, pullToRefresh, refresh, handleLoadMore, setData} =
-    useHandleResponsePagination<IOrderKitchen>(getOrderKitchenMethod, 999);
+    useHandleResponsePagination<IOrderKitchen[]>(getOrderKitchenMethod, 999);
 
-
-
-    useEffect(() => {
-      getOrerKitchen(
-        { page : 0, size : 999, menu: currentType, sort: 'id,asc'},
-        TypeFilter.area,
-      ).then((data) => {
-        if (isTable) {
-          if (data.data) {
+  useEffect(() => {
+    setDataItem([]);
+    getOrerKitchen(
+      {page: 0, size: 999, menu: currentType, sort: 'id,asc'},
+      TypeFilter.area,
+    ).then(data => {
+      if (isTable) {
+        if (data.data) {
           setDataItem([...data.data.filter(item => item.list.length)]);
           return;
-          }
         }
-        if (data.data){
-        const newData = convertDataHandler([...data.data.filter(item => item.list.length)]);
+      }
+      if (data.data) {
+        const newData = convertDataHandler([
+          ...data.data.filter(item => item.list.length),
+        ]);
         setDataItem([...newData]);
-        }
-
-      } );
-
-    } , [currentType]);
+      }
+    });
+  }, [currentType]);
 
   const {dataSocket, setDataSocket} = useConnectSocketJS<IOrderSocket[]>(
     IdArea ? `/topic/kitchen/${IdArea}` : '',
@@ -223,12 +222,12 @@ export const useWaitProcess = () => {
               'Cập nhật trạng thái thành công',
             );
 
-              if (state === OrderType.process) {
+            if (state === OrderType.process) {
               setTimeout(() => {
                 if (newData.current) {
-                setDataItem([...newData.current]);
+                  setDataItem([...newData.current]);
                 }
-              } , 300);
+              }, 300);
             }
 
             return;
@@ -237,7 +236,7 @@ export const useWaitProcess = () => {
         })
         .catch(error => {
           if (newData.current) {
-          setDataItem([...newData.current]);
+            setDataItem([...newData.current]);
           }
           MessageUtils.showErrorMessageWithTimeout('Đã có lỗi xảy ra');
         })
@@ -275,8 +274,8 @@ export const useWaitProcess = () => {
                           subItemToadd.state === OrderType.process,
                       );
                       if (indexToadd !== -1) {
-                      item.list[indexToadd].numProduct =
-                        item.list[indexToadd].numProduct + subItem.numProduct;
+                        item.list[indexToadd].numProduct =
+                          item.list[indexToadd].numProduct + subItem.numProduct;
                       }
                     }
                   }
@@ -403,6 +402,13 @@ export const useWaitProcess = () => {
       const num = value.reduce((count, item) => {
         return count + item.numProduct;
       }, 0);
+      value?.sort((a, b) => {
+        const dateA = new Date(a.createdDate).getTime();
+        const dateB = new Date(b.createdDate).getTime();
+
+        return dateA - dateB;
+      });
+
       outputArray.push({
         list: value as IOrderItem[],
         idProduct: key,
@@ -410,6 +416,18 @@ export const useWaitProcess = () => {
         num,
       });
     });
+
+    const dataTableCheck = [...(newData.current || [])];
+
+    if (dataTableCheck[0]?.idProduct) {
+      outputArray.sort((a, b) => {
+        const indexA = dataTableCheck.findIndex(item => item.idProduct === a.idProduct);
+        const indexB = dataTableCheck.findIndex(item => item.idProduct === b.idProduct);
+        if (indexA === -1) {return 1;}
+        if (indexB === -1) {return -1;}
+        return indexA - indexB;
+      });
+    }
 
     return [...outputArray];
   };
@@ -433,10 +451,6 @@ export const useWaitProcess = () => {
       setDataItem([...newDataCheck]);
     }
   }, [isTable]);
-
-  useEffect(() => {
-    setDataItem([]);
-  }, [currentType]);
 
   useEffect(() => {
     newData.current = newData1.filter(item => item.list.length);

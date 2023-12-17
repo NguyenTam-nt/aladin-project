@@ -50,10 +50,10 @@ export const BillItem = ({onShowModal, onHideModal, data, onPress}: Props) => {
       <TouchableOpacity onPress={toggleOpen} style={styles.styleGoupItem}>
         <View>
           <TextCustom
-            fontSize={14}
+            fontSize={16}
             weight="600"
             lineHeight={22}
-            color={defaultColors.c_222124}>
+            color={defaultColors._E73F3F}>
             {data.nameTable}
           </TextCustom>
           <TextCustom
