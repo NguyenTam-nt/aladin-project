@@ -1,26 +1,26 @@
-import {View, StyleSheet, TouchableOpacity} from 'react-native';
-import React, {useCallback, useEffect, useMemo, useRef, useState} from 'react';
-import {defaultColors} from '@configs';
-import {TextCustom} from '@components';
-import {ICAddOrder} from '../../../../assets/icons/ICAddOrder';
-import {ICCheckSingle} from '../../../../assets/icons/ICCheckSingle';
-import {ICCheckMulti} from '../../../../assets/icons/ICCheckMulti';
-import {ICDelete} from '../../../../assets/icons/ICDelete';
-import {ICDeleteMulti} from '../../../../assets/icons/ICDeleteMulti';
-import {ICDown} from '../../../../assets/icons/ICDown';
-import {TypeModalWaitProcess} from '../hooks/useWaitProcess';
-import {Button} from '../../../../components/Button';
-import {ICCheck} from '../../../../assets/icons/ICCheck';
-import {getValueForDevice} from 'src/commons/formatMoney';
-import {IOrderItem, IOrderKitchen, OrderType} from 'src/typeRules/product';
-import {FomatDateYY_MM_DD_H_M} from 'src/commons/formatDate';
-import {globalStyles} from 'src/commons/globalStyles';
-import {debounce} from 'lodash';
+import { TextCustom } from '@components';
+import { defaultColors } from '@configs';
+import React, { useCallback, useMemo, useRef } from 'react';
+import { FlatList, StyleSheet, TouchableOpacity, View } from 'react-native';
+import { FomatDateYY_MM_DD_H_M } from 'src/commons/formatDate';
+import { getValueForDevice } from 'src/commons/formatMoney';
+import { globalStyles } from 'src/commons/globalStyles';
+import { IOrderItem, IOrderKitchen, OrderType } from 'src/typeRules/product';
+import { ICAddOrder } from '../../../../assets/icons/ICAddOrder';
+import { ICCheck } from '../../../../assets/icons/ICCheck';
+import { ICCheckMulti } from '../../../../assets/icons/ICCheckMulti';
+import { ICCheckSingle } from '../../../../assets/icons/ICCheckSingle';
+import { ICDelete } from '../../../../assets/icons/ICDelete';
+import { ICDeleteMulti } from '../../../../assets/icons/ICDeleteMulti';
+import { ICDown } from '../../../../assets/icons/ICDown';
+import { Button } from '../../../../components/Button';
+import { TypeModalWaitProcess } from '../hooks/useWaitProcess';
 
 type Props = {
   onShowModal: (type: TypeModalWaitProcess, data: IOrderItem) => void
   onHideModal: () => void
   data: IOrderKitchen
+  numberProduct: number
   onPress: (
     data: IOrderItem,
     reason: string,
@@ -29,73 +29,83 @@ type Props = {
   ) => void
 };
 
-export const BillItem = React.memo(({onShowModal, onHideModal, data, onPress}: Props) => {
-  const [isOpen, setIsOpen] = React.useState(true);
-  const toggleOpen = useCallback(() => {
-    setIsOpen(value => !value);
-  }, []);
-  const styleRotate = useMemo(() => {
-    return {
-      transform: [
-        {
-          rotate: isOpen ? '180deg' : '0deg',
-        },
-      ],
-      ...globalStyles.center,
-    };
-  }, [isOpen]);
+export const BillItem = React.memo(
+  ({onShowModal, onHideModal, data, onPress, numberProduct}: Props) => {
+    const [isOpen, setIsOpen] = React.useState(true);
 
-  return (
-    <>
-      <TouchableOpacity onPress={toggleOpen} style={styles.styleGoupItem}>
-        <View>
-          <TextCustom
-            fontSize={16}
-            weight="600"
-            lineHeight={22}
-            color={defaultColors._E73F3F}>
-            {data.nameTable}
-          </TextCustom>
-          <TextCustom
-            fontSize={getValueForDevice(14, 12)}
-            lineHeight={18}
-            weight={getValueForDevice('600', '400')}
-            color={defaultColors.bg_A1A0A3}>
-            Mã hóa đơn {data.idInvoice}
-          </TextCustom>
-        </View>
+    const toggleOpen = useCallback(() => {
+      setIsOpen(value => !value);
+    }, []);
+    const styleRotate = useMemo(() => {
+      return {
+        transform: [
+          {
+            rotate: isOpen ? '180deg' : '0deg',
+          },
+        ],
+        ...globalStyles.center,
+      };
+    }, [isOpen]);
+
+    return (
+      <>
+        <TouchableOpacity onPress={toggleOpen} style={styles.styleGoupItem}>
+          <View>
+            <TextCustom
+              fontSize={16}
+              weight="600"
+              lineHeight={22}
+              color={defaultColors._E73F3F}>
+              {data.nameTable}
+            </TextCustom>
+            <TextCustom
+              fontSize={getValueForDevice(14, 12)}
+              lineHeight={18}
+              weight={getValueForDevice('600', '400')}
+              color={defaultColors.bg_A1A0A3}>
+              Mã hóa đơn {data.idInvoice}
+            </TextCustom>
+          </View>
+          <View
+            style={[
+              styles.styleViewItemFlex1,
+              styles.styleFlexEnd,
+              globalStyles.justifyContentCenter,
+            ]}>
+            <View style={styleRotate}>
+              <ICDown color={defaultColors.c_222124} />
+            </View>
+          </View>
+        </TouchableOpacity>
         <View
           style={[
-            styles.styleViewItemFlex1,
-            styles.styleFlexEnd,
-            globalStyles.justifyContentCenter,
+            {flex: 1},
+            !isOpen ? {display: 'none', overflow: 'hidden'} : undefined,
           ]}>
-          <View style={styleRotate}>
-            <ICDown color={defaultColors.c_222124} />
-          </View>
+          <FlatList
+            data={data.list}
+            renderItem={items => {
+              const {item} = items;
+              return item.numProduct ? (
+                <BillItemMenu
+                  onPress={onPress}
+                  data={item}
+                  numberItemProducts={item.numProduct}
+                  isCancel={item.state === OrderType.process_cancel}
+                  key={item.id}
+                  onHideModal={onHideModal}
+                  onShowModal={onShowModal}
+                />
+              ) : (
+                <></>
+              );
+            }}
+          />
         </View>
-      </TouchableOpacity>
-      <View
-        style={[
-          {flex: 1},
-          !isOpen ? {display: 'none', overflow: 'hidden'} : undefined,
-        ]}>
-        {data.list.map((item, index) => {
-          return (
-            <BillItemMenu
-              onPress={onPress}
-              data={item}
-              isCancel={item.state === OrderType.process_cancel}
-              key={item.id}
-              onHideModal={onHideModal}
-              onShowModal={onShowModal}
-            />
-          );
-        })}
-      </View>
-    </>
-  );
-});
+      </>
+    );
+  },
+);
 
 type PropsBillItemMenu = {
   onShowModal: (
@@ -103,6 +113,7 @@ type PropsBillItemMenu = {
     data: IOrderItem,
     isAll?: boolean,
   ) => void
+  numberItemProducts: number
   onHideModal: () => void
   isCancel?: boolean
   data: IOrderItem
@@ -114,185 +125,188 @@ type PropsBillItemMenu = {
   ) => void
 };
 
-export const BillItemMenu = React.memo(({
-  onHideModal,
-  onShowModal,
-  isCancel = false,
-  data,
-  onPress,
-}: PropsBillItemMenu) => {
-  const handleShowModalCancel = useCallback(() => {
-    onShowModal(TypeModalWaitProcess.cancelbill, data);
-  }, [data]);
+export const BillItemMenu = React.memo(
+  ({
+    onHideModal,
+    numberItemProducts,
+    onShowModal,
+    isCancel = false,
+    data,
+    onPress,
+  }: PropsBillItemMenu) => {
+    const handleShowModalCancel = useCallback(() => {
+      onShowModal(TypeModalWaitProcess.cancelbill, data);
+    }, [data]);
 
-  const handleShowModalCancelAll = useCallback(() => {
-    onShowModal(TypeModalWaitProcess.cancelbill, data, true);
-  }, [data]);
+    const handleShowModalCancelAll = useCallback(() => {
+      onShowModal(TypeModalWaitProcess.cancelbill, data, true);
+    }, [data]);
 
-  const handleShowModalRefuse = useCallback(() => {
-    onShowModal(TypeModalWaitProcess.refusebill, data);
-  }, [data]);
+    const handleShowModalRefuse = useCallback(() => {
+      onShowModal(TypeModalWaitProcess.refusebill, data);
+    }, [data]);
 
-  const updateStateCompleteOnly = useCallback(() => {
-    onPress(data, '', OrderType.complete);
-  }, [data]);
+    const updateStateCompleteOnly = useCallback(() => {
+      onPress(data, '', OrderType.complete);
+    }, [data]);
 
-  const updateStateCompleteAll = useCallback(() => {
-    onPress(data, '', OrderType.complete, true);
-  }, [data]);
+    const updateStateCompleteAll = useCallback(() => {
+      onPress(data, '', OrderType.complete, true);
+    }, [data]);
 
-  const updateStateCompleteCancel = useCallback(() => {
-    onPress(data, '', OrderType.process_cancel, false);
-  }, [data]);
+    const updateStateCompleteCancel = useCallback(() => {
+      onPress(data, '', OrderType.process_cancel, false);
+    }, [data]);
 
-  const canPress  = useRef<boolean>(true);
+    const canPress = useRef<boolean>(true);
 
-  const handlePress = (callback: any) => {
-    if (canPress.current) {
-      if (callback) {
-        callback();
+    const handlePress = (callback: any) => {
+      if (canPress.current) {
+        if (callback) {
+          callback();
+        }
+
+        canPress.current = false;
+
+        setTimeout(() => {
+          canPress.current = true;
+        }, 500);
       }
+    };
 
-      canPress.current = false;
-
-      setTimeout(() => {
-        canPress.current = true;
-      }, 500);
-    }
-  };
-
-  return (
-    <View
-      style={[
-        styles.styleItemProduct,
-        {
-          backgroundColor: isCancel ? defaultColors.bg_FCEAEA : 'transparent',
-        },
-      ]}>
-      <View
-        style={getValueForDevice(
-          styles.styleViewItemFlex1,
-          styles.styleViewItem,
-        )}>
-        <TextCustom
-          lineHeight={22}
-          fontSize={14}
-          weight="400"
-          color={defaultColors.c_222124}>
-          {FomatDateYY_MM_DD_H_M(data.createdDate)}
-        </TextCustom>
-        <TextCustom
-          lineHeight={18}
-          fontSize={12}
-          weight="400"
-          color={defaultColors.bg_A1A0A3}>
-          Bởi {data.createdBy}
-        </TextCustom>
-      </View>
-      <View
-        style={getValueForDevice(
-          styles.styleViewItemFlex1,
-          styles.styleViewItem,
-        )}>
-        <TextCustom
-          lineHeight={22}
-          fontSize={14}
-          numberOfLines={1}
-          weight="400"
-          color={defaultColors.c_222124}>
-          {data?.name}
-        </TextCustom>
-        {data?.note && data?.note !== 'null' ? (
-          <View>
-            <View
-              style={{
-                flexDirection: 'row',
-                columnGap: 4,
-                alignItems: 'stretch',
-              }}>
-              <ICAddOrder color={defaultColors.bg_A1A0A3} />
-              <TextCustom
-                lineHeight={18}
-                fontSize={12}
-                weight="400"
-                color={defaultColors.bg_A1A0A3}>
-                {data?.note}
-              </TextCustom>
-            </View>
-          </View>
-        ) : null}
-      </View>
-      <View
-        style={getValueForDevice(
-          styles.styleViewItemFlex1,
-          styles.styleViewItem,
-        )}>
-        <TextCustom
-          fontSize={14}
-          textAlign={getValueForDevice('left', 'right')}
-          weight="400"
-          color={defaultColors.c_222124}>
-          {data?.numProduct}
-        </TextCustom>
-      </View>
+    return (
       <View
         style={[
-          styles.styleGroupBtn,
-          getValueForDevice(styles.styleViewItemFlex1, undefined),
+          styles.styleItemProduct,
+          {
+            backgroundColor: isCancel ? defaultColors.bg_FCEAEA : 'transparent',
+          },
         ]}>
-        {!isCancel ? (
-          <>
-            <TouchableOpacity
-              onPress={() => {
-                handlePress(updateStateCompleteOnly);
-              }}
-              style={[styles.styleBtn, styles.styleBtnGreen]}>
-              <ICCheckSingle />
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => handlePress(updateStateCompleteAll)}
-              style={[styles.styleBtn, styles.styleBtnGreen]}>
-              <ICCheckMulti />
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => handlePress(handleShowModalCancel)}
-              style={[styles.styleBtn, styles.styleBtnRed]}>
-              <ICDelete />
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => handlePress(handleShowModalCancelAll)}
-              style={[styles.styleBtn, styles.styleBtnRed]}>
-              <ICDeleteMulti />
-            </TouchableOpacity>
-          </>
-        ) : (
-          <>
-            <Button
-              onPress={updateStateCompleteCancel}
-              style={styles.styleViewItemFlex1}
-              renderLeff={
-                <View>
-                  <ICCheck />
-                </View>
-              }
-              text="Đồng ý hủy"
-            />
-            <Button
-              onPress={handleShowModalRefuse}
-              style={[styles.styleBtnCancel, styles.styleViewItemFlex1]}
-              renderLeff={
-                <View>
-                  <ICDelete />
-                </View>
-              }
-              text="Từ chối hủy"
-            />
-          </>
-        )}
+        <View
+          style={getValueForDevice(
+            styles.styleViewItemFlex1,
+            styles.styleViewItem,
+          )}>
+          <TextCustom
+            lineHeight={22}
+            fontSize={14}
+            weight="400"
+            color={defaultColors.c_222124}>
+            {FomatDateYY_MM_DD_H_M(data.createdDate)}
+          </TextCustom>
+          <TextCustom
+            lineHeight={18}
+            fontSize={12}
+            weight="400"
+            color={defaultColors.bg_A1A0A3}>
+            Bởi {data.createdBy}
+          </TextCustom>
+        </View>
+        <View
+          style={getValueForDevice(
+            styles.styleViewItemFlex1,
+            styles.styleViewItem,
+          )}>
+          <TextCustom
+            lineHeight={22}
+            fontSize={14}
+            numberOfLines={1}
+            weight="400"
+            color={defaultColors.c_222124}>
+            {data?.name}
+          </TextCustom>
+          {data?.note && data?.note !== 'null' ? (
+            <View>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  columnGap: 4,
+                  alignItems: 'stretch',
+                }}>
+                <ICAddOrder color={defaultColors.bg_A1A0A3} />
+                <TextCustom
+                  lineHeight={18}
+                  fontSize={12}
+                  weight="400"
+                  color={defaultColors.bg_A1A0A3}>
+                  {data?.note}
+                </TextCustom>
+              </View>
+            </View>
+          ) : null}
+        </View>
+        <View
+          style={getValueForDevice(
+            styles.styleViewItemFlex1,
+            styles.styleViewItem,
+          )}>
+          <TextCustom
+            fontSize={14}
+            textAlign={getValueForDevice('left', 'right')}
+            weight="400"
+            color={defaultColors.c_222124}>
+            {numberItemProducts}
+          </TextCustom>
+        </View>
+        <View
+          style={[
+            styles.styleGroupBtn,
+            getValueForDevice(styles.styleViewItemFlex1, undefined),
+          ]}>
+          {!isCancel ? (
+            <>
+              <TouchableOpacity
+                onPress={() => {
+                  handlePress(updateStateCompleteOnly);
+                }}
+                style={[styles.styleBtn, styles.styleBtnGreen]}>
+                <ICCheckSingle />
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => handlePress(updateStateCompleteAll)}
+                style={[styles.styleBtn, styles.styleBtnGreen]}>
+                <ICCheckMulti />
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => handlePress(handleShowModalCancel)}
+                style={[styles.styleBtn, styles.styleBtnRed]}>
+                <ICDelete />
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => handlePress(handleShowModalCancelAll)}
+                style={[styles.styleBtn, styles.styleBtnRed]}>
+                <ICDeleteMulti />
+              </TouchableOpacity>
+            </>
+          ) : (
+            <>
+              <Button
+                onPress={updateStateCompleteCancel}
+                style={styles.styleViewItemFlex1}
+                renderLeff={
+                  <View>
+                    <ICCheck />
+                  </View>
+                }
+                text="Đồng ý hủy"
+              />
+              <Button
+                onPress={handleShowModalRefuse}
+                style={[styles.styleBtnCancel, styles.styleViewItemFlex1]}
+                renderLeff={
+                  <View>
+                    <ICDelete />
+                  </View>
+                }
+                text="Từ chối hủy"
+              />
+            </>
+          )}
+        </View>
       </View>
-    </View>
-  );
-});
+    );
+  },
+);
 
 const styles = StyleSheet.create({
   container: {

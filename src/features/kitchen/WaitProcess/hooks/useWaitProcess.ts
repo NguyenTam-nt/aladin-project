@@ -64,7 +64,7 @@ export const useWaitProcess = () => {
   }, [filterItem]);
 
   const {dataSocket, setDataSocket} = useConnectSocketJS<IOrderSocket[]>(
-    IdArea ? `/topic/kitchen/${IdArea}` : '',
+    !IdArea ? `/topic/kitchen/${IdArea}` : '',
   );
   const {
     dataSocket: dataNotification,
@@ -142,11 +142,9 @@ export const useWaitProcess = () => {
 
   const handleConpleteAll = useCallback(
     (item: IOrderItem, reason = '', state: OrderType) => {
-
-
-      updateOrerKitchenAllState(state, item.idInvoice, item.id, reason)
+      updateOrerKitchenAllState(state, item.idInvoice, item.id, reason ,item.numProduct)
         .then(result => {
-          if (newData.current) {
+          if (result.success) {
             MessageUtils.showSuccessMessageWithTimeout(
               'Cập nhật trạng thái thành công',
             );
@@ -165,26 +163,28 @@ export const useWaitProcess = () => {
           handleClear();
         });
     },
-    [dataItem, isTable],
+    [isTable],
   );
+
+
 
   const handlePressCompeleteOnly = useCallback(
     (item: IOrderItem, reason = '', state: OrderType) => {
 
+      if (state === OrderType.process_cancel && !reason) {
+        removeItemById(item.idInvoice, item.id, true);
+      } else if (state === OrderType.process_cancel && reason) {
+        removeItemById(item.idInvoice, item.id, true, true);
+      } else {
+        removeItemById(item.idInvoice, item.id);
+      }
       MessageUtils.showSuccessMessageWithTimeout(
         'Cập nhật trạng thái thành công',
       );
       handleClear();
       updateOrerKitchenOnlyState(state, item.idInvoice, item.id, reason)
         .then(result => {
-          if (newData.current) {
-            if (state === OrderType.process_cancel && !reason) {
-              removeItemById(item.idInvoice, item.id, true);
-            } else if (state === OrderType.process_cancel && reason) {
-              removeItemById(item.idInvoice, item.id, true, true);
-            } else {
-              removeItemById(item.idInvoice, item.id);
-            }
+          if (result.success) {
             MessageUtils.showSuccessMessageWithTimeout(
               'Cập nhật trạng thái thành công',
             );
@@ -202,7 +202,7 @@ export const useWaitProcess = () => {
           handleClear();
         });
     },
-    [dataItem, isTable],
+    [isTable],
   );
 
   const removeItemById = useCallback(
@@ -238,9 +238,9 @@ export const useWaitProcess = () => {
                     }
                   }
 
-                  item.list = item.list?.filter(
+                  item.list = [...item.list?.filter(
                     subItem => subItem?.id !== idDist,
-                  );
+                  )];
                 } else {
                   const subItem = item.list?.find(
                     subItem => subItem?.id === idDist,
@@ -259,11 +259,14 @@ export const useWaitProcess = () => {
                 }
               }
             } else {
+
               const subItem = item.list?.find(
                 subItem =>
                   subItem?.idInvoice === idInvoiceToRemove &&
                   subItem?.id === idDist,
               );
+
+
               if (subItem) {
                 if (removeAll) {
                   if (isProcess) {
@@ -278,6 +281,8 @@ export const useWaitProcess = () => {
                         item.list[indexToadd].numProduct + subItem.numProduct;
                     }
                   }
+
+
                   item.list = item.list?.filter(
                     subItem => subItem?.id !== idDist,
                   );
@@ -294,24 +299,25 @@ export const useWaitProcess = () => {
                 return undefined;
               }
             }
-            return item;
+            return {...item};
           })
           .filter(item => item !== undefined);
       });
     },
-    [dataItem, isTable],
+    [isTable],
   );
+
 
   const handlePressCompelete = useCallback(
     (item: IOrderItem, reason = '', state: OrderType, isAll = false) => {
+
       if (isAll || refAll.current) {
         handleConpleteAll(item, reason, state);
-
         return;
       }
       handlePressCompeleteOnly(item, reason, state);
     },
-    [dataItem, handleConpleteAll, handlePressCompeleteOnly, isTable],
+    [ handleConpleteAll, handlePressCompeleteOnly, isTable],
   );
 
   const handleClear = useCallback(() => {
@@ -322,7 +328,6 @@ export const useWaitProcess = () => {
   }, []);
 
   const callApi = () => {
-    setDataItem([]);
     getOrerKitchen(
       {page: 0, size: 9999, menu: currentType, sort: 'id,asc'},
       TypeFilter.area,
@@ -345,6 +350,7 @@ export const useWaitProcess = () => {
 
   useEffect(() => {
     if (isFocus && appStateVisible === 'active') {
+    setDataItem([]);
       callApi();
     }
   }, [isFocus, appStateVisible, currentType]);
@@ -396,7 +402,7 @@ export const useWaitProcess = () => {
       });
     });
 
-    const dataTableCheck = [...(newData.current || [])];
+    const dataTableCheck = [...(dataItem || [])];
 
     if (dataTableCheck[0]?.idProduct) {
       outputArray.sort((a, b) => {
@@ -435,16 +441,17 @@ export const useWaitProcess = () => {
     let intervalId: any;
     if (isFocus) {
       intervalId = setInterval(() => {
-        if (newData.current) {
-          if (TableRef.current) {
-            setDataItem([...newData.current]);
-          } else {
-            const newDataCheck = convertDataHandler([
-              ...newData.current.filter(item => item.list.length),
-            ]);
-            setDataItem([...newDataCheck]);
-          }
-        }
+        // if (newData.current) {
+        //   if (TableRef.current) {
+        //     setDataItem([...newData.current]);
+        //   } else {
+        //     const newDataCheck = convertDataHandler([
+        //       ...newData.current.filter(item => item.list.length),
+        //     ]);
+        //     setDataItem([...newDataCheck]);
+        //   }
+        // }
+        callApi();
       }, 5000);
     }
 

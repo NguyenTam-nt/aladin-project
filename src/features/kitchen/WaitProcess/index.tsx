@@ -35,17 +35,24 @@ export const WaitProcees = React.memo(() => {
   const {keyExtractor} = useKeyArray();
 
   const renderItem = useCallback(
-    ({item , index }: ListRenderItemInfo<IOrderKitchen>) => {
+    ({item, index}: ListRenderItemInfo<IOrderKitchen>) => {
+      const numProduct = item?.list.reduce((currentCount, item) => {
+        return (
+          currentCount + (item.state === 'PROCESSING' ? item.numProduct : 0)
+        );
+      }, 0);
+
       return isTable ? (
         <BillItem
+          numberProduct={numProduct}
           data={item}
           onShowModal={handleShowModalAction}
           onHideModal={modalConfirmCancel.handleHidden}
           onPress={handlePressCompelete}
-
         />
       ) : (
         <BillItemFood
+          numProduct={numProduct}
           data={item}
           onShowModal={handleShowModalAction}
           onHideModal={modalConfirmCancel.handleHidden}
@@ -53,10 +60,8 @@ export const WaitProcees = React.memo(() => {
         />
       );
     },
-    [handleShowModalAction, isTable, handlePressCompelete ],
+    [handleShowModalAction, isTable, handlePressCompelete],
   );
-
-
 
   return (
     <View style={styles.container}>
@@ -85,7 +90,6 @@ export const WaitProcees = React.memo(() => {
           data={data}
           renderItem={renderItem}
           keyExtractor={keyExtractor}
-          initialNumToRender={999}
           // onEndReached={handleLoadMore}
           onEndReachedThreshold={0.5}
           refreshControl={
