@@ -19,6 +19,7 @@ OrderType,
 } from 'src/typeRules/product';
 import { useModal } from '../../../../hooks/useModal';
 import { useGetCategotyType } from '../../useGetCategotyType';
+import { categoryKitchenNames } from '@configs';
 
 export enum TypeModalWaitProcess {
   cancelbill = 'CANCELBILL',
@@ -55,6 +56,7 @@ export const useWaitProcess = () => {
   const [filterItem, setFilterItem] = useState(dataFilter[0]);
   const refAll = useRef<boolean>(false);
   const TableRef = useRef<boolean>(true);
+  const currentTypeRef = useRef<categoryKitchenNames>(categoryKitchenNames.kitchen);
 
   const IdArea = useAreaId();
 
@@ -62,6 +64,10 @@ export const useWaitProcess = () => {
     TableRef.current = filterItem.value === TypeFilter.area;
     return filterItem.value === TypeFilter.area;
   }, [filterItem]);
+
+  useEffect(() => {
+    currentTypeRef.current = currentType;
+  } , [currentType]);
 
   const {dataSocket, setDataSocket} = useConnectSocketJS<IOrderSocket[]>(
     !IdArea ? `/topic/kitchen/${IdArea}` : '',
@@ -329,13 +335,13 @@ export const useWaitProcess = () => {
 
   const callApi = () => {
     getOrerKitchen(
-      {page: 0, size: 9999, menu: currentType, sort: 'id,asc'},
+      {page: 0, size: 9999, menu: currentTypeRef.current, sort: 'id,asc'},
       TypeFilter.area,
     ).then(data => {
       if (data.data) {
         newData.current = [...data.data.filter(item => item.list.length)];
       }
-      if (isTable) {
+      if (TableRef.current) {
         setDataItem([...data.data.filter(item => item.list.length)]);
         return;
       }

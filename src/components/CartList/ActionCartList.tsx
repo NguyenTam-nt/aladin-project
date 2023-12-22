@@ -425,43 +425,43 @@ const ActionCartList = ({
 
   const [start, setStart] = useState<boolean>(false);
 
-  useEffect(() => {
-    const itemPost = listFakeApi.map(item => ({
-      idProduct: item.id,
-      numProduct: item.quantity,
-      linkMedia: item.linkMedia,
-      state: null,
-      note: '',
-    }));
+  // useEffect(() => {
+  //   const itemPost = listFakeApi.map(item => ({
+  //     idProduct: item.id,
+  //     numProduct: item.quantity,
+  //     linkMedia: item.linkMedia,
+  //     state: null,
+  //     note: '',
+  //   }));
 
-    // Tạo một biến để lưu trữ ID của interval
-    let intervalId: NodeJS.Timeout;
+  //   // Tạo một biến để lưu trữ ID của interval
+  //   let intervalId: NodeJS.Timeout;
 
-    // Effect sẽ chạy mỗi khi timeTool hoặc start thay đổi
-    // Clear interval hiện tại và tạo một interval mới nếu start là true
-    const intervalHandler = () => {
-      clearInterval(intervalId);
-      if (start) {
-        intervalId = setInterval(() => {
-          for (let index = 0; index < listIdtoFakeCall.length; index++) {
-            postProductToKitchen(listIdtoFakeCall[index], itemPost);
-          }
-        }, timeTool.value);
-      }
-    };
+  //   // Effect sẽ chạy mỗi khi timeTool hoặc start thay đổi
+  //   // Clear interval hiện tại và tạo một interval mới nếu start là true
+  //   const intervalHandler = () => {
+  //     clearInterval(intervalId);
+  //     if (start) {
+  //       intervalId = setInterval(() => {
+  //         for (let index = 0; index < listIdtoFakeCall.length; index++) {
+  //           postProductToKitchen(listIdtoFakeCall[index], itemPost);
+  //         }
+  //       }, timeTool.value);
+  //     }
+  //   };
 
-    // Khởi chạy intervalHandler khi timeTool hoặc start thay đổi hoặc khi component mount
-    intervalHandler();
+  //   // Khởi chạy intervalHandler khi timeTool hoặc start thay đổi hoặc khi component mount
+  //   intervalHandler();
 
-    // Cleanup: Clear interval khi component unmount
-    return () => clearInterval(intervalId);
-  }, [timeTool, start]);
+  //   // Cleanup: Clear interval khi component unmount
+  //   return () => clearInterval(intervalId);
+  // }, [timeTool, start]);
 
 
 
   return (
     <View style={styles.container}>
-      <DropDownFilter
+      {/* <DropDownFilter
         dataItem={dataFilter}
         labelField="label"
         valueField="value"
@@ -475,7 +475,7 @@ const ActionCartList = ({
       <TouchableOpacity style={styles.buttonSent} onPress={() => { setStart(!start);}}>
         <ICSentToKitchen />
         <Text style={styles.textButton}>{!start ? 'Start' : 'Stop'}</Text>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
       <TouchableOpacity style={styles.buttonSent} onPress={postItemToKitChen}>
         <ICSentToKitchen />
         <Text style={styles.textButton}>Chuyển tới bếp</Text>
