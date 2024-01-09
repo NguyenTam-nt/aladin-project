@@ -1,7 +1,7 @@
 export const APP_BASE_URL = 'https://giangmyhotpot.vn';
-export const APP_BASE_URL2 = 'http://192.168.1.24:8090';
+export const APP_BASE_URL2 = 'http://101.99.6.31:3304';
 export const SOCK_CLIENT_URL = 'https://giangmyhotpot.vn/websocket/tracker';
-export const SOCK_CLIENT_URL2 = 'http://192.168.1.24:8083/websocket/tracker';
+export const SOCK_CLIENT_URL2 = 'http://101.99.6.31:3303/websocket/tracker';
 export const OTPCodeValue = '123456';
 export const baseUrl = APP_BASE_URL;
 
@@ -90,6 +90,10 @@ export const APIs = {
   ),
   ORDER_KITCHEN: getMicroServiceAdmin(
     'provisional/kitchen',
+    microServices.restaurant,
+  ),
+  ORDER_KITCHEN_NEW: getMicroServiceAdmin(
+    'provisional/kitchen-new',
     microServices.restaurant,
   ),
   DELETE_BILL: getMicroServiceAdmin(

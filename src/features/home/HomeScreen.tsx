@@ -10,6 +10,7 @@ import {useAreaId, useFloorActive} from 'src/redux/infoDrawer/hooks';
 import {setGetTable} from 'src/redux/reducers/AuthSlice';
 import {useIsGetTable} from 'src/redux/reducers/hook';
 import TableOrder, {DinnerTableState} from './components/TableOrder';
+import _ from 'lodash';
 
 export type RootStackHomeAll = {
   [key: string]: {tableId: number}
@@ -61,9 +62,11 @@ const HomeScreen = ({stateCheckbox}: {stateCheckbox: string[]}) => {
     }
   }, [floorActive]);
 
+  const debouncedGetDataTable = _.debounce(getDataTable, 1000);
+
   useEffect(() => {
     if (isFocus) {
-      getDataTable();
+      debouncedGetDataTable();
     }
   }, [areaId, stateCheckbox, isFocus]);
   useEffect(() => {

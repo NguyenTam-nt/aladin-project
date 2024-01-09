@@ -1,5 +1,5 @@
 import {View, StyleSheet, FlatList, RefreshControl} from 'react-native';
-import React, {useCallback, useEffect} from 'react';
+import React, {useCallback, useEffect, useMemo} from 'react';
 import {defaultColors} from '@configs';
 import {Notice} from './components/Notice';
 import KitchenLinks from '../components/KitchenLinks';
@@ -15,7 +15,6 @@ import {IOrderKitchen, OrderType} from 'src/typeRules/product';
 import DropDownFilter from 'src/components/Filter/DropDownFilter';
 import {HeaderListBillFood} from './components/HeaderListBillFood';
 import {BillItemFood} from './components/BillItemFood';
-import NotificationSound from 'src/components/Toast/SoundNotification';
 
 export const WaitProcees = React.memo(() => {
   const {
@@ -25,7 +24,6 @@ export const WaitProcees = React.memo(() => {
     data,
     pullToRefresh,
     isRefreshing,
-    handleLoadMore,
     fileterItem,
     setFilterItem,
     isTable,
@@ -36,18 +34,32 @@ export const WaitProcees = React.memo(() => {
   } = useWaitProcess();
   const {keyExtractor} = useKeyArray();
 
+  const memoData = useMemo(() => data, [data]);
+
+
   const renderItem = useCallback(
-    ({item , index }: ListRenderItemInfo<IOrderKitchen>) => {
+    ({item, index}: ListRenderItemInfo<IOrderKitchen>) => {
+      const numProduct = item?.list.reduce((currentCount, item) => {
+        return (
+          currentCount + (item.state === 'PROCESSING' ? item.numProduct : 0)
+        );
+      }, 0);
+
+
+
+
+
       return isTable ? (
         <BillItem
+          numProduct={numProduct}
           data={item}
           onShowModal={handleShowModalAction}
           onHideModal={modalConfirmCancel.handleHidden}
           onPress={handlePressCompelete}
-
         />
       ) : (
         <BillItemFood
+        numProduct={numProduct}
           data={item}
           onShowModal={handleShowModalAction}
           onHideModal={modalConfirmCancel.handleHidden}
@@ -55,10 +67,8 @@ export const WaitProcees = React.memo(() => {
         />
       );
     },
-    [handleShowModalAction, isTable, handlePressCompelete ],
+    [handleShowModalAction, isTable],
   );
-
-
 
   return (
     <View style={styles.container}>
@@ -84,10 +94,12 @@ export const WaitProcees = React.memo(() => {
         {isTable ? <HeaderListBill /> : <HeaderListBillFood />}
         <FlatList
           showsVerticalScrollIndicator={false}
-          data={data}
+          data={memoData}
+          initialNumToRender={1000}
           renderItem={renderItem}
-          keyExtractor={keyExtractor}
-          onEndReached={handleLoadMore}
+          keyExtractor={(item: IOrderKitchen, index: number) => {
+            return item?.idInvoice !== undefined ? item.idInvoice.toString() : item?.idProduct?.toString() ?? index.toString();
+          }}
           onEndReachedThreshold={0.5}
           refreshControl={
             <RefreshControl
@@ -130,6 +142,7 @@ export const WaitProcees = React.memo(() => {
     </View>
   );
 });
+
 
 const styles = StyleSheet.create({
   container: {

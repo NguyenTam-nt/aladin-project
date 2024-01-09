@@ -202,6 +202,7 @@ export const updateOrerKitchenAllState = async (
   idOrder: number,
   id: number,
   reason = '',
+  num?  :number
 ): Promise<IResponseApi<IOrderKitchen>> => {
   console.log({
     api:  `${
@@ -211,8 +212,8 @@ export const updateOrerKitchenAllState = async (
   try {
     const result = await request().patch(
       `${
-        APIs.ORDER_KITCHEN
-      }/all/${state}/${idOrder}/${id}?answer=${!reason}&reason=${reason}`,
+        APIs.ORDER_KITCHEN_NEW
+      }/all/${state}/${idOrder}/${id}?answer=${!reason}&reason=${reason}&num=${num}`,
     );
     const data = await result.data.list;
     return {

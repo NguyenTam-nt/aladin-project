@@ -1,5 +1,5 @@
 import {defaultColors, isTabletDevice} from '@configs';
-import React, {useCallback, useEffect, useRef, useState} from 'react';
+import React, {memo, useCallback, useEffect, useRef, useState} from 'react';
 import {
   StyleSheet,
   TextInput,
@@ -23,7 +23,7 @@ import ModalCustom from './ModalCustom';
 import {useModal} from 'src/hooks/useModal';
 import {DIMENSION, isAndroid} from '@constants';
 
-const QuantityUpdate = ({
+const QuantityUpdate = memo(({
   value,
   data,
   updateList,
@@ -237,7 +237,7 @@ const QuantityUpdate = ({
       </ModalCustom>
     </View>
   );
-};
+});
 
 const styles = StyleSheet.create({
   container: {
