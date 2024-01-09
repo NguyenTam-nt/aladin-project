@@ -32,6 +32,13 @@ type Props = {
 export const BillItemFood = memo(
   ({onShowModal, onHideModal, data, onPress, numProduct}: Props) => {
     const [isOpen, setIsOpen] = React.useState(false);
+    console.log('item BillItemFood rendered');
+    // const numProduct = item?.list.reduce((currentCount, item) => {
+    //   return (
+    //     currentCount + (item.state === 'PROCESSING' ? item.numProduct : 0)
+    //   );
+    // }, 0);
+
     const toggleOpen = useCallback(() => {
       setIsOpen(value => !value);
     }, []);
@@ -45,6 +52,8 @@ export const BillItemFood = memo(
         ...globalStyles.center,
       };
     }, [isOpen]);
+
+    const memoList = useMemo(() =>data.list , [data.list] );
 
     return (
       <>
@@ -106,7 +115,7 @@ export const BillItemFood = memo(
             !isOpen ? {display: 'none', overflow: 'hidden'} : undefined,
           ]}>
           <FlatList
-            data={data.list}
+            data={memoList}
             renderItem={items => {
               const {item, index} = items;
               const numberItemProducts = item.numProduct;
@@ -115,7 +124,6 @@ export const BillItemFood = memo(
                   numberProduct={numberItemProducts}
                   data={item}
                   isCancel={item.state === OrderType.process_cancel}
-                  key={index}
                   onHideModal={onHideModal}
                   onShowModal={onShowModal}
                   onPress={onPress}
@@ -124,6 +132,7 @@ export const BillItemFood = memo(
                 <></>
               );
             }}
+            keyExtractor={(item: IOrderItem , index: number) => { return item.id.toString() ?? index;  }}
           />
         </View>
       </>
@@ -157,6 +166,9 @@ export const BillItemMenu = memo(
     onPress,
     numberProduct,
   }: PropsBillItemMenu) => {
+
+
+
     const handleShowModalCancel = useCallback(() => {
       onShowModal(TypeModalWaitProcess.cancelbill, data);
     }, [data]);
@@ -183,6 +195,8 @@ export const BillItemMenu = memo(
 
     const canPress = useRef<boolean>(true);
 
+    const canPress2 = useRef<boolean>(true);
+
     const handlePress = (callback: any) => {
       if (canPress.current) {
         if (callback) {
@@ -194,6 +208,20 @@ export const BillItemMenu = memo(
         setTimeout(() => {
           canPress.current = true;
         }, 500);
+      }
+    };
+
+    const handlePress2 = (callback: any) => {
+      if (canPress2.current) {
+        if (callback) {
+          callback();
+        }
+
+        canPress2.current = false;
+
+        setTimeout(() => {
+          canPress2.current = true;
+        }, 4000);
       }
     };
 
@@ -294,7 +322,7 @@ export const BillItemMenu = memo(
                 <ICCheckSingle />
               </TouchableOpacity>
               <TouchableOpacity
-                onPress={() => handlePress(updateStateCompleteAll)}
+                onPress={() => handlePress2(updateStateCompleteAll)}
                 style={[styles.styleBtn, styles.styleBtnGreen]}>
                 <ICCheckMulti />
               </TouchableOpacity>

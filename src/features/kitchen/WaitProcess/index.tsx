@@ -1,5 +1,5 @@
 import {View, StyleSheet, FlatList, RefreshControl} from 'react-native';
-import React, {useCallback, useEffect} from 'react';
+import React, {useCallback, useEffect, useMemo} from 'react';
 import {defaultColors} from '@configs';
 import {Notice} from './components/Notice';
 import KitchenLinks from '../components/KitchenLinks';
@@ -34,6 +34,9 @@ export const WaitProcees = React.memo(() => {
   } = useWaitProcess();
   const {keyExtractor} = useKeyArray();
 
+  const memoData = useMemo(() => data, [data]);
+
+
   const renderItem = useCallback(
     ({item, index}: ListRenderItemInfo<IOrderKitchen>) => {
       const numProduct = item?.list.reduce((currentCount, item) => {
@@ -42,9 +45,13 @@ export const WaitProcees = React.memo(() => {
         );
       }, 0);
 
+
+
+
+
       return isTable ? (
         <BillItem
-          numberProduct={numProduct}
+          numProduct={numProduct}
           data={item}
           onShowModal={handleShowModalAction}
           onHideModal={modalConfirmCancel.handleHidden}
@@ -52,7 +59,7 @@ export const WaitProcees = React.memo(() => {
         />
       ) : (
         <BillItemFood
-          numProduct={numProduct}
+        numProduct={numProduct}
           data={item}
           onShowModal={handleShowModalAction}
           onHideModal={modalConfirmCancel.handleHidden}
@@ -60,7 +67,7 @@ export const WaitProcees = React.memo(() => {
         />
       );
     },
-    [handleShowModalAction, isTable, handlePressCompelete],
+    [handleShowModalAction, isTable],
   );
 
   return (
@@ -87,10 +94,12 @@ export const WaitProcees = React.memo(() => {
         {isTable ? <HeaderListBill /> : <HeaderListBillFood />}
         <FlatList
           showsVerticalScrollIndicator={false}
-          data={data}
+          data={memoData}
+          initialNumToRender={1000}
           renderItem={renderItem}
-          keyExtractor={keyExtractor}
-          // onEndReached={handleLoadMore}
+          keyExtractor={(item: IOrderKitchen, index: number) => {
+            return item?.idInvoice !== undefined ? item.idInvoice.toString() : item?.idProduct?.toString() ?? index.toString();
+          }}
           onEndReachedThreshold={0.5}
           refreshControl={
             <RefreshControl
@@ -133,6 +142,7 @@ export const WaitProcees = React.memo(() => {
     </View>
   );
 });
+
 
 const styles = StyleSheet.create({
   container: {

@@ -20,7 +20,7 @@ type Props = {
   onShowModal: (type: TypeModalWaitProcess, data: IOrderItem) => void
   onHideModal: () => void
   data: IOrderKitchen
-  numberProduct: number
+  numProduct: number
   onPress: (
     data: IOrderItem,
     reason: string,
@@ -30,8 +30,9 @@ type Props = {
 };
 
 export const BillItem = React.memo(
-  ({onShowModal, onHideModal, data, onPress, numberProduct}: Props) => {
+  ({onShowModal, onHideModal, data, onPress, numProduct}: Props) => {
     const [isOpen, setIsOpen] = React.useState(true);
+
 
     const toggleOpen = useCallback(() => {
       setIsOpen(value => !value);
@@ -46,6 +47,8 @@ export const BillItem = React.memo(
         ...globalStyles.center,
       };
     }, [isOpen]);
+
+    const listMemo = useMemo(() =>  data.list, [data.list]);
 
     return (
       <>
@@ -83,7 +86,7 @@ export const BillItem = React.memo(
             !isOpen ? {display: 'none', overflow: 'hidden'} : undefined,
           ]}>
           <FlatList
-            data={data.list}
+            data={listMemo}
             renderItem={items => {
               const {item} = items;
               return item.numProduct ? (
@@ -92,7 +95,6 @@ export const BillItem = React.memo(
                   data={item}
                   numberItemProducts={item.numProduct}
                   isCancel={item.state === OrderType.process_cancel}
-                  key={item.id}
                   onHideModal={onHideModal}
                   onShowModal={onShowModal}
                 />
@@ -100,6 +102,7 @@ export const BillItem = React.memo(
                 <></>
               );
             }}
+            keyExtractor={(item: IOrderItem , index: number) => { return item.id.toString() ?? index;  }}
           />
         </View>
       </>
@@ -160,6 +163,8 @@ export const BillItemMenu = React.memo(
 
     const canPress = useRef<boolean>(true);
 
+    const canPress2 = useRef<boolean>(true);
+
     const handlePress = (callback: any) => {
       if (canPress.current) {
         if (callback) {
@@ -171,6 +176,20 @@ export const BillItemMenu = React.memo(
         setTimeout(() => {
           canPress.current = true;
         }, 500);
+      }
+    };
+
+    const handlePress2 = (callback: any) => {
+      if (canPress2.current) {
+        if (callback) {
+          callback();
+        }
+
+        canPress2.current = false;
+
+        setTimeout(() => {
+          canPress2.current = true;
+        }, 4000);
       }
     };
 
@@ -263,7 +282,7 @@ export const BillItemMenu = React.memo(
                 <ICCheckSingle />
               </TouchableOpacity>
               <TouchableOpacity
-                onPress={() => handlePress(updateStateCompleteAll)}
+                onPress={() => handlePress2(updateStateCompleteAll)}
                 style={[styles.styleBtn, styles.styleBtnGreen]}>
                 <ICCheckMulti />
               </TouchableOpacity>

@@ -20,6 +20,7 @@ OrderType,
 import { useModal } from '../../../../hooks/useModal';
 import { useGetCategotyType } from '../../useGetCategotyType';
 import { categoryKitchenNames } from '@configs';
+import _ from 'lodash';
 
 export enum TypeModalWaitProcess {
   cancelbill = 'CANCELBILL',
@@ -57,6 +58,7 @@ export const useWaitProcess = () => {
   const refAll = useRef<boolean>(false);
   const TableRef = useRef<boolean>(true);
   const currentTypeRef = useRef<categoryKitchenNames>(categoryKitchenNames.kitchen);
+  const newSocketRef = useRef<boolean>(true);
 
   const IdArea = useAreaId();
 
@@ -70,8 +72,9 @@ export const useWaitProcess = () => {
   } , [currentType]);
 
   const {dataSocket, setDataSocket} = useConnectSocketJS<IOrderSocket[]>(
-    !IdArea ? `/topic/kitchen/${IdArea}` : '',
+    IdArea ? `/topic/kitchen/${IdArea}` : '',
   );
+
   const {
     dataSocket: dataNotification,
     setDataSocket: setDataSocketNotification,
@@ -82,29 +85,30 @@ export const useWaitProcess = () => {
   const handleDataSocker = useCallback(
     (result: IOrderSocket[]) => {
       if (result) {
-        const listData = result.find(item => item.menu === currentType);
-        const newDataConvert: IOrderSocket = {
-          menu: listData?.menu ?? currentType,
-          kitchen:
-            listData?.kitchen.map(item => {
-              return {
-                ...item,
-                list: item.list,
-              };
-            }) || [],
-        };
-        const newDataUpdate = [...newData.current];
-        newDataConvert?.kitchen.forEach(item => {
-          const index = newDataUpdate.findIndex(
-            _item => _item.idInvoice === item.idInvoice,
-          );
-          if (index === -1) {
-            newDataUpdate.push(item);
-          } else {
-            newDataUpdate.splice(index, 1, item);
-          }
-        });
-        newData.current = [...newDataUpdate];
+        newSocketRef.current = true;
+        // const listData = result.find(item => item.menu === currentType);
+        // const newDataConvert: IOrderSocket = {
+        //   menu: listData?.menu ?? currentType,
+        //   kitchen:
+        //     listData?.kitchen.map(item => {
+        //       return {
+        //         ...item,
+        //         list: item.list,
+        //       };
+        //     }) || [],
+        // };
+        // const newDataUpdate = [...newData.current];
+        // newDataConvert?.kitchen.forEach(item => {
+        //   const index = newDataUpdate.findIndex(
+        //     _item => _item.idInvoice === item.idInvoice,
+        //   );
+        //   if (index === -1) {
+        //     newDataUpdate.push(item);
+        //   } else {
+        //     newDataUpdate.splice(index, 1, item);
+        //   }
+        // });
+        // newData.current = [...newDataUpdate];
       }
     },
     [currentType, isTable],
@@ -112,7 +116,7 @@ export const useWaitProcess = () => {
 
   useEffect(() => {
     if (dataSocket) {
-      playNotificationSound();
+      // playNotificationSound();
       handleDataSocker(dataSocket);
       setDataSocket(undefined);
     }
@@ -148,16 +152,18 @@ export const useWaitProcess = () => {
 
   const handleConpleteAll = useCallback(
     (item: IOrderItem, reason = '', state: OrderType) => {
+      removeItemById(item.idInvoice, item.id, true);
       updateOrerKitchenAllState(state, item.idInvoice, item.id, reason ,item.numProduct)
         .then(result => {
           if (result.success) {
             MessageUtils.showSuccessMessageWithTimeout(
               'Cập nhật trạng thái thành công',
             );
-            removeItemById(item.idInvoice, item.id, true);
+
             return;
           }
-          MessageUtils.showErrorMessageWithTimeout('Đã có lỗi xảy ra');
+          callApi();
+          MessageUtils.showErrorMessageWithTimeout(result.message ?? 'Đã có lỗi xảy ra');
         })
         .catch(error => {
           if (newData.current) {
@@ -194,9 +200,11 @@ export const useWaitProcess = () => {
             MessageUtils.showSuccessMessageWithTimeout(
               'Cập nhật trạng thái thành công',
             );
+
             return;
           }
-          MessageUtils.showErrorMessageWithTimeout('Đã có lỗi xảy ra');
+          callApi();
+          MessageUtils.showErrorMessageWithTimeout(result.message ?? 'Đã có lỗi xảy ra');
         })
         .catch(error => {
           if (newData.current) {
@@ -288,7 +296,6 @@ export const useWaitProcess = () => {
                     }
                   }
 
-
                   item.list = item.list?.filter(
                     subItem => subItem?.id !== idDist,
                   );
@@ -305,7 +312,7 @@ export const useWaitProcess = () => {
                 return undefined;
               }
             }
-            return {...item};
+            return item;
           })
           .filter(item => item !== undefined);
       });
@@ -314,17 +321,7 @@ export const useWaitProcess = () => {
   );
 
 
-  const handlePressCompelete = useCallback(
-    (item: IOrderItem, reason = '', state: OrderType, isAll = false) => {
 
-      if (isAll || refAll.current) {
-        handleConpleteAll(item, reason, state);
-        return;
-      }
-      handlePressCompeleteOnly(item, reason, state);
-    },
-    [ handleConpleteAll, handlePressCompeleteOnly, isTable],
-  );
 
   const handleClear = useCallback(() => {
     refAll.current = false;
@@ -333,33 +330,43 @@ export const useWaitProcess = () => {
     modalRefuse.handleHidden();
   }, []);
 
-  const callApi = () => {
+  const callApi = (isClear? : boolean ) => {
     getOrerKitchen(
-      {page: 0, size: 9999, menu: currentTypeRef.current, sort: 'id,asc'},
-      TypeFilter.area,
+      { page: 0, size: 9999, menu: currentTypeRef.current, sort: 'id,asc' },
+      TableRef.current ? TypeFilter.area : TypeFilter.dist,
     ).then(data => {
-      if (data.data) {
-        newData.current = [...data.data.filter(item => item.list.length)];
-      }
-      if (TableRef.current) {
-        setDataItem([...data.data.filter(item => item.list.length)]);
+      if ( data.data) {
+        setDataItem(data.data.filter(item => item.list.length));
+
         return;
       }
-      if (data.data) {
-        const newDataRes = convertDataHandler([
-          ...data.data.filter(item => item.list.length),
-        ]);
-        setDataItem([...newDataRes]);
-      }
+      // setDataItem(prevDataItem => {
+      //   const updatedData = prevDataItem.map(item => {
+      //     const newDataItem = data.data.find(newItem => (
+      //       TableRef.current ? newItem.idInvoice === item.idInvoice : newItem.idProduct === item.idProduct
+      //     ));
+      //     console.log('Different keys:', _.isEqualWith(item, newDataItem));
+
+      //     // Nếu có dữ liệu mới và có sự thay đổi, cập nhật
+      //     if (newDataItem && !_.isEqualWith(item, newDataItem)) {
+      //       return newDataItem;
+      //     }
+      //     // Ngược lại, giữ nguyên mục cũ
+      //     return item;
+      //   });
+
+      //   // Thêm các mục mới có list.length
+      //   const newItems = data.data.filter(newItem => newItem.list.length && !prevDataItem.some(item =>
+      //     TableRef.current ? item.idInvoice === newItem.idInvoice : item.idProduct === newItem.idProduct
+      //   ));
+
+      //   return [...updatedData, ...newItems];
+      // });
     });
   };
 
-  useEffect(() => {
-    if (isFocus && appStateVisible === 'active') {
-    setDataItem([]);
-      callApi();
-    }
-  }, [isFocus, appStateVisible, currentType]);
+
+
 
   const handleDeleteNotice = useCallback(
     (index: number) => {
@@ -428,43 +435,105 @@ export const useWaitProcess = () => {
       });
     }
 
-    return [...outputArray];
+    return outputArray;
   };
 
-  useEffect(() => {
-    setDataItem([]);
-    if (isTable) {
-      setDataItem([...newData.current.filter(item => item.list.length)]);
-    } else {
-      const newDataCheck = convertDataHandler([
-        ...newData.current.filter(item => item.list.length),
-      ]);
-      setDataItem([...newDataCheck]);
-    }
-  }, [isTable]);
+  // useEffect(() => {
+  //   setDataItem([]);
+  //   callApi();
+  // }, [isTable]);
+
+  const handlePressCompelete = useCallback(
+    (item: IOrderItem, reason = '', state: OrderType, isAll = false) => {
+
+      if (isAll || refAll.current) {
+        handleConpleteAll(item, reason, state);
+        return;
+      }
+      handlePressCompeleteOnly(item, reason, state);
+    },
+    [ handleConpleteAll, handlePressCompeleteOnly, isTable],
+  );
 
   useEffect(() => {
     let intervalId: any;
+
+    const fetchData = async () => {
+      try {
+        if (isFocus && newSocketRef.current) {
+            newSocketRef.current = false;
+           callApi();
+        }
+      } catch (error) {
+        // Xử lý lỗi nếu cần
+      }
+    };
+
+
     if (isFocus) {
-      intervalId = setInterval(() => {
-        // if (newData.current) {
-        //   if (TableRef.current) {
-        //     setDataItem([...newData.current]);
-        //   } else {
-        //     const newDataCheck = convertDataHandler([
-        //       ...newData.current.filter(item => item.list.length),
-        //     ]);
-        //     setDataItem([...newDataCheck]);
-        //   }
-        // }
-        callApi();
-      }, 5000);
+      intervalId = setInterval(fetchData, 8000);
     }
 
     return () => {
+
       clearInterval(intervalId);
     };
-  }, [isFocus]);
+
+  }, [isFocus, currentType, isTable]);
+
+  useEffect(() => {
+    let intervalId: any;
+
+    if (isFocus) {
+      intervalId = setInterval(() => {
+        newSocketRef.current = true;
+      }, 60000);
+    }
+
+    return () => {
+
+      clearInterval(intervalId);
+    };
+  } , [isFocus]);
+
+  useEffect(() => {
+    if (isFocus && appStateVisible === 'active') {
+    setDataItem([]);
+      callApi();
+    }
+  }, [isFocus, appStateVisible, currentType ,isTable]);
+
+  // useEffect(() => {
+  //   let intervalId: any;
+
+  //   const fetchData = async () => {
+  //     try {
+  //       if (isFocus && appStateVisible === 'active') {
+  //         await callApi();
+  //       }
+  //     } catch (error) {
+
+  //     }
+  //   };
+
+
+
+
+  //   if (isFocus && appStateVisible === 'active') {
+  //       setDataItem([]);
+  //       callApi(true);
+  //     intervalId = setInterval(fetchData, 8000);
+  //   }
+
+  //   return () => {
+  //     console.log('cleaerrrr');
+  //     clearInterval(intervalId);
+  //   };
+
+  // }, [isFocus, currentType, isTable, appStateVisible]);
+
+
+
 
   return {
     modalConfirmCancel,
