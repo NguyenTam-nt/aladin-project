@@ -7,7 +7,7 @@ import { Link } from "react-router-dom"
 import { paths } from "@constants/routerPublic"
 import type { IProduct } from "@typeRules/product"
 import { useCartContext } from "@contexts/hooks/order"
-import { getLinkImageUrl } from "@commons/common"
+import { convertToSlugFunc, getLinkImageUrl } from "@commons/common"
 import { Image } from "@components/Image"
 // import { AnimatedSmoke } from "@components/AnimatedSmoke";
 
@@ -43,7 +43,10 @@ export const TopicMenuItem = memo(({ data }: Props) => {
           <DiscountItem discount={Math.ceil(Number(data?.percent))} />
         ) : null}
         <Link
-          to={`${paths.memu.prefix}/${data?.id}`}
+          to={`${paths.memu.prefix}/${convertToSlugFunc(
+            data.name,
+            data?.id ?? 0
+          )}`}
           className="h-[160px] lg:h-[312px] w-full relative"
         >
           <Image
@@ -60,7 +63,10 @@ export const TopicMenuItem = memo(({ data }: Props) => {
         </Link>
         <div className="p-[16px] flex-1 flex flex-col">
           <Link
-            to={`${paths.memu.prefix}/${data?.id}`}
+            to={`${paths.memu.prefix}/${convertToSlugFunc(
+              data.name,
+              data?.id ?? 0
+            )}`}
             className="text-GreyPrimary text-_14 lg:text-_16 font-semibold line-clamp-3 lg:line-clamp-2"
           >
             {data?.name}

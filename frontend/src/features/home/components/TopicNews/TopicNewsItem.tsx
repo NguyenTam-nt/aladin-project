@@ -1,18 +1,21 @@
-import React, { memo } from "react";
-import type { newItem_type } from "@typeRules/new";
-import { Link } from "react-router-dom";
-import { pathsAdmin } from "@constants/routerManager";
-import { getLinkImageUrl } from "@commons/common";
-import { Image } from "@components/Image";
+import React, { memo } from "react"
+import type { newItem_type } from "@typeRules/new"
+import { Link } from "react-router-dom"
+import { pathsAdmin } from "@constants/routerManager"
+import { convertToSlugFunc, getLinkImageUrl } from "@commons/common"
+import { Image } from "@components/Image"
 
 type Props = {
-  data: newItem_type;
-};
+  data: newItem_type
+}
 
 export const TopicNewsItem = memo(({ data }: Props) => {
   return (
     <Link
-      to={`${pathsAdmin.news.prefix}/${data.id}`}
+      to={`/${pathsAdmin.news.prefix}/${convertToSlugFunc(
+        data.title,
+        data.id ?? 0
+      )}`}
       className="radius-tl-br h-[302px] flex flex-col overflow-hidden bg-white"
     >
       <div className="h-[176px]">
@@ -31,5 +34,5 @@ export const TopicNewsItem = memo(({ data }: Props) => {
         </p>
       </div>
     </Link>
-  );
-});
+  )
+})

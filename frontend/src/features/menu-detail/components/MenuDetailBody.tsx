@@ -1,30 +1,30 @@
-import React, { useEffect, useState } from "react";
-import { MenuDetailSlider } from "./MenuDetailSlider";
-import { MenuDetailInfo } from "./MenuDetailInfo";
-import { MenuDetailStar } from "./MenuDetailStar";
-import type { IProduct } from "@typeRules/product";
-import { useParams } from "react-router-dom";
-import { productService } from "@services/product";
-import { GroupStar } from "./GroupStar";
-import { Loading } from "@features/dashboard/components/Loading";
+import { getSlugId } from "@commons/common"
+import { Loading } from "@features/dashboard/components/Loading"
+import { productService } from "@services/product"
+import type { IProduct } from "@typeRules/product"
+import { useEffect, useState } from "react"
+import { useParams } from "react-router-dom"
+import { GroupStar } from "./GroupStar"
+import { MenuDetailInfo } from "./MenuDetailInfo"
+import { MenuDetailSlider } from "./MenuDetailSlider"
 export const MenuDetailBody = () => {
-  const [product, setProduct] = useState<IProduct>();
-  const params = useParams();
-  const [loading, setLoading] = useState(false);
+  const [product, setProduct] = useState<IProduct>()
+  const params = useParams()
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
     if (params?.id) {
-      setLoading(true);
+      setLoading(true)
       productService
-        .getById(Number(params?.id))
+        .getById(getSlugId(params?.id))
         .then((data) => {
-          setProduct(data);
+          setProduct(data)
         })
         .finally(() => {
-          setLoading(false);
-        });
+          setLoading(false)
+        })
     }
-  }, [params?.id]);
+  }, [params?.id])
 
   return product ? (
     <div className="w-rp py-[24px] lg:py-[120px]">
@@ -43,5 +43,5 @@ export const MenuDetailBody = () => {
       {" "}
       <Loading />
     </div>
-  ) : null;
-};
+  ) : null
+}

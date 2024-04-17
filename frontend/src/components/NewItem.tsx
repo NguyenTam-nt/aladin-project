@@ -1,23 +1,20 @@
+import { convertToSlugFunc } from "@commons/common"
 import { FomatDateYY_MM_DD } from "@constants/formatDateY_M_D"
-import { paths } from "@constants/routerPublic"
+import { pathsAdmin } from "@constants/routerManager"
 import type { newItem_type } from "@typeRules/new"
-import React from "react"
-import { useNavigate } from "react-router-dom"
+import { Link } from "react-router-dom"
 import { Image } from "./Image"
 
 interface Props {
   itemNew: newItem_type
 }
 const NewItem = ({ itemNew }: Props) => {
-  const navigate = useNavigate()
-  const handleClickItem = (id: number) => {
-    navigate(`${paths.news.prefix}/${id}`)
-  }
   return (
-    <div
-      onClick={() => {
-        handleClickItem(itemNew.id!)
-      }}
+    <Link
+      to={`/${pathsAdmin.news.prefix}/${convertToSlugFunc(
+        itemNew.title,
+        itemNew.id
+      )}`}
       className="col-span-1 h-[176px] bg-white min-h-[302px] radius-tl-br cursor-pointer overflow-hidden"
     >
       <Image alt={itemNew.linkMedia || ""} className="w-full h-[176px]" />
@@ -29,7 +26,7 @@ const NewItem = ({ itemNew }: Props) => {
           {FomatDateYY_MM_DD(itemNew.createdDate!)}
         </p>
       </div>
-    </div>
+    </Link>
   )
 }
 

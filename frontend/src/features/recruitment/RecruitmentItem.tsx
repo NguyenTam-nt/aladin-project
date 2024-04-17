@@ -1,12 +1,13 @@
-import React from "react"
+import { AddressWork } from "@assets/icons/AddressWork"
 import { CalendarIcon } from "@assets/icons/CalendarIcon"
 import { DolarIcon } from "@assets/icons/DolarIcon"
-import { AddressWork } from "@assets/icons/AddressWork"
-import { useNavigate } from "react-router-dom"
-import type { Recruit_type } from "@typeRules/recruit"
-import { FomatDateYY_MM_DD } from "@constants/formatDateY_M_D"
-import { useTranslation } from "react-i18next"
+import { convertToSlugFunc } from "@commons/common"
+import { formatNumberDot, formatNumberDotWithVND } from "@commons/formatMoney"
 import { Image } from "@components/Image"
+import { FomatDateYY_MM_DD } from "@constants/formatDateY_M_D"
+import type { Recruit_type } from "@typeRules/recruit"
+import { useTranslation } from "react-i18next"
+import { Link, useNavigate } from "react-router-dom"
 
 interface Props {
   itemRecrui: Recruit_type
@@ -14,12 +15,10 @@ interface Props {
 const RecruitmentItem = ({ itemRecrui }: Props) => {
   const { t } = useTranslation()
   const navigate = useNavigate()
-  const handleViewDetail = (id: number) => {
-    navigate(`/tuyen-dung/${id}`)
-  }
+
   return (
-    <div
-      onClick={() => handleViewDetail(itemRecrui.id!)}
+    <Link
+      to={`/tuyen-dung/${convertToSlugFunc(itemRecrui.title, itemRecrui.id)}`}
       className="min-h-[199px] flex flex-wrap radius-tl-br bg-text_white cursor-pointer"
     >
       <div className="xl:w-2/4 w-full flex xl:justify-start justify-center xl:h-full overflow-hidden rounded-tl-r32">
@@ -32,7 +31,7 @@ const RecruitmentItem = ({ itemRecrui }: Props) => {
         <div className="flex gap-2 xl:mb-0 mb-[18px]">
           <DolarIcon width={24} height={24} />
           <p className="text-sm max-w-[85%] text-secondary leading-22 font-semibold">
-            {itemRecrui.salary}
+            {formatNumberDotWithVND(itemRecrui.salary)}
           </p>
         </div>
         <div className="flex gap-2 xl:mb-0 mb-[18px]">
@@ -49,7 +48,7 @@ const RecruitmentItem = ({ itemRecrui }: Props) => {
           </p>
         </div>
       </div>
-    </div>
+    </Link>
   )
 }
 

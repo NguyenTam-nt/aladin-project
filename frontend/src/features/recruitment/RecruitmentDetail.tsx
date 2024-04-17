@@ -2,6 +2,8 @@ import { AddressWork } from "@assets/icons/AddressWork"
 import { CalendarIcon } from "@assets/icons/CalendarIcon"
 import { DolarIcon } from "@assets/icons/DolarIcon"
 import RecuireImage from "@assets/images/imageRecuire.png"
+import { getSlugId } from "@commons/common"
+import { formatNumberDotWithVND } from "@commons/formatMoney"
 import { Banner } from "@components/Banner"
 import { Image } from "@components/Image"
 import WapperContent from "@components/WapperContent"
@@ -22,7 +24,7 @@ const RecruitmentDetail = () => {
   const getRecruitmentById = async () => {
     try {
       if (id) {
-        const resultRecruit = await recruitService.getRecruitById(Number(id))
+        const resultRecruit = await recruitService.getRecruitById(getSlugId(id))
         setRecruiItem(resultRecruit)
       }
     } catch (error) {
@@ -45,7 +47,7 @@ const RecruitmentDetail = () => {
               <div className="flex flex-wrap items-center gap-2 lg:mb-0 mb-[18px]">
                 <DolarIcon width={24} height={24} />
                 <p className="text-sm text-secondary leading-22 font-semibold">
-                  {recruiItem?.salary}
+                  {formatNumberDotWithVND(recruiItem?.salary)}
                 </p>
               </div>
               <div className="flex gap-2 items-center flex-wrap lg:mb-0 mb-[18px]">

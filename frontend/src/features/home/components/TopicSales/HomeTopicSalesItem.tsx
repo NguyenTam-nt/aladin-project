@@ -1,22 +1,22 @@
-import React, { memo } from "react";
-import { DiscountItem } from "../DiscountItem";
-import { MoneyLineThrough } from "../MoneyLineThrough";
-import { formatNumberDotSlice } from "@commons/formatMoney";
-import type { IProduct } from "@typeRules/product";
-import { Link } from "react-router-dom";
-import { paths } from "@constants/routerPublic";
-import { getLinkImageUrl } from "@commons/common";
-import { Image } from "@components/Image";
+import React, { memo } from "react"
+import { DiscountItem } from "../DiscountItem"
+import { MoneyLineThrough } from "../MoneyLineThrough"
+import { formatNumberDotSlice } from "@commons/formatMoney"
+import type { IProduct } from "@typeRules/product"
+import { Link } from "react-router-dom"
+import { paths } from "@constants/routerPublic"
+import { convertToSlugFunc, getLinkImageUrl } from "@commons/common"
+import { Image } from "@components/Image"
 
 type Props = {
-  index: number;
-  data: IProduct;
-};
+  index: number
+  data: IProduct
+}
 
 export const HomeTopicSalesItem = memo(({ index, data }: Props) => {
   return (
     <Link
-      to={`${paths.memu.prefix}/${data.id}`}
+      to={`${paths.memu.prefix}/${convertToSlugFunc(data.name, data.id ?? 0)}`}
       className="block overflow-hidden h-[330px] lg:h-[426px] relative rounded-[32px_0_32px_0]"
     >
       <div className="rounded-[32px_0_32px_0] z-[3] flex items-end absolute inset-[3px] overflow-hidden p-[24px]">
@@ -43,5 +43,5 @@ export const HomeTopicSalesItem = memo(({ index, data }: Props) => {
         </div>
       </div>
     </Link>
-  );
-});
+  )
+})

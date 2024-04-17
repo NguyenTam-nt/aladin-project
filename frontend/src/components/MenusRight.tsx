@@ -18,7 +18,7 @@ import { useCartContext } from "@contexts/hooks/order"
 import type { IProduct } from "@typeRules/product"
 import { debounce } from "lodash"
 import { useScreenOrientation } from "@hooks/useScreenOrientation"
-import { getLinkImageUrl } from "@commons/common"
+import { convertToSlugFunc, getLinkImageUrl } from "@commons/common"
 import { windownSizeWidth, withResponsive } from "@constants/index"
 import { Image } from "./Image"
 
@@ -220,14 +220,25 @@ const MenuItem = ({ data }: Props) => {
 
   return (
     <div className="flex items-center gap-x-[16px] py-[16px]">
-      <Link to={`${paths.memu.prefix}/${data.id}`}>
+      <Link
+        to={`${paths.memu.prefix}/${convertToSlugFunc(
+          data.name,
+          data.id ?? 0
+        )}`}
+      >
         <Image
           className="min-w-[80px] object-cover w-[80px] min-h-[80px] max-h-[80px] h-[80px] rounded-[16px_0_16px_0]"
           alt={getLinkImageUrl(data?.linkMedia, 80, 80)}
         />
       </Link>
       <div className="flex-1">
-        <Link to={`${paths.memu.prefix}/${data.id}`} className=" line-clamp-1">
+        <Link
+          to={`${paths.memu.prefix}/${convertToSlugFunc(
+            data.name,
+            data.id ?? 0
+          )}`}
+          className=" line-clamp-1"
+        >
           {data.name}
         </Link>
         <div className="flex items-center">

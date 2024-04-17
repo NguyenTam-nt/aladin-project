@@ -1,28 +1,29 @@
-import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import WapperContent from "@components/WapperContent";
-import type { newItem_type } from "@typeRules/new";
-import { newService } from "@services/newService";
-import { Banner } from "@components/Banner";
-import { HomeTopicType } from "@typeRules/home";
+import React, { useEffect, useState } from "react"
+import { useParams } from "react-router-dom"
+import WapperContent from "@components/WapperContent"
+import type { newItem_type } from "@typeRules/new"
+import { newService } from "@services/newService"
+import { Banner } from "@components/Banner"
+import { HomeTopicType } from "@typeRules/home"
+import { getSlugId } from "@commons/common"
 
 const NewDetail = () => {
-  const { id } = useParams();
-  const [dataNew, setDataNew] = useState<newItem_type>();
-  const getNewById = async (id: number) => {
+  const { id } = useParams()
+  const [dataNew, setDataNew] = useState<newItem_type>()
+  const getNewById = async (id: string) => {
     try {
-      const resultNew = await newService.getNewById(id);
-      setDataNew(resultNew);
+      const resultNew = await newService.getNewById(getSlugId(id))
+      setDataNew(resultNew)
     } catch (error) {
-      console.log("Không thể lấy dược dữ liệu tin tức.");
+      // console.log("Không thể lấy dược dữ liệu tin tức.");
     }
-  };
+  }
 
   useEffect(() => {
     if (id) {
-      getNewById(+id);
+      getNewById(id)
     }
-  }, [id]);
+  }, [id])
   return (
     <div>
       <Banner type={HomeTopicType.news} />
@@ -52,7 +53,7 @@ const NewDetail = () => {
         </WapperContent>
       )}
     </div>
-  );
-};
+  )
+}
 
-export default NewDetail;
+export default NewDetail
